@@ -22,6 +22,7 @@ project "Sandbox"
     -- Includes for any additional dependencies for this project
     includedirs
     {
+        "%{wks.location}/LitterBox/src",
         "%{wks.location}/dependencies/glm"
     }
 

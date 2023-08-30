@@ -1,4 +1,3 @@
-#include "pch.h"
 #include <glm/glm.hpp>
 
 int main() 

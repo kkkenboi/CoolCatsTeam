@@ -2,8 +2,8 @@
 workspace "LitterBox"
     
     architecture "x86_64"
-    startproject "LitterBox"     -- Set startup project
-    toolset "v143"          -- Toolset v143 = Visual Studio 2022
+    startproject "Editor"        -- Set startup project
+    toolset "v143"               -- Toolset v143 = Visual Studio 2022
 
     configurations
     {
@@ -38,6 +38,5 @@ group "Editor"
 group ""
 
 group "Sandbox"
-    -- Add testing environment here
     include "Sandbox"
 group ""
