@@ -5,6 +5,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{8249BE
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LitterBox", "LitterBox\LitterBox.vcxproj", "{42AD6B65-AE17-20DC-F755-D18163FFFD30}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Editor", "Editor", "{339C0AE1-1FFF-9985-C884-D23BB4C66508}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandbox", "Sandbox", "{7B785F31-E738-DB67-B073-24E51CF31F44}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Editor = Debug|Editor
@@ -21,11 +29,29 @@ Global
 		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Release|Editor.Build.0 = Release Editor|x64
 		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Release|Executable.ActiveCfg = Release Executable|x64
 		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Release|Executable.Build.0 = Release Executable|x64
+		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Debug|Editor.ActiveCfg = Debug Editor|x64
+		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Debug|Editor.Build.0 = Debug Editor|x64
+		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Debug|Executable.ActiveCfg = Debug Executable|x64
+		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Debug|Executable.Build.0 = Debug Executable|x64
+		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Release|Editor.ActiveCfg = Release Editor|x64
+		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Release|Editor.Build.0 = Release Editor|x64
+		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Release|Executable.ActiveCfg = Release Executable|x64
+		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Release|Executable.Build.0 = Release Executable|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Debug|Editor.ActiveCfg = Debug Editor|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Debug|Editor.Build.0 = Debug Editor|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Debug|Executable.ActiveCfg = Debug Executable|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Debug|Executable.Build.0 = Debug Executable|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Release|Editor.ActiveCfg = Release Editor|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Release|Editor.Build.0 = Release Editor|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Release|Executable.ActiveCfg = Release Executable|x64
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Release|Executable.Build.0 = Release Executable|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{42AD6B65-AE17-20DC-F755-D18163FFFD30} = {8249BEE1-6EAC-4D86-1732-863C03741909}
+		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6} = {339C0AE1-1FFF-9985-C884-D23BB4C66508}
+		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0} = {7B785F31-E738-DB67-B073-24E51CF31F44}
 	EndGlobalSection
 EndGlobal

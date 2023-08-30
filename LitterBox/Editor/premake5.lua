@@ -1,5 +1,5 @@
-project "LitterBox"
-    kind "StaticLib" -- Engine Library
+project "Editor"
+    kind "ConsoleApp" -- Outputs a console
     language "C++"
     cppdialect "C++20"
     warnings "Extra" -- Set warnings level to 4 for this project
@@ -7,12 +7,6 @@ project "LitterBox"
     -- Engine output directory
     targetdir ("%{wks.location}/bin/" .. outputDir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputDir .. "/%{prj.name}")
-
-    -- Precompiled headers for engine
-    pchheader "pch.h"
-    pchsource "src/pch.cpp"
-    
-    forceincludes { "pch.h" } -- Inserts this include for every src file
 
     files
     {
@@ -31,10 +25,10 @@ project "LitterBox"
         "%{wks.location}/dependencies/glm"
     }
 
-    -- Links to libraries by providing their project's name
+    -- Link to our engine library
     links
     {
-
+        "LitterBox"
     }
 
     filter "system:windows"
