@@ -30,12 +30,17 @@ IncludeDir = {}
 IncludeDir["GLFW"]          = "%{wks.location}/dependencies/GLFW/include"
 IncludeDir["Glad"]          = "%{wks.location}/dependencies/Glad/include"
 IncludeDir["ImGui"]         = "%{wks.location}/dependencies/ImGui"
+IncludeDir["spdlog"]        = "%{wks.location}/dependencies/spdlog/include"
+IncludeDir["stb"]           = "%{wks.location}/dependencies/stb"
+IncludeDir["FreeType"]      = "%{wks.location}/dependencies/FreeType/include"
 
 -- Projects 
 group "Dependencies"
+-- Dependencies that are not here are header-only files
     include "dependencies/GLFW"
     include "dependencies/Glad"
     include "dependencies/ImGui"
+    include "dependencies/FreeType"
 group ""
 
 group "Engine"

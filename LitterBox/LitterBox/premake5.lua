@@ -31,14 +31,19 @@ project "LitterBox"
         "%{wks.location}/LitterBox/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}"
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.spdlog}",
+        "%{IncludeDir.stb}",
+        "%{IncludeDir.FreeType}"
     }
 
     -- Links to libraries by providing their project's name
     links
     {
         "GLFW",
-        "Glad"
+        "Glad",
+        "ImGui",
+        "FreeType"
     }
 
     filter "system:windows"
