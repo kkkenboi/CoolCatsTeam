@@ -22,11 +22,20 @@ workspace "LitterBox"
         "MultiProcessorCompile", -- Enable Multicore Compilation
     }
 
-outputDir = "%{cfg.buildcfg}-%{cfg.platform}" -- Only working on Windows
+-- Standard output directory
+outputDir = "%{cfg.buildcfg}-%{cfg.platform}"
+
+-- Include directories 
+IncludeDir = {}
+IncludeDir["GLFW"]          = "%{wks.location}/dependencies/GLFW/include"
+IncludeDir["Glad"]          = "%{wks.location}/dependencies/Glad/include"
+IncludeDir["ImGui"]         = "%{wks.location}/dependencies/ImGui"
 
 -- Projects 
 group "Dependencies"
-    -- Add submodules project here
+    include "dependencies/GLFW"
+    include "dependencies/Glad"
+    include "dependencies/ImGui"
 group ""
 
 group "Engine"

@@ -22,20 +22,23 @@ project "LitterBox"
 
     defines
     {
-
+        "_CRT_SECURE_NO_WARNINGS"
     }
 
     -- Includes for any additional directories/dependencies for this project
     includedirs
     {
         "%{wks.location}/LitterBox/src",
-        "%{wks.location}/dependencies/glm"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.ImGui}"
     }
 
     -- Links to libraries by providing their project's name
     links
     {
-
+        "GLFW",
+        "Glad"
     }
 
     filter "system:windows"

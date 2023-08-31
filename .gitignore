@@ -99,6 +99,7 @@ StyleCopReport.xml
 *.svclog
 *.scc
 *.vcxproj
+*.vcxproj.user
 *.vcxproj.filters
 
 # Chutzpah Test files
@@ -234,6 +235,7 @@ _pkginfo.txt
 
 # Others
 ClientBin/
+dependencies/
 ~$*
 *~
 *.dbmdl

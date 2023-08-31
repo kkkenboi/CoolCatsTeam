@@ -1,9 +1,8 @@
-#include <glm/glm.hpp>
+#include "GLFW/glfw3.h"
 
+
+// There should not be a main here
 int main() 
 {
 	std::cout << "Hello World!" << std::endl;
-	glm::vec2 direction{ 2.0, 3.0 };
-
-	std::cout << direction.x << std::endl;
 }
