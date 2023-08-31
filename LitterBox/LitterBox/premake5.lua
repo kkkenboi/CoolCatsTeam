@@ -43,7 +43,7 @@ project "LitterBox"
         "GLFW",
         "Glad",
         "ImGui",
-        "FreeType"
+        -- "FreeType"
     }
 
     filter "system:windows"
