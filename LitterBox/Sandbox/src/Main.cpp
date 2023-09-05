@@ -1,5 +1,7 @@
 #include "LitterBox.h"
 
+#include <LitterBox/Core/EntryPoint.h>
+
 class Sandbox : public LitterBox::Application
 {
 public:

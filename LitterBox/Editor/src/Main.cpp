@@ -1,5 +1,1 @@
-
-int main() 
-{
-	return 0;
-}
+#include <LitterBox/Core/EntryPoint.h>

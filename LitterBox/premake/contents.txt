@@ -1,3 +1,3 @@
 The bin folder holds the premake executable and licensing to use it.
 
-You may use it to execute all premake lua files using the command "call premake\bin\premake5.exe vs2022" to ensure that all of the files are using the right configurations.
+Use the Setup.bat in the previous folder to generate the premake files.

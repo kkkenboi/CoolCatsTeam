@@ -1,5 +1,7 @@
 project "LitterBox"
     kind "StaticLib" -- Engine Library
+    staticruntime "On"
+
     language "C++"
     cppdialect "C++20"
     warnings "Extra" -- Set warnings level to 4 for this project
@@ -22,7 +24,8 @@ project "LitterBox"
 
     defines
     {
-        "_CRT_SECURE_NO_WARNINGS"
+        "_CRT_SECURE_NO_WARNINGS",
+        "UNREFERENCED_PARAMETER"
     }
 
     -- Includes for any additional directories/dependencies for this project
@@ -43,17 +46,20 @@ project "LitterBox"
         "GLFW",
         "Glad",
         "ImGui",
+        "opengl32.lib",
         -- "FreeType"
     }
 
     filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "off"
         systemversion "latest"
 
     filter "configurations:Debug"
         runtime "Debug" -- uses the debug Runtime Library
         symbols "On"
+        defines
+        {
+            "_DEBUG"
+        }    
         architecture "x86_64"
 
     filter "configurations:Release"

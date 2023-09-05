@@ -1,6 +1,6 @@
 #pragma once
-// This file should only be used by client projects
 
-#include <LitterBox/Application.h>
+// This file should be used for Sandbox includes only
+#include <LitterBox/Core/Application.h>
 
-#include <LitterBox/EntryPoint.h>
+#include <LitterBox/Core/System.h>

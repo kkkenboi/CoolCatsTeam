@@ -1,3 +1,7 @@
+#include "Platform/Windows/Windows.h"
+#include "Core.h"
+
+
 namespace LitterBox {
 	class Application 
 	{
@@ -6,6 +10,8 @@ namespace LitterBox {
 		virtual ~Application();
 
 		void Run();
+	private:
+		LBEngine* Engine;
 	};
 
 	// To be used in Client

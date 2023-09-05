@@ -1,5 +1,7 @@
 project "Sandbox"
     kind "ConsoleApp" -- Outputs a console
+    staticruntime "On"
+
     language "C++"
     cppdialect "C++20"
     warnings "Extra" -- Set warnings level to 4 for this project
@@ -23,7 +25,8 @@ project "Sandbox"
     includedirs
     {
         "%{wks.location}/LitterBox/src",
-        "%{wks.location}/dependencies/glm"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}"
     }
 
     -- Link to our engine library
@@ -33,8 +36,6 @@ project "Sandbox"
     }
 
     filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "off"
         systemversion "latest"
 
     filter "configurations:Debug"

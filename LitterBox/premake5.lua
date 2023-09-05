@@ -2,7 +2,7 @@
 workspace "LitterBox"
     
     architecture "x86_64"
-    startproject "Editor"        -- Set startup project
+    startproject "Sandbox"        -- Set startup project
     toolset "v143"               -- Toolset v143 = Visual Studio 2022
 
     configurations
