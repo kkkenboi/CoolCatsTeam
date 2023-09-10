@@ -2,8 +2,9 @@
 
 #include "pch.h"
 #include "System.h"
+#include "LitterBox/Core/Message.h"
 
-namespace LitterBox 
+namespace LB 
 {
 	class LBEngine
 	{
@@ -16,7 +17,7 @@ namespace LitterBox
 		void DestroySystems();
 		bool IsRunning();
 		///Broadcasts a message to all systems.
-		//void BroadcastMessage(Message* m);
+		void BroadcastMessage(Message* m);
 		///Adds a new system to the game.
 		void AddSystem(ISystem* system);
 		///Initializes all systems in the game.
@@ -29,5 +30,8 @@ namespace LitterBox
 		//Is the game running (true) or being shut down (false)?
 		bool m_Running;
 	};
+
+	//A global pointer to the instance of the core
+	extern LBEngine* CORE;
 }
 

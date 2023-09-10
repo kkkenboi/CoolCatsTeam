@@ -1,6 +1,6 @@
 #include "Application.h"
 
-namespace LitterBox {
+namespace LB {
 	Application::Application()
 	{
 		// Setting up LitterBox Engine with the available systems
@@ -11,8 +11,6 @@ namespace LitterBox {
 		Engine->AddSystem(windows);
 
 		Engine->Initialize();
-
-		Engine->GameLoop();
 
 	}
 	Application::~Application()

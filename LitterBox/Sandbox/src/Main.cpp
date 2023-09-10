@@ -2,7 +2,7 @@
 
 #include <LitterBox/Core/EntryPoint.h>
 
-class Sandbox : public LitterBox::Application
+class Sandbox : public LB::Application
 {
 public:
 	Sandbox()
@@ -16,7 +16,7 @@ public:
 };
 
 
-LitterBox::Application* LitterBox::CreateApplication()
+LB::Application* LB::CreateApplication()
 {
 	return new Sandbox();
 }

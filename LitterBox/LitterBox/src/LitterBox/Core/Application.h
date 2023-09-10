@@ -2,7 +2,7 @@
 #include "Core.h"
 
 
-namespace LitterBox {
+namespace LB {
 	class Application 
 	{
 	public:

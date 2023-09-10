@@ -1,7 +1,10 @@
 #pragma once
 #include "pch.h"
+#include "Message.h"
 
-namespace LitterBox
+#define UNREFERENCED_PARAMETER
+
+namespace LB
 {
 	///System is a pure virtual base class (which is to say, an interface) that is
 	///the base class for all systems used by the game. 
@@ -11,7 +14,7 @@ namespace LitterBox
 
 		///Systems can receive all message send to the Core. 
 		// Will be updated with Logging ----------------------------------------------------
-		//virtual void SendMessage(Message* message) { UNREFERENCED_PARAMETER(message); };
+		virtual void SendMessage(Message* message) { UNREFERENCED_PARAMETER(message); };
 		// ---------------------------------------------------------------------------------
 
 		///All systems are updated every game frame.

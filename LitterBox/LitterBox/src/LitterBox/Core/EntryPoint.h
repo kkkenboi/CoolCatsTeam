@@ -1,11 +1,11 @@
 #pragma once
 #include "pch.h"
 
-extern LitterBox::Application* LitterBox::CreateApplication();
+extern LB::Application* LB::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	auto app = LitterBox::CreateApplication();
+	auto app = LB::CreateApplication();
 	app->Run();
 	delete app;
 

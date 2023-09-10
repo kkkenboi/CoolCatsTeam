@@ -2,8 +2,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "LitterBox/Core/System.h"
+#include "LitterBox/Core/Message.h"
 
-namespace LitterBox
+#define UNREFERENCED_PARAMETER
+
+namespace LB
 {
 	struct WindowsData
 	{
@@ -30,6 +33,8 @@ namespace LitterBox
 		virtual void Update(float dt);						//Update the system every frame
 		virtual void Draw(WindowsData m_Data);				//Update the system every frame
 		virtual std::string GetName() { return "Windows"; }	//Get the string name of the system, not the same as the window title
+		virtual void SendMessage(Message* message) { UNREFERENCED_PARAMETER(message); };
+
 
 		unsigned int GetWidth()  const { return m_Data.Width;  }
 		unsigned int GetHeight() const { return m_Data.Height; }
@@ -50,6 +55,13 @@ namespace LitterBox
 	private:
 		WindowsData m_Data;
 	};
+
+	class MessageQuit : public Message
+	{
+	public:
+		MessageQuit() : Message(Mid::Quit) {};
+	};
+
 
 	//extern WindowsSystem* WINDOWSSYSTEM;
 }

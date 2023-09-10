@@ -2,7 +2,7 @@
 #include "Core.h"
 #include <GLFW/glfw3.h>
 
-namespace LitterBox
+namespace LB
 {
 	LBEngine* CORE;
 
@@ -52,18 +52,18 @@ namespace LitterBox
 
 	}
 
-	//void LBEngine::BroadcastMessage(Message* message)
-	//{
-	//	//The message that tells the game to quit
-	//	if (message->MessageId == Mid::Quit)
-	//		GameActive = false;
+	void LBEngine::BroadcastMessage(Message* message)
+	{
+		//The message that tells the game to quit
+		if (message->MessageId == Mid::Quit)
+			m_Running = false;
 
-	//	//Send the message to every system--each
-	//	//system can figure out whether it cares
-	//	//about a given message or not
-	//	for (unsigned i = 0; i < Systems.size(); ++i)
-	//		Systems[i]->SendMessage(message);
-	//}
+		//Send the message to every system--each
+		//system can figure out whether it cares
+		//about a given message or not
+		for (unsigned i = 0; i < Systems.size(); ++i)
+			Systems[i]->SendMessage(message);
+	}
 
 	void LBEngine::AddSystem(ISystem* system)
 	{

@@ -1,8 +1,9 @@
 #include "Windows.h"
+#include "LitterBox/Core/Core.h"
 
 #define UNREFERENCED_PARAMETER
 
-namespace LitterBox
+namespace LB
 {
 	WindowsSystem::WindowsSystem() 
 	{
@@ -82,6 +83,12 @@ namespace LitterBox
 
 	void WindowsSystem::Update(float dt)
 	{
+        if (glfwWindowShouldClose(this->m_Data.PtrToWindow)) 
+        {
+            MessageQuit q;
+            CORE->BroadcastMessage(&q);
+        }
+
         glfwPollEvents();
         Draw(this->m_Data);
 
