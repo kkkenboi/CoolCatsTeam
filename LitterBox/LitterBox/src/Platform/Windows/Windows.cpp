@@ -83,20 +83,20 @@ namespace LB
 
 	void WindowsSystem::Update(float dt)
 	{
+        dt; // Not in use as of now
         if (glfwWindowShouldClose(this->m_Data.PtrToWindow)) 
         {
             MessageQuit q;
             CORE->BroadcastMessage(&q);
         }
 
-        glfwPollEvents();
         Draw(this->m_Data);
 
     }//Update the system every frame
 
     void WindowsSystem::Draw(WindowsData m_Data)
     {
-        // Draw stuff
+        // Rendering portion
 
 
         // Swap buffer
@@ -223,7 +223,4 @@ namespace LB
             std::cout << "Mouse scroll wheel offset: (" << xoffset << ", " << yoffset << ")" << std::endl;
         #endif
     }
-
-
-
 }

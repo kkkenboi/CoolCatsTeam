@@ -8,7 +8,6 @@ namespace LB
 
 	LBEngine::LBEngine()
 	{
-		m_LastTime = 0;
 		m_Running = true;
 		// ---- Should have a check here to determine if there is more than one engine running ----
 
@@ -29,25 +28,18 @@ namespace LB
 
 	void LBEngine::GameLoop()
 	{
-		//Initialize the last time variable so our first frame
-		//is "zero" seconds (and not some huge unknown number)
-
-		m_LastTime = glfwGetTime();
-
 		while (m_Running)
 		{
+			glfwPollEvents(); // To be put into the input system side
 
-			//Get the current time in milliseconds
-			unsigned currenttime = glfwGetTime();
-			//Convert it to the time passed since the last frame (in seconds)
-			float dt = (currenttime - m_LastTime) / 1000.0f;
-			//Update the when the last update started
-			m_LastTime = currenttime;
+			// Update FPS counter
+			UpdateFPS(m_FPSInterval);
+			//std::cout << m_FPS << '\n';
 
 			//Update every system and tell each one how much
 			//time has passed since the last update
 			for (unsigned i = 0; i < Systems.size(); ++i)
-				Systems[i]->Update(dt);
+				Systems[i]->Update(m_DeltaTime);
 		}
 
 	}
@@ -88,5 +80,30 @@ namespace LB
 		return m_Running ? true : false;
 	}
 
+	void LBEngine::UpdateFPS(double fpsUpdateInterval)
+	{
+		static double prevTime = glfwGetTime();
+		double currTime = glfwGetTime();
+		m_DeltaTime = currTime - prevTime;
+		prevTime = currTime;
+
+		// fps calculations
+		static double count = 0.0; // number of game loop iterations
+		static double startTime = glfwGetTime();
+		// get elapsed time since very beginning (in seconds) ...
+		double elapsedTime = currTime - startTime;
+
+		++count;
+
+		// update fps at least every 10 seconds ...
+		fpsUpdateInterval = (fpsUpdateInterval < 0.0) ? 0.0 : fpsUpdateInterval;
+		fpsUpdateInterval = (fpsUpdateInterval > 10.0) ? 10.0 : fpsUpdateInterval;
+		if (elapsedTime > fpsUpdateInterval) {
+			m_FPS = count / elapsedTime;
+			startTime = currTime;
+			count = 0.0;
+		}
+
+	}
 
 }

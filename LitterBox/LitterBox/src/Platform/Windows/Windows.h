@@ -63,5 +63,5 @@ namespace LB
 	};
 
 
-	//extern WindowsSystem* WINDOWSSYSTEM;
+	extern WindowsSystem* WINDOWSSYSTEM;
 }
