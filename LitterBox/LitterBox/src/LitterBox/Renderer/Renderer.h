@@ -81,10 +81,11 @@ namespace Renderer {
 		inline unsigned int get_vbo() { return vbo; }
 
 		std::pair<quad*, std::vector<index>*> create_render_object();
+		void remove_render_object(std::vector<const render_Object*>::const_iterator, std::vector<index>::const_iterator);
 		void update_buff();
 	};
 
-	class RenderSystem : public LitterBox::ISystem {
+	class RenderSystem : public LB::ISystem {
 	private:
 		//TODO figure out some way in the serialization process
 		//how to pass in object limit for rende
@@ -110,7 +111,7 @@ namespace Renderer {
 		float			w;
 		float			h;
 		vec3			col;
-		int				quad_id;
+		unsigned short	quad_id;
 		bool			activated;
 
 		render_Object(vec2 pos = { 0.f, 0.f }, float width = 1.f, float height = 1.f, float scale = 1.f, vec3 color = { 0.f,0.f,0.f }, bool active = true);
@@ -119,6 +120,7 @@ namespace Renderer {
 	private:
 		quad* object;
 		std::vector<index>* idx_it;
-		std::vector<index>::iterator it;
+		std::vector<index>::const_iterator it;
+		std::vector<const render_Object*>::const_iterator itself;
 	};
 }

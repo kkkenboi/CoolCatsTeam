@@ -105,7 +105,9 @@ Renderer::render_Object::render_Object(
 	object = obj.first;
 	idx_it = obj.second;
 
+	std::cout << "INDEX IN RENDER OBJECT: " << obj.first->data[0].index;
 	quad_id = obj.first->data[0].index;
+	std::cout << "OBJECT QUAD ID: " << quad_id << std::endl;
 
 	for (size_t j{ 0 }; j < 4; ++j) {
 		//activate quad for rendering
@@ -143,10 +145,12 @@ Renderer::render_Object::render_Object(
 		std::cerr << (int)err << std::endl;
 
 	GRAPHICS->object_renderer.active_objs.emplace_back(this);
+	itself = GRAPHICS->object_renderer.active_objs.end() - 1;
 }
 
 Renderer::render_Object::~render_Object()
 {
+	GRAPHICS->object_renderer.remove_render_object(itself, it);
 }
 
 //----------------------------------------------RENDERER---------------------------------------------------
@@ -211,7 +215,7 @@ Renderer::Renderer::~Renderer()
 
 std::pair<Renderer::quad*, std::vector<Renderer::index>*> Renderer::Renderer::create_render_object()
 {
-	for (int i{ 0 }; i < quad_buff_size; ++i) {
+	for (unsigned int i{ 0 }; i < quad_buff_size; ++i) {
 		if (quad_buff[i].data[0].active)
 			continue;
 
@@ -222,6 +226,7 @@ std::pair<Renderer::quad*, std::vector<Renderer::index>*> Renderer::Renderer::cr
 		quad_buff[i].data[3].index = i;
 
 		std::pair<quad*, std::vector<index>*> ret{ quad_buff + i, &index_buff };
+		std::cout << "INDEX FROM CREATE_RENDER_OBJECT: " << i << std::endl;
 
 		return ret;
 	}
@@ -229,22 +234,32 @@ std::pair<Renderer::quad*, std::vector<Renderer::index>*> Renderer::Renderer::cr
 	return std::pair<quad*, std::vector<index>*>(nullptr, nullptr);
 }
 
+void Renderer::Renderer::remove_render_object(std::vector<const render_Object*>::const_iterator obj, std::vector<index>::const_iterator idx)
+{
+	for (int i{ 0 }; i < 4; ++i) {
+		quad_buff[(*obj)->quad_id].data[i].active = false;
+	}
+
+	active_objs.erase(obj);
+	index_buff.erase(idx);
+}
+
 void Renderer::Renderer::update_buff()
 {
-	for(const render_Object*& e : active_objs) {
+	for(const render_Object* e : active_objs) {
 		//cache width and height values
 		float x_pos{ e->w * 0.5f * e->scal };
 		float y_pos{ e->h * 0.5f * e->scal };
 
-		//set position of quad
-		quad_buff[e->quad_id].data[0].pos = { e->position.x - x_pos, e->position.y - y_pos };//bottom left
-		quad_buff[e->quad_id].data[1].pos = { e->position.x + x_pos, e->position.y - y_pos };//bottom right
-		quad_buff[e->quad_id].data[2].pos = { e->position.x + x_pos, e->position.y + y_pos };//top right
-		quad_buff[e->quad_id].data[3].pos = { e->position.x - x_pos, e->position.y + y_pos };//top left
+		////set position of quad
+		//quad_buff[e->quad_id].data[0].pos = { e->position.x - x_pos, e->position.y - y_pos };//bottom left
+		//quad_buff[e->quad_id].data[1].pos = { e->position.x + x_pos, e->position.y - y_pos };//bottom right
+		//quad_buff[e->quad_id].data[2].pos = { e->position.x + x_pos, e->position.y + y_pos };//top right
+		//quad_buff[e->quad_id].data[3].pos = { e->position.x - x_pos, e->position.y + y_pos };//top left
 
 		for (size_t j{ 0 }; j < 4; ++j) {
 			//set colour of quad
-			quad_buff[e->quad_id].data[j].color = e->col;
+			/*quad_buff[e->quad_id].data[j].color = e->col;*/
 		}
 	}
 
