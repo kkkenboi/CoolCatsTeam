@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "LitterBox/Core/System.h"
-#include "LitterBox/Core/Message.h"
+#include "LitterBox/Engine/Message.h"
 
 #define UNREFERENCED_PARAMETER
 
