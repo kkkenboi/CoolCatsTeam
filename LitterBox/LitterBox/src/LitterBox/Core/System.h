@@ -28,5 +28,9 @@ namespace LB
 
 		///All systems need a virtual destructor to have their destructor called 
 		virtual ~ISystem() {}
+
+	private:
+		std::string systemName;
+
 	};
 }
