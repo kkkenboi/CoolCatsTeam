@@ -38,8 +38,9 @@ namespace Litterbox
 		virtual bool Serialize(Value& data, Document::AllocatorType& allocator)
 		{			
 			data.SetObject();
-			data.AddMember("name", ObjectName, allocator);
+			data.AddMember("name",Value(ObjectName.c_str(),allocator), allocator);
 			data.AddMember("ID", ID, allocator);
+			return true;
 		}
 		virtual bool Deserialize(const Value& data)
 		{
@@ -53,6 +54,7 @@ namespace Litterbox
 					ID = data["ID"].GetInt();
 				}
 			}
+			return false;
 		}
 	};
 	class Transform : public TestGameObjectComponent
@@ -95,10 +97,12 @@ namespace Litterbox
 						if (Position.Deserialize(positionValue))
 						{
 							Rotation = data["Rotation"].GetFloat();
+							return true;
 						}
 					}
 				}
 			}
+			return false;
 		}
 	};
 }
