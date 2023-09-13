@@ -33,6 +33,7 @@ IncludeDir["ImGui"]         = "%{wks.location}/dependencies/ImGui"
 IncludeDir["spdlog"]        = "%{wks.location}/dependencies/spdlog/include"
 IncludeDir["stb"]           = "%{wks.location}/dependencies/stb"
 IncludeDir["FreeType"]      = "%{wks.location}/dependencies/FreeType/include"
+IncludeDir["FMOD"]          = "%{wks.location}/dependencies/FMOD/include"
 
 -- Projects 
 group "Dependencies"

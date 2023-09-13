@@ -36,6 +36,8 @@ namespace LB
 			UpdateFPS(m_FPSInterval);
 			//std::cout << m_FPS << '\n';
 
+			
+
 			//Update every system and tell each one how much
 			//time has passed since the last update
 			for (unsigned i = 0; i < Systems.size(); ++i)
