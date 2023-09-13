@@ -20,6 +20,7 @@ project "LitterBox"
     {
         "src/**.h",
         "src/**.cpp",
+        "src/LitterBox/Renderer/**.shader"
     }
 
     defines
