@@ -7,8 +7,10 @@ namespace LB {
 		Engine = new LBEngine();
 
 		WindowsSystem* windows = new WindowsSystem();
+		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
 
 		Engine->AddSystem(windows);
+		Engine->AddSystem(graphics);
 
 		Engine->Initialize();
 
