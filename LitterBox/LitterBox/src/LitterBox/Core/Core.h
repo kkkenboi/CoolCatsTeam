@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include "System.h"
-#include "LitterBox/Core/Message.h"
+#include "LitterBox/Engine/Message.h"
 
 namespace LB 
 {
@@ -11,11 +11,12 @@ namespace LB
 	public:
 		LBEngine();
 		~LBEngine();
+		bool IsRunning();
 		///Update all the systems until the game is no longer active.
 		void GameLoop();
+		void UpdateFPS(double dt);
 		///Destroy all systems in reverse order that they were added.
 		void DestroySystems();
-		bool IsRunning();
 		///Broadcasts a message to all systems.
 		void BroadcastMessage(Message* m);
 		///Adds a new system to the game.
@@ -26,9 +27,11 @@ namespace LB
 		//Tracks all the systems the game uses
 		std::vector<ISystem*> Systems;
 		//The last time the game was updated
-		unsigned m_LastTime;
+		float m_DeltaTime;
 		//Is the game running (true) or being shut down (false)?
 		bool m_Running;
+		float m_FPS;
+		double m_FPSInterval = 1.0;
 	};
 
 	//A global pointer to the instance of the core
