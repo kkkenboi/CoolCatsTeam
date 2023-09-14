@@ -1,16 +1,16 @@
 #pragma once
 #include "Serializer.h"
-namespace Litterbox 
+namespace Litterbox
 {
-	struct Vector2 :JSONSerializer {
-		float x, y;		
+	struct Vector2 {
+		float x, y;
 
 		// Inherited via JSONSerializer
 		virtual bool Serialize(Value& data, Document::AllocatorType& allocator)
 		{
 			data.SetObject();
-			data.AddMember( "x",x,allocator);
-			data.AddMember( "y",y,allocator);
+			data.AddMember("x", x, allocator);
+			data.AddMember("y", y, allocator);
 			return true;//serialization pass
 		}
 		virtual bool Deserialize(const Value& data)
@@ -29,16 +29,16 @@ namespace Litterbox
 			return false;
 		}
 	};
-	class TestGameObjectComponent : JSONSerializer
+	class TestGameObjectComponent
 	{
 	public:
 		std::string ObjectName;
 		int ID;
 		// Inherited via JSONSerializer
 		virtual bool Serialize(Value& data, Document::AllocatorType& allocator)
-		{			
+		{
 			data.SetObject();
-			data.AddMember("name",Value(ObjectName.c_str(),allocator), allocator);
+			data.AddMember("name", rapidjson::Value(ObjectName.c_str(), allocator), allocator);
 			data.AddMember("ID", ID, allocator);
 			return true;
 		}
@@ -52,6 +52,7 @@ namespace Litterbox
 				{
 					ObjectName = data["name"].GetString();
 					ID = data["ID"].GetInt();
+					return true;
 				}
 			}
 			return false;
@@ -63,7 +64,7 @@ namespace Litterbox
 		Transform();
 		Vector2 Position;
 		float Rotation;
-		
+
 		virtual bool Serialize(Value& data, Document::AllocatorType& allocator)
 		{
 			if (TestGameObjectComponent::Serialize(data, allocator))
