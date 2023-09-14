@@ -39,7 +39,8 @@ project "LitterBox"
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.FreeType}",
-        "%{IncludeDir.FMOD}"
+        "%{IncludeDir.FMOD}",
+        "%{IncludeDir.RapidJSON}"
     }
 
     -- Links to libraries by providing their project's name

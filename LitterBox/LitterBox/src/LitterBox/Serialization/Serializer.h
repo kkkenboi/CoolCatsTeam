@@ -1,12 +1,12 @@
 #pragma once
 #include "rapidjson.h"
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/stream.h"
-#include "rapidjson/prettywriter.h"
-#include "rapidjson/filereadstream.h"
-#include "rapidjson/filewritestream.h"
+#include "document.h"
+#include "writer.h"
+#include "stringbuffer.h"
+#include "stream.h"
+#include "prettywriter.h"
+#include "filereadstream.h"
+#include "filewritestream.h"
 #include <string>
 #include <fstream>
 
