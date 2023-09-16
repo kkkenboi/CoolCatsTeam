@@ -34,7 +34,7 @@ namespace LB
 
 			// Update FPS counter
 			UpdateFPS(m_FPSInterval);
-			//std::cout << m_FPS << '\n';
+			std::cout << m_FPS << '\n';
 
 			//Update every system and tell each one how much
 			//time has passed since the last update

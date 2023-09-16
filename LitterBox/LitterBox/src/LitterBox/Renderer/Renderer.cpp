@@ -92,65 +92,19 @@ Renderer::render_Object::render_Object(
 	vec3 color, 
 	bool active) :
 	position{ pos }, scal{ scale }, w{ width }, h{ height }, 
-	col{ color }, activated{ active }, object{ nullptr }, idx_it{},
-	quad_id{}
+	col{ color }, activated{ active }, quad_id{UINT_MAX}
 {
-	std::pair<quad*, std::vector<index>*> obj = GRAPHICS->object_renderer.create_render_object();
-
-	if (!obj.first || !obj.second) {
-		std::cerr << "Render object not found" << std::endl;
+	if (!GRAPHICS) {
+		std::cerr << "GRAPHICS SYSTEM NOT INITIALIZED" << std::endl;
 		return;
 	}
 
-	object = obj.first;
-	idx_it = obj.second;
-
-	std::cout << "INDEX IN RENDER OBJECT: " << obj.first->data[0].index;
-	quad_id = obj.first->data[0].index;
-	std::cout << "OBJECT QUAD ID: " << quad_id << std::endl;
-
-	for (size_t j{ 0 }; j < 4; ++j) {
-		//activate quad for rendering
-		obj.first->data[j].active = true;
-		//set colour of quad
-		obj.first->data[j].color = col;
-	}
-	//TODO Check that index moves over 4 vertexs with each increment
-	//i.e. index i = 1 is first quad with 4 vtxs and i = 2 is second quad of 4 vtxs
-
-	//cache width and height values
-	float x_pos{ w * 0.5f * scal };
-	float y_pos{ h * 0.5f * scal };
-
-	//set position of quad
-	obj.first->data[0].pos = { position.x - x_pos, position.y - y_pos };//bottom left
-	obj.first->data[1].pos = { position.x + x_pos, position.y - y_pos };//bottom right
-	obj.first->data[2].pos = { position.x + x_pos, position.y + y_pos };//top right
-	obj.first->data[3].pos = { position.x - x_pos, position.y + y_pos };//top left
-
-	//index array
-	//TODO INDEX BUFFER NEEDS INDEX * 4 BUT BUFFER SUB DATA NEEDS INDEX
-	unsigned short i{ (unsigned short)(obj.first->data[0].index * 4) };
-	idx_it->emplace_back(std::array<unsigned short, 6>{i, (unsigned short)(i + 1), (unsigned short)(i + 2),
-		(unsigned short)(i + 2), (unsigned short)(i + 3), i});
-
-	//get iterator to the indexes for removal
-	it = idx_it->end() - 1;
-	
-	//TODO make it modular ONLY TESTING FOR 1 BOX RN
-	glNamedBufferSubData(GRAPHICS->object_renderer.get_vbo(), obj.first->data[0].index * sizeof(quad), sizeof(quad), &obj.first[0]);
-	glNamedBufferSubData(GRAPHICS->object_renderer.get_ibo(), obj.first->data[0].index * sizeof(index), sizeof(index), &idx_it->back());
-	GLenum err = glGetError();
-	if (err != GL_NO_ERROR)
-		std::cerr << (int)err << std::endl;
-
-	GRAPHICS->object_renderer.active_objs.emplace_back(this);
-	itself = GRAPHICS->object_renderer.active_objs.end() - 1;
+	quad_id = GRAPHICS->object_renderer.create_render_object(this);
 }
 
 Renderer::render_Object::~render_Object()
 {
-	GRAPHICS->object_renderer.remove_render_object(itself, it);
+	GRAPHICS->object_renderer.remove_render_object(this, this->quad_id);
 }
 
 //----------------------------------------------RENDERER---------------------------------------------------
@@ -162,8 +116,7 @@ Renderer::Renderer::Renderer() :
 	//create vertex
 	quad_buff_size = 3000;
 	quad_buff = new quad[quad_buff_size];
-	index_buff.reserve(quad_buff_size);
-	active_objs.reserve(quad_buff_size);
+	index_buff.resize(quad_buff_size);
 
 	glCreateBuffers(1, &vbo);
 	glNamedBufferStorage(vbo,
@@ -191,7 +144,7 @@ Renderer::Renderer::Renderer() :
 
 	glCreateBuffers(1, &ibo);
 	glNamedBufferStorage(ibo, index_buff.capacity() * sizeof(index),
-		index_buff.data(), GL_DYNAMIC_STORAGE_BIT);
+		nullptr, GL_DYNAMIC_STORAGE_BIT);
 	glVertexArrayElementBuffer(vao, ibo);
 
 	std::filesystem::path a = std::filesystem::current_path();
@@ -213,9 +166,10 @@ Renderer::Renderer::~Renderer()
 	glDeleteProgram(shader_program);
 }
 
-std::pair<Renderer::quad*, std::vector<Renderer::index>*> Renderer::Renderer::create_render_object()
+unsigned int Renderer::Renderer::create_render_object(const render_Object* obj)
 {
-	for (unsigned int i{ 0 }; i < quad_buff_size; ++i) {
+	unsigned int i{ 0 };
+	for (i; i < quad_buff_size; ++i) {
 		if (quad_buff[i].data[0].active)
 			continue;
 
@@ -225,31 +179,53 @@ std::pair<Renderer::quad*, std::vector<Renderer::index>*> Renderer::Renderer::cr
 		quad_buff[i].data[2].index = i;
 		quad_buff[i].data[3].index = i;
 
-		std::pair<quad*, std::vector<index>*> ret{ quad_buff + i, &index_buff };
-		std::cout << "INDEX FROM CREATE_RENDER_OBJECT: " << i << std::endl;
-
-		return ret;
+		quad_buff[i].data[0].active = true;
+		break;
 	}
-	std::cerr << "OBJECT BUFFER FULL" << std::endl;
-	return std::pair<quad*, std::vector<index>*>(nullptr, nullptr);
+
+	if (i == quad_buff_size) {
+		std::cerr << "OBJECT BUFFER FULL" << std::endl;
+
+		//return quad_data full of garbage
+		return i;
+	}
+
+	//cache width and height values
+	float x_pos{ obj->w * 0.5f * obj->scal };
+	float y_pos{ obj->h * 0.5f * obj->scal };
+
+	//set position of quad
+	quad_buff[i].data[0].pos = { obj->position.x - x_pos, obj->position.y - y_pos };//bottom left
+	quad_buff[i].data[1].pos = { obj->position.x + x_pos, obj->position.y - y_pos };//bottom right
+	quad_buff[i].data[2].pos = { obj->position.x + x_pos, obj->position.y + y_pos };//top right
+	quad_buff[i].data[3].pos = { obj->position.x - x_pos, obj->position.y + y_pos };//top left
+
+	active_objs.emplace_back(obj);
+
+	return i;
 }
 
-void Renderer::Renderer::remove_render_object(std::vector<const render_Object*>::const_iterator obj, std::vector<index>::const_iterator idx)
+void Renderer::Renderer::remove_render_object(const render_Object* obj, const unsigned int index)
 {
 	for (int i{ 0 }; i < 4; ++i) {
-		quad_buff[(*obj)->quad_id].data[i].active = false;
+		quad_buff[index].data[i].active = false;
 	}
 
-	active_objs.erase(obj);
-	index_buff.erase(idx);
+	active_objs.remove_if([obj](const render_Object* in_list) { return *obj == *in_list; });
 }
 
 void Renderer::Renderer::update_buff()
 {
-	for(const render_Object* e : active_objs) {
+	unsigned int i{ 0 };
+	for (const render_Object*& e : active_objs) {
 		//cache width and height values
 		float x_pos{ e->w * 0.5f * e->scal };
 		float y_pos{ e->h * 0.5f * e->scal };
+
+		unsigned short idx{ unsigned short (e->get_index()) };
+
+		index_buff.at(i) = index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
+			(unsigned short)(idx + 2), (unsigned short)(idx + 3), idx} };
 
 		////set position of quad
 		//quad_buff[e->quad_id].data[0].pos = { e->position.x - x_pos, e->position.y - y_pos };//bottom left
@@ -261,9 +237,11 @@ void Renderer::Renderer::update_buff()
 			//set colour of quad
 			/*quad_buff[e->quad_id].data[j].color = e->col;*/
 		}
+		++i;
 	}
 
 	glNamedBufferSubData(vbo, 0, sizeof(quad) * quad_buff_size, quad_buff);
+	glNamedBufferSubData(ibo, 0, sizeof(index) * active_objs.size(), index_buff.data());
 	GLenum err = glGetError();
 	if (err != GL_NO_ERROR)
 		std::cerr << (int)err << std::endl;
@@ -284,10 +262,6 @@ Renderer::RenderSystem::RenderSystem()
 	else
 		std::cerr << "Render System already exist" << std::endl;
 
-	render_Object test{ {0.f,0.f}, 1.f, 1.f, 1.f, {1.f,0.f,0.f}, true};
-	render_Object test2{ {0.5f,0.5f}, .4f, .4f, 1.f, {0.f,1.f,0.f}, true};
-	render_Object test3{ {-0.5f,-0.5f}, .6f, .6f, .5f, {0.f,1.f,0.f}, true};
-
 	glUseProgram(object_renderer.get_shader());
 	glBindVertexArray(object_renderer.get_vao());
 }
@@ -303,7 +277,7 @@ void Renderer::RenderSystem::Update(float dt)
 	object_renderer.update_buff();
 	glClearColor(.3f, 0.5f, .8f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glDrawElements(GL_TRIANGLES, object_renderer.get_idx_size() * 6, GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, object_renderer.get_ao_size() * 6, GL_UNSIGNED_SHORT, NULL);
 }
 
 void Renderer::RenderSystem::Draw()
