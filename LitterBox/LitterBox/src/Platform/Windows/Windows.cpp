@@ -1,4 +1,5 @@
 #include "Windows.h"
+#include "LitterBox/Engine/Input.h"
 #include "LitterBox/Core/Core.h"
 
 #define UNREFERENCED_PARAMETER
@@ -40,8 +41,8 @@ namespace LB
 
         // Set GLFW callbacks
         glfwSetFramebufferSizeCallback(m_Data.PtrToWindow, FrameBufferCB);
-        glfwSetKeyCallback(m_Data.PtrToWindow, KeyCB);
-        glfwSetMouseButtonCallback(m_Data.PtrToWindow, MouseButtonCB);
+        glfwSetKeyCallback(m_Data.PtrToWindow, CCPInputKeyCallBack);
+        glfwSetMouseButtonCallback(m_Data.PtrToWindow, CCPInputMouseCallBack);
         glfwSetCursorPosCallback(m_Data.PtrToWindow, MousePositionCB);
         glfwSetScrollCallback(m_Data.PtrToWindow, MouseScrollCB);
 
@@ -170,6 +171,8 @@ namespace LB
             // key start changes from pressed to released
             // To use, add a switch case below
         }
+
+
 
     }
 
