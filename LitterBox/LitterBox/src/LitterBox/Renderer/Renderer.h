@@ -20,7 +20,7 @@ namespace Renderer {
 		vec2 pos{ 0.5f, 0.5f };
 		vec2 tex{ 0.f,0.f };
 		vec3 color{ 1.f,0.f,0.f };
-		unsigned short index{ 0 };
+		unsigned int index{ 0 };
 		bool active{ false };
 	};
 
@@ -65,11 +65,11 @@ namespace Renderer {
 		inline unsigned int get_vao() { return vao; }
 		inline unsigned int get_shader() { return shader_program; }
 		inline unsigned int get_ibo() { return ibo; }
-		inline unsigned int get_ao_size() { return active_objs.size(); }
+		inline size_t get_ao_size() { return active_objs.size(); }
 		inline unsigned int get_vbo() { return vbo; }
 
 		unsigned int create_render_object(const render_Object* obj);
-		void remove_render_object(const render_Object* obj, const unsigned int index);
+		void remove_render_object(const render_Object* obj);
 		void update_buff();
 	};
 

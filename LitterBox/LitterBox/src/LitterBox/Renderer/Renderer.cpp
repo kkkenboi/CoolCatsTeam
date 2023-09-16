@@ -8,8 +8,6 @@
 #include <filesystem>
 #include "Renderer.h"
 
-
-
 struct shader_source {
 	std::string vtx_shd;
 	std::string frg_shd;
@@ -104,7 +102,7 @@ Renderer::render_Object::render_Object(
 
 Renderer::render_Object::~render_Object()
 {
-	GRAPHICS->object_renderer.remove_render_object(this, this->quad_id);
+	GRAPHICS->object_renderer.remove_render_object(this);
 }
 
 //----------------------------------------------RENDERER---------------------------------------------------
@@ -205,10 +203,10 @@ unsigned int Renderer::Renderer::create_render_object(const render_Object* obj)
 	return i;
 }
 
-void Renderer::Renderer::remove_render_object(const render_Object* obj, const unsigned int index)
+void Renderer::Renderer::remove_render_object(const render_Object* obj)
 {
 	for (int i{ 0 }; i < 4; ++i) {
-		quad_buff[index].data[i].active = false;
+		quad_buff[obj->get_index()].data[i].active = false;
 	}
 
 	active_objs.remove_if([obj](const render_Object* in_list) { return *obj == *in_list; });
@@ -218,6 +216,7 @@ void Renderer::Renderer::update_buff()
 {
 	unsigned int i{ 0 };
 	for (const render_Object*& e : active_objs) {
+		unsigned int obj_index{ e->get_index() };
 		//cache width and height values
 		float x_pos{ e->w * 0.5f * e->scal };
 		float y_pos{ e->h * 0.5f * e->scal };
@@ -227,15 +226,15 @@ void Renderer::Renderer::update_buff()
 		index_buff.at(i) = index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
 			(unsigned short)(idx + 2), (unsigned short)(idx + 3), idx} };
 
-		////set position of quad
-		//quad_buff[e->quad_id].data[0].pos = { e->position.x - x_pos, e->position.y - y_pos };//bottom left
-		//quad_buff[e->quad_id].data[1].pos = { e->position.x + x_pos, e->position.y - y_pos };//bottom right
-		//quad_buff[e->quad_id].data[2].pos = { e->position.x + x_pos, e->position.y + y_pos };//top right
-		//quad_buff[e->quad_id].data[3].pos = { e->position.x - x_pos, e->position.y + y_pos };//top left
+		//set position of quad
+		quad_buff[obj_index].data[0].pos = { e->position.x - x_pos, e->position.y - y_pos };//bottom left
+		quad_buff[obj_index].data[1].pos = { e->position.x + x_pos, e->position.y - y_pos };//bottom right
+		quad_buff[obj_index].data[2].pos = { e->position.x + x_pos, e->position.y + y_pos };//top right
+		quad_buff[obj_index].data[3].pos = { e->position.x - x_pos, e->position.y + y_pos };//top left
 
 		for (size_t j{ 0 }; j < 4; ++j) {
 			//set colour of quad
-			/*quad_buff[e->quad_id].data[j].color = e->col;*/
+			quad_buff[obj_index].data[j].color = e->col;
 		}
 		++i;
 	}
