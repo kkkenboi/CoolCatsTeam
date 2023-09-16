@@ -26,7 +26,13 @@ project "Editor"
     {
         "%{wks.location}/LitterBox/src",
         "%{IncludeDir.GLFW}",
-        "%{IncludeDir.Glad}"
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.spdlog}",
+        "%{IncludeDir.stb}",
+        "%{IncludeDir.FreeType}",
+        "%{IncludeDir.FMOD}"
+
     }
 
     -- Link to our engine library
@@ -36,7 +42,6 @@ project "Editor"
     }
 
     filter "system:windows"
-        cppdialect "C++20"
         systemversion "latest"
 
     filter "configurations:Debug"

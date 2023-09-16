@@ -20,7 +20,7 @@ project "LitterBox"
     {
         "src/**.h",
         "src/**.cpp",
-        "src/LitterBox/Renderer/**.shader"
+        "src/LitterBox/Renderer/**.shader", 
     }
 
     defines
@@ -48,8 +48,13 @@ project "LitterBox"
         "Glad",
         "ImGui",
         "opengl32.lib",
+        -- "fmod_vc"
         -- "FreeType"
     }
+
+    -- postbuildcommands
+    -- {
+    -- }
 
     filter "system:windows"
         systemversion "latest"

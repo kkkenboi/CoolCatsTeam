@@ -26,7 +26,13 @@ project "Sandbox"
     {
         "%{wks.location}/LitterBox/src",
         "%{IncludeDir.GLFW}",
-        "%{IncludeDir.Glad}"
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.spdlog}",
+        "%{IncludeDir.stb}",
+        "%{IncludeDir.FreeType}",
+        "%{IncludeDir.FMOD}"
+
     }
 
     -- Link to our engine library
