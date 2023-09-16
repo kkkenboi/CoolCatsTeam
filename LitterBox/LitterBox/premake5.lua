@@ -38,7 +38,8 @@ project "LitterBox"
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.stb}",
-        "%{IncludeDir.FreeType}"
+        "%{IncludeDir.FreeType}",
+        "%{IncludeDir.FMOD}"
     }
 
     -- Links to libraries by providing their project's name
