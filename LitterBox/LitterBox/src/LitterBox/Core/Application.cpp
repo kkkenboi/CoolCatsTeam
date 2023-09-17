@@ -16,14 +16,16 @@ namespace LB {
 
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
+		Engine->AddSystem(new GameObjectFactory());
+
 
 		Engine->Initialize();
 
 	}
 	Application::~Application()
 	{
-		////Delete all the game objects
-		//FACTORY->DestroyAllObjects();
+		//Delete all the game objects
+		FACTORY->DestroyAllObjects();
 
 		//Delete all the systems
 		Engine->DestroySystems();

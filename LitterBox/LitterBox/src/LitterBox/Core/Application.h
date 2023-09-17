@@ -1,5 +1,6 @@
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Renderer/Renderer.h"
+#include "LitterBox/Factory/GameObjectFactory.h"
 #include "Core.h"
 
 
