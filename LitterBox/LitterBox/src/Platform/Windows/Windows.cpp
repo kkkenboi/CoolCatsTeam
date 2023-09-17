@@ -1,10 +1,15 @@
 #include "Windows.h"
+#include "LitterBox/Engine/Input.h"
 #include "LitterBox/Core/Core.h"
 
 #define UNREFERENCED_PARAMETER
 
 namespace LB
 {
+    void PrintKey() {
+        std::cout << "W Pressed :) \n";
+    }
+
 	WindowsSystem::WindowsSystem() 
 	{
         // Ensure that there is only one window as it should only be called once for one engine
@@ -40,8 +45,8 @@ namespace LB
 
         // Set GLFW callbacks
         glfwSetFramebufferSizeCallback(m_Data.PtrToWindow, FrameBufferCB);
-        glfwSetKeyCallback(m_Data.PtrToWindow, KeyCB);
-        glfwSetMouseButtonCallback(m_Data.PtrToWindow, MouseButtonCB);
+        glfwSetKeyCallback(m_Data.PtrToWindow, LBInput::InvokeKeyPressed);
+        glfwSetMouseButtonCallback(m_Data.PtrToWindow, LBInput::InvokeKeyPressed);
         glfwSetCursorPosCallback(m_Data.PtrToWindow, MousePositionCB);
         glfwSetScrollCallback(m_Data.PtrToWindow, MouseScrollCB);
 
@@ -70,6 +75,9 @@ namespace LB
         int fb_width, fb_height;
         glfwGetFramebufferSize(m_Data.PtrToWindow, &fb_width, &fb_height);
         FrameBufferCB(m_Data.PtrToWindow, fb_width, fb_height);
+
+        // Testing Input callback
+        LBInput::SubscribeToKey(PrintKey, KeyCode::KEY_W, KeyEvent::PRESSED);
 
         //return true;
 	}
@@ -170,7 +178,6 @@ namespace LB
             // key start changes from pressed to released
             // To use, add a switch case below
         }
-
     }
 
     void WindowsSystem::MouseButtonCB(GLFWwindow* pwin, int button, int action, int mod)
