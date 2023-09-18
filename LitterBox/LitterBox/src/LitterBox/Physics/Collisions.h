@@ -3,7 +3,7 @@
 #include "Litterbox/Physics/PhysicsMath.h"
 
 struct AABB {
-    Vec2<float> c; // Center of the AABB
+    Vec2<float> m_c; // Center of the AABB
 
     Vec2<float> m_min;
     Vec2<float> m_max;
@@ -18,7 +18,7 @@ struct LineSegment
 
 void BuildLineSegment(LineSegment& lineSegment, Vec2<float> vel1, Vec2<float> vel2);
 
-bool CollisionIntersection_RectRect(const AABB & aabb1, const Vec2<float> & vel1, 
+bool CollisionIntersection_BoxBox(const AABB & aabb1, const Vec2<float> & vel1, 
 									const AABB & aabb2, const Vec2<float> & vel2);
 
-bool CollisionIntersection_CircleCircle(Vec2<float> centerA, Vec2<float> centerB, float radiusA, float radiusB);
+bool CollisionIntersection_CircleCircle(Vec2<float> centerA, Vec2<float> centerB, float radiusA, float radiusB, Vec2<float>& normal_out, float& depth_out);

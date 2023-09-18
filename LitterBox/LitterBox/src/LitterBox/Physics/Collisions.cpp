@@ -14,7 +14,7 @@ void BuildLineSegment(LineSegment& lineSegment, Vec2<float> p0, Vec2<float> p1) 
 	lineSegment.m_normal = PHY_MATH::Normalize(lineSegment.m_normal);
 }
 
-bool CollisionIntersection_RectRect(const AABB & aabb1, const Vec2<float> & vel1, 
+bool CollisionIntersection_BoxBox(const AABB & aabb1, const Vec2<float> & vel1, 
 									const AABB & aabb2, const Vec2<float> & vel2)
 {	
 	/*Implement the collision intersection over here.
@@ -63,10 +63,10 @@ bool CollisionIntersection_RectRect(const AABB & aabb1, const Vec2<float> & vel1
     Vel1.y = 0.f;
 
 	float tFirst_x = 0.f;
-	float tLast_x = AEFrameRateControllerGetFrameTime();
+	float tLast_x = GET FRAME TIME HERE!!!!!;
 
 	float tFirst_y = 0.f;
-	float tLast_y = AEFrameRateControllerGetFrameTime();
+	float tLast_y = GET FRAME TIME HERE!!!!!;
 
 	/*Step 3: Working with one dimension (x-axis).
 			if(Vb < 0)
@@ -183,7 +183,7 @@ bool CollisionIntersection_CircleCircle(Vec2<float> centerA, Vec2<float> centerB
 		return false;
 	}
 
-	// Find a vector pointing from A to B
+	// Find a vector normal, pointing from A to B
 	normal_out = PHY_MATH::Normalize(centerB - centerA);
 	depth_out = radii - distance;
 

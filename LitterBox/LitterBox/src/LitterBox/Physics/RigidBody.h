@@ -6,16 +6,17 @@
 #include "Collisions.h"
 #include <cmath>
 
-class RigidBody {
-    
-    enum SHAPETYPE
-    {
-        CIRCLE = 0,
-        BOX = 1
-    };
-    
+enum SHAPETYPE
+{
+    CIRCLE = 0,
+    BOX = 1,
+    NONE = 2
+};
 
-    private:
+class RigidBody {
+
+
+public:
 
     // Vectors here allow the user to know
     // the current and previous location of the object
@@ -27,13 +28,14 @@ class RigidBody {
     Vec2<float> mVelocity;
     Vec2<float> mAcceleration;
 
-    public:
+public:
     // These data will not change will be set upon initialization
     float mRotation;
     float mRotationalVelocity;
 
     float mDensity;
     float mMass; // Used for F = MA
+    float mInvMass;
     float mRestitution; // How bouncy the object is
     float mArea;
 
@@ -50,51 +52,53 @@ class RigidBody {
     SHAPETYPE mShapeType;
 
     // Vertices and AABB
+
+    // Untransformed vertices (Vertices from origin)
     Vec2<float> vertices[4];
+
     AABB aabb;
-    
+
     // =================
     // Constructor
     // =================
-    RigidBody(Vec2<float> position, float density, float mass,
-        float restitution, float area, float friction, bool is_active,
-        float radius, float width, float height, SHAPETYPE shapeType) 
+    RigidBody()
     {
-        this->mPosition = position;
-        this->mPrevPosition= Vec2<float> (0,0);
+        this->mPosition = Vec2<float>(0, 0);
+        this->mPrevPosition = Vec2<float>(0, 0);
 
-        this->mVelocity = Vec2<float> (0,0);
-        this->mAcceleration = Vec2<float> (0,0);
+        this->mVelocity = Vec2<float>(0, 0);
+        this->mAcceleration = Vec2<float>(0, 0);
 
         this->mRotation = 0.f;
         this->mRotationalVelocity = 0.f;
 
-        this->mDensity = density;
-        this->mMass = mass;
-        this->mRestitution = restitution;
-        this->mArea = area;
+        this->mDensity = 0.f;
+        this->mMass = 0.f;
+        this->mInvMass = 0.f;
+        this->mRestitution = 0.f;
+        this->mArea = 0.f;
 
-        this->mFriction = friction;
-        this->isActive = is_active;
+        this->mFriction = 0.f;
+        this->isActive = 0.f;
 
-        this->mRadius = radius;
-        this->mWidth = width;
-        this->mHeight = height;
+        this->mRadius = 0.f;
+        this->mWidth = 0.f;
+        this->mHeight = 0.f;
 
-        this->mShapeType = shapeType;
+        this->mShapeType = NONE;
     }
+
+public:
     
-    public:
-    /*
     // Force is added upon object's velocity
-    void addForce(Vec2<float> force) 
+    void addForce(Vec2<float> force)
     {
         this->mVelocity += force;
     }
-    */
+    
 
     // Just to move the RigidBody with a vector
-    void Move(Vec2<float> vec) 
+    void Move(Vec2<float> vec)
     {
         this->mPosition += vec;
     }
@@ -106,11 +110,11 @@ class RigidBody {
     }
 
 
-}   // End of RigidBody class
+};   // End of RigidBody class
 
 
 // Create a circle rigid body
-RigidBody CreateCircleBody()
+void CreateCircleBody()
 {   
     // Should add to the RigidBodyPool
 
