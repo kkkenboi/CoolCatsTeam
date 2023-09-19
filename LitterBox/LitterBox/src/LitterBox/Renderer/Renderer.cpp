@@ -7,6 +7,8 @@
 #include <sstream>
 #include <filesystem>
 #include "Renderer.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 struct shader_source {
 	std::string vtx_shd;
@@ -87,10 +89,13 @@ Renderer::render_Object::render_Object(
 	float width, 
 	float height, 
 	float scale, 
-	vec3 color, 
+	vec3 color,
+	std::array<vec2, 4> uv,
+	int text,
 	bool active) :
 	position{ pos }, scal{ scale }, w{ width }, h{ height }, 
-	col{ color }, activated{ active }, quad_id{UINT_MAX}
+	col{ color }, activated{ active }, quad_id{UINT_MAX}, texture{(int)text},
+	uv {uv}
 {
 	if (!GRAPHICS) {
 		std::cerr << "GRAPHICS SYSTEM NOT INITIALIZED" << std::endl;
@@ -139,6 +144,11 @@ Renderer::Renderer::Renderer() :
 	glVertexArrayVertexBuffer(vao, 3, vbo, sizeof(vec2) * 2U, sizeof(Vertex));
 	glVertexArrayAttribFormat(vao, 2, 3, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 2, 3);
+	//texture index
+	glEnableVertexArrayAttrib(vao, 4);
+	glVertexArrayVertexBuffer(vao, 4, vbo, sizeof(vec2) * 2U + sizeof(vec3), sizeof(Vertex));
+	glVertexArrayAttribFormat(vao, 4, 1, GL_FLOAT, GL_FALSE, 0);
+	glVertexArrayAttribBinding(vao, 4, 4);
 
 	glCreateBuffers(1, &ibo);
 	glNamedBufferStorage(ibo, index_buff.capacity() * sizeof(index),
@@ -198,6 +208,16 @@ unsigned int Renderer::Renderer::create_render_object(const render_Object* obj)
 	quad_buff[i].data[2].pos = { obj->position.x + x_pos, obj->position.y + y_pos };//top right
 	quad_buff[i].data[3].pos = { obj->position.x - x_pos, obj->position.y + y_pos };//top left
 
+	quad_buff[i].data[0].index = obj->texture;
+	quad_buff[i].data[1].index = obj->texture;
+	quad_buff[i].data[2].index = obj->texture;
+	quad_buff[i].data[3].index = obj->texture;
+
+	quad_buff[i].data[0].tex = { 0.f, 0.f };
+	quad_buff[i].data[1].tex = { 1.f, 0.f };
+	quad_buff[i].data[2].tex = { 1.f, 1.f };
+	quad_buff[i].data[3].tex = { 0.f, 1.f };
+
 	active_objs.emplace_back(obj);
 
 	return i;
@@ -235,8 +255,14 @@ void Renderer::Renderer::update_buff()
 		for (size_t j{ 0 }; j < 4; ++j) {
 			//set colour of quad
 			quad_buff[obj_index].data[j].color = e->col;
+			quad_buff[obj_index].data[j].tex = e->uv[j]; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
 		}
 		++i;
+
+		quad_buff[obj_index].data[0].texIndex = (float)e->texture;
+		quad_buff[obj_index].data[1].texIndex = (float)e->texture;
+		quad_buff[obj_index].data[2].texIndex = (float)e->texture;
+		quad_buff[obj_index].data[3].texIndex = (float)e->texture;
 	}
 
 	glNamedBufferSubData(vbo, 0, sizeof(quad) * quad_buff_size, quad_buff);
@@ -253,6 +279,9 @@ void Renderer::Renderer::update_buff()
 //render objects
 Renderer::RenderSystem* Renderer::GRAPHICS = nullptr;
 
+Renderer::render_Object* testobj;
+Renderer::Texture* again;
+
 Renderer::RenderSystem::RenderSystem()
 {
 	//singleton that shiet
@@ -263,6 +292,26 @@ Renderer::RenderSystem::RenderSystem()
 
 	glUseProgram(object_renderer.get_shader());
 	glBindVertexArray(object_renderer.get_vao());
+
+	testobj = new render_Object;
+	testobj->col = { 0.f,0.f,0.f };
+	testobj->uv[0] = { 0.f, 0.6f };
+	testobj->uv[1] = { .12f, 0.6f };
+	testobj->uv[2] = { .12f, .73f };
+	testobj->uv[3] = { 0.f, .73f };
+
+	t_Manager.add_texture("./test.png", "test");
+	t_Manager.add_texture("./test2.png", "logo");
+	t_Manager.add_texture("./test3.png", "pine");
+	t_Manager.add_texture("./anim.png", "run");
+	testobj->texture = t_Manager.get_texture_index("run");
+	/*glBindTextureUnit(0, t_Manager.get_texture("test"));
+	glTextureParameteri(t_Manager.get_texture("test"), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTextureParameteri(t_Manager.get_texture("test"), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);*/
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	/*GLuint tex_loc = glGetUniformLocation(object_renderer.get_shader(), "u_SamplerID");
+	glUniform1i(tex_loc, 0);*/
 }
 
 Renderer::RenderSystem::~RenderSystem()
@@ -271,12 +320,45 @@ Renderer::RenderSystem::~RenderSystem()
 		GRAPHICS = nullptr;
 }
 
+std::array<std::array<Renderer::vec2, 4>, 18> frames{
+	Renderer::vec2{0.f, 0.6f}, Renderer::vec2{.12f, .6f}, Renderer::vec2{.12f, .72f}, Renderer::vec2{0.f, .72f},
+	Renderer::vec2{.12f, 0.6f}, Renderer::vec2{.23f, .6f}, Renderer::vec2{.23f, .72f}, Renderer::vec2{.12f, .72f},
+	Renderer::vec2{0.23f, 0.6f}, Renderer::vec2{.345f, .6f}, Renderer::vec2{.345f, .72f}, Renderer::vec2{0.23f, .72f},
+	Renderer::vec2{0.345f, 0.6f}, Renderer::vec2{.45f, .6f}, Renderer::vec2{.45f, .72f}, Renderer::vec2{0.345f, .72f},
+	Renderer::vec2{0.45f, 0.6f}, Renderer::vec2{.55f, .6f}, Renderer::vec2{.55f, .72f}, Renderer::vec2{0.45f, .72f},
+	Renderer::vec2{0.55f, 0.6f}, Renderer::vec2{.65f, .6f}, Renderer::vec2{.65f, .72f}, Renderer::vec2{0.55f, .72f},
+	Renderer::vec2{0.65f, 0.6f}, Renderer::vec2{.755f, .6f}, Renderer::vec2{.755f, .72f}, Renderer::vec2{0.65f, .72f},
+	Renderer::vec2{0.755f, 0.6f}, Renderer::vec2{.85f, .6f}, Renderer::vec2{.85f, .72f}, Renderer::vec2{0.755f, .72f},
+	Renderer::vec2{0.85f, 0.6f}, Renderer::vec2{.94f, .6f}, Renderer::vec2{.94f, .72f}, Renderer::vec2{0.85f, .72f},
+
+	Renderer::vec2{0.f, .458f}, Renderer::vec2{.09f, .458f}, Renderer::vec2{.09f, .59f}, Renderer::vec2{0.f, .59f},
+	Renderer::vec2{.09f, .458f}, Renderer::vec2{.19f, .458f}, Renderer::vec2{.19f, .59f}, Renderer::vec2{.09f, .59f},
+	Renderer::vec2{0.19f, .458f}, Renderer::vec2{.29f, .458f}, Renderer::vec2{.29f, .59f}, Renderer::vec2{0.19f, .59f},
+	Renderer::vec2{0.29f, .458f}, Renderer::vec2{.39f, .458f}, Renderer::vec2{.39f, .59f}, Renderer::vec2{0.29f, .59f},
+	Renderer::vec2{0.39f, .458f}, Renderer::vec2{.51f, .458f}, Renderer::vec2{.51f, .59f}, Renderer::vec2{0.39f, .59f},
+	Renderer::vec2{0.51f, .458f}, Renderer::vec2{.6f, .458f}, Renderer::vec2{.6f, .59f}, Renderer::vec2{0.51f, .59f},
+	Renderer::vec2{0.6f, .458f}, Renderer::vec2{.7f, .458f}, Renderer::vec2{.7f, .59f}, Renderer::vec2{0.6f, .59f},
+	Renderer::vec2{0.7f, .458f}, Renderer::vec2{.8f, .458f}, Renderer::vec2{.8f, .59f}, Renderer::vec2{0.7f, .59f},
+	Renderer::vec2{0.8f, .458f}, Renderer::vec2{.94f, .458f}, Renderer::vec2{.94f, .59f}, Renderer::vec2{0.8f, .59f}
+};
+
 void Renderer::RenderSystem::Update(float dt)
 {
+	static int frame_p_sec{ 0 };
+	static int currFrame{ 0 };
+	if (frame_p_sec >= 6) {
+		testobj->uv = frames[currFrame];
+		frame_p_sec = 0;
+
+		currFrame = currFrame >= 17 ? 0 : ++currFrame;
+	}
+	else {
+		++frame_p_sec;
+	}
 	object_renderer.update_buff();
 	glClearColor(.3f, 0.5f, .8f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glDrawElements(GL_TRIANGLES, object_renderer.get_ao_size() * 6, GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 }
 
 void Renderer::RenderSystem::Draw()
@@ -284,4 +366,97 @@ void Renderer::RenderSystem::Draw()
 	//TODO HAVE RENDERER PERFORM THE SWAP BUFFER INSTEAD OF WINDOW
 	// Draw stuff
 }
+bool Renderer::RenderSystem::create_texture(const std::string& file_path, const std::string& name)
+{
+	return t_Manager.add_texture(file_path, name);
+}
+bool Renderer::RenderSystem::remove_texture(const std::string& name)
+{
+	return t_Manager.remove_texture(name);
+}
+void Renderer::RenderSystem::flush_textures()
+{
+	t_Manager.flush_textures();
+}
 //----------------------------------------------RENDERER-SYSTEM-------------------------------------------
+
+
+
+Renderer::Texture::Texture(const std::string& path) :
+	id{0}, file_path{path}, local_buff{nullptr},
+	w{0}, h{0}, fluff{0}
+{
+	stbi_set_flip_vertically_on_load(1);
+
+	local_buff = stbi_load(path.c_str(), &w, &h, &fluff, 4);
+	if (!local_buff) {
+		std::cerr << "Texture file path: " << path << " NOT FOUND!" << std::endl;
+		return;
+	}
+
+	glCreateTextures(GL_TEXTURE_2D, 1, &id);
+	glTextureStorage2D(id, 1, GL_RGBA8, w, h);
+	glTextureSubImage2D(id, 0, 0, 0, w, h,
+		GL_RGBA, GL_UNSIGNED_BYTE, local_buff);
+
+	stbi_image_free(local_buff);
+
+	
+	glTextureParameteri(id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTextureParameteri(id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	std::cout << "Picture specs: " << id << " " << w << " " << h << " " << fluff << std::endl;
+}
+
+Renderer::Texture::~Texture()
+{
+	std::cout << "DELETED TEXTURE " << id << std::endl;
+	glDeleteTextures(1, &id);
+}
+
+bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
+{
+	if (textures.size() >= 32) {
+		std::cerr << "Maximum textures reached" << std::endl;
+		return false;
+	}
+
+	//Loop through to get the first free unit slot available
+	int i{ 0 };
+	for (; i < 32; ++i) {
+		if (!free[i])
+			break;
+	}
+
+	textures.emplace(std::make_pair(name, std::make_pair(new Texture{file_path}, i)));
+	//getting the pair then the texture id
+	glBindTextureUnit(0 + i, textures.find(name)->second.first->get_tex());
+	free[i] = true;
+
+	GLint uni_loc = glGetUniformLocation(GRAPHICS->object_renderer.get_shader(), "u_SamplerID");
+	int test[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+	glUniform1iv(uni_loc, 8, test);
+
+
+	std::cout << "Texture index: " << i << std::endl;
+
+	return true;
+}
+
+bool Renderer::Texture_Manager::remove_texture(const std::string& name)
+{
+	//unbind texture at that position
+	free[textures.find(name)->second.second] = false;
+	delete textures.find(name)->second.first;
+	return textures.erase(name);
+}
+
+void Renderer::Texture_Manager::flush_textures()
+{
+	for (auto& e : textures) {
+		delete e.second.first;
+	}
+	textures.clear();
+	for (int i{ 0 }; i < 32; ++i)
+		free[i] = false;
+}
