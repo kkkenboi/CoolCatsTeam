@@ -1,17 +1,17 @@
 #pragma once
 
 #include "Collisions.h"
-#include "Litterbox/Utils/Math.h"
+#include "AEEngine.h"
 #include "PhysicsMath.h"
+#include <cmath>
 
-void BuildLineSegment(LineSegment& lineSegment, Vec2<float> p0, Vec2<float> p1) {
-	lineSegment.m_pt0 = p0;
-	lineSegment.m_pt1 = p1;
+PhysicsTransform::PhysicsTransform(Vec2<float> position, float angle) 
+{
+	this->m_posX = position.x;
+	this->m_posY = position.y;
 
-	// Unnormalized vector
-	lineSegment.m_normal = Vec2<float>(p1.y - p0.y, -(p1.x - p0.x));
-	// Normalized vector
-	lineSegment.m_normal = PHY_MATH::Normalize(lineSegment.m_normal);
+	this->m_sin = sin(angle);
+	this->m_cos = cos(angle);
 }
 
 bool CollisionIntersection_BoxBox(const AABB & aabb1, const Vec2<float> & vel1, 
@@ -63,10 +63,10 @@ bool CollisionIntersection_BoxBox(const AABB & aabb1, const Vec2<float> & vel1,
     Vel1.y = 0.f;
 
 	float tFirst_x = 0.f;
-	float tLast_x = GET FRAME TIME HERE!!!!!;
+	float tLast_x = AEFrameRateControllerGetFrameTime();
 
 	float tFirst_y = 0.f;
-	float tLast_y = GET FRAME TIME HERE!!!!!;
+	float tLast_y = AEFrameRateControllerGetFrameTime();
 
 	/*Step 3: Working with one dimension (x-axis).
 			if(Vb < 0)
@@ -172,7 +172,8 @@ bool CollisionIntersection_BoxBox(const AABB & aabb1, const Vec2<float> & vel1,
 // normal stores the direction of where the objects should be pushed towards
 // depth stores the magnitude of how much the objects should be pushed
 bool CollisionIntersection_CircleCircle(Vec2<float> centerA, Vec2<float> centerB, float radiusA, float radiusB, Vec2<float>& normal_out, float& depth_out) {
-	normal_out = Vec2<float>(0.f , 0.f);
+	normal_out.x = 0.f;
+	normal_out.y = 0.f;
 	depth_out = 0.f;
 
 	// Has the distance between the two centers now			
@@ -189,3 +190,150 @@ bool CollisionIntersection_CircleCircle(Vec2<float> centerA, Vec2<float> centerB
 
 	return true;
 }
+
+bool CollisionIntersection_BoxBox_SAT(Vec2<float>* verticesA, Vec2<float>* verticesB, Vec2<float> normal_out, float depth_out) 
+{
+	normal_out = Vec2<float>{ 0.f,0.f };
+	depth_out = 100000.f;
+
+	// Loop through each edge of obj A
+	for (int i = 0; i < 4; ++i) 
+	{
+		// Get two vertices from obj A
+		Vec2<float> vert1 = verticesA[i];
+		// We get the remainder of 4 as we do not want to loop out of the array
+		// This also ensure that we get pt3 and pt0 as the pair of vertices which is right
+		Vec2<float> vert2 = verticesA[(i + 1) % 4];
+
+		// We now get the vector from 0 to 1 for example
+		Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y};
+
+		// Now we have the normal/axis from A
+		Vec2<float> axis{-vecA.y , vecA.x};
+
+
+		float minProjValueA{ 0.f };
+		float maxProjValueA{ 0.f };
+
+		float minProjValueB{ 0.f };
+		float maxProjValueB{ 0.f };
+
+
+		// Project all points onto the axis
+		ProjectPointsOntoAxis(axis, verticesA, minProjValueA, maxProjValueA);
+		ProjectPointsOntoAxis(axis, verticesB, minProjValueB, maxProjValueB);
+
+		// Checks if we can find separation by checking if the
+		// min projection values of either object is larger than the max
+		// projection values of the other object
+		if (maxProjValueA <= minProjValueB || maxProjValueB <= minProjValueA) {
+			return false;
+		}
+
+		// We check for the depth here now based on knowing that
+		// the two max values being larger than the two min values
+		float axisDepth = PHY_MATH::FindMin(maxProjValueA - minProjValueB, maxProjValueB - minProjValueA);
+
+		if (axisDepth < depth_out) 
+		{
+			depth_out = axisDepth;
+			normal_out = axis;
+		}
+	} // End of looping through obj A's edges
+
+	// Loop through each edge of obj B
+	for (int i = 0; i < 4; ++i) 
+	{
+		// Get two vertices from obj B
+		Vec2<float> vert1 = verticesB[i];
+		Vec2<float> vert2 = verticesB[(i + 1) % 4];
+
+		// Now we get the vector from vertice 0 to 1 for example
+		Vec2<float> vecB{ vert2.x - vert1.x, vert2.y - vert1.y };
+
+		// Now we have the normal/axis from B
+		Vec2<float> axis{ -vecB.y, vecB.x };
+
+
+		float minProjValueA{ 0.f };
+		float maxProjValueA{ 0.f };
+
+		float minProjValueB{ 0.f };
+		float maxProjValueB{ 0.f };
+
+		// Project all points onto the axis
+		ProjectPointsOntoAxis(axis, verticesA, minProjValueA, maxProjValueA);
+		ProjectPointsOntoAxis(axis, verticesB, minProjValueB, maxProjValueB);
+
+		if (maxProjValueA <= minProjValueB || maxProjValueB <= minProjValueA)
+		{
+			return false;
+		}
+
+		// We check for the depth here now based on knowing that
+		// the two max values being larger than the two min values
+		float axisDepth = PHY_MATH::FindMin(maxProjValueA - minProjValueB, maxProjValueB - minProjValueA);
+
+		if (axisDepth < depth_out)
+		{
+			depth_out = axisDepth;
+			normal_out = axis;
+		}
+	} // End of looping through of obj B's edges
+
+	// Finally the depth_out and normal_out are not normalized as
+	// the axis we used is essentially the same as the edges found on
+	// each of the objects, therefore we need to normalize the final
+	// depth_out and normal_out
+	depth_out /= PHY_MATH::Length(normal_out);
+	normal_out = PHY_MATH::Normalize(normal_out);
+
+	// However, sometimes the normal is not facing the direction that we want to
+	// push the bodies towrds, normally we want the normal to push obj B
+	// then push obj A by the -normal direction
+
+	// We can mitigate this by find the center of obj A and obj B and make a vector
+	// from A's center to B's center and compare that vector to the normal
+
+	// We can use the dot product of these two vectors
+	// 0> is same direction, 0 is perpendicular, 0< is opposite direction
+
+	return true;
+}
+
+void ProjectPointsOntoAxis(Vec2<float> axisToProj, Vec2<float>*verticesBody, float minPtOnAxis, float maxPtOnAxis) {
+	// get some arbitrary min and max things to update
+	minPtOnAxis = 100000.f;
+	maxPtOnAxis = -100000.f;
+
+	// Loop through the vertices on the body and project them on the axis
+	for (int i = 0; i < 4; ++i) 
+	{
+		float projection_val = PHY_MATH::DotProduct(axisToProj, verticesBody[i]);
+
+		// If the projection value is less than min
+		// or more than max change the min or max
+		if (projection_val < minPtOnAxis) 
+		{
+			minPtOnAxis = projection_val;
+		}
+		if (projection_val > maxPtOnAxis)
+		{
+			maxPtOnAxis = projection_val;
+		}
+	}
+}
+/*
+Vec2<float> FindCenterOfBoxVertices(Vec2<float>* vertices) 
+{
+	// Loop through all the vertices and add them together and
+	// then divide by the number of vertices in the array
+	float xSum{ 0.f };
+	float ySum{ 0.f };
+
+	for (int i = 0; i < 4; ++i) 
+	{
+
+	}
+}
+*/

@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "Litterbox/Utils/Math.h"
-#include "PhysicsMath.h"
+#include "Math.h"
 #include "Collisions.h"
-#include <cmath>
+
+struct AABB;
 
 enum SHAPETYPE
 {
@@ -54,65 +54,55 @@ public:
     // Vertices and AABB
 
     // Untransformed vertices (Vertices from origin)
-    Vec2<float> vertices[4];
+    Vec2<float> mVertices[4];
+    Vec2<float> mTransformedVertices[4];
 
-    AABB aabb;
+    AABB obj_aabb;
+
+    bool mUpdateVerticesRequired;
+    bool mUpdateAABBRequired;
 
     // =================
     // Constructor
     // =================
-    RigidBody()
-    {
-        this->mPosition = Vec2<float>(0, 0);
-        this->mPrevPosition = Vec2<float>(0, 0);
-
-        this->mVelocity = Vec2<float>(0, 0);
-        this->mAcceleration = Vec2<float>(0, 0);
-
-        this->mRotation = 0.f;
-        this->mRotationalVelocity = 0.f;
-
-        this->mDensity = 0.f;
-        this->mMass = 0.f;
-        this->mInvMass = 0.f;
-        this->mRestitution = 0.f;
-        this->mArea = 0.f;
-
-        this->mFriction = 0.f;
-        this->isActive = 0.f;
-
-        this->mRadius = 0.f;
-        this->mWidth = 0.f;
-        this->mHeight = 0.f;
-
-        this->mShapeType = NONE;
-    }
+    RigidBody(Vec2<float> position, Vec2<float> prevposition, Vec2<float> velocity, Vec2<float> acceleration,
+        float rotation, float rotationvelocity, float density, float mass, float invmass, float restitution,
+        float area, float friction, bool isstatic, bool isactive, float radius, float width, float height,
+        SHAPETYPE shape);
+    
 
 public:
     
     // Force is added upon object's velocity
-    void addForce(Vec2<float> force)
-    {
-        this->mVelocity += force;
-    }
+    void addForce(Vec2<float> force);
     
-
     // Just to move the RigidBody with a vector
-    void Move(Vec2<float> vec)
-    {
-        this->mPosition += vec;
-    }
+    void Move(Vec2<float> vec);
 
     // Move the RigidBody to a specific position
-    void MoveTo(Vec2<float> position)
-    {
-        this->mPosition = position;
-    }
+    void MoveTo(Vec2<float> position);
 
+    // Updates the TransformedVertices of the RigidBody
+    // Accounts for positional changes and rotational changes
+    void UpdateRigidBodyBoxVertices();
+
+    void UpdateRigidBodyAABB();
+
+    // Updates the position of the RigidBody
+    void UpdateRigidBodyPos(float time);
+
+    // Updates the velocities of the RigidBody
+    void UpdateRigidBodyVel(float time);
 
 };   // End of RigidBody class
 
+void CreateBoxVertices(Vec2<float>* vertices_arr, float width, float height);
 
+void CreateBoxVerticesTransformed(Vec2<float>* vertices_arr, Vec2<float> position);
+
+
+
+/*
 // Create a circle rigid body
 void CreateCircleBody()
 {   
@@ -126,6 +116,7 @@ void CreateCircleBody()
     this->mShapeType = SHAPETYPE::CIRCLE;
 }
 
+
 void CreateBoxBody()
 {
     this->mArea = mWidth * mHeight;
@@ -135,3 +126,4 @@ void CreateBoxBody()
     this->mRestitution = PHY_MATH::Clamp(mRestitution, 0.f, 1.f);
     this->mShapeType = SHAPETYPE::BOX;
 }
+*/
