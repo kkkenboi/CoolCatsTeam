@@ -16,7 +16,7 @@ namespace Renderer {
 	};
 	//----------------------------------------------------------
 
-	//Vertex data
+	//-----------------------Vertex data------------------------
 	struct Vertex {
 		vec2 pos{ 0.5f, 0.5f };
 		vec2 tex{ 0.f,0.f };
@@ -37,10 +37,11 @@ namespace Renderer {
 	struct index {
 		std::array<unsigned short, 6> indexes;
 	};
+	//-----------------------Vertex data------------------------
 
 	class render_Object; //Forward declerator
 
-
+	//---------------------TEXTURES-------------------------------------------
 	class Texture {
 	private:
 		unsigned int id;
@@ -74,7 +75,13 @@ namespace Renderer {
 
 		void flush_textures();
 	};
+	//---------------------TEXTURES-------------------------------------------
+	
+	class Camera {
 
+	};
+
+	//------------------------------------------------RENDERING SPECIFIC------------------------------------------------
 	//Renderer class will be incharge the vao, shader program and buffers.
 	//Renderer class will not be exposed to the programmers and is meant-
 	//-to have a level of disconnect even from render_object class
@@ -159,4 +166,6 @@ namespace Renderer {
 			return quad_id == rhs.quad_id;
 		}
 	};
+	//------------------------------------------------RENDERING SPECIFIC------------------------------------------------
+
 }
