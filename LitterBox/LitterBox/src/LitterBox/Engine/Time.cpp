@@ -1,3 +1,13 @@
+/*!************************************************************************
+ \file			Time.cpp
+ \author		Ang Jiawei Jarrett
+ \par DP email: a.jiaweijarrett@digipen.edu
+ \par Course:	CSD2401A
+ \date			19-09-2023
+ \brief
+
+**************************************************************************/
+
 #include "Time.h"
 
 namespace LB {

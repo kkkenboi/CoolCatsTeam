@@ -1,9 +1,9 @@
 /*!************************************************************************
- \file   Time.h
- \author Ang Jiawei Jarrett
- \par    DP email: a.jiaweijarrett@digipen.edu
- \par    Course: CSD2401A
- \date   18-09-2023
+ \file			Time.h
+ \author		Ang Jiawei Jarrett
+ \par DP email: a.jiaweijarrett@digipen.edu
+ \par Course:	CSD2401A
+ \date			19-09-2023
  \brief
 
 **************************************************************************/
