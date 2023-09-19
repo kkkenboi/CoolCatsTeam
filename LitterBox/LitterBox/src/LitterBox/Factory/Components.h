@@ -1,10 +1,9 @@
 #pragma once
 #include <Litterbox/Engine/Message.h>
-#include <Litterbox/Factory/GameObjectComposition.h>
 
 namespace LB
 {
-	// can be changed to be serialised
+	// --can be changed to be serialised--
 	enum ComponentTypeID
 	{
 		Component_None = 0,
@@ -13,71 +12,52 @@ namespace LB
 		Component_Render
 	};
 
-	class ComponentCreator
+	// Interface for derived components to use as a base
+	class IComponent
 	{
 	public:
-		ComponentCreator(ComponentTypeID typeId)
-			:TypeId(typeId)
-		{
-		}
+		IComponent();
 
-		ComponentTypeID TypeId;
-		///Create the component
-		virtual ~ComponentCreator() {}
+		virtual void Initialise() = 0;
+		virtual void Serialise() = 0;
+		virtual void Update() = 0;
 
-	};
-
-	// To use RegisterComponent to test things out quickly,
-	// Define found at the bottom of file
-	template<typename type>
-	class ComponentCreatorType : public ComponentCreator
-	{
-	public:
-		ComponentCreatorType(ComponentTypeID typeId)
-			:ComponentCreator(typeId)
-		{
-		}
-
-		GameComponent* Create()
-		{
-			return new type();
-		}
-	};
-
-	class GameComponent
-	{
-	public:
-		// To access 
-		friend class GameObjectComposition;
-
-		///Signal that the component is now active in the game world.
-		///See GameObjectComposition for details.
-		virtual void Initialize() {};
-
-		///GameComponents receive all messages send to their owning composition. 
-		///See Message.h for details.
-		virtual void SendMessage(Message*) {};
-
-		// -- Will be using our serializer --
-		/////Component Serialization Interface see Serialization.h for details.
-		//virtual void Serialize(ISerializer& str) { UNREFERENCED_PARAMETER(str); };
-		// ----------------------------------
-
-		///Get the GameObjectComposition this component is owned/composed.
-		GameObjectComposition* GetOwner() { return Base; }
-
+		// To destruct all other derived components
+		virtual ~IComponent() {};
+	private:
+		// To understand what type does this component belong to
 		ComponentTypeID TypeID;
 
-	protected:
-		///Destroy the component.
-		virtual ~GameComponent() {};
+	};
 
-	private:
-		///Each component has a pointer back to the base owning composition.
-		GameObjectComposition* Base;
+	// Interface to make components and tag IDs
+	class ComponentMaker
+	{
+	public:
+		ComponentMaker(ComponentTypeID typeId) : TypeID(typeId) {}
 
+		ComponentTypeID TypeID;
+		///Create the component
+		virtual IComponent* Create();
+		virtual ~ComponentMaker() = 0;
+
+	};
+
+	// Class Template to create different types of ComponentMaker
+	// ComponentType here refers to the derived classes of IComponent
+	template<typename ComponentType>
+	class ComponentMakerType : public ComponentMaker
+	{
+	public:
+		ComponentMakerType(ComponentTypeID typeId) : ComponentMaker(typeId) {}
+
+		IComponent* Create() override
+		{
+			// Returns a constructor to the derived class of IComponent
+			return new ComponentType();
+		}
 	};
 
 }
 
-#define RegisterComponent(type) FACTORY->AddComponentCreator( #type, new ComponentCreatorType<type>( CT_##type ) );
+#define CreateComponentMaker(ComponentType) FACTORY->InitCM ( #ComponentType, new ComponentMakerType<ComponentType>( Component_##ComponentType ) );

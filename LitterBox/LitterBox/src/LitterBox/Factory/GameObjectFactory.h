@@ -1,74 +1,59 @@
 #pragma once
 #include "pch.h"
-#include <LitterBox/Core/System.h>
-#include <LitterBox/Factory/Components.h>
-#include <LitterBox/Factory/GameObjectComposition.h>
+#include "Components.h"
+#include "GameObjectManager.h"
+#include "LitterBox/Core/System.h"
 
 namespace LB
 {
-	class GameObjectFactory : public ISystem
+	// This class creates ComponentMakers to create Components 
+	class Factory : public ISystem
 	{
 	public:
+		// Let the factory initialize the known component types listed in the file
+		// and/or start creating game objects from a data file
+		Factory();
 
-		GameObjectFactory();
-		~GameObjectFactory();
+		// Based on event/messaging system, how many game objects to be created/destroyed
+		// will be updated here
+		void Update(float deltaTime) override;
 
-		///Create initialize and Id a GOC from the data file.
-		GameObjectComposition* Create(const std::string& filename);
+		// Communicate with other systems
+		void SendMessage(Message* message) override;
 
-		///Add a GOC to the destroy list for delayed destruction.
-		void Destroy(GameObjectComposition* gameObject);
+		std::string GetName() override { return "Factory"; }
 
-		///Update the factory, destroying dead objects.
-		virtual void Update(float dt) override;
+		// Serialise all known ComponentMakers
+		void SerialiseGameObjs(int json_thing);
 
-		///Name of the system is factory.
-		virtual std::string GetName() override { return "Factory"; }
+		// Future Feature?
+		// void AddCM();
 
-		///Message Interface see Message.h
-		virtual void SendMessage(Message* message) override;
+		// Create all known ComponentMaker of their type, eg. Physics / Graphics
+		void InitCM(const std::string& name, ComponentMaker* newComponent);
 
-		///Destroy all the GOCs in the world. Used for final shutdown.
-		void DestroyAllObjects();
+		// Since the 
+		void DeleteAllCMs(std::map<std::string, ComponentMaker*> ComponentMakers);
 
-		///Create and Id a GOC at runtime. Used to dynamically build GOC.
-		///After components have been added call GOC->Initialize().
-		GameObjectComposition* CreateEmptyComposition();
+		// Creates a game object with a component list, if component list is empty, no components
+		// will be tied to the game object
+		void CreateGameObject(std::vector<IComponent*> componentsList = std::vector<IComponent*>());
 
-		///Build a composition and serialize from the data file but do not initialize the GOC.
-		///Used to create a composition and then adjust its data before initialization
-		///see GameObjectComposition::Initialize for details.
-		GameObjectComposition* BuildAndSerialize(const std::string& filename);
-
-		///Id object and store it in the object map.
-		void IDGameObject(GameObjectComposition* gameObject);
-
-		///Add a component creator enabling data driven composition
-		void AddComponentCreator(const std::string& name, ComponentCreator* creator);
-
-		///Get the game object with given id. This function will return NULL if
-		///the object has been destroyed.
-		GameObjectComposition* GetObjectWithID(GOCID id);
-
+		~Factory() override;
 	private:
-		///Used to incrementally generate unique id's.
-		unsigned LastGameObjectID;
+		// Needs to hold all of the componentmakers to know what available componentmakers are there
+		// Does not need to have the game objects because that is the gameobjmanager job to hold
+		// Strictly only to create game objects and let go from there on
 
-		///Map of component creator used for data driven composition
-		typedef std::map<std::string, ComponentCreator*> ComponentMapType;
-		ComponentMapType ComponentMap;
+		// For now we use map to hold the componentmakers, might change in the future
+		std::map<std::string, ComponentMaker*> m_ComponentMakers;
 
-		///Map of GOC to their Ids used for safe referencing of game objects
-		typedef std::map<unsigned, GameObjectComposition*> GameObjectIDMapType;
-		GameObjectIDMapType GameObjectIDMap;
+		std::vector<GameObject> m_WaitingList;
 
-		///Objects to be deleted
-		///this is a set to prevent problems when a game object
-		///is deleted in multiple locations
-		std::set<GameObjectComposition*> ObjectsToBeDeleted;
+		bool toUpdate = false;
 
 	};
 
-	extern GameObjectFactory* FACTORY;
+	extern Factory* FACTORY;
 }
 

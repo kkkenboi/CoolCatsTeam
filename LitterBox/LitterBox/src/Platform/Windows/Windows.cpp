@@ -6,13 +6,20 @@
 
 namespace LB
 {
-	WindowsSystem::WindowsSystem() 
+    Windows::Windows()
 	{
         // Ensure that there is only one window as it should only be called once for one engine
         // 
         // 
         // Set the global pointer to the windows system
-        //WINDOWSSYSTEM = this;
+        if (!WINDOWSSYSTEM)
+        {
+            WINDOWSSYSTEM = this;
+        }
+        else
+        {
+            std::cerr << "Windows System already exist\n";
+        }
 
         if (!glfwInit()) {
             std::cout << "GLFW init has failed - abort program!!!" << std::endl;
@@ -75,14 +82,14 @@ namespace LB
         //return true;
 	}
 
-	WindowsSystem::~WindowsSystem()
+    Windows::~Windows()
 	{
         glfwDestroyWindow(this->m_Data.PtrToWindow);
         glfwTerminate();
         // If there are any resources allocated, delete before destructing WindowsSystem
 	}
 
-	void WindowsSystem::Update(float dt)
+	void Windows::Update(float dt)
 	{
         dt; // Not in use as of now
         if (glfwWindowShouldClose(this->m_Data.PtrToWindow)) 
@@ -95,7 +102,7 @@ namespace LB
 
     }//Update the system every frame
 
-    void WindowsSystem::Draw(WindowsData m_Data)
+    void Windows::Draw(WindowsData m_Data)
     {
         // Rendering portion
 
@@ -106,7 +113,7 @@ namespace LB
     }//Update the system every frame
 
 
-    void WindowsSystem::ErrorCB(int error, char const* description)
+    void Windows::ErrorCB(int error, char const* description)
     {
         UNREFERENCED_PARAMETER(error);
         UNREFERENCED_PARAMETER(description);
@@ -115,7 +122,7 @@ namespace LB
         #endif
 
     }
-    void WindowsSystem::FrameBufferCB(GLFWwindow* ptr_win, int width, int height)
+    void Windows::FrameBufferCB(GLFWwindow* ptr_win, int width, int height)
     {
         UNREFERENCED_PARAMETER(ptr_win);
         #ifdef _DEBUG
@@ -123,7 +130,7 @@ namespace LB
         #endif
     }
 
-    void WindowsSystem::KeyCB(GLFWwindow* pwin, int key, int scancode, int action, int mod)
+    void Windows::KeyCB(GLFWwindow* pwin, int key, int scancode, int action, int mod)
     {
         UNREFERENCED_PARAMETER(mod);
         UNREFERENCED_PARAMETER(scancode);
@@ -176,7 +183,7 @@ namespace LB
 
     }
 
-    void WindowsSystem::MouseButtonCB(GLFWwindow* pwin, int button, int action, int mod)
+    void Windows::MouseButtonCB(GLFWwindow* pwin, int button, int action, int mod)
     {
         UNREFERENCED_PARAMETER(mod);
         UNREFERENCED_PARAMETER(pwin);
@@ -207,7 +214,7 @@ namespace LB
 
     }
 
-    void WindowsSystem::MousePositionCB(GLFWwindow* pwin, double xpos, double ypos)
+    void Windows::MousePositionCB(GLFWwindow* pwin, double xpos, double ypos)
     {
         UNREFERENCED_PARAMETER(pwin);
         UNREFERENCED_PARAMETER(xpos);
@@ -217,7 +224,7 @@ namespace LB
         #endif
     }
 
-    void WindowsSystem::MouseScrollCB(GLFWwindow* pwin, double xoffset, double yoffset)
+    void Windows::MouseScrollCB(GLFWwindow* pwin, double xoffset, double yoffset)
     {
         UNREFERENCED_PARAMETER(pwin);
         UNREFERENCED_PARAMETER(xoffset);

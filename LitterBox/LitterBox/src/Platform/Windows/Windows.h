@@ -24,11 +24,11 @@ namespace LB
 
 	///Basic manager for windows. Implements the windows message pump and
 	///broadcasts user input messages to all the systems.
-	class WindowsSystem : public ISystem
+	class Windows : public ISystem
 	{
 	public:
-		WindowsSystem();
-		~WindowsSystem();
+		Windows();
+		~Windows();
 
 		virtual void Update(float dt);						//Update the system every frame
 		virtual void Draw(WindowsData m_Data);				//Update the system every frame
@@ -63,5 +63,5 @@ namespace LB
 	};
 
 
-	extern WindowsSystem* WINDOWSSYSTEM;
+	extern Windows* WINDOWSSYSTEM;
 }

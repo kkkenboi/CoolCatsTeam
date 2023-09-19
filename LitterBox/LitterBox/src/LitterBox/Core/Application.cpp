@@ -11,21 +11,22 @@ namespace LB {
 		// Setting up LitterBox Engine with the available systems
 		Engine = new LBEngine();
 
-		WindowsSystem* windows = new WindowsSystem();
+		Windows* windows = new Windows();
+		Factory* factory = new Factory();
 		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
 
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
-		Engine->AddSystem(new GameObjectFactory());
-
+		Engine->AddSystem(factory);
 
 		Engine->Initialize();
 
 	}
 	Application::~Application()
 	{
-		//Delete all the game objects
-		FACTORY->DestroyAllObjects();
+		////Delete all the game objects
+		//FACTORY->DestroyAllObjects();
+		//delete GOMANAGER->m_GameObjects;
 
 		//Delete all the systems
 		Engine->DestroySystems();
