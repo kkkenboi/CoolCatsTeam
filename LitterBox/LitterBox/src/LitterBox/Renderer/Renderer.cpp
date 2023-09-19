@@ -271,7 +271,7 @@ Renderer::RenderSystem::~RenderSystem()
 		GRAPHICS = nullptr;
 }
 
-void Renderer::RenderSystem::Update(float dt)
+void Renderer::RenderSystem::Update()
 {
 	object_renderer.update_buff();
 	glClearColor(.3f, 0.5f, .8f, 1.f);

@@ -8,7 +8,9 @@ namespace LB {
 
 		WindowsSystem* windows = new WindowsSystem();
 		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
+		Time* time = new Time();
 
+		Engine->AddSystem(time);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
 

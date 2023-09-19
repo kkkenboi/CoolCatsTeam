@@ -17,22 +17,45 @@ namespace LB {
 	class Time : public ISystem 
 	{
 		public:
-		float GetDeltaTime();
-		float GetFixedDeltaTime();
+		Time(int maxFrameRate = 100, int fixedFrameRate = 50);
 
-		float GetUnscaledDeltaTime();
-		float GetUnscaledFixedDeltaTime();
+		virtual std::string GetName() { return "Time System"; }
 
-		float GetTimeScale();
-		void SetTimeScale(float newTimeScale);
+		void LBFrameStart();
+		void LBFrameEnd();
 
-		float GetTime();
+		void SetMaxFrameRate(double fps);
+		void SetFixedFrameRate(double fps);
+
+		double GetDeltaTime();
+		double GetFixedDeltaTime();
+
+		double GetUnscaledDeltaTime();
+		double GetUnscaledFixedDeltaTime();
+
+		double GetTimeScale();
+		void SetTimeScale(double newTimeScale);
+
+		double GetTime();
+
+		bool ShouldFixedUpdate();
+
+		void Sleep(double time);
 
 		private:
-		float m_deltaTime, m_fixedDeltaTime;
-		float m_unscaledDeltaTime, m_unscaledFixedDeltaTime;
-		float m_time, m_timeScale;
+		std::chrono::high_resolution_clock::time_point m_frameStart, m_frameEnd;
+		std::chrono::duration<double> m_frameDuration;
 
-		int m_targetFrameRate;
+		double m_deltaTime{}, m_unscaledDeltaTime{};
+		double m_time{ 0.0 }, m_timeScale{ 1.0 };
+
+		double m_elapsedTime{};
+
+		double m_minDeltaTime, m_fixedDeltaTime, m_unscaledFixedDeltaTime;
+		int m_maxFrameRate, m_fixedFrameRate;
 	};
+
+	// A pointer to the system object in the core engine
+	// made to be singleton
+	extern Time* TIME;
 }

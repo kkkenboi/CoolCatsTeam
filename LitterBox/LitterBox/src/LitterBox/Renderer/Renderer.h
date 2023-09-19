@@ -85,7 +85,7 @@ namespace Renderer {
 		RenderSystem();
 		~RenderSystem();
 
-		virtual void Update(float dt);
+		virtual void Update();
 		virtual void Draw();
 		virtual std::string GetName() { return "Rendering System"; }
 	};

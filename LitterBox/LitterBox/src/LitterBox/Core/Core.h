@@ -26,12 +26,11 @@ namespace LB
 	private:
 		//Tracks all the systems the game uses
 		std::vector<ISystem*> Systems;
-		//The last time the game was updated
-		float m_DeltaTime;
 		//Is the game running (true) or being shut down (false)?
 		bool m_Running;
-		float m_FPS;
-		double m_FPSInterval = 1.0;
+
+		float m_FPS{};
+		double m_FPSInterval{ 1.0 };
 	};
 
 	//A global pointer to the instance of the core
