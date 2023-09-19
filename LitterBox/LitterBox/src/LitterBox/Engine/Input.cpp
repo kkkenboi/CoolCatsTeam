@@ -1,14 +1,13 @@
 #include "Input.h"
 #include <map>
 
-#include <iostream>
-
 namespace LBInput
 {
-	std::map<KeyCode, Key> inputKeys;
+	std::map<KeyCode, Key> inputKeys; //Mao create a new pair a keycode to key when it doesnt exist
 
 	void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod)
 	{
+		//all the functions subscribe
 		if (action == GLFW_PRESS)
 		{
 			inputKeys[(KeyCode)key].onTrigger.Invoke(); //invoke, notifying all subscribers for the keycode on Trigger
@@ -24,7 +23,8 @@ namespace LBInput
 		}
 	}
 
-	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) {
+	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) //overload function due to  glfw mouscallback have different sets of parameters
+	{
 		InvokeKeyPressed(pwin, button, 0, action, mod);
 	}
 
