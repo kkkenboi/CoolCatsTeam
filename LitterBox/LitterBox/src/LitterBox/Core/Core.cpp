@@ -48,9 +48,10 @@ namespace LB
 					Systems[i]->FixedUpdate();
 				}
 			}
+
 			// Update FPS counter
-			UpdateFPS(m_FPSInterval);
-			//std::cout << m_FPS << '\n';
+			/*UpdateFPS(m_FPSInterval);
+			std::cout << m_FPS << '\n';*/
 
 			TIME->LBFrameEnd();
 		}

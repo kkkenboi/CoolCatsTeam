@@ -85,17 +85,17 @@ unsigned int create_shader(const char* vertex_shader, const char* fragment_shade
 }
 
 Renderer::render_Object::render_Object(
-	vec2 pos, 
-	float width, 
-	float height, 
-	float scale, 
+	vec2 pos,
+	float width,
+	float height,
+	float scale,
 	vec3 color,
 	std::array<vec2, 4> uv,
 	int text,
 	bool active) :
-	position{ pos }, scal{ scale }, w{ width }, h{ height }, 
-	col{ color }, activated{ active }, quad_id{UINT_MAX}, texture{(int)text},
-	uv {uv}
+	position{ pos }, scal{ scale }, w{ width }, h{ height },
+	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ (int)text },
+	uv{ uv }
 {
 	if (!GRAPHICS) {
 		std::cerr << "GRAPHICS SYSTEM NOT INITIALIZED" << std::endl;
@@ -241,7 +241,7 @@ void Renderer::Renderer::update_buff()
 		float x_pos{ e->w * 0.5f * e->scal };
 		float y_pos{ e->h * 0.5f * e->scal };
 
-		unsigned short idx{ unsigned short (e->get_index()) };
+		unsigned short idx{ unsigned short(e->get_index()) };
 
 		index_buff.at(i) = index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
 			(unsigned short)(idx + 2), (unsigned short)(idx + 3), idx} };
@@ -270,7 +270,7 @@ void Renderer::Renderer::update_buff()
 	GLenum err = glGetError();
 	if (err != GL_NO_ERROR)
 		std::cerr << (int)err << std::endl;
-	
+
 }
 //----------------------------------------------RENDERER---------------------------------------------------
 
@@ -320,6 +320,28 @@ Renderer::RenderSystem::~RenderSystem()
 		GRAPHICS = nullptr;
 }
 
+std::array<std::array<Renderer::vec2, 4>, 18> frames{
+	Renderer::vec2{0.f, 0.6f}, Renderer::vec2{.12f, .6f}, Renderer::vec2{.12f, .72f}, Renderer::vec2{0.f, .72f},
+		Renderer::vec2{.12f, 0.6f}, Renderer::vec2{.23f, .6f}, Renderer::vec2{.23f, .72f}, Renderer::vec2{.12f, .72f},
+		Renderer::vec2{0.23f, 0.6f}, Renderer::vec2{.345f, .6f}, Renderer::vec2{.345f, .72f}, Renderer::vec2{0.23f, .72f},
+		Renderer::vec2{0.345f, 0.6f}, Renderer::vec2{.45f, .6f}, Renderer::vec2{.45f, .72f}, Renderer::vec2{0.345f, .72f},
+		Renderer::vec2{0.45f, 0.6f}, Renderer::vec2{.55f, .6f}, Renderer::vec2{.55f, .72f}, Renderer::vec2{0.45f, .72f},
+		Renderer::vec2{0.55f, 0.6f}, Renderer::vec2{.65f, .6f}, Renderer::vec2{.65f, .72f}, Renderer::vec2{0.55f, .72f},
+		Renderer::vec2{0.65f, 0.6f}, Renderer::vec2{.755f, .6f}, Renderer::vec2{.755f, .72f}, Renderer::vec2{0.65f, .72f},
+		Renderer::vec2{0.755f, 0.6f}, Renderer::vec2{.85f, .6f}, Renderer::vec2{.85f, .72f}, Renderer::vec2{0.755f, .72f},
+		Renderer::vec2{0.85f, 0.6f}, Renderer::vec2{.94f, .6f}, Renderer::vec2{.94f, .72f}, Renderer::vec2{0.85f, .72f},
+
+		Renderer::vec2{0.f, .458f}, Renderer::vec2{.09f, .458f}, Renderer::vec2{.09f, .59f}, Renderer::vec2{0.f, .59f},
+		Renderer::vec2{.09f, .458f}, Renderer::vec2{.19f, .458f}, Renderer::vec2{.19f, .59f}, Renderer::vec2{.09f, .59f},
+		Renderer::vec2{0.19f, .458f}, Renderer::vec2{.29f, .458f}, Renderer::vec2{.29f, .59f}, Renderer::vec2{0.19f, .59f},
+		Renderer::vec2{0.29f, .458f}, Renderer::vec2{.39f, .458f}, Renderer::vec2{.39f, .59f}, Renderer::vec2{0.29f, .59f},
+		Renderer::vec2{0.39f, .458f}, Renderer::vec2{.51f, .458f}, Renderer::vec2{.51f, .59f}, Renderer::vec2{0.39f, .59f},
+		Renderer::vec2{0.51f, .458f}, Renderer::vec2{.6f, .458f}, Renderer::vec2{.6f, .59f}, Renderer::vec2{0.51f, .59f},
+		Renderer::vec2{0.6f, .458f}, Renderer::vec2{.7f, .458f}, Renderer::vec2{.7f, .59f}, Renderer::vec2{0.6f, .59f},
+		Renderer::vec2{0.7f, .458f}, Renderer::vec2{.8f, .458f}, Renderer::vec2{.8f, .59f}, Renderer::vec2{0.7f, .59f},
+		Renderer::vec2{0.8f, .458f}, Renderer::vec2{.94f, .458f}, Renderer::vec2{.94f, .59f}, Renderer::vec2{0.8f, .59f}
+};
+
 void Renderer::RenderSystem::Update()
 {
 	static int frame_p_sec{ 0 };
@@ -361,8 +383,8 @@ void Renderer::RenderSystem::flush_textures()
 
 
 Renderer::Texture::Texture(const std::string& path) :
-	id{0}, file_path{path}, local_buff{nullptr},
-	w{0}, h{0}, fluff{0}
+	id{ 0 }, file_path{ path }, local_buff{ nullptr },
+	w{ 0 }, h{ 0 }, fluff{ 0 }
 {
 	stbi_set_flip_vertically_on_load(1);
 
@@ -379,7 +401,7 @@ Renderer::Texture::Texture(const std::string& path) :
 
 	stbi_image_free(local_buff);
 
-	
+
 	glTextureParameteri(id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTextureParameteri(id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
@@ -406,7 +428,7 @@ bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const 
 			break;
 	}
 
-	textures.emplace(std::make_pair(name, std::make_pair(new Texture{file_path}, i)));
+	textures.emplace(std::make_pair(name, std::make_pair(new Texture{ file_path }, i)));
 	//getting the pair then the texture id
 	glBindTextureUnit(0 + i, textures.find(name)->second.first->get_tex());
 	free[i] = true;

@@ -55,7 +55,6 @@ namespace LB {
 		int m_maxFrameRate, m_fixedFrameRate;
 	};
 
-	// A pointer to the system object in the core engine
-	// made to be singleton
+	// A pointer to the system object in the core engine made to be singleton
 	extern Time* TIME;
 }
