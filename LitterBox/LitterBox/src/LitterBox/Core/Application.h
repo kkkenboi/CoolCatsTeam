@@ -1,7 +1,7 @@
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Renderer/Renderer.h"
+#include "LitterBox/Engine/Time.h"
 #include "Core.h"
-
 
 namespace LB {
 	class Application 

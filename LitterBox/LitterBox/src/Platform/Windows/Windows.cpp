@@ -89,9 +89,8 @@ namespace LB
         // If there are any resources allocated, delete before destructing WindowsSystem
 	}
 
-	void WindowsSystem::Update(float dt)
+	void WindowsSystem::Update()
 	{
-        dt; // Not in use as of now
         if (glfwWindowShouldClose(this->m_Data.PtrToWindow)) 
         {
             MessageQuit q;
