@@ -16,7 +16,6 @@ namespace LB
 	class IComponent
 	{
 	public:
-		IComponent();
 
 		virtual void Initialise() = 0;
 		virtual void Serialise() = 0;
@@ -38,8 +37,8 @@ namespace LB
 
 		ComponentTypeID TypeID;
 		///Create the component
-		virtual IComponent* Create();
-		virtual ~ComponentMaker() = 0;
+		virtual IComponent* Create() = 0;
+		virtual ~ComponentMaker() {};
 
 	};
 

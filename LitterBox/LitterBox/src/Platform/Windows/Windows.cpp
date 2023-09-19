@@ -6,6 +6,8 @@
 
 namespace LB
 {
+    Windows* WINDOWSSYSTEM = nullptr;
+
     Windows::Windows()
 	{
         // Ensure that there is only one window as it should only be called once for one engine
