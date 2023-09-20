@@ -1,3 +1,13 @@
+/*!************************************************************************
+ \file			Time.cpp
+ \author		Ang Jiawei Jarrett
+ \par DP email: a.jiaweijarrett@digipen.edu
+ \par Course:	CSD2401A
+ \date			19-09-2023
+ \brief
+
+**************************************************************************/
+
 #include "Time.h"
 
 namespace LB {
@@ -87,6 +97,7 @@ namespace LB {
 	void Time::SetTimeScale(double newTimeScale)
 	{
 		m_timeScale = newTimeScale;
+		m_fixedDeltaTime = m_unscaledFixedDeltaTime * m_timeScale;
 	}
 
 	double Time::GetTime()
@@ -98,4 +109,10 @@ namespace LB {
 	{
 		std::this_thread::sleep_for(std::chrono::duration<double>(time));
 	}
+
+	void Time::Pause(bool shouldPause) 
+	{
+
+	}
+
 }
