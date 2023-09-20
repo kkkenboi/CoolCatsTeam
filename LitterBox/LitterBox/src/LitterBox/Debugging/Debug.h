@@ -25,14 +25,14 @@ namespace LB
 
 		void SetColor(Vec4<int> color);
 
-		void DrawLine(Vec2<int> start, Vec2<int> end);
 		void DrawLine(Vec2<int> start, Vec2<int> end, Vec4<int> color);
+		void DrawLine(Vec2<int> start, Vec2<int> end);
 
 		//void DrawCircle(Vec2<int> center, float radius);
 		//void DrawCircle(Vec2<int> center, float radius, Vec4<int> color);
 
-		void DrawBox(Vec2<int> center, float length);
 		void DrawBox(Vec2<int> center, float length, Vec4<int> color);
+		void DrawBox(Vec2<int> center, float length);
 
 		private:
 		Vec2<int> m_writePos;

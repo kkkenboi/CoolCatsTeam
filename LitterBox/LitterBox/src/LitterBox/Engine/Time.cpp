@@ -97,6 +97,7 @@ namespace LB {
 	void Time::SetTimeScale(double newTimeScale)
 	{
 		m_timeScale = newTimeScale;
+		m_fixedDeltaTime = m_unscaledFixedDeltaTime * m_timeScale;
 	}
 
 	double Time::GetTime()
@@ -108,4 +109,10 @@ namespace LB {
 	{
 		std::this_thread::sleep_for(std::chrono::duration<double>(time));
 	}
+
+	void Time::Pause(bool shouldPause) 
+	{
+
+	}
+
 }

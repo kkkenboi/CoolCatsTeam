@@ -18,23 +18,23 @@ namespace LB
 		m_drawColor = color;
 	}
 
-	void Debug::DrawLine(Vec2<int> start, Vec2<int> end)
+	void Debug::DrawLine(Vec2<int> start, Vec2<int> end, Vec4<int> color)
 	{
 
 	}
 
-	void Debug::DrawLine(Vec2<int> start, Vec2<int> end, Vec4<int> color)
+	void Debug::DrawLine(Vec2<int> start, Vec2<int> end)
+	{
+		DrawLine(start, end, m_drawColor);
+	}
+
+	void Debug::DrawBox(Vec2<int> center, float length, Vec4<int> color)
 	{
 
 	}
 
 	void Debug::DrawBox(Vec2<int> center, float length)
 	{
-
-	}
-
-	void Debug::DrawBox(Vec2<int> center, float length, Vec4<int> color)
-	{
-
+		DrawBox(center, length, m_drawColor);
 	}
 }
