@@ -29,35 +29,35 @@ namespace LBMatrix
 		vec[2] = { a31, a32, a33 };
 	}
 
-	Matrix3x3& Matrix3x3::operator=(const Matrix3x3& rhs)
-	{
-		// TODO: insert return statement here
-		matrix.m00 = rhs.matrix.m00; matrix.m01 = rhs.matrix.m01; matrix.m02 = rhs.matrix.m02;
-		matrix.m10 = rhs.matrix.m10; matrix.m11 = rhs.matrix.m11; matrix.m12 = rhs.matrix.m12;
-		matrix.m20 = rhs.matrix.m20; matrix.m21 = rhs.matrix.m21; matrix.m22 = rhs.matrix.m22;
-		return *this;
-	}
+	//Matrix3x3& Matrix3x3::operator=(const Matrix3x3& rhs)
+	//{
+	//	// TODO: insert return statement here
+	//	matrix.m00 = rhs.matrix.m00; matrix.m01 = rhs.matrix.m01; matrix.m02 = rhs.matrix.m02;
+	//	matrix.m10 = rhs.matrix.m10; matrix.m11 = rhs.matrix.m11; matrix.m12 = rhs.matrix.m12;
+	//	matrix.m20 = rhs.matrix.m20; matrix.m21 = rhs.matrix.m21; matrix.m22 = rhs.matrix.m22;
+	//	return *this;
+	//}
 
-	Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& rhs)
-	{
-		// TODO: insert return statement here
-		Matrix3x3 newM;
+	//Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& rhs)
+	//{
+	//	// TODO: insert return statement here
+	//	Matrix3x3 newM;
 
-		newM.matrix.m00 = matrix.m00 * rhs.matrix.m00 + matrix.m01 * rhs.matrix.m10 + matrix.m02 * rhs.matrix.m20;
-		newM.matrix.m10 = matrix.m10 * rhs.matrix.m00 + matrix.m11 * rhs.matrix.m10 + matrix.m12 * rhs.matrix.m20;
-		newM.matrix.m20 = matrix.m20 * rhs.matrix.m00 + matrix.m21 * rhs.matrix.m10 + matrix.m22 * rhs.matrix.m20;
+	//	newM.matrix.m00 = matrix.m00 * rhs.matrix.m00 + matrix.m01 * rhs.matrix.m10 + matrix.m02 * rhs.matrix.m20;
+	//	newM.matrix.m10 = matrix.m10 * rhs.matrix.m00 + matrix.m11 * rhs.matrix.m10 + matrix.m12 * rhs.matrix.m20;
+	//	newM.matrix.m20 = matrix.m20 * rhs.matrix.m00 + matrix.m21 * rhs.matrix.m10 + matrix.m22 * rhs.matrix.m20;
 
 
-		newM.matrix.m01 = matrix.m00 * rhs.matrix.m01 + matrix.m01 * rhs.matrix.m11 + matrix.m02 * rhs.matrix.m21;
-		newM.matrix.m11 = matrix.m10 * rhs.matrix.m01 + matrix.m11 * rhs.matrix.m11 + matrix.m12 * rhs.matrix.m21;
-		newM.matrix.m21 = matrix.m20 * rhs.matrix.m01 + matrix.m21 * rhs.matrix.m11 + matrix.m22 * rhs.matrix.m21;
+	//	newM.matrix.m01 = matrix.m00 * rhs.matrix.m01 + matrix.m01 * rhs.matrix.m11 + matrix.m02 * rhs.matrix.m21;
+	//	newM.matrix.m11 = matrix.m10 * rhs.matrix.m01 + matrix.m11 * rhs.matrix.m11 + matrix.m12 * rhs.matrix.m21;
+	//	newM.matrix.m21 = matrix.m20 * rhs.matrix.m01 + matrix.m21 * rhs.matrix.m11 + matrix.m22 * rhs.matrix.m21;
 
-		newM.matrix.m02 = matrix.m00 * rhs.matrix.m02 + matrix.m01 * rhs.matrix.m12 + matrix.m02 * rhs.matrix.m22;
-		newM.matrix.m12 = matrix.m10 * rhs.matrix.m02 + matrix.m11 * rhs.matrix.m12 + matrix.m12 * rhs.matrix.m22;
-		newM.matrix.m22 = matrix.m20 * rhs.matrix.m02 + matrix.m21 * rhs.matrix.m12 + matrix.m22 * rhs.matrix.m22;
+	//	newM.matrix.m02 = matrix.m00 * rhs.matrix.m02 + matrix.m01 * rhs.matrix.m12 + matrix.m02 * rhs.matrix.m22;
+	//	newM.matrix.m12 = matrix.m10 * rhs.matrix.m02 + matrix.m11 * rhs.matrix.m12 + matrix.m12 * rhs.matrix.m22;
+	//	newM.matrix.m22 = matrix.m20 * rhs.matrix.m02 + matrix.m21 * rhs.matrix.m12 + matrix.m22 * rhs.matrix.m22;
 
-		return newM;
-	}
+	//	return newM;
+	//}
 
 
 
