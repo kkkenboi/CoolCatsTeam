@@ -312,6 +312,65 @@ bool CollisionIntersection_BoxBox_SAT(Vec2<float>* verticesA, Vec2<float>* verti
 	return true;
 }
 
+// For CircleBox SAT Collision, we need to check instead of the edges of the
+// circle, we need to check only 1 more axis after checking all the axis of
+// the given box, we need to check the axis of the circle's center 
+bool CollisionIntersection_CircleBox_SAT(Vec2<float> circleCenter, float circleRadius, Vec2<float>* verticesBox, Vec2<float> normal_out, float depth_out)
+{
+	normal_out = Vec2<float>{ 0.f, 0.f };
+	depth_out = 100000.f;
+
+	// Loop through each edge of box
+	for (int i = 0; i < 4; ++i)
+	{
+		// Get two vertices from box
+		Vec2<float> vert1 = verticesBox[i];
+		// We get the remainder of 4 as we do not want to loop out of the array
+		// This also ensure that we get pt3 and pt0 as the pair of vertices which is right
+		Vec2<float> vert2 = verticesBox[(i + 1) % 4];
+
+		// We now get the vector from 0 to 1 for example
+		Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y };
+
+		// Now we have the normal/axis from box
+		Vec2<float> axis{ -vecA.y , vecA.x };
+
+
+		float minProjValueA{ 0.f };
+		float maxProjValueA{ 0.f };
+
+		float minProjValueB{ 0.f };
+		float maxProjValueB{ 0.f };
+
+
+		// Project all points onto the axis
+		ProjectPointsOntoAxis(axis, verticesBox, minProjValueA, maxProjValueA);
+		ProjectCircleOntoAxis(axis, circleCenter, circleRadius, minProjValueB, maxProjValueB);
+
+		// Checks if we can find separation by checking if the
+		// min projection values of either object is larger than the max
+		// projection values of the other object
+		if (maxProjValueA <= minProjValueB || maxProjValueB <= minProjValueA) {
+			return false;
+		}
+
+		// We check for the depth here now based on knowing that
+		// the two max values being larger than the two min values
+		float axisDepth = PHY_MATH::FindMin(maxProjValueA - minProjValueB, maxProjValueB - minProjValueA);
+
+		if (axisDepth < depth_out)
+		{
+			depth_out = axisDepth;
+			normal_out = axis;
+		}
+
+	} // End of looping through box's edges
+
+	// Now we need to check the axis from the circle center to closest vertice to circle center
+	morehere
+
+}
+
 void ProjectPointsOntoAxis(Vec2<float> axisToProj, Vec2<float>*verticesBody, float minPtOnAxis, float maxPtOnAxis) {
 	// get some arbitrary min and max things to update
 	minPtOnAxis = 100000.f;
@@ -335,6 +394,35 @@ void ProjectPointsOntoAxis(Vec2<float> axisToProj, Vec2<float>*verticesBody, flo
 	}
 }
 
+void ProjectCircleOntoAxis(Vec2<float> axisToProj, Vec2<float> center, float radius, float minPtOnAxis, float maxPtOnAxis)
+{
+	// Arbitrary min and max things to update
+	minPtOnAxis = 100000.f;
+	maxPtOnAxis = -100000.f;
+
+	// Get the direction of the axis
+	Vec2<float> direction = PHY_MATH::Normalize(axisToProj);
+	//Vec2<float> directionNegative{ -direction.x, -direction.y };
+	// Use this axis direction to have the vector of magnitude radius
+	Vec2<float> directionMagnitudeRadius = direction * radius;
+
+	// Grab the two points from the edge of the circle
+	Vec2<float> point1{ center.x + directionMagnitudeRadius.x, center.y + directionMagnitudeRadius.y };
+	Vec2<float> point2{ center.x - directionMagnitudeRadius.x, center.y - directionMagnitudeRadius.y };
+
+
+	minPtOnAxis = PHY_MATH::DotProduct(point1, axisToProj);
+	maxPtOnAxis = PHY_MATH::DotProduct(point2, axisToProj);
+
+	// Double check if the min is actually the min and max is actually the max
+	if (minPtOnAxis > maxPtOnAxis)
+	{
+		float temp = maxPtOnAxis;
+		maxPtOnAxis = minPtOnAxis;
+		minPtOnAxis = temp;
+	}
+}
+
 Vec2<float> FindCenterOfBoxVertices(Vec2<float>* vertices) 
 {
 	// Loop through all the vertices and add them together and
@@ -349,4 +437,28 @@ Vec2<float> FindCenterOfBoxVertices(Vec2<float>* vertices)
 	}
 
 	return Vec2<float>{xSum / 4, ySum / 4};
+}
+
+int FindIndexClosestPointOnBox(Vec2<float>* vertices, Vec2<float> center)
+{
+
+	// Loop through the the vertices
+	// Get the vec from vertex to center
+	// Always keep the vec with the smallest length
+
+	int arr_index = -1;
+	float minDistance = 100000.f;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		Vec2<float> vec = vertices[i];
+		float distance = PHY_MATH::Length(vec);
+
+		if (distance < minDistance)
+		{
+			minDistance = distance;
+			arr_index = i;
+		}
+	}
+	return arr_index;
 }

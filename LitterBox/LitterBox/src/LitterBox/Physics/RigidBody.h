@@ -51,6 +51,9 @@ public:
 
     SHAPETYPE mShapeType;
 
+    // =====
+    //  WRAP THIS SECTION IN A COLLIDER CLASS, separating from RigidBody
+    // =====
     // Vertices and AABB
 
     // Untransformed vertices (Vertices from origin)
@@ -58,6 +61,9 @@ public:
     Vec2<float> mTransformedVertices[4];
 
     AABB obj_aabb;
+    // =====
+    // PLS WRAP
+    // =====
 
     bool mUpdateVerticesRequired;
     bool mUpdateAABBRequired;
