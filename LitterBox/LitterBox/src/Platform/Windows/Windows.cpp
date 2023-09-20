@@ -45,8 +45,8 @@ namespace LB
 
         // Set GLFW callbacks
         glfwSetFramebufferSizeCallback(m_Data.PtrToWindow, FrameBufferCB);
-        glfwSetKeyCallback(m_Data.PtrToWindow, LBInput::InvokeKeyPressed);
-        glfwSetMouseButtonCallback(m_Data.PtrToWindow, LBInput::InvokeKeyPressed);
+        glfwSetKeyCallback(m_Data.PtrToWindow,  InvokeKeyPressed);
+        glfwSetMouseButtonCallback(m_Data.PtrToWindow, InvokeKeyPressed);
         glfwSetCursorPosCallback(m_Data.PtrToWindow, MousePositionCB);
         glfwSetScrollCallback(m_Data.PtrToWindow, MouseScrollCB);
 
@@ -77,7 +77,7 @@ namespace LB
         FrameBufferCB(m_Data.PtrToWindow, fb_width, fb_height);
 
         // Testing Input callback
-        LBInput::SubscribeToKey(PrintKey, KeyCode::KEY_W, KeyEvent::PRESSED);
+        INPUT->SubscribeToKey(PrintKey, KeyCode::KEY_W, KeyEvent::PRESSED);
 
         //return true;
 	}

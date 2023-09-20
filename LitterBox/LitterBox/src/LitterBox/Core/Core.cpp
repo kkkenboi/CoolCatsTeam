@@ -33,8 +33,6 @@ namespace LB
 		{
 			TIME->LBFrameStart();
 
-			glfwPollEvents(); // To be put into the input system side
-
 			// Update every system 
 			for (unsigned i = 0; i < Systems.size(); ++i) 
 			{

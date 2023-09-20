@@ -1,14 +1,25 @@
 #include "Input.h"
-#include <map>
 
-#include <iostream>
-
-namespace LBInput
+namespace LB
 {
-	std::map<KeyCode, Key> inputKeys;
+	InputSystem* INPUT = nullptr;
 
-	void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod)
+	InputSystem::InputSystem()
 	{
+		if (!INPUT) //when theres no input instance, assign this new input system object as input
+			INPUT = this;
+		else
+			std::cerr << "Input System already exist" << std::endl;
+	}
+	
+	void InputSystem::Update()
+	{
+		glfwPollEvents();
+	}
+
+	void InputSystem::InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod)
+	{
+		//all the functions subscribe
 		if (action == GLFW_PRESS)
 		{
 			inputKeys[(KeyCode)key].onTrigger.Invoke(); //invoke, notifying all subscribers for the keycode on Trigger
@@ -24,11 +35,12 @@ namespace LBInput
 		}
 	}
 
-	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) {
+	void InputSystem::InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) //overload function due to  glfw mouscallback have different sets of parameters
+	{
 		InvokeKeyPressed(pwin, button, 0, action, mod);
 	}
 
-	void SubscribeToKey(Event<>::func_ptr function,  KeyCode key, KeyEvent keyEvent)
+	void InputSystem::SubscribeToKey(Event<>::func_ptr function,  KeyCode key, KeyEvent keyEvent)
 	{
 		if (keyEvent == KeyEvent::TRIGGERED)
 		{
@@ -44,7 +56,7 @@ namespace LBInput
 		}
 	}
 
-	void UnsubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent)
+	void InputSystem::UnsubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent)
 	{
 		if (keyEvent == KeyEvent::TRIGGERED)
 		{
@@ -58,6 +70,14 @@ namespace LBInput
 		{
 			inputKeys[key].onReleased.Unsubscribe(function);
 		}
+	}
+
+	// For GLFW
+	void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
+		INPUT->InvokeKeyPressed(pwin, key, scancode, action, mod);
+	}
+	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) {
+		INPUT->InvokeKeyPressed(pwin, button, action, mod);
 	}
 }
 

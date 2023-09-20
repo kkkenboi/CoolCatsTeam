@@ -6,11 +6,13 @@ namespace LB {
 		// Setting up LitterBox Engine with the available systems
 		Engine = new LBEngine();
 
-		WindowsSystem* windows = new WindowsSystem();
+		Time*					time	 = new Time();
+		InputSystem*			input	 = new InputSystem();
+		WindowsSystem*			windows	 = new WindowsSystem();
 		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
-		Time* time = new Time();
 
 		Engine->AddSystem(time);
+		Engine->AddSystem(input);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
 
