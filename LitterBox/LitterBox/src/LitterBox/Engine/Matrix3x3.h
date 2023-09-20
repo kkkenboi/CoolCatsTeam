@@ -25,7 +25,7 @@ namespace LBMatrix
 			float m20, m21, m22;
 
 			//matrix();
-		};
+		} matrix[9];
 		
 		Matrix3x3();
 		~Matrix3x3();
@@ -48,7 +48,7 @@ namespace LBMatrix
 
 
 	private:
-		matrix matrix;
+		float matrix[9];
 		std::vector<std::vector<float>> vec;
 		//float** data;
 	};

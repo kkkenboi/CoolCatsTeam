@@ -1,9 +1,9 @@
 /*!************************************************************************
- \file   Events.h
- \author Ang Jiawei Jarrett
- \par    DP email: a.jiaweijarrett@digipen.edu
- \par    Course: CSD2401A
- \date   11-09-2023
+ \file          Events.h
+ \author        Ang Jiawei Jarrett
+ \par DP email: a.jiaweijarrett@digipen.edu
+ \par Course:   CSD2401A
+ \date          11-09-2023
  \brief
  This header file defines a generic event class, overloaded to support the 
  subscribing of functions (observers) that have up to 4 unique parameters.
