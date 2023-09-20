@@ -1,22 +1,16 @@
 /*!************************************************************************
-\file			MomoMaths.h
-\author			Tan Jun Rong
-\par DP email:	t.junrong@digipen.edu
-\par Course:	CSD1171B
-\par Software Engineering Project
-\date			18-01-2023
-\brief
-This header file contains functionalities to perform mathematical operations.
+ \file			Math.h
+ \author		
+ \par DP email: 
+ \par Course:	CSD2401A
+ \date			10-09-2023
+ \brief
 
-All content ?2023 DigiPen Institute of Technology Singapore.
-All rights reserved.
 **************************************************************************/
 
 #pragma once
-///////////////////////////////////////////////////////////////////////////
+
 #include <iostream>
-//#include <AEEngine.h>
-///////////////////////////////////////////////////////////////////////////
 
 /*!***********************************************************************
 \brief
@@ -108,6 +102,7 @@ bool operator==(const Vec2<T>& lhs, const Vec2<T>& rhs)
 {
 	return (lhs.x == rhs.x && lhs.y == rhs.y);
 }
+
 template<class T>
 bool operator!=(const Vec2<T>& lhs, const Vec2<T>& rhs)
 {
@@ -118,12 +113,14 @@ bool operator!=(const Vec2<T>& lhs, const Vec2<T>& rhs)
 * OPERATOR OVER LOADS FOR VECTOR ADDITION
 */
 template<class T>
-Vec2<T>& Vec2<T>::operator+=(Vec2<T>const& rhs) {	//vec2+=vec2
+Vec2<T>& Vec2<T>::operator+=(Vec2<T>const& rhs)		//vec2+=vec2
+{	
 	x += rhs.x;
 	y += rhs.y;
 	return*this;
 
 }
+
 template <class T>
 Vec3<T>& Vec3<T>::operator+=(Vec2<T> const& rhs)	//vec3+=vec2
 {
@@ -148,6 +145,7 @@ Vec4<T>& Vec4<T>::operator+=(Vec2<T> const& rhs) 	//vec4+=vec2
 	y += rhs.y;
 	return *this;
 }
+
 template <class T>
 Vec4<T>& Vec4<T>::operator+=(Vec3<T> const& rhs) 	//vec4+=vec3
 {
@@ -156,6 +154,7 @@ Vec4<T>& Vec4<T>::operator+=(Vec3<T> const& rhs) 	//vec4+=vec3
 	z += rhs.z;
 	return *this;
 }
+
 template <class T>
 Vec4<T>& Vec4<T>::operator+=(Vec4<T> const& rhs) 	//vec4+=vec4
 {
@@ -168,55 +167,72 @@ Vec4<T>& Vec4<T>::operator+=(Vec4<T> const& rhs) 	//vec4+=vec4
 
 //BINARY ADDITION
 template<class T>
-Vec2<T> operator+(Vec2<T> const& lhs, Vec2<T>const& rhs) {	//vec2+vec2
+Vec2<T> operator+(Vec2<T> const& lhs, Vec2<T>const& rhs)	//vec2+vec2
+{	
 	Vec2<T> temp{ lhs };
 	temp += rhs;
 	return temp;
 }
+
 template<class T>
-Vec3<T> operator+(Vec3<T> const& lhs, Vec3<T>const& rhs) {	//vec3+vec3
+Vec3<T> operator+(Vec3<T> const& lhs, Vec3<T>const& rhs)	//vec3+vec3
+{	
 	Vec3<T> temp{ lhs };
 	temp += rhs;
 	return temp;
 }
+
 template<class T>
-Vec3<T> operator+(Vec3<T> const& lhs, Vec2<T>const& rhs) {	//vec3+vec2
+Vec3<T> operator+(Vec3<T> const& lhs, Vec2<T>const& rhs)	//vec3+vec2
+{	
 	Vec3<T> temp{ lhs };
 	temp += rhs;
 	return temp;
 }
+
 template<class T>
-Vec3<T> operator+(Vec2<T> const& lhs, Vec3<T>const& rhs) {	//vec2+vec3
+Vec3<T> operator+(Vec2<T> const& lhs, Vec3<T>const& rhs)	//vec2+vec3
+{	
 	Vec3<T> temp{ rhs };
 	temp += lhs;
 	return temp;
 }
+
 template<class T>
-Vec4<T> operator+(Vec3<T> const& lhs, Vec4<T>const& rhs) {	//vec3+vec4
+Vec4<T> operator+(Vec3<T> const& lhs, Vec4<T>const& rhs)	//vec3+vec4
+{	
 	Vec4<T> temp{ rhs };
 	temp += lhs;
 	return temp;
 }
+
 template<class T>
-Vec4<T> operator+(Vec2<T> const& lhs, Vec4<T>const& rhs) {	//vec2+vec4
+Vec4<T> operator+(Vec2<T> const& lhs, Vec4<T>const& rhs)	//vec2+vec4
+{	
 	Vec4<T> temp{ rhs };
 	temp += lhs;
 	return temp;
 }
+
 template<class T>
-Vec4<T> operator+(Vec4<T> const& lhs, Vec2<T>const& rhs) {	//vec4+vec2
+Vec4<T> operator+(Vec4<T> const& lhs, Vec2<T>const& rhs)	//vec4+vec2
+{	
 	Vec4<T> temp{ lhs };
 	temp += rhs;
 	return temp;
 }
+
 template<class T>
-Vec4<T> operator+(Vec4<T> const& lhs, Vec3<T>const& rhs) {	//vec4+vec3
+Vec4<T> operator+(Vec4<T> const& lhs, Vec3<T>const& rhs)	//vec4+vec3
+{	
 	Vec4<T> temp{ lhs };
 	temp += rhs;
 	return temp;
 }
+
 template<class T>
-Vec4<T> operator+(Vec4<T> const& lhs, Vec4<T>const& rhs) {	//vec4+vec4
+Vec4<T> operator+(Vec4<T> const& lhs, Vec4<T>const& rhs)	//vec4+vec4
+{	
 	Vec4<T> temp{ lhs };
 	temp += rhs;
 	return temp;
@@ -226,7 +242,8 @@ Vec4<T> operator+(Vec4<T> const& lhs, Vec4<T>const& rhs) {	//vec4+vec4
 * OPERATOR OVER LOADS FOR VECTOR SUBTRACTION
 */
 template<class T>
-Vec2<T>& Vec2<T>::operator-=(Vec2<T>const& rhs) {	//vec2-=vec2
+Vec2<T>& Vec2<T>::operator-=(Vec2<T>const& rhs)		//vec2-=vec2
+{	
 	x -= rhs.x;
 	y -= rhs.y;
 	return*this;
@@ -240,7 +257,8 @@ Vec3<T>& Vec3<T>::operator-=(Vec2<T> const& rhs) 	// vec3-=vec2
 	return *this;
 }
 template<class T>
-Vec3<T>& Vec3<T>::operator-=(Vec3<T>const& rhs) { 	//vec3-=vec3
+Vec3<T>& Vec3<T>::operator-=(Vec3<T>const& rhs)		//vec3-=vec3
+{ 	
 	x -= rhs.x;
 	y -= rhs.y;
 	z -= rhs.z;
@@ -262,7 +280,8 @@ Vec4<T>& Vec4<T>::operator-=(Vec3<T> const& rhs) 	//vec4-=vec3
 	return *this;
 }
 template<class T>
-Vec4<T>& Vec4<T>::operator-=(Vec4<T>const& rhs) { //vec4-=vec4
+Vec4<T>& Vec4<T>::operator-=(Vec4<T>const& rhs)		//vec4-=vec4
+{ 
 	w -= rhs.w;
 	x -= rhs.x;
 	y -= rhs.y;
@@ -272,39 +291,48 @@ Vec4<T>& Vec4<T>::operator-=(Vec4<T>const& rhs) { //vec4-=vec4
 
 //BINARY SUBTRACTION
 template<class T>
-Vec2<T> operator-(Vec2<T> const& lhs, Vec2<T>const& rhs) {	//vec2-vec2
+Vec2<T> operator-(Vec2<T> const& lhs, Vec2<T>const& rhs)	//vec2-vec2
+{	
 	Vec2<T> temp{ lhs };
 	temp -= rhs;
 	return temp;
 }
+
 template<class T>
-Vec3<T> operator-(Vec3<T> const& lhs, Vec2<T>const& rhs) {	//vec3-vec2
+Vec3<T> operator-(Vec3<T> const& lhs, Vec2<T>const& rhs)	//vec3-vec2
+{	
 	Vec3<T> temp{ lhs };
 	temp -= rhs;
 	return temp;
 }
 
 template<class T>
-Vec3<T> operator-(Vec3<T> const& lhs, Vec3<T>const& rhs) {	//vec3-vec3
+Vec3<T> operator-(Vec3<T> const& lhs, Vec3<T>const& rhs)	//vec3-vec3
+{	
 	Vec3<T> temp{ lhs };
 	temp -= rhs;
 	return temp;
 }
 
 template<class T>
-Vec4<T> operator-(Vec4<T> const& lhs, Vec2<T>const& rhs) {	//vec4-vec2
+Vec4<T> operator-(Vec4<T> const& lhs, Vec2<T>const& rhs)	//vec4-vec2
+{	
 	Vec4<T> temp{ lhs };
 	temp -= rhs;
 	return temp;
 }
+
 template<class T>
-Vec4<T> operator-(Vec4<T> const& lhs, Vec3<T>const& rhs) {	//vec4-vec3
+Vec4<T> operator-(Vec4<T> const& lhs, Vec3<T>const& rhs)	//vec4-vec3
+{	
 	Vec4<T> temp{ lhs };
 	temp -= rhs;
 	return temp;
 }
+
 template<class T>
-Vec4<T> operator-(Vec4<T> const& lhs, Vec4<T>const& rhs) {	//vec4-vec4
+Vec4<T> operator-(Vec4<T> const& lhs, Vec4<T>const& rhs)	//vec4-vec4
+{	
 	Vec4<T> temp{ lhs };
 	temp -= rhs;
 	return temp;
@@ -320,6 +348,7 @@ Vec2<T>& Vec2<T>::operator*=(T rhs)
 	y *= rhs;
 	return *this;
 }
+
 template <class T>
 Vec3<T>& Vec3<T>::operator*=(T rhs)
 {
@@ -328,6 +357,7 @@ Vec3<T>& Vec3<T>::operator*=(T rhs)
 	z *= rhs;
 	return *this;
 }
+
 template <class T>
 Vec4<T>& Vec4<T>::operator*=(T rhs)
 {
@@ -345,6 +375,7 @@ Vec2<T> operator*(Vec2<T> const& lhs, T rhs) {
 	temp.y *= rhs;
 	return temp;
 }
+
 template<class T>
 Vec3<T> operator*(Vec3<T> const& lhs, T rhs) {
 	Vec3<T> temp{ lhs };
@@ -353,6 +384,7 @@ Vec3<T> operator*(Vec3<T> const& lhs, T rhs) {
 	temp.z *= rhs;
 	return temp;
 }
+
 template<class T>
 Vec4<T> operator*(Vec4<T> const& lhs, T rhs) {
 	Vec4<T> temp{ lhs };
@@ -362,6 +394,7 @@ Vec4<T> operator*(Vec4<T> const& lhs, T rhs) {
 	temp.w *= rhs;
 	return temp;
 }
+
 /*============================================================================
 * OPERATOR OVERLOADS FOR VECTOR COMPARISONS
 */
@@ -411,27 +444,6 @@ inline std::ostream& operator<<(std::ostream& os, Vec4<T> const& rhs)
 	return os << "(" << rhs.x << "," << rhs.y << "," << rhs.z << "," << rhs.w << ")";
 }
 
-///*!***********************************************************************
-//\brief
-//	Get X word posiiton by screen percentage.
-//\return
-//	X pos.
-//*************************************************************************/
-//inline float GetWorldXByPercentage(float percent) {
-//	return AEGfxGetWinMinX() * ((50 - percent) / 50.0f);
-//}
-
-
-///*!***********************************************************************
-//\brief
-//	Get Y word posiiton by screen percentage.
-//\return
-//	Y pos.
-//*************************************************************************/
-//inline float GetWorldYByPercentage(float percent) {
-//	return AEGfxGetWinMinY() * ((50 - percent) / 50.0f);
-//}
-//
 /*!***********************************************************************
 \brief
 	Check of a vec2 point is within a area.
@@ -440,29 +452,9 @@ inline std::ostream& operator<<(std::ostream& os, Vec4<T> const& rhs)
 	True / false.
 *************************************************************************/
 template <typename T>
-inline bool IsPointWithinRect(Vec2<T> point, Vec2<T> pos, Vec2<T> size) {
+inline bool IsPointWithinRect(Vec2<T> point, Vec2<T> pos, Vec2<T> size) 
+{
 	if (point.x < pos.x || point.x > pos.x + size.x ||
 		point.y < pos.y - size.y || point.y > pos.y) return false;
 	return true;
-}
-
-/*!***********************************************************************
-\brief
-	Check of a vec2 point is within a area.
-	Pivot: Middle.
-\return
-	True / false.
-*************************************************************************/
-inline bool MouseInsideButton(Vec2<int> mousePos, Vec2<float> btnPos, Vec2<float> btnSize) {
-	// LEFT / RIGHT BOUNDS
-	if ((mousePos.x > btnPos.x &&
-		mousePos.x < btnPos.x + btnSize.x) &&
-
-		// TOP / BOTTOM BOUNDS
-		(mousePos.y > -btnPos.y &&
-			mousePos.y < -btnPos.y + btnSize.y)) {
-
-		return true;
-	}
-	return false;
 }

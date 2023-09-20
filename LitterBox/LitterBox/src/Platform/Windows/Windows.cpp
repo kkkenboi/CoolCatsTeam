@@ -6,9 +6,13 @@
 
 namespace LB
 {
-    Windows* WINDOWSSYSTEM = nullptr;
+    WindowsSystem* WINDOWSSYSTEM = nullptr;
 
-    Windows::Windows()
+    void PrintKey() {
+        std::cout << "W Pressed :) \n";
+    }
+
+	WindowsSystem::WindowsSystem() 
 	{
         // Ensure that there is only one window as it should only be called once for one engine
         // 
@@ -50,8 +54,8 @@ namespace LB
 
         // Set GLFW callbacks
         glfwSetFramebufferSizeCallback(m_Data.PtrToWindow, FrameBufferCB);
-        glfwSetKeyCallback(m_Data.PtrToWindow, CCPInputKeyCallBack);
-        glfwSetMouseButtonCallback(m_Data.PtrToWindow, CCPInputMouseCallBack);
+        glfwSetKeyCallback(m_Data.PtrToWindow,  InvokeKeyPressed);
+        glfwSetMouseButtonCallback(m_Data.PtrToWindow, InvokeKeyPressed);
         glfwSetCursorPosCallback(m_Data.PtrToWindow, MousePositionCB);
         glfwSetScrollCallback(m_Data.PtrToWindow, MouseScrollCB);
 
@@ -81,19 +85,21 @@ namespace LB
         glfwGetFramebufferSize(m_Data.PtrToWindow, &fb_width, &fb_height);
         FrameBufferCB(m_Data.PtrToWindow, fb_width, fb_height);
 
+        // Testing Input callback
+        INPUT->SubscribeToKey(PrintKey, KeyCode::KEY_W, KeyEvent::PRESSED);
+
         //return true;
 	}
 
-    Windows::~Windows()
+    WindowsSystem::~WindowsSystem()
 	{
         glfwDestroyWindow(this->m_Data.PtrToWindow);
         glfwTerminate();
         // If there are any resources allocated, delete before destructing WindowsSystem
 	}
 
-	void Windows::Update(float dt)
+	void WindowsSystem::Update()
 	{
-        dt; // Not in use as of now
         if (glfwWindowShouldClose(this->m_Data.PtrToWindow)) 
         {
             MessageQuit q;
@@ -104,7 +110,7 @@ namespace LB
 
     }//Update the system every frame
 
-    void Windows::Draw(WindowsData m_Data)
+    void WindowsSystem::Draw(WindowsData m_Data)
     {
         // Rendering portion
 
@@ -115,7 +121,7 @@ namespace LB
     }//Update the system every frame
 
 
-    void Windows::ErrorCB(int error, char const* description)
+    void WindowsSystem::ErrorCB(int error, char const* description)
     {
         UNREFERENCED_PARAMETER(error);
         UNREFERENCED_PARAMETER(description);
@@ -124,7 +130,7 @@ namespace LB
         #endif
 
     }
-    void Windows::FrameBufferCB(GLFWwindow* ptr_win, int width, int height)
+    void WindowsSystem::FrameBufferCB(GLFWwindow* ptr_win, int width, int height)
     {
         UNREFERENCED_PARAMETER(ptr_win);
         #ifdef _DEBUG
@@ -132,7 +138,7 @@ namespace LB
         #endif
     }
 
-    void Windows::KeyCB(GLFWwindow* pwin, int key, int scancode, int action, int mod)
+    void WindowsSystem::KeyCB(GLFWwindow* pwin, int key, int scancode, int action, int mod)
     {
         UNREFERENCED_PARAMETER(mod);
         UNREFERENCED_PARAMETER(scancode);
@@ -180,12 +186,9 @@ namespace LB
             // key start changes from pressed to released
             // To use, add a switch case below
         }
-
-
-
     }
 
-    void Windows::MouseButtonCB(GLFWwindow* pwin, int button, int action, int mod)
+    void WindowsSystem::MouseButtonCB(GLFWwindow* pwin, int button, int action, int mod)
     {
         UNREFERENCED_PARAMETER(mod);
         UNREFERENCED_PARAMETER(pwin);
@@ -216,7 +219,7 @@ namespace LB
 
     }
 
-    void Windows::MousePositionCB(GLFWwindow* pwin, double xpos, double ypos)
+    void WindowsSystem::MousePositionCB(GLFWwindow* pwin, double xpos, double ypos)
     {
         UNREFERENCED_PARAMETER(pwin);
         UNREFERENCED_PARAMETER(xpos);
@@ -226,7 +229,7 @@ namespace LB
         #endif
     }
 
-    void Windows::MouseScrollCB(GLFWwindow* pwin, double xoffset, double yoffset)
+    void WindowsSystem::MouseScrollCB(GLFWwindow* pwin, double xoffset, double yoffset)
     {
         UNREFERENCED_PARAMETER(pwin);
         UNREFERENCED_PARAMETER(xoffset);

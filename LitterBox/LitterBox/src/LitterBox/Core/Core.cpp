@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Core.h"
 #include <GLFW/glfw3.h>
+#include "LitterBox/Engine/Time.h"
 
 namespace LB
 {
@@ -30,20 +31,28 @@ namespace LB
 	{
 		while (m_Running)
 		{
-			glfwPollEvents(); // To be put into the input system side
+			TIME->LBFrameStart();
+
+			// Update every system 
+			for (unsigned i = 0; i < Systems.size(); ++i) 
+			{
+				Systems[i]->Update();
+			}
+
+			if (TIME->ShouldFixedUpdate()) 
+			{
+				for (unsigned i = 0; i < Systems.size(); ++i) 
+				{
+					Systems[i]->FixedUpdate();
+				}
+			}
 
 			// Update FPS counter
-			UpdateFPS(m_FPSInterval);
-			std::cout << m_FPS << '\n';
+			/*UpdateFPS(m_FPSInterval);
+			std::cout << m_FPS << '\n';*/
 
-			
-
-			//Update every system and tell each one how much
-			//time has passed since the last update
-			for (unsigned i = 0; i < Systems.size(); ++i)
-				Systems[i]->Update(m_DeltaTime);
+			TIME->LBFrameEnd();
 		}
-
 	}
 
 	void LBEngine::BroadcastMessage(Message* message)
@@ -86,7 +95,7 @@ namespace LB
 	{
 		static double prevTime = glfwGetTime();
 		double currTime = glfwGetTime();
-		m_DeltaTime = currTime - prevTime;
+		double m_DeltaTime = currTime - prevTime;
 		prevTime = currTime;
 
 		// fps calculations
@@ -105,7 +114,5 @@ namespace LB
 			startTime = currTime;
 			count = 0.0;
 		}
-
 	}
-
 }

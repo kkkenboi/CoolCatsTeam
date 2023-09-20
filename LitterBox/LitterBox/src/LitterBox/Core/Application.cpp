@@ -1,9 +1,4 @@
 #include "Application.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-#include <fmod.hpp>
-
-
 
 namespace LB {
 	Application::Application()
@@ -11,13 +6,17 @@ namespace LB {
 		// Setting up LitterBox Engine with the available systems
 		Engine = new LBEngine();
 
-		Windows* windows = new Windows();
-		Factory* factory = new Factory();
+		Time*					time	 = new Time();
+		InputSystem*			input	 = new InputSystem();
+		WindowsSystem*			windows	 = new WindowsSystem();
+		FactorySystem*			factory	 = new FactorySystem();
 		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
 
+		Engine->AddSystem(time);
+		Engine->AddSystem(input);
+		Engine->AddSystem(factory);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
-		Engine->AddSystem(factory);
 
 		Engine->Initialize();
 

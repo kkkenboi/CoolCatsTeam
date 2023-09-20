@@ -7,16 +7,16 @@
 namespace LB
 {
 	// This class creates ComponentMakers to create Components 
-	class Factory : public ISystem
+	class FactorySystem : public ISystem
 	{
 	public:
 		// Let the factory initialize the known component types listed in the file
 		// and/or start creating game objects from a data file
-		Factory();
+		FactorySystem();
 
 		// Based on event/messaging system, how many game objects to be created/destroyed
 		// will be updated here
-		void Update(float deltaTime) override;
+		void Update() override;
 
 		// Communicate with other systems
 		void SendMessage(Message* message) override;
@@ -39,7 +39,7 @@ namespace LB
 		// will be tied to the game object
 		void CreateGameObject(std::vector<IComponent*> componentsList = std::vector<IComponent*>());
 
-		~Factory() override;
+		~FactorySystem() override;
 	private:
 		// Needs to hold all of the componentmakers to know what available componentmakers are there
 		// Does not need to have the game objects because that is the gameobjmanager job to hold
@@ -54,6 +54,6 @@ namespace LB
 
 	};
 
-	extern Factory* FACTORY;
+	extern FactorySystem* FACTORY;
 }
 

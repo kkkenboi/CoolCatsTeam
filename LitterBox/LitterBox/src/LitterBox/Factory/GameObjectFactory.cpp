@@ -4,9 +4,9 @@
 
 namespace LB
 {
-	Factory* FACTORY = nullptr;
+	FactorySystem* FACTORY = nullptr;
 
-	Factory::Factory()
+	FactorySystem::FactorySystem()
 	{
 		// Ensure singleton
 		if (!FACTORY)
@@ -45,7 +45,7 @@ namespace LB
 
 	}
 
-	void Factory::SerialiseGameObjs(int jsonThing)
+	void FactorySystem::SerialiseGameObjs(int jsonThing)
 	{
 		// Serialise the Game Objects with all of their data
 		//
@@ -54,12 +54,12 @@ namespace LB
 		// if more than one game object created, set toUpdate to true
 	}
 
-	void Factory::InitCM(const std::string& name, ComponentMaker* newComponent)
+	void FactorySystem::InitCM(const std::string& name, ComponentMaker* newComponent)
 	{
 		m_ComponentMakers[name] = newComponent;
 	}
 
-	void Factory::DeleteAllCMs(std::map<std::string, ComponentMaker*> ComponentMakers)
+	void FactorySystem::DeleteAllCMs(std::map<std::string, ComponentMaker*> ComponentMakers)
 	{
 		for (std::map<std::string, ComponentMaker*>::iterator it = ComponentMakers.begin(); it != ComponentMakers.end(); ++it)
 		{
@@ -69,9 +69,8 @@ namespace LB
 		std::cout << "ComponentMakers all deleted\n";
 	}
 
-	void Factory::Update(float deltaTime)
+	void FactorySystem::Update()
 	{
-		deltaTime;
 
 		if (toUpdate)
 		{
@@ -87,13 +86,13 @@ namespace LB
 		toUpdate = false;
 	}
 
-	void Factory::SendMessage(Message* message) 
+	void FactorySystem::SendMessage(Message* message)
 	{ 
 		UNREFERENCED_PARAMETER(message); 
 	};
 
 
-	void Factory::CreateGameObject(std::vector<IComponent*> componentsList)
+	void FactorySystem::CreateGameObject(std::vector<IComponent*> componentsList)
 	{
 		GameObject obj(componentsList);
 
@@ -105,7 +104,7 @@ namespace LB
 	}
 
 
-	Factory::~Factory()
+	FactorySystem::~FactorySystem()
 	{
 		DeleteAllCMs(m_ComponentMakers);
 

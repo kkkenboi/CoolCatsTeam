@@ -1,9 +1,9 @@
 /*!************************************************************************
- \file   Events.h
- \author Ang Jiawei Jarrett
- \par    DP email: a.jiaweijarrett@digipen.edu
- \par    Course: CSD2401A
- \date   11-09-2023
+ \file          Events.h
+ \author        Ang Jiawei Jarrett
+ \par DP email: a.jiaweijarrett@digipen.edu
+ \par Course:   CSD2401A
+ \date          11-09-2023
  \brief
  This header file defines a generic event class, overloaded to support the 
  subscribing of functions (observers) that have up to 4 unique parameters.
@@ -36,18 +36,8 @@
 template <typename... T>
 class Event 
 {
-private:
+    public:
     typedef void (*func_ptr)();
-
-    struct EventData 
-    {
-        func_ptr func;
-        int priority;
-    };
-    
-    std::list<EventData> subscribers;
-
-public:
 
     void Invoke() 
     {
@@ -92,6 +82,15 @@ public:
     {
         subscribers.clear();
     }
+
+    private:
+    struct EventData
+    {
+        func_ptr func;
+        int priority;
+    };
+
+    std::list<EventData> subscribers;
 };
 
 /*!***********************************************************************
@@ -101,18 +100,9 @@ public:
 template <typename T1, typename... T>
 class Event<T1, T...> 
 {
-private:
-    typedef void (*func_ptr)(T1);
-
-    struct EventData 
-    {
-        func_ptr func;
-        int priority;
-    };
-    
-    std::list<EventData> subscribers;
-
-public:
+    public:
+    typedef void (*func_ptr)(T1)
+        ;
     void Invoke(T1 var1) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -155,6 +145,16 @@ public:
     {
         subscribers.clear();
     }
+
+    private:
+    struct EventData
+    {
+        func_ptr func;
+        int priority;
+    };
+
+    std::list<EventData> subscribers;
+
 };
 
 /*!***********************************************************************
@@ -164,18 +164,9 @@ public:
 template <typename T1, typename T2, typename... T>
 class Event<T1, T2, T...> 
 {
-private:
+    public:
     typedef void (*func_ptr)(T1, T2);
 
-    struct EventData 
-    {
-        func_ptr func;
-        int priority;
-    };
-    
-    std::list<EventData> subscribers;
-
-public:
     void Invoke(T1 var1, T2 var2) {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
         {
@@ -215,6 +206,16 @@ public:
     {
         subscribers.clear();
     }
+
+    private:
+    struct EventData
+    {
+        func_ptr func;
+        int priority;
+    };
+
+    std::list<EventData> subscribers;
+
 };
 
 /*!***********************************************************************
@@ -222,19 +223,11 @@ public:
  Generic event with 3 parameters, for functions like func(T1 var, T2 var, T3 var)
 *************************************************************************/
 template <typename T1, typename T2, typename T3, typename... T>
-class Event<T1, T2, T3, T...> {
-private:
+class Event<T1, T2, T3, T...> 
+{
+    public:
     typedef void (*func_ptr)(T1, T2, T3);
 
-    struct EventData 
-    {
-        func_ptr func;
-        int priority;
-    };
-    
-    std::list<EventData> subscribers;
-
-public:
     void Invoke(T1 var1, T2 var2, T3 var3) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -278,6 +271,15 @@ public:
     {
         subscribers.clear();
     }
+
+    private:
+    struct EventData
+    {
+        func_ptr func;
+        int priority;
+    };
+
+    std::list<EventData> subscribers;
 };
 
 /*!***********************************************************************
@@ -287,18 +289,9 @@ public:
 template <typename T1, typename T2, typename T3, typename T4, typename... T>
 class Event<T1, T2, T3, T4, T...> 
 {
-private:
+    public:
     typedef void (*func_ptr)(T1, T2, T3, T4);
 
-    struct EventData 
-    {
-        func_ptr func;
-        int priority;
-    };
-    
-    std::list<EventData> subscribers;
-
-public:
     void Invoke(T1 var1, T2 var2, T3 var3, T4 var4) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -341,4 +334,13 @@ public:
     {
         subscribers.clear();
     }
+
+    private:
+    struct EventData
+    {
+        func_ptr func;
+        int priority;
+    };
+
+    std::list<EventData> subscribers;
 };
