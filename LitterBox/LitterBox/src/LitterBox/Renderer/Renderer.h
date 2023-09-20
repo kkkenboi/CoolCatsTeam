@@ -3,6 +3,7 @@
 #include <utility>
 #include <array>
 #include <list>
+#include <map>
 
 namespace Renderer {
 	//-------------Structs to make things easier for now--------
@@ -20,6 +21,7 @@ namespace Renderer {
 		vec2 pos{ 0.5f, 0.5f };
 		vec2 tex{ 0.f,0.f };
 		vec3 color{ 1.f,0.f,0.f };
+		float texIndex{ -1.f };
 		unsigned int index{ 0 };
 		bool active{ false };
 	};
@@ -37,6 +39,41 @@ namespace Renderer {
 	};
 
 	class render_Object; //Forward declerator
+
+
+	class Texture {
+	private:
+		unsigned int id;
+		std::string file_path;
+		unsigned char* local_buff;
+		int w, h, fluff;
+
+	public:
+		Texture(const std::string& path);
+		~Texture();
+
+		const unsigned int get_tex() const { return id; }
+
+		void Bind() const;
+		void Unbind();
+	};
+
+	//TODO CHANGE THE LIMIT FOR TEXTURES TO BE BASED ON HARDWARE LIMITS
+	//OF TEXTURE UNIT
+	class Texture_Manager {
+	private:
+		bool free[32];
+		std::map<std::string, std::pair<const Texture*, int>> textures;
+	public:
+		//initialize every variable in free to false: IMPORTANT
+		Texture_Manager() : free{ false } {}
+		bool add_texture(const std::string& file_path, const std::string& name);
+		bool remove_texture(const std::string& name);
+
+		const int get_texture_index(const std::string& name) const { return textures.find(name)->second.second; }
+
+		void flush_textures();
+	};
 
 	//Renderer class will be incharge the vao, shader program and buffers.
 	//Renderer class will not be exposed to the programmers and is meant-
@@ -78,16 +115,21 @@ namespace Renderer {
 	private:
 		//TODO figure out some way in the serialization process
 		//how to pass in object limit for rende
-
+		Texture_Manager t_Manager;
 	public:
 		Renderer object_renderer;
 
 		RenderSystem();
 		~RenderSystem();
 
-		virtual void Update(float dt);
+		virtual void Update();
 		virtual void Draw();
 		virtual std::string GetName() { return "Rendering System"; }
+
+		bool create_texture(const std::string& file_path, const std::string& name);
+		bool remove_texture(const std::string& name);
+		const int get_texture(const std::string& name) const { return t_Manager.get_texture_index(name); }
+		void flush_textures();
 	};
 
 	//A pointer to the system object in the core engine
@@ -99,14 +141,16 @@ namespace Renderer {
 	private:
 		unsigned int quad_id;
 	public:
-		vec2			position;
-		float			scal;
-		float			w;
-		float			h;
-		vec3			col;
-		bool			activated;
+		vec2				position;
+		float				scal;
+		float				w;
+		float				h;
+		vec3				col;
+		std::array<vec2, 4> uv; //bot left, bot right, top right, top left
+		int					texture;
+		bool				activated;
 
-		render_Object(vec2 pos = { 0.f, 0.f }, float width = 1.f, float height = 1.f, float scale = 1.f, vec3 color = { 0.f,0.f,0.f }, bool active = true);
+		render_Object(vec2 pos = { 0.f, 0.f }, float width = 1.f, float height = 1.f, float scale = 1.f, vec3 color = { 0.f,0.f,0.f }, std::array<vec2,4> uv = {}, int texture = -1, bool active = true);
 		~render_Object();
 		
 		inline const unsigned int get_index() const { return quad_id; }

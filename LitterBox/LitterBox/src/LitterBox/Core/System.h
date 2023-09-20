@@ -18,7 +18,9 @@ namespace LB
 		// ---------------------------------------------------------------------------------
 
 		///All systems are updated every game frame.
-		virtual void Update(float timeslice) = 0;
+		virtual void Update() {};
+
+		virtual void FixedUpdate() {};
 
 		///All systems provide a string name for debugging.
 		virtual std::string GetName() = 0;
