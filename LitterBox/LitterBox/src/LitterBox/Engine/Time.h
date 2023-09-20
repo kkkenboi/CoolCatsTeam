@@ -1,9 +1,9 @@
 /*!************************************************************************
- \file   Time.h
- \author Ang Jiawei Jarrett
- \par    DP email: a.jiaweijarrett@digipen.edu
- \par    Course: CSD2401A
- \date   18-09-2023
+ \file			Time.h
+ \author		Ang Jiawei Jarrett
+ \par DP email: a.jiaweijarrett@digipen.edu
+ \par Course:	CSD2401A
+ \date			19-09-2023
  \brief
 
 **************************************************************************/
@@ -42,6 +42,8 @@ namespace LB {
 
 		void Sleep(double time);
 
+		void Pause(bool shouldPause);
+
 		private:
 		std::chrono::high_resolution_clock::time_point m_frameStart, m_frameEnd;
 		std::chrono::duration<double> m_frameDuration;
@@ -49,7 +51,7 @@ namespace LB {
 		double m_deltaTime{}, m_unscaledDeltaTime{};
 		double m_time{ 0.0 }, m_timeScale{ 1.0 };
 
-		double m_elapsedTime{};
+		double m_elapsedTime{}, m_timeScaleBeforePause{};
 
 		double m_minDeltaTime, m_fixedDeltaTime, m_unscaledFixedDeltaTime;
 		int m_maxFrameRate, m_fixedFrameRate;
