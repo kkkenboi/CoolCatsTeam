@@ -298,6 +298,17 @@ bool CollisionIntersection_BoxBox_SAT(Vec2<float>* verticesA, Vec2<float>* verti
 	// We can use the dot product of these two vectors
 	// 0> is same direction, 0 is perpendicular, 0< is opposite direction
 
+	// Get the center of each obj's vertices
+	Vec2<float> vecCenterA = FindCenterOfBoxVertices(verticesA);
+	Vec2<float> vecCenterB = FindCenterOfBoxVertices(verticesB);
+
+	Vec2<float> vecAB = vecCenterB - vecCenterA;
+
+	if (PHY_MATH::DotProduct(vecAB, normal_out) < 0) {
+		normal_out.x = -normal_out.x;
+		normal_out.y = -normal_out.y;
+	}
+
 	return true;
 }
 
@@ -323,7 +334,7 @@ void ProjectPointsOntoAxis(Vec2<float> axisToProj, Vec2<float>*verticesBody, flo
 		}
 	}
 }
-/*
+
 Vec2<float> FindCenterOfBoxVertices(Vec2<float>* vertices) 
 {
 	// Loop through all the vertices and add them together and
@@ -333,7 +344,9 @@ Vec2<float> FindCenterOfBoxVertices(Vec2<float>* vertices)
 
 	for (int i = 0; i < 4; ++i) 
 	{
-
+		xSum += vertices[i].x;
+		ySum += vertices[i].y;
 	}
+
+	return Vec2<float>{xSum / 4, ySum / 4};
 }
-*/

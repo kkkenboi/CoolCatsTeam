@@ -57,7 +57,7 @@ RigidBody::RigidBody(Vec2<float> position, Vec2<float> prevposition, Vec2<float>
         // Untransformed
         CreateBoxVertices(this->mVertices, this->mWidth, this->mHeight);
         // Transformed
-        CreateBoxVerticesTransformed(this->mVertices, this->mPosition); 
+        this->UpdateRigidBodyBoxVertices();
 
     }
     else
@@ -77,6 +77,12 @@ RigidBody::RigidBody(Vec2<float> position, Vec2<float> prevposition, Vec2<float>
         mVertices[1] = zeroed;
         mVertices[2] = zeroed;
         mVertices[3] = zeroed;
+
+        mTransformedVertices[0] = zeroed;
+        mTransformedVertices[1] = zeroed;
+        mTransformedVertices[2] = zeroed;
+        mTransformedVertices[3] = zeroed;
+
     }
 }
 
@@ -101,9 +107,9 @@ void RigidBody::UpdateRigidBodyBoxVertices()
     PhysicsTransform transform{ this->mPosition, this->mRotation };
 
     for (int i = 0; i < 4; ++i) {
+        // Uses the untransformed vertices as the basis for tranasformation
         Vec2<float> og_vec = this->mVertices[i];
-        //      transform.Cos * v.X - transform.Sin * v.Y + transform.PositionX, 
-        //      transform.Sin * v.X + transform.Cos * v.Y + transform.PositionY
+        // Transforming the vertices using trigo formulas
         this->mTransformedVertices[i] = Vec2<float>{
             transform.m_cos * og_vec.x - transform.m_sin * og_vec.y + transform.m_posX,
             transform.m_sin * og_vec.x - transform.m_cos * og_vec.y + transform.m_posY };
@@ -112,10 +118,37 @@ void RigidBody::UpdateRigidBodyBoxVertices()
 
 void RigidBody::UpdateRigidBodyAABB() 
 {
+    float minX = 100000.f;
+    float maxX = -100000.f;
+    float minY = 100000.f;
+    float maxY = -100000.f;
+
     if (this->mShapeType == BOX)
     {
+        for (int i = 0; i < 4; ++i) 
+        {
+            // Take the Transformed Vertices and use it as the new AABB
+            Vec2<float> vec = this->mTransformedVertices[i];
 
+            if (vec.x < minX) minX = vec.x;
+            if (vec.x > maxX) maxX = vec.x;
+            if (vec.y < minY) minY = vec.y;
+            if (vec.y > maxY) maxY = vec.y;
+        }
     }
+    else if (this->mShapeType == CIRCLE) 
+    {
+        // Basically grab the position and make a box using radius as the width and height
+        // of the box
+        minX = this->mPosition.x - this->mRadius;
+        maxX = this->mPosition.x + this->mRadius;
+        minY = this->mPosition.y - this->mRadius;
+        maxY = this->mPosition.y + this->mRadius;
+    }
+
+    this->obj_aabb.m_c = Vec2<float>{ (minX + maxX) / 2.f, (minY + maxY) / 2.f };
+    this->obj_aabb.m_max = Vec2<float>{ minX, minY };
+    this->obj_aabb.m_min = Vec2<float>{ maxX, maxY };
 }
 
 void RigidBody::UpdateRigidBodyPos(float time)
@@ -130,12 +163,13 @@ void RigidBody::UpdateRigidBodyPos(float time)
 
     this->mRotation += this->mRotationalVelocity * time;
 
-    // Update the AABB
-    // HERE
-
     // Update the TransformedVertices
     // HERE
+    this->UpdateRigidBodyBoxVertices();
 
+    // Update the AABB
+    // HERE
+    this->UpdateRigidBodyAABB();
 }
 
 void RigidBody::UpdateRigidBodyVel(float time) 
