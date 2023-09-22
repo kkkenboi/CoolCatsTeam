@@ -6,6 +6,8 @@
 
 namespace LB
 {
+    WindowsSystem* WINDOWSSYSTEM = nullptr;
+
     void PrintKey() {
         std::cout << "W Pressed :) \n";
     }
@@ -16,7 +18,14 @@ namespace LB
         // 
         // 
         // Set the global pointer to the windows system
-        //WINDOWSSYSTEM = this;
+        if (!WINDOWSSYSTEM)
+        {
+            WINDOWSSYSTEM = this;
+        }
+        else
+        {
+            std::cerr << "Windows System already exist\n";
+        }
 
         if (!glfwInit()) {
             std::cout << "GLFW init has failed - abort program!!!" << std::endl;
@@ -82,7 +91,7 @@ namespace LB
         //return true;
 	}
 
-	WindowsSystem::~WindowsSystem()
+    WindowsSystem::~WindowsSystem()
 	{
         glfwDestroyWindow(this->m_Data.PtrToWindow);
         glfwTerminate();
