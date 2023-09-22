@@ -21,33 +21,40 @@ namespace LB
         virtual std::string GetName() { return "Memory System"; }
 
         template <typename T>
-        T* Allocate() {
+        T* Allocate() 
+        {
             T* ptr = new T;
-            allocations[ptr] = sizeof(T);
+            allocs[(void*)ptr] = sizeof(T);
             return ptr;
         }
 
         template <typename T>
-        void Deallocate(T* ptr) {
-            auto it = allocations.find(ptr);
-            if (it != allocations.end()) {
+        void Deallocate(T* ptr) 
+        {
+            auto it = allocs.find((void*)ptr);
+            if (it != allocs.end()) {
                 delete ptr;
-                allocations.erase(it);
+                allocs.erase(it);
+            }
+            else 
+            {
+                std::cerr << "Memory: Tried to dellocate non-existent ptr of size <" << it->second << " bytes>\n";
             }
         }
 
-        ~MemoryManager() {
-            // Print information about remaining allocations
-            if (!allocations.empty()) {
-                std::cout << "Memory Leak Detected!" << std::endl;
-                for (const auto& entry : allocations) {
-                    std::cout << "Size: " << entry.second << " bytes" << std::endl;
+        virtual void Destroy() override 
+        {
+            if (!allocs.empty()) 
+            {
+                std::cerr << "Memory Leak!\n";
+                for (auto const& entry : allocs) {
+                    std::cerr << "Size: " << entry.second << " bytes\n";
                 }
             }
         }
 
         private:
-        std::map<void*, size_t> allocations;
+        std::map<void*, size_t> allocs;
     };
 
 }

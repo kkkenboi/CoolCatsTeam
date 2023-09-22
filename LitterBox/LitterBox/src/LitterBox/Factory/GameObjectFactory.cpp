@@ -104,7 +104,7 @@ namespace LB
 	}
 
 
-	FactorySystem::~FactorySystem()
+	void FactorySystem::Destroy()
 	{
 		DeleteAllCMs(m_ComponentMakers);
 
