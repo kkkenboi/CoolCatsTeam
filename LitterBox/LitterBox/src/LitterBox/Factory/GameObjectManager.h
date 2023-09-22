@@ -13,24 +13,27 @@ namespace LB
 		GameObject(std::vector<IComponent*> const& componentList);
 		~GameObject();
 		std::vector<IComponent*> m_Components;
+
 	private:
+		bool isActive;
 	};
 
-	class GameObjectManager
+	class GameObjectManager : public ISystem
 	{
 	public:
 
 		GameObjectManager();
 		~GameObjectManager();
 
+		std::string GetName() override { return "GameManager"; }
+
+		void DestroyAllGOs();
+
 		std::vector<GameObject*> m_GameObjects;
-		std::vector<GameObject> m_Pool;
 
 	private:
-
-
 	};
 
-	//extern GameObjectManager* GOMANAGER;
+	extern GameObjectManager* GOMANAGER;
 }
 

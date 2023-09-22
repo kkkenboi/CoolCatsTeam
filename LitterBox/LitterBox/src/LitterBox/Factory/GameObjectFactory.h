@@ -37,7 +37,11 @@ namespace LB
 
 		// Creates a game object with a component list, if component list is empty, no components
 		// will be tied to the game object
-		void CreateGameObject(std::vector<IComponent*> componentsList = std::vector<IComponent*>());
+		GameObject* CreateGameObject(std::vector<IComponent*> componentsList = std::vector<IComponent*>());
+
+		void AddComponent(GameObject* gameObj, IComponent* component);
+
+		std::map<std::string, ComponentMaker*> GetCMs() const;
 
 		~FactorySystem() override;
 	private:
@@ -48,7 +52,7 @@ namespace LB
 		// For now we use map to hold the componentmakers, might change in the future
 		std::map<std::string, ComponentMaker*> m_ComponentMakers;
 
-		std::vector<GameObject> m_WaitingList;
+		std::vector<GameObject*> m_WaitingList;
 
 		bool toUpdate = false;
 

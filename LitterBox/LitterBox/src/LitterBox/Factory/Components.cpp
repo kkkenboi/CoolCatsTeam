@@ -16,15 +16,15 @@ namespace LB
 		{
 			std::cout << "Serialising Physics\n";
 		}
-		void Update() override
+		void Deserialise() override
 		{
-			std::cout << "Updating Physics\n";
+			std::cout << "Deserialising Physics\n";
+		}
+		void Destroy() override
+		{
+			std::cout << "Destroying Physics\n";
 		}
 
-		~Physics()
-		{
-			// delete itself
-		};
 	private:
 		// Should data stay private? 
 		int physicsData;
@@ -43,15 +43,15 @@ namespace LB
 		{
 			std::cout << "Serialising Transform\n";
 		}
-		void Update() override
+		void Deserialise() override
 		{
-			std::cout << "Updating Transform\n";
+			std::cout << "Deserialising Transform\n";
+		}
+		void Destroy() override
+		{
+			std::cout << "Destroying Transform\n";
 		}
 
-		~Transform()
-		{
-			// delete itself
-		};
 	private:
 		// Should data stay private? 
 		int x, y;
@@ -71,15 +71,15 @@ namespace LB
 		{
 			std::cout << "Serialising Render\n";
 		}
-		void Update() override
+		void Deserialise() override
 		{
-			std::cout << "Updating Render\n";
+			std::cout << "Deserialising Render\n";
+		}
+		void Destroy() override
+		{
+			std::cout << "Destroying Render\n";
 		}
 
-		~Render()
-		{
-			// delete itself
-		};
 	private:
 		// Should data stay private? 
 		int renderData;

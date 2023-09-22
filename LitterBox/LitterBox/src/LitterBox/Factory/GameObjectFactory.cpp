@@ -31,17 +31,16 @@ namespace LB
 		std::cout << "Factory Initialised\n";
 
 
-		// Creating a empty game object
-		std::vector<IComponent*> empty;
-		CreateGameObject(empty);
+		//// Creating a empty game object
+		//std::vector<IComponent*> empty;
+		//CreateGameObject(empty);
 
-		// Input test components
-		std::vector<IComponent*> notEmpty;
-		notEmpty.push_back(m_ComponentMakers["Physics"]->Create());
-		notEmpty.push_back(m_ComponentMakers["Transform"]->Create());
-		notEmpty.push_back(m_ComponentMakers["Render"]->Create());
-		CreateGameObject(notEmpty);
-
+		//// Input test components
+		//std::vector<IComponent*> notEmpty;
+		//notEmpty.push_back(m_ComponentMakers["Physics"]->Create());
+		//notEmpty.push_back(m_ComponentMakers["Transform"]->Create());
+		//notEmpty.push_back(m_ComponentMakers["Render"]->Create());
+		//CreateGameObject(notEmpty);
 
 	}
 
@@ -92,36 +91,31 @@ namespace LB
 	};
 
 
-	void FactorySystem::CreateGameObject(std::vector<IComponent*> componentsList)
+	GameObject* FactorySystem::CreateGameObject(std::vector<IComponent*> componentsList)
 	{
-		GameObject obj(componentsList);
-
-		m_WaitingList.push_back(obj);
-
 		std::cout << "Game Object pushed back into waiting list\n";
 
-		toUpdate = true;
+		//toUpdate = true;
+
+		return new GameObject(componentsList);
+	}
+
+	void FactorySystem::AddComponent(GameObject* gameObj, IComponent* component)
+	{
+		if (gameObj != nullptr)
+		{
+			gameObj->m_Components.push_back(component);
+		}
+	}
+
+	std::map<std::string, ComponentMaker*> FactorySystem::GetCMs() const
+	{
+		return m_ComponentMakers;
 	}
 
 
 	FactorySystem::~FactorySystem()
 	{
 		DeleteAllCMs(m_ComponentMakers);
-
-		for (size_t i{}; i < m_WaitingList.size(); ++i)
-		{
-			for (size_t j{}; j < m_WaitingList[i].m_Components.size(); ++j)
-			{
-				delete m_WaitingList[i].m_Components[j];
-				std::cout << "One Game Object component deleted from game object " << i << "\n";
-			}
-
-			std::cout << "Game Object " << i << " has been deleted\n";
-
-			if (i + 1 == m_WaitingList.size())
-			{
-				std::cout << "Game Object components all deleted\n";
-			}
-		}
 	}
 }

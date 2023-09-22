@@ -9,12 +9,16 @@ namespace LB {
 		Time*					time	 = new Time();
 		InputSystem*			input	 = new InputSystem();
 		WindowsSystem*			windows	 = new WindowsSystem();
+		GameObjectManager*	gameManager	 = new GameObjectManager();
 		FactorySystem*			factory	 = new FactorySystem();
+		GameLogic*				logic	 = new GameLogic();
 		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
 		Engine->AddSystem(factory);
+		Engine->AddSystem(gameManager);
+		Engine->AddSystem(logic);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
 

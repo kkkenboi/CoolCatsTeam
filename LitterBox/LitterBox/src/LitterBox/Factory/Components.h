@@ -19,10 +19,9 @@ namespace LB
 
 		virtual void Initialise() = 0;
 		virtual void Serialise() = 0;
-		virtual void Update() = 0;
-
+		virtual void Deserialise() = 0;
+		virtual void Destroy() = 0;
 		// To destruct all other derived components
-		virtual ~IComponent() {};
 	private:
 		// To understand what type does this component belong to
 		ComponentTypeID TypeID;
