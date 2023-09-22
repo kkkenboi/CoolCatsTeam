@@ -15,46 +15,24 @@
 
 namespace LB 
 {
-    class Memory : ISystem 
+    class Memory : public ISystem 
     {
         public:
+        Memory();
+
         virtual std::string GetName() { return "Memory System"; }
 
         template <typename T>
-        T* Allocate() 
-        {
-            T* ptr = new T;
-            allocs[(void*)ptr] = sizeof(T);
-            return ptr;
-        }
+        T* Allocate();
 
         template <typename T>
-        void Deallocate(T* ptr) 
-        {
-            auto it = allocs.find((void*)ptr);
-            if (it != allocs.end()) {
-                delete ptr;
-                allocs.erase(it);
-            }
-            else 
-            {
-                std::cerr << "Memory: Tried to dellocate non-existent ptr of size <" << it->second << " bytes>\n";
-            }
-        }
+        void Deallocate(T* ptr);
 
-        virtual void Destroy() override 
-        {
-            if (!allocs.empty()) 
-            {
-                std::cerr << "Memory Leak!\n";
-                for (auto const& entry : allocs) {
-                    std::cerr << "Size: " << entry.second << " bytes\n";
-                }
-            }
-        }
+        virtual void Destroy() override;
 
         private:
         std::map<void*, size_t> allocs;
     };
 
+    extern Memory* MEMORY;
 }
