@@ -1,5 +1,4 @@
 #include "TestObjects.h"
-#include <fstream>
 #include <iostream>
 
 namespace Litterbox
@@ -12,6 +11,8 @@ namespace Litterbox
 	}
 }
 //How it might be called somewhere else
+// If you pull the files out, and put the code below in main, it should work.
+	
 	//TestGameObjectComponent joe;
 	////   joe.ObjectName = "Joe";
 	////   joe.ID = 123;
