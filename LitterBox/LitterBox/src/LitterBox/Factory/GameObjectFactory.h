@@ -39,7 +39,7 @@ namespace LB
 		// will be tied to the game object
 		void CreateGameObject(std::vector<IComponent*> componentsList = std::vector<IComponent*>());
 
-		~FactorySystem() override;
+		void Destroy() override;
 	private:
 		// Needs to hold all of the componentmakers to know what available componentmakers are there
 		// Does not need to have the game objects because that is the gameobjmanager job to hold
