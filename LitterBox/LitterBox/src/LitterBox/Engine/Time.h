@@ -21,6 +21,8 @@ namespace LB {
 
 		virtual std::string GetName() { return "Time System"; }
 
+		std::chrono::high_resolution_clock::time_point GetTimeStamp();
+
 		void LBFrameStart();
 		void LBFrameEnd();
 
