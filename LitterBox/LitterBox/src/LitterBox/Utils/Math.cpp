@@ -1,3 +1,13 @@
+/*!************************************************************************
+ \file			Math.cpp
+ \author
+ \par DP email:
+ \par Course:	CSD2401A
+ \date			10-09-2023
+ \brief
+
+**************************************************************************/
+
 #include "./LitterBox/Utils/Math.h"
 #include <cmath>
 
@@ -491,7 +501,7 @@ namespace LB
 	template<typename T>
 	T Distance(Vec3<T> const& lhs, Vec3<T> const& rhs)
 	{
-		return (T)sqrt((double)(((lhs.x - rhs.x) * (lhs.x - rhs.x)) + ((lhs.y - rhs.y) * (lhs.y - rhs.y)) + ((lhs.z - rhs.z) * (lhs.z - rhs.z)));
+		return (T)sqrt( (double)(((lhs.x - rhs.x) * (lhs.x - rhs.x)) + ((lhs.y - rhs.y) * (lhs.y - rhs.y)) + ((lhs.z - rhs.z) * (lhs.z - rhs.z))) );
 	}
 
 	template<typename T>
@@ -786,8 +796,8 @@ namespace LB
 	template<typename T>
 	T Distance(Vec4<T> const& lhs, Vec4<T> const& rhs)
 	{
-		return (T)sqrt((double)(((lhs.x - rhs.x) * (lhs.x - rhs.x)) + ((lhs.y - rhs.y) * (lhs.y - rhs.y)) + 
-								((lhs.z - rhs.z) * (lhs.z - rhs.z)) + ((lhs.w - rhs.w) * (lhs.w - rhs.w)));
+		return (T)sqrt( (double)(((lhs.x - rhs.x) * (lhs.x - rhs.x)) + ((lhs.y - rhs.y) * (lhs.y - rhs.y)) + 
+								((lhs.z - rhs.z) * (lhs.z - rhs.z)) + ((lhs.w - rhs.w) * (lhs.w - rhs.w))) );
 	}
 
 	template<typename T>
