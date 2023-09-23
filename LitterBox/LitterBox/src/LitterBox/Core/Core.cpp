@@ -82,6 +82,7 @@ namespace LB
 		//dependency problems between systems)
 		for (unsigned i = 0; i < Systems.size(); ++i)
 		{
+			Systems[Systems.size() - i - 1]->Destroy();
 			delete Systems[Systems.size() - i - 1];
 		}
 	}

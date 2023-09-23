@@ -13,6 +13,7 @@ namespace LB {
 		FactorySystem*			factory	 = new FactorySystem();
 		GameLogic*				logic	 = new GameLogic();
 		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
+		Memory*					memory	 = new Memory();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
@@ -21,6 +22,7 @@ namespace LB {
 		Engine->AddSystem(logic);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
+		Engine->AddSystem(memory);
 
 		Engine->Initialize();
 

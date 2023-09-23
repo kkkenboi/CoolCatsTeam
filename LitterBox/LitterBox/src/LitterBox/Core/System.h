@@ -6,33 +6,33 @@
 
 namespace LB
 {
-	///System is a pure virtual base class (which is to say, an interface) that is
-	///the base class for all systems used by the game. 
+	// System is a pure virtual base class (which is to say, an interface) that is
+	// the base class for all systems used by the game. 
 	class ISystem
 	{
 	public:
 
-		///Systems can receive all message send to the Core. 
+		// Systems can receive all message send to the Core. 
 		// Will be updated with Logging ----------------------------------------------------
 		virtual void SendMessage(Message* message) { UNREFERENCED_PARAMETER(message); };
 		// ---------------------------------------------------------------------------------
 
-		///All systems are updated every game frame.
-		virtual void Update() {};
+		/// Update is called every game frame.
+		virtual void Update() {}
 
-		virtual void FixedUpdate() {};
+		// Fixed update is called independent of frame rate at a constant pace.
+		virtual void FixedUpdate() {}
 
-		///All systems provide a string name for debugging.
+		/// All systems provide a string name for debugging.
 		virtual std::string GetName() = 0;
 
-		///Initialize the system.
-		virtual void Initialize() {};
+		/// Initialize the system before the core game loop.
+		virtual void Initialize() {}
 
-		///All systems need a virtual destructor to have their destructor called 
-		virtual ~ISystem() {}
+		/// Destroy the system after the core game loop.
+		virtual void Destroy() {}
 
 	private:
 		std::string systemName;
-
 	};
 }

@@ -4,6 +4,7 @@
 #include "LitterBox/GameLogic/GameLogic.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Debugging/Memory.h"
 #include "Core.h"
 
 namespace LB {
