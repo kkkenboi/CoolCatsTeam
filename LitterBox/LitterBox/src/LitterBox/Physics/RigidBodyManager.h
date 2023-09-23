@@ -45,6 +45,6 @@ public:
 
 // Check collisions between two RigidBodies
 // Normal outputted is pushing bodyB away from bodyA
-bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float>& normal_out, float& depth_out);
+bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out);
 
-void ResolveCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float> normal, float depth);
+void ResolveCollisions(RigidBody* bodyA, RigidBody* bodyB, LB::Vec2<float> normal, float depth);

@@ -1,6 +1,6 @@
 #include "RigidBody.h"
 
-RigidBody::RigidBody(Vec2<float> position, Vec2<float> prevposition, Vec2<float> velocity, Vec2<float> acceleration,
+RigidBody::RigidBody(LB::Vec2<float> position, LB::Vec2<float> prevposition, LB::Vec2<float> velocity, LB::Vec2<float> acceleration,
     float rotation, float rotationvelocity, float density, float mass, float invmass, float restitution,
     float area, float friction, bool isstatic, bool isactive, float radius, float width, float height,
     SHAPETYPE shape)
@@ -62,7 +62,7 @@ RigidBody::RigidBody(Vec2<float> position, Vec2<float> prevposition, Vec2<float>
     }
     else
     {
-        Vec2<float> zeroed;
+        LB::Vec2<float> zeroed;
         zeroed.x = 0.f;
         zeroed.y = 0.f;
 
@@ -87,17 +87,17 @@ RigidBody::RigidBody(Vec2<float> position, Vec2<float> prevposition, Vec2<float>
 }
 
 
-void RigidBody::addForce(Vec2<float> force)
+void RigidBody::addForce(LB::Vec2<float> force)
 {
     this->mVelocity += force;
 }
 
-void RigidBody::Move(Vec2<float> vec)
+void RigidBody::Move(LB::Vec2<float> vec)
 {
     this->mPosition += vec;
 }
 
-void RigidBody::MoveTo(Vec2<float> position)
+void RigidBody::MoveTo(LB::Vec2<float> position)
 {
     this->mPosition = position;
 }
@@ -108,9 +108,9 @@ void RigidBody::UpdateRigidBodyBoxVertices()
 
     for (int i = 0; i < 4; ++i) {
         // Uses the untransformed vertices as the basis for tranasformation
-        Vec2<float> og_vec = this->mVertices[i];
+        LB::Vec2<float> og_vec = this->mVertices[i];
         // Transforming the vertices using trigo formulas
-        this->mTransformedVertices[i] = Vec2<float>{
+        this->mTransformedVertices[i] = LB::Vec2<float>{
             transform.m_cos * og_vec.x - transform.m_sin * og_vec.y + transform.m_posX,
             transform.m_sin * og_vec.x - transform.m_cos * og_vec.y + transform.m_posY };
     }
@@ -128,7 +128,7 @@ void RigidBody::UpdateRigidBodyAABB()
         for (int i = 0; i < 4; ++i) 
         {
             // Take the Transformed Vertices and use it as the new AABB
-            Vec2<float> vec = this->mTransformedVertices[i];
+            LB::Vec2<float> vec = this->mTransformedVertices[i];
 
             if (vec.x < minX) minX = vec.x;
             if (vec.x > maxX) maxX = vec.x;
@@ -146,9 +146,9 @@ void RigidBody::UpdateRigidBodyAABB()
         maxY = this->mPosition.y + this->mRadius;
     }
 
-    this->obj_aabb.m_c = Vec2<float>{ (minX + maxX) / 2.f, (minY + maxY) / 2.f };
-    this->obj_aabb.m_max = Vec2<float>{ minX, minY };
-    this->obj_aabb.m_min = Vec2<float>{ maxX, maxY };
+    this->obj_aabb.m_c = LB::Vec2<float>{ (minX + maxX) / 2.f, (minY + maxY) / 2.f };
+    this->obj_aabb.m_max = LB::Vec2<float>{ minX, minY };
+    this->obj_aabb.m_min = LB::Vec2<float>{ maxX, maxY };
 }
 
 void RigidBody::UpdateRigidBodyPos(float time)
@@ -176,7 +176,7 @@ void RigidBody::UpdateRigidBodyVel(float time)
 {
     this->mVelocity += this->mAcceleration * time;
     this->mVelocity *= this->mFriction;
-    Vec2<float> zeroed;
+    LB::Vec2<float> zeroed;
     zeroed.x = 0.f;
     zeroed.y = 0.f;
     this->mAcceleration = zeroed;
@@ -197,7 +197,7 @@ void RigidBody::BodyStep(float time)
 // END OF RIGIDBODY MEMBER FUNCTIONS
 // ===========================================
 
-void CreateBoxVertices(Vec2<float>* vertices_arr , float width, float height) 
+void CreateBoxVertices(LB::Vec2<float>* vertices_arr , float width, float height) 
 {
     float left = -width / 2;
     float right = width / 2;
@@ -218,7 +218,7 @@ void CreateBoxVertices(Vec2<float>* vertices_arr , float width, float height)
     vertices_arr[3].y = bottom;
 }
 
-void CreateBoxVerticesTransformed(Vec2<float>* vertices_arr, Vec2<float> position) 
+void CreateBoxVerticesTransformed(LB::Vec2<float>* vertices_arr, LB::Vec2<float> position) 
 {
     vertices_arr[0] += position;
     vertices_arr[1] += position;

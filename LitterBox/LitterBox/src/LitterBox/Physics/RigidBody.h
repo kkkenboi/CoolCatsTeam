@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "Math.h"
+#include "LitterBox/Utils/Math.h"
 #include "Collisions.h"
 
 struct AABB;
@@ -20,13 +20,13 @@ public:
 
     // Vectors here allow the user to know
     // the current and previous location of the object
-    Vec2<float> mPosition;
-    Vec2<float> mPrevPosition;
+    LB::Vec2<float> mPosition;
+    LB::Vec2<float> mPrevPosition;
 
     // Vectors here allow the user to know
     // which direection the object is moving towards
-    Vec2<float> mVelocity;
-    Vec2<float> mAcceleration;
+    LB::Vec2<float> mVelocity;
+    LB::Vec2<float> mAcceleration;
 
 public:
     // These data will not change will be set upon initialization
@@ -57,8 +57,8 @@ public:
     // Vertices and AABB
 
     // Untransformed vertices (Vertices from origin)
-    Vec2<float> mVertices[4];
-    Vec2<float> mTransformedVertices[4];
+    LB::Vec2<float> mVertices[4];
+    LB::Vec2<float> mTransformedVertices[4];
 
     AABB obj_aabb;
     // =====
@@ -71,7 +71,7 @@ public:
     // =================
     // Constructor
     // =================
-    RigidBody(Vec2<float> position, Vec2<float> prevposition, Vec2<float> velocity, Vec2<float> acceleration,
+    RigidBody(LB::Vec2<float> position, LB::Vec2<float> prevposition, LB::Vec2<float> velocity, LB::Vec2<float> acceleration,
         float rotation, float rotationvelocity, float density, float mass, float invmass, float restitution,
         float area, float friction, bool isstatic, bool isactive, float radius, float width, float height,
         SHAPETYPE shape);
@@ -80,13 +80,13 @@ public:
 public:
     
     // Force is added upon object's velocity
-    void addForce(Vec2<float> force);
+    void addForce(LB::Vec2<float> force);
     
     // Just to move the RigidBody with a vector
-    void Move(Vec2<float> vec);
+    void Move(LB::Vec2<float> vec);
 
     // Move the RigidBody to a specific position
-    void MoveTo(Vec2<float> position);
+    void MoveTo(LB::Vec2<float> position);
 
     // Updates the TransformedVertices of the RigidBody
     // Accounts for positional changes and rotational changes
@@ -109,9 +109,9 @@ public:
 
 };   // End of RigidBody class
 
-void CreateBoxVertices(Vec2<float>* vertices_arr, float width, float height);
+void CreateBoxVertices(LB::Vec2<float>* vertices_arr, float width, float height);
 
-void CreateBoxVerticesTransformed(Vec2<float>* vertices_arr, Vec2<float> position);
+void CreateBoxVerticesTransformed(LB::Vec2<float>* vertices_arr, LB::Vec2<float> position);
 
 
 

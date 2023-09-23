@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Collisions.h"
-#include "AEEngine.h"
 #include "PhysicsMath.h"
 #include <cmath>
 
-PhysicsTransform::PhysicsTransform(Vec2<float> position, float angle) 
+PhysicsTransform::PhysicsTransform(LB::Vec2<float> position, float angle) 
 {
 	this->m_posX = position.x;
 	this->m_posY = position.y;
@@ -14,8 +13,8 @@ PhysicsTransform::PhysicsTransform(Vec2<float> position, float angle)
 	this->m_cos = cos(angle);
 }
 
-bool CollisionIntersection_BoxBox(const AABB & aabb1, const Vec2<float> & vel1, 
-									const AABB & aabb2, const Vec2<float> & vel2)
+bool CollisionIntersection_BoxBox(const AABB & aabb1, const LB::Vec2<float> & vel1, 
+									const AABB & aabb2, const LB::Vec2<float> & vel2, float dt)
 {	
 	/*Implement the collision intersection over here.
 
@@ -43,8 +42,8 @@ bool CollisionIntersection_BoxBox(const AABB & aabb1, const Vec2<float> & vel1,
 			tLast = dt
 	*/
 
-	Vec2<float> relVel;
-	Vec2<float> Vel1, Vel2;
+	LB::Vec2<float> relVel;
+	LB::Vec2<float> Vel1, Vel2;
 	//Vec2Set(&Vel1, vel1.x, vel1.y);
 	Vel1.x = vel1.x;
     Vel1.y = vel1.y;
@@ -63,10 +62,10 @@ bool CollisionIntersection_BoxBox(const AABB & aabb1, const Vec2<float> & vel1,
     Vel1.y = 0.f;
 
 	float tFirst_x = 0.f;
-	float tLast_x = AEFrameRateControllerGetFrameTime();
+	float tLast_x = dt;
 
 	float tFirst_y = 0.f;
-	float tLast_y = AEFrameRateControllerGetFrameTime();
+	float tLast_y = dt;
 
 	/*Step 3: Working with one dimension (x-axis).
 			if(Vb < 0)
@@ -171,7 +170,7 @@ bool CollisionIntersection_BoxBox(const AABB & aabb1, const Vec2<float> & vel1,
 // Check if there is collision between 2 circles,
 // normal stores the direction of where the objects should be pushed towards
 // depth stores the magnitude of how much the objects should be pushed
-bool CollisionIntersection_CircleCircle(Vec2<float> centerA, Vec2<float> centerB, float radiusA, float radiusB, Vec2<float>& normal_out, float& depth_out) {
+bool CollisionIntersection_CircleCircle(LB::Vec2<float> centerA, LB::Vec2<float> centerB, float radiusA, float radiusB, LB::Vec2<float> normal_out, float depth_out) {
 	normal_out.x = 0.f;
 	normal_out.y = 0.f;
 	depth_out = 0.f;
@@ -192,25 +191,25 @@ bool CollisionIntersection_CircleCircle(Vec2<float> centerA, Vec2<float> centerB
 }
 
 // normal_out is pushing boxB from boxA
-bool CollisionIntersection_BoxBox_SAT(Vec2<float>* verticesA, Vec2<float>* verticesB, Vec2<float> normal_out, float depth_out) 
+bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float>* verticesB, LB::Vec2<float> normal_out, float depth_out) 
 {
-	normal_out = Vec2<float>{ 0.f,0.f };
+	normal_out = LB::Vec2<float>{ 0.f,0.f };
 	depth_out = 100000.f;
 
 	// Loop through each edge of obj A
 	for (int i = 0; i < 4; ++i) 
 	{
 		// Get two vertices from obj A
-		Vec2<float> vert1 = verticesA[i];
+		LB::Vec2<float> vert1 = verticesA[i];
 		// We get the remainder of 4 as we do not want to loop out of the array
 		// This also ensure that we get pt3 and pt0 as the pair of vertices which is right
-		Vec2<float> vert2 = verticesA[(i + 1) % 4];
+		LB::Vec2<float> vert2 = verticesA[(i + 1) % 4];
 
 		// We now get the vector from 0 to 1 for example
-		Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y};
+		LB::Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y};
 
 		// Now we have the normal/axis from A
-		Vec2<float> axis{-vecA.y , vecA.x};
+		LB::Vec2<float> axis{-vecA.y , vecA.x};
 
 
 		float minProjValueA{ 0.f };
@@ -246,14 +245,14 @@ bool CollisionIntersection_BoxBox_SAT(Vec2<float>* verticesA, Vec2<float>* verti
 	for (int i = 0; i < 4; ++i) 
 	{
 		// Get two vertices from obj B
-		Vec2<float> vert1 = verticesB[i];
-		Vec2<float> vert2 = verticesB[(i + 1) % 4];
+		LB::Vec2<float> vert1 = verticesB[i];
+		LB::Vec2<float> vert2 = verticesB[(i + 1) % 4];
 
 		// Now we get the vector from vertice 0 to 1 for example
-		Vec2<float> vecB{ vert2.x - vert1.x, vert2.y - vert1.y };
+		LB::Vec2<float> vecB{ vert2.x - vert1.x, vert2.y - vert1.y };
 
 		// Now we have the normal/axis from B
-		Vec2<float> axis{ -vecB.y, vecB.x };
+		LB::Vec2<float> axis{ -vecB.y, vecB.x };
 
 
 		float minProjValueA{ 0.f };
@@ -300,10 +299,10 @@ bool CollisionIntersection_BoxBox_SAT(Vec2<float>* verticesA, Vec2<float>* verti
 	// 0> is same direction, 0 is perpendicular, 0< is opposite direction
 
 	// Get the center of each obj's vertices
-	Vec2<float> vecCenterA = FindCenterOfBoxVertices(verticesA);
-	Vec2<float> vecCenterB = FindCenterOfBoxVertices(verticesB);
+	LB::Vec2<float> vecCenterA = FindCenterOfBoxVertices(verticesA);
+	LB::Vec2<float> vecCenterB = FindCenterOfBoxVertices(verticesB);
 
-	Vec2<float> vecAB = vecCenterB - vecCenterA;
+	LB::Vec2<float> vecAB = vecCenterB - vecCenterA;
 
 	// This normal is pushing B from A
 	if (PHY_MATH::DotProduct(vecAB, normal_out) < 0) {
@@ -319,12 +318,12 @@ bool CollisionIntersection_BoxBox_SAT(Vec2<float>* verticesA, Vec2<float>* verti
 // the given box, we need to check the axis of the circle's center 
 
 // normal_out is pushing the Box away from the Circle
-bool CollisionIntersection_CircleBox_SAT(Vec2<float> circleCenter, float circleRadius, Vec2<float>* verticesBox, Vec2<float> normal_out, float depth_out)
+bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float circleRadius, LB::Vec2<float>* verticesBox, LB::Vec2<float> normal_out, float depth_out)
 {
-	normal_out = Vec2<float>{ 0.f, 0.f };
+	normal_out = LB::Vec2<float>{ 0.f, 0.f };
 	depth_out = 100000.f;
 
-	Vec2<float> axis{ 0.f, 0.f };
+	LB::Vec2<float> axis{ 0.f, 0.f };
 
 	float minProjValueA{ 0.f };
 	float maxProjValueA{ 0.f };
@@ -338,13 +337,13 @@ bool CollisionIntersection_CircleBox_SAT(Vec2<float> circleCenter, float circleR
 	for (int i = 0; i < 4; ++i)
 	{
 		// Get two vertices from box
-		Vec2<float> vert1 = verticesBox[i];
+		LB::Vec2<float> vert1 = verticesBox[i];
 		// We get the remainder of 4 as we do not want to loop out of the array
 		// This also ensure that we get pt3 and pt0 as the pair of vertices which is right
-		Vec2<float> vert2 = verticesBox[(i + 1) % 4];
+		LB::Vec2<float> vert2 = verticesBox[(i + 1) % 4];
 
 		// We now get the vector from 0 to 1 for example
-		Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y };
+		LB::Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y };
 
 		// Now we have the normal/axis from box
 		axis.x = -vecA.y;
@@ -378,7 +377,7 @@ bool CollisionIntersection_CircleBox_SAT(Vec2<float> circleCenter, float circleR
 
 	// First we get the nearest VerticeIndex from the box to the circle's center
 	int nearestVerticeIndex = FindIndexClosestPointOnBox(verticesBox, circleCenter);
-	Vec2<float> nearestVertice = verticesBox[nearestVerticeIndex];
+	LB::Vec2<float> nearestVertice = verticesBox[nearestVerticeIndex];
 
 	// Next we make a vector from the circle center to nearestVertice
 	axis = { nearestVertice.x - circleCenter.x, nearestVertice.y - circleCenter.y };
@@ -416,10 +415,10 @@ bool CollisionIntersection_CircleBox_SAT(Vec2<float> circleCenter, float circleR
 
 	// Get the center of each obj's vertices
 	// Use center of the circle
-	Vec2<float> vecCenterBox = FindCenterOfBoxVertices(verticesBox);
+	LB::Vec2<float> vecCenterBox = FindCenterOfBoxVertices(verticesBox);
 
 	// Circle center to polygon center
-	Vec2<float> vecAB = vecCenterBox - circleCenter;
+	LB::Vec2<float> vecAB = vecCenterBox - circleCenter;
 
 	// pushing B away from A
 	// This normal is pushing Box away from Circle
@@ -431,7 +430,7 @@ bool CollisionIntersection_CircleBox_SAT(Vec2<float> circleCenter, float circleR
 	return true;
 }
 
-void ProjectPointsOntoAxis(Vec2<float> axisToProj, Vec2<float>*verticesBody, float minPtOnAxis, float maxPtOnAxis) {
+void ProjectPointsOntoAxis(LB::Vec2<float> axisToProj, LB::Vec2<float>*verticesBody, float minPtOnAxis, float maxPtOnAxis) {
 	// get some arbitrary min and max things to update
 	minPtOnAxis = 100000.f;
 	maxPtOnAxis = -100000.f;
@@ -454,21 +453,21 @@ void ProjectPointsOntoAxis(Vec2<float> axisToProj, Vec2<float>*verticesBody, flo
 	}
 }
 
-void ProjectCircleOntoAxis(Vec2<float> axisToProj, Vec2<float> center, float radius, float minPtOnAxis, float maxPtOnAxis)
+void ProjectCircleOntoAxis(LB::Vec2<float> axisToProj, LB::Vec2<float> center, float radius, float minPtOnAxis, float maxPtOnAxis)
 {
 	// Arbitrary min and max things to update
 	minPtOnAxis = 100000.f;
 	maxPtOnAxis = -100000.f;
 
 	// Get the direction of the axis
-	Vec2<float> direction = PHY_MATH::Normalize(axisToProj);
+	LB::Vec2<float> direction = PHY_MATH::Normalize(axisToProj);
 	//Vec2<float> directionNegative{ -direction.x, -direction.y };
 	// Use this axis direction to have the vector of magnitude radius
-	Vec2<float> directionMagnitudeRadius = direction * radius;
+	LB::Vec2<float> directionMagnitudeRadius = direction * radius;
 
 	// Grab the two points from the edge of the circle
-	Vec2<float> point1{ center.x + directionMagnitudeRadius.x, center.y + directionMagnitudeRadius.y };
-	Vec2<float> point2{ center.x - directionMagnitudeRadius.x, center.y - directionMagnitudeRadius.y };
+	LB::Vec2<float> point1{ center.x + directionMagnitudeRadius.x, center.y + directionMagnitudeRadius.y };
+	LB::Vec2<float> point2{ center.x - directionMagnitudeRadius.x, center.y - directionMagnitudeRadius.y };
 
 
 	minPtOnAxis = PHY_MATH::DotProduct(point1, axisToProj);
@@ -483,7 +482,7 @@ void ProjectCircleOntoAxis(Vec2<float> axisToProj, Vec2<float> center, float rad
 	}
 }
 
-Vec2<float> FindCenterOfBoxVertices(Vec2<float>* vertices) 
+LB::Vec2<float> FindCenterOfBoxVertices(LB::Vec2<float>* vertices) 
 {
 	// Loop through all the vertices and add them together and
 	// then divide by the number of vertices in the array
@@ -496,10 +495,10 @@ Vec2<float> FindCenterOfBoxVertices(Vec2<float>* vertices)
 		ySum += vertices[i].y;
 	}
 
-	return Vec2<float>{xSum / 4, ySum / 4};
+	return LB::Vec2<float>{xSum / 4, ySum / 4};
 }
 
-int FindIndexClosestPointOnBox(Vec2<float>* vertices, Vec2<float> center)
+int FindIndexClosestPointOnBox(LB::Vec2<float>* vertices, LB::Vec2<float> center)
 {
 
 	// Loop through the the vertices
@@ -511,7 +510,7 @@ int FindIndexClosestPointOnBox(Vec2<float>* vertices, Vec2<float> center)
 
 	for (int i = 0; i < 4; ++i)
 	{
-		Vec2<float> vec = vertices[i];
+		LB::Vec2<float> vec = vertices[i];
 		float distance = PHY_MATH::Length(vec);
 
 		if (distance < minDistance)

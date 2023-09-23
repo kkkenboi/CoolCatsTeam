@@ -4,7 +4,6 @@
 #include "RigidBodyManager.h"
 #include "PhysicsMath.h"
 
-
 RigidBodyManager::RigidBodyManager(int size) : m_poolSize(size), m_currentIndex(0)
 {
     m_rigidBodies = new RigidBody * [size];
@@ -104,7 +103,7 @@ void RigidBodyManager::RBSystemSteps(float time)
     // ==================
     // Collision Step
     // ==================
-    Vec2<float> normal_out{ 0.f , 0.f };
+    LB::Vec2<float> normal_out{ 0.f , 0.f };
     float depth_out{ 0.f };
 
     for (size_t i = 0; i < m_poolSize; ++i) 
@@ -130,7 +129,7 @@ void RigidBodyManager::RBSystemSteps(float time)
             // Normal here is moving B away from A
             if (CheckCollisions(bodyA, bodyB, normal_out, depth_out)) 
             {
-                Vec2<float>inverse_normal{ -normal_out.x, -normal_out.y };
+                LB::Vec2<float>inverse_normal{ -normal_out.x, -normal_out.y };
                 if (bodyA->isStatic) 
                 {
                     bodyB->Move(normal_out * depth_out);
@@ -160,7 +159,7 @@ void RigidBodyManager::RBSystemSteps(float time)
 
 // Check collisions between two RigidBodies
 // Normal is pushing bodyB away from bodyA
-bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float>& normal_out, float& depth_out) {
+bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out) {
     normal_out.x = 0.f; // Make it zeroed first, in case of any values beforehand
     normal_out.y = 0.f;
     depth_out = 0.f; // Zeroed in case of previous values
@@ -171,7 +170,7 @@ bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float>& normal_out
         {
             // A - B
             // BOX-BOX
-            return CollisionIntersection_BoxBox(bodyA->obj_aabb, bodyA->mVelocity, bodyB->obj_aabb, bodyB->mVelocity);
+            return CollisionIntersection_BoxBox_SAT(bodyA->mTransformedVertices, bodyB->mTransformedVertices, normal_out, depth_out);
         }
         else if (bodyB->mShapeType == CIRCLE) {
             // A - B
@@ -205,10 +204,10 @@ bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float>& normal_out
     return false;
 }
 
-void ResolveCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float> normal, float depth) {
+void ResolveCollisions(RigidBody* bodyA, RigidBody* bodyB, LB::Vec2<float> normal, float depth) {
     // Need to get relative velocity from A to B
     // Due to normal being from A to B
-    Vec2<float> relativeVelocity = bodyB->mVelocity - bodyA->mVelocity;
+    LB::Vec2<float> relativeVelocity = bodyB->mVelocity - bodyA->mVelocity;
 
     // If the dot product of relVel and normal is more than 0.f
     if (PHY_MATH::DotProduct(relativeVelocity, normal) > 0.f) {
@@ -221,7 +220,7 @@ void ResolveCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float> normal, f
     j /= bodyA->mInvMass + bodyB->mInvMass;
 
     // Magnitude * Normal to get the impulse given to the objects
-    Vec2<float> impulse = normal * j;
+    LB::Vec2<float> impulse = normal * j;
 
     bodyA->mVelocity -= impulse * bodyA->mInvMass;
     bodyB->mVelocity += impulse * bodyB->mInvMass;
