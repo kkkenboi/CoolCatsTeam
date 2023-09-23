@@ -66,6 +66,8 @@ namespace LB
 
 		Vec2<T>& Set(T x, T y);
 		Vec2<T>& Set(Vec2<T> const& rhs);
+
+		//Vec
 	};
 
 	// Vec2 Non-member operator overloads * / *= /=
