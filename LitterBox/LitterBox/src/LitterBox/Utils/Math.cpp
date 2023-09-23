@@ -8,7 +8,7 @@
 
 **************************************************************************/
 
-#include "./LitterBox/Utils/Math.h"
+#include "LitterBox/Utils/Math.h"
 #include <cmath>
 
 namespace LB
@@ -212,7 +212,7 @@ namespace LB
 
 		return *this;
 	}
-	
+
 	/**************************************************************************************************/
 	// Vec2 Non-member functions
 
@@ -841,4 +841,44 @@ namespace LB
 		return lhs;
 	}
 
+	/***************************************************************************************************
+	*
+	* Vec casting
+	*
+	***************************************************************************************************/
+	template<typename T>
+	Vec2<T> ToVector2(Vec3<T> const& rhs) // Vec3 to Vec2
+	{
+		return Vec2<T>(rhs.x, rhs.y);
+	}
+	
+	template<typename T>
+	Vec2<T> ToVector2(Vec4<T> const& rhs) // Vec4 to Vec2
+	{
+		return Vec2<T>(rhs.x, rhs.y);
+	}
+
+	template<typename T>
+	Vec3<T> ToVector3(Vec2<T> const& rhs) // Vec2 to Vec3
+	{
+		return Vec3<T>(rhs.x, rhs.y, (T)0);
+	}
+
+	template<typename T>
+	Vec3<T> ToVector3(Vec4<T> const& rhs) // Vec4 to Vec3
+	{
+		return Vec3<T>(rhs.x, rhs.y, rhs.z);
+	}
+
+	template<typename T>
+	Vec4<T> ToVector4(Vec2<T> const& rhs) // Vec2 to Vec4
+	{
+		return Vec4<T>(rhs.x, rhs.y, (T)0, (T)0);
+	}
+
+	template<typename T>
+	Vec4<T> ToVector4(Vec3<T> const& rhs) // Vec3 to Vec4
+	{
+		return Vec4<T>(rhs.x, rhs.y, rhs.z, (T)0);
+	}
 }
