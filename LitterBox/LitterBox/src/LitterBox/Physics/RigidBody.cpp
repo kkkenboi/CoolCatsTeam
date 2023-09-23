@@ -174,11 +174,24 @@ void RigidBody::UpdateRigidBodyPos(float time)
 
 void RigidBody::UpdateRigidBodyVel(float time) 
 {
+    this->mVelocity += this->mAcceleration * time;
     this->mVelocity *= this->mFriction;
     Vec2<float> zeroed;
     zeroed.x = 0.f;
     zeroed.y = 0.f;
     this->mAcceleration = zeroed;
+}
+
+void RigidBody::BodyStep(float time) 
+{
+    // If body is static do not update velocities or pos
+    if (this->isStatic) {
+        return;
+    }
+
+    // Semi-implicit euler system
+    this->UpdateRigidBodyVel(time);
+    this->UpdateRigidBodyPos(time);
 }
 
 // END OF RIGIDBODY MEMBER FUNCTIONS

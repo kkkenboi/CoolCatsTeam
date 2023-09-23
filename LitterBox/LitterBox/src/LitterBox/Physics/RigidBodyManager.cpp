@@ -88,11 +88,78 @@ void RigidBodyManager::ReturnPooledRigidBody(RigidBody* rb)
     }
 }
 
+void RigidBodyManager::RBSystemSteps(float time) 
+{
+    // ==================
+    // Movement Step
+    // ==================
+    for (size_t i = 0; i < m_poolSize; ++i) 
+    {
+        if (m_rigidBodies[i] != nullptr) 
+        {
+            m_rigidBodies[i]->BodyStep(time);
+        }
+    }
+
+    // ==================
+    // Collision Step
+    // ==================
+    Vec2<float> normal_out{ 0.f , 0.f };
+    float depth_out{ 0.f };
+
+    for (size_t i = 0; i < m_poolSize; ++i) 
+    {
+        RigidBody* bodyA = m_rigidBodies[i];
+
+        for (size_t j = 1; j < m_poolSize; ++j)
+        {
+            RigidBody* bodyB = m_rigidBodies[j];
+
+            // If either rigidBody is not instantiated
+            if (bodyA == nullptr || bodyB == nullptr)
+            {
+                continue;
+            }
+
+            // If both bodies are static
+            if (bodyA->isStatic == false && bodyB->isStatic == false) 
+            {
+                continue;
+            }
+
+            // Normal here is moving B away from A
+            if (CheckCollisions(bodyA, bodyB, normal_out, depth_out)) 
+            {
+                Vec2<float>inverse_normal{ -normal_out.x, -normal_out.y };
+                if (bodyA->isStatic) 
+                {
+                    bodyB->Move(normal_out * depth_out);
+                }
+                else if (bodyB->isStatic)
+                {
+                    bodyA->Move(inverse_normal * depth_out);
+                }
+                else 
+                {
+                    bodyA->Move(inverse_normal * depth_out);
+                    bodyB->Move(normal_out * depth_out);
+                }
+
+                ResolveCollisions(bodyA, bodyB, normal_out, depth_out);
+            
+            }
+
+
+        }
+
+    }
+}
 
 // END OF RIGIDBODYMANAGER MEMBER FUNCTIONS
 // =======================================================
 
 // Check collisions between two RigidBodies
+// Normal is pushing bodyB away from bodyA
 bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float>& normal_out, float& depth_out) {
     normal_out.x = 0.f; // Make it zeroed first, in case of any values beforehand
     normal_out.y = 0.f;
@@ -102,23 +169,35 @@ bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float>& normal_out
     {
         if (bodyB->mShapeType == BOX)
         {
+            // A - B
             // BOX-BOX
             return CollisionIntersection_BoxBox(bodyA->obj_aabb, bodyA->mVelocity, bodyB->obj_aabb, bodyB->mVelocity);
         }
         else if (bodyB->mShapeType == CIRCLE) {
+            // A - B
             // BOX-CIRCLE
-            // return CollisionIntersection_BoxCircle(bodyA, bodyB, normal_out, depth_out);
+            // normal here is pushing B away from A
+            bool result = CollisionIntersection_CircleBox_SAT(bodyB->mPosition, bodyB->mRadius, bodyA->mTransformedVertices, normal_out, depth_out);
+            // The normal given is inverse bodyB is circle and bodyA is box
+            // So normal given is circle away from box, therefore need to inverse it
+            normal_out.x = -normal_out.x;
+            normal_out.y = -normal_out.y;
+            return result;
         }
     }
     if (bodyA->mShapeType == CIRCLE)
     {
         if (bodyB->mShapeType == BOX)
         {
+            // A - B
             // CIRCLE-BOX
-            // return CollisionIntersection_BoxCircle(bodyB, bodyA, normal_out, depth_out);
+            // normal here is pushing box away from circle
+            bool result = CollisionIntersection_CircleBox_SAT(bodyA->mPosition, bodyA->mRadius, bodyB->mTransformedVertices, normal_out, depth_out);
+            return result;
         }
         if (bodyB->mShapeType == CIRCLE)
         {
+            // A - B 
             // CIRCLE-CIRCLE
             return CollisionIntersection_CircleCircle(bodyA->mPosition, bodyB->mPosition, bodyA->mRadius, bodyB->mRadius, normal_out, depth_out);
         }

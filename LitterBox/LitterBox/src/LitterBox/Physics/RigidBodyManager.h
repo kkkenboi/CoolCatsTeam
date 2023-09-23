@@ -32,19 +32,19 @@ public:
     // back to the Manager, which means that it is not being calculated on anymore
     void ReturnPooledRigidBody(RigidBody* rb);
 
+    // Steps
+    // Movement Step
+    // Update Velocities
+    // Update Positions
+    // Collision Step
+    // Check BOXBOX, BOXCIRCLE, CIRCLEBOX, CIRCLECIRCLE
+    // From the checks get the normal and depth for the separation movement
+    // Move the objects away from each other
+    void RBSystemSteps(float time);
 };
 
 // Check collisions between two RigidBodies
+// Normal outputted is pushing bodyB away from bodyA
 bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float>& normal_out, float& depth_out);
 
 void ResolveCollisions(RigidBody* bodyA, RigidBody* bodyB, Vec2<float> normal, float depth);
-
-// Steps
-// Movement Step
-// Update Pos
-// Update Velocites
-// Collision Step
-// Check BOXBOX, BOXCIRCLE, CIRCLEBOX, CIRCLECIRCLE
-// From the checks get the normal and depth for the separation movement
-// Move the objects away from each other
-// 

@@ -100,6 +100,13 @@ public:
     // Updates the velocities of the RigidBody
     void UpdateRigidBodyVel(float time);
 
+    // Updates the RigidBody with all the steps
+    // Using a semi-implicit euler system, updating velocity first
+    // then updating positions
+    // Side note: Might be impulsed based system instead
+    // therefore accel = force / mass should be introduced later
+    void BodyStep(float time);
+
 };   // End of RigidBody class
 
 void CreateBoxVertices(Vec2<float>* vertices_arr, float width, float height);

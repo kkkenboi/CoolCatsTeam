@@ -191,6 +191,7 @@ bool CollisionIntersection_CircleCircle(Vec2<float> centerA, Vec2<float> centerB
 	return true;
 }
 
+// normal_out is pushing boxB from boxA
 bool CollisionIntersection_BoxBox_SAT(Vec2<float>* verticesA, Vec2<float>* verticesB, Vec2<float> normal_out, float depth_out) 
 {
 	normal_out = Vec2<float>{ 0.f,0.f };
@@ -304,6 +305,7 @@ bool CollisionIntersection_BoxBox_SAT(Vec2<float>* verticesA, Vec2<float>* verti
 
 	Vec2<float> vecAB = vecCenterB - vecCenterA;
 
+	// This normal is pushing B from A
 	if (PHY_MATH::DotProduct(vecAB, normal_out) < 0) {
 		normal_out.x = -normal_out.x;
 		normal_out.y = -normal_out.y;
@@ -315,10 +317,22 @@ bool CollisionIntersection_BoxBox_SAT(Vec2<float>* verticesA, Vec2<float>* verti
 // For CircleBox SAT Collision, we need to check instead of the edges of the
 // circle, we need to check only 1 more axis after checking all the axis of
 // the given box, we need to check the axis of the circle's center 
+
+// normal_out is pushing the Box away from the Circle
 bool CollisionIntersection_CircleBox_SAT(Vec2<float> circleCenter, float circleRadius, Vec2<float>* verticesBox, Vec2<float> normal_out, float depth_out)
 {
 	normal_out = Vec2<float>{ 0.f, 0.f };
 	depth_out = 100000.f;
+
+	Vec2<float> axis{ 0.f, 0.f };
+
+	float minProjValueA{ 0.f };
+	float maxProjValueA{ 0.f };
+
+	float minProjValueB{ 0.f };
+	float maxProjValueB{ 0.f };
+
+	float axisDepth{ 0.f };
 
 	// Loop through each edge of box
 	for (int i = 0; i < 4; ++i)
@@ -333,14 +347,8 @@ bool CollisionIntersection_CircleBox_SAT(Vec2<float> circleCenter, float circleR
 		Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y };
 
 		// Now we have the normal/axis from box
-		Vec2<float> axis{ -vecA.y , vecA.x };
-
-
-		float minProjValueA{ 0.f };
-		float maxProjValueA{ 0.f };
-
-		float minProjValueB{ 0.f };
-		float maxProjValueB{ 0.f };
+		axis.x = -vecA.y;
+		axis.y = vecA.x;
 
 
 		// Project all points onto the axis
@@ -356,7 +364,7 @@ bool CollisionIntersection_CircleBox_SAT(Vec2<float> circleCenter, float circleR
 
 		// We check for the depth here now based on knowing that
 		// the two max values being larger than the two min values
-		float axisDepth = PHY_MATH::FindMin(maxProjValueA - minProjValueB, maxProjValueB - minProjValueA);
+		axisDepth = PHY_MATH::FindMin(maxProjValueA - minProjValueB, maxProjValueB - minProjValueA);
 
 		if (axisDepth < depth_out)
 		{
@@ -367,8 +375,60 @@ bool CollisionIntersection_CircleBox_SAT(Vec2<float> circleCenter, float circleR
 	} // End of looping through box's edges
 
 	// Now we need to check the axis from the circle center to closest vertice to circle center
-	morehere
 
+	// First we get the nearest VerticeIndex from the box to the circle's center
+	int nearestVerticeIndex = FindIndexClosestPointOnBox(verticesBox, circleCenter);
+	Vec2<float> nearestVertice = verticesBox[nearestVerticeIndex];
+
+	// Next we make a vector from the circle center to nearestVertice
+	axis = { nearestVertice.x - circleCenter.x, nearestVertice.y - circleCenter.y };
+
+	// Project all points onto the axis
+	ProjectPointsOntoAxis(axis, verticesBox, minProjValueA, maxProjValueA);
+	ProjectCircleOntoAxis(axis, circleCenter, circleRadius, minProjValueB, maxProjValueB);
+
+	// Checks if we can find separation by checking if the
+	// min projection values of either object is larger than the max
+	// projection values of the other object
+	if (maxProjValueA <= minProjValueB || maxProjValueB <= minProjValueA) {
+		return false;
+	}
+
+	// We check for the depth here now based on knowing that
+	// the two max values being larger than the two min values
+	axisDepth = PHY_MATH::FindMin(maxProjValueA - minProjValueB, maxProjValueB - minProjValueA);
+
+	if (axisDepth < depth_out)
+	{
+		depth_out = axisDepth;
+		normal_out = axis;
+	}
+
+	// Finally the depth_out and normal_out are not normalized as
+	// the axis we used is essentially the same as the edges found on
+	// each of the objects, therefore we need to normalize the final
+	// depth_out and normal_out
+	depth_out /= PHY_MATH::Length(normal_out);
+	normal_out = PHY_MATH::Normalize(normal_out);
+
+	// We can use the dot product of these two vectors
+	// 0> is same direction, 0 is perpendicular, 0< is opposite direction
+
+	// Get the center of each obj's vertices
+	// Use center of the circle
+	Vec2<float> vecCenterBox = FindCenterOfBoxVertices(verticesBox);
+
+	// Circle center to polygon center
+	Vec2<float> vecAB = vecCenterBox - circleCenter;
+
+	// pushing B away from A
+	// This normal is pushing Box away from Circle
+	if (PHY_MATH::DotProduct(vecAB, normal_out) < 0) {
+		normal_out.x = -normal_out.x;
+		normal_out.y = -normal_out.y;
+	}
+
+	return true;
 }
 
 void ProjectPointsOntoAxis(Vec2<float> axisToProj, Vec2<float>*verticesBody, float minPtOnAxis, float maxPtOnAxis) {
