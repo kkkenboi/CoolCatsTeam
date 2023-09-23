@@ -9,12 +9,16 @@ namespace LB {
 		Time*					time	 = new Time();
 		InputSystem*			input	 = new InputSystem();
 		WindowsSystem*			windows	 = new WindowsSystem();
+		FactorySystem*			factory	 = new FactorySystem();
 		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
+		Memory*					memory	 = new Memory();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
+		Engine->AddSystem(factory);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
+		Engine->AddSystem(memory);
 
 		Engine->Initialize();
 
@@ -23,6 +27,7 @@ namespace LB {
 	{
 		////Delete all the game objects
 		//FACTORY->DestroyAllObjects();
+		//delete GOMANAGER->m_GameObjects;
 
 		//Delete all the systems
 		Engine->DestroySystems();
