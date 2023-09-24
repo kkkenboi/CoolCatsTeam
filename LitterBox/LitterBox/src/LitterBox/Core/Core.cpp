@@ -32,28 +32,26 @@ namespace LB
 	{
 		while (m_Running)
 		{
-			Profiler frameProfiler{ "Frame Time", ProfileResult::MANAGER, ProfileMap::SYSTEMS };
-
 			TIME->LBFrameStart();
-
-			// Update every system 
-			for (unsigned i = 0; i < Systems.size(); ++i) 
 			{
-				Profiler systemProfiler{ Systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS };
-				Systems[i]->Update();
-			}
+				Profiler frameProfiler{ "Total Frame Time", ProfileResult::MANAGER, ProfileMap::SYSTEMS };
 
-			if (TIME->ShouldFixedUpdate()) 
-			{
+				// Update every system 
 				for (unsigned i = 0; i < Systems.size(); ++i) 
 				{
-					Systems[i]->FixedUpdate();
+					Profiler systemProfiler{ Systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS };
+					Systems[i]->Update();
+				}
+
+				if (TIME->ShouldFixedUpdate()) 
+				{
+					for (unsigned i = 0; i < Systems.size(); ++i) 
+					{
+						Profiler systemProfiler{ Systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS, false };
+						Systems[i]->FixedUpdate();
+					}
 				}
 			}
-
-			// Update FPS counter
-			/*UpdateFPS(m_FPSInterval);
-			std::cout << m_FPS << '\n';*/
 
 			TIME->LBFrameEnd();
 		}

@@ -19,15 +19,15 @@ namespace LB
     {
         public:
         Memory();
+
         void Initialize() override { SetSystemName("Memory System"); }
+        void Destroy() override;
 
         template <typename T>
         T* Allocate();
 
         template <typename T>
         void Deallocate(T* ptr);
-
-        virtual void Destroy() override;
 
         private:
         std::map<void*, size_t> allocs;

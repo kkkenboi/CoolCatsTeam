@@ -41,26 +41,37 @@ namespace LB {
 		m_frameDuration = m_frameEnd - m_frameStart;
 
 		m_unscaledDeltaTime = m_frameDuration.count();
+
+		m_frameBudget = m_minDeltaTime - m_unscaledDeltaTime;
 		// Check if we need to wait before next frame
-		if (m_unscaledDeltaTime < m_minDeltaTime) {
-			TIME->Sleep(m_minDeltaTime - m_unscaledDeltaTime);
+		if (m_frameBudget > 0.0) {
+			TIME->Sleep(m_frameBudget);
 			m_unscaledDeltaTime = m_minDeltaTime;
 		}
 
 		m_deltaTime = m_unscaledDeltaTime * m_timeScale;
 		m_time += m_unscaledDeltaTime;
+
+		onFrameEnd.Invoke();
+
+		++frameCounter;
 	}
 
-	void Time::SetMaxFrameRate(double fps)
+	void Time::SetMaxFrameRate(int fps)
 	{
 		m_maxFrameRate = fps;
-		m_minDeltaTime = 1.0 / m_maxFrameRate;
+		m_minDeltaTime = 1.0 / (double)m_maxFrameRate;
 	}
 
-	void Time::SetFixedFrameRate(double fps)
+	int Time::GetMaxFrameRate()
+	{
+		return m_maxFrameRate;
+	}
+
+	void Time::SetFixedFrameRate(int fps)
 	{
 		m_fixedFrameRate = fps;
-		m_unscaledFixedDeltaTime = 1.0 / m_fixedFrameRate;
+		m_unscaledFixedDeltaTime = 1.0 / (double)m_fixedFrameRate;
 		m_fixedDeltaTime = m_unscaledFixedDeltaTime * m_timeScale;
 	}
 
@@ -108,6 +119,17 @@ namespace LB {
 	double Time::GetTime()
 	{
 		return m_time;
+	}
+
+	double Time::GetFrameBudget()
+	{
+		return m_frameBudget;
+	}
+
+
+	int Time::GetFrameCount()
+	{
+		return frameCounter;
 	}
 
 	void Time::Sleep(double time) 
