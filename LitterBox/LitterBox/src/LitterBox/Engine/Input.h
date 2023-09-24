@@ -44,7 +44,7 @@ namespace LB {
 	public:
 		InputSystem();
 
-		virtual std::string GetName() { return "Input System"; }
+		void Initialize() override { SetSystemName("Input System"); }
 
 		virtual void Update();
 

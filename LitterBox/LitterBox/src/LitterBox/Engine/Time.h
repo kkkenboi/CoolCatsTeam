@@ -19,7 +19,9 @@ namespace LB {
 		public:
 		Time(int maxFrameRate = 100, int fixedFrameRate = 50);
 
-		virtual std::string GetName() { return "Time System"; }
+		void Initialize() override { SetSystemName("Time System"); }
+
+		std::chrono::high_resolution_clock::time_point GetTimeStamp();
 
 		void LBFrameStart();
 		void LBFrameEnd();

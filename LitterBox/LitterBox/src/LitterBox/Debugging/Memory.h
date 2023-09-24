@@ -19,8 +19,7 @@ namespace LB
     {
         public:
         Memory();
-
-        virtual std::string GetName() { return "Memory System"; }
+        void Initialize() override { SetSystemName("Memory System"); }
 
         template <typename T>
         T* Allocate();

@@ -22,7 +22,7 @@ namespace LB
 		// Communicate with other systems
 		void SendMessage(Message* message) override;
 
-		std::string GetName() override { return "Factory"; }
+		void Initialize() override { SetSystemName("GameObject Factory System"); }
 
 		// Serialise all known ComponentMakers
 		void SerialiseGameObjs(int json_thing);

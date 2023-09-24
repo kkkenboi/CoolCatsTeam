@@ -23,15 +23,20 @@ namespace LB {
 		SetMaxFrameRate(maxFrameRate);
 		SetFixedFrameRate(fixedFrameRate);
 
-		m_frameEnd = m_frameStart = std::chrono::high_resolution_clock::now();
+		m_frameEnd = m_frameStart = GetTimeStamp();
+	}
+
+	std::chrono::high_resolution_clock::time_point Time::GetTimeStamp() 
+	{
+		return std::chrono::high_resolution_clock::now();
 	}
 
 	void Time::LBFrameStart() {
-		m_frameStart = std::chrono::high_resolution_clock::now();
+		m_frameStart = GetTimeStamp();
 	}
 
 	void Time::LBFrameEnd() {
-		m_frameEnd = std::chrono::high_resolution_clock::now();
+		m_frameEnd = GetTimeStamp();
 
 		m_frameDuration = m_frameEnd - m_frameStart;
 

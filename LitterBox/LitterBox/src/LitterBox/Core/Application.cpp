@@ -14,6 +14,7 @@ namespace LB {
 		FactorySystem*			factory	 = new FactorySystem();
 		GameLogic*				logic	 = new GameLogic();
 		Memory*					memory	 = new Memory();
+		ProfilerManager*		profiler = new ProfilerManager();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
@@ -23,6 +24,7 @@ namespace LB {
 		Engine->AddSystem(gameManager);
 		Engine->AddSystem(logic);
 		Engine->AddSystem(memory);
+		Engine->AddSystem(profiler);
 
 		Engine->Initialize();
 
