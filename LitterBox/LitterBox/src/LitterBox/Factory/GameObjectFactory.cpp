@@ -1,6 +1,5 @@
 #include "GameObjectFactory.h"
 #include "Components.cpp"
-#include "GameObjectManager.h"
 
 namespace LB
 {
@@ -18,10 +17,12 @@ namespace LB
 			std::cerr << "Factory already exist\n";
 		}
 
+		m_LastObjID = 0;
+
 		// Deserialise the data file and initialise ComponentMakers
 		// 
-		CreateComponentMaker(Physics);
-		CreateComponentMaker(Transform);
+		//CreateComponentMaker(Physics);
+		//CreateComponentMaker(Transform);
 		CreateComponentMaker(Render);
 
 		// Game Object Data File
@@ -29,19 +30,6 @@ namespace LB
 		SerialiseGameObjs(1);
 
 		std::cout << "Factory Initialised\n";
-
-
-		//// Creating a empty game object
-		//std::vector<IComponent*> empty;
-		//CreateGameObject(empty);
-
-		//// Input test components
-		//std::vector<IComponent*> notEmpty;
-		//notEmpty.push_back(m_ComponentMakers["Physics"]->Create());
-		//notEmpty.push_back(m_ComponentMakers["Transform"]->Create());
-		//notEmpty.push_back(m_ComponentMakers["Render"]->Create());
-		//CreateGameObject(notEmpty);
-
 	}
 
 	void FactorySystem::SerialiseGameObjs(int jsonThing)
@@ -91,26 +79,27 @@ namespace LB
 	};
 
 
-	GameObject* FactorySystem::CreateGameObject(std::vector<IComponent*> componentsList)
+	GameObject* FactorySystem::CreateGameObject()
 	{
-		std::cout << "Game Object pushed back into waiting list\n";
-
+		++m_LastObjID;
+		std::cout << "GO " << m_LastObjID << " has been created\n";
 		//toUpdate = true;
 
-		return new GameObject(componentsList);
-	}
+		// Does this mean that only default constructors are allowed?
+		//return MEMORY->Allocate<GameObject>();
 
-	void FactorySystem::AddComponent(GameObject* gameObj, IComponent* component)
-	{
-		if (gameObj != nullptr)
-		{
-			gameObj->m_Components.push_back(component);
-		}
+		// Original return
+		return new GameObject(FACTORY->GetLastObjID());
 	}
 
 	std::map<std::string, ComponentMaker*> FactorySystem::GetCMs() const
 	{
 		return m_ComponentMakers;
+	}
+
+	int FactorySystem::GetLastObjID() const
+	{
+		return m_LastObjID;
 	}
 
 

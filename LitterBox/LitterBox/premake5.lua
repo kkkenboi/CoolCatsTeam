@@ -42,6 +42,11 @@ project "LitterBox"
         "%{IncludeDir.FMOD}"
     }
 
+    libdirs
+    {
+        "%{wks.location}/dependencies/FMOD/core/lib/x64"
+    }
+
     -- Links to libraries by providing their project's name
     links
     {
@@ -49,13 +54,9 @@ project "LitterBox"
         "Glad",
         "ImGui",
         "opengl32.lib",
-        -- "fmod_vc"
+        "fmod_vc"
         -- "FreeType"
     }
-
-    -- postbuildcommands
-    -- {
-    -- }
 
     filter "system:windows"
         systemversion "latest"

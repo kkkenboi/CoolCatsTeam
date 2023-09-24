@@ -226,7 +226,8 @@ unsigned int Renderer::Renderer::create_render_object(const render_Object* obj)
 void Renderer::Renderer::remove_render_object(const render_Object* obj)
 {
 	for (int i{ 0 }; i < 4; ++i) {
-		quad_buff[obj->get_index()].data[i].active = false;
+		//quad_buff[obj->get_index()].data[i].active = false;
+		std::cout << obj->get_index() << '\n';
 	}
 
 	active_objs.remove_if([obj](const render_Object* in_list) { return *obj == *in_list; });

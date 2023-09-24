@@ -35,6 +35,12 @@ project "Editor"
 
     }
 
+    postbuildcommands
+    {
+        "{COPYFILE} %{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll %{wks.location}bin/" .. outputDir .. "/Editor"
+    }
+
+
     -- Link to our engine library
     links
     {
