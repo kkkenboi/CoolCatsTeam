@@ -1,6 +1,6 @@
 /*!************************************************************************
  \file			Math.cpp
- \author
+ \author		Vanessa Chua Siew Jin, Justine
  \par DP email:
  \par Course:	CSD2401A
  \date			10-09-2023
@@ -13,11 +13,14 @@
 
 namespace LB
 {
+	/***********************************************************************/
+	//Justine's
 	template <typename T>
 	T Clamp(T value, T min, T max) 
 	{
 		return (value < min) ? min : (value > max) ? max : value;
 	}
+	//************************************************************************
 
 	/***************************************************************************************************
 	* 
@@ -172,6 +175,8 @@ namespace LB
 		return Vec2<T>((T)1, (T)1);
 	}
 
+	//***********************************************************************
+	//Justine's
 	template<typename T>
 	Vec2<T>& Vec2<T>::Normalise() const
 	{
@@ -194,6 +199,7 @@ namespace LB
 	{
 		return (x * x + y * y);
 	}
+	//***********************************************************************
 
 	template<typename T>
 	Vec2<T>& Vec2<T>::Set(T _x, T _y)
@@ -225,6 +231,8 @@ namespace LB
 		return result;
 	}
 
+	/*********************************************************************************************/
+	//Justine's
 	template<typename T>
 	Vec2<T> Normalise(Vec2<T> const& rhs)
 	{
@@ -242,6 +250,7 @@ namespace LB
 	{
 		return ((lhs.x * rhs.x) + (lhs.y * rhs.y));
 	}
+	/**********************************************************************************************/
 
 	template<typename T1, typename T2>
 	Vec2<T1> operator* (Vec2<T1> lhs, T2 rhs)
@@ -434,7 +443,8 @@ namespace LB
 	{
 		return Vec3<T>((T)1, (T)1, (T)1);
 	}
-
+	/*********************************************************************************************/
+	//Justine's
 	template<typename T>
 	Vec3<T>& Vec3<T>::Normalise() const
 	{
@@ -458,7 +468,7 @@ namespace LB
 	{
 		return (x * x + y * y + z * z);
 	}
-
+	/*********************************************************************************************/
 	template<typename T>
 	Vec3<T>& Vec3<T>::Set(T _x, T _y, T _z)
 	{
@@ -492,6 +502,8 @@ namespace LB
 		return result;
 	}
 
+	/*********************************************************************************************/
+	//Justine's
 	template<typename T>
 	Vec3<T> Normalise(Vec3<T> const& rhs)
 	{
@@ -520,6 +532,7 @@ namespace LB
 		return result;
 		
 	}
+	/*********************************************************************************************/
 
 	template<typename T1, typename T2>
 	Vec3<T1> operator* (Vec3<T1> lhs, T2 rhs)
@@ -726,6 +739,8 @@ namespace LB
 		return Vec4<T>((T)1, (T)1, (T)1, (T)1);
 	}
 
+	/*********************************************************************************************/
+	//Justine's
 	template<typename T>
 	Vec4<T>& Vec4<T>::Normalise() const
 	{
@@ -750,6 +765,7 @@ namespace LB
 	{
 		return (x * x + y * y + z * z + w * w);
 	}
+	/*********************************************************************************************/
 
 	template<typename T>
 	Vec4<T>& Vec4<T>::Set(T _x, T _y, T _z, T _w)
@@ -787,6 +803,8 @@ namespace LB
 		return result;
 	}
 
+	/*********************************************************************************************/
+	//Justine's
 	template<typename T>
 	Vec4<T> Normalise(Vec4<T> const& rhs)
 	{
@@ -805,7 +823,7 @@ namespace LB
 	{
 		return ((lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z) + (lhs.w * rhs.w));
 	}
-
+	/*********************************************************************************************/
 
 	template<typename T1, typename T2>
 	Vec4<T1> operator* (Vec4<T1> lhs, T2 rhs)

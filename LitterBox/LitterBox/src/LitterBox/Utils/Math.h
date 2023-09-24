@@ -1,9 +1,9 @@
 /*!************************************************************************
  \file			Math.h
- \author		
- \par DP email: 
+ \author		Vanessa Chua Siew Jin, Justine
+ \par DP email:
  \par Course:	CSD2401A
- \date			10-09-2023
+ \date			24-09-2023
  \brief
 
 **************************************************************************/
@@ -14,8 +14,11 @@ namespace LB
 {
 	#define PI 3.14159265358979323846
 
+	/***********************************************************************/
+	//Justine's
 	template <typename T>
 	T Clamp(T value, T min, T max);
+	/***********************************************************************/
 
 	/***************************************************************************************************
 	*
@@ -62,9 +65,12 @@ namespace LB
 		Vec2<T> Zero(); // fill up all to 0
 		Vec2<T> One();  // fill up all to 1
 
+		/***********************************************************************/
+		//Justine's
 		Vec2<T>& Normalise()	 const;
 		T		 Length()		 const;
 		T		 LengthSquared() const;
+		/***********************************************************************/
 
 		Vec2<T>& Set(T x, T y);
 		Vec2<T>& Set(Vec2<T> const& rhs);
@@ -87,6 +93,8 @@ namespace LB
 	template<typename T>
 	Vec2<T> Lerp(Vec2<T> const& lhs, Vec2<T> const& rhs, float percentage);
 
+	/***********************************************************************/
+	//Justine's
 	template<typename T>
 	Vec2<T> Normalise(Vec2<T> const& rhs);
 
@@ -95,6 +103,7 @@ namespace LB
 
 	template<typename T>
 	T DotProduct(Vec2<T> const& lhs, Vec2<T> const& rhs);
+	/***********************************************************************/
 
 
 	/***************************************************************************************************
@@ -142,9 +151,12 @@ namespace LB
 		Vec3<T> Zero(); // fill up all to 0
 		Vec3<T> One();  // fill up all to 1
 
+		/***********************************************************************/
+		//Justine's
 		Vec3<T>& Normalise()	 const;
 		T		 Length()		 const;
 		T		 LengthSquared() const;
+		/***********************************************************************/
 
 		Vec3<T>& Set(T x, T y, T z);
 		Vec3<T>& Set(Vec3<T> const& rhs);
@@ -167,6 +179,8 @@ namespace LB
 	template<typename T>
 	Vec3<T> Lerp(Vec3<T> const& lhs, Vec3<T> const& rhs, float percentage);
 
+	/***********************************************************************/
+	//Justine's
 	template<typename T>
 	Vec3<T> Normalise(Vec3<T> const& rhs);
 
@@ -178,6 +192,7 @@ namespace LB
 
 	template<typename T>
 	Vec3<T> CrossProduct(Vec3<T> const& lhs, Vec3<T> const& rhs);
+	/***********************************************************************/
 
 
 	/***************************************************************************************************
@@ -226,9 +241,12 @@ namespace LB
 		Vec4<T> Zero(); // fill up all to 0
 		Vec4<T> One();  // fill up all to 1
 
+		/***********************************************************************/
+		//Justine's
 		Vec4<T>& Normalise()	 const;
 		T		 Length()		 const;
 		T		 LengthSquared() const;
+		/***********************************************************************/
 
 		Vec4<T>& Set(T x, T y, T z, T w);
 		Vec4<T>& Set(Vec4<T> const& rhs);
@@ -251,6 +269,8 @@ namespace LB
 	template<typename T>
 	Vec4<T> Lerp(Vec4<T> const& lhs, Vec4<T> const& rhs, float percentage);
 
+	/***********************************************************************/
+	//Justine's
 	template<typename T>
 	Vec4<T> Normalise(Vec4<T> const& rhs);
 
@@ -259,6 +279,7 @@ namespace LB
 
 	template<typename T>
 	T DotProduct(Vec4<T> const& lhs, Vec4<T> const& rhs);
+	/***********************************************************************/
 
 	/***************************************************************************************************
 	*
