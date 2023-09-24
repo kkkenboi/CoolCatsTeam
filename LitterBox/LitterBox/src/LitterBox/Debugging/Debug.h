@@ -21,6 +21,8 @@ namespace LB
 	class Debug : public ISystem
 	{
 	public:
+		void Initialize() override { SetSystemName("Debug System"); }
+
 		Event<bool> onDebugToggle;
 
 		void SetColor(Vec4<int> color);

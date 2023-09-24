@@ -17,22 +17,25 @@ namespace LB
 		virtual void SendMessage(Message* message) { UNREFERENCED_PARAMETER(message); };
 		// ---------------------------------------------------------------------------------
 
-		/// Update is called every game frame.
+		// Update is called every game frame.
 		virtual void Update() {}
 
 		// Fixed update is called independent of frame rate at a constant pace.
 		virtual void FixedUpdate() {}
 
-		/// All systems provide a string name for debugging.
-		virtual std::string GetName() = 0;
+		// All systems provide a string name for debugging.
+		virtual std::string const& GetName() { return systemName; }
 
-		/// Initialize the system before the core game loop.
+		// Initialize the system before the core game loop.
 		virtual void Initialize() {}
 
-		/// Destroy the system after the core game loop.
+		// Destroy the system after the core game loop.
 		virtual void Destroy() {}
 
+		// Set name of the system
+		void SetSystemName(std::string newName) { systemName = newName; }
+
 	private:
-		std::string systemName;
+		std::string systemName{};
 	};
 }
