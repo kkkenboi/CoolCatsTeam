@@ -1,9 +1,13 @@
 #pragma once
 #include "LitterBox/Core/System.h"
+#include "Platform\Windows\Windows.h"
 #include <utility>
 #include <array>
 #include <list>
 #include <map>
+#include <queue>
+//TODO CHANGE TO RELATIVE PATH
+#include "../../dependencies/glm-0.9.9.8/glm/glm.hpp"
 
 namespace Renderer {
 	//-------------Structs to make things easier for now--------
@@ -13,6 +17,13 @@ namespace Renderer {
 
 	struct vec3 {
 		float x, y, z;
+	};
+
+	struct vec4 {
+		vec3 xyz;
+		float w;
+
+
 	};
 	//----------------------------------------------------------
 
@@ -54,9 +65,6 @@ namespace Renderer {
 		~Texture();
 
 		const unsigned int get_tex() const { return id; }
-
-		void Bind() const;
-		void Unbind();
 	};
 
 	//TODO CHANGE THE LIMIT FOR TEXTURES TO BE BASED ON HARDWARE LIMITS
@@ -75,12 +83,77 @@ namespace Renderer {
 
 		void flush_textures();
 	};
-	//---------------------TEXTURES-------------------------------------------
-	
-	class Camera {
+	//------------------------------------------------------------------------
 
+	//----------------------------------------CAMERA-----------------------------------
+	class Camera {
+		//--------premade values so it doesn't look like I'm hardcoding-----
+		glm::vec4 pos	{ 0.f, 0.f, 5.f, 1.f };
+		glm::vec4 up	{ 0.f,1.f,0.f, 0.f };
+		glm::vec4 right	{ 1.f,0.f,0.f, 0.f };
+		glm::vec4 w		{ 0.f,0.f,1.f, 0.f };
+		//------------------------------------------------------------------
+		//The values defined above are already the inverse values
+		glm::mat4 inv_mat{ right, up, w, pos };
+		glm::mat4 nel{ glm::inverse(inv_mat) };
+		glm::mat4 ortho{2.f / LB::WINDOWSSYSTEM->GetWidth(), 0.f ,0.f, 0.f,
+					  0.f, 2.f / LB::WINDOWSSYSTEM->GetHeight(), 0.f, 0.f,
+		              0.f, 0.f, 0.2f, 0.f, 
+					  -1.f, -1.f, -(0.2f), 1.f};
+
+		
+	public:
+		glm::mat4 world_NDC {ortho};
+
+		Camera() { 
+			std::cout << "WIDTH: " << LB::WINDOWSSYSTEM->GetWidth() << " HEIGHT: " << LB::WINDOWSSYSTEM->GetHeight() << std::endl;
+			float hvf = LB::WINDOWSSYSTEM->GetHeight();
+			float wvf = LB::WINDOWSSYSTEM->GetWidth();
+			float left = 0.f;
+			float right = wvf;
+			ortho = { 2.f / right - left, 0.f, 0.f, 0.f,
+					 0.f, 2.f / hvf, 0.f, 0.f,
+					 0.f, 0.f, 0.2f, 0.f,
+					 -(right + left)/(right - left), -1.f, -0.2f, 1.f};
+			world_NDC = ortho * nel;
+		}
+
+		void move_cam() {
+			pos.x = -10.f +static_cast<float>(rand()) / static_cast<float>(RAND_MAX/ (20.f));
+			pos.y = -10.f +static_cast<float>(rand()) / static_cast<float>(RAND_MAX/ (20.f));
+			nel = glm::inverse(glm::mat4{ right, up, w, pos });
+			world_NDC = ortho * nel;
+		}
+	};
+	//----------------------------------------CAMERA-----------------------------------
+
+	//----------------------------------------ANIMATION--------------------------------
+	//Have function that will take in a render_Object and change the uv to the uv in containers
+	class Animation {
+	private:
+		const float playback;
+		const float increment;
+		const int frame_count;
+		const vec2* arr;
+	public:
+		bool repeat{ false };
+		//TODO make sure that ptr eventually points to memory in the heap
+		Animation(const float pb, const int fc, const vec2* ptr) : playback{ pb }, increment{(float)fc / pb}, frame_count{fc}, arr{ptr} {}
+	
+		inline const float get_length() const { return playback; }
+		inline const int get_frame_count() const { return frame_count; }
+		inline const vec2* get_uv(int offset = 0) const { return arr + offset; }
+		inline const float get_inc() const { return increment; }
 	};
 
+	class Animation_Manager {
+		std::map<std::string, const Animation> animations;
+	public:
+		void load_anim(const std::string& animation_name, const vec2* data, const float anim_time, const int number_of_frames);
+		const Animation* find_animation(const std::string& name) const { return animations.find(name) != animations.end() ? &(animations.find(name)->second) : nullptr; }
+	};
+	//----------------------------------------ANIMATION--------------------------------
+	
 	//------------------------------------------------RENDERING SPECIFIC------------------------------------------------
 	//Renderer class will be incharge the vao, shader program and buffers.
 	//Renderer class will not be exposed to the programmers and is meant-
@@ -103,6 +176,8 @@ namespace Renderer {
 		//std::string shader_file_path
 
 	public:
+		Camera cam;
+
 		Renderer();
 		~Renderer();
 
@@ -123,6 +198,7 @@ namespace Renderer {
 		//TODO figure out some way in the serialization process
 		//how to pass in object limit for rende
 		Texture_Manager t_Manager;
+		Animation_Manager a_Manager;
 	public:
 		Renderer object_renderer;
 
@@ -137,6 +213,8 @@ namespace Renderer {
 		bool remove_texture(const std::string& name);
 		const int get_texture(const std::string& name) const { return t_Manager.get_texture_index(name); }
 		void flush_textures();
+
+		auto get_anim(const std::string& name) const { return a_Manager.find_animation(name); }
 	};
 
 	//A pointer to the system object in the core engine
@@ -146,25 +224,43 @@ namespace Renderer {
 	//Render object is an object that will be exposed to the programmers in the level creator
 	class render_Object {
 	private:
-		unsigned int quad_id;
+		unsigned int									quad_id;
+		float											time_elapsed;
+		unsigned int									frame;
+		std::queue<std::pair<const Animation*, bool>>	animation;
 	public:
-		vec2				position;
-		float				scal;
-		float				w;
-		float				h;
-		vec3				col;
-		std::array<vec2, 4> uv; //bot left, bot right, top right, top left
-		int					texture;
-		bool				activated;
+		vec2						position;
+		float						scal;
+		float						w;
+		float						h;
+		vec3						col;
+		std::array<vec2, 4>			uv; //bot left, bot right, top right, top left
+		int							texture;
+		bool						activated;
 
-		render_Object(vec2 pos = { 0.f, 0.f }, float width = 1.f, float height = 1.f, float scale = 1.f, vec3 color = { 0.f,0.f,0.f }, std::array<vec2,4> uv = {}, int texture = -1, bool active = true);
+		render_Object(
+			vec2 pos = { 0.f, 0.f }, 
+			float width = 1.f, 
+			float height = 1.f, 
+			float scale = 1.f, 
+			vec3 color = { 0.f,0.f,0.f }, 
+			std::array<vec2,4> uv = {}, 
+			int texture = -1, 
+			bool active = true);
 		~render_Object();
 		
 		inline const unsigned int get_index() const { return quad_id; }
+		inline const size_t get_queue_size() const { return animation.size(); }
 
 		inline bool operator==(const render_Object& rhs) const {
 			return quad_id == rhs.quad_id;
 		}
+
+		void play_repeat(const std::string& name);
+		void play_next(const std::string& name);
+		void play_now(const std::string& name);
+
+		void animate();
 	};
 	//------------------------------------------------RENDERING SPECIFIC------------------------------------------------
 
