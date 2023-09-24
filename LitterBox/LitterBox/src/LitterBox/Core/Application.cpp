@@ -8,19 +8,19 @@ namespace LB {
 
 		Time*					time	 = new Time();
 		InputSystem*			input	 = new InputSystem();
+		ProfilerManager*		profiler = new ProfilerManager();
 		WindowsSystem*			windows	 = new WindowsSystem();
 		FactorySystem*			factory	 = new FactorySystem();
 		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
 		Memory*					memory	 = new Memory();
-		ProfilerManager*		profiler = new ProfilerManager();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
+		Engine->AddSystem(profiler);
 		Engine->AddSystem(factory);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
 		Engine->AddSystem(memory);
-		Engine->AddSystem(profiler);
 
 		Engine->Initialize();
 

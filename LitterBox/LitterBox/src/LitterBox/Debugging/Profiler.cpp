@@ -85,9 +85,17 @@ namespace LB
 
 	void ProfilerManager::DumpGeneralInfo()
 	{
+		// Print and delete the information
+
+		std::cout << std::setfill('=') << std::setw(59) << "=" << std::setfill(' ') << "\n";
+		std::cout << "General Profiling Snapshot\n";
+
 		for (auto const& info : generalInfoMap) {
 			std::cout << info.first << ": " << info.second << " milliseconds\n";
 		}
+
+		std::cout << std::setfill('=') << std::setw(59) << "=" << std::setfill(' ') << "\n";
+		generalInfoMap.clear();
 	}
 
 	void ProfilerManager::DumpFrameInfo()
