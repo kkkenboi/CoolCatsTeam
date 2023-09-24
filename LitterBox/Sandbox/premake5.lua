@@ -27,6 +27,7 @@ project "Sandbox"
         "%{wks.location}/LitterBox/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
+        "%{IncludeDir.glm}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.stb}",

@@ -7,10 +7,13 @@ namespace LB
 	class GameLogic : public ISystem
 	{
 	public:
+
+		GameLogic();
+		~GameLogic();
+
 		void Initialize() override;
 		void Update() override;
 		void Destroy() override;
-		virtual std::string GetName() override { return "GameLogic"; }
 	private:
 
 	};

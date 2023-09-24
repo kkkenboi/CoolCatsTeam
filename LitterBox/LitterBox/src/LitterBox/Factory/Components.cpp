@@ -75,8 +75,12 @@ namespace LB
 			glfwGetCursorPos(WINDOWSSYSTEM->GetWindow(), &posx, &posy);
 
 			Renderer::render_Object* temp = new Renderer::render_Object;
-			temp->position.x = 100.f;
-			temp->position.y = 200.f;
+			temp->position.x = posx;
+			temp->position.y = posy;
+
+			temp->w = 10000.f;
+			temp->h = 10000.f;
+
 
 			renderObj = temp;
 			std::cout << "Render component initialising mouse position values\n";
@@ -89,10 +93,10 @@ namespace LB
 		{
 			std::cout << "Deserialising Render\n";
 		}
-		//void Destroy() override
-		//{
-		//	//delete renderObj;
-		//}
+		void Destroy() override
+		{
+			//delete renderObj;
+		}
 
 	private:
 		// Should data stay private? 

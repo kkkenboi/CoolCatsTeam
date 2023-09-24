@@ -29,6 +29,7 @@ outputDir = "%{cfg.buildcfg}-%{cfg.platform}"
 IncludeDir = {}
 IncludeDir["GLFW"]          = "%{wks.location}/dependencies/GLFW/include"
 IncludeDir["Glad"]          = "%{wks.location}/dependencies/Glad/include"
+IncludeDir["glm"]           = "%{wks.location}/dependencies/glm/glm"
 IncludeDir["ImGui"]         = "%{wks.location}/dependencies/ImGui"
 IncludeDir["spdlog"]        = "%{wks.location}/dependencies/spdlog/include"
 IncludeDir["stb"]           = "%{wks.location}/dependencies/stb"

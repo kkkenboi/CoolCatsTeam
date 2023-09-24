@@ -33,7 +33,7 @@ namespace LB
 
 	GameLogic* GAMELOGIC = nullptr;
 
-	void GameLogic::Initialize()
+	GameLogic::GameLogic()
 	{
 		// Ensure singleton
 		if (!GAMELOGIC)
@@ -44,7 +44,15 @@ namespace LB
 		{
 			std::cerr << "Game Logic already exist\n";
 		}
+	}
+	GameLogic::~GameLogic()
+	{
 
+	}
+
+	void GameLogic::Initialize()
+	{
+		SetSystemName("Game Logic System");
 		INPUT->SubscribeToKey(SpawnGameObject, KeyCode::KEY_P, KeyEvent::PRESSED);
 	}
 
@@ -58,5 +66,7 @@ namespace LB
 	{
 
 	}
+
+
 
 }

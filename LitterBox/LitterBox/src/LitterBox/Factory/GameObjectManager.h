@@ -33,7 +33,6 @@ namespace LB
 		GameObjectManager();
 		void Destroy() override;
 
-		std::string GetName() override { return "GameManager"; }
 		std::vector<GameObject*> GetGameObjects() const;
 		void AddGameObject(GameObject* gameObject);
 

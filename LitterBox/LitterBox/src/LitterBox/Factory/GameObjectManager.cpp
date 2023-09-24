@@ -6,6 +6,8 @@ namespace LB
 
 	GameObjectManager::GameObjectManager()
 	{
+		SetSystemName("GameObjectManager System");
+
 		if (!GOMANAGER)
 		{
 			GOMANAGER = this;
@@ -37,7 +39,7 @@ namespace LB
 			{
 				// Delete any memory allocated from components
 				m_GameObjects[i]->GetComponents()[j]->Destroy();
-				std::cout << m_GameObjects[i]->GetComponents()[j]->GetType() << " deleted\n";
+				//std::cout << m_GameObjects[i]->GetComponents()[j]->GetType() << " deleted\n";
 
 				// Delete any memory allocated for the Component
 				delete m_GameObjects[i]->GetComponents()[j];
