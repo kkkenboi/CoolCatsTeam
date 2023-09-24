@@ -10,51 +10,60 @@
 
 #pragma once
 
-#include <list>
+#include <map>
 #include "LitterBox/Core/System.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Engine/Input.h"
 
 namespace LB 
 {
-	enum class ProfileResult {
+	enum class ProfileResult 
+	{
 		IMMEDIATE,	// Prints the result immediately after profiling
 		MANAGER		// Adds the result to printing queue in the manager
 	};
 
-	struct ProfileInfo
+	enum class ProfileMap 
 	{
-		char const* name;
-		double duration;
+		GENERAL,
+		SYSTEMS
 	};
 
 	class Profiler 
 	{
 		public:
-		Profiler(char const* name, ProfileResult result);
+		Profiler(char const* name, ProfileResult result, ProfileMap map = ProfileMap::GENERAL);
 		~Profiler();
 
 		private:
 		std::chrono::high_resolution_clock::time_point start;
 		char const* name;
 		ProfileResult result;
+		ProfileMap map;
 	};
 
 	class ProfilerManager : public ISystem 
 	{
 		public:
-		virtual std::string GetName() { return "Profiling System"; }
-		
 		ProfilerManager();
+		void Initialize() override { SetSystemName("Profiler System"); }
 
 		virtual void Destroy() override;
 
+		void AddProfilerInfo(char const* name, double duration, ProfileMap map = ProfileMap::GENERAL);
+		void DumpGeneralInfo();
+		void DumpFrameInfo();
+
 		private:
-		KeyCode dumpInfoKey = KeyCode::KEY_P;
-		std::list<ProfileInfo> printQueue;
+		KeyCode dumpGeneralInfoKey = KeyCode::KEY_O;
+		KeyCode dumpFrameInfoKey = KeyCode::KEY_P;
+
+		std::map<char const*, double> generalInfoMap;
+		std::map<char const*, double> systemInfoMap;
 	};
 
-	void DumpInfo();
+	void DumpGeneralInfo();
+	void DumpFrameInfo();
 
 	extern ProfilerManager* PROFILER;
 }

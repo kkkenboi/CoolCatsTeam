@@ -32,7 +32,7 @@ namespace LB
 
 		virtual void Update();								//Update the system every frame
 		virtual void Draw(WindowsData m_Data);				//Update the system every frame
-		virtual std::string GetName() { return "Windows"; }	//Get the string name of the system, not the same as the window title
+		void Initialize() override { SetSystemName("Windows System"); } //Get the string name of the system, not the same as the window title
 		virtual void SendMessage(Message* message) { UNREFERENCED_PARAMETER(message); };
 
 

@@ -2,6 +2,7 @@
 #include "Core.h"
 #include <GLFW/glfw3.h>
 #include "LitterBox/Engine/Time.h"
+#include "LitterBox/Debugging/Profiler.h"
 
 namespace LB
 {
@@ -31,11 +32,14 @@ namespace LB
 	{
 		while (m_Running)
 		{
+			Profiler frameProfiler{ "Frame Time", ProfileResult::MANAGER, ProfileMap::SYSTEMS };
+
 			TIME->LBFrameStart();
 
 			// Update every system 
 			for (unsigned i = 0; i < Systems.size(); ++i) 
 			{
+				Profiler systemProfiler{ Systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS };
 				Systems[i]->Update();
 			}
 

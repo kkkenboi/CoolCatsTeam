@@ -124,7 +124,7 @@ namespace Renderer {
 
 		virtual void Update();
 		virtual void Draw();
-		virtual std::string GetName() { return "Rendering System"; }
+		void Initialize() override { SetSystemName("Renderer System"); }
 
 		bool create_texture(const std::string& file_path, const std::string& name);
 		bool remove_texture(const std::string& name);
