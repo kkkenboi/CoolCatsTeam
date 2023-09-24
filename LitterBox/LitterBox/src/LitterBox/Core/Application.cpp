@@ -12,6 +12,7 @@ namespace LB {
 		FactorySystem*			factory	 = new FactorySystem();
 		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
 		Memory*					memory	 = new Memory();
+		ProfilerManager*		profiler = new ProfilerManager();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
@@ -19,6 +20,7 @@ namespace LB {
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
 		Engine->AddSystem(memory);
+		Engine->AddSystem(profiler);
 
 		Engine->Initialize();
 
