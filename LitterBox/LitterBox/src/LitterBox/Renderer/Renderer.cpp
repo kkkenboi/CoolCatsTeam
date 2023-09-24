@@ -116,12 +116,12 @@ std::array<std::array<Renderer::vec2, 4>, 18> frames{
 
 //TODO for array of UV data for serialization probably gonna need to store data on heap
 
-void Renderer::Animation_Manager::load_anim(const std::string& animation_name, const vec2* data, const float anim_time, const int number_of_frames) {
+void Renderer::Animation_Manager::load_anim(const std::string& animation_name, const std::array<vec2,4>* data, const float anim_time, const int number_of_frames) {
 	animations.emplace(std::make_pair(animation_name, Animation{ anim_time, number_of_frames, data }));
 }
 //---------------------------------------ANIMATIONS-------------------------------------
 
-//----------------------------------------------RENDERER---------------------------------------------------
+//------------------------------------------RENDERER-OBJECT---------------------------------------------
 Renderer::render_Object::render_Object(
 	vec2 pos,
 	float width,
@@ -133,7 +133,7 @@ Renderer::render_Object::render_Object(
 	bool active) :
 	position{ pos }, scal{ scale }, w{ width }, h{ height },
 	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ (int)text },
-	uv{uv}, frame{0}, time_elapsed{0.f}
+	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }
 {
 	if (!GRAPHICS) {
 		std::cerr << "GRAPHICS SYSTEM NOT INITIALIZED" << std::endl;
@@ -141,7 +141,7 @@ Renderer::render_Object::render_Object(
 	}
 
 	quad_id = GRAPHICS->object_renderer.create_render_object(this);
-	
+
 }
 
 Renderer::render_Object::~render_Object()
@@ -190,11 +190,30 @@ void Renderer::render_Object::animate()
 	//increment time elapsed
 	time_elapsed += LB::TIME->GetDeltaTime();
 
-	if (time_elapsed > animation.front().first->get_inc()) {
-
+	//move to next frame based on time
+	if (time_elapsed >= animation.front().first->get_inc()) {
+		++frame;
+		time_elapsed = 0.f;
 	}
-}
 
+	//check if on last frame
+	if (frame == animation.front().first->get_frame_count()) {
+		//pop the animation if its non repeat or reset the frame if it is
+		if (!animation.front().second) {
+			animation.pop();
+		}
+		frame = 0;
+	}
+
+	//check if we still have animation
+	if (!animation.size())
+		return;
+
+	uv = *animation.front().first->get_uv(frame);
+}
+//------------------------------------------RENDERER-OBJECT---------------------------------------------
+
+//----------------------------------------------RENDERER---------------------------------------------------
 Renderer::Renderer::Renderer() :
 	vao{}, shader_program{}, vbo{}, ibo{},
 	quad_buff{ nullptr }, index_buff{},
@@ -406,9 +425,9 @@ Renderer::RenderSystem::RenderSystem()
 	glBindVertexArray(object_renderer.get_vao());
 
 	//-################TEST CODE REMOVE AFTER##########################
-	//testobj = new render_Object{ {800.f, 450.f}, 100.f, 100.f };
+	testobj = new render_Object{ {800.f, 450.f}, 100.f, 100.f };
 	//test2 = new render_Object{ {300.f, 300.f}, 30.f, 50.f };
-	/*testobj->col = { 0.f,0.f,0.f };
+	testobj->col = { 0.f,0.f,0.f };
 	testobj->uv[0] = { 0.f, 0.6f };
 	testobj->uv[1] = { .12f, 0.6f };
 	testobj->uv[2] = { .12f, .73f };
@@ -419,8 +438,10 @@ Renderer::RenderSystem::RenderSystem()
 	t_Manager.add_texture("./test3.png", "pine");
 	t_Manager.add_texture("./anim.png", "run");
 	testobj->texture = t_Manager.get_texture_index("run");
-	testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };*/
+	testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
 	//-################TEST CODE REMOVE AFTER##########################
+	a_Manager.load_anim("running", frames.data(), 2.f, 18);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
