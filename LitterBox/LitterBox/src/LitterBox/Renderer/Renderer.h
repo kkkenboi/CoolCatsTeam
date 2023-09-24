@@ -134,22 +134,22 @@ namespace Renderer {
 		const float playback;
 		const float increment;
 		const int frame_count;
-		const vec2* arr;
+		const std::array<vec2,4>* arr;
 	public:
 		bool repeat{ false };
 		//TODO make sure that ptr eventually points to memory in the heap
-		Animation(const float pb, const int fc, const vec2* ptr) : playback{ pb }, increment{(float)fc / pb}, frame_count{fc}, arr{ptr} {}
+		Animation(const float pb, const int fc, const std::array<vec2, 4>* ptr) : playback{ pb }, increment{ pb/(float)fc}, frame_count{fc}, arr{ptr} {}
 	
 		inline const float get_length() const { return playback; }
 		inline const int get_frame_count() const { return frame_count; }
-		inline const vec2* get_uv(int offset = 0) const { return arr + offset; }
+		inline const std::array<vec2, 4>* get_uv(int offset = 0) const { return arr + offset; }
 		inline const float get_inc() const { return increment; }
 	};
 
 	class Animation_Manager {
 		std::map<std::string, const Animation> animations;
 	public:
-		void load_anim(const std::string& animation_name, const vec2* data, const float anim_time, const int number_of_frames);
+		void load_anim(const std::string& animation_name, const std::array<vec2, 4>* data, const float anim_time, const int number_of_frames);
 		const Animation* find_animation(const std::string& name) const { return animations.find(name) != animations.end() ? &(animations.find(name)->second) : nullptr; }
 	};
 	//----------------------------------------ANIMATION--------------------------------
@@ -214,6 +214,9 @@ namespace Renderer {
 		const int get_texture(const std::string& name) const { return t_Manager.get_texture_index(name); }
 		void flush_textures();
 
+		void init_anim(const std::string& animation_name, const std::array<vec2, 4>* data, const float anim_time, const int number_of_frames) {
+			a_Manager.load_anim(animation_name, data, anim_time, number_of_frames);
+		}
 		auto get_anim(const std::string& name) const { return a_Manager.find_animation(name); }
 	};
 
