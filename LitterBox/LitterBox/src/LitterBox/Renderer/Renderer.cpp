@@ -10,6 +10,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#include "LitterBox/Engine/Time.h"
+
+//-----------------------------------------HELPER FUNCTIONS--------------------------------
 struct shader_source {
 	std::string vtx_shd;
 	std::string frg_shd;
@@ -83,7 +86,42 @@ unsigned int create_shader(const char* vertex_shader, const char* fragment_shade
 
 	return program;
 }
+//-----------------------------------------HELPER FUNCTIONS--------------------------------
 
+//---------------------------------------ANIMATIONS-------------------------------------
+//place holder animations
+//TODO convert these to serialization
+//TODO for even later, make an editor that can select custom uv
+std::array<std::array<Renderer::vec2, 4>, 18> frames{
+		Renderer::vec2{0.f, 0.6f}, Renderer::vec2{.12f, .6f}, Renderer::vec2{.12f, .72f}, Renderer::vec2{0.f, .72f},
+		Renderer::vec2{.12f, 0.6f}, Renderer::vec2{.23f, .6f}, Renderer::vec2{.23f, .72f}, Renderer::vec2{.12f, .72f},
+		Renderer::vec2{0.23f, 0.6f}, Renderer::vec2{.345f, .6f}, Renderer::vec2{.345f, .72f}, Renderer::vec2{0.23f, .72f},
+		Renderer::vec2{0.345f, 0.6f}, Renderer::vec2{.45f, .6f}, Renderer::vec2{.45f, .72f}, Renderer::vec2{0.345f, .72f},
+		Renderer::vec2{0.45f, 0.6f}, Renderer::vec2{.55f, .6f}, Renderer::vec2{.55f, .72f}, Renderer::vec2{0.45f, .72f},
+		Renderer::vec2{0.55f, 0.6f}, Renderer::vec2{.65f, .6f}, Renderer::vec2{.65f, .72f}, Renderer::vec2{0.55f, .72f},
+		Renderer::vec2{0.65f, 0.6f}, Renderer::vec2{.755f, .6f}, Renderer::vec2{.755f, .72f}, Renderer::vec2{0.65f, .72f},
+		Renderer::vec2{0.755f, 0.6f}, Renderer::vec2{.85f, .6f}, Renderer::vec2{.85f, .72f}, Renderer::vec2{0.755f, .72f},
+		Renderer::vec2{0.85f, 0.6f}, Renderer::vec2{.94f, .6f}, Renderer::vec2{.94f, .72f}, Renderer::vec2{0.85f, .72f},
+
+		Renderer::vec2{0.f, .458f}, Renderer::vec2{.09f, .458f}, Renderer::vec2{.09f, .59f}, Renderer::vec2{0.f, .59f},
+		Renderer::vec2{.09f, .458f}, Renderer::vec2{.19f, .458f}, Renderer::vec2{.19f, .59f}, Renderer::vec2{.09f, .59f},
+		Renderer::vec2{0.19f, .458f}, Renderer::vec2{.29f, .458f}, Renderer::vec2{.29f, .59f}, Renderer::vec2{0.19f, .59f},
+		Renderer::vec2{0.29f, .458f}, Renderer::vec2{.39f, .458f}, Renderer::vec2{.39f, .59f}, Renderer::vec2{0.29f, .59f},
+		Renderer::vec2{0.39f, .458f}, Renderer::vec2{.51f, .458f}, Renderer::vec2{.51f, .59f}, Renderer::vec2{0.39f, .59f},
+		Renderer::vec2{0.51f, .458f}, Renderer::vec2{.6f, .458f}, Renderer::vec2{.6f, .59f}, Renderer::vec2{0.51f, .59f},
+		Renderer::vec2{0.6f, .458f}, Renderer::vec2{.7f, .458f}, Renderer::vec2{.7f, .59f}, Renderer::vec2{0.6f, .59f},
+		Renderer::vec2{0.7f, .458f}, Renderer::vec2{.8f, .458f}, Renderer::vec2{.8f, .59f}, Renderer::vec2{0.7f, .59f},
+		Renderer::vec2{0.8f, .458f}, Renderer::vec2{.94f, .458f}, Renderer::vec2{.94f, .59f}, Renderer::vec2{0.8f, .59f}
+};
+
+//TODO for array of UV data for serialization probably gonna need to store data on heap
+
+void Renderer::Animation_Manager::load_anim(const std::string& animation_name, const std::array<vec2,4>* data, const float anim_time, const int number_of_frames) {
+	animations.emplace(std::make_pair(animation_name, Animation{ anim_time, number_of_frames, data }));
+}
+//---------------------------------------ANIMATIONS-------------------------------------
+
+//------------------------------------------RENDERER-OBJECT---------------------------------------------
 Renderer::render_Object::render_Object(
 	vec2 pos,
 	float width,
@@ -95,7 +133,7 @@ Renderer::render_Object::render_Object(
 	bool active) :
 	position{ pos }, scal{ scale }, w{ width }, h{ height },
 	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ (int)text },
-	uv{ uv }
+	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }
 {
 	if (!GRAPHICS) {
 		std::cerr << "GRAPHICS SYSTEM NOT INITIALIZED" << std::endl;
@@ -103,12 +141,77 @@ Renderer::render_Object::render_Object(
 	}
 
 	quad_id = GRAPHICS->object_renderer.create_render_object(this);
+
 }
 
 Renderer::render_Object::~render_Object()
 {
 	GRAPHICS->object_renderer.remove_render_object(this);
 }
+
+void Renderer::render_Object::play_repeat(const std::string& name)
+{
+	const Animation* anim{ GRAPHICS->get_anim(name) };
+	if (anim) {
+		animation.push(std::make_pair(anim, true));
+	}
+	else {
+		std::cerr << "There is no animation: " << name << " loaded." << std::endl;
+	}
+}
+
+void Renderer::render_Object::play_next(const std::string& name)
+{
+	const Animation* anim{ GRAPHICS->get_anim(name) };
+	if (anim) {
+		animation.push(std::make_pair(anim, false));
+	}
+	else {
+		std::cerr << "There is no animation: " << name << " loaded." << std::endl;
+	}
+}
+
+void Renderer::render_Object::play_now(const std::string& name)
+{
+	const Animation* anim{ GRAPHICS->get_anim(name) };
+	if (anim) {
+		while (animation.size() != 0) {
+			animation.pop();
+		}
+		animation.push(std::make_pair(anim, false));
+	}
+	else {
+		std::cerr << "There is no animation: " << name << " loaded." << std::endl;
+	}
+}
+
+void Renderer::render_Object::animate()
+{
+	//increment time elapsed
+	time_elapsed += LB::TIME->GetDeltaTime();
+
+	//move to next frame based on time
+	if (time_elapsed >= animation.front().first->get_inc()) {
+		++frame;
+		time_elapsed = 0.f;
+	}
+
+	//check if on last frame
+	if (frame == animation.front().first->get_frame_count()) {
+		//pop the animation if its non repeat or reset the frame if it is
+		if (!animation.front().second) {
+			animation.pop();
+		}
+		frame = 0;
+	}
+
+	//check if we still have animation
+	if (!animation.size())
+		return;
+
+	uv = *animation.front().first->get_uv(frame);
+}
+//------------------------------------------RENDERER-OBJECT---------------------------------------------
 
 //----------------------------------------------RENDERER---------------------------------------------------
 Renderer::Renderer::Renderer() :
@@ -208,6 +311,14 @@ unsigned int Renderer::Renderer::create_render_object(const render_Object* obj)
 	quad_buff[i].data[2].pos = { obj->position.x + x_pos, obj->position.y + y_pos };//top right
 	quad_buff[i].data[3].pos = { obj->position.x - x_pos, obj->position.y + y_pos };//top left
 
+	for (int j{ 0 }; j < 4; ++j) {
+		glm::vec4 pos{ quad_buff[i].data[j].pos.x, quad_buff[i].data[j].pos.y, 0.f, 1.f };
+		pos = cam.world_NDC * pos;
+		quad_buff[i].data[j].pos.x = pos.x;
+		quad_buff[i].data[j].pos.y = pos.y;
+		std::cout << "NDC: " << pos.x << ", " << pos.y << std::endl;
+	}
+
 	quad_buff[i].data[0].index = obj->texture;
 	quad_buff[i].data[1].index = obj->texture;
 	quad_buff[i].data[2].index = obj->texture;
@@ -234,17 +345,21 @@ void Renderer::Renderer::remove_render_object(const render_Object* obj)
 
 void Renderer::Renderer::update_buff()
 {
-	unsigned int i{ 0 };
 	for (const render_Object*& e : active_objs) {
 		unsigned int obj_index{ e->get_index() };
 		//cache width and height values
 		float x_pos{ e->w * 0.5f * e->scal };
 		float y_pos{ e->h * 0.5f * e->scal };
 
-		unsigned short idx{ unsigned short(e->get_index()) };
+		//create index in index buffer
+		unsigned short idx{ unsigned short(e->get_index() * 4) };
 
-		index_buff.at(i) = index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
+		index_buff.at(obj_index) = index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
 			(unsigned short)(idx + 2), (unsigned short)(idx + 3), idx} };
+
+		if (e->get_queue_size()) {
+			const_cast<render_Object*>(e)->animate();
+		}
 
 		//set position of quad
 		quad_buff[obj_index].data[0].pos = { e->position.x - x_pos, e->position.y - y_pos };//bottom left
@@ -252,17 +367,32 @@ void Renderer::Renderer::update_buff()
 		quad_buff[obj_index].data[2].pos = { e->position.x + x_pos, e->position.y + y_pos };//top right
 		quad_buff[obj_index].data[3].pos = { e->position.x - x_pos, e->position.y + y_pos };//top left
 
-		for (size_t j{ 0 }; j < 4; ++j) {
-			//set colour of quad
-			quad_buff[obj_index].data[j].color = e->col;
-			quad_buff[obj_index].data[j].tex = e->uv[j]; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
-		}
-		++i;
+		//set position based off camera mat
+		//edit color and uv coordinates and texture
+		for (int i{ 0 }; i < 4; ++i) {
+			glm::vec4 pos{ quad_buff[obj_index].data[i].pos.x, quad_buff[obj_index].data[i].pos.y, 0.f, 1.f };
+			pos = cam.world_NDC * pos;
+			quad_buff[obj_index].data[i].pos.x = pos.x;
+			quad_buff[obj_index].data[i].pos.y = pos.y;
 
-		quad_buff[obj_index].data[0].texIndex = (float)e->texture;
+			quad_buff[obj_index].data[i].color = e->col;
+			quad_buff[obj_index].data[i].tex = e->uv[i]; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+			quad_buff[obj_index].data[i].texIndex = (float)e->texture;
+		}
+
+		//edit color and uv coordinates and texture
+		//for (size_t j{ 0 }; j < 4; ++j) {
+		//	//set colour of quad
+		//	quad_buff[obj_index].data[j].color = e->col;
+		//	quad_buff[obj_index].data[j].tex = e->uv[j]; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+		//	quad_buff[obj_index].data[j].texIndex = (float)e->texture;
+		//}
+
+		//set texture object
+		/*quad_buff[obj_index].data[0].texIndex = (float)e->texture;
 		quad_buff[obj_index].data[1].texIndex = (float)e->texture;
 		quad_buff[obj_index].data[2].texIndex = (float)e->texture;
-		quad_buff[obj_index].data[3].texIndex = (float)e->texture;
+		quad_buff[obj_index].data[3].texIndex = (float)e->texture;*/
 	}
 
 	glNamedBufferSubData(vbo, 0, sizeof(quad) * quad_buff_size, quad_buff);
@@ -280,6 +410,7 @@ void Renderer::Renderer::update_buff()
 Renderer::RenderSystem* Renderer::GRAPHICS = nullptr;
 
 Renderer::render_Object* testobj;
+Renderer::render_Object* test2;
 Renderer::Texture* again;
 
 Renderer::RenderSystem::RenderSystem()
@@ -293,7 +424,9 @@ Renderer::RenderSystem::RenderSystem()
 	glUseProgram(object_renderer.get_shader());
 	glBindVertexArray(object_renderer.get_vao());
 
-	testobj = new render_Object;
+	//-################TEST CODE REMOVE AFTER##########################
+	testobj = new render_Object{ {800.f, 450.f}, 100.f, 100.f };
+	//test2 = new render_Object{ {300.f, 300.f}, 30.f, 50.f };
 	testobj->col = { 0.f,0.f,0.f };
 	testobj->uv[0] = { 0.f, 0.6f };
 	testobj->uv[1] = { .12f, 0.6f };
@@ -305,13 +438,12 @@ Renderer::RenderSystem::RenderSystem()
 	t_Manager.add_texture("./test3.png", "pine");
 	t_Manager.add_texture("./anim.png", "run");
 	testobj->texture = t_Manager.get_texture_index("run");
-	/*glBindTextureUnit(0, t_Manager.get_texture("test"));
-	glTextureParameteri(t_Manager.get_texture("test"), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTextureParameteri(t_Manager.get_texture("test"), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);*/
+	testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
+	//-################TEST CODE REMOVE AFTER##########################
+	a_Manager.load_anim("running", frames.data(), 2.f, 18);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	/*GLuint tex_loc = glGetUniformLocation(object_renderer.get_shader(), "u_SamplerID");
-	glUniform1i(tex_loc, 0);*/
 }
 
 Renderer::RenderSystem::~RenderSystem()
@@ -320,41 +452,8 @@ Renderer::RenderSystem::~RenderSystem()
 		GRAPHICS = nullptr;
 }
 
-std::array<std::array<Renderer::vec2, 4>, 18> frames{
-	Renderer::vec2{0.f, 0.6f}, Renderer::vec2{.12f, .6f}, Renderer::vec2{.12f, .72f}, Renderer::vec2{0.f, .72f},
-		Renderer::vec2{.12f, 0.6f}, Renderer::vec2{.23f, .6f}, Renderer::vec2{.23f, .72f}, Renderer::vec2{.12f, .72f},
-		Renderer::vec2{0.23f, 0.6f}, Renderer::vec2{.345f, .6f}, Renderer::vec2{.345f, .72f}, Renderer::vec2{0.23f, .72f},
-		Renderer::vec2{0.345f, 0.6f}, Renderer::vec2{.45f, .6f}, Renderer::vec2{.45f, .72f}, Renderer::vec2{0.345f, .72f},
-		Renderer::vec2{0.45f, 0.6f}, Renderer::vec2{.55f, .6f}, Renderer::vec2{.55f, .72f}, Renderer::vec2{0.45f, .72f},
-		Renderer::vec2{0.55f, 0.6f}, Renderer::vec2{.65f, .6f}, Renderer::vec2{.65f, .72f}, Renderer::vec2{0.55f, .72f},
-		Renderer::vec2{0.65f, 0.6f}, Renderer::vec2{.755f, .6f}, Renderer::vec2{.755f, .72f}, Renderer::vec2{0.65f, .72f},
-		Renderer::vec2{0.755f, 0.6f}, Renderer::vec2{.85f, .6f}, Renderer::vec2{.85f, .72f}, Renderer::vec2{0.755f, .72f},
-		Renderer::vec2{0.85f, 0.6f}, Renderer::vec2{.94f, .6f}, Renderer::vec2{.94f, .72f}, Renderer::vec2{0.85f, .72f},
-
-		Renderer::vec2{0.f, .458f}, Renderer::vec2{.09f, .458f}, Renderer::vec2{.09f, .59f}, Renderer::vec2{0.f, .59f},
-		Renderer::vec2{.09f, .458f}, Renderer::vec2{.19f, .458f}, Renderer::vec2{.19f, .59f}, Renderer::vec2{.09f, .59f},
-		Renderer::vec2{0.19f, .458f}, Renderer::vec2{.29f, .458f}, Renderer::vec2{.29f, .59f}, Renderer::vec2{0.19f, .59f},
-		Renderer::vec2{0.29f, .458f}, Renderer::vec2{.39f, .458f}, Renderer::vec2{.39f, .59f}, Renderer::vec2{0.29f, .59f},
-		Renderer::vec2{0.39f, .458f}, Renderer::vec2{.51f, .458f}, Renderer::vec2{.51f, .59f}, Renderer::vec2{0.39f, .59f},
-		Renderer::vec2{0.51f, .458f}, Renderer::vec2{.6f, .458f}, Renderer::vec2{.6f, .59f}, Renderer::vec2{0.51f, .59f},
-		Renderer::vec2{0.6f, .458f}, Renderer::vec2{.7f, .458f}, Renderer::vec2{.7f, .59f}, Renderer::vec2{0.6f, .59f},
-		Renderer::vec2{0.7f, .458f}, Renderer::vec2{.8f, .458f}, Renderer::vec2{.8f, .59f}, Renderer::vec2{0.7f, .59f},
-		Renderer::vec2{0.8f, .458f}, Renderer::vec2{.94f, .458f}, Renderer::vec2{.94f, .59f}, Renderer::vec2{0.8f, .59f}
-};
-
 void Renderer::RenderSystem::Update()
 {
-	static int frame_p_sec{ 0 };
-	static int currFrame{ 0 };
-	if (frame_p_sec >= 6) {
-		testobj->uv = frames[currFrame];
-		frame_p_sec = 0;
-
-		currFrame = currFrame >= 17 ? 0 : ++currFrame;
-	}
-	else {
-		++frame_p_sec;
-	}
 	object_renderer.update_buff();
 	glClearColor(.3f, 0.5f, .8f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -381,7 +480,7 @@ void Renderer::RenderSystem::flush_textures()
 //----------------------------------------------RENDERER-SYSTEM-------------------------------------------
 
 
-
+//----------------------------------------------TEXTURES--------------------------------------------
 Renderer::Texture::Texture(const std::string& path) :
 	id{ 0 }, file_path{ path }, local_buff{ nullptr },
 	w{ 0 }, h{ 0 }, fluff{ 0 }
@@ -460,3 +559,4 @@ void Renderer::Texture_Manager::flush_textures()
 	for (int i{ 0 }; i < 32; ++i)
 		free[i] = false;
 }
+//----------------------------------------------TEXTURES--------------------------------------------
