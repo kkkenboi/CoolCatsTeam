@@ -49,8 +49,8 @@ namespace LB {
 		Event<> onFrameEnd;
 
 		void Sleep(double time);
-
 		void Pause(bool shouldPause);
+		void ToggleVSync(bool on);
 
 		private:
 		std::chrono::high_resolution_clock::time_point m_frameStart, m_frameEnd;

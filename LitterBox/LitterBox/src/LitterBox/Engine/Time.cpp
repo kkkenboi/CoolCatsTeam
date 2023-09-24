@@ -142,4 +142,9 @@ namespace LB {
 
 	}
 
+	void ToggleVSync(bool on)
+	{
+
+	}
+
 }

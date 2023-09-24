@@ -104,26 +104,31 @@ namespace LB
 
 		/**************************************************************************************************/
 		// Nicely formatted output :D
-		std::cout << std::setfill('=')	<< std::setw(50) << "=" << std::setfill(' ') << "\n";
+		std::cout << std::setfill('=')	<< std::setw(59) << "=" << std::setfill(' ') << "\n";
 		std::cout << "Target FPS: "		<< TIME->GetMaxFrameRate() << "\n";
 		std::cout << "Average FPS: "	<< std::fixed << std::setprecision(2) << (double)TIME->GetFrameCount() / TIME->GetTime() << "\n";
 
-		std::cout << std::setfill('=')	<< std::setw(50) << "=" << std::setfill(' ') << "\n";
+		std::cout << std::setfill('=')	<< std::setw(59) << "=" << std::setfill(' ') << "\n";
 		std::cout << "Frame #" << (int)(*systemInfoMap)["Frame Number"] << " Snapshot\n";
 		std::cout << "Actual FPS: "		<< std::fixed << std::setprecision(2) << 60.0 / ((*systemInfoMap)["Frame Dt"] * 100.0) << "\n\n";
 
-		std::cout << std::left << std::setw(30) << "Total Frame Time" << std::right << std::setw(7) << std::setprecision(4) << totalTime << " milliseconds\n\n";
+		std::cout << std::left << std::setw(39) << "Total Frame Time" << std::right << std::setw(7) << std::setprecision(4) << totalTime << " milliseconds\n\n";
 
-		// Print in order of execution
-		std::cout << std::left << std::setw(30) << INPUT->GetName()					<< std::right << std::setw(7) << std::setprecision(4) << inputSystem << " milliseconds\n";
-		std::cout << std::left << std::setw(30) << WINDOWSSYSTEM->GetName()			<< std::right << std::setw(7) << std::setprecision(4) << windowsSystem << " milliseconds\n";
-		std::cout << std::left << std::setw(30) << FACTORY->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << factorySystem << " milliseconds\n";
-		std::cout << std::left << std::setw(30) << Renderer::GRAPHICS->GetName()	<< std::right << std::setw(7) << std::setprecision(4) << renderSystem << " milliseconds\n";
-		std::cout << std::left << std::setw(30) << MEMORY->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << memorySystem << " milliseconds\n";
-		std::cout << std::left << std::setw(30) << PROFILER->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << profilingSystem << " milliseconds\n\n";
+		// Print in order of execution in the order ( Percentage | System name | Actual time )
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (inputSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << INPUT->GetName()					<< std::right << std::setw(7) << std::setprecision(4) << inputSystem		<< " milliseconds\n";
+		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (windowsSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << WINDOWSSYSTEM->GetName()			<< std::right << std::setw(7) << std::setprecision(4) << windowsSystem		<< " milliseconds\n";
+		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (factorySystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << FACTORY->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << factorySystem		<< " milliseconds\n";
+		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (renderSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << Renderer::GRAPHICS->GetName()	<< std::right << std::setw(7) << std::setprecision(4) << renderSystem		<< " milliseconds\n";
+		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (memorySystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << MEMORY->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << memorySystem		<< " milliseconds\n";
+		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (profilingSystem / totalTime) * 100.0	<< "% | " << std::left << std::setw(30) << PROFILER->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << profilingSystem	<< " milliseconds\n\n";
 
-		std::cout << std::left << std::setw(30) << "Frame Budget" << std::right << std::setw(7) << std::setprecision(4) << (*systemInfoMap)["Frame Budget"] << " milliseconds\n" << std::left;
-		std::cout << std::setfill('=') << std::setw(50) << "=" << std::setfill(' ') << "\n\n";
+		std::cout << std::left << std::setw(39) << "Frame Budget" << std::right << std::setw(7) << std::setprecision(4) << (*systemInfoMap)["Frame Budget"] << " milliseconds\n" << std::left;
+		std::cout << std::setfill('=') << std::setw(59) << "=" << std::setfill(' ') << "\n\n";
 	}
 
 	void DumpGeneralInfo()
