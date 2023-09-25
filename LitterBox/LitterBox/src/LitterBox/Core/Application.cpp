@@ -6,15 +6,15 @@ namespace LB {
 		// Setting up LitterBox Engine with the available systems
 		Engine = new LBEngine();
 
-		Time*					time	 = new Time();
-		InputSystem*			input	 = new InputSystem();
-		ProfilerManager*		profiler = new ProfilerManager();
-		WindowsSystem*			windows	 = new WindowsSystem();
-		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
-		GameObjectManager*	gameManager	 = new GameObjectManager();
-		FactorySystem*			factory	 = new FactorySystem();
-		GameLogic*				logic	 = new GameLogic();
-		Memory*					memory	 = new Memory();
+		Time*					time		= new Time();
+		InputSystem*			input		= new InputSystem();
+		ProfilerManager*		profiler	= new ProfilerManager();
+		WindowsSystem*			windows		= new WindowsSystem();
+		Renderer::RenderSystem* graphics	= new Renderer::RenderSystem();
+		GameObjectManager*		gameManager	= new GameObjectManager();
+		FactorySystem*			factory		= new FactorySystem();
+		GameLogic*				logic		= new GameLogic();
+		Memory*					memory		= new Memory();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
@@ -43,7 +43,6 @@ namespace LB {
 		delete Engine;
 
 		//Game over, application will now close
-
 	}
 
 	void Application::Run()

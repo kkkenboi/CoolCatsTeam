@@ -64,7 +64,7 @@ namespace LB
 
 		(*systemInfoMap)["Frame Budget"] = frameBudget;
 
-		(*systemInfoMap)["Frame Dt"] = TIME->GetUnscaledDeltaTime();
+		// (*systemInfoMap)["Frame Dt"] = TIME->GetUnscaledDeltaTime();
 
 		// Swap the buffer
 		systemInfoMapID = !systemInfoMapID;
@@ -118,7 +118,7 @@ namespace LB
 
 		std::cout << std::setfill('=')	<< std::setw(59) << "=" << std::setfill(' ') << "\n";
 		std::cout << "Frame #" << (int)(*systemInfoMap)["Frame Number"] << " Snapshot\n";
-		std::cout << "Actual FPS: "		<< std::fixed << std::setprecision(2) << 60.0 / ((*systemInfoMap)["Frame Dt"] * 100.0) << "\n\n";
+		//std::cout << "Actual FPS: "		<< std::fixed << std::setprecision(2) << 60.0 / ((*systemInfoMap)["Frame Dt"] * 100.0) << "\n\n";
 
 		std::cout << std::left << std::setw(39) << "Total Frame Time" << std::right << std::setw(7) << std::setprecision(4) << totalTime << " milliseconds\n\n";
 
