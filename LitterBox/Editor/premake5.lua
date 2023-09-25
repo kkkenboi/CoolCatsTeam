@@ -27,12 +27,18 @@ project "Editor"
         "%{wks.location}/LitterBox/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
+        "%{IncludeDir.glm}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.FreeType}",
         "%{IncludeDir.FMOD}"
 
+    }
+
+    postbuildcommands
+    {
+        "{COPYFILE} %{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll %{wks.location}bin/" .. outputDir .. "/Editor"
     }
 
     -- Link to our engine library

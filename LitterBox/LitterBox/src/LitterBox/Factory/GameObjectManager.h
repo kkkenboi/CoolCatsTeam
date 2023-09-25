@@ -8,29 +8,39 @@ namespace LB
 	class GameObject
 	{
 	public:
-
 		GameObject();
-		GameObject(std::vector<IComponent*> const& componentList);
+		GameObject(int ID);
 		~GameObject();
-		std::vector<IComponent*> m_Components;
+
+		std::vector<IComponent*> GetComponents() const;
+		void AddComponent(IComponent* component);
+
+		void StartComponents();
+
+		int GetID() const;
+		void SetID(int ID);
+
 	private:
+		int m_ID;
+		std::vector<IComponent*> m_Components;
+		bool isActive;
 	};
 
-	class GameObjectManager
+	class GameObjectManager : public ISystem
 	{
 	public:
 
 		GameObjectManager();
-		~GameObjectManager();
+		void Destroy() override;
 
-		std::vector<GameObject*> m_GameObjects;
-		std::vector<GameObject> m_Pool;
+		std::vector<GameObject*> GetGameObjects() const;
+		void AddGameObject(GameObject* gameObject);
 
+		void DestroyAllGOs();
 	private:
-
-
+		std::vector<GameObject*> m_GameObjects;
 	};
 
-	//extern GameObjectManager* GOMANAGER;
+	extern GameObjectManager* GOMANAGER;
 }
 

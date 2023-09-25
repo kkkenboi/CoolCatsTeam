@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "Components.h"
 #include "GameObjectManager.h"
+#include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Core/System.h"
 
 namespace LB
@@ -26,9 +27,6 @@ namespace LB
 		// Serialise all known ComponentMakers
 		void SerialiseGameObjs(int json_thing);
 
-		// Future Feature?
-		// void AddCM();
-
 		// Create all known ComponentMaker of their type, eg. Physics / Graphics
 		void InitCM(const std::string& name, ComponentMaker* newComponent);
 
@@ -37,7 +35,11 @@ namespace LB
 
 		// Creates a game object with a component list, if component list is empty, no components
 		// will be tied to the game object
-		void CreateGameObject(std::vector<IComponent*> componentsList = std::vector<IComponent*>());
+		GameObject* CreateGameObject();
+
+		std::map<std::string, ComponentMaker*> GetCMs() const;
+
+		int GetLastObjID() const;
 
 		void Destroy() override;
 	private:
@@ -46,9 +48,11 @@ namespace LB
 		// Strictly only to create game objects and let go from there on
 
 		// For now we use map to hold the componentmakers, might change in the future
+		int m_LastObjID;
+
 		std::map<std::string, ComponentMaker*> m_ComponentMakers;
 
-		std::vector<GameObject> m_WaitingList;
+		std::vector<GameObject*> m_WaitingList;
 
 		bool toUpdate = false;
 
