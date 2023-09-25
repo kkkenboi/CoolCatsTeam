@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "LitterBox/Renderer/Renderer.h"
 #include "Platform/Windows/Windows.h"
 #include "Components.h"
 
@@ -57,50 +56,5 @@ namespace LB
 	//	int x, y;
 	//	float angle, scale;
 	//};
-
-	struct vec2 {
-		float x, y;
-	};
-
-	struct vec3 {
-		float x, y, z;
-	};
-
-	class Render : public IComponent
-	{
-	public:
-		void Initialise() override
-		{
-			double posx{}, posy{};
-			glfwGetCursorPos(WINDOWSSYSTEM->GetWindow(), &posx, &posy);
-
-			Renderer::render_Object* temp = new Renderer::render_Object;
-			temp->position.x = posx;
-			temp->position.y = posy;
-
-			temp->w = 10000.f;
-			temp->h = 10000.f;
-
-
-			renderObj = temp;
-			std::cout << "Render component initialising mouse position values\n";
-		}
-		void Serialise() override
-		{
-			std::cout << "Serialising Render\n";
-		}
-		void Deserialise() override
-		{
-			std::cout << "Deserialising Render\n";
-		}
-		void Destroy() override
-		{
-			//delete renderObj;
-		}
-
-	private:
-		// Should data stay private? 
-		Renderer::render_Object* renderObj;
-	};
 
 }
