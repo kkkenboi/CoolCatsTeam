@@ -47,6 +47,7 @@ namespace LB {
 		int GetFrameCount();
 
 		bool ShouldFixedUpdate();
+		void AccumulateFixedUpdate();
 
 		void Sleep(double time);
 		void Pause(bool shouldPause);

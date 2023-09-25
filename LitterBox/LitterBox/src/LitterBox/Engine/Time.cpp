@@ -26,16 +26,18 @@ namespace LB {
 		m_frameEnd = m_frameStart = GetTimeStamp();
 	}
 
-	time_point Time::GetTimeStamp()
+	time_point Time::GetTimeStamp() 
 	{
 		return std::chrono::high_resolution_clock::now();
 	}
 
-	void Time::LBFrameStart() {
+	void Time::LBFrameStart() 
+	{
 		m_frameStart = GetTimeStamp();
 	}
 
-	void Time::LBFrameEnd() {
+	void Time::LBFrameEnd() 
+	{
 		m_frameEnd = GetTimeStamp();
 
 		m_frameDuration = m_frameEnd - m_frameStart;
@@ -77,12 +79,16 @@ namespace LB {
 
 	bool Time::ShouldFixedUpdate() 
 	{
-		m_accumulatedTime += m_unscaledDeltaTime;
 		if (m_accumulatedTime > m_unscaledFixedDeltaTime) {
 			m_accumulatedTime = 0.0;
 			return true;
 		}
 		return false;
+	}
+
+	void Time::AccumulateFixedUpdate()
+	{
+		m_accumulatedTime += m_unscaledDeltaTime;
 	}
 
 	double Time::GetDeltaTime()
