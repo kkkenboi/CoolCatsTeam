@@ -26,7 +26,7 @@ namespace LB {
 		m_frameEnd = m_frameStart = GetTimeStamp();
 	}
 
-	std::chrono::high_resolution_clock::time_point Time::GetTimeStamp() 
+	time_point Time::GetTimeStamp()
 	{
 		return std::chrono::high_resolution_clock::now();
 	}
@@ -77,9 +77,9 @@ namespace LB {
 
 	bool Time::ShouldFixedUpdate() 
 	{
-		m_elapsedTime += m_unscaledDeltaTime;
-		if (m_elapsedTime > m_unscaledFixedDeltaTime) {
-			m_elapsedTime = 0.0;
+		m_accumulatedTime += m_unscaledDeltaTime;
+		if (m_accumulatedTime > m_unscaledFixedDeltaTime) {
+			m_accumulatedTime = 0.0;
 			return true;
 		}
 		return false;
@@ -142,9 +142,8 @@ namespace LB {
 
 	}
 
-	void ToggleVSync(bool on)
+	void Time::ToggleVSync(bool on)
 	{
 
 	}
-
 }
