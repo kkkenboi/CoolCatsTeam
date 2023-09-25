@@ -1,88 +1,106 @@
 #include "pch.h"
+#include "LitterBox/Renderer/Renderer.h"
+#include "Platform/Windows/Windows.h"
 #include "Components.h"
 
 namespace LB
 {
 	// Temporary component class for testing, by right these components
 	// should belong in their own source files
-	class Physics : public IComponent
-	{
-	public:
-		void Initialise() override
-		{
-			std::cout << "Initialising Physics\n";
-		}
-		void Serialise() override
-		{
-			std::cout << "Serialising Physics\n";
-		}
-		void Update() override
-		{
-			std::cout << "Updating Physics\n";
-		}
+	//class Physics : public IComponent
+	//{
+	//public:
+	//	void Initialise() override
+	//	{
+	//		std::cout << "Initialising Physics\n";
+	//	}
+	//	void Serialise() override
+	//	{
+	//		std::cout << "Serialising Physics\n";
+	//	}
+	//	void Deserialise() override
+	//	{
+	//		std::cout << "Deserialising Physics\n";
+	//	}
+	//	void Destroy() override
+	//	{
+	//		std::cout << "Destroying Physics\n";
+	//	}
 
-		~Physics()
-		{
-			// delete itself
-		};
-	private:
-		// Should data stay private? 
-		int physicsData;
+	//private:
+	//	// Should data stay private? 
+	//	int physicsData;
+	//};
+
+	//class Transform : public IComponent
+	//{
+	//public:
+	//	void Initialise() override
+	//	{
+	//		std::cout << "Initialising Transform\n";
+	//	}
+	//	void Serialise() override
+	//	{
+	//		std::cout << "Serialising Transform\n";
+	//	}
+	//	void Deserialise() override
+	//	{
+	//		std::cout << "Deserialising Transform\n";
+	//	}
+	//	void Destroy() override
+	//	{
+	//		std::cout << "Destroying Transform\n";
+	//	}
+
+	//private:
+	//	// Should data stay private? 
+	//	int x, y;
+	//	float angle, scale;
+	//};
+
+	struct vec2 {
+		float x, y;
 	};
 
-	// Temporary component class for testing, by right these components
-	// should belong in their own source files
-	class Transform : public IComponent
-	{
-	public:
-		void Initialise() override
-		{
-			std::cout << "Initialising Transform\n";
-		}
-		void Serialise() override
-		{
-			std::cout << "Serialising Transform\n";
-		}
-		void Update() override
-		{
-			std::cout << "Updating Transform\n";
-		}
-
-		~Transform()
-		{
-			// delete itself
-		};
-	private:
-		// Should data stay private? 
-		int x, y;
-		float angle, scale;
+	struct vec3 {
+		float x, y, z;
 	};
 
-	// Temporary component class for testing, by right these components
-	// should belong in their own source files
 	class Render : public IComponent
 	{
 	public:
 		void Initialise() override
 		{
-			std::cout << "Initialising Render\n";
+			double posx{}, posy{};
+			glfwGetCursorPos(WINDOWSSYSTEM->GetWindow(), &posx, &posy);
+
+			Renderer::render_Object* temp = new Renderer::render_Object;
+			temp->position.x = posx;
+			temp->position.y = posy;
+
+			temp->w = 10000.f;
+			temp->h = 10000.f;
+
+
+			renderObj = temp;
+			std::cout << "Render component initialising mouse position values\n";
 		}
 		void Serialise() override
 		{
 			std::cout << "Serialising Render\n";
 		}
-		void Update() override
+		void Deserialise() override
 		{
-			std::cout << "Updating Render\n";
+			std::cout << "Deserialising Render\n";
+		}
+		void Destroy() override
+		{
+			//delete renderObj;
 		}
 
-		~Render()
-		{
-			// delete itself
-		};
 	private:
 		// Should data stay private? 
-		int renderData;
+		Renderer::render_Object* renderObj;
 	};
 
 }

@@ -9,16 +9,20 @@ namespace LB {
 		Time*					time	 = new Time();
 		InputSystem*			input	 = new InputSystem();
 		WindowsSystem*			windows	 = new WindowsSystem();
-		FactorySystem*			factory	 = new FactorySystem();
 		Renderer::RenderSystem* graphics = new Renderer::RenderSystem();
+		GameObjectManager*	gameManager	 = new GameObjectManager();
+		FactorySystem*			factory	 = new FactorySystem();
+		GameLogic*				logic	 = new GameLogic();
 		Memory*					memory	 = new Memory();
 		ProfilerManager*		profiler = new ProfilerManager();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
-		Engine->AddSystem(factory);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(graphics);
+		Engine->AddSystem(factory);
+		Engine->AddSystem(gameManager);
+		Engine->AddSystem(logic);
 		Engine->AddSystem(memory);
 		Engine->AddSystem(profiler);
 

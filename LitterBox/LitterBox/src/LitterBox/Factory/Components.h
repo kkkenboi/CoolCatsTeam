@@ -1,5 +1,6 @@
 #pragma once
 #include <Litterbox/Engine/Message.h>
+#include <LitterBox/Debugging/Memory.h>
 
 namespace LB
 {
@@ -19,11 +20,12 @@ namespace LB
 
 		virtual void Initialise() = 0;
 		virtual void Serialise() = 0;
-		virtual void Update() = 0;
-
+		virtual void Deserialise() = 0;
+		virtual void Destroy() = 0;
 		// To destruct all other derived components
-		virtual ~IComponent() {};
-	private:
+
+		ComponentTypeID GetType() { return TypeID; }
+	protected:
 		// To understand what type does this component belong to
 		ComponentTypeID TypeID;
 
