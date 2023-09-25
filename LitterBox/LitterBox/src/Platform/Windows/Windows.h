@@ -12,6 +12,7 @@ namespace LB
 	{
 		std::string Title{};
 		unsigned int Width{}, Height{};
+		double PosX{}, PosY{};
 		GLFWwindow* PtrToWindow{ nullptr };
 
 		WindowsData(const std::string& title = "LitterBox Engine",
@@ -38,7 +39,10 @@ namespace LB
 
 		unsigned int GetWidth()  const { return m_Data.Width;  }
 		unsigned int GetHeight() const { return m_Data.Height; }
-		std::string  GetTitle()  const { return m_Data.Title;  }
+		std::string  GetTitle()  const { return m_Data.Title; }
+		double		 GetPosX()   const { return m_Data.PosX; }
+		double		 GetPosY()   const { return m_Data.PosY;  }
+		GLFWwindow*  GetWindow() const { return m_Data.PtrToWindow; }
 
 		// Callbacks
 		static void ErrorCB(int error, char const* description);

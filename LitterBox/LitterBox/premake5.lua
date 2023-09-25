@@ -35,11 +35,17 @@ project "LitterBox"
         "%{wks.location}/LitterBox/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
+        "%{IncludeDir.glm}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.FreeType}",
         "%{IncludeDir.FMOD}"
+    }
+
+    libdirs
+    {
+        "%{wks.location}/dependencies/FMOD/core/lib/x64"
     }
 
     -- Links to libraries by providing their project's name
@@ -49,13 +55,9 @@ project "LitterBox"
         "Glad",
         "ImGui",
         "opengl32.lib",
-        -- "fmod_vc"
+        "fmod_vc"
         -- "FreeType"
     }
-
-    -- postbuildcommands
-    -- {
-    -- }
 
     filter "system:windows"
         systemversion "latest"

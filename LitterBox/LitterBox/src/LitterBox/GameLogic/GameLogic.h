@@ -1,27 +1,24 @@
 #pragma once
-#include <LitterBox/Utils/Math.h>
-#include <Litterbox/Engine/Message.h>
+#include "LitterBox/Core/System.h"
+
 
 namespace LB
 {
-	//class GameLogic : public ISystem
-	//{
-	//public:
-	//	GameLogic();
-	//	~GameLogic();
-	//	void Initialize();
-	//	void Update(float timeslice);
-	//	virtual std::string GetName() override { return "GameLogic"; }
-	//	virtual void SendMessage(Message*) override;
-	//	//GameObjectComposition* CreateObjectAt(Vec2& position, float rotation, const std::string& file);
-	//	void LoadLevelFile(const std::string& file);
-	//	unsigned GrabbedObjectID;
-	//	//Vec2 WorldMousePosition;
-	//public:
-	//	//ObjectLinkList<Controller> Controllers;
-	//};
+	class GameLogic : public ISystem
+	{
+	public:
 
-	////A global pointer to our game so that it can be accessed from anywhere.
-	//extern GameLogic* LOGIC;
+		GameLogic();
+		~GameLogic();
+
+		void Initialize() override;
+		void Update() override;
+		void Destroy() override;
+	private:
+
+	};
+
+	//A global pointer to our game so that it can be accessed from anywhere.
+	extern GameLogic* GAMELOGIC;
 
 }

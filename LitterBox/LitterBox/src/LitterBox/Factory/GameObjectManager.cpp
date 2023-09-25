@@ -2,43 +2,126 @@
 
 namespace LB
 {
-	//GameObjectManager* GOMANAGER = nullptr;
+	GameObjectManager* GOMANAGER = nullptr;
 
 	GameObjectManager::GameObjectManager()
 	{
+		SetSystemName("GameObjectManager System");
 
-		//if (!GOMANAGER)
-		//{
-		//	GOMANAGER = this;
-		//}
-		//else
-		//{
-		//	std::cerr << "GameObjectManager already exist\n";
-		//}
-
-
-
-		std::cout << "GameObjectManager constructed\n";
-	}
-	GameObjectManager::~GameObjectManager()
-	{
-		std::cout << "GameObjectManager destructed\n";
+		if (!GOMANAGER)
+		{
+			GOMANAGER = this;
+		}
+		else
+		{
+			std::cerr << "GameObjectManager already exist\n";
+		}
 	}
 
-	GameObject::GameObject()
+	std::vector<GameObject*> GameObjectManager::GetGameObjects() const
 	{
-		std::cout << "GameObject constructed\n";
+		return m_GameObjects;
 	}
 
-	GameObject::GameObject(std::vector<IComponent*> const& componentList) : m_Components{ componentList } 
+	void GameObjectManager::AddGameObject(GameObject* gameObject)
 	{
-		std::cout << "GameObject copy constructor\n";
-	};
+		m_GameObjects.push_back(gameObject);
+	}
+
+	void GameObjectManager::DestroyAllGOs()
+	{
+		std::cout << "Entering!!\n";
+		// Destroying components in game objects
+		for (size_t i{}; i < m_GameObjects.size(); ++i)
+		{
+			int componentSize = m_GameObjects[i]->GetComponents().size();
+			for (size_t j{}; j < componentSize; ++j)
+			{
+				// Delete any memory allocated from components
+				m_GameObjects[i]->GetComponents()[j]->Destroy();
+				//std::cout << m_GameObjects[i]->GetComponents()[j]->GetType() << " deleted\n";
+
+				// Delete any memory allocated for the Component
+				delete m_GameObjects[i]->GetComponents()[j];
+				std::cout << "One GO component deleted from game object " << m_GameObjects[i]->GetID() << "\n";
+			}
+
+			std::cout << "GO " << m_GameObjects[i]->GetID() << " has been deleted\n";
+
+			if (i + 1 == m_GameObjects.size())
+			{
+				std::cout << "GO's components all deleted\n";
+			}
+		}
+
+		// Destroying gameobjects
+		int gameObjSize = m_GameObjects.size();
+		for (int i{}; i < gameObjSize; ++i)
+		{
+			delete m_GameObjects[i];
+		}
+
+		// Set size of game objects to empty
+		m_GameObjects.clear();
+
+		std::cout << m_GameObjects.size() << std::endl;
+
+		std::cout << "All GOs deleted\n";
+	}
+
+	void GameObjectManager::Destroy()
+	{
+		DestroyAllGOs();
+		std::cout << "GOM destructed\n";
+	}
+
+	GameObject::GameObject(int ID) : m_Components{}, isActive{ false }, m_ID{ ID }
+	{
+		std::cout << "GO constructed\n";
+	}
+	GameObject::GameObject() : m_Components{}, isActive{ false }, m_ID{}
+	{
+		std::cout << "GO constructed\n";
+	}
+
+	//GameObject::GameObject(std::vector<IComponent*> const& componentList) : m_Components{ componentList }, isActive{ false }
+	//{
+	//	std::cout << "GO parameterized constructor\n";
+	//};
 
 	GameObject::~GameObject()
 	{
 		// Should delete all of the components
-		std::cout << "GameObject destructed\n";
+		std::cout << "GO destructed\n";
 	}
+
+	std::vector<IComponent*> GameObject::GetComponents() const
+	{
+		return m_Components;
+	}
+
+	void GameObject::AddComponent(IComponent* component)
+	{
+		m_Components.push_back(component);
+	}
+
+	void GameObject::StartComponents()
+	{
+		for (IComponent* component : m_Components)
+		{
+			component->Initialise();
+		}
+	}
+
+	int GameObject::GetID() const
+	{
+		return m_ID;
+	}
+	void GameObject::SetID(int ID)
+	{
+		m_ID = ID;
+	}
+
+
 
 }
