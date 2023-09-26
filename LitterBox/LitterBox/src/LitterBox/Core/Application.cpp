@@ -15,6 +15,7 @@ namespace LB {
 		FactorySystem*			factory		= new FactorySystem();
 		GameLogic*				logic		= new GameLogic();
 		Memory*					memory		= new Memory();
+		Debug*					debug		= new Debug();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
@@ -25,6 +26,7 @@ namespace LB {
 		Engine->AddSystem(gameManager);
 		Engine->AddSystem(logic);
 		Engine->AddSystem(memory);
+		Engine->AddSystem(debug);
 
 		Engine->Initialize();
 
