@@ -16,7 +16,7 @@ namespace LB {
 		RigidBodyManager*		physics		= new RigidBodyManager();
 		Renderer::RenderSystem* graphics	= new Renderer::RenderSystem();
 		Memory*					memory		= new Memory();
-		Debug*					debug		= new Debug();
+		Debugger*				debug		= new Debugger();
 
 
 		Engine->AddSystem(time);

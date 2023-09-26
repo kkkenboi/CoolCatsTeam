@@ -19,6 +19,10 @@ namespace LB
 
 	void InputSystem::InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod)
 	{
+		UNREFERENCED_PARAMETER(pwin);
+		UNREFERENCED_PARAMETER(scancode);
+		UNREFERENCED_PARAMETER(mod);
+
 		//all the functions subscribe
 		if (action == GLFW_PRESS)
 		{

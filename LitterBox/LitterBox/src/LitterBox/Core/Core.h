@@ -28,7 +28,7 @@ namespace LB
 		//Is the game running (true) or being shut down (false)?
 		bool m_Running;
 
-		float m_FPS{};
+		double m_FPS{};
 		double m_FPSInterval{ 1.0 };
 	};
 
