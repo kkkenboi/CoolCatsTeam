@@ -603,7 +603,7 @@ namespace LB
 	template<typename T>
 	Vec4<T> Vec4<T>::operator+(Vec4<T> rhs) const
 	{
-		return Vec4<T>(x + rhs.x, y + rhs.y, z + rhs.z, z + rhs.z);
+		return Vec4<T>(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
 	}
 
 	template<typename T>
