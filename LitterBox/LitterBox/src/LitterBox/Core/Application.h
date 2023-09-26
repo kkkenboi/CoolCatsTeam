@@ -1,10 +1,15 @@
 #include "Platform/Windows/Windows.h"
+#include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
+#include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Factory/Components.h"
+#include "LitterBox/GameLogic/GameLogic.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Debugging/Profiler.h"
+#include "LitterBox/Physics/RigidBodyManager.h"
 #include "Core.h"
 
 namespace LB {

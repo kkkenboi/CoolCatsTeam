@@ -1,36 +1,72 @@
 #include "pch.h"
 #include "GameLogic.h"
+#include "LitterBox/Factory/GameObjectFactory.h"
+#include "LitterBox/Engine/Input.h"
+#include "LitterBox/Engine/Time.h"
 
 namespace LB
 {
-	//GameLogic* LOGIC = NULL;
+	void SpawnGameObject()
+	{
+		// Creating the game object
+		GameObject* gameObj = FACTORY->CreateGameObject();
+		if (gameObj->GetID() == 0) 		// ID only starts at 1
+		{
+			gameObj->SetID(FACTORY->GetLastObjID());
+		}
+		//gameObj->AddComponent(FACTORY->GetCMs()["Physics"]->Create());
+		//gameObj->AddComponent(FACTORY->GetCMs()["Transform"]->Create());
+		gameObj->AddComponent(FACTORY->GetCMs()["Render"]->Create());
+		//gameObj->GetComponents()[0]->Initialise();
+		gameObj->StartComponents();
 
-	//GameLogic::GameLogic()
-	//{
-	//	//Safe Id reference of the object the user has grabbed
-	//	GrabbedObjectID = 0;
-
-	//	//Set up the global pointer
-	//	if (LOGIC != NULL)
-	//	{
-	//		std::cout << "Logic already initialized\n";
-	//	}
-
-	//	LOGIC = this;
-	//}
-
-	//GameLogic::~GameLogic()
-	//{
-	//}
+		// Sends game object to the Game Object Manager
+		// For now, push back in the function to go manager,
+		// However, in the future we might need to change when we need to render a lot in one go
+		// or send a equal amount of game objects at one go
+		// Might be redundant too because we should initialize a pool at the start
+		GOMANAGER->AddGameObject(gameObj);
 
 
-	//void GameLogic::Initialize()
-	//{
-	//	// Manually register components here, else run everything in a serialized file
-	//	// RegisterComponent(Physics);
-	//	// 
+		std::cout << "Game Object Spawned!!!\n";
+	}
 
-	//	// If Data Driven, factory use Create to BuildandSerialize at the same time
-	//	// Else, manually register components and edit the values to test out certain game objects
-	//}
+	GameLogic* GAMELOGIC = nullptr;
+
+	GameLogic::GameLogic()
+	{
+		// Ensure singleton
+		if (!GAMELOGIC)
+		{
+			GAMELOGIC = this;
+		}
+		else
+		{
+			std::cerr << "Game Logic already exist\n";
+		}
+	}
+	GameLogic::~GameLogic()
+	{
+
+	}
+
+	void GameLogic::Initialize()
+	{
+		SetSystemName("Game Logic System");
+		INPUT->SubscribeToKey(SpawnGameObject, KeyCode::KEY_P, KeyEvent::PRESSED);
+	}
+
+	void GameLogic::Update()
+	{
+		// Upon keypress of P, spawn one game object
+		// Update the game objects
+	}
+
+	void GameLogic::Destroy()
+	{
+
+	}
+
+
+
 }

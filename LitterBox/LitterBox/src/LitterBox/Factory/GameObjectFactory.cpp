@@ -1,6 +1,5 @@
 #include "GameObjectFactory.h"
-#include "Components.cpp"
-#include "GameObjectManager.h"
+#include "Components.h"
 
 namespace LB
 {
@@ -18,10 +17,12 @@ namespace LB
 			std::cerr << "Factory already exist\n";
 		}
 
+		m_LastObjID = 0;
+
 		// Deserialise the data file and initialise ComponentMakers
 		// 
-		CreateComponentMaker(Physics);
-		CreateComponentMaker(Transform);
+		//CreateComponentMaker(Physics);
+		//CreateComponentMaker(Transform);
 		CreateComponentMaker(Render);
 
 		// Game Object Data File
@@ -29,20 +30,6 @@ namespace LB
 		SerialiseGameObjs(1);
 
 		std::cout << "Factory Initialised\n";
-
-
-		// Creating a empty game object
-		std::vector<IComponent*> empty;
-		CreateGameObject(empty);
-
-		// Input test components
-		std::vector<IComponent*> notEmpty;
-		notEmpty.push_back(m_ComponentMakers["Physics"]->Create());
-		notEmpty.push_back(m_ComponentMakers["Transform"]->Create());
-		notEmpty.push_back(m_ComponentMakers["Render"]->Create());
-		CreateGameObject(notEmpty);
-
-
 	}
 
 	void FactorySystem::SerialiseGameObjs(int jsonThing)
@@ -92,36 +79,32 @@ namespace LB
 	};
 
 
-	void FactorySystem::CreateGameObject(std::vector<IComponent*> componentsList)
+	GameObject* FactorySystem::CreateGameObject()
 	{
-		GameObject obj(componentsList);
+		++m_LastObjID;
+		std::cout << "GO " << m_LastObjID << " has been created\n";
+		//toUpdate = true;
 
-		m_WaitingList.push_back(obj);
+		// Does this mean that only default constructors are allowed?
+		//return MEMORY->Allocate<GameObject>();
 
-		std::cout << "Game Object pushed back into waiting list\n";
+		// Original return
+		return new GameObject(FACTORY->GetLastObjID());
+	}
 
-		toUpdate = true;
+	std::map<std::string, ComponentMaker*> FactorySystem::GetCMs() const
+	{
+		return m_ComponentMakers;
+	}
+
+	int FactorySystem::GetLastObjID() const
+	{
+		return m_LastObjID;
 	}
 
 
 	void FactorySystem::Destroy()
 	{
 		DeleteAllCMs(m_ComponentMakers);
-
-		for (size_t i{}; i < m_WaitingList.size(); ++i)
-		{
-			for (size_t j{}; j < m_WaitingList[i].m_Components.size(); ++j)
-			{
-				delete m_WaitingList[i].m_Components[j];
-				std::cout << "One Game Object component deleted from game object " << i << "\n";
-			}
-
-			std::cout << "Game Object " << i << " has been deleted\n";
-
-			if (i + 1 == m_WaitingList.size())
-			{
-				std::cout << "Game Object components all deleted\n";
-			}
-		}
 	}
 }
