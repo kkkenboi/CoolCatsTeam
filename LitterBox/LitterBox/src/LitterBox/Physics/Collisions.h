@@ -28,6 +28,20 @@ struct PhysicsTransform
 };
 
 
+class Collider {
+	SHAPETYPE m_shape;
+	LB::Vec2<float> m_pos;
+
+	AABB m_aabb;
+
+	// For SAT
+	LB::Vec2<float>* m_untransformedVerts;
+	LB::Vec2<float>* m_transformedVerts;
+};
+
+
+
+
 bool CollisionIntersection_BoxBox(const AABB & aabb1, const LB::Vec2<float> & vel1, 
 									const AABB & aabb2, const LB::Vec2<float> & vel2, float dt);
 
