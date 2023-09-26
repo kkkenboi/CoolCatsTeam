@@ -1,45 +1,63 @@
 /*!************************************************************************
  \file			Matrix3x3.h
  \author		Vanessa Chua Siew Jin
- \par DP email:
+ \par DP email: vanessasiewjin.chua\@digipen.edu
  \par Course:	CSD2401A
- \date			24-09-2023
+ \date			26-09-2023
  \brief
 
 **************************************************************************/
 
-#pragma once
-
+//#include <cmath> // For sin, cos
 #include "LitterBox/Utils/Math.h"
-#include <cmath> // For sin, cos
+
+/***************************************************************************************************
+*
+* Matrix Class declaration
+*
+***************************************************************************************************/
 
 namespace LB
 {
 	template<typename T>
 	class Matrix3x3
 	{
-		public:
-		T m[3][3];
-		T a, b, c, d, e, f, g, h, i;
-		Matrix3x3(T a, T b, T c, T d, T e, T f, T g, T h, T i);
+	public:
+		#define a m[0][0]
+		#define b m[0][1]
+		#define c m[0][2]
+		#define d m[1][0]
+		#define e m[1][1]
+		#define f m[1][2]
+		#define g m[2][0]
+		#define h m[2][1]
+		#define i m[2][2]
 
-		Matrix3x3 Identity();
-		Matrix3x3 Zero();
+		T m[3][3];
+
+		Matrix3x3 Zero(); //WORK
+		Matrix3x3 Identity(); //WORK
 		double	  Determinant();
 		Matrix3x3 Inverse();
 		Matrix3x3 Transpose();
 
-		void SetScale	  (T x, T y);
-		void SetTranslate (T x, T y);
-		void SetRotate	  (double angle);
-		void SetTransform (Matrix3x3<T> const& trans, Matrix3x3<T> const& scale, Matrix3x3<T> const& rot);
+		void Set(const T& am, const T& bm, const T& cm,
+			const T& dm, const T& em, const T& fm,
+			const T& gm, const T& hm, const T& im);
+
+		void SetScale(T x, T y);
+		void SetTranslate(T x, T y);
+		void SetDegRotate(double angle);
+		void SetTransform(Matrix3x3<T> const& trans, Matrix3x3<T> const& scale, Matrix3x3<T> const& rot);
+		
+		void displayMatrix(); //This is for printing of Matrix for checking
 	};
 
 	template<typename T>
 	Matrix3x3<T> SetScale(T x, T y);
 
 	template<typename T>
-	Matrix3x3<T> SetRotate(double angle);
+	Matrix3x3<T> SetDegRotate(double angle);
 
 	template<typename T>
 	Matrix3x3<T> SetTranslate(T x, T y);
@@ -50,7 +68,7 @@ namespace LB
 
 /***************************************************************************************************
 *
-* Vec definitions
+* Matrix definitions
 *
 ***************************************************************************************************/
 
@@ -60,21 +78,31 @@ namespace LB
 	//	d	e	f
 	//	g	h	i
 
-	//constructing matrix
 	template<typename T>
-	Matrix3x3<T>::Matrix3x3(T a, T b, T c, T d, T e, T f, T g, T h, T i)
+	void Matrix3x3<T>::Set(const T& am, const T& bm, const T& cm,
+		const T& dm, const T& em, const T& fm,
+		const T& gm, const T& hm, const T& im)
 	{
-		this->a = a;  this->b = b;  this->c = c;
-		this->d = d;  this->e = e;  this->f = f;
-		this->g = g;  this->h = h;  this->i = i;
-
-		m[0][0] = a;  m[0][1] = b;  m[0][2] = c;
-		m[1][0] = d;  m[1][1] = e;  m[1][2] = f;
-		m[2][0] = g;  m[2][1] = h;  m[2][2] = i;
+		this->a = am; this->b = bm; this->c = cm;
+		this->d = dm; this->e = em; this->f = fm;
+		this->g = gm; this->h = hm; this->i = im;
 	}
 
 	template<typename T>
-	Matrix3x3<T> Matrix3x3<T>::Identity()
+	Matrix3x3<T> Matrix3x3<T>::Zero() //WORK
+	{
+		for (int x = 0; x < 3; ++x)
+		{
+			for (int y = 0; y < 3; ++y)
+			{
+				m[x][y] = 0;
+			}
+		}
+		return *this;
+	}
+
+	template<typename T>
+	Matrix3x3<T> Matrix3x3<T>::Identity() //WORK
 	{
 		Zero();
 		a = 1;
@@ -84,99 +112,84 @@ namespace LB
 	}
 
 	template<typename T>
-	Matrix3x3<T> Matrix3x3<T>::Zero()
-	{
-		for (int i = 0; i < 3; ++i)
-		{
-			for (int z = 0; z < 3; ++z)
-			{
-				m[i][z] = 0;
-			}
-		}
-		return *this();
-	}
-
-	template<typename T>
-	double Matrix3x3<T>::Determinant()
+	double Matrix3x3<T>::Determinant() //WORK
 	{
 		return ((a * ((e * i) - (f * h))) -
-			(b * ((d * i) - (g * f))) +
-			(c * ((d * h) - (e * g))));
+			   (b * ((d * i) - (g * f))) +
+			   (c * ((d * h) - (e * g))));
 	}
 
 	template<typename T>
-	Matrix3x3<T> Matrix3x3<T>::Inverse()
+	Matrix3x3<T> Matrix3x3<T>::Inverse() //WORK
 	{
-		T det = this->Determinant();
+		T det = Determinant();
 		Matrix3x3<T> inverseMatrix;
 
-		inverseMatrix.a = (this->e * this->i - this->h * this->f) / det;
-		inverseMatrix.b = (this->g * this->f - this->d * this->i) / det;
-		inverseMatrix.c = (this->d * this->h - this->g * this->e) / det;
+		inverseMatrix.a = (e * i - h * f) / det;
+		inverseMatrix.b = (g * f - d * i) / det;
+		inverseMatrix.c = (d * h - g * e) / det;
 
-		inverseMatrix.d = (this->h * this->b - this->b * this->i) / det;
-		inverseMatrix.e = (this->a * this->i - this->g * this->c) / det;
-		inverseMatrix.f = (this->g * this->b - this->a * this->h) / det;
+		inverseMatrix.d = (h * b - b * i) / det;
+		inverseMatrix.e = (a * i - g * c) / det;
+		inverseMatrix.f = (g * b - a * h) / det;
 
-		inverseMatrix.g = (this->b * this->f - this->e * this->c) / det;
-		inverseMatrix.h = (this->d * this->c - this->a * this->f) / det;
-		inverseMatrix.i = (this->a * this->e - this->d * this->b) / det;
+		inverseMatrix.g = (b * f - e * c) / det;
+		inverseMatrix.h = (d * c - a * f) / det;
+		inverseMatrix.i = (a * e - d * b) / det;
 
 		*this = inverseMatrix;
 		return *this;
 	}
 
 	template<typename T>
-	Matrix3x3<T> Matrix3x3<T>::Transpose()
+	Matrix3x3<T> Matrix3x3<T>::Transpose() //WORK
 	{
-		Matrix3x3<T> transposeResult;
-		for (int i = 0; i < 3; ++i)
+		this->displayMatrix();
+		Matrix3x3<T> transposeResult{};
+		for (int row = 0; row < 3; ++row)
 		{
-			for (int z = 0; z < 3; ++z)
+			for (int col = 0; col < 3; ++col)
 			{
-				transposeResult.m[i][z] = m[z][i];
+				transposeResult.m[row][col] = m[col][row];
 			}
 		}
 		return transposeResult;
 	}
 
 	template<typename T>
-	void Matrix3x3<T>::SetScale(T x, T y)
+	void Matrix3x3<T>::SetScale(T x, T y) //WORK
 	{
 		Matrix3x3<T> scaleMatrix;
-
-		scaleMatrix.m[0][0] = x;
-		scaleMatrix.m[1][1] = y;
-		scaleMatrix.m[2][2] = 1;
+		scaleMatrix.Identity();
+		scaleMatrix.a = x;
+		scaleMatrix.e = y;
 
 		*this = scaleMatrix;
 	}
 
 	template<typename T>
-	void Matrix3x3<T>::SetTranslate(T x, T y)
+	void Matrix3x3<T>::SetTranslate(T x, T y) //WORK
 	{
 		Matrix3x3<T> transMatrix;
+		transMatrix.Identity();
 
-		transMatrix.m[0][0] = 1;
-		transMatrix.m[1][1] = 1;
-		transMatrix.m[2][2] = 1;
-
-		transMatrix[0][2] = x;
-		transMatrix[1][2] = y;
+		transMatrix.c = x;
+		transMatrix.f = y;
 
 		*this = transMatrix;
 	}
 
 	template<typename T>
-	void Matrix3x3<T>::SetRotate(double angle)
+	void Matrix3x3<T>::SetDegRotate(double angle) //in degree
 	{
 		Matrix3x3<T> rotMatrix;
+		angle *= PI / 180;
 
-		rotMatrix.m[0][0] = cos(angle);
-		rotMatrix.m[0][1] = sin(angle);
-		rotMatrix.m[1][0] = -sin(angle);
-		rotMatrix.m[1][1] = cos(angle);
-		rotMatrix.m[2][2] = 1;
+		rotMatrix.a = cos(angle);
+		rotMatrix.b = -sin(angle);
+		rotMatrix.d = sin(angle);
+		rotMatrix.e = cos(angle);
+		rotMatrix.i = 1;
 
 		*this = rotMatrix;
 	}
@@ -190,24 +203,26 @@ namespace LB
 	template<typename T>
 	Matrix3x3<T> SetScale(T x, T y)
 	{
-		Matrix3x3<T> scaleMatrix;
 
-		scaleMatrix.m[0][0] = x;
-		scaleMatrix.m[1][1] = y;
-		scaleMatrix.m[2][2] = 1;
+		Matrix3x3<T> scaleMatrix;
+		scaleMatrix.Identity();
+		scaleMatrix.a = x;
+		scaleMatrix.e = y;
 
 		return scaleMatrix;
 	}
 
 	template<typename T>
-	Matrix3x3<T> SetRotate(double angle)
+	Matrix3x3<T> SetDegRotate(double angle) //in degree
 	{
 		Matrix3x3<T> rotMatrix;
+		angle *= PI / 180;
 
-		rotMatrix.m[0][0] = cos(angle);
-		rotMatrix.m[0][1] = sin(angle);
-		rotMatrix.m[1][0] = -sin(angle);
-		rotMatrix.m[1][1] = cos(angle);
+		rotMatrix.a = cos(angle);
+		rotMatrix.b = -sin(angle);
+		rotMatrix.d = sin(angle);
+		rotMatrix.e = cos(angle);
+		rotMatrix.i = 1;
 
 		return rotMatrix;
 	}
@@ -216,12 +231,10 @@ namespace LB
 	Matrix3x3<T> SetTranslate(T x, T y)
 	{
 		Matrix3x3<T> transMatrix;
-		transMatrix.m[0][0] = 1;
-		transMatrix.m[1][1] = 1;
-		transMatrix.m[2][2] = 1;
+		transMatrix.Identity();
 
-		transMatrix[0][2] = x;
-		transMatrix[1][2] = y;
+		transMatrix.c = x;
+		transMatrix.f = y;
 
 		return transMatrix;
 	}
@@ -231,5 +244,17 @@ namespace LB
 	{
 		Matrix3x3<T> transMatrix;
 		return transMatrix = trans * scale * rot;
+	}
+
+	//This is for printing of Matrix for checking
+	template <typename T>
+	void Matrix3x3<T>::displayMatrix() {
+		for (int row = 0; row < 3; ++row) {
+			for (int col = 0; col < 3; ++col) {
+				std::cout << m[row][col] << "\t";
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
 	}
 }
