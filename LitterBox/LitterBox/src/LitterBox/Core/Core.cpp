@@ -43,7 +43,8 @@ namespace LB
 					Systems[i]->Update();
 				}
 
-				if (TIME->ShouldFixedUpdate()) 
+				TIME->AccumulateFixedUpdate();
+				while (TIME->ShouldFixedUpdate()) 
 				{
 					for (unsigned i = 0; i < Systems.size(); ++i) 
 					{
