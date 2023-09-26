@@ -11,6 +11,7 @@
 #include <string>
 #include <fstream>
 #include <unordered_map>
+#include "LitterBox/Debugging/Debug.h"
 
 using namespace rapidjson;
 
@@ -36,6 +37,7 @@ namespace LB
 	class JSONSerializer
 	{
 	public:
+
 		JSONSerializer()
 		{
 			//We instantiate none to be an empty string
@@ -46,6 +48,9 @@ namespace LB
 			//Can't use strings or any other thing for some reason ;__;
 			if (_jsonFile.IsObject())
 			{
+				//The idea here is that we literally just check if the filepath exists
+				//The format in the json should be something like
+				//"EDITOR" : "/editor/File/Path"
 				if (_jsonFile.HasMember("EDITOR"))
 				{
 					filepathNames["EDITOR"] = _jsonFile["EDITOR"].GetString();
@@ -94,7 +99,8 @@ namespace LB
 				}
 				for (auto elem : fileDestinationMap)
 				{
-					std::cout << elem.second << '\n';
+					//Just to double check that we stored the filepaths to the map correctly
+					DebuggerLog(elem.second);
 				}
 			}
 		}
@@ -142,7 +148,7 @@ namespace LB
 			case FILEDESTINATION::APPDATA:
 				return "APPDATA";
 			default:
-				std::cerr << "INVALID FILE ENUM TO STRING\n";
+				DebuggerLogWarning("FILEDESTINATION DOES NOT EXIST!");
 				return "";
 			}
 		}
@@ -195,7 +201,9 @@ namespace LB
 		{
 			Document _jsonFile;
 			std::ifstream inputFile(filePath);
-			if (!inputFile) { std::cout << filePath << " not found!\n"; }//throw some error maybe
+			//Assert if it's NOT open
+			DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
+			/*if (!inputFile) { debugger }*///throw some error maybe
 			std::string jsonString((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
 			inputFile.close();
 			if (_jsonFile.Parse(jsonString.c_str()).HasParseError()) {}
