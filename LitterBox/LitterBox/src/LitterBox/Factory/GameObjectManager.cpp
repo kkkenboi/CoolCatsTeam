@@ -1,4 +1,5 @@
 #include "GameObjectManager.h"
+#include "Components.h"
 
 namespace LB
 {
@@ -102,6 +103,7 @@ namespace LB
 
 	void GameObject::AddComponent(IComponent* component)
 	{
+		component->gameObj = this;
 		m_Components.push_back(component);
 	}
 
