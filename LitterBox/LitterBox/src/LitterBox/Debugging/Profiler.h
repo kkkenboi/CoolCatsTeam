@@ -56,8 +56,8 @@ namespace LB
 		void SwapSystemInfoMapBuffer();
 
 		private:
-		KeyCode dumpGeneralInfoKey = KeyCode::KEY_O;
-		KeyCode dumpFrameInfoKey = KeyCode::KEY_P;
+		KeyCode dumpGeneralInfoKey = KeyCode::KEY_K;
+		KeyCode dumpFrameInfoKey = KeyCode::KEY_L;
 
 		std::map<char const*, double> generalInfoMap;
 
