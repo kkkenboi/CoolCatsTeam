@@ -39,3 +39,6 @@ namespace LB
 		std::string systemName{};
 	};
 }
+
+// Whenever a system includes this header, add debugging functionality by default
+#include "LitterBox/Debugging/Debug.h"

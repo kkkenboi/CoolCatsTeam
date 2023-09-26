@@ -145,11 +145,12 @@ namespace LB {
 
 	void Time::Pause(bool shouldPause) 
 	{
-
+		UNREFERENCED_PARAMETER(shouldPause);
 	}
 
 	void Time::ToggleVSync(bool on)
 	{
+		UNREFERENCED_PARAMETER(on);
 
 	}
 }

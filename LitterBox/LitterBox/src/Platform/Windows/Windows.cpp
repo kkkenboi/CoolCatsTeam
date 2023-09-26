@@ -108,18 +108,18 @@ namespace LB
 
     }//Update the system every frame
 
-    void WindowsSystem::Draw(WindowsData m_Data)
+    void WindowsSystem::Draw(WindowsData _m_Data)
     {
-        std::string title{m_Data.Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime())};
+        std::string title{_m_Data.Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime())};
 
         // Set Window Title (Name + FPS)
-        glfwSetWindowTitle(m_Data.PtrToWindow, title.c_str());
+        glfwSetWindowTitle(_m_Data.PtrToWindow, title.c_str());
 
         // Rendering portion
 
 
         // Swap buffer
-        glfwSwapBuffers(m_Data.PtrToWindow);
+        glfwSwapBuffers(_m_Data.PtrToWindow);
 
     }//Update the system every frame
 
@@ -136,6 +136,8 @@ namespace LB
     void WindowsSystem::FrameBufferCB(GLFWwindow* ptr_win, int width, int height)
     {
         UNREFERENCED_PARAMETER(ptr_win);
+        UNREFERENCED_PARAMETER(width);
+        UNREFERENCED_PARAMETER(height);
         #ifdef _DEBUG
             std::cout << "FrameBufferCB getting called!" << std::endl;
         #endif

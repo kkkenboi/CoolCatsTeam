@@ -9,6 +9,8 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Debugging/Profiler.h"
+#include "LitterBox/Physics/RigidBodyManager.h"
+#include "LitterBox/Debugging/Debug.h"
 #include "Core.h"
 
 namespace LB {
