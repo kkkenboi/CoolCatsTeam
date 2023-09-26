@@ -15,15 +15,18 @@ namespace LB {
 		FactorySystem*			factory		= new FactorySystem();
 		GameLogic*				logic		= new GameLogic();
 		Memory*					memory		= new Memory();
+		RigidBodyManager*		physics		= new RigidBodyManager();
+
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
 		Engine->AddSystem(profiler);
 		Engine->AddSystem(factory);
 		Engine->AddSystem(windows);
-		Engine->AddSystem(graphics);
 		Engine->AddSystem(gameManager);
 		Engine->AddSystem(logic);
+		Engine->AddSystem(physics);
+		Engine->AddSystem(graphics);
 		Engine->AddSystem(memory);
 
 		Engine->Initialize();
