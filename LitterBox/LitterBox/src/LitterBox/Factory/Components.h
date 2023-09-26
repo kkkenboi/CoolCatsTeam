@@ -1,6 +1,7 @@
 #pragma once
 #include <Litterbox/Engine/Message.h>
 #include <LitterBox/Debugging/Memory.h>
+#include "LitterBox/Renderer/Renderer.h"
 
 namespace LB
 {
@@ -30,6 +31,44 @@ namespace LB
 		ComponentTypeID TypeID;
 
 	};
+
+	class Render : public IComponent
+	{
+	public:
+		void Initialise() override
+		{
+			double posx{}, posy{};
+			glfwGetCursorPos(WINDOWSSYSTEM->GetWindow(), &posx, &posy);
+
+			Renderer::render_Object* temp = new Renderer::render_Object;
+			temp->position.x = posx;
+			temp->position.y = WINDOWSSYSTEM->GetHeight() - posy;
+
+			temp->w = 100.f;
+			temp->h = 100.f;
+
+
+			renderObj = temp;
+			std::cout << "Render component initialising mouse position values\n";
+		}
+		void Serialise() override
+		{
+			std::cout << "Serialising Render\n";
+		}
+		void Deserialise() override
+		{
+			std::cout << "Deserialising Render\n";
+		}
+		void Destroy() override
+		{
+			//delete renderObj;
+		}
+
+	private:
+		// Should data stay private? 
+		Renderer::render_Object* renderObj;
+	};
+
 
 	// Interface to make components and tag IDs
 	class ComponentMaker

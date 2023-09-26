@@ -7,7 +7,7 @@
 #include <map>
 #include <queue>
 //TODO CHANGE TO RELATIVE PATH
-#include <glm.hpp>
+#include "../../dependencies/glm/glm/glm.hpp"
 
 namespace Renderer {
 	//-------------Structs to make things easier for now--------

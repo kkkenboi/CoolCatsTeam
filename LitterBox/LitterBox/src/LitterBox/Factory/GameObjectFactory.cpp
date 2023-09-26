@@ -1,5 +1,5 @@
 #include "GameObjectFactory.h"
-#include "Components.cpp"
+#include "Components.h"
 
 namespace LB
 {
