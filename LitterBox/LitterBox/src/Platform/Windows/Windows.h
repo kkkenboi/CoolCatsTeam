@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "LitterBox/Core/System.h"
 #include "LitterBox/Engine/Message.h"
+#include "LitterBox/Serialization/Serializer.h"
 
 #define UNREFERENCED_PARAMETER
 
@@ -15,11 +16,41 @@ namespace LB
 		double PosX{}, PosY{};
 		GLFWwindow* PtrToWindow{ nullptr };
 
-		WindowsData(const std::string& title = "LitterBox Engine",
-			unsigned int width = 1600,
+		WindowsData(const std::string& title = "Litterjox Engine",
+			unsigned int width = 900,
 			unsigned int height = 900)
 			: Title(title), Width(width), Height(height), PtrToWindow{ nullptr }
 		{
+		}
+		bool Serialize(Value& data, Document::AllocatorType& allocator) 
+		{
+			data.SetObject();
+			data.AddMember("Title", rapidjson::Value(Title.c_str(), allocator),allocator);
+			data.AddMember("Width", Width,allocator);
+			data.AddMember("Height", Height,allocator);
+			data.AddMember("PosX", 0.0,allocator);
+			data.AddMember("PosY", 0.0,allocator);
+			return true;
+		}
+		bool Deserialize(const Value& data)
+		{
+			bool HasTitle = data.HasMember("Title");
+			bool HasWidth = data.HasMember("Width");
+			bool HasHeight = data.HasMember("Height");
+			if (data.IsObject())
+			{
+				if (HasTitle)
+				{
+					Title = data["Title"].GetString();
+				}
+				if (HasWidth && HasHeight)
+				{
+					Width = data["Width"].GetInt();
+					Height = data["Height"].GetInt();
+				}
+				return true;
+			}
+			return false;
 		}
 	};
 

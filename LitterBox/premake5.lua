@@ -34,7 +34,8 @@ IncludeDir["ImGui"]         = "%{wks.location}/dependencies/ImGui"
 IncludeDir["spdlog"]        = "%{wks.location}/dependencies/spdlog/include"
 IncludeDir["stb"]           = "%{wks.location}/dependencies/stb"
 IncludeDir["FreeType"]      = "%{wks.location}/dependencies/FreeType/include"
-IncludeDir["FMOD"]          = "%{wks.location}/dependencies/FMOD/core/inc"
+IncludeDir["FMOD"]          = "%{wks.location}/dependencies/FMOD/include"
+IncludeDir["RapidJSON"]     = "%{wks.location}/dependencies/RapidJSON/include"
 
 -- Projects 
 group "Dependencies"

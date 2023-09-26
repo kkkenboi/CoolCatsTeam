@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file			Math.h
  \author		Vanessa Chua Siew Jin, Justine
- \par DP email:
+ \par DP email: vanessasiewjin.chua\@digipen.edu, justine.c@digipen.edu
  \par Course:	CSD2401A
  \date			24-09-2023
  \brief

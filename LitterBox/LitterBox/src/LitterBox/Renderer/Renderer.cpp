@@ -189,7 +189,6 @@ void Renderer::render_Object::animate()
 {
 	//increment time elapsed
 	time_elapsed += LB::TIME->GetDeltaTime();
-
 	//move to next frame based on time
 	if (time_elapsed >= animation.front().first->get_inc()) {
 		++frame;
@@ -440,8 +439,9 @@ Renderer::RenderSystem::RenderSystem()
 	testobj->texture = t_Manager.get_texture_index("run");
 	testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
 	//-################TEST CODE REMOVE AFTER##########################
-	a_Manager.load_anim("running", frames.data(), 2.f, 18);
-
+	a_Manager.load_anim("running", frames.data(), .5f, 18);
+	testobj->play_next("running");
+	testobj->play_next("running");
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
