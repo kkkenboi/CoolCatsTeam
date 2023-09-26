@@ -214,7 +214,7 @@ void Renderer::render_Object::animate()
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
 
 //----------------------------------------------RENDERER---------------------------------------------------
-Renderer::Renderer::Renderer() :
+Renderer::Renderer::Renderer()	 :
 	vao{}, shader_program{}, vbo{}, ibo{},
 	quad_buff{ nullptr }, index_buff{},
 	quad_buff_size{}, active_objs{}
@@ -261,7 +261,7 @@ Renderer::Renderer::Renderer() :
 	std::filesystem::path a = std::filesystem::current_path();
 
 	//TODO Load shaders
-	shader_source shd_pgm{ shader_parser("./Basic.shader") };
+	shader_source shd_pgm{ shader_parser("../Assets/Basic.shader") };
 	shader_program = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 	//TODO Load textures
 
@@ -433,10 +433,10 @@ Renderer::RenderSystem::RenderSystem()
 	testobj->uv[2] = { .12f, .73f };
 	testobj->uv[3] = { 0.f, .73f };
 
-	t_Manager.add_texture("./test.png", "test");
-	t_Manager.add_texture("./test2.png", "logo");
-	t_Manager.add_texture("./test3.png", "pine");
-	t_Manager.add_texture("./anim.png", "run");
+	t_Manager.add_texture("../Assets/test.png", "test");
+	t_Manager.add_texture("../Assets/test2.png", "logo");
+	t_Manager.add_texture("../Assets/test3.png", "pine");
+	t_Manager.add_texture("../Assets/anim.png", "run");
 	testobj->texture = t_Manager.get_texture_index("run");
 	testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
 	//-################TEST CODE REMOVE AFTER##########################
