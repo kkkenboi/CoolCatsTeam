@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "LitterBox/Engine/Message.h"
+#include "LitterBox/Debugging/Debug.h"
 
 #define UNREFERENCED_PARAMETER
 

@@ -27,11 +27,11 @@ namespace LB
 
 		void SetColor(Vec4<int> color);
 
-		//void DrawLine(Vec2<int> start, Vec2<int> end, Vec4<int> color);
-		//void DrawLine(Vec2<int> start, Vec2<int> end);
+		void DrawLine(Vec2<int> start, Vec2<int> end, Vec4<int> color);
+		void DrawLine(Vec2<int> start, Vec2<int> end);
 
-		//void DrawBox(Vec2<int> center, float length, Vec4<int> color);
-		//void DrawBox(Vec2<int> center, float length);
+		void DrawBox(Vec2<int> center, float length, Vec4<int> color);
+		void DrawBox(Vec2<int> center, float length);
 
 		#define Log(message) LogFull(__FILE__, __LINE__, message)
 		void LogFull(const char* file, int line, std::string const& message);

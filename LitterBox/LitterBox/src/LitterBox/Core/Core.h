@@ -2,7 +2,6 @@
 
 #include "pch.h"
 #include "System.h"
-#include "LitterBox/Engine/Message.h"
 
 namespace LB 
 {
