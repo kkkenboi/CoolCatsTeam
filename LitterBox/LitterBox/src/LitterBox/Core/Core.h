@@ -2,7 +2,6 @@
 
 #include "pch.h"
 #include "System.h"
-#include "LitterBox/Engine/Message.h"
 
 namespace LB 
 {
@@ -29,7 +28,7 @@ namespace LB
 		//Is the game running (true) or being shut down (false)?
 		bool m_Running;
 
-		float m_FPS{};
+		double m_FPS{};
 		double m_FPSInterval{ 1.0 };
 	};
 

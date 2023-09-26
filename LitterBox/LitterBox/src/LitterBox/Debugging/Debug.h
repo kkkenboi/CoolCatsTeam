@@ -18,26 +18,37 @@
 
 namespace LB
 {
-	class Debug : public ISystem
+	#define DebuggerFileName (std::string(__FILE__).substr(std::string(__FILE__).rfind("\\") + 1))
+
+	#define DebuggerAssert(expectedCondition, message) LB::DEBUG->Assert(expectedCondition, message, DebuggerFileName.c_str(), __LINE__)
+	#define DebuggerLog(message) LB::DEBUG->Log(message, DebuggerFileName.c_str(), __LINE__)
+	#define DebuggerLogWarning(message) LB::DEBUG->LogWarning(message, DebuggerFileName.c_str(), __LINE__)
+	#define DebuggerLogError(message) LB::DEBUG->LogError(message, DebuggerFileName.c_str(), __LINE__)
+
+	class Debugger : public ISystem
 	{
 	public:
-		void Initialize() override { SetSystemName("Debug System"); }
+		Debugger();
 
-		Event<bool> onDebugToggle;
+		void Initialize() override { SetSystemName("Debug System"); }
 
 		void SetColor(Vec4<int> color);
 
 		void DrawLine(Vec2<int> start, Vec2<int> end, Vec4<int> color);
 		void DrawLine(Vec2<int> start, Vec2<int> end);
 
-		//void DrawCircle(Vec2<int> center, float radius);
-		//void DrawCircle(Vec2<int> center, float radius, Vec4<int> color);
-
 		void DrawBox(Vec2<int> center, float length, Vec4<int> color);
 		void DrawBox(Vec2<int> center, float length);
+
+		void Assert(bool expectedCondition, std::string const& message, const char* file = "Unnamed", int line = 0);
+		void Log(std::string const& message, const char* file = "Unnamed", int line = 0);
+		void LogWarning(std::string const& message, const char* file = "Unnamed", int line = 0);
+		void LogError(std::string const& message, const char* file = "Unnamed", int line = 0);
 
 		private:
 		Vec2<int> m_writePos;
 		Vec4<int> m_drawColor;
 	};
+
+	extern Debugger* DEBUG;
 }
