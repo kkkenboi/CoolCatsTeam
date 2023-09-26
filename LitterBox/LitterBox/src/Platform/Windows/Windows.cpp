@@ -38,6 +38,9 @@ namespace LB
         glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
+        //Deserialise the config settings
+        LB::JSONSerializer stream;
+        stream.DeserializeFromFile("config settings", m_Data);
         // Update Window Title
 
 

@@ -36,7 +36,22 @@ uniform sampler2D u_SamplerID[8];
 void main()
 {
 	if(tIO >= 0.0) {
-		color = texture(u_SamplerID[int(tIO)], v_TexCoord);
+		//TODO set 32 cases to accomodate for texture amounts
+		switch(int(tIO)) {
+			case 0:
+			color = texture(u_SamplerID[0], v_TexCoord);
+			break;
+			case 1:
+			color = texture(u_SamplerID[1], v_TexCoord);
+			break;
+			case 2:
+			color = texture(u_SamplerID[2], v_TexCoord);
+			break;
+			case 3:
+			color = texture(u_SamplerID[3], v_TexCoord);
+			break;
+		} 
+		//color = texture(u_SamplerID[int(tIO)], v_TexCoord);
 	}
 	else {
 		color = vec4(v_Color,1.0);
