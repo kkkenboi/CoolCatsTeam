@@ -1,6 +1,7 @@
 #include "Windows.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Core/Core.h"
+#include "LitterBox/Engine/Time.h"
 
 #define UNREFERENCED_PARAMETER
 
@@ -8,11 +9,7 @@ namespace LB
 {
     WindowsSystem* WINDOWSSYSTEM = nullptr;
 
-    void PrintKey() {
-        std::cout << "W Pressed :) \n";
-    }
-
-	WindowsSystem::WindowsSystem() 
+	WindowsSystem::WindowsSystem()
 	{
         // Ensure that there is only one window as it should only be called once for one engine
         // 
@@ -31,7 +28,7 @@ namespace LB
             std::cout << "GLFW init has failed - abort program!!!" << std::endl;
         }
 
-        //// Set GLFW error callback
+        // Set GLFW error callback
         glfwSetErrorCallback(ErrorCB);
 
         // Specify GLFW window hints
@@ -40,6 +37,9 @@ namespace LB
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+        // Update Window Title
+
 
         // Create GLFW window
         m_Data.PtrToWindow = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), NULL, NULL);
@@ -84,11 +84,6 @@ namespace LB
         int fb_width, fb_height;
         glfwGetFramebufferSize(m_Data.PtrToWindow, &fb_width, &fb_height);
         FrameBufferCB(m_Data.PtrToWindow, fb_width, fb_height);
-
-        // Testing Input callback
-        INPUT->SubscribeToKey(PrintKey, KeyCode::KEY_W, KeyEvent::PRESSED);
-
-        //return true;
 	}
 
     WindowsSystem::~WindowsSystem()
@@ -112,6 +107,11 @@ namespace LB
 
     void WindowsSystem::Draw(WindowsData m_Data)
     {
+        std::string title{m_Data.Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime())};
+
+        // Set Window Title (Name + FPS)
+        glfwSetWindowTitle(m_Data.PtrToWindow, title.c_str());
+
         // Rendering portion
 
 
