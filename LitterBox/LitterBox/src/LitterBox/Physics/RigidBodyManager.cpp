@@ -11,6 +11,9 @@ namespace LB
 
     RigidBodyManager::RigidBodyManager()
     {
+        //INPUT->SubscribeToKey(func, KeyCode::KEY_W, KeyEvent)
+
+
         if (!PHYSICS)
         {
             PHYSICS = this;
