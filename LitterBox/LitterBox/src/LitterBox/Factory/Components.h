@@ -41,8 +41,8 @@ namespace LB
 			glfwGetCursorPos(WINDOWSSYSTEM->GetWindow(), &posx, &posy);
 
 			Renderer::render_Object* temp = new Renderer::render_Object;
-			temp->position.x = posx;
-			temp->position.y = WINDOWSSYSTEM->GetHeight() - posy;
+			temp->position.x = (float)posx;
+			temp->position.y = (float)WINDOWSSYSTEM->GetHeight() - (float)posy;
 
 			temp->w = 100.f;
 			temp->h = 100.f;

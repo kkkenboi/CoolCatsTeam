@@ -188,7 +188,7 @@ void Renderer::render_Object::play_now(const std::string& name)
 void Renderer::render_Object::animate()
 {
 	//increment time elapsed
-	time_elapsed += LB::TIME->GetDeltaTime();
+	time_elapsed += (float)LB::TIME->GetDeltaTime();
 
 	//move to next frame based on time
 	if (time_elapsed >= animation.front().first->get_inc()) {
@@ -197,7 +197,7 @@ void Renderer::render_Object::animate()
 	}
 
 	//check if on last frame
-	if (frame == animation.front().first->get_frame_count()) {
+	if (frame == (unsigned)animation.front().first->get_frame_count()) {
 		//pop the animation if its non repeat or reset the frame if it is
 		if (!animation.front().second) {
 			animation.pop();
@@ -214,13 +214,28 @@ void Renderer::render_Object::animate()
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
 
 //----------------------------------------------RENDERER---------------------------------------------------
-Renderer::Renderer::Renderer()	 :
-	vao{}, shader_program{}, vbo{}, ibo{},
+Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
+	vao{}, vbo{}, ibo{},
 	quad_buff{ nullptr }, index_buff{},
 	quad_buff_size{}, active_objs{}
 {
 	//create vertex
-	quad_buff_size = 3000;
+	//quad_buff_size = 3000;
+	//TODO have a proper reasoning for limits to buff size
+	switch (renderer) {
+	case Renderer_Types::RT_OBJECT:
+		quad_buff_size = 3000;
+		break;
+	case Renderer_Types::RT_BACKGROUND:
+		quad_buff_size = 10;
+		break;
+	case Renderer_Types::RT_DEBUG:
+		quad_buff_size = 200;
+		break;
+	case Renderer_Types::RT_UI:
+		quad_buff_size = 50;
+		break;
+	}
 	quad_buff = new quad[quad_buff_size];
 	index_buff.resize(quad_buff_size);
 
@@ -259,13 +274,6 @@ Renderer::Renderer::Renderer()	 :
 	glVertexArrayElementBuffer(vao, ibo);
 
 	std::filesystem::path a = std::filesystem::current_path();
-
-	//TODO Load shaders
-	shader_source shd_pgm{ shader_parser("../Assets/Basic.shader") };
-	shader_program = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
-	//TODO Load textures
-
-	//TODO make it modular so multiple objects can be made from this model
 }
 
 Renderer::Renderer::~Renderer()
@@ -274,7 +282,6 @@ Renderer::Renderer::~Renderer()
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ibo);
 	glDeleteVertexArrays(1, &vao);
-	glDeleteProgram(shader_program);
 }
 
 unsigned int Renderer::Renderer::create_render_object(const render_Object* obj)
@@ -316,7 +323,7 @@ unsigned int Renderer::Renderer::create_render_object(const render_Object* obj)
 		pos = cam.world_NDC * pos;
 		quad_buff[i].data[j].pos.x = pos.x;
 		quad_buff[i].data[j].pos.y = pos.y;
-		std::cout << "NDC: " << pos.x << ", " << pos.y << std::endl;
+		//std::cout << "NDC: " << pos.x << ", " << pos.y << std::endl;
 	}
 
 	quad_buff[i].data[0].index = obj->texture;
@@ -413,7 +420,9 @@ Renderer::render_Object* testobj;
 Renderer::render_Object* test2;
 Renderer::Texture* again;
 
-Renderer::RenderSystem::RenderSystem()
+Renderer::RenderSystem::RenderSystem() :
+	object_renderer{Renderer_Types::RT_OBJECT},
+	bg_renderer{Renderer_Types::RT_BACKGROUND}
 {
 	//singleton that shiet
 	if (!GRAPHICS)
@@ -421,22 +430,31 @@ Renderer::RenderSystem::RenderSystem()
 	else
 		std::cerr << "Render System already exist" << std::endl;
 
-	glUseProgram(object_renderer.get_shader());
+	shader_source shd_pgm{ shader_parser("../Assets/Shaders/Basic.shader") };
+	shader_program = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
+
+	glUseProgram(shader_program);
 	glBindVertexArray(object_renderer.get_vao());
 
 	//-################TEST CODE REMOVE AFTER##########################
 	testobj = new render_Object{ {800.f, 450.f}, 100.f, 100.f };
-	//test2 = new render_Object{ {300.f, 300.f}, 30.f, 50.f };
+	/*test2 = new render_Object[2500];
+	for (int y{ 0 }; y < 50; ++y)
+		for (int x{ 0 }; x < 50; ++x) {
+			test2[x + y * 50].position = { x * 32.f + 15.f, y * 18.f + 10.f };
+			test2[x + y * 50].w = 10.f;
+			test2[x + y * 50].h = 10.f;
+		}*/
 	testobj->col = { 0.f,0.f,0.f };
 	testobj->uv[0] = { 0.f, 0.6f };
 	testobj->uv[1] = { .12f, 0.6f };
 	testobj->uv[2] = { .12f, .73f };
 	testobj->uv[3] = { 0.f, .73f };
 
-	t_Manager.add_texture("../Assets/test.png", "test");
-	t_Manager.add_texture("../Assets/test2.png", "logo");
-	t_Manager.add_texture("../Assets/test3.png", "pine");
-	t_Manager.add_texture("../Assets/anim.png", "run");
+	t_Manager.add_texture("../Assets/Textures/test.png", "test");
+	t_Manager.add_texture("../Assets/Textures/test2.png", "logo");
+	t_Manager.add_texture("../Assets/Textures/test3.png", "pine");
+	t_Manager.add_texture("../Assets/Textures/anim.png", "run");
 	testobj->texture = t_Manager.get_texture_index("run");
 	testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
 	//-################TEST CODE REMOVE AFTER##########################
@@ -450,6 +468,8 @@ Renderer::RenderSystem::~RenderSystem()
 {
 	if (GRAPHICS)
 		GRAPHICS = nullptr;
+
+	glDeleteProgram(shader_program);
 }
 
 void Renderer::RenderSystem::Update()
@@ -504,12 +524,12 @@ Renderer::Texture::Texture(const std::string& path) :
 	glTextureParameteri(id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTextureParameteri(id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	std::cout << "Picture specs: " << id << " " << w << " " << h << " " << fluff << std::endl;
+	//std::cout << "Picture specs: " << id << " " << w << " " << h << " " << fluff << std::endl;
 }
 
 Renderer::Texture::~Texture()
 {
-	std::cout << "DELETED TEXTURE " << id << std::endl;
+	//std::cout << "DELETED TEXTURE " << id << std::endl;
 	glDeleteTextures(1, &id);
 }
 
@@ -532,12 +552,12 @@ bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const 
 	glBindTextureUnit(0 + i, textures.find(name)->second.first->get_tex());
 	free[i] = true;
 
-	GLint uni_loc = glGetUniformLocation(GRAPHICS->object_renderer.get_shader(), "u_SamplerID");
+	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
 	int test[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
 	glUniform1iv(uni_loc, 8, test);
 
 
-	std::cout << "Texture index: " << i << std::endl;
+	//std::cout << "Texture index: " << i << std::endl;
 
 	return true;
 }

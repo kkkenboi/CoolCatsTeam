@@ -6,8 +6,7 @@
 #include <list>
 #include <map>
 #include <queue>
-//TODO CHANGE TO RELATIVE PATH
-#include "../../dependencies/glm/glm/glm.hpp"
+#include <glm.hpp>
 
 namespace Renderer {
 	//-------------Structs to make things easier for now--------
@@ -106,15 +105,14 @@ namespace Renderer {
 		glm::mat4 world_NDC {ortho};
 
 		Camera() { 
-			std::cout << "WIDTH: " << LB::WINDOWSSYSTEM->GetWidth() << " HEIGHT: " << LB::WINDOWSSYSTEM->GetHeight() << std::endl;
-			float hvf = LB::WINDOWSSYSTEM->GetHeight();
-			float wvf = LB::WINDOWSSYSTEM->GetWidth();
-			float left = 0.f;
-			float right = wvf;
-			ortho = { 2.f / right - left, 0.f, 0.f, 0.f,
+			float hvf = (float)LB::WINDOWSSYSTEM->GetHeight();
+			float wvf = (float)LB::WINDOWSSYSTEM->GetWidth();
+			float lvf = 0.f;
+			float rvf = wvf;
+			ortho = { 2.f / rvf - lvf, 0.f, 0.f, 0.f,
 					 0.f, 2.f / hvf, 0.f, 0.f,
 					 0.f, 0.f, 0.2f, 0.f,
-					 -(right + left)/(right - left), -1.f, -0.2f, 1.f};
+					 -(rvf + lvf)/(rvf - lvf), -1.f, -0.2f, 1.f};
 			world_NDC = ortho * nel;
 		}
 
@@ -155,6 +153,13 @@ namespace Renderer {
 	//----------------------------------------ANIMATION--------------------------------
 	
 	//------------------------------------------------RENDERING SPECIFIC------------------------------------------------
+	enum class Renderer_Types {
+		RT_OBJECT,
+		RT_BACKGROUND,
+		RT_DEBUG,
+		RT_UI
+	};
+
 	//Renderer class will be incharge the vao, shader program and buffers.
 	//Renderer class will not be exposed to the programmers and is meant-
 	//-to have a level of disconnect even from render_object class
@@ -164,7 +169,6 @@ namespace Renderer {
 	class Renderer {
 	private:
 		unsigned int vao;
-		unsigned int shader_program;
 		unsigned int vbo;
 		unsigned int ibo;
 		quad* quad_buff;
@@ -178,11 +182,10 @@ namespace Renderer {
 	public:
 		Camera cam;
 
-		Renderer();
+		Renderer(const Renderer_Types& renderer);
 		~Renderer();
 
 		inline unsigned int get_vao() { return vao; }
-		inline unsigned int get_shader() { return shader_program; }
 		inline unsigned int get_ibo() { return ibo; }
 		inline size_t get_ao_size() { return active_objs.size(); }
 		inline unsigned int get_vbo() { return vbo; }
@@ -196,9 +199,11 @@ namespace Renderer {
 	class RenderSystem : public LB::ISystem {
 	private:
 		//TODO figure out some way in the serialization process
-		//how to pass in object limit for rende
+		//how to pass in object limit for renderer
+		unsigned int shader_program;
 		Texture_Manager t_Manager;
 		Animation_Manager a_Manager;
+		Renderer bg_renderer;
 	public:
 		Renderer object_renderer;
 
@@ -218,6 +223,8 @@ namespace Renderer {
 			a_Manager.load_anim(animation_name, data, anim_time, number_of_frames);
 		}
 		auto get_anim(const std::string& name) const { return a_Manager.find_animation(name); }
+
+		inline unsigned int get_shader() { return shader_program; }
 	};
 
 	//A pointer to the system object in the core engine
