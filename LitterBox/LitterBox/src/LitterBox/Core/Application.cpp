@@ -18,7 +18,6 @@ namespace LB {
 		Memory*					memory		= new Memory();
 		Debugger*				debug		= new Debugger();
 
-
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
 		Engine->AddSystem(profiler);
