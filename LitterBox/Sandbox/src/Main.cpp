@@ -16,12 +16,10 @@ public:
 
 GameplayLayer::GameplayLayer(std::string layerName) : Layer(layerName)
 {
-	std::cout << "Initialising!\n";
 }
 
 void GameplayLayer::UpdateLayer()
 {
-	std::cout << "Updating!\n";
 }
 
 class Sandbox : public LB::Application

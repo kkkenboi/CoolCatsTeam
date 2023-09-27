@@ -5,8 +5,8 @@ public:
 	Layer(std::string layerName);
 	virtual ~Layer() {};
 
-	virtual void AttachLayer() {};
-	virtual void DetachLayer() {};
+	//virtual void AttachLayer() {};
+	//virtual void DetachLayer() {};
 
 	virtual void UpdateLayer() {};
 
