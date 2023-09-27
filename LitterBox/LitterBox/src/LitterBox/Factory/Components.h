@@ -3,6 +3,7 @@
 #include <LitterBox/Debugging/Memory.h>
 #include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Utils/Math.h"
 
 namespace LB
 {
@@ -19,11 +20,11 @@ namespace LB
 	class IComponent
 	{
 	public:
-
-		virtual void Initialise() = 0;
-		virtual void Serialise() = 0;
-		virtual void Deserialise() = 0;
-		virtual void Destroy() = 0;
+		virtual void Initialise() {};
+		virtual void Serialise() {};
+		virtual void Update() {};
+		virtual void Deserialise() {};
+		virtual void Destroy() {};
 		// To destruct all other derived components
 
 		ComponentTypeID GetType()	{ return TypeID; }
@@ -38,13 +39,6 @@ namespace LB
 	public:
 		void Initialise() override
 		{
-			// In the future, should be based on deserialised data from 
-			// data files or user input
-			double posx{}, posy{};
-			glfwGetCursorPos(WINDOWSSYSTEM->GetWindow(), &posx, &posy);
-
-			xPos = posx;
-			yPos = posy;
 			std::cout << "Initialising Transform\n";
 		}
 		void Serialise() override
@@ -60,10 +54,39 @@ namespace LB
 			std::cout << "Destroying Transform\n";
 		}
 
+		Vec2<float> GetPosition() const
+		{
+			return pos;
+		}
+
+		void SetPosition(Vec2<float> const& newPos)
+		{
+			pos = newPos;
+		}
+
+		Vec2<float> GetScale() const
+		{
+			return scale;
+		}
+
+		void SetScale(Vec2<float> const& newScale)
+		{
+			scale = newScale;
+		}
+
+		float GetRotation() const
+		{
+			return angle;
+		}
+
+		void SetRotation(float newRotation)
+		{
+			angle = newRotation;
+		}
+
 	private:
-		// Should data stay private? 
-		int xPos, yPos;
-		float angle, scale;
+		Vec2<float> pos, scale;
+		float angle;
 	};
 
 	class CPRender : public IComponent
