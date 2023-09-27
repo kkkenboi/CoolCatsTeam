@@ -26,6 +26,9 @@ namespace LB
         template <typename T>
         T* Allocate();
 
+        template <typename T, typename... Args>
+        T* Allocate(Args&&... args);
+
         template <typename T>
         void Deallocate(T* ptr);
 
@@ -34,4 +37,44 @@ namespace LB
     };
 
     extern Memory* MEMORY;
+}
+
+/***************************************************************************************************
+*
+* Template functions definitions
+*
+***************************************************************************************************/
+
+namespace LB
+{
+
+    template <typename T>
+    T* Memory::Allocate()
+    {
+        T* ptr = new T;
+        allocs[(void*)ptr] = sizeof(T);
+        return ptr;
+    }
+
+    template <typename T, typename... Args>
+    T* Memory::Allocate(Args&&... args)
+    {
+        T* ptr = new T(std::forward<Args>(args)...);
+        allocs[(void*)ptr] = sizeof(T);
+        return ptr;
+    }
+
+    template <typename T>
+    void Memory::Deallocate(T* ptr)
+    {
+        auto it = allocs.find((void*)ptr);
+        if (it != allocs.end()) {
+            delete ptr;
+            allocs.erase(it);
+        }
+        else
+        {
+            std::cerr << "Memory: Tried to dellocate non-existent ptr of size <" << it->second << " bytes>\n";
+        }
+    }
 }

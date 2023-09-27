@@ -40,5 +40,9 @@ namespace LB
 	};
 }
 
-// Whenever a system includes this header, add debugging functionality by default
+// Whenever a system includes this header,
+// Add debugging functionality by default
 #include "LitterBox/Debugging/Debug.h"
+
+// Add LB-side memory allocation/ deallocation
+#include "LitterBox/Debugging/Memory.h"
