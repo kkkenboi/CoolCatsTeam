@@ -12,8 +12,9 @@ namespace LB
 		GameObject(int ID);
 		~GameObject();
 
-		std::vector<IComponent*> GetComponents() const;
-		void AddComponent(IComponent* component);
+		IComponent* GetComponent(std::string name);
+		std::map<std::string, IComponent*> GetComponents();
+		void AddComponent(std::string name, IComponent* component);
 
 		void StartComponents();
 
@@ -22,7 +23,7 @@ namespace LB
 
 	private:
 		int m_ID;
-		std::vector<IComponent*> m_Components;
+		std::map<std::string, IComponent*> m_Components;
 		bool isActive;
 	};
 
