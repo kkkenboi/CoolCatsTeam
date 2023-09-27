@@ -237,7 +237,7 @@ namespace Renderer {
 	extern RenderSystem* GRAPHICS;
 
 	//Render object is an object that will be exposed to the programmers in the level creator
-	class render_Object {
+	class render_Object : public LB::IComponent {
 	private:
 		Renderer_Types									renderer_id;
 		unsigned int									quad_id;
@@ -277,6 +277,8 @@ namespace Renderer {
 		void play_repeat(const std::string& name);
 		void play_next(const std::string& name);
 		void play_now(const std::string& name);
+
+		inline void get_transform_data() {gameObj->GetComponents() };
 
 		void animate();
 	};

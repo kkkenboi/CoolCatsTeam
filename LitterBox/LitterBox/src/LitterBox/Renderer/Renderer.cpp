@@ -354,12 +354,15 @@ void Renderer::Renderer::remove_render_object(const render_Object* obj)
 void Renderer::Renderer::update_buff(Renderer_Types r_type)
 {
 	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "z_val");
+	if (uni_loc == -1) {
+		std::cerr << "Uniform location does not exist" << std::endl;
+	}
 	switch (r_type) {
 	case Renderer_Types::RT_OBJECT:
 		glUniform1f(uni_loc, 0.f);
 		break;
 	case Renderer_Types::RT_BACKGROUND:
-		glUniform1f(uni_loc, -5.f);
+		glUniform1f(uni_loc, 0.0f);
 		break;
 	}
 
@@ -434,7 +437,16 @@ Renderer::RenderSystem::RenderSystem() :
 	glBindVertexArray(object_renderer.get_vao());
 
 	//-################TEST CODE REMOVE AFTER##########################
+	//cache some values
+	float midx = (float)LB::WINDOWSSYSTEM->GetWidth() * 0.5f;
+	float midy = (float)LB::WINDOWSSYSTEM->GetHeight() * 0.5f;
+	float w = (float)LB::WINDOWSSYSTEM->GetWidth();
+	float h = (float)LB::WINDOWSSYSTEM->GetHeight();
+
+
+	std::cout << "Before: " << bg_renderer.get_ao_size();
 	testobj = new render_Object{{800.f, 450.f}, 100.f, 100.f };
+	test2 = new render_Object{ {midx,midy}, w, h, 1.f, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
 	/*test2 = new render_Object[2500];
 	for (int y{ 0 }; y < 50; ++y)
 		for (int x{ 0 }; x < 50; ++x) {
@@ -452,14 +464,20 @@ Renderer::RenderSystem::RenderSystem() :
 	t_Manager.add_texture("../Assets/Textures/test2.png", "logo");
 	t_Manager.add_texture("../Assets/Textures/test3.png", "pine");
 	t_Manager.add_texture("../Assets/Textures/anim.png", "run");
+	t_Manager.add_texture("../Assets/Textures/Environment_Background.png", "bg");
 	testobj->texture = t_Manager.get_texture_index("run");
 	testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
+
+	test2->texture = t_Manager.get_texture_index("bg");
+	test2->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
+	std::cout << " After: " << bg_renderer.get_ao_size() << std::endl;
 	//-################TEST CODE REMOVE AFTER##########################
 	/*a_Manager.load_anim("running", frames.data(), .5f, 18);
 	testobj->play_next("running");
 	testobj->play_next("running");*/
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
 }
 
 Renderer::RenderSystem::~RenderSystem()
@@ -472,12 +490,14 @@ Renderer::RenderSystem::~RenderSystem()
 
 void Renderer::RenderSystem::Update()
 {
+	bg_renderer.update_buff(Renderer_Types::RT_BACKGROUND);
 	object_renderer.update_buff(Renderer_Types::RT_OBJECT);
-	//bg_renderer.update_buff(Renderer_Types::RT_BACKGROUND);
 	glClearColor(.3f, 0.5f, .8f, 1.f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glBindVertexArray(bg_renderer.get_vao());
+	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 }
 
 void Renderer::RenderSystem::Draw()
