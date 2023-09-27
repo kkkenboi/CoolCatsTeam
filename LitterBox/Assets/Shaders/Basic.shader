@@ -12,9 +12,11 @@ layout(location = 1) out vec2 v_TexCoord;
 
 out float tIO;
 
+uniform float z_val;
+
 void main()
 {
-	gl_Position = vec4(position, 0.0, 1.0);
+	gl_Position = vec4(position, z_val, 1.0);
 	vCol = aCol;
 	v_TexCoord = texCoord;
 	tIO = texIndex;
@@ -49,6 +51,9 @@ void main()
 			break;
 			case 3:
 			color = texture(u_SamplerID[3], v_TexCoord);
+			break;
+			case 4:
+			color = texture(u_SamplerID[4], v_TexCoord);
 			break;
 		} 
 		//color = texture(u_SamplerID[int(tIO)], v_TexCoord);
