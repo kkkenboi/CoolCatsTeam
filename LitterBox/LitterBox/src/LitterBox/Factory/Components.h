@@ -85,8 +85,8 @@ namespace LB
 		}
 
 	private:
-		Vec2<float> pos, scale;
-		float angle;
+		Vec2<float> pos{}, scale{};
+		float angle{};
 	};
 
 	class CPRender : public IComponent
@@ -107,6 +107,18 @@ namespace LB
 
 			renderObj = temp;
 			std::cout << "Render component initialising mouse position values\n";
+			CPTransform* tran = gameObj->GetComponent<CPTransform>("CPTransform");
+
+			std::cout << tran->GetPosition().x << std::endl;
+
+			gameObj->GetComponent<CPTransform>("CPTransform")->SetPosition(Vec2<float>(4.9f, 24.94f));
+
+			std::cout << tran->GetPosition().x << std::endl;
+
+		}
+
+		void Update() override
+		{
 		}
 		void Serialise() override
 		{

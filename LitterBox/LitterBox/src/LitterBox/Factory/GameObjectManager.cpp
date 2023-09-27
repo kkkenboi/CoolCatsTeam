@@ -96,12 +96,7 @@ namespace LB
 		std::cout << "GO destructed\n";
 	}
 
-	IComponent* GameObject::GetComponent(std::string name)
-	{
-		return m_Components[name];
-	}
-
-	std::map<std::string, IComponent*> GameObject::GetComponents()
+	std::unordered_map<std::string, IComponent*> GameObject::GetComponents()
 	{
 		return m_Components;
 	}

@@ -10,6 +10,12 @@
 
 #pragma once
 #include <cmath> // For sin, cos, sqrt
+#include <string>//for custom to string functions
+#include "../../dependencies/RapidJSON/include/rapidjson.h"
+#include "../../dependencies/RapidJSON/include/document.h"
+//#include "LitterBox/Serialization/Serializer.h"
+
+
 
 namespace LB 
 {
@@ -65,6 +71,7 @@ namespace LB
 		// Vec2 Member functions
 		Vec2<T> Zero(); // fill up all to 0
 		Vec2<T> One();  // fill up all to 1
+		std::string ToString();
 
 		/***********************************************************************/
 		//Justine's
@@ -75,6 +82,12 @@ namespace LB
 
 		Vec2<T>& Set(T x, T y);
 		Vec2<T>& Set(Vec2<T> const& rhs);
+		/***********************************************************************/
+		
+		//Serializing & Deserializing
+		bool Serialize(rapidjson::Value&, rapidjson::Document::AllocatorType&);
+		bool Deserialize(const rapidjson::Value&);
+
 	};
 
 	// Vec2 Non-member operator overloads * / *= /=
@@ -151,6 +164,7 @@ namespace LB
 		// Vec3 Member functions
 		Vec3<T> Zero(); // fill up all to 0
 		Vec3<T> One();  // fill up all to 1
+		std::string ToString();
 
 		/***********************************************************************/
 		//Justine's
@@ -161,6 +175,11 @@ namespace LB
 
 		Vec3<T>& Set(T x, T y, T z);
 		Vec3<T>& Set(Vec3<T> const& rhs);
+		/***********************************************************************/
+
+		//Serializing & Deserializing
+		bool Serialize(rapidjson::Value&, rapidjson::Document::AllocatorType&);
+		bool Deserialize(const rapidjson::Value&);
 	};
 
 	// Vec3 Non-member operator overloads * / *= /=
@@ -241,6 +260,7 @@ namespace LB
 		// Vec4 Member functions
 		Vec4<T> Zero(); // fill up all to 0
 		Vec4<T> One();  // fill up all to 1
+		std::string ToString();
 
 		/***********************************************************************/
 		//Justine's
@@ -251,6 +271,11 @@ namespace LB
 
 		Vec4<T>& Set(T x, T y, T z, T w);
 		Vec4<T>& Set(Vec4<T> const& rhs);
+		/***********************************************************************/
+
+		//Serializing & Deserializing
+		bool Serialize(rapidjson::Value&, rapidjson::Document::AllocatorType&);
+		bool Deserialize(const rapidjson::Value&);
 	};
 
 	// Vec4 Non-member operator overloads * / *= /=
@@ -475,6 +500,11 @@ namespace LB
 	{
 		return Vec2<T>((T)1, (T)1);
 	}
+	template<typename T>
+	std::string Vec2<T>::ToString()
+	{
+		return '(' + std::to_string(x) + "," + std::to_string(y) + ')';
+	}
 
 	//***********************************************************************
 	//Justine's
@@ -581,6 +611,33 @@ namespace LB
 		lhs.y /= (T1)rhs;
 
 		return lhs;
+	}
+
+	/**********************************************************************************************/
+	template<typename T>
+	bool Vec2<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
+	{
+		data.SetObject();
+		data.AddMember("x", x, alloc);
+		data.AddMember("y", y, alloc);
+		return true;
+	}
+
+	template<typename T>
+	bool Vec2<T>::Deserialize(const rapidjson::Value& data)
+	{
+		bool HasX = data.HasMember("x");
+		bool HasY = data.HasMember("y");
+		if (data.IsObject())
+		{
+			if (HasX && HasY)
+			{
+				x = data["x"].Get<T>();
+				y = data["y"].Get<T>();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/***************************************************************************************************
@@ -744,6 +801,12 @@ namespace LB
 	{
 		return Vec3<T>((T)1, (T)1, (T)1);
 	}
+
+	template<typename T>
+	std::string Vec3<T>::ToString()
+	{
+		return '(' + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z) + ')';
+	}
 	/*********************************************************************************************/
 	//Justine's
 	template<typename T>
@@ -779,7 +842,7 @@ namespace LB
 
 		return *this;
 	}
-
+	
 	template<typename T>
 	Vec3<T>& Vec3<T>::Set(Vec3<T> const& rhs)
 	{
@@ -788,6 +851,35 @@ namespace LB
 		z = rhs.z;
 
 		return *this;
+	}
+	/**********************************************************************************************/
+	template<typename T>
+	bool Vec3<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
+	{
+		data.SetObject();
+		data.AddMember("x", x, alloc);
+		data.AddMember("y", y, alloc);
+		data.AddMember("z", z, alloc);
+		return true;
+	}
+
+	template<typename T>
+	bool Vec3<T>::Deserialize(const rapidjson::Value& data)
+	{
+		bool HasX = data.HasMember("x");
+		bool HasY = data.HasMember("y");
+		bool HasZ = data.HasMember("z");
+		if (data.IsObject())
+		{
+			if (HasX && HasY && HasZ)
+			{
+				x = data["x"].Get<T>();
+				y = data["y"].Get<T>();
+				z = data["z"].Get<T>();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**************************************************************************************************/
@@ -1040,6 +1132,12 @@ namespace LB
 		return Vec4<T>((T)1, (T)1, (T)1, (T)1);
 	}
 
+	template<typename T>
+	std::string Vec4<T>::ToString()
+	{
+		return '(' + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z) + "," + std::to_string(w) + ')'; 
+	}
+
 	/*********************************************************************************************/
 	//Justine's
 	template<typename T>
@@ -1088,6 +1186,39 @@ namespace LB
 		w = rhs.w;
 
 		return *this;
+	}
+
+	/**********************************************************************************************/
+	template<typename T>
+	bool Vec4<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
+	{
+		data.SetObject();
+		data.AddMember("x", x, alloc);
+		data.AddMember("y", y, alloc);
+		data.AddMember("z", z, alloc);
+		data.AddMember("w", w, alloc);
+		return true;
+	}
+
+	template<typename T>
+	bool Vec4<T>::Deserialize(const rapidjson::Value& data)
+	{
+		bool HasX = data.HasMember("x");
+		bool HasY = data.HasMember("y");
+		bool HasZ = data.HasMember("z");
+		bool HasW = data.HasMember("w");
+		if (data.IsObject())
+		{
+			if (HasX && HasY && HasZ && HasW)
+			{
+				x = data["x"].Get<T>();
+				y = data["y"].Get<T>();
+				z = data["z"].Get<T>();
+				w = data["w"].Get<T>();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**************************************************************************************************/
