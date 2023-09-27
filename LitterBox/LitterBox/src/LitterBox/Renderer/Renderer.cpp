@@ -568,9 +568,9 @@ bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const 
 		std::cerr << "Maximum textures reached" << std::endl;
 		return false;
 	}
-
+	//TODO Change system to accomodate for free type texture units
 	//Loop through to get the first free unit slot available
-	int i{ 0 };
+	int i{ 2 };
 	for (; i < 32; ++i) {
 		if (!free[i])
 			break;
@@ -582,8 +582,8 @@ bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const 
 	free[i] = true;
 
 	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
-	int test[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
-	glUniform1iv(uni_loc, 8, test);
+	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+	glUniform1iv(uni_loc, 13, test);
 
 
 	//std::cout << "Texture index: " << i << std::endl;
