@@ -204,8 +204,8 @@ namespace Renderer {
 		Texture_Manager t_Manager;
 		Animation_Manager a_Manager;
 		Renderer bg_renderer;
-	public:
 		Renderer object_renderer;
+	public:
 
 		RenderSystem();
 		~RenderSystem();
@@ -224,6 +224,9 @@ namespace Renderer {
 		}
 		auto get_anim(const std::string& name) const { return a_Manager.find_animation(name); }
 
+		unsigned int create_object(Renderer_Types r_type, const render_Object* obj);
+		void remove_object(Renderer_Types r_type, const render_Object* obj);
+
 		inline unsigned int get_shader() { return shader_program; }
 	};
 
@@ -234,6 +237,7 @@ namespace Renderer {
 	//Render object is an object that will be exposed to the programmers in the level creator
 	class render_Object {
 	private:
+		Renderer_Types									renderer_id;
 		unsigned int									quad_id;
 		float											time_elapsed;
 		unsigned int									frame;
@@ -249,6 +253,7 @@ namespace Renderer {
 		bool						activated;
 
 		render_Object(
+			Renderer_Types rend_type,
 			vec2 pos = { 0.f, 0.f }, 
 			float width = 1.f, 
 			float height = 1.f, 
@@ -261,6 +266,7 @@ namespace Renderer {
 		
 		inline const unsigned int get_index() const { return quad_id; }
 		inline const size_t get_queue_size() const { return animation.size(); }
+		inline const Renderer_Types get_r_type() const { return renderer_id; }
 
 		inline bool operator==(const render_Object& rhs) const {
 			return quad_id == rhs.quad_id;

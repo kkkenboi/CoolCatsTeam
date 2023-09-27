@@ -123,6 +123,7 @@ void Renderer::Animation_Manager::load_anim(const std::string& animation_name, c
 
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
 Renderer::render_Object::render_Object(
+	Renderer_Types rend_type,
 	vec2 pos,
 	float width,
 	float height,
@@ -131,7 +132,7 @@ Renderer::render_Object::render_Object(
 	std::array<vec2, 4> uv,
 	int text,
 	bool active) :
-	position{ pos }, scal{ scale }, w{ width }, h{ height },
+	renderer_id{ rend_type }, position {pos}, scal{ scale }, w{ width }, h{ height },
 	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ (int)text },
 	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }
 {
@@ -140,13 +141,13 @@ Renderer::render_Object::render_Object(
 		return;
 	}
 
-	quad_id = GRAPHICS->object_renderer.create_render_object(this);
 
+	quad_id = GRAPHICS->create_object(renderer_id, this);
 }
 
 Renderer::render_Object::~render_Object()
 {
-	GRAPHICS->object_renderer.remove_render_object(this);
+	GRAPHICS->remove_object(renderer_id, this);
 }
 
 void Renderer::render_Object::play_repeat(const std::string& name)
@@ -437,7 +438,7 @@ Renderer::RenderSystem::RenderSystem() :
 	glBindVertexArray(object_renderer.get_vao());
 
 	//-################TEST CODE REMOVE AFTER##########################
-	testobj = new render_Object{ {800.f, 450.f}, 100.f, 100.f };
+	testobj = new render_Object{Renderer_Types::RT_OBJECT, {800.f, 450.f}, 100.f, 100.f };
 	/*test2 = new render_Object[2500];
 	for (int y{ 0 }; y < 50; ++y)
 		for (int x{ 0 }; x < 50; ++x) {
@@ -497,6 +498,27 @@ bool Renderer::RenderSystem::remove_texture(const std::string& name)
 void Renderer::RenderSystem::flush_textures()
 {
 	t_Manager.flush_textures();
+}
+unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const render_Object* obj)
+{
+	switch (r_type) {
+	case Renderer_Types::RT_OBJECT:
+		return object_renderer.create_render_object(obj);
+	case Renderer_Types::RT_BACKGROUND:
+		return bg_renderer.create_render_object(obj);
+	//TODO for UI and DEBUG
+	}
+}
+void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const render_Object* obj)
+{
+	switch (r_type) {
+	case Renderer_Types::RT_OBJECT:
+		object_renderer.remove_render_object(obj);
+		break;
+	case Renderer_Types::RT_BACKGROUND:
+		bg_renderer.remove_render_object(obj);
+		break;
+	}
 }
 //----------------------------------------------RENDERER-SYSTEM-------------------------------------------
 
