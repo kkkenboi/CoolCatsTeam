@@ -12,8 +12,13 @@ namespace LB
 		GameObject(int ID);
 		~GameObject();
 
-		IComponent* GetComponent(std::string name);
-		std::map<std::string, IComponent*> GetComponents();
+		template <typename T>
+		T* GetComponent(std::string name)
+		{
+			return static_cast<T*>(m_Components[name]);
+		}
+
+		std::unordered_map<std::string, IComponent*> GetComponents();
 		void AddComponent(std::string name, IComponent* component);
 
 		void StartComponents();
@@ -23,7 +28,7 @@ namespace LB
 
 	private:
 		int m_ID;
-		std::map<std::string, IComponent*> m_Components;
+		std::unordered_map<std::string, IComponent*> m_Components;
 		bool isActive;
 	};
 
