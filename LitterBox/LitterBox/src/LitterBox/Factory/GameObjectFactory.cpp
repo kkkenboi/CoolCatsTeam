@@ -23,7 +23,7 @@ namespace LB
 		// 
 		//CreateComponentMaker(Physics);
 		//CreateComponentMaker(Transform);
-		CreateComponentMaker(Render);
+		CreateComponentMaker(CPRender);
 
 		// Game Object Data File
 		// Deserialise the data file and initialise the game objects with it

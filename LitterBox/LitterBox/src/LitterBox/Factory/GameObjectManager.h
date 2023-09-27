@@ -1,10 +1,10 @@
 #pragma once
 #include "pch.h"
 #include "LitterBox/Core/System.h"
-#include "Components.h"
 
 namespace LB
 {
+	class IComponent;
 	class GameObject
 	{
 	public:
