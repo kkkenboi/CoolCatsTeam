@@ -36,6 +36,11 @@ namespace LB
 			{
 				Profiler frameProfiler{ "Total Frame Time", ProfileResult::MANAGER, ProfileMap::SYSTEMS };
 
+				for (Layer* layer : m_LayerStack)
+				{
+					layer->UpdateLayer();
+				}
+
 				// Update every system 
 				for (unsigned i = 0; i < Systems.size(); ++i) 
 				{

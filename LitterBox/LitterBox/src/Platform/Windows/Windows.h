@@ -78,10 +78,10 @@ namespace LB
 		// Callbacks
 		static void ErrorCB(int error, char const* description);
 		static void FrameBufferCB(GLFWwindow* ptr_win, int width, int height);
-		static void KeyCB(GLFWwindow* pwin, int key, int scancode, int action, int mod);
-		static void MouseButtonCB(GLFWwindow* pwin, int button, int action, int mod);
-		static void MousePositionCB(GLFWwindow* pwin, double xpos, double ypos);
-		static void MouseScrollCB(GLFWwindow* pwin, double xoffset, double yoffset);
+		//static void KeyCB(GLFWwindow* pwin, int key, int scancode, int action, int mod);
+		//static void MouseButtonCB(GLFWwindow* pwin, int button, int action, int mod);
+		//static void MousePositionCB(GLFWwindow* pwin, double xpos, double ypos);
+		//static void MouseScrollCB(GLFWwindow* pwin, double xoffset, double yoffset);
 
 		//HWND hWnd;										//The handle to the game window
 		//HINSTANCE hInstance;								//The handle to the instance

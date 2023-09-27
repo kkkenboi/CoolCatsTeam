@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include "System.h"
+#include "LitterBox/Engine/LayerStack.h"
 
 namespace LB 
 {
@@ -22,7 +23,17 @@ namespace LB
 		void AddSystem(ISystem* system);
 		///Initializes all systems in the game.
 		void Initialize();
+
+		void AddLayer(Layer* layer)
+		{
+			m_LayerStack.AddLayer(layer);
+		}
+		void RemoveLayer(Layer* layer)
+		{
+			m_LayerStack.RemoveLayer(layer);
+		}
 	private:
+		LayerStack m_LayerStack;
 		//Tracks all the systems the game uses
 		std::vector<ISystem*> Systems;
 		//Is the game running (true) or being shut down (false)?
