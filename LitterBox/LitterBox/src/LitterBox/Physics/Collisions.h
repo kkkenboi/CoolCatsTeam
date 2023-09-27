@@ -50,6 +50,7 @@ private:
 	AABB m_aabb;
 
 	// For SAT
+	float m_rotation;
 	int m_vertAmount;
 	LB::Vec2<float> m_untransformedVerts[4];
 	LB::Vec2<float> m_transformedVerts[4];

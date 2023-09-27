@@ -50,7 +50,25 @@ void Collider::CreateAABB()
 
 void Collider::CreatePolygon()
 {
-	
+	// Polygon vertices creations goes from
+	// Top-Left -> Top-Right -> Bottom-Right -> Bottom-Left
+	// Get vertices for a polygon
+	float left = -m_length / 2;
+	float right = m_length / 2;
+	float top = m_height / 2;
+	float bottom = -m_height / 2;
+
+	m_untransformedVerts[0].x = left;
+	m_untransformedVerts[0].y = top;
+
+	m_untransformedVerts[1].x = right;
+	m_untransformedVerts[1].y = top;
+
+	m_untransformedVerts[2].x = right;
+	m_untransformedVerts[2].y = bottom;
+
+	m_untransformedVerts[3].x = left;
+	m_untransformedVerts[3].y = bottom;
 }
 
 
