@@ -208,11 +208,11 @@ namespace LB
             return;
         }
 
-        std::cout << "Update Position: " << mPosition.x << " " << mPosition.y << '\n';
-        std::cout << "Velocity: " << this->mVelocity.x << this->mVelocity.y << std::endl;
-        std::cout << "Time: " << time << std::endl;
+        //std::cout << "Update Position: " << mPosition.x << " " << mPosition.y << '\n';
+        //std::cout << "Velocity: " << this->mVelocity.x << this->mVelocity.y << std::endl;
+        //std::cout << "Time: " << time << std::endl;
         this->mPosition += this->mVelocity * time;
-        std::cout << "!!!!Updated Position: " << mPosition.x << " " << mPosition.y << '\n';
+        //std::cout << "!!!!Updated Position: " << mPosition.x << " " << mPosition.y << '\n';
         transform->SetPosition(mPosition);
 
         //std::cout << "BOX POS: " << mPosition.x << mPosition.y << "\n";

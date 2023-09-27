@@ -170,17 +170,19 @@ namespace LB
                 {
                     continue;
                 }
-                std::cout << "i: " << i << " , " << "j: " << j << std::endl;
-                std::cout << "BodyA POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
-                std::cout << "BodyB POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
+                //std::cout << "i: " << i << " , " << "j: " << j << std::endl;
+                //std::cout << "BodyA POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
+                //std::cout << "BodyB POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
                 //std::cout << "JOE IS GOING TO CHECK\n";
                 // Normal here is moving B away from A
                 if (CheckCollisions(bodyA, bodyB, normal_out, depth_out))
                 {
                     std::cout << "JOE HIT\n";
-                    std::cout << "normalout x: " << normal_out.x <<
-                        " normalout y: " << normal_out.y << std::endl;
-                    std::cout << "depthout: " << depth_out << std::endl;
+                    std::cout << "BodyA Prev POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
+                    std::cout << "BodyB Prev POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
+                    //std::cout << "normalout x: " << normal_out.x <<
+                    //    " normalout y: " << normal_out.y << std::endl;
+                    //std::cout << "depthout: " << depth_out << std::endl;
                     
                     LB::Vec2<float>inverse_normal{ -normal_out.x, -normal_out.y };
                     if (bodyA->isStatic)
@@ -200,8 +202,8 @@ namespace LB
                     ResolveCollisions(bodyA, bodyB, normal_out, depth_out);
                     */
                     std::cout << "COLLISION RESOLVED" << std::endl;
-                    std::cout << "BodyA POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
-                    std::cout << "BodyB POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
+                    std::cout << "BodyA After POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
+                    std::cout << "BodyB After POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
                 }
 
 
@@ -298,8 +300,8 @@ namespace LB
         bodyA->mVelocity -= impulse * bodyA->mInvMass;
         bodyB->mVelocity += impulse * bodyB->mInvMass;
 
-        std::cout << "bodyA vel: " << bodyA->mVelocity.x << " , " << bodyA->mVelocity.y << std::endl;
-        std::cout << "bodyB vel: " << bodyB->mVelocity.x << " , " << bodyB->mVelocity.y << std::endl;
+        //std::cout << "bodyA vel: " << bodyA->mVelocity.x << " , " << bodyA->mVelocity.y << std::endl;
+        //std::cout << "bodyB vel: " << bodyB->mVelocity.x << " , " << bodyB->mVelocity.y << std::endl;
     }
 
 } // Namespace LB

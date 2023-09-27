@@ -275,12 +275,12 @@ bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float
 		// This also ensure that we get pt3 and pt0 as the pair of vertices which is right
 		LB::Vec2<float> vert2 = verticesA[(i + 1) % 4];
 
-		std::cout << "vert1: " << vert1.x << " , " << vert1.y << std::endl;
-		std::cout << "vert2: " << vert2.x << " , " << vert2.y << std::endl;
+		//std::cout << "vert1: " << vert1.x << " , " << vert1.y << std::endl;
+		//std::cout << "vert2: " << vert2.x << " , " << vert2.y << std::endl;
 
 		// We now get the vector from 0 to 1 for example
 		LB::Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y};
-		std::cout << "edge unnorm x: " << vecA.x << " edge unnorm y:" << vecA.y << std::endl;
+		//std::cout << "edge unnorm x: " << vecA.x << " edge unnorm y:" << vecA.y << std::endl;
 
 		// Now we have the normal/axis from A
 		LB::Vec2<float> axis{-vecA.y , vecA.x};
@@ -324,7 +324,7 @@ bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float
 		}
 	} // End of looping through obj A's edges
 
-	std::cout << "END OF OBJ A EDGES" << std::endl;
+	//std::cout << "END OF OBJ A EDGES" << std::endl;
 
 	// Start of obj B's edges
 	for (int i = 0; i < 4; ++i)
@@ -403,7 +403,7 @@ bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float
 	LB::Vec2<float> vecCenterB = FindCenterOfBoxVertices(verticesB);
 
 	LB::Vec2<float> vecAB = vecCenterB - vecCenterA;
-	std::cout << "vecAB: " << vecAB.x << " , " << vecAB.y << std::endl;
+	//std::cout << "vecAB: " << vecAB.x << " , " << vecAB.y << std::endl;
 
 	// This normal is pushing B from A
 	if (PHY_MATH::DotProduct(vecAB, normal_out) < 0) {
