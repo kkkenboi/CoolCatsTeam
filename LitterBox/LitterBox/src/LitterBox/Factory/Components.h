@@ -106,6 +106,7 @@ namespace LB
 		unsigned int									frame;
 		float											time_elapsed;
 		std::queue<std::pair<const  Renderer::Animation*, bool>>	animation;
+		bool initialized{ false };
 
 	public:
 		Vec2<float>						position;
@@ -117,10 +118,12 @@ namespace LB
 		int							texture;
 		bool						activated;
 
+		CPTransform* transform;
+
 		CPRender(
 			Vec2<float>	 pos = { 0.f, 0.f },
-			float width = 1.f,
-			float height = 1.f,
+			float width = 100.f,
+			float height = 100.f,
 			float scale = 1.f,
 			Vec3<float>	 color = { 0.f,0.f,0.f },
 			std::array<Vec2<float>, 4> uv = {},
@@ -128,6 +131,11 @@ namespace LB
 			bool active = true,
 			Renderer::Renderer_Types rend_type = Renderer::Renderer_Types::RT_OBJECT);
 		~CPRender();
+
+		void Initialise() override {
+			transform = gameObj->GetComponent<CPTransform>("CPTransform");
+			initialized = true;
+		}
 
 		inline const unsigned int get_index() const { return quad_id; }
 		inline const size_t get_queue_size() const { return animation.size(); }
@@ -141,7 +149,9 @@ namespace LB
 		void play_next(const std::string& name);
 		void play_now(const std::string& name);
 
-		inline void get_transform_data() {  };
+		inline void get_transform_data() { 
+			position = initialized ? transform->GetPosition() : position;
+		};
 
 		void animate();
 	};

@@ -356,6 +356,8 @@ void Renderer::Renderer::update_buff(Renderer_Types r_type)
 			const_cast<LB::CPRender*>(e)->animate();
 		}
 
+		const_cast<LB::CPRender*>(e)->get_transform_data();
+
 		//set position of quad
 		quad_buff[obj_index].data[0].pos = { e->position.x - x_pos, e->position.y - y_pos };//bottom left
 		quad_buff[obj_index].data[1].pos = { e->position.x + x_pos, e->position.y - y_pos };//bottom right
