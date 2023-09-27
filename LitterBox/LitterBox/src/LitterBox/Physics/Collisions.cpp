@@ -13,6 +13,51 @@ PhysicsTransform::PhysicsTransform(LB::Vec2<float> position, float angle)
 	this->m_cos = cos(angle);
 }
 
+Collider::Collider(SHAPETYPE shape, LB::Vec2<float> pos,
+	float length, float height, float radius)
+{
+	this->m_shape = shape;
+	this->m_pos = pos;
+	this->m_length = length;
+	this->m_height = height;
+	this->m_radius = radius;
+
+	this->CreateAABB();
+}
+
+
+void Collider::CreateAABB()
+{
+	if (this->m_shape == CIRCLE)
+	{
+		this->m_aabb.m_c = m_pos;
+		this->m_aabb.m_min = LB::Vec2<float>{ m_pos.x - m_radius, m_pos.y - m_radius };
+		this->m_aabb.m_max = LB::Vec2<float>{ m_pos.x + m_radius, m_pos.y + m_radius };
+	}
+	else if (this->m_shape == BOX)
+	{
+		this->m_aabb.m_c = m_pos;
+		this->m_aabb.m_min = LB::Vec2<float>{ m_pos.x - m_length / 2, m_pos.y - m_height / 2 };
+		this->m_aabb.m_max = LB::Vec2<float>{ m_pos.x + m_length / 2, m_pos.y + m_length / 2 };
+	}
+	else
+	{
+		this->m_aabb.m_c = m_pos;
+		this->m_aabb.m_min = LB::Vec2<float>{ 0.0f, 0.0f };
+		this->m_aabb.m_max = LB::Vec2<float>{ 0.0f, 0.0f };
+	}
+}
+
+void Collider::CreatePolygon()
+{
+	
+}
+
+
+// ===============================
+// Collision Intersection Checks
+// ===============================
+
 bool CollisionIntersection_BoxBox(const AABB & aabb1, const LB::Vec2<float> & vel1, 
 									const AABB & aabb2, const LB::Vec2<float> & vel2, float dt)
 {	
