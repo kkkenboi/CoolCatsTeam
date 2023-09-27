@@ -3,34 +3,90 @@
 #include <LitterBox/Debugging/Memory.h>
 #include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Utils/Math.h"
 
 namespace LB
 {
 	// --can be changed to be serialised--
 	enum ComponentTypeID
 	{
-		Component_CPNone = 0,
-		//Component_CPRigidBody,
-		Component_CPTransform,
-		Component_CPRender
+		C_CPNone = 0,
+		C_CPRigidBody,
+		C_CPTransform,
+		C_CPRender
 	};
 
 	// Interface for derived components to use as a base
 	class IComponent
 	{
 	public:
-
-		virtual void Initialise() = 0;
-		virtual void Serialise() = 0;
-		virtual void Deserialise() = 0;
-		virtual void Destroy() = 0;
+		virtual void Initialise() {};
+		virtual void Serialise() {};
+		virtual void Update() {};
+		virtual void Deserialise() {};
+		virtual void Destroy() {};
 		// To destruct all other derived components
 
-		ComponentTypeID GetType() { return TypeID; }
-		ComponentTypeID TypeID{ Component_CPNone };
-		GameObject* gameObj{ nullptr };
+		ComponentTypeID GetType()	{ return TypeID; }
+
+		ComponentTypeID TypeID		{ C_CPNone };
+		GameObject* gameObj			{ nullptr };
 	//protected:
-	//	// To understand what type does this component belong to
+	};
+
+	class CPTransform : public IComponent
+	{
+	public:
+		void Initialise() override
+		{
+			std::cout << "Initialising Transform\n";
+		}
+		void Serialise() override
+		{
+			std::cout << "Serialising Transform\n";
+		}
+		void Deserialise() override
+		{
+			std::cout << "Deserialising Transform\n";
+		}
+		void Destroy() override
+		{
+			std::cout << "Destroying Transform\n";
+		}
+
+		Vec2<float> GetPosition() const
+		{
+			return pos;
+		}
+
+		void SetPosition(Vec2<float> const& newPos)
+		{
+			pos = newPos;
+		}
+
+		Vec2<float> GetScale() const
+		{
+			return scale;
+		}
+
+		void SetScale(Vec2<float> const& newScale)
+		{
+			scale = newScale;
+		}
+
+		float GetRotation() const
+		{
+			return angle;
+		}
+
+		void SetRotation(float newRotation)
+		{
+			angle = newRotation;
+		}
+
+	private:
+		Vec2<float> pos, scale;
+		float angle;
 	};
 
 	class CPRender : public IComponent
@@ -70,34 +126,6 @@ namespace LB
 		Renderer::render_Object* renderObj;
 	};
 
-	class CPTransform : public IComponent
-	{
-	public:
-		void Initialise() override
-		{
-			//gameObj->
-			xPos = 100.f;
-			yPos = 100.f;
-			std::cout << "Initialising Transform\n";
-		}
-		void Serialise() override
-		{
-			std::cout << "Serialising Transform\n";
-		}
-		void Deserialise() override
-		{
-			std::cout << "Deserialising Transform\n";
-		}
-		void Destroy() override
-		{
-			std::cout << "Destroying Transform\n";
-		}
-
-	private:
-		// Should data stay private? 
-		int xPos, yPos;
-		float angle, scale;
-	};
 
 
 	// Interface to make components and tag IDs
@@ -130,4 +158,4 @@ namespace LB
 
 }
 
-#define CreateComponentMaker(ComponentType) FACTORY->InitCM ( #ComponentType, new ComponentMakerType<ComponentType>( Component_##ComponentType ) );
+#define CreateComponentMaker(ComponentType) FACTORY->InitCM ( #ComponentType, new ComponentMakerType<ComponentType>( C_##ComponentType ) );

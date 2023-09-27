@@ -35,17 +35,17 @@ namespace LB
 		// Destroying components in game objects
 		for (size_t i{}; i < m_GameObjects.size(); ++i)
 		{
-			int componentSize = m_GameObjects[i]->GetComponents().size();
-			for (size_t j{}; j < componentSize; ++j)
+			//int componentSize = m_GameObjects[i]->GetComponents().size();
+			for (auto const& component : m_GameObjects[i]->GetComponents())
 			{
-				// Delete any memory allocated from components
-				m_GameObjects[i]->GetComponents()[j]->Destroy();
-				//std::cout << m_GameObjects[i]->GetComponents()[j]->GetType() << " deleted\n";
+				component.second->Destroy();
+				// Delete the memory allocated for the component
+				delete component.second;
 
-				// Delete any memory allocated for the Component
-				delete m_GameObjects[i]->GetComponents()[j];
+				//// --Change this to check the delete for which component--
 				std::cout << "One GO component deleted from game object " << m_GameObjects[i]->GetID() << "\n";
 			}
+
 
 			std::cout << "GO " << m_GameObjects[i]->GetID() << " has been deleted\n";
 
@@ -96,22 +96,27 @@ namespace LB
 		std::cout << "GO destructed\n";
 	}
 
-	std::vector<IComponent*> GameObject::GetComponents() const
+	IComponent* GameObject::GetComponent(std::string name)
+	{
+		return m_Components[name];
+	}
+
+	std::map<std::string, IComponent*> GameObject::GetComponents()
 	{
 		return m_Components;
 	}
 
-	void GameObject::AddComponent(IComponent* component)
+	void GameObject::AddComponent(std::string name, IComponent* component)
 	{
 		component->gameObj = this;
-		m_Components.push_back(component);
+		m_Components[name] = component;
 	}
 
 	void GameObject::StartComponents()
 	{
-		for (IComponent* component : m_Components)
+		for (auto const& component : m_Components)
 		{
-			component->Initialise();
+			component.second->Initialise();
 		}
 	}
 
