@@ -1,15 +1,26 @@
 #include "RigidBody.h"
+#include "LitterBox/Engine/Time.h"
+#include "LitterBox/Factory/Components.h"
+#include "LitterBox/Physics/RigidBodyManager.h"
+
+//TEST
+#include <string>
+#include <iostream>
 
 namespace LB
 {
 
-    RigidBody::RigidBody(LB::Vec2<float> position, LB::Vec2<float> prevposition, LB::Vec2<float> velocity, LB::Vec2<float> acceleration,
+    void CPRigidBody::Start(LB::Vec2<float> position, LB::Vec2<float> prevposition, LB::Vec2<float> velocity, LB::Vec2<float> acceleration,
         float rotation, float rotationvelocity, float density, float mass, float invmass, float restitution,
         float area, float friction, bool isstatic, bool isactive, float radius, float width, float height,
         SHAPETYPE shape)
     {
-        this->mPosition = position;
-        this->mPrevPosition = prevposition;
+        transform = gameObj->GetComponent<CPTransform>("CPTransform");
+
+        this->mPosition = transform->GetPosition();
+        this->mPrevPosition = mPosition;
+
+        std::cout << mPosition.x << " " << mPosition.y << "\n";
 
         this->mVelocity = velocity;
         this->mAcceleration = acceleration;
@@ -30,8 +41,17 @@ namespace LB
         this->mRadius = radius;
         this->mWidth = width;
         this->mHeight = height;
-
+      
         this->mShapeType = shape;
+
+           // TEST
+        this->isStatic = false;
+        this->mWidth = 100.f;
+        this->mHeight = 100.f;
+        this->mShapeType = BOX;
+        this->mVelocity = LB::Vec2<float>{ 0.f, 0.f };
+        this->mAcceleration = LB::Vec2<float>{ 0.f, 0.f };
+        this->mFriction = 0.99f;
 
         // Check if static and update the InvMass
         if (!this->isStatic)
@@ -87,29 +107,33 @@ namespace LB
             mTransformedVertices[3] = zeroed;
 
         }
+
+        PHYSICS->AddRigidBodyToPool(this);
     }
 
-    LB::Vec2<float> RigidBody::getPos() 
+    LB::Vec2<float> CPRigidBody::getPos() 
     {
         return mPosition;
     }
 
-    void RigidBody::addForce(LB::Vec2<float> force)
+    void CPRigidBody::addForce(LB::Vec2<float> force)
     {
         this->mVelocity += force;
     }
 
-    void RigidBody::Move(LB::Vec2<float> vec)
+    void CPRigidBody::Move(LB::Vec2<float> vec)
     {
         this->mPosition += vec;
+        transform->SetPosition(mPosition);
     }
 
-    void RigidBody::MoveTo(LB::Vec2<float> position)
+    void CPRigidBody::MoveTo(LB::Vec2<float> position)
     {
         this->mPosition = position;
+        transform->SetPosition(mPosition);
     }
 
-    void RigidBody::UpdateRigidBodyBoxVertices()
+    void CPRigidBody::UpdateRigidBodyBoxVertices()
     {
         PhysicsTransform transform{ this->mPosition, this->mRotation };
 
@@ -119,16 +143,30 @@ namespace LB
             // Transforming the vertices using trigo formulas
             this->mTransformedVertices[i] = LB::Vec2<float>{
                 transform.m_cos * og_vec.x - transform.m_sin * og_vec.y + transform.m_posX,
-                transform.m_sin * og_vec.x - transform.m_cos * og_vec.y + transform.m_posY };
+                transform.m_sin * og_vec.x + transform.m_cos * og_vec.y + transform.m_posY };
+            //std::cout << this->mTransformedVertices[i].x << " Verticle X" << std::endl;
+            //std::cout << this->mTransformedVertices[i].y << " Verticle Y" << std::endl;
         }
+        //std::cout << "untranspt0: " << this->mVertices[0].x << " , " << this->mVertices[0].y << std::endl;
+        //std::cout << "untranspt1: " << this->mVertices[1].x << " , " << this->mVertices[1].y << std::endl;
+        //std::cout << "untranspt2: " << this->mVertices[2].x << " , " << this->mVertices[2].y << std::endl;
+        //std::cout << "untranspt3: " << this->mVertices[3].x << " , " << this->mVertices[3].y << std::endl;
+        //std::cout << "transformed" << std::endl;
+        //std::cout << "pt0: " << this->mTransformedVertices[0].x << " , " << this->mTransformedVertices[0].y << std::endl;
+        //std::cout << "pt1: " << this->mTransformedVertices[1].x << " , " << this->mTransformedVertices[1].y << std::endl;
+        //std::cout << "pt2: " << this->mTransformedVertices[2].x << " , " << this->mTransformedVertices[2].y << std::endl;
+        //std::cout << "pt3: " << this->mTransformedVertices[3].x << " , " << this->mTransformedVertices[3].y << std::endl;
+
+
+
     }
 
-    void RigidBody::UpdateRigidBodyAABB()
+    void CPRigidBody::UpdateRigidBodyAABB()
     {
-        float minX = 100000.f;
-        float maxX = -100000.f;
-        float minY = 100000.f;
-        float maxY = -100000.f;
+        float minX = 10000000.f;
+        float maxX = -10000000.f;
+        float minY = 10000000.f;
+        float maxY = -10000000.f;
 
         if (this->mShapeType == BOX)
         {
@@ -154,11 +192,15 @@ namespace LB
         }
 
         this->obj_aabb.m_c = LB::Vec2<float>{ (minX + maxX) / 2.f, (minY + maxY) / 2.f };
-        this->obj_aabb.m_max = LB::Vec2<float>{ minX, minY };
-        this->obj_aabb.m_min = LB::Vec2<float>{ maxX, maxY };
+        this->obj_aabb.m_max = LB::Vec2<float>{ maxX, maxY };
+        this->obj_aabb.m_min = LB::Vec2<float>{ minX, minY };
+
+        //std::cout << "Center of AABB: " << this->obj_aabb.m_c.x << " , " << this->obj_aabb.m_c.y << std::endl;
+        //std::cout << "AABB Max: " << this->obj_aabb.m_max.x << " , " << this->obj_aabb.m_max.y << std::endl;
+        //std::cout << "AABB Min: " << this->obj_aabb.m_min.x << " , " << this->obj_aabb.m_min.y << std::endl;
     }
 
-    void RigidBody::UpdateRigidBodyPos(float time)
+    void CPRigidBody::UpdateRigidBodyPos(float time)
     {
         // If static do not move or update the position of the RigidBody
         if (this->isStatic)
@@ -166,9 +208,17 @@ namespace LB
             return;
         }
 
+        std::cout << "Update Position: " << mPosition.x << " " << mPosition.y << '\n';
+        std::cout << "Velocity: " << this->mVelocity.x << this->mVelocity.y << std::endl;
+        std::cout << "Time: " << time << std::endl;
         this->mPosition += this->mVelocity * time;
+        std::cout << "!!!!Updated Position: " << mPosition.x << " " << mPosition.y << '\n';
+        transform->SetPosition(mPosition);
+
+        //std::cout << "BOX POS: " << mPosition.x << mPosition.y << "\n";
 
         this->mRotation += this->mRotationalVelocity * time;
+        transform->SetRotation(mRotation);
 
         // Update the TransformedVertices
         // HERE
@@ -179,7 +229,7 @@ namespace LB
         this->UpdateRigidBodyAABB();
     }
 
-    void RigidBody::UpdateRigidBodyVel(float time)
+    void CPRigidBody::UpdateRigidBodyVel(float time)
     {
         this->mVelocity += this->mAcceleration * time;
         this->mVelocity *= this->mFriction;
@@ -189,8 +239,10 @@ namespace LB
         this->mAcceleration = zeroed;
     }
 
-    void RigidBody::BodyStep(float time)
+    void CPRigidBody::FixedUpdate()
     {
+        float time = TIME->GetFixedDeltaTime();
+
         // If body is static do not update velocities or pos
         if (this->isStatic) {
             return;

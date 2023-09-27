@@ -17,6 +17,7 @@ namespace LB
 		//gameObj->AddComponent(FACTORY->GetCMs()["Physics"]->Create());
 		gameObj->AddComponent("CPTransform", FACTORY->GetCMs()["CPTransform"]->Create());
 		gameObj->AddComponent("CPRender", FACTORY->GetCMs()["CPRender"]->Create());
+		gameObj->AddComponent("CPRigidBody", FACTORY->GetCMs()["CPRigidBody"]->Create());
 		//gameObj->GetComponents()[0]->Initialise();
 		gameObj->StartComponents();
 

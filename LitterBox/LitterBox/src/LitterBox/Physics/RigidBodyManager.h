@@ -11,7 +11,7 @@ namespace LB
     private:
         size_t m_poolSize;
         size_t m_currentIndex; // Holds current index in the pool when checking activeness
-        RigidBody** m_rigidBodies; // Array of pointers to RigidBodies
+        CPRigidBody** m_rigidBodies; // Array of pointers to RigidBodies
         bool* m_rbStates; // To track if a RigidBody is in use or not (pulled out of the pool)
 
     public:
@@ -28,18 +28,18 @@ namespace LB
         ~RigidBodyManager();
 
         // This functions allows you to add a RigidBody to the pool
-        void AddRigidBodyToPool(RigidBody* rb);
+        void AddRigidBodyToPool(CPRigidBody* rb);
 
         // This allows you to find the RigidBody within an index
-        RigidBody* GetPooledRigidBody(size_t index);
+        CPRigidBody* GetPooledRigidBody(size_t index);
 
         // This allows you to find the next nearest unpulled RigidBody in the array
         // Returns a pointer to the Rigidbody allowing you to check its calculations
-        RigidBody* GetPooledRigidBody();
+        CPRigidBody* GetPooledRigidBody();
 
         // This function allows you to return a RigidBody that was pulled previously
         // back to the Manager, which means that it is not being calculated on anymore
-        void ReturnPooledRigidBody(RigidBody* rb);
+        void ReturnPooledRigidBody(CPRigidBody* rb);
 
         // Steps
         // Movement Step
@@ -49,7 +49,7 @@ namespace LB
         // Check BOXBOX, BOXCIRCLE, CIRCLEBOX, CIRCLECIRCLE
         // From the checks get the normal and depth for the separation movement
         // Move the objects away from each other
-        void RBSystemSteps(float time);
+        void RBSystemSteps();
 
 
         // ======================================
@@ -64,9 +64,9 @@ namespace LB
 
     // Check collisions between two RigidBodies
     // Normal outputted is pushing bodyB away from bodyA
-    bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out);
+    bool CheckCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out);
 
-    void ResolveCollisions(RigidBody* bodyA, RigidBody* bodyB, LB::Vec2<float> normal, float depth);
+    void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth);
 
-    extern RigidBodyManager* Physics;
+    extern RigidBodyManager* PHYSICS;
 }
