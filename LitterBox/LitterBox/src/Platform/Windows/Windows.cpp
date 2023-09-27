@@ -55,12 +55,15 @@ namespace LB
         // Make the OpenGL context current
         glfwMakeContextCurrent(m_Data.PtrToWindow);
 
+        // VSYNC OFF: 0, VSYNC ON: 1
+        glfwSwapInterval(0);
+
         // Set GLFW callbacks
         glfwSetFramebufferSizeCallback(m_Data.PtrToWindow, FrameBufferCB);
         glfwSetKeyCallback(m_Data.PtrToWindow,  InvokeKeyPressed);
         glfwSetMouseButtonCallback(m_Data.PtrToWindow, InvokeKeyPressed);
-        glfwSetCursorPosCallback(m_Data.PtrToWindow, MousePositionCB);
-        glfwSetScrollCallback(m_Data.PtrToWindow, MouseScrollCB);
+        //glfwSetCursorPosCallback(m_Data.PtrToWindow, MousePositionCB);
+        //glfwSetScrollCallback(m_Data.PtrToWindow, MouseScrollCB);
 
         glfwSetInputMode(m_Data.PtrToWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
@@ -140,107 +143,6 @@ namespace LB
         UNREFERENCED_PARAMETER(height);
         #ifdef _DEBUG
             std::cout << "FrameBufferCB getting called!" << std::endl;
-        #endif
-    }
-
-    void WindowsSystem::KeyCB(GLFWwindow* pwin, int key, int scancode, int action, int mod)
-    {
-        UNREFERENCED_PARAMETER(mod);
-        UNREFERENCED_PARAMETER(scancode);
-
-        if (GLFW_PRESS == action) 
-        {
-        #ifdef _DEBUG
-            std::cout << "Key pressed" << std::endl;
-        #endif
-        }
-        else if (GLFW_REPEAT == action) 
-        {
-        #ifdef _DEBUG
-            std::cout << "Key repeatedly pressed" << std::endl;
-        #endif
-        }
-        else if (GLFW_RELEASE == action) 
-        {
-        #ifdef _DEBUG
-            std::cout << "Key released" << std::endl;
-        #endif
-        }
-
-        if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
-        {
-            glfwSetWindowShouldClose(pwin, GLFW_TRUE);
-        }
-
-        if (GLFW_PRESS == action) 
-        {
-            switch (key) 
-            {
-            case GLFW_KEY_ESCAPE:
-                glfwSetWindowShouldClose(pwin, GLFW_TRUE);
-                break;
-            }
-        }
-        else if (GLFW_REPEAT == action) 
-        {
-            // key state was and is being pressed
-            // To use, add a switch case below
-        }
-        else if (GLFW_RELEASE == action) 
-        {
-            // key start changes from pressed to released
-            // To use, add a switch case below
-        }
-    }
-
-    void WindowsSystem::MouseButtonCB(GLFWwindow* pwin, int button, int action, int mod)
-    {
-        UNREFERENCED_PARAMETER(mod);
-        UNREFERENCED_PARAMETER(pwin);
-        switch (button) {
-        case GLFW_MOUSE_BUTTON_LEFT:
-        #ifdef _DEBUG
-            std::cout << "Left mouse button ";
-        #endif
-            break;
-        case GLFW_MOUSE_BUTTON_RIGHT:
-        #ifdef _DEBUG
-            std::cout << "Right mouse button ";
-        #endif
-            break;
-        }
-        switch (action) {
-        case GLFW_PRESS:
-        #ifdef _DEBUG
-            std::cout << "pressed!!!" << std::endl;
-        #endif
-            break;
-        case GLFW_RELEASE:
-        #ifdef _DEBUG
-            std::cout << "released!!!" << std::endl;
-        #endif
-            break;
-        }
-
-    }
-
-    void WindowsSystem::MousePositionCB(GLFWwindow* pwin, double xpos, double ypos)
-    {
-        UNREFERENCED_PARAMETER(pwin);
-        UNREFERENCED_PARAMETER(xpos);
-        UNREFERENCED_PARAMETER(ypos);
-        #ifdef _DEBUG
-            std::cout << "Mouse cursor position: (" << xpos << ", " << ypos << ")" << std::endl;
-        #endif
-    }
-
-    void WindowsSystem::MouseScrollCB(GLFWwindow* pwin, double xoffset, double yoffset)
-    {
-        UNREFERENCED_PARAMETER(pwin);
-        UNREFERENCED_PARAMETER(xoffset);
-        UNREFERENCED_PARAMETER(yoffset);
-        #ifdef _DEBUG
-            std::cout << "Mouse scroll wheel offset: (" << xoffset << ", " << yoffset << ")" << std::endl;
         #endif
     }
 }
