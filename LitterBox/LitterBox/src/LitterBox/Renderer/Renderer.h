@@ -105,6 +105,8 @@ namespace Renderer {
 		glm::mat4 world_NDC {ortho};
 
 		Camera() { 
+			//near = 4.f
+			//far = -6.f
 			float hvf = (float)LB::WINDOWSSYSTEM->GetHeight();
 			float wvf = (float)LB::WINDOWSSYSTEM->GetWidth();
 			float lvf = 0.f;
@@ -192,7 +194,7 @@ namespace Renderer {
 
 		unsigned int create_render_object(const render_Object* obj);
 		void remove_render_object(const render_Object* obj);
-		void update_buff();
+		void update_buff(Renderer_Types r_type);
 	};
 
 	//The actual system that will get initialized into the engine
@@ -253,7 +255,6 @@ namespace Renderer {
 		bool						activated;
 
 		render_Object(
-			Renderer_Types rend_type,
 			vec2 pos = { 0.f, 0.f }, 
 			float width = 1.f, 
 			float height = 1.f, 
@@ -261,7 +262,8 @@ namespace Renderer {
 			vec3 color = { 0.f,0.f,0.f }, 
 			std::array<vec2,4> uv = {}, 
 			int texture = -1, 
-			bool active = true);
+			bool active = true,
+			Renderer_Types rend_type = Renderer_Types::RT_OBJECT);
 		~render_Object();
 		
 		inline const unsigned int get_index() const { return quad_id; }

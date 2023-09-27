@@ -123,7 +123,6 @@ void Renderer::Animation_Manager::load_anim(const std::string& animation_name, c
 
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
 Renderer::render_Object::render_Object(
-	Renderer_Types rend_type,
 	vec2 pos,
 	float width,
 	float height,
@@ -131,7 +130,8 @@ Renderer::render_Object::render_Object(
 	vec3 color,
 	std::array<vec2, 4> uv,
 	int text,
-	bool active) :
+	bool active,
+	Renderer_Types rend_type) :
 	renderer_id{ rend_type }, position {pos}, scal{ scale }, w{ width }, h{ height },
 	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ (int)text },
 	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }
@@ -351,8 +351,18 @@ void Renderer::Renderer::remove_render_object(const render_Object* obj)
 	active_objs.remove_if([obj](const render_Object* in_list) { return *obj == *in_list; });
 }
 
-void Renderer::Renderer::update_buff()
+void Renderer::Renderer::update_buff(Renderer_Types r_type)
 {
+	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "z_val");
+	switch (r_type) {
+	case Renderer_Types::RT_OBJECT:
+		glUniform1f(uni_loc, 0.f);
+		break;
+	case Renderer_Types::RT_BACKGROUND:
+		glUniform1f(uni_loc, -5.f);
+		break;
+	}
+
 	for (const render_Object*& e : active_objs) {
 		unsigned int obj_index{ e->get_index() };
 		//cache width and height values
@@ -387,20 +397,6 @@ void Renderer::Renderer::update_buff()
 			quad_buff[obj_index].data[i].tex = e->uv[i]; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
 			quad_buff[obj_index].data[i].texIndex = (float)e->texture;
 		}
-
-		//edit color and uv coordinates and texture
-		//for (size_t j{ 0 }; j < 4; ++j) {
-		//	//set colour of quad
-		//	quad_buff[obj_index].data[j].color = e->col;
-		//	quad_buff[obj_index].data[j].tex = e->uv[j]; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
-		//	quad_buff[obj_index].data[j].texIndex = (float)e->texture;
-		//}
-
-		//set texture object
-		/*quad_buff[obj_index].data[0].texIndex = (float)e->texture;
-		quad_buff[obj_index].data[1].texIndex = (float)e->texture;
-		quad_buff[obj_index].data[2].texIndex = (float)e->texture;
-		quad_buff[obj_index].data[3].texIndex = (float)e->texture;*/
 	}
 
 	glNamedBufferSubData(vbo, 0, sizeof(quad) * quad_buff_size, quad_buff);
@@ -438,7 +434,7 @@ Renderer::RenderSystem::RenderSystem() :
 	glBindVertexArray(object_renderer.get_vao());
 
 	//-################TEST CODE REMOVE AFTER##########################
-	testobj = new render_Object{Renderer_Types::RT_OBJECT, {800.f, 450.f}, 100.f, 100.f };
+	testobj = new render_Object{{800.f, 450.f}, 100.f, 100.f };
 	/*test2 = new render_Object[2500];
 	for (int y{ 0 }; y < 50; ++y)
 		for (int x{ 0 }; x < 50; ++x) {
@@ -459,9 +455,9 @@ Renderer::RenderSystem::RenderSystem() :
 	testobj->texture = t_Manager.get_texture_index("run");
 	testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
 	//-################TEST CODE REMOVE AFTER##########################
-	a_Manager.load_anim("running", frames.data(), .5f, 18);
+	/*a_Manager.load_anim("running", frames.data(), .5f, 18);
 	testobj->play_next("running");
-	testobj->play_next("running");
+	testobj->play_next("running");*/
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -476,9 +472,11 @@ Renderer::RenderSystem::~RenderSystem()
 
 void Renderer::RenderSystem::Update()
 {
-	object_renderer.update_buff();
+	object_renderer.update_buff(Renderer_Types::RT_OBJECT);
+	//bg_renderer.update_buff(Renderer_Types::RT_BACKGROUND);
 	glClearColor(.3f, 0.5f, .8f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 }
 
