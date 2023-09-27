@@ -1,10 +1,12 @@
 #pragma once
 #include <Litterbox/Engine/Message.h>
 #include <LitterBox/Debugging/Memory.h>
-#include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Utils/Math.h"
 #include "LitterBox/Physics/Collisions.h"
+#include "LitterBox/Renderer/ForwardDeclerators.h"
+#include "Platform/Windows/Windows.h"
+#include <queue>
 //#include "LitterBox/Physics/RigidBody.h"
 
 namespace LB
@@ -98,49 +100,50 @@ namespace LB
 
 	class CPRender : public IComponent
 	{
-	public:
-		void Initialise() override
-		{
-			double posx{}, posy{};
-			glfwGetCursorPos(WINDOWSSYSTEM->GetWindow(), &posx, &posy);
-
-			Renderer::render_Object* temp = new Renderer::render_Object;
-			temp->position.x = (float)posx;
-			temp->position.y = (float)WINDOWSSYSTEM->GetHeight() - (float)posy;
-
-			temp->w = 100.f;
-			temp->h = 100.f;
-
-
-			renderObj = temp;
-			std::cout << "Render component initialising mouse position values\n";
-			CPTransform* tran = gameObj->GetComponent<CPTransform>("CPTransform");
-
-
-			//gameObj->GetComponent<CPTransform>("CPTransform")->SetPosition(Vec2<float>(4.9f, 24.94f));
-
-
-		}
-
-		void Update() override
-		{
-		}
-		void Serialise() override
-		{
-			std::cout << "Serialising Render\n";
-		}
-		void Deserialise() override
-		{
-			std::cout << "Deserialising Render\n";
-		}
-		void Destroy() override
-		{
-			//delete renderObj;
-		}
-
 	private:
-		// Should data stay private? 
-		Renderer::render_Object* renderObj;
+		const Renderer::Renderer_Types					renderer_id;
+		unsigned int									quad_id;
+		unsigned int									frame;
+		float											time_elapsed;
+		std::queue<std::pair<const  Renderer::Animation*, bool>>	animation;
+
+	public:
+		Vec2<float>						position;
+		float						scal;
+		float						w;
+		float						h;
+		Vec3<float>						col;
+		std::array<Vec2<float>, 4>			uv; //bot left, bot right, top right, top left
+		int							texture;
+		bool						activated;
+
+		CPRender(
+			Vec2<float>	 pos = { 0.f, 0.f },
+			float width = 1.f,
+			float height = 1.f,
+			float scale = 1.f,
+			Vec3<float>	 color = { 0.f,0.f,0.f },
+			std::array<Vec2<float>, 4> uv = {},
+			int texture = -1,
+			bool active = true,
+			Renderer::Renderer_Types rend_type = Renderer::Renderer_Types::RT_OBJECT);
+		~CPRender();
+
+		inline const unsigned int get_index() const { return quad_id; }
+		inline const size_t get_queue_size() const { return animation.size(); }
+		inline const Renderer::Renderer_Types get_r_type() const { return renderer_id; }
+
+		inline bool operator==(const CPRender& rhs) const {
+			return quad_id == rhs.quad_id;
+		}
+
+		void play_repeat(const std::string& name);
+		void play_next(const std::string& name);
+		void play_now(const std::string& name);
+
+		inline void get_transform_data() {  };
+
+		void animate();
 	};
 
 
