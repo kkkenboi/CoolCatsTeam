@@ -1,12 +1,23 @@
 #pragma once
 #include "LitterBox/Core/System.h"
 #include "Platform\Windows\Windows.h"
+#include "Camera.h"
 #include <utility>
 #include <array>
 #include <list>
 #include <map>
 #include <queue>
 #include <glm.hpp>
+
+//-----------------------------------------HELPER FUNCTIONS--------------------------------
+struct shader_source {
+	std::string vtx_shd;
+	std::string frg_shd;
+};
+shader_source shader_parser(const char* shader_file_name);
+unsigned int compile_shader(const char*& source, unsigned int type);
+unsigned int create_shader(const char* vertex_shader, const char* fragment_shader);
+//-----------------------------------------HELPER FUNCTIONS--------------------------------
 
 namespace Renderer {
 	//-------------Structs to make things easier for now--------
@@ -84,49 +95,6 @@ namespace Renderer {
 	};
 	//------------------------------------------------------------------------
 
-	//----------------------------------------CAMERA-----------------------------------
-	class Camera {
-		//--------premade values so it doesn't look like I'm hardcoding-----
-		glm::vec4 pos	{ 0.f, 0.f, 5.f, 1.f };
-		glm::vec4 up	{ 0.f,1.f,0.f, 0.f };
-		glm::vec4 right	{ 1.f,0.f,0.f, 0.f };
-		glm::vec4 w		{ 0.f,0.f,1.f, 0.f };
-		//------------------------------------------------------------------
-		//The values defined above are already the inverse values
-		glm::mat4 inv_mat{ right, up, w, pos };
-		glm::mat4 nel{ glm::inverse(inv_mat) };
-		glm::mat4 ortho{2.f / LB::WINDOWSSYSTEM->GetWidth(), 0.f ,0.f, 0.f,
-					  0.f, 2.f / LB::WINDOWSSYSTEM->GetHeight(), 0.f, 0.f,
-		              0.f, 0.f, 0.2f, 0.f, 
-					  -1.f, -1.f, -(0.2f), 1.f};
-
-		
-	public:
-		glm::mat4 world_NDC {ortho};
-
-		Camera() { 
-			//near = 4.f
-			//far = -6.f
-			float hvf = (float)LB::WINDOWSSYSTEM->GetHeight();
-			float wvf = (float)LB::WINDOWSSYSTEM->GetWidth();
-			float lvf = 0.f;
-			float rvf = wvf;
-			ortho = { 2.f / rvf - lvf, 0.f, 0.f, 0.f,
-					 0.f, 2.f / hvf, 0.f, 0.f,
-					 0.f, 0.f, 0.2f, 0.f,
-					 -(rvf + lvf)/(rvf - lvf), -1.f, -0.2f, 1.f};
-			world_NDC = ortho * nel;
-		}
-
-		void move_cam() {
-			pos.x = -10.f +static_cast<float>(rand()) / static_cast<float>(RAND_MAX/ (20.f));
-			pos.y = -10.f +static_cast<float>(rand()) / static_cast<float>(RAND_MAX/ (20.f));
-			nel = glm::inverse(glm::mat4{ right, up, w, pos });
-			world_NDC = ortho * nel;
-		}
-	};
-	//----------------------------------------CAMERA-----------------------------------
-
 	//----------------------------------------ANIMATION--------------------------------
 	//Have function that will take in a render_Object and change the uv to the uv in containers
 	class Animation {
@@ -203,10 +171,13 @@ namespace Renderer {
 		//TODO figure out some way in the serialization process
 		//how to pass in object limit for renderer
 		unsigned int shader_program;
+
 		Texture_Manager t_Manager;
 		Animation_Manager a_Manager;
+
 		Renderer bg_renderer;
 		Renderer object_renderer;
+		Renderer debug_renderer;
 	public:
 
 		RenderSystem();
@@ -237,13 +208,14 @@ namespace Renderer {
 	extern RenderSystem* GRAPHICS;
 
 	//Render object is an object that will be exposed to the programmers in the level creator
-	class render_Object : public LB::IComponent {
+	class render_Object {
 	private:
-		Renderer_Types									renderer_id;
+		const Renderer_Types							renderer_id;
 		unsigned int									quad_id;
-		float											time_elapsed;
 		unsigned int									frame;
+		float											time_elapsed;
 		std::queue<std::pair<const Animation*, bool>>	animation;
+
 	public:
 		vec2						position;
 		float						scal;
@@ -278,10 +250,10 @@ namespace Renderer {
 		void play_next(const std::string& name);
 		void play_now(const std::string& name);
 
-		inline void get_transform_data() {gameObj->GetComponents() };
+		inline void get_transform_data() {  };
 
 		void animate();
 	};
-	//------------------------------------------------RENDERING SPECIFIC------------------------------------------------
 
+	//------------------------------------------------RENDERING SPECIFIC------------------------------------------------
 }

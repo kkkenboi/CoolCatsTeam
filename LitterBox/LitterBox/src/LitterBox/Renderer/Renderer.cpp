@@ -13,11 +13,6 @@
 #include "LitterBox/Engine/Time.h"
 
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
-struct shader_source {
-	std::string vtx_shd;
-	std::string frg_shd;
-};
-
 shader_source shader_parser(const char* shader_file_name) {
 	std::ifstream ifs{ shader_file_name };
 
@@ -92,27 +87,7 @@ unsigned int create_shader(const char* vertex_shader, const char* fragment_shade
 //place holder animations
 //TODO convert these to serialization
 //TODO for even later, make an editor that can select custom uv
-std::array<std::array<Renderer::vec2, 4>, 18> frames{
-		Renderer::vec2{0.f, 0.6f}, Renderer::vec2{.12f, .6f}, Renderer::vec2{.12f, .72f}, Renderer::vec2{0.f, .72f},
-		Renderer::vec2{.12f, 0.6f}, Renderer::vec2{.23f, .6f}, Renderer::vec2{.23f, .72f}, Renderer::vec2{.12f, .72f},
-		Renderer::vec2{0.23f, 0.6f}, Renderer::vec2{.345f, .6f}, Renderer::vec2{.345f, .72f}, Renderer::vec2{0.23f, .72f},
-		Renderer::vec2{0.345f, 0.6f}, Renderer::vec2{.45f, .6f}, Renderer::vec2{.45f, .72f}, Renderer::vec2{0.345f, .72f},
-		Renderer::vec2{0.45f, 0.6f}, Renderer::vec2{.55f, .6f}, Renderer::vec2{.55f, .72f}, Renderer::vec2{0.45f, .72f},
-		Renderer::vec2{0.55f, 0.6f}, Renderer::vec2{.65f, .6f}, Renderer::vec2{.65f, .72f}, Renderer::vec2{0.55f, .72f},
-		Renderer::vec2{0.65f, 0.6f}, Renderer::vec2{.755f, .6f}, Renderer::vec2{.755f, .72f}, Renderer::vec2{0.65f, .72f},
-		Renderer::vec2{0.755f, 0.6f}, Renderer::vec2{.85f, .6f}, Renderer::vec2{.85f, .72f}, Renderer::vec2{0.755f, .72f},
-		Renderer::vec2{0.85f, 0.6f}, Renderer::vec2{.94f, .6f}, Renderer::vec2{.94f, .72f}, Renderer::vec2{0.85f, .72f},
-
-		Renderer::vec2{0.f, .458f}, Renderer::vec2{.09f, .458f}, Renderer::vec2{.09f, .59f}, Renderer::vec2{0.f, .59f},
-		Renderer::vec2{.09f, .458f}, Renderer::vec2{.19f, .458f}, Renderer::vec2{.19f, .59f}, Renderer::vec2{.09f, .59f},
-		Renderer::vec2{0.19f, .458f}, Renderer::vec2{.29f, .458f}, Renderer::vec2{.29f, .59f}, Renderer::vec2{0.19f, .59f},
-		Renderer::vec2{0.29f, .458f}, Renderer::vec2{.39f, .458f}, Renderer::vec2{.39f, .59f}, Renderer::vec2{0.29f, .59f},
-		Renderer::vec2{0.39f, .458f}, Renderer::vec2{.51f, .458f}, Renderer::vec2{.51f, .59f}, Renderer::vec2{0.39f, .59f},
-		Renderer::vec2{0.51f, .458f}, Renderer::vec2{.6f, .458f}, Renderer::vec2{.6f, .59f}, Renderer::vec2{0.51f, .59f},
-		Renderer::vec2{0.6f, .458f}, Renderer::vec2{.7f, .458f}, Renderer::vec2{.7f, .59f}, Renderer::vec2{0.6f, .59f},
-		Renderer::vec2{0.7f, .458f}, Renderer::vec2{.8f, .458f}, Renderer::vec2{.8f, .59f}, Renderer::vec2{0.7f, .59f},
-		Renderer::vec2{0.8f, .458f}, Renderer::vec2{.94f, .458f}, Renderer::vec2{.94f, .59f}, Renderer::vec2{0.8f, .59f}
-};
+std::array<std::array<Renderer::vec2, 4>, 12> frames[4];
 
 //TODO for array of UV data for serialization probably gonna need to store data on heap
 
@@ -273,8 +248,6 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 	glNamedBufferStorage(ibo, index_buff.capacity() * sizeof(index),
 		nullptr, GL_DYNAMIC_STORAGE_BIT);
 	glVertexArrayElementBuffer(vao, ibo);
-
-	std::filesystem::path a = std::filesystem::current_path();
 }
 
 Renderer::Renderer::~Renderer()
@@ -422,7 +395,8 @@ Renderer::Texture* again;
 
 Renderer::RenderSystem::RenderSystem() :
 	object_renderer{Renderer_Types::RT_OBJECT},
-	bg_renderer{Renderer_Types::RT_BACKGROUND}
+	bg_renderer{Renderer_Types::RT_BACKGROUND},
+	debug_renderer{Renderer_Types::RT_DEBUG}
 {
 	//singleton that shiet
 	if (!GRAPHICS)
@@ -444,6 +418,17 @@ Renderer::RenderSystem::RenderSystem() :
 	float h = (float)LB::WINDOWSSYSTEM->GetHeight();
 
 
+	for (int y{ 0 }; y < 4; ++y) {
+		for (int x{ 0 }; x < 12; ++x) {
+			frames[y][x] = {
+				(x + 1) * (1.f / 12.f), y * (1.f / 4.f),
+				x * (1.f / 12.f), y * (1.f / 4.f),
+				x * (1.f / 12.f), (y + 1) * (1.f / 4.f),
+				(x+1)* (1.f / 12.f), (y + 1)* (1.f / 4.f),
+			};
+		}
+	}
+
 	std::cout << "Before: " << bg_renderer.get_ao_size();
 	testobj = new render_Object{{800.f, 450.f}, 100.f, 100.f };
 	test2 = new render_Object{ {midx,midy}, w, h, 1.f, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
@@ -463,7 +448,7 @@ Renderer::RenderSystem::RenderSystem() :
 	t_Manager.add_texture("../Assets/Textures/test.png", "test");
 	t_Manager.add_texture("../Assets/Textures/test2.png", "logo");
 	t_Manager.add_texture("../Assets/Textures/test3.png", "pine");
-	t_Manager.add_texture("../Assets/Textures/anim.png", "run");
+	t_Manager.add_texture("../Assets/Textures/walk.png", "run");
 	t_Manager.add_texture("../Assets/Textures/Environment_Background.png", "bg");
 	testobj->texture = t_Manager.get_texture_index("run");
 	testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
@@ -472,12 +457,10 @@ Renderer::RenderSystem::RenderSystem() :
 	test2->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
 	std::cout << " After: " << bg_renderer.get_ao_size() << std::endl;
 	//-################TEST CODE REMOVE AFTER##########################
-	/*a_Manager.load_anim("running", frames.data(), .5f, 18);
-	testobj->play_next("running");
-	testobj->play_next("running");*/
+	a_Manager.load_anim("running down", frames[0].data(), .5f, 12);
+	testobj->play_repeat("running down");
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_DEPTH_TEST);
 }
 
 Renderer::RenderSystem::~RenderSystem()
@@ -493,11 +476,11 @@ void Renderer::RenderSystem::Update()
 	bg_renderer.update_buff(Renderer_Types::RT_BACKGROUND);
 	object_renderer.update_buff(Renderer_Types::RT_OBJECT);
 	glClearColor(.3f, 0.5f, .8f, 1.f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glBindVertexArray(object_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glClear(GL_COLOR_BUFFER_BIT);
 	glBindVertexArray(bg_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glBindVertexArray(object_renderer.get_vao());
+	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 }
 
 void Renderer::RenderSystem::Draw()
@@ -524,6 +507,8 @@ unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const 
 		return object_renderer.create_render_object(obj);
 	case Renderer_Types::RT_BACKGROUND:
 		return bg_renderer.create_render_object(obj);
+	case Renderer_Types::RT_DEBUG:
+		return debug_renderer.create_render_object(obj);
 	//TODO for UI and DEBUG
 	}
 }
@@ -535,6 +520,9 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const render_O
 		break;
 	case Renderer_Types::RT_BACKGROUND:
 		bg_renderer.remove_render_object(obj);
+		break;
+	case Renderer_Types::RT_DEBUG:
+		debug_renderer.remove_render_object(obj);
 		break;
 	}
 }
