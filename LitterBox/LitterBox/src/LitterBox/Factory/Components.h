@@ -2,16 +2,17 @@
 #include <Litterbox/Engine/Message.h>
 #include <LitterBox/Debugging/Memory.h>
 #include "LitterBox/Renderer/Renderer.h"
+#include "LitterBox/Factory/GameObjectManager.h"
 
 namespace LB
 {
 	// --can be changed to be serialised--
 	enum ComponentTypeID
 	{
-		Component_None = 0,
-		Component_Physics,
-		Component_Transform,
-		Component_Render
+		Component_CPNone = 0,
+		//Component_CPRigidBody,
+		Component_CPTransform,
+		Component_CPRender
 	};
 
 	// Interface for derived components to use as a base
@@ -26,13 +27,13 @@ namespace LB
 		// To destruct all other derived components
 
 		ComponentTypeID GetType() { return TypeID; }
-	protected:
-		// To understand what type does this component belong to
-		ComponentTypeID TypeID;
-
+		ComponentTypeID TypeID{ Component_CPNone };
+		GameObject* gameObj{ nullptr };
+	//protected:
+	//	// To understand what type does this component belong to
 	};
 
-	class Render : public IComponent
+	class CPRender : public IComponent
 	{
 	public:
 		void Initialise() override
@@ -67,6 +68,35 @@ namespace LB
 	private:
 		// Should data stay private? 
 		Renderer::render_Object* renderObj;
+	};
+
+	class CPTransform : public IComponent
+	{
+	public:
+		void Initialise() override
+		{
+			//gameObj->
+			xPos = 100.f;
+			yPos = 100.f;
+			std::cout << "Initialising Transform\n";
+		}
+		void Serialise() override
+		{
+			std::cout << "Serialising Transform\n";
+		}
+		void Deserialise() override
+		{
+			std::cout << "Deserialising Transform\n";
+		}
+		void Destroy() override
+		{
+			std::cout << "Destroying Transform\n";
+		}
+
+	private:
+		// Should data stay private? 
+		int xPos, yPos;
+		float angle, scale;
 	};
 
 
