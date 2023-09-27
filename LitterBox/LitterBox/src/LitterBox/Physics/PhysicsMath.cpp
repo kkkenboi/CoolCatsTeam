@@ -17,7 +17,7 @@ namespace PHY_MATH {
 
     // Get the length of a vector
     float Length(LB::Vec2<float> vec) {
-        return sqrt(vec.x * vec.x + vec.y + vec.y);
+        return sqrt(vec.x * vec.x + vec.y * vec.y);
     }
 
     // Get distance from vector position A and vector position B

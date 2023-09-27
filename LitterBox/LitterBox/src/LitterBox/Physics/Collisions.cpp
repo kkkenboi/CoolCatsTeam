@@ -13,6 +13,69 @@ PhysicsTransform::PhysicsTransform(LB::Vec2<float> position, float angle)
 	this->m_cos = cos(angle);
 }
 
+Collider::Collider(SHAPETYPE shape, LB::Vec2<float> pos,
+	float length, float height, float radius)
+{
+	this->m_shape = shape;
+	this->m_pos = pos;
+	this->m_length = length;
+	this->m_height = height;
+	this->m_radius = radius;
+
+	this->CreateAABB();
+}
+
+
+void Collider::CreateAABB()
+{
+	if (this->m_shape == CIRCLE)
+	{
+		this->m_aabb.m_c = m_pos;
+		this->m_aabb.m_min = LB::Vec2<float>{ m_pos.x - m_radius, m_pos.y - m_radius };
+		this->m_aabb.m_max = LB::Vec2<float>{ m_pos.x + m_radius, m_pos.y + m_radius };
+	}
+	else if (this->m_shape == BOX)
+	{
+		this->m_aabb.m_c = m_pos;
+		this->m_aabb.m_min = LB::Vec2<float>{ m_pos.x - m_length / 2, m_pos.y - m_height / 2 };
+		this->m_aabb.m_max = LB::Vec2<float>{ m_pos.x + m_length / 2, m_pos.y + m_length / 2 };
+	}
+	else
+	{
+		this->m_aabb.m_c = m_pos;
+		this->m_aabb.m_min = LB::Vec2<float>{ 0.0f, 0.0f };
+		this->m_aabb.m_max = LB::Vec2<float>{ 0.0f, 0.0f };
+	}
+}
+
+void Collider::CreatePolygon()
+{
+	// Polygon vertices creations goes from
+	// Top-Left -> Top-Right -> Bottom-Right -> Bottom-Left
+	// Get vertices for a polygon
+	float left = -m_length / 2;
+	float right = m_length / 2;
+	float top = m_height / 2;
+	float bottom = -m_height / 2;
+
+	m_untransformedVerts[0].x = left;
+	m_untransformedVerts[0].y = top;
+
+	m_untransformedVerts[1].x = right;
+	m_untransformedVerts[1].y = top;
+
+	m_untransformedVerts[2].x = right;
+	m_untransformedVerts[2].y = bottom;
+
+	m_untransformedVerts[3].x = left;
+	m_untransformedVerts[3].y = bottom;
+}
+
+
+// ===============================
+// Collision Intersection Checks
+// ===============================
+
 bool CollisionIntersection_BoxBox(const AABB & aabb1, const LB::Vec2<float> & vel1, 
 									const AABB & aabb2, const LB::Vec2<float> & vel2, float dt)
 {	
@@ -23,7 +86,14 @@ bool CollisionIntersection_BoxBox(const AABB & aabb1, const LB::Vec2<float> & ve
 				If the check returns no overlap you continue with the following next steps (dynamics).
 				Otherwise you return collision true*/
 	if (vel1.x == 0 && vel1.y == 0 && vel2.x == 0 && vel2.y == 0) {
-
+		//std::cout << "joe yo" << std::endl;
+		//std::cout << "AABB1:" << std::endl;
+		//std::cout << "MAX: " << aabb1.m_max.x << " , " << aabb1.m_max.y << std::endl;
+		//std::cout << "MIN: " << aabb1.m_min.x << " , " << aabb1.m_min.y << std::endl;
+		//std::cout << "AABB2:" << std::endl;
+		//std::cout << "MAX: " << aabb2.m_max.x << " , " << aabb2.m_max.y << std::endl;
+		//std::cout << "MIN: " << aabb2.m_min.x << " , " << aabb2.m_min.y << std::endl;
+		//std::cout << aabb2.m_min.x << std::endl;
 		if (aabb1.m_max.x < aabb2.m_min.x || aabb1.m_min.x > aabb2.m_max.x) {
 			return 0; // No collision
 		}
@@ -31,7 +101,7 @@ bool CollisionIntersection_BoxBox(const AABB & aabb1, const LB::Vec2<float> & ve
 		if (aabb1.m_max.y < aabb2.m_min.y || aabb1.m_min.y > aabb2.m_max.y) {
 			return 0;
 		}
-
+		std::cout << " joe is here" << std::endl;
 		return 1;
 
 	}
@@ -170,7 +240,7 @@ bool CollisionIntersection_BoxBox(const AABB & aabb1, const LB::Vec2<float> & ve
 // Check if there is collision between 2 circles,
 // normal stores the direction of where the objects should be pushed towards
 // depth stores the magnitude of how much the objects should be pushed
-bool CollisionIntersection_CircleCircle(LB::Vec2<float> centerA, LB::Vec2<float> centerB, float radiusA, float radiusB, LB::Vec2<float> normal_out, float depth_out) {
+bool CollisionIntersection_CircleCircle(LB::Vec2<float> centerA, LB::Vec2<float> centerB, float radiusA, float radiusB, LB::Vec2<float>& normal_out, float& depth_out) {
 	normal_out.x = 0.f;
 	normal_out.y = 0.f;
 	depth_out = 0.f;
@@ -191,10 +261,10 @@ bool CollisionIntersection_CircleCircle(LB::Vec2<float> centerA, LB::Vec2<float>
 }
 
 // normal_out is pushing boxB from boxA
-bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float>* verticesB, LB::Vec2<float> normal_out, float depth_out) 
+bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float>* verticesB, LB::Vec2<float>& normal_out, float& depth_out) 
 {
 	normal_out = LB::Vec2<float>{ 0.f,0.f };
-	depth_out = 100000.f;
+	depth_out = 100000000.f;
 
 	// Loop through each edge of obj A
 	for (int i = 0; i < 4; ++i) 
@@ -205,12 +275,19 @@ bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float
 		// This also ensure that we get pt3 and pt0 as the pair of vertices which is right
 		LB::Vec2<float> vert2 = verticesA[(i + 1) % 4];
 
+		//std::cout << "vert1: " << vert1.x << " , " << vert1.y << std::endl;
+		//std::cout << "vert2: " << vert2.x << " , " << vert2.y << std::endl;
+
 		// We now get the vector from 0 to 1 for example
 		LB::Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y};
+		//std::cout << "edge unnorm x: " << vecA.x << " edge unnorm y:" << vecA.y << std::endl;
 
 		// Now we have the normal/axis from A
 		LB::Vec2<float> axis{-vecA.y , vecA.x};
-
+		//std::cout << "axis unnorm x: " << axis.x << " axis unnorm y:" << axis.y << std::endl;
+		axis = PHY_MATH::Normalize(axis);
+		//std::cout << "AXIS" << std::endl;
+		//std::cout << "axis x: " << axis.x << " axis y: " << axis.y << std::endl;
 
 		float minProjValueA{ 0.f };
 		float maxProjValueA{ 0.f };
@@ -223,10 +300,16 @@ bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float
 		ProjectPointsOntoAxis(axis, verticesA, minProjValueA, maxProjValueA);
 		ProjectPointsOntoAxis(axis, verticesB, minProjValueB, maxProjValueB);
 
+		//std::cout << "ONE" << std::endl;
+		//std::cout << "Min A: " << minProjValueA << " Max A: " << maxProjValueA << std::endl;
+		//std::cout << "TWO" << std::endl;
+		//std::cout << "Min B: " << minProjValueB << " Max B: " << maxProjValueB << std::endl;
+
 		// Checks if we can find separation by checking if the
 		// min projection values of either object is larger than the max
 		// projection values of the other object
 		if (maxProjValueA <= minProjValueB || maxProjValueB <= minProjValueA) {
+			//std::cout << "proj values max are lesser than min\n";
 			return false;
 		}
 
@@ -241,19 +324,27 @@ bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float
 		}
 	} // End of looping through obj A's edges
 
-	// Loop through each edge of obj B
-	for (int i = 0; i < 4; ++i) 
+	//std::cout << "END OF OBJ A EDGES" << std::endl;
+
+	// Start of obj B's edges
+	for (int i = 0; i < 4; ++i)
 	{
 		// Get two vertices from obj B
 		LB::Vec2<float> vert1 = verticesB[i];
+		// We get the remainder of 4 as we do not want to loop out of the array
+		// This also ensure that we get pt3 and pt0 as the pair of vertices which is right
 		LB::Vec2<float> vert2 = verticesB[(i + 1) % 4];
 
-		// Now we get the vector from vertice 0 to 1 for example
-		LB::Vec2<float> vecB{ vert2.x - vert1.x, vert2.y - vert1.y };
+		// We now get the vector from 0 to 1 for example
+		LB::Vec2<float> vecB{ vert2.x - vert1.x , vert2.y - vert1.y };
+		//std::cout << "edge unnorm x: " << vecB.x << " edge unnorm y:" << vecB.y << std::endl;
 
-		// Now we have the normal/axis from B
-		LB::Vec2<float> axis{ -vecB.y, vecB.x };
-
+		// Now we have the normal/axis from A
+		LB::Vec2<float> axis{ -vecB.y , vecB.x };
+		//std::cout << "axis unnorm x: " << axis.x << " axis unnorm y:" << axis.y << std::endl;
+		axis = PHY_MATH::Normalize(axis);
+		//std::cout << "AXIS" << std::endl;
+		//std::cout << "axis x: " << axis.x << " axis y: " << axis.y << std::endl;
 
 		float minProjValueA{ 0.f };
 		float maxProjValueA{ 0.f };
@@ -261,12 +352,21 @@ bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float
 		float minProjValueB{ 0.f };
 		float maxProjValueB{ 0.f };
 
+
 		// Project all points onto the axis
 		ProjectPointsOntoAxis(axis, verticesA, minProjValueA, maxProjValueA);
 		ProjectPointsOntoAxis(axis, verticesB, minProjValueB, maxProjValueB);
 
-		if (maxProjValueA <= minProjValueB || maxProjValueB <= minProjValueA)
-		{
+		//std::cout << "ONE" << std::endl;
+		//std::cout << "Min A: " << minProjValueA << " Max A: " << maxProjValueA << std::endl;
+		//std::cout << "TWO" << std::endl;
+		//std::cout << "Min B: " << minProjValueB << " Max B: " << maxProjValueB << std::endl;
+
+		// Checks if we can find separation by checking if the
+		// min projection values of either object is larger than the max
+		// projection values of the other object
+		if (maxProjValueA <= minProjValueB || maxProjValueB <= minProjValueA) {
+			//std::cout << "proj values max are lesser than min\n";
 			return false;
 		}
 
@@ -279,8 +379,8 @@ bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float
 			depth_out = axisDepth;
 			normal_out = axis;
 		}
-	} // End of looping through of obj B's edges
-
+	} // End of looping through obj B's edges
+	
 	// Finally the depth_out and normal_out are not normalized as
 	// the axis we used is essentially the same as the edges found on
 	// each of the objects, therefore we need to normalize the final
@@ -303,6 +403,7 @@ bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float
 	LB::Vec2<float> vecCenterB = FindCenterOfBoxVertices(verticesB);
 
 	LB::Vec2<float> vecAB = vecCenterB - vecCenterA;
+	//std::cout << "vecAB: " << vecAB.x << " , " << vecAB.y << std::endl;
 
 	// This normal is pushing B from A
 	if (PHY_MATH::DotProduct(vecAB, normal_out) < 0) {
@@ -318,10 +419,10 @@ bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float
 // the given box, we need to check the axis of the circle's center 
 
 // normal_out is pushing the Box away from the Circle
-bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float circleRadius, LB::Vec2<float>* verticesBox, LB::Vec2<float> normal_out, float depth_out)
+bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float circleRadius, LB::Vec2<float>* verticesBox, LB::Vec2<float>& normal_out, float& depth_out)
 {
 	normal_out = LB::Vec2<float>{ 0.f, 0.f };
-	depth_out = 100000.f;
+	depth_out = 100000000.f;
 
 	LB::Vec2<float> axis{ 0.f, 0.f };
 
@@ -349,6 +450,7 @@ bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float cir
 		axis.x = -vecA.y;
 		axis.y = vecA.x;
 
+		axis = PHY_MATH::Normalize(axis);
 
 		// Project all points onto the axis
 		ProjectPointsOntoAxis(axis, verticesBox, minProjValueA, maxProjValueA);
@@ -381,7 +483,7 @@ bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float cir
 
 	// Next we make a vector from the circle center to nearestVertice
 	axis = { nearestVertice.x - circleCenter.x, nearestVertice.y - circleCenter.y };
-
+	axis = PHY_MATH::Normalize(axis);
 	// Project all points onto the axis
 	ProjectPointsOntoAxis(axis, verticesBox, minProjValueA, maxProjValueA);
 	ProjectCircleOntoAxis(axis, circleCenter, circleRadius, minProjValueB, maxProjValueB);
@@ -430,34 +532,38 @@ bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float cir
 	return true;
 }
 
-void ProjectPointsOntoAxis(LB::Vec2<float> axisToProj, LB::Vec2<float>*verticesBody, float minPtOnAxis, float maxPtOnAxis) {
+void ProjectPointsOntoAxis(LB::Vec2<float> axisToProj, LB::Vec2<float>*verticesBody, float& minPtOnAxis, float& maxPtOnAxis) {
 	// get some arbitrary min and max things to update
-	minPtOnAxis = 100000.f;
-	maxPtOnAxis = -100000.f;
+	minPtOnAxis = 100000000.f;
+	maxPtOnAxis = -100000000.f;
 
 	// Loop through the vertices on the body and project them on the axis
 	for (int i = 0; i < 4; ++i) 
 	{
-		float projection_val = PHY_MATH::DotProduct(axisToProj, verticesBody[i]);
-
+		float projection_val = PHY_MATH::DotProduct(verticesBody[i], axisToProj);
+		//std::cout << "VAL PROJ " << projection_val << std::endl;
 		// If the projection value is less than min
 		// or more than max change the min or max
 		if (projection_val < minPtOnAxis) 
 		{
 			minPtOnAxis = projection_val;
+			//std::cout << "MIN PROJ " << minPtOnAxis << std::endl;
 		}
 		if (projection_val > maxPtOnAxis)
 		{
 			maxPtOnAxis = projection_val;
+			//std::cout << "MAX PROJ " << maxPtOnAxis << std::endl;
 		}
 	}
+	//std::cout << "MIN PROJ " << minPtOnAxis << std::endl;
+	//std::cout << "MAX PROJ " << maxPtOnAxis << std::endl;
 }
 
-void ProjectCircleOntoAxis(LB::Vec2<float> axisToProj, LB::Vec2<float> center, float radius, float minPtOnAxis, float maxPtOnAxis)
+void ProjectCircleOntoAxis(LB::Vec2<float> axisToProj, LB::Vec2<float> center, float radius, float& minPtOnAxis, float& maxPtOnAxis)
 {
 	// Arbitrary min and max things to update
-	minPtOnAxis = 100000.f;
-	maxPtOnAxis = -100000.f;
+	minPtOnAxis = 100000000.f;
+	maxPtOnAxis = -100000000.f;
 
 	// Get the direction of the axis
 	LB::Vec2<float> direction = PHY_MATH::Normalize(axisToProj);
@@ -495,7 +601,7 @@ LB::Vec2<float> FindCenterOfBoxVertices(LB::Vec2<float>* vertices)
 		ySum += vertices[i].y;
 	}
 
-	return LB::Vec2<float>{xSum / 4, ySum / 4};
+	return LB::Vec2<float>{xSum / 4.f, ySum / 4.f};
 }
 
 int FindIndexClosestPointOnBox(LB::Vec2<float>* vertices, LB::Vec2<float> center)
@@ -506,7 +612,7 @@ int FindIndexClosestPointOnBox(LB::Vec2<float>* vertices, LB::Vec2<float> center
 	// Always keep the vec with the smallest length
 
 	int arr_index = -1;
-	float minDistance = 100000.f;
+	float minDistance = 100000000.f;
 
 	for (int i = 0; i < 4; ++i)
 	{

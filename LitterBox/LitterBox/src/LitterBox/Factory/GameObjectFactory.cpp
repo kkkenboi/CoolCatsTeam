@@ -21,13 +21,25 @@ namespace LB
 
 		// Deserialise the data file and initialise ComponentMakers
 		// 
-		//CreateComponentMaker(Physics);
 		CreateComponentMaker(CPTransform);
 		CreateComponentMaker(CPRender);
+		CreateComponentMaker(CPRigidBody);
 
 		// Game Object Data File
 		// Deserialise the data file and initialise the game objects with it
 		SerialiseGameObjs(1);
+
+		//GameObject* gameObj = CreateGameObject();
+		//if (gameObj->GetID() == 0) 		// ID only starts at 1
+		//{
+		//	gameObj->SetID(GetLastObjID());
+		//}
+		////gameObj->AddComponent(FACTORY->GetCMs()["Physics"]->Create());
+		//gameObj->AddComponent("CPTransform", GetCMs()["CPTransform"]->Create());
+		//gameObj->AddComponent("CPRender", GetCMs()["CPRender"]->Create());
+		////gameObj->GetComponents()[0]->Initialise();
+		//gameObj->StartComponents();
+
 
 		std::cout << "Factory Initialised\n";
 	}
@@ -61,6 +73,8 @@ namespace LB
 
 		if (toUpdate)
 		{
+
+
 			// Send all of the game objects to the GameObjectManager's vector or something
 			// Send message to the GameObjectManager to add objects to its pool of game objects
 			// What about pools?

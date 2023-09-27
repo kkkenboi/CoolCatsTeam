@@ -11,6 +11,9 @@ namespace LB
 
     RigidBodyManager::RigidBodyManager()
     {
+        //INPUT->SubscribeToKey(func, KeyCode::KEY_W, KeyEvent)
+
+
         if (!PHYSICS)
         {
             PHYSICS = this;
@@ -25,7 +28,7 @@ namespace LB
         constexpr int POOL_SIZE = 100;
         m_poolSize = POOL_SIZE;
         m_currentIndex = 0;
-        m_rigidBodies = new RigidBody * [100];
+        m_rigidBodies = new CPRigidBody * [100];
         m_rbStates = new bool[100];
 
         // Initialize all the RigidBody States to false
@@ -40,7 +43,7 @@ namespace LB
 
     RigidBodyManager::RigidBodyManager(int size) : m_poolSize(size), m_currentIndex(0)
     {
-        m_rigidBodies = new RigidBody * [size];
+        m_rigidBodies = new CPRigidBody * [size];
         m_rbStates = new bool[size];
 
         // Initialize all the RigidBody States to false;
@@ -66,7 +69,7 @@ namespace LB
     }
 
     // This functions allows you to add a RigidBody to the pool
-    void RigidBodyManager::AddRigidBodyToPool(RigidBody* rb)
+    void RigidBodyManager::AddRigidBodyToPool(CPRigidBody* rb)
     {
         for (int i = 0; i < m_poolSize; ++i)
         {
@@ -80,7 +83,7 @@ namespace LB
     }
 
     // This allows you to find the RigidBody within an index
-    RigidBody* RigidBodyManager::GetPooledRigidBody(size_t index)
+    CPRigidBody* RigidBodyManager::GetPooledRigidBody(size_t index)
     {
         if (index < 0 || index >= m_poolSize)
         {
@@ -92,7 +95,7 @@ namespace LB
 
     // This allows you to find the next nearest unpulled RigidBody in the array
     // Returns a pointer to the Rigidbody allowing you to check its calculations
-    RigidBody* RigidBodyManager::GetPooledRigidBody()
+    CPRigidBody* RigidBodyManager::GetPooledRigidBody()
     {
         for (int i = 0; i < m_poolSize; ++i)
         {
@@ -109,7 +112,7 @@ namespace LB
 
     // This function allows you to return a RigidBody that was pulled previously
     // back to the Manager, which means that it is not being calculated on anymore
-    void RigidBodyManager::ReturnPooledRigidBody(RigidBody* rb)
+    void RigidBodyManager::ReturnPooledRigidBody(CPRigidBody* rb)
     {
         for (int i = 0; i < m_poolSize; ++i)
         {
@@ -121,8 +124,9 @@ namespace LB
         }
     }
 
-    void RigidBodyManager::RBSystemSteps(float time)
+    void RigidBodyManager::RBSystemSteps()
     {
+        //std::cout << "JOE IS RBSYSTEM\n";
         // ==================
         // Movement Step
         // ==================
@@ -130,7 +134,7 @@ namespace LB
         {
             if (m_rigidBodies[i] != nullptr)
             {
-                m_rigidBodies[i]->BodyStep(time);
+                m_rigidBodies[i]->FixedUpdate();
             }
         }
 
@@ -142,11 +146,18 @@ namespace LB
 
         for (size_t i = 0; i < m_poolSize; ++i)
         {
-            RigidBody* bodyA = m_rigidBodies[i];
+            //std::cout << "JOE IS HERE\n";
+            CPRigidBody* bodyA = m_rigidBodies[i];
 
-            for (size_t j = 1; j < m_poolSize; ++j)
+            for (size_t j = i + 1; j < m_poolSize; ++j)
             {
-                RigidBody* bodyB = m_rigidBodies[j];
+                //std::cout << "JOE IS IN SECOND BODY\n";
+                CPRigidBody* bodyB = m_rigidBodies[j];
+
+                if (bodyA == bodyB)
+                {
+                    continue;
+                }
 
                 // If either rigidBody is not instantiated
                 if (bodyA == nullptr || bodyB == nullptr)
@@ -155,14 +166,24 @@ namespace LB
                 }
 
                 // If both bodies are static
-                if (bodyA->isStatic == false && bodyB->isStatic == false)
+                if (bodyA->isStatic == true && bodyB->isStatic == true)
                 {
                     continue;
                 }
-
+                //std::cout << "i: " << i << " , " << "j: " << j << std::endl;
+                //std::cout << "BodyA POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
+                //std::cout << "BodyB POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
+                //std::cout << "JOE IS GOING TO CHECK\n";
                 // Normal here is moving B away from A
                 if (CheckCollisions(bodyA, bodyB, normal_out, depth_out))
                 {
+                    std::cout << "JOE HIT\n";
+                    std::cout << "BodyA Prev POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
+                    std::cout << "BodyB Prev POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
+                    //std::cout << "normalout x: " << normal_out.x <<
+                    //    " normalout y: " << normal_out.y << std::endl;
+                    //std::cout << "depthout: " << depth_out << std::endl;
+                    
                     LB::Vec2<float>inverse_normal{ -normal_out.x, -normal_out.y };
                     if (bodyA->isStatic)
                     {
@@ -177,9 +198,12 @@ namespace LB
                         bodyA->Move(inverse_normal * depth_out);
                         bodyB->Move(normal_out * depth_out);
                     }
-
+                    /*
                     ResolveCollisions(bodyA, bodyB, normal_out, depth_out);
-
+                    */
+                    std::cout << "COLLISION RESOLVED" << std::endl;
+                    std::cout << "BodyA After POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
+                    std::cout << "BodyB After POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
                 }
 
 
@@ -197,7 +221,7 @@ namespace LB
 
     void RigidBodyManager::FixedUpdate()
     {
-        RBSystemSteps(TIME->GetFixedDeltaTime());
+        RBSystemSteps();
     }
 
     // END OF RIGIDBODYMANAGER MEMBER FUNCTIONS
@@ -205,18 +229,21 @@ namespace LB
 
     // Check collisions between two RigidBodies
     // Normal is pushing bodyB away from bodyA
-    bool CheckCollisions(RigidBody* bodyA, RigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out) {
+    bool CheckCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out) {
         normal_out.x = 0.f; // Make it zeroed first, in case of any values beforehand
         normal_out.y = 0.f;
         depth_out = 0.f; // Zeroed in case of previous values
 
         if (bodyA->mShapeType == BOX)
         {
+            //std::cout << "JOE IS BOX\n";
             if (bodyB->mShapeType == BOX)
             {
+                //std::cout << "BOTH JOES ARE BOXES\n";
                 // A - B
                 // BOX-BOX
                 return CollisionIntersection_BoxBox_SAT(bodyA->mTransformedVertices, bodyB->mTransformedVertices, normal_out, depth_out);
+                //return CollisionIntersection_BoxBox(bodyA->obj_aabb, bodyA->mVelocity, bodyB->obj_aabb, bodyB->mVelocity, TIME->GetFixedDeltaTime());
             }
             else if (bodyB->mShapeType == CIRCLE) {
                 // A - B
@@ -250,9 +277,11 @@ namespace LB
         return false;
     }
 
-    void ResolveCollisions(RigidBody* bodyA, RigidBody* bodyB, LB::Vec2<float> normal, float depth) {
+    void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth) {
         // Need to get relative velocity from A to B
         // Due to normal being from A to B
+        //std::cout << "bodyA vel: " << bodyA->mVelocity.x << " , " << bodyA->mVelocity.y << std::endl;
+        //std::cout << "bodyB vel: " << bodyB->mVelocity.x << " , " << bodyB->mVelocity.y << std::endl;
         LB::Vec2<float> relativeVelocity = bodyB->mVelocity - bodyA->mVelocity;
 
         // If the dot product of relVel and normal is more than 0.f
@@ -270,6 +299,9 @@ namespace LB
 
         bodyA->mVelocity -= impulse * bodyA->mInvMass;
         bodyB->mVelocity += impulse * bodyB->mInvMass;
+
+        //std::cout << "bodyA vel: " << bodyA->mVelocity.x << " , " << bodyA->mVelocity.y << std::endl;
+        //std::cout << "bodyB vel: " << bodyB->mVelocity.x << " , " << bodyB->mVelocity.y << std::endl;
     }
 
 } // Namespace LB
