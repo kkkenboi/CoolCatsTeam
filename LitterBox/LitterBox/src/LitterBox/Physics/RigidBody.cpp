@@ -30,6 +30,9 @@ namespace LB
         SHAPETYPE shape)
     {
         transform = gameObj->GetComponent<CPTransform>("CPTransform");
+        
+        this->mPosition = position;
+        this->mPrevPosition = prevposition;
 
         this->mPosition = transform->GetPosition();
         this->mPrevPosition = mPosition;
@@ -270,7 +273,7 @@ namespace LB
 
     void CPRigidBody::FixedUpdate()
     {
-        float time = TIME->GetFixedDeltaTime();
+        float time = static_cast<float>(TIME->GetFixedDeltaTime());
 
         // If body is static do not update velocities or pos
         if (this->isStatic) {
