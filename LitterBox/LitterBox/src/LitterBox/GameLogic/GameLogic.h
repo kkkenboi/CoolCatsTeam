@@ -8,7 +8,6 @@ namespace LB
 	{
 	public:
 		GameLogic();
-		~GameLogic();
 
 		void Initialize() override;
 		void Update() override;
@@ -19,5 +18,4 @@ namespace LB
 
 	//A global pointer to our game so that it can be accessed from anywhere.
 	extern GameLogic* GAMELOGIC;
-
 }
