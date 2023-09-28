@@ -449,13 +449,14 @@ Renderer::RenderSystem::RenderSystem() :
 
 	//t_Manager.add_texture("../Assets/Textures/test.png", "test");
 	//t_Manager.add_texture("../Assets/Textures/test2.png", "logo");
-	//t_Manager.add_texture("../Assets/Textures/test3.png", "pine");
+	t_Manager.add_texture("../Assets/Textures/test3.png", "pine");
 	t_Manager.add_texture("../Assets/Textures/walk.png", "run");
 	t_Manager.add_texture("../Assets/Textures/Environment_Background.png", "bg");
 	//testobj->texture = t_Manager.get_texture_index("run");
 	//testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
 
-	test2->texture = t_Manager.get_texture_index("bg");
+	//test2->texture = t_Manager.get_texture_index("bg");
+	test2->texture = LB::ASSETMANAGER->GetTextureIndex("bg");
 	test2->uv[0].x = 0.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
 	test2->uv[0].y = 0.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
 	test2->uv[1].x = 1.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
@@ -573,22 +574,23 @@ Renderer::Texture::~Texture()
 
 bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
 {
-	if (textures.size() >= 32) {
-		std::cerr << "Maximum textures reached" << std::endl;
-		return false;
-	}
-	//TODO Change system to accomodate for free type texture units
-	//Loop through to get the first free unit slot available
-	int i{ 2 };
-	for (; i < 32; ++i) {
-		if (!free[i])
-			break;
-	}
+	//if (textures.size() >= 32) {
+	//	std::cerr << "Maximum textures reached" << std::endl;
+	//	return false;
+	//}
+	////TODO Change system to accomodate for free type texture units
+	////Loop through to get the first free unit slot available
+	//int i{ 2 };
+	//for (; i < 32; ++i) {
+	//	if (!free[i])
+	//		break;
+	//}
 
-	textures.emplace(std::make_pair(name, std::make_pair(new Texture{ file_path }, i)));
-	//getting the pair then the texture id
-	glBindTextureUnit(0 + i, textures.find(name)->second.first->get_tex());
-	free[i] = true;
+	//textures.emplace(std::make_pair(name, std::make_pair(new Texture{ file_path }, i)));
+	////getting the pair then the texture id
+	//glBindTextureUnit(0 + i, textures.find(name)->second.first->get_tex());
+	//free[i] = true;
+	LB::ASSETMANAGER->AddTexture(file_path, name);
 
 	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
 	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };

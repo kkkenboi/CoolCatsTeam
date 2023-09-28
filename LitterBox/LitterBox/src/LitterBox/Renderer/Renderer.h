@@ -10,6 +10,7 @@
 #include <map>
 #include <queue>
 #include <glm.hpp>
+#include "LitterBox/Serialization/AssetManager.h"
 
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
 struct shader_source {

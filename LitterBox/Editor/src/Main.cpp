@@ -15,6 +15,10 @@ public:
 	}
 };
 
+int main()
+{
+	return 0;
+}
 
 LB::Application* LB::CreateApplication()
 {
