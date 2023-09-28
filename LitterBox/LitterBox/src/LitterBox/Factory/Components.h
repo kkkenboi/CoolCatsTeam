@@ -205,6 +205,12 @@ namespace LB
 		SHAPETYPE mShapeType;
 
 		// =====
+		// TEST STUFF
+		// =====
+		int mNumberID;
+		// ==============
+
+		// =====
 		//  WRAP THIS SECTION IN A COLLIDER CLASS, separating from RigidBody
 		// =====
 		// Vertices and AABB

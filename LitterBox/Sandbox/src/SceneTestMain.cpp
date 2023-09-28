@@ -15,7 +15,7 @@ void SceneTestMain::Init()
 	test = FACTORY->SpawnGameObject({ "CPRender" });
 	test2 = FACTORY->SpawnGameObject({ "CPRender" });
 	test3 = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody"}, Vec2<float>(200, 200));
-	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(Renderer::GRAPHICS->get_texture("run"));
+	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
@@ -25,6 +25,7 @@ void SceneTestMain::Init()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Player example
 	testPlayer = new Player;
+	testPlayer->Initialise();
 }
 
 void SceneTestMain::Update()
@@ -37,10 +38,10 @@ void SceneTestMain::Update()
 
 	degree = degree > 6.28318531f ? 0.f : degree + 0.01f;
 	/////////////////////////////////////////////////////////////////////////////////////////////
-
+	testPlayer->Update();
 }
 
 void SceneTestMain::Destroy()
 {
-	delete testPlayer;
+	//delete testPlayer;
 }

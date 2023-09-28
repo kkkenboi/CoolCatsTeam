@@ -25,11 +25,11 @@ namespace LB
 
         // NEED TO DEFINE A POOL SIZE ANOTHER TIME INSTEAD
         // OF HARDCODING IT HERE
-        constexpr int POOL_SIZE = 100;
+        constexpr int POOL_SIZE = 3000;
         m_poolSize = POOL_SIZE;
         m_currentIndex = 0;
-        m_rigidBodies = new CPRigidBody * [100];
-        m_rbStates = new bool[100];
+        m_rigidBodies = new CPRigidBody * [3000];
+        m_rbStates = new bool[3000];
 
         // Initialize all the RigidBody States to false
         for (int i = 0; i < POOL_SIZE; ++i)
@@ -124,6 +124,18 @@ namespace LB
         }
     }
 
+    CPRigidBody* RigidBodyManager::LookForMainCharacter()
+    {
+        for (int i = 0; i < m_poolSize; ++i)
+        {
+            if (m_rigidBodies[i]->mNumberID == 1)
+            {
+                return m_rigidBodies[i];
+            }
+        }
+        return nullptr;
+    }
+
     void RigidBodyManager::RBSystemSteps()
     {
         //std::cout << "JOE IS RBSYSTEM\n";
@@ -170,20 +182,18 @@ namespace LB
                 {
                     continue;
                 }
-                //std::cout << "i: " << i << " , " << "j: " << j << std::endl;
-                //std::cout << "BodyA POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
-                //std::cout << "BodyB POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
-                //std::cout << "JOE IS GOING TO CHECK\n";
+
                 // Normal here is moving B away from A
                 if (CheckCollisions(bodyA, bodyB, normal_out, depth_out))
                 {
-                    std::cout << "JOE HIT\n";
-                    std::cout << "BodyA Prev POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
-                    std::cout << "BodyB Prev POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
-                    //std::cout << "normalout x: " << normal_out.x <<
-                    //    " normalout y: " << normal_out.y << std::endl;
-                    //std::cout << "depthout: " << depth_out << std::endl;
-                    
+                    //std::cout << "JOE HIT\n";
+                    //std::cout << "BodyA Prev POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
+                    //std::cout << "BodyB Prev POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
+
+                    // Debug View
+                    //DEBUG->DrawBox(bodyA->mPosition, bodyA->mWidth, bodyA->mHeight, Vec4<float>{ 1.0f, 0.f, 0.f, 0.f });
+                    //DEBUG->DrawBox(bodyB->mPosition, bodyB->mWidth, bodyB->mHeight, Vec4<float>{ 1.0f, 0.f, 0.f, 0.f });
+
                     LB::Vec2<float>inverse_normal{ -normal_out.x, -normal_out.y };
                     if (bodyA->isStatic)
                     {
@@ -201,9 +211,9 @@ namespace LB
                     /*
                     ResolveCollisions(bodyA, bodyB, normal_out, depth_out);
                     */
-                    std::cout << "COLLISION RESOLVED" << std::endl;
-                    std::cout << "BodyA After POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
-                    std::cout << "BodyB After POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
+                    //std::cout << "COLLISION RESOLVED" << std::endl;
+                    //std::cout << "BodyA After POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
+                    //std::cout << "BodyB After POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
                 }
 
 
@@ -243,7 +253,7 @@ namespace LB
                 // A - B
                 // BOX-BOX
                 return CollisionIntersection_BoxBox_SAT(bodyA->mTransformedVertices, bodyB->mTransformedVertices, normal_out, depth_out);
-                //return CollisionIntersection_BoxBox(bodyA->obj_aabb, bodyA->mVelocity, bodyB->obj_aabb, bodyB->mVelocity, TIME->GetFixedDeltaTime());
+                //return CollisionIntersection_BoxBox(bodyA->obj_aabb, bodyA->mVelocity, bodyB->obj_aabb, bodyB->mVelocity, TIME->GetFixedDeltaTime(), normal_out, depth_out);
             }
             else if (bodyB->mShapeType == CIRCLE) {
                 // A - B
@@ -302,6 +312,58 @@ namespace LB
 
         //std::cout << "bodyA vel: " << bodyA->mVelocity.x << " , " << bodyA->mVelocity.y << std::endl;
         //std::cout << "bodyB vel: " << bodyB->mVelocity.x << " , " << bodyB->mVelocity.y << std::endl;
+    }
+
+    void MoveUp()
+    {
+        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
+        if (temp_mainchar == nullptr)
+        {
+            return;
+        }
+        if (temp_mainchar->mNumberID == 1)
+        {
+            temp_mainchar->addForce(Vec2<float>{0.f, 10.f});
+        }
+    }
+
+    void MoveDown()
+    {
+        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
+        if (temp_mainchar == nullptr)
+        {
+            return;
+        }
+        if (temp_mainchar->mNumberID == 1)
+        {
+            temp_mainchar->addForce(Vec2<float>{0.f, -10.f});
+        }
+    }
+
+    void MoveLeft()
+    {
+        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
+        if (temp_mainchar == nullptr)
+        {
+            return;
+        }
+        if (temp_mainchar->mNumberID == 1)
+        {
+            temp_mainchar->addForce(Vec2<float>{-10.f, 0.f});
+        }
+    }
+
+    void MoveRight()
+    {
+        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
+        if (temp_mainchar == nullptr)
+        {
+            return;
+        }
+        if (temp_mainchar->mNumberID == 1)
+        {
+            temp_mainchar->addForce(Vec2<float>{10.f, 0.f});
+        }
     }
 
 } // Namespace LB
