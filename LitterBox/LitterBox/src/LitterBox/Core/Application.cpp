@@ -6,7 +6,7 @@ namespace LB {
 		// Setting up LitterBox Engine with the available systems
 		Engine = new LBEngine();
 
-		Time*					time			= new Time();
+		Time*					time			= new Time(100, 60);
 		InputSystem*			input			= new InputSystem();
 		ProfilerManager*		profiler		= new ProfilerManager();
 		FactorySystem*			factory			= new FactorySystem();
