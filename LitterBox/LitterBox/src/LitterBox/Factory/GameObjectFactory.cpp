@@ -116,12 +116,12 @@ namespace LB
 		return m_LastObjID;
 	}
 
-	GameObject* FactorySystem::SpawnGameObject()
+	GameObject* FactorySystem::SpawnGameObject(Vec2<float> pos)
 	{
-		return SpawnGameObject({});
+		return SpawnGameObject({}, pos);
 	}
 
-	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<std::string> components)
+	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<std::string> components, Vec2<float> pos)
 	{
 		// Creating the game object
 		GameObject* gameObj = FACTORY->CreateGameObject();
@@ -132,7 +132,8 @@ namespace LB
 
 		// Every gameobject must have a transform!!!
 		gameObj->AddComponent("CPTransform", FACTORY->GetCMs()["CPTransform"]->Create());
-	
+		gameObj->GetComponent<CPTransform>("CPTransform")->SetPosition(pos);
+
 		for (std::string component : components)
 		{
 			gameObj->AddComponent(component, FACTORY->GetCMs()[component]->Create());

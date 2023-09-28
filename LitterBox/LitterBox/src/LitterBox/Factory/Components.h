@@ -43,8 +43,6 @@ namespace LB
 	public:
 		void Initialise() override
 		{
-			pos.x = WINDOWSSYSTEM->GetWidth() * 0.5f;
-			pos.y = WINDOWSSYSTEM->GetHeight() * 0.5f;
 			std::cout << "Initialising Transform\n";
 		}
 		void Serialise() override

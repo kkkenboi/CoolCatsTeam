@@ -34,8 +34,8 @@ namespace LB
 		void DeleteAllCMs(std::map<std::string, ComponentMaker*> ComponentMakers);
 
 		// Use these functions to spawn game objects for now, TODO: refactor
-		GameObject* SpawnGameObject();
-		GameObject* SpawnGameObject(std::initializer_list<std::string> components);
+		GameObject* SpawnGameObject(Vec2<float> pos = { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f });
+		GameObject* SpawnGameObject(std::initializer_list<std::string> components, Vec2<float> pos = { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f });
 
 		// Creates a game object with a component list, if component list is empty, no components
 		// will be tied to the game object
