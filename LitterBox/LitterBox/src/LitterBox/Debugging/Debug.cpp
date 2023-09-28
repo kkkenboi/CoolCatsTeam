@@ -12,6 +12,9 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include <iostream>
 
+constexpr int CIRCLE_LINES{ 20 };
+constexpr float INCREMENT{ 2.f * (float)PI / (float)CIRCLE_LINES };
+
 namespace LB 
 {
 	Debugger* DEBUG = nullptr;
@@ -103,16 +106,13 @@ namespace LB
 		//-----------------Send data to GPU--------------
 	}
 
+	//TODO can remove the checking of debug type and just draw lines
 	void Debugger::Update() {
 		size_t index{ 0 };
 		while (drawobj.size()) {
 			//loop through object to 
-			switch (drawobj.top().type) {
-			case Debug_Types::LINE:
-				line_update(drawobj.top(), index);
-				index += 2;
-				break;
-			}
+			line_update(drawobj.top(), index);
+			index += 2;
 			drawobj.pop();
 		}
 
@@ -121,6 +121,9 @@ namespace LB
 		glVertexAttrib1f(4, -1.f);
 		glBindVertexArray(vao);
 		glDrawElements(GL_LINES, index, GL_UNSIGNED_SHORT, nullptr);
+
+		//DrawLine({ 450.f, 450.f }, { 600.f, 600.f }, {1.f,0.f,0.f,1.f});
+		DrawCircle({450.f, 450.f}, 30.f, {0.f,1.f,0.f,1.f});
 	}
 
 	void Debugger::SetColor(Vec4<float> color)
@@ -173,6 +176,22 @@ namespace LB
 	void Debugger::DrawBox(Vec2<float> center, float length)
 	{
 		DrawBox(center, length, m_drawColor);
+	}
+
+	void Debugger::DrawCircle(Vec2<float> center, float radius, Vec4<float> color)
+	{
+		//one angle for before
+		float bangle{ 0.f };
+		//one angle for after
+		float aangle{ bangle + INCREMENT };
+		//set each circle to have 20 lines
+		for (size_t i{ 0 }; i < CIRCLE_LINES; ++i) {
+			DrawLine({ center.x + radius * cosf(bangle), center.y + radius * sinf(bangle) },
+				{ center.x + radius * cosf(aangle), center.y + radius * sinf(aangle) },
+				color);
+			bangle = i + 1 * (float)INCREMENT;
+			aangle = bangle + INCREMENT;
+		}
 	}
 
 	void Debugger::Log(std::string const& message, const char* file, int line)
