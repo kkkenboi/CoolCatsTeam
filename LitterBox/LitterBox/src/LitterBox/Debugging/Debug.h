@@ -1,11 +1,10 @@
 /*!************************************************************************
- \file			Debug.h
- \author		Ang Jiawei Jarrett
- \par DP email: a.jiaweijarrett@digipen.edu
- \par Course:	CSD2401A
- \date			18-09-2023
+ \file				Debug.h
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \par Course:		CSD2401A
+ \date				18-09-2023
  \brief
-
  The functions in the Debug class include:
 
 **************************************************************************/

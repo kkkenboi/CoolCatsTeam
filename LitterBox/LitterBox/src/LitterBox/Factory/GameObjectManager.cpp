@@ -3,6 +3,12 @@
 
 namespace LB
 {
+	/***************************************************************************************************
+	*
+	* Game Object Manager
+	*
+	***************************************************************************************************/
+
 	GameObjectManager* GOMANAGER = nullptr;
 
 	GameObjectManager::GameObjectManager()
@@ -76,6 +82,11 @@ namespace LB
 		std::cout << "GOM destructed\n";
 	}
 
+	/***************************************************************************************************
+	*
+	* Game Object
+	*
+	***************************************************************************************************/
 	GameObject::GameObject(int ID) : m_Components{}, isActive{ false }, m_ID{ ID }
 	{
 		std::cout << "GO constructed\n";

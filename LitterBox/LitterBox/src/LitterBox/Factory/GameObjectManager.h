@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "LitterBox/Core/System.h"
+#include <initializer_list>
 
 namespace LB
 {
@@ -35,7 +36,6 @@ namespace LB
 	class GameObjectManager : public ISystem
 	{
 	public:
-
 		GameObjectManager();
 		void Destroy() override;
 
