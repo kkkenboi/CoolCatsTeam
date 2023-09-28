@@ -32,8 +32,8 @@ project "Sandbox"
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.FreeType}",
-        "%{IncludeDir.FMOD}"
-
+        "%{IncludeDir.FMOD}",
+        "%{IncludeDir.RapidJSON}"
     }
 
     postbuildcommands

@@ -46,7 +46,8 @@ project "LitterBox"
 
     libdirs
     {
-        "%{wks.location}/dependencies/FMOD/core/lib/x64"
+        "%{wks.location}/dependencies/FMOD/core/lib/x64",
+        "%{wks.location}/dependencies/FreeType/lib"
     }
 
     -- Links to libraries by providing their project's name
@@ -56,8 +57,8 @@ project "LitterBox"
         "Glad",
         "ImGui",
         "opengl32.lib",
-        "fmod_vc"
-        -- "FreeType"
+        "fmod_vc",
+        "freetype"
     }
 
     filter "system:windows"
