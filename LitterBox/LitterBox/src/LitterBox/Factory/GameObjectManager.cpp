@@ -82,52 +82,6 @@ namespace LB
 		std::cout << "GOM destructed\n";
 	}
 
-	void GameObjectManager::SpawnGameObject()
-	{
-		// Creating the game object
-		GameObject* gameObj = FACTORY->CreateGameObject();
-		if (gameObj->GetID() == 0) 		// ID only starts at 1
-		{
-			gameObj->SetID(FACTORY->GetLastObjID());
-		}
-
-		// Every gameobject must have a transform!!!
-		gameObj->AddComponent("CPTransform", FACTORY->GetCMs()["CPTransform"]->Create());
-		gameObj->StartComponents();
-
-		// Sends game object to the Game Object Manager
-		// For now, push back in the function to go manager,
-		// However, in the future we might need to change when we need to render a lot in one go
-		// or send a equal amount of game objects at one go
-		// Might be redundant too because we should initialize a pool at the start
-		GOMANAGER->AddGameObject(gameObj);
-	}
-
-	void GameObjectManager::SpawnGameObject(std::initializer_list<std::string> components)
-	{
-		// Creating the game object
-		GameObject* gameObj = FACTORY->CreateGameObject();
-		if (gameObj->GetID() == 0) 		// ID only starts at 1
-		{
-			gameObj->SetID(FACTORY->GetLastObjID());
-		}
-
-		// Every gameobject must have a transform!!!
-		gameObj->AddComponent("CPTransform", FACTORY->GetCMs()["CPTransform"]->Create());
-		for (std::string component : components)
-		{
-			gameObj->AddComponent(component, FACTORY->GetCMs()[component]->Create());
-		}
-		gameObj->StartComponents();
-
-		// Sends game object to the Game Object Manager
-		// For now, push back in the function to go manager,
-		// However, in the future we might need to change when we need to render a lot in one go
-		// or send a equal amount of game objects at one go
-		// Might be redundant too because we should initialize a pool at the start
-		GOMANAGER->AddGameObject(gameObj);
-	}
-
 	/***************************************************************************************************
 	*
 	* Game Object

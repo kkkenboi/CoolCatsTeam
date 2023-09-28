@@ -30,6 +30,7 @@ namespace LB {
 		Engine->AddSystem(physics);
 		Engine->AddSystem(memory);
 		Engine->AddSystem(debug);
+		Engine->AddSystem(sceneManager);
 
 		Engine->Initialize();
 
