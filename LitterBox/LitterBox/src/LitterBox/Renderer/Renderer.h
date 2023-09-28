@@ -173,54 +173,5 @@ namespace Renderer {
 	//A pointer to the system object in the core engine
 	//made to be singleton
 	extern RenderSystem* GRAPHICS;
-
-	//Render object is an object that will be exposed to the programmers in the level creator
-	//class CPRender : public LB::IComponent {
-	//private:
-	//	const Renderer_Types							renderer_id;
-	//	unsigned int									quad_id;
-	//	unsigned int									frame;
-	//	float											time_elapsed;
-	//	std::queue<std::pair<const Animation*, bool>>	animation;
-
-	//public:
-	//	vec2						position;
-	//	float						scal;
-	//	float						w;
-	//	float						h;
-	//	vec3						col;
-	//	std::array<vec2, 4>			uv; //bot left, bot right, top right, top left
-	//	int							texture;
-	//	bool						activated;
-
-	//	CPRender(
-	//		vec2 pos = { 0.f, 0.f }, 
-	//		float width = 1.f, 
-	//		float height = 1.f, 
-	//		float scale = 1.f, 
-	//		vec3 color = { 0.f,0.f,0.f }, 
-	//		std::array<vec2,4> uv = {}, 
-	//		int texture = -1, 
-	//		bool active = true,
-	//		Renderer_Types rend_type = Renderer_Types::RT_OBJECT);
-	//	~CPRender();
-	//	
-	//	inline const unsigned int get_index() const { return quad_id; }
-	//	inline const size_t get_queue_size() const { return animation.size(); }
-	//	inline const Renderer_Types get_r_type() const { return renderer_id; }
-
-	//	inline bool operator==(const CPRender& rhs) const {
-	//		return quad_id == rhs.quad_id;
-	//	}
-
-	//	void play_repeat(const std::string& name);
-	//	void play_next(const std::string& name);
-	//	void play_now(const std::string& name);
-
-	//	inline void get_transform_data() {  };
-
-	//	void animate();
-	//};
-
 	//------------------------------------------------RENDERING SPECIFIC------------------------------------------------
 }

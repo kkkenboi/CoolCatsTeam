@@ -72,9 +72,6 @@ namespace LB
 	    glBindTextureUnit(0 + i, Textures.find(textureName)->second.first->id);
 	    TextureSlots[i] = true;
 
-
-	    std::cout << "Texture index: " << i << std::endl;
-
 	return true;
     }
 }

@@ -144,6 +144,7 @@ namespace LB
 		void play_repeat(const std::string& name);
 		void play_next(const std::string& name);
 		void play_now(const std::string& name);
+		void stop_anim();
 
 		void UpdateTexture(int _texture)
 		{

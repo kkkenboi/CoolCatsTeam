@@ -122,6 +122,7 @@ LB::CPRender::~CPRender()
 	Renderer::GRAPHICS->remove_object(renderer_id, this);
 }
 
+//########################ANIMATION##############################
 void LB::CPRender::play_repeat(const std::string& name)
 {
 	const Renderer::Animation* anim{ Renderer::GRAPHICS->get_anim(name) };
@@ -158,6 +159,12 @@ void LB::CPRender::play_now(const std::string& name)
 	}
 }
 
+void LB::CPRender::stop_anim()
+{
+	while (animation.size())
+		animation.pop();
+}
+
 void LB::CPRender::animate()
 {
 	//increment time elapsed
@@ -184,6 +191,7 @@ void LB::CPRender::animate()
 
 	uv = *animation.front().first->get_uv(frame);
 }
+//########################ANIMATION##############################
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
 
 //----------------------------------------------RENDERER---------------------------------------------------
@@ -408,9 +416,7 @@ void Renderer::Renderer::update_buff(Renderer_Types r_type)
 //render objects
 Renderer::RenderSystem* Renderer::GRAPHICS = nullptr;
 
-LB::CPRender* testobj;
 LB::CPRender* test2;
-Renderer::Texture* again;
 
 Renderer::RenderSystem::RenderSystem() :
 	object_renderer{Renderer_Types::RT_OBJECT},
@@ -429,46 +435,28 @@ Renderer::RenderSystem::RenderSystem() :
 	glUseProgram(shader_program);
 	glBindVertexArray(object_renderer.get_vao());
 
-	//-################TEST CODE REMOVE AFTER##########################
+	//-################FOR BACKGROUND##########################
 	//cache some values
 	float midx = (float)LB::WINDOWSSYSTEM->GetWidth() * 0.5f;
 	float midy = (float)LB::WINDOWSSYSTEM->GetHeight() * 0.5f;
 	float w = (float)LB::WINDOWSSYSTEM->GetWidth();
 	float h = (float)LB::WINDOWSSYSTEM->GetHeight();
-
-	std::cout << "Before: " << bg_renderer.get_ao_size();
-	//testobj = new LB::CPRender{{800.f, 450.f}, 100.f, 100.f };
+	
 	test2 = new LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
-	/*test2 = new render_Object[2500];
-	for (int y{ 0 }; y < 50; ++y)
-		for (int x{ 0 }; x < 50; ++x) {
-			test2[x + y * 50].position = { x * 32.f + 15.f, y * 18.f + 10.f };
-			test2[x + y * 50].w = 10.f;
-			test2[x + y * 50].h = 10.f;
-		}*/
 
-	//t_Manager.add_texture("../Assets/Textures/test.png", "test");
-	//t_Manager.add_texture("../Assets/Textures/test2.png", "logo");
 	t_Manager.add_texture("../Assets/Textures/test3.png", "pine");
-	t_Manager.add_texture("../Assets/Textures/walk.png", "run");
 	t_Manager.add_texture("../Assets/Textures/Environment_Background.png", "bg");
-	//testobj->texture = t_Manager.get_texture_index("run");
-	//testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
 
-	//test2->texture = t_Manager.get_texture_index("bg");
 	test2->texture = LB::ASSETMANAGER->GetTextureIndex("bg");
-	test2->uv[0].x = 0.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[0].y = 0.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[1].x = 1.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[1].y = 0.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[2].x = 1.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[2].y = 1.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[3].x = 0.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[3].y = 1.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	std::cout << " After: " << bg_renderer.get_ao_size() << std::endl;
-	//-################TEST CODE REMOVE AFTER##########################
-	//a_Manager.load_anim("running down", frames[0].data(), .5f, 12);
-	//testobj->play_repeat("running down");
+	test2->uv[0].x = 0.f;
+	test2->uv[0].y = 0.f;
+	test2->uv[1].x = 1.f;
+	test2->uv[1].y = 0.f;
+	test2->uv[2].x = 1.f;
+	test2->uv[2].y = 1.f;
+	test2->uv[3].x = 0.f;
+	test2->uv[3].y = 1.f;
+	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -574,30 +562,11 @@ Renderer::Texture::~Texture()
 
 bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
 {
-	//if (textures.size() >= 32) {
-	//	std::cerr << "Maximum textures reached" << std::endl;
-	//	return false;
-	//}
-	////TODO Change system to accomodate for free type texture units
-	////Loop through to get the first free unit slot available
-	//int i{ 2 };
-	//for (; i < 32; ++i) {
-	//	if (!free[i])
-	//		break;
-	//}
-
-	//textures.emplace(std::make_pair(name, std::make_pair(new Texture{ file_path }, i)));
-	////getting the pair then the texture id
-	//glBindTextureUnit(0 + i, textures.find(name)->second.first->get_tex());
-	//free[i] = true;
 	LB::ASSETMANAGER->AddTexture(file_path, name);
 
 	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
 	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 	glUniform1iv(uni_loc, 13, test);
-
-
-	//std::cout << "Texture index: " << i << std::endl;
 
 	return true;
 }

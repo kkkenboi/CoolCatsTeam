@@ -74,10 +74,6 @@ namespace LB
 		shader_source shd_pgm{ shader_parser("../Assets/Shaders/Basic.shader") };
 		shader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
-		std::cout << "STACK SIZE BEFORE: " << drawobj.size();
-		DrawLine({ 30.f, 30.f }, { 60.f, 60.f }, { 0.f, 1.f, 0.f, 1.f });
-		std::cout << " STACK AFTER: " << drawobj.size() << std::endl;
-
 		glLineWidth(5.f);
 	}
 
