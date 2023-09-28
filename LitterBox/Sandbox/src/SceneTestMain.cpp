@@ -74,6 +74,8 @@ void SceneTestMain::Init()
 			}
 	}
 
+	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
 
@@ -81,6 +83,7 @@ void SceneTestMain::Init()
 	test2 = FACTORY->SpawnGameObject({ "CPRender" });
 	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
 	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
@@ -117,6 +120,10 @@ void SceneTestMain::Init()
 
 	static_wall = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" }, Vec2<float>(200, 600));
 	static_wall->GetComponent<CPRigidBody>("CPRigidBody")->isStatic = true;
+
+	JSONSerializer stream;
+	stream.DeserializeFromFile("TestObject", *testPlayer->playerObj);
+	std::cout << testPlayer->playerObj->GetComponent<CPTransform>("CPTransform")->GetPosition().ToString();
 }
 
 void SceneTestMain::Update()
@@ -135,4 +142,6 @@ void SceneTestMain::Update()
 void SceneTestMain::Destroy()
 {
 	//delete testPlayer;
+	JSONSerializer stream;
+	stream.SerializeToFile("TestObject", *testPlayer->playerObj);
 }

@@ -199,13 +199,35 @@ namespace LB
 		m_Components[name] = component;
 	}
 
-	/*!***********************************************************************
-	 \brief
+	bool GameObject::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+	
+		if (m_Components.find("CPTransform") != m_Components.end())
+		{
+			data.SetObject();
+			Value TransfromComponent;
+			m_Components["CPTransform"]->Serialize(TransfromComponent, alloc);
+			data.AddMember("Transform", TransfromComponent, alloc);
+			return true;
+		}
+		return false;
+	}
 
+	bool GameObject::Deserialize(const Value& data)
+	{
+		bool HasTransform = data.HasMember("Transform");
+		if (data.IsObject())
+		{
+			if (HasTransform)
+			{
+				const Value& transformValue = data["Transform"];
+				m_Components["CPTransform"]->Deserialize(transformValue);
+				return true;
+			}
+		}
+		return false;
+	}
 
-	 \return
-
-	*************************************************************************/
 	void GameObject::StartComponents()
 	{
 		for (auto const& component : m_Components)

@@ -12,6 +12,7 @@
 #include "pch.h"
 #include "LitterBox/Core/System.h"
 #include <initializer_list>
+#include "LitterBox/Serialization/Serializer.h"
 
 namespace LB
 {
@@ -62,11 +63,8 @@ namespace LB
 
 		*************************************************************************/
 		void AddComponent(std::string name, IComponent* component);
-
-		/*!***********************************************************************
-		 \brief
-
-		*************************************************************************/
+		bool Serialize(Value&, Document::AllocatorType&);
+		bool Deserialize(const Value&);
 		void StartComponents();
 
 		/*!***********************************************************************

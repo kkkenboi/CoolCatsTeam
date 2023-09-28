@@ -6,6 +6,7 @@
 #include "LitterBox/Physics/Collisions.h"
 #include "LitterBox/Renderer/ForwardDeclerators.h"
 #include "Platform/Windows/Windows.h"
+#include "LitterBox/Serialization/Serializer.h"
 #include <queue>
 //#include "LitterBox/Physics/RigidBody.h"
 
@@ -25,9 +26,9 @@ namespace LB
 	{
 	public:
 		virtual void Initialise() {};
-		virtual void Serialise() {};
 		virtual void Update() {};
-		virtual void Deserialise() {};
+		virtual bool Serialize(Value&, Document::AllocatorType&) { return false; };
+		virtual bool Deserialize(const Value&) { return false; };
 		virtual void Destroy() {};
 		// To destruct all other derived components
 
@@ -45,13 +46,45 @@ namespace LB
 		{
 			std::cout << "Initialising Transform\n";
 		}
-		void Serialise() override
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
 			std::cout << "Serialising Transform\n";
+			data.SetObject();
+			Value PositionValue;
+			if (pos.Serialize(PositionValue, alloc))
+			{
+				data.AddMember("Position", PositionValue, alloc);
+			}
+			else return false;
+			Value ScaleValue;
+			if (scale.Serialize(ScaleValue, alloc))
+			{
+				data.AddMember("Scale", ScaleValue, alloc);
+			}
+			else return false;
+			data.AddMember("Rotation", angle, alloc);
+			return true;
 		}
-		void Deserialise() override
+		bool Deserialize(const Value& data) override
 		{
+			bool HasPosition = data.HasMember("Position");
+			bool HasScale = data.HasMember("Scale");
+			bool HasRot = data.HasMember("Rotation");
 			std::cout << "Deserialising Transform\n";
+			if (data.IsObject())
+			{
+				if (HasPosition && HasScale && HasRot)
+				{
+					const Value& positionValue = data["Position"];
+					const Value& scaleValue = data["Scale"];
+					const Value& rotationValue = data["Rotation"];
+					pos.Deserialize(positionValue);
+					scale.Deserialize(scaleValue);
+					angle = rotationValue.GetFloat();
+					return true;
+				}
+			}
+			return false;
 		}
 		void Destroy() override
 		{
@@ -131,6 +164,14 @@ namespace LB
 		void Initialise() override {
 			transform = gameObj->GetComponent<CPTransform>("CPTransform");
 			initialized = true;
+		}
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override
+		{
+			return true;
+		}
+		bool Deserialize(const Value& data) override
+		{
+			return false;
 		}
 
 		inline const unsigned int get_index() const { return quad_id; }
@@ -237,7 +278,14 @@ namespace LB
 		}
 
 		void CreateRigidBody ();
-
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override
+		{
+			return true;
+		}
+		bool Deserialize(const Value& data) override
+		{
+			return false;
+		}
 
 	public:
 
