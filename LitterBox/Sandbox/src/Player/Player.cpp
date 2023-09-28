@@ -44,14 +44,14 @@ void MoveDown()
 void SpawnPineapples()
 {
 	GameObject* clones = FACTORY->SpawnGameObject(ASSETMANAGER->PineappleObject);
-	for (int i{ 0 }; i < 5; ++i)
-	{
-		clones->GetComponent<CPRigidBody>("CPRigidBody")->mNumberID;
-		//clones->GetComponent<CPRigidBody>("CPRigidBody")->isStatic = true;
-		//clones->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
-	}
-	clones->GetComponent<CPRender>("CPRender")->resetState();
-	clones->StartComponents();
+	//for (int i{ 0 }; i < 5; ++i)
+	//{
+	//	clones->GetComponent<CPRigidBody>("CPRigidBody")->mNumberID;
+	//	//clones->GetComponent<CPRigidBody>("CPRigidBody")->isStatic = true;
+	//	//clones->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+	//}
+	//clones->GetComponent<CPRender>("CPRender")->resetState();
+	//clones->StartComponents();
 	//GameObject* pClones = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" });
 
 	//pClones->GetComponent<CPTransform>("CPTransform")->SetPosition(ASSETMANAGER->PineappleObject->GetComponent<CPTransform>("CPTransform")->GetPosition());
