@@ -1,5 +1,4 @@
 #include "LitterBox.h"
-
 #include <LitterBox/Core/EntryPoint.h>
 
 class Editor : public LB::Application

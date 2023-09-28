@@ -25,8 +25,8 @@ project "LitterBox"
 
     defines
     {
-        "_CRT_SECURE_NO_WARNINGS",
-        "UNREFERENCED_PARAMETER"
+        -- "_CRT_SECURE_NO_WARNINGS",
+        -- "UNREFERENCED_PARAMETER"
     }
 
     -- Includes for any additional directories/dependencies for this project
