@@ -55,7 +55,7 @@ namespace LB
 		void DrawLine(Vec2<float> start, Vec2<float> end);
 
 		void DrawBox(Vec2<float> center, float length, Vec4<float> color);
-		void DrawBox(Vec2<float> center, float width, float height, Vec4<float> color);
+		void DrawBox(Vec2<float> center, float width, float height, Vec4<float> color, float rot);
 		void DrawBox(Vec2<float> center, float length);
 		void DrawCircle(Vec2<float> center, float radius, Vec4<float> color);
 

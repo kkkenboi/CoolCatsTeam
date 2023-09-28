@@ -12,8 +12,13 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include <iostream>
 
+//-----------------Pre-defines------------------------------
 constexpr int CIRCLE_LINES{ 20 };
 constexpr float INCREMENT{ 2.f * (float)PI / (float)CIRCLE_LINES };
+
+float wid_div;// { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
+float height_div;// { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
+//-----------------Pre-defines------------------------------
 
 namespace LB 
 {
@@ -35,6 +40,9 @@ namespace LB
 	//TODO modulate the vertex size
 	//vertex size should = min 3000 x 4 (number of quads in render object)
 	void Debugger::Initialize() {
+		wid_div = { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
+		height_div = { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
+
 		SetSystemName("Debug System");
 		//assume we have one index per vertex
 		idx.resize(12000);
@@ -80,6 +88,7 @@ namespace LB
 	//send the index to gpu
 	void Debugger::line_update(Debug_Object& obj, const size_t& index) {
 		//-----------------Matrix projection of start point--------------
+		
 		glm::vec4 start_point{ obj.center.x, obj.center.y, 0.f, 1.f };
 		start_point = cam.world_NDC * start_point;
 		obj.center.x = start_point.x;
@@ -121,9 +130,6 @@ namespace LB
 		glVertexAttrib1f(4, -1.f);
 		glBindVertexArray(vao);
 		glDrawElements(GL_LINES, index, GL_UNSIGNED_SHORT, nullptr);
-
-		//DrawLine({ 450.f, 450.f }, { 600.f, 600.f }, {1.f,0.f,0.f,1.f});
-		DrawCircle({450.f, 450.f}, 30.f, {0.f,1.f,0.f,1.f});
 	}
 
 	void Debugger::SetColor(Vec4<float> color)
@@ -142,7 +148,7 @@ namespace LB
 
 	void Debugger::DrawLine(Vec2<float> start, Vec2<float> end)
 	{
-		DrawLine(start, end, m_drawColor);
+		//DrawLine(start, end, m_drawColor);
 	}
 
 	void Debugger::DrawBox(Vec2<float> center, float length, Vec4<float> color)
@@ -152,19 +158,36 @@ namespace LB
 		UNREFERENCED_PARAMETER(color);
 	}
 
-	void Debugger::DrawBox(Vec2<float> center, float width, float height, Vec4<float> color)
+	void Debugger::DrawBox(Vec2<float> center, float width, float height, Vec4<float> color, float rot)
 	{
+		//rotation matrix
+		glm::mat4 rotation{
+			cosf(rot),sinf(rot),0.f,0.f,
+			-sinf(rot),cosf(rot),0.f,0.f,
+			0.f,0.f,1.f,0.f,
+			0.f,0.f,0.f,1.f
+		};
+		//matrix to convert the world coord to NDC
+		glm::mat4 translate{1.f};
+		translate[3][0] = center.x;
+		translate[3][1] = center.y;
+
+		glm::mat4 scale{ 1.f };
+		scale[0][0] = width;
+		scale[1][1] = height;
+
 		debug_vertex data[4]{}; //bot left, bot right, top right, top left
 		//-------------Matrix Projection of four points-----------------
 		glm::vec4 point[4]{
-			{center.x - width * 0.5f, center.y - height * 0.5f, 0.f, 1.f},//bottom left
-			{center.x + width * 0.5f, center.y - height * 0.5f, 0.f, 1.f}, //bottom right
-			{center.x + width * 0.5f, center.y + height * 0.5f, 0.f, 1.f}, //top right
-			{center.x - width * 0.5f, center.y + height * 0.5f, 0.f, 1.f} //top left
+			{-0.5f, -0.5f, 0.f, 1.f},//bottom left
+			{0.5f, -0.5f, 0.f, 1.f}, //bottom right
+			{0.5f, 0.5f, 0.f, 1.f}, //top right
+			{-0.5f, 0.5f, 0.f, 1.f} //top left
 		};
 
 		for (int i{ 0 }; i < 4; ++i) {
-			data[i].pos = { point[i].x, point[i].y };
+			glm::vec4 pos{ translate * rotation * scale * point[i] };
+			data[i].pos = { pos.x, pos.y };
 			data[i].col = color;
 		}
 		DrawLine(data[0].pos, data[1].pos, color);
