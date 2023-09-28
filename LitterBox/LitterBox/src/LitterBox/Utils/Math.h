@@ -1,36 +1,30 @@
 /*!************************************************************************
- \file			Math.h
- \author		Vanessa Chua Siew Jin, Justine
- \par DP email: vanessasiewjin.chua\@digipen.edu, justine.c@digipen.edu
- \par Course:	CSD2401A
- \date			24-09-2023
+ \file				Math.h
+ \author(s)			Vanessa Chua Siew Jin, Carlo Villa Ilao Justine
+ \par DP email(s):	vanessasiewjin.chua@digipen.edu, justine.c@digipen.edu
+ \par Course:		CSD2401A
+ \date				24-09-2023
  \brief
+ The functions in the Math class include:
 
 **************************************************************************/
 
 #pragma once
-#include <cmath> // For sin, cos, sqrt
-#include <string>//for custom to string functions
-#include "../../dependencies/RapidJSON/include/rapidjson.h"
+#include <cmath>		// For sin, cos, sqrt
+#include <string>		//for custom to string functions
+#include "../../dependencies/RapidJSON/include/rapidjson.h" // For serialization
 #include "../../dependencies/RapidJSON/include/document.h"
-//#include "LitterBox/Serialization/Serializer.h"
-
-
 
 namespace LB 
 {
-	#define PI 3.14159265358979323846
-
-	/***********************************************************************/
-	//Justine's
+	#define PI 3.14159265358979323846 // Used for rotation
+	
 	template <typename T>
 	T Clamp(T value, T min, T max);
-	/***********************************************************************/
 
 	/***************************************************************************************************
 	*
-	* Vec 2
-	* 
+	* Vec 2 declaration
 	*
 	***************************************************************************************************/
 
