@@ -151,7 +151,10 @@ namespace LB {
 	*************************************************************************/
 	void Time::AccumulateFixedUpdate()
 	{
-		m_accumulatedTime += m_unscaledDeltaTime;
+		if (!IsPaused())
+		{
+			m_accumulatedTime += m_unscaledDeltaTime;
+		}
 	}
 
 	/*!***********************************************************************
@@ -284,8 +287,22 @@ namespace LB {
 	*************************************************************************/
 	void Time::Pause(bool shouldPause) 
 	{
-		UNREFERENCED_PARAMETER(shouldPause);
+		if (!IsPaused() && shouldPause)
+		{
+			m_timeScaleBeforePause = m_timeScale;
+			m_timeScale = 0.0;
+		}
+		else if (IsPaused() && !shouldPause)
+		{
+			m_timeScale = m_timeScaleBeforePause;
+		}
 	}
+
+	bool Time::IsPaused()
+	{
+		return m_timeScale == 0.0;
+	}
+
 
 	/*!***********************************************************************
 	 \brief

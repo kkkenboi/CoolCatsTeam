@@ -11,6 +11,13 @@ Player* testPlayer;
 //TODO for even later, make an editor that can select custom uv
 std::array<std::array<LB::Vec2<float>, 4>, 12> frames[4];
 
+bool paused = false;
+void TogglePause()
+{
+	paused = !paused;
+	TIME->Pause(paused);
+}
+
 //------------------------------MOVEMENT and ANIMATION FUNCTION TEST--------------------------------
 void func() {
 	Vec2<float> position = animObj->GetComponent<CPTransform>("CPTransform")->GetPosition();
@@ -105,6 +112,8 @@ void SceneTestMain::Init()
 	LB::INPUT->SubscribeToKey(left_trig, LB::KeyCode::KEY_A,LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(up_trig, LB::KeyCode::KEY_W,LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(down_trig, LB::KeyCode::KEY_S,LB::KeyEvent::TRIGGERED);
+
+	LB::INPUT->SubscribeToKey(TogglePause, KeyCode::KEY_U, LB::KeyEvent::TRIGGERED);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Player example

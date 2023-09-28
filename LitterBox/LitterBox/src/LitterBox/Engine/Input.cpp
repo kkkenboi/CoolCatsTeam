@@ -9,6 +9,7 @@
 **************************************************************************/
 
 #include "Input.h"
+#include "LitterBox/Engine/Time.h"
 
 namespace LB
 {
@@ -53,6 +54,8 @@ namespace LB
 		UNREFERENCED_PARAMETER(pwin);
 		UNREFERENCED_PARAMETER(scancode);
 		UNREFERENCED_PARAMETER(mod);
+
+		if (TIME->IsPaused() && (KeyCode)key != KeyCode::KEY_U) return;
 
 		//all the functions subscribe
 		if (action == GLFW_PRESS)
