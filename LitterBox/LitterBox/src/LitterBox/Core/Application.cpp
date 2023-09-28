@@ -14,6 +14,7 @@ namespace LB {
 		GameObjectManager*		gameManager		= new GameObjectManager();
 		GameLogic*				logic			= new GameLogic();
 		RigidBodyManager*		physics			= new RigidBodyManager();
+		AssetManager*			assetManager	= new AssetManager();
 		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
 		Memory*					memory			= new Memory();
 		Debugger*				debug			= new Debugger();
@@ -25,6 +26,7 @@ namespace LB {
 		Engine->AddSystem(factory);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(gameManager);
+		Engine->AddSystem(assetManager);
 		Engine->AddSystem(graphics);
 		Engine->AddSystem(logic);
 		Engine->AddSystem(physics);

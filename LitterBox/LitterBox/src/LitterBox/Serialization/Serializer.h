@@ -1,19 +1,23 @@
 #pragma once
-//#include "rapidjson.h"
-#include "../../dependencies/RapidJSON/include/rapidjson.h"
+//CRUCIAL FOR RAPID JSON
+#include "../../dependencies/RapidJSON/include/rapidjson.h" 
 #include "../../dependencies/RapidJSON/include/document.h"
+
+//READ AND WRITING HEADERS FOR JSON
 #include "../../dependencies/RapidJSON/include/writer.h"
 #include "../../dependencies/RapidJSON/include/stringbuffer.h"
 #include "../../dependencies/RapidJSON/include/stream.h"
 #include "../../dependencies/RapidJSON/include/prettywriter.h"
 #include "../../dependencies/RapidJSON/include/filereadstream.h"
 #include "../../dependencies/RapidJSON/include/filewritestream.h"
+
+//UTILITY HEADERS FOR FILE IO
 #include <string>
 #include <fstream>
-#include <unordered_map>
-#include "LitterBox/Debugging/Debug.h"
+#include <unordered_map> //used to store the filepath maps
+#include "LitterBox/Debugging/Debug.h"	//used to log any errors
 
-using namespace rapidjson;
+using namespace rapidjson;	//makes it easy to use rapidjson stuff
 
 namespace LB
 {
@@ -43,7 +47,7 @@ namespace LB
 			//We instantiate none to be an empty string
 			fileDestinationMap[FILEDESTINATION::NONE];
 			Document _jsonFile = GetJSONFile("filepaths.json");
-			Document::AllocatorType& allocator = _jsonFile.GetAllocator();
+			//Document::AllocatorType& allocator = _jsonFile.GetAllocator();
 			//Avert your gaze! somehow rapidjson only takes in const char*
 			//Can't use strings or any other thing for some reason ;__;
 			if (_jsonFile.IsObject())
@@ -51,6 +55,7 @@ namespace LB
 				//The idea here is that we literally just check if the filepath exists
 				//The format in the json should be something like
 				//"EDITOR" : "/editor/File/Path"
+				//Note that in the future, FindMember should be used instead...
 				if (_jsonFile.HasMember("EDITOR"))
 				{
 					filepathNames["EDITOR"] = _jsonFile["EDITOR"].GetString();
@@ -100,7 +105,7 @@ namespace LB
 				for (auto elem : fileDestinationMap)
 				{
 					//Just to double check that we stored the filepaths to the map correctly
-					DebuggerLog(elem.second);
+					//DebuggerLog(elem.second);
 				}
 			}
 		}
@@ -148,7 +153,7 @@ namespace LB
 			case FILEDESTINATION::APPDATA:
 				return "APPDATA";
 			default:
-				DebuggerLogWarning("FILEDESTINATION DOES NOT EXIST!");
+				//DebuggerLogWarning("FILEDESTINATION DOES NOT EXIST!");
 				return "";
 			}
 		}
@@ -181,7 +186,9 @@ namespace LB
 		void DeserializeFromFile(const std::string& fileName, T& typeToDeserialize,FILEDESTINATION filePath = FILEDESTINATION::NONE)
 		{
 			//Get the file, then deserialize! magic
-			std::cout << "Joe: " << fileDestinationMap[filePath] + fileName + ".json\n";
+			std::string fullFilePath{ fileDestinationMap[filePath] + fileName + ".json" };
+			DebuggerLog("Getting file from : " + fullFilePath);
+			//std::cout << "Joe: " << fileDestinationMap[filePath] + fileName + ".json\n";
 			jsonFile = GetJSONFile(fileDestinationMap[filePath] + fileName + ".json");
 			typeToDeserialize.Deserialize(jsonFile);
 		}
@@ -202,8 +209,7 @@ namespace LB
 			Document _jsonFile;
 			std::ifstream inputFile(filePath);
 			//Assert if it's NOT open
-			DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
-			/*if (!inputFile) { debugger }*///throw some error maybe
+			//DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
 			std::string jsonString((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
 			inputFile.close();
 			if (_jsonFile.Parse(jsonString.c_str()).HasParseError()) {}
