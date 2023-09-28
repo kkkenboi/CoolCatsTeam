@@ -12,6 +12,14 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include <iostream>
 
+//-----------------Pre-defines------------------------------
+constexpr int CIRCLE_LINES{ 20 };
+constexpr float INCREMENT{ 2.f * (float)PI / (float)CIRCLE_LINES };
+
+float wid_div;// { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
+float height_div;// { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
+//-----------------Pre-defines------------------------------
+
 namespace LB 
 {
 	Debugger* DEBUG = nullptr;
@@ -32,6 +40,9 @@ namespace LB
 	//TODO modulate the vertex size
 	//vertex size should = min 3000 x 4 (number of quads in render object)
 	void Debugger::Initialize() {
+		wid_div = { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
+		height_div = { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
+
 		SetSystemName("Debug System");
 		//assume we have one index per vertex
 		idx.resize(12000);
@@ -63,10 +74,6 @@ namespace LB
 		shader_source shd_pgm{ shader_parser("../Assets/Shaders/Basic.shader") };
 		shader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
-		std::cout << "STACK SIZE BEFORE: " << drawobj.size();
-		DrawLine({ 30.f, 30.f }, { 60.f, 60.f }, { 0.f, 1.f, 0.f, 1.f });
-		std::cout << " STACK AFTER: " << drawobj.size() << std::endl;
-
 		glLineWidth(5.f);
 	}
 
@@ -77,6 +84,7 @@ namespace LB
 	//send the index to gpu
 	void Debugger::line_update(Debug_Object& obj, const size_t& index) {
 		//-----------------Matrix projection of start point--------------
+		
 		glm::vec4 start_point{ obj.center.x, obj.center.y, 0.f, 1.f };
 		start_point = cam.world_NDC * start_point;
 		obj.center.x = start_point.x;
@@ -103,16 +111,13 @@ namespace LB
 		//-----------------Send data to GPU--------------
 	}
 
+	//TODO can remove the checking of debug type and just draw lines
 	void Debugger::Update() {
 		size_t index{ 0 };
 		while (drawobj.size()) {
 			//loop through object to 
-			switch (drawobj.top().type) {
-			case Debug_Types::LINE:
-				line_update(drawobj.top(), index);
-				index += 2;
-				break;
-			}
+			line_update(drawobj.top(), index);
+			index += 2;
 			drawobj.pop();
 		}
 
@@ -137,9 +142,15 @@ namespace LB
 			color });
 	}
 
-	void Debugger::DrawLine(Vec2<float> start, Vec2<float> end)
+	void Debugger::DrawLine(Vec2<float> start, Vec2<float> direction, float magnitude, Vec4<float> color)
 	{
-		DrawLine(start, end, m_drawColor);
+		direction.x = direction.x * magnitude;
+		direction.y = direction.y * magnitude;
+
+		direction.x = direction.x + start.x;
+		direction.y = direction.y + start.y;
+
+		DrawLine(start, direction, color);
 	}
 
 	void Debugger::DrawBox(Vec2<float> center, float length, Vec4<float> color)
@@ -149,19 +160,36 @@ namespace LB
 		UNREFERENCED_PARAMETER(color);
 	}
 
-	void Debugger::DrawBox(Vec2<float> center, float width, float height, Vec4<float> color)
+	void Debugger::DrawBox(Vec2<float> center, float width, float height, Vec4<float> color, float rot)
 	{
+		//rotation matrix
+		glm::mat4 rotation{
+			cosf(rot),sinf(rot),0.f,0.f,
+			-sinf(rot),cosf(rot),0.f,0.f,
+			0.f,0.f,1.f,0.f,
+			0.f,0.f,0.f,1.f
+		};
+		//matrix to convert the world coord to NDC
+		glm::mat4 translate{1.f};
+		translate[3][0] = center.x;
+		translate[3][1] = center.y;
+
+		glm::mat4 scale{ 1.f };
+		scale[0][0] = width;
+		scale[1][1] = height;
+
 		debug_vertex data[4]{}; //bot left, bot right, top right, top left
 		//-------------Matrix Projection of four points-----------------
 		glm::vec4 point[4]{
-			{center.x - width * 0.5f, center.y - height * 0.5f, 0.f, 1.f},//bottom left
-			{center.x + width * 0.5f, center.y - height * 0.5f, 0.f, 1.f}, //bottom right
-			{center.x + width * 0.5f, center.y + height * 0.5f, 0.f, 1.f}, //top right
-			{center.x - width * 0.5f, center.y + height * 0.5f, 0.f, 1.f} //top left
+			{-0.5f, -0.5f, 0.f, 1.f},//bottom left
+			{0.5f, -0.5f, 0.f, 1.f}, //bottom right
+			{0.5f, 0.5f, 0.f, 1.f}, //top right
+			{-0.5f, 0.5f, 0.f, 1.f} //top left
 		};
 
 		for (int i{ 0 }; i < 4; ++i) {
-			data[i].pos = { point[i].x, point[i].y };
+			glm::vec4 pos{ translate * rotation * scale * point[i] };
+			data[i].pos = { pos.x, pos.y };
 			data[i].col = color;
 		}
 		DrawLine(data[0].pos, data[1].pos, color);
@@ -173,6 +201,22 @@ namespace LB
 	void Debugger::DrawBox(Vec2<float> center, float length)
 	{
 		DrawBox(center, length, m_drawColor);
+	}
+
+	void Debugger::DrawCircle(Vec2<float> center, float radius, Vec4<float> color)
+	{
+		//one angle for before
+		float bangle{ 0.f };
+		//one angle for after
+		float aangle{ bangle + INCREMENT };
+		//set each circle to have 20 lines
+		for (size_t i{ 0 }; i < CIRCLE_LINES; ++i) {
+			DrawLine({ center.x + radius * cosf(bangle), center.y + radius * sinf(bangle) },
+				{ center.x + radius * cosf(aangle), center.y + radius * sinf(aangle) },
+				color);
+			bangle = i + 1 * (float)INCREMENT;
+			aangle = bangle + INCREMENT;
+		}
 	}
 
 	void Debugger::Log(std::string const& message, const char* file, int line)

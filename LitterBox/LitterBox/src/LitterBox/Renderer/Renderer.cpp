@@ -85,10 +85,6 @@ unsigned int create_shader(const char* vertex_shader, const char* fragment_shade
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
 
 //---------------------------------------ANIMATIONS-------------------------------------
-//place holder animations
-//TODO convert these to serialization
-//TODO for even later, make an editor that can select custom uv
-std::array<std::array<LB::Vec2<float>, 4>, 12> frames[4];
 
 //TODO for array of UV data for serialization probably gonna need to store data on heap
 
@@ -102,15 +98,15 @@ LB::CPRender::CPRender(
 	Vec2<float>	 pos,
 	float width,
 	float height,
-	float scale,
+	Vec2<float> scale,
 	Vec3<float>	 color,
 	std::array<Vec2<float>, 4> uv,
 	int texture,
 	bool active,
 	Renderer::Renderer_Types rend_type) :
-	renderer_id{ rend_type }, position {pos}, scal{ scale }, w{ width }, h{ height },
+	renderer_id{ rend_type }, position{ pos }, scal{ scale }, w{ width }, h{ height },
 	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ texture },
-	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }
+	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }, rotation{ 0.f }, transform{nullptr}
 {
 	if (!Renderer::GRAPHICS) {
 		std::cerr << "GRAPHICS SYSTEM NOT INITIALIZED" << std::endl;
@@ -126,6 +122,7 @@ LB::CPRender::~CPRender()
 	Renderer::GRAPHICS->remove_object(renderer_id, this);
 }
 
+//########################ANIMATION##############################
 void LB::CPRender::play_repeat(const std::string& name)
 {
 	const Renderer::Animation* anim{ Renderer::GRAPHICS->get_anim(name) };
@@ -162,6 +159,12 @@ void LB::CPRender::play_now(const std::string& name)
 	}
 }
 
+void LB::CPRender::stop_anim()
+{
+	while (animation.size())
+		animation.pop();
+}
+
 void LB::CPRender::animate()
 {
 	//increment time elapsed
@@ -188,6 +191,7 @@ void LB::CPRender::animate()
 
 	uv = *animation.front().first->get_uv(frame);
 }
+//########################ANIMATION##############################
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
 
 //----------------------------------------------RENDERER---------------------------------------------------
@@ -283,23 +287,11 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 		return i;
 	}
 
-	//cache width and height values
-	float x_pos{ obj->w * 0.5f * obj->scal };
-	float y_pos{ obj->h * 0.5f * obj->scal };
-
 	//set position of quad
-	quad_buff[i].data[0].pos = { obj->position.x - x_pos, obj->position.y - y_pos };//bottom left
-	quad_buff[i].data[1].pos = { obj->position.x + x_pos, obj->position.y - y_pos };//bottom right
-	quad_buff[i].data[2].pos = { obj->position.x + x_pos, obj->position.y + y_pos };//top right
-	quad_buff[i].data[3].pos = { obj->position.x - x_pos, obj->position.y + y_pos };//top left
-
-	for (int j{ 0 }; j < 4; ++j) {
-		glm::vec4 pos{ quad_buff[i].data[j].pos.x, quad_buff[i].data[j].pos.y, 0.f, 1.f };
-		pos = cam.world_NDC * pos;
-		quad_buff[i].data[j].pos.x = pos.x;
-		quad_buff[i].data[j].pos.y = pos.y;
-		//std::cout << "NDC: " << pos.x << ", " << pos.y << std::endl;
-	}
+	quad_buff[i].data[0].pos = { -0.5f, -0.5f };//bottom left
+	quad_buff[i].data[1].pos = { 0.5f, -0.5f  };//bottom right
+	quad_buff[i].data[2].pos = { 0.5f, 0.5f   };//top right
+	quad_buff[i].data[3].pos = { -0.5f, 0.5f  };//top left
 
 	quad_buff[i].data[0].index = obj->texture;
 	quad_buff[i].data[1].index = obj->texture;
@@ -340,12 +332,34 @@ void Renderer::Renderer::update_buff(Renderer_Types r_type)
 		break;
 	}
 
+	static glm::vec4 mdl_pts[4]{
+		{-0.5f, -0.5f, 0.f, 1.f}, //bottom left
+		{0.5f, -0.5f, 0.f, 1.f}, //bottom right
+		{0.5f, 0.5f, 0.f, 1.f}, //top right
+		{-0.5f, 0.5f, 0.f, 1.f} //top left
+	};
+
+	static glm::mat4 scale{
+		1.f,0.f,0.f,0.f,
+		0.f,1.f,0.f,0.f,
+		0.f,0.f,1.f,0.f,
+		0.f,0.f,0.f,1.f
+	};
+	static glm::mat4 rot{
+		1.f,0.f,0.f,0.f,
+		0.f,1.f,0.f,0.f,
+		0.f,0.f,1.f,0.f,
+		0.f,0.f,0.f,1.f
+	};
+	static glm::mat4 trans{
+		1.f,0.f,0.f,0.f,
+		0.f,1.f,0.f,0.f,
+		0.f,0.f,1.f,0.f,
+		0.f,0.f,0.f,1.f
+	};
+
 	for (const LB::CPRender*& e : active_objs) {
 		unsigned int obj_index{ e->get_index() };
-		//cache width and height values
-		float x_pos{ e->w * 0.5f * e->scal };
-		float y_pos{ e->h * 0.5f * e->scal };
-
 		//create index in index buffer
 		unsigned short idx{ unsigned short(e->get_index() * 4) };
 
@@ -358,16 +372,23 @@ void Renderer::Renderer::update_buff(Renderer_Types r_type)
 
 		const_cast<LB::CPRender*>(e)->get_transform_data();
 
-		//set position of quad
-		quad_buff[obj_index].data[0].pos = { e->position.x - x_pos, e->position.y - y_pos };//bottom left
-		quad_buff[obj_index].data[1].pos = { e->position.x + x_pos, e->position.y - y_pos };//bottom right
-		quad_buff[obj_index].data[2].pos = { e->position.x + x_pos, e->position.y + y_pos };//top right
-		quad_buff[obj_index].data[3].pos = { e->position.x - x_pos, e->position.y + y_pos };//top left
+		//Set appropriate model to world matrices
+		scale[0][0] = e->scal.x * e->w;
+		scale[1][1] = e->scal.y * e->h;
+
+		rot[0][0] = cosf(e->rotation);
+		rot[0][1] = sinf(e->rotation);
+		rot[1][0] = -sinf(e->rotation);
+		rot[1][1] = cosf(e->rotation);
+
+		trans[3][0] = e->position.x;
+		trans[3][1] = e->position.y;
 
 		//set position based off camera mat
 		//edit color and uv coordinates and texture
 		for (int i{ 0 }; i < 4; ++i) {
-			glm::vec4 pos{ quad_buff[obj_index].data[i].pos.x, quad_buff[obj_index].data[i].pos.y, 0.f, 1.f };
+			glm::vec4 pos{ trans * rot * scale * mdl_pts[i] };
+
 			pos = cam.world_NDC * pos;
 			quad_buff[obj_index].data[i].pos.x = pos.x;
 			quad_buff[obj_index].data[i].pos.y = pos.y;
@@ -395,9 +416,7 @@ void Renderer::Renderer::update_buff(Renderer_Types r_type)
 //render objects
 Renderer::RenderSystem* Renderer::GRAPHICS = nullptr;
 
-LB::CPRender* testobj;
 LB::CPRender* test2;
-Renderer::Texture* again;
 
 Renderer::RenderSystem::RenderSystem() :
 	object_renderer{Renderer_Types::RT_OBJECT},
@@ -416,62 +435,28 @@ Renderer::RenderSystem::RenderSystem() :
 	glUseProgram(shader_program);
 	glBindVertexArray(object_renderer.get_vao());
 
-	//-################TEST CODE REMOVE AFTER##########################
+	//-################FOR BACKGROUND##########################
 	//cache some values
 	float midx = (float)LB::WINDOWSSYSTEM->GetWidth() * 0.5f;
 	float midy = (float)LB::WINDOWSSYSTEM->GetHeight() * 0.5f;
 	float w = (float)LB::WINDOWSSYSTEM->GetWidth();
 	float h = (float)LB::WINDOWSSYSTEM->GetHeight();
+	
+	test2 = new LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
 
-
-	/*for (int y{ 0 }; y < 4; ++y) {
-		for (int x{ 0 }; x < 12; ++x) {
-			frames[y][x] = {
-				(x + 1) * (1.f / 12.f), y * (1.f / 4.f),
-				x * (1.f / 12.f), y * (1.f / 4.f),
-				x * (1.f / 12.f), (y + 1) * (1.f / 4.f),
-				(x+1)* (1.f / 12.f), (y + 1)* (1.f / 4.f),
-			};
-		}
-	}*/
-
-	std::cout << "Before: " << bg_renderer.get_ao_size();
-	testobj = new LB::CPRender{{800.f, 450.f}, 100.f, 100.f };
-	test2 = new LB::CPRender{ {midx,midy}, w, h, 1.f, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
-	/*test2 = new render_Object[2500];
-	for (int y{ 0 }; y < 50; ++y)
-		for (int x{ 0 }; x < 50; ++x) {
-			test2[x + y * 50].position = { x * 32.f + 15.f, y * 18.f + 10.f };
-			test2[x + y * 50].w = 10.f;
-			test2[x + y * 50].h = 10.f;
-		}*/
-	testobj->col = { 0.f,0.f,0.f };
-	testobj->uv[0] = { 0.f, 0.6f };
-	testobj->uv[1] = { .12f, 0.6f };
-	testobj->uv[2] = { .12f, .73f };
-	testobj->uv[3] = { 0.f, .73f };
-
-	t_Manager.add_texture("../Assets/Textures/test.png", "test");
-	t_Manager.add_texture("../Assets/Textures/test2.png", "logo");
 	t_Manager.add_texture("../Assets/Textures/test3.png", "pine");
-	t_Manager.add_texture("../Assets/Textures/walk.png", "run");
 	t_Manager.add_texture("../Assets/Textures/Environment_Background.png", "bg");
-	testobj->texture = t_Manager.get_texture_index("run");
-	//testobj->uv = { 0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f };
 
-	test2->texture = t_Manager.get_texture_index("bg");
-	test2->uv[0].x = 0.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[0].y = 0.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[1].x = 1.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[1].y = 0.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[2].x = 1.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[2].y = 1.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[3].x = 0.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	test2->uv[3].y = 1.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
-	std::cout << " After: " << bg_renderer.get_ao_size() << std::endl;
-	//-################TEST CODE REMOVE AFTER##########################
-	a_Manager.load_anim("running down", frames[0].data(), .5f, 12);
-	testobj->play_repeat("running down");
+	test2->texture = LB::ASSETMANAGER->GetTextureIndex("bg");
+	test2->uv[0].x = 0.f;
+	test2->uv[0].y = 0.f;
+	test2->uv[1].x = 1.f;
+	test2->uv[1].y = 0.f;
+	test2->uv[2].x = 1.f;
+	test2->uv[2].y = 1.f;
+	test2->uv[3].x = 0.f;
+	test2->uv[3].y = 1.f;
+	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -577,29 +562,11 @@ Renderer::Texture::~Texture()
 
 bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
 {
-	if (textures.size() >= 32) {
-		std::cerr << "Maximum textures reached" << std::endl;
-		return false;
-	}
-	//TODO Change system to accomodate for free type texture units
-	//Loop through to get the first free unit slot available
-	int i{ 2 };
-	for (; i < 32; ++i) {
-		if (!free[i])
-			break;
-	}
-
-	textures.emplace(std::make_pair(name, std::make_pair(new Texture{ file_path }, i)));
-	//getting the pair then the texture id
-	glBindTextureUnit(0 + i, textures.find(name)->second.first->get_tex());
-	free[i] = true;
+	LB::ASSETMANAGER->AddTexture(file_path, name);
 
 	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
 	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 	glUniform1iv(uni_loc, 13, test);
-
-
-	//std::cout << "Texture index: " << i << std::endl;
 
 	return true;
 }

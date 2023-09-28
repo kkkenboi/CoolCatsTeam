@@ -43,11 +43,6 @@ namespace LB
 	public:
 		void Initialise() override
 		{
-			double posx{}, posy{};
-			glfwGetCursorPos(WINDOWSSYSTEM->GetWindow(), &posx, &posy);
-
-			pos.x = posx;
-			pos.y = posy;
 			std::cout << "Initialising Transform\n";
 		}
 		void Serialise() override
@@ -94,7 +89,7 @@ namespace LB
 		}
 
 	private:
-		Vec2<float> pos{}, scale{};
+		Vec2<float> pos{}, scale{1.0f, 1.0f};
 		float angle{};
 	};
 
@@ -109,14 +104,15 @@ namespace LB
 		bool initialized{ false };
 
 	public:
-		Vec2<float>						position;
-		float						scal;
 		float						w;
 		float						h;
-		Vec3<float>						col;
-		std::array<Vec2<float>, 4>			uv; //bot left, bot right, top right, top left
+		float						rotation;
 		int							texture;
 		bool						activated;
+		Vec2<float>					scal;
+		Vec2<float>					position;
+		Vec3<float>					col;
+		std::array<Vec2<float>, 4>	uv; //bot left, bot right, top right, top left
 
 		CPTransform* transform;
 
@@ -124,7 +120,7 @@ namespace LB
 			Vec2<float>	 pos = { 0.f, 0.f },
 			float width = 100.f,
 			float height = 100.f,
-			float scale = 1.f,
+			Vec2<float> scale = {1.f, 1.f},
 			Vec3<float>	 color = { 0.f,0.f,0.f },
 			std::array<Vec2<float>, 4> uv = {},
 			int texture = -1,
@@ -148,9 +144,21 @@ namespace LB
 		void play_repeat(const std::string& name);
 		void play_next(const std::string& name);
 		void play_now(const std::string& name);
+		void stop_anim();
+
+		void UpdateTexture(int _texture)
+		{
+			texture = _texture;
+			uv[0] = { 0.f, 0.f };
+			uv[1] = { 1.f, 0.f };
+			uv[2] = { 1.f, 1.f };
+			uv[3] = { 0.f, 1.f };
+		}
 
 		inline void get_transform_data() { 
 			position = initialized ? transform->GetPosition() : position;
+			rotation = initialized ? transform->GetRotation() : rotation;
+			scal = initialized ? transform->GetScale() : scal;
 		};
 
 		void animate();
@@ -198,6 +206,12 @@ namespace LB
 		SHAPETYPE mShapeType;
 
 		// =====
+		// TEST STUFF
+		// =====
+		int mNumberID;
+		// ==============
+
+		// =====
 		//  WRAP THIS SECTION IN A COLLIDER CLASS, separating from RigidBody
 		// =====
 		// Vertices and AABB
@@ -238,6 +252,8 @@ namespace LB
 		// Force is added upon object's velocity
 		void addForce(LB::Vec2<float> force);
 
+		void addImpulse(LB::Vec2<float> force);
+
 		// Just to move the RigidBody with a vector
 		void Move(LB::Vec2<float> vec);
 
@@ -262,6 +278,8 @@ namespace LB
 		// Side note: Might be impulsed based system instead
 		// therefore accel = force / mass should be introduced later
 		void FixedUpdate();
+
+		void DebugDraw();
 
 	};
 

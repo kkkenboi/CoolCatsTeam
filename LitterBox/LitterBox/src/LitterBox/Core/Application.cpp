@@ -6,17 +6,20 @@ namespace LB {
 		// Setting up LitterBox Engine with the available systems
 		Engine = new LBEngine();
 
-		Time*					time		= new Time();
-		InputSystem*			input		= new InputSystem();
-		ProfilerManager*		profiler	= new ProfilerManager();
-		FactorySystem*			factory		= new FactorySystem();
-		WindowsSystem*			windows		= new WindowsSystem();
-		GameObjectManager*		gameManager	= new GameObjectManager();
-		GameLogic*				logic		= new GameLogic();
-		RigidBodyManager*		physics		= new RigidBodyManager();
-		Renderer::RenderSystem* graphics	= new Renderer::RenderSystem();
-		Memory*					memory		= new Memory();
-		Debugger*				debug		= new Debugger();
+		Time*					time			= new Time();
+		InputSystem*			input			= new InputSystem();
+		ProfilerManager*		profiler		= new ProfilerManager();
+		FactorySystem*			factory			= new FactorySystem();
+		WindowsSystem*			windows			= new WindowsSystem();
+		GameObjectManager*		gameManager		= new GameObjectManager();
+		GameLogic*				logic			= new GameLogic();
+		RigidBodyManager*		physics			= new RigidBodyManager();
+		AudioManager*			audio			= new AudioManager();
+		AssetManager*			assetManager	= new AssetManager();
+		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
+		Memory*					memory			= new Memory();
+		Debugger*				debug			= new Debugger();
+		SceneManager*			sceneManager	= new SceneManager();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
@@ -24,11 +27,14 @@ namespace LB {
 		Engine->AddSystem(factory);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(gameManager);
-		Engine->AddSystem(logic);
+		Engine->AddSystem(assetManager);
 		Engine->AddSystem(physics);
+		Engine->AddSystem(logic);
+		Engine->AddSystem(audio);
 		Engine->AddSystem(graphics);
 		Engine->AddSystem(memory);
 		Engine->AddSystem(debug);
+		Engine->AddSystem(sceneManager);
 
 		Engine->Initialize();
 
