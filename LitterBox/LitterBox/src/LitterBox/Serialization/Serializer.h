@@ -192,15 +192,6 @@ namespace LB
 			jsonFile = GetJSONFile(fileDestinationMap[filePath] + fileName + ".json");
 			typeToDeserialize.Deserialize(jsonFile);
 		}
-	private:
-		//This map is to get the file destination enum from the string
-		//e.g 0 : /editorFilePath/
-		std::map<FILEDESTINATION, std::string> fileDestinationMap;
-		//This map is to map the file name to file path
-		//e.g "EDITOR" : "/editorFilePath/"
-		std::unordered_map<std::string, std::string> filepathNames;
-		/// @brief json object to hold all the json data
-		Document jsonFile;
 		/// @brief Function to get a json file at the specified filepath
 		/// @param filePath filepath the json file is at
 		/// @return Returns the data type used to manipulate and serialise/deserialise json data
@@ -229,5 +220,16 @@ namespace LB
 			outputFile << outputString;
 			outputFile.close();
 		}
+	private:
+		//This map is to get the file destination enum from the string
+		//e.g 0 : /editorFilePath/
+		std::map<FILEDESTINATION, std::string> fileDestinationMap;
+		//This map is to map the file name to file path
+		//e.g "EDITOR" : "/editorFilePath/"
+		std::unordered_map<std::string, std::string> filepathNames;
+		/// @brief json object to hold all the json data
+		Document jsonFile;
+		
+		
 	};
 }

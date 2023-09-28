@@ -2,7 +2,8 @@
 #include <GLFW/glfw3.h>
 #include "AssetManager.h"
 #include "stb_image.h"
-// #include ""
+
+
 namespace LB
 {
     AssetManager* ASSETMANAGER = nullptr;
@@ -15,6 +16,8 @@ namespace LB
 			ASSETMANAGER = this;
 		else
 			std::cerr << "Asset Manager already exists" << std::endl;
+
+        LoadSounds();
     }
     /*!************************************************************************
      * \brief This function creates and ADDS a texture to the map with the appropriate ID
@@ -74,4 +77,19 @@ namespace LB
 
 	return true;
     }
+    void AssetManager::LoadTextures()
+    {
+        TextureFilePaths[TextureNames::NONE];       
+    }
+    void AssetManager::LoadSounds()
+    {
+        AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("../Assets/Sounds/Enemy hurt.wav", FMOD_DEFAULT, nullptr, &sampleSound);
+        if (AUDIOMANAGER->result != FMOD_OK) std::cout << "UNABLE TO LOAD AHH SOUND!!\n";
+        AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("../Assets/Sounds/EXPLOSION.wav", FMOD_DEFAULT, nullptr, &explosionSound);
+        if (AUDIOMANAGER->result != FMOD_OK) std::cout << "UNABLE TO LOAD EXPLODE SOUND!!\n";
+        AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("../Assets/Sounds/Oof.wav", FMOD_DEFAULT, nullptr, &ahhSound);
+        if (AUDIOMANAGER->result != FMOD_OK) std::cout << "UNABLE TO LOAD OOF SOUND!!\n";
+
+    }
+
 }

@@ -4,7 +4,8 @@
 //#include <unordered_map>
 #include "Serializer.h"
 #include "LitterBox/Core/System.h"
-//#include "../../dependencies/FMOD/studio/inc/fmod_studio.hpp"
+#include "../../dependencies/FMOD/core/inc/fmod.hpp"
+#include "LitterBox/Audio/AudioManager.h"
 
 
 namespace LB
@@ -19,7 +20,13 @@ namespace LB
         unsigned char* stbBuffer;
         int width,height,fluff;
     };
-
+    enum TextureNames
+    {
+        NONE = 0,
+        RUN,
+        PINEAPPLE,
+        BACKGROUND
+    };
     enum class ASSETTYPE
     {
         TEXTURE,
@@ -36,7 +43,16 @@ namespace LB
         //"SpriteName" : texturePair
         std::map<std::string, std::pair<const TextureData*,int>> Textures;
 
+        //Maps enums to the file paths
+        // 0 (NONE) : "../Assets/cat.png"
+        std::map<TextureNames, std::string> TextureFilePaths;
+
         const int GetTextureIndex(const std::string& name) const { return Textures.find(name)->second.second; }
+        void LoadTextures();
+        void LoadSounds();
+        FMOD::Sound* sampleSound = nullptr;
+        FMOD::Sound* explosionSound = nullptr;
+        FMOD::Sound* ahhSound = nullptr;
 
         private:
         //File names to their file paths
@@ -52,6 +68,7 @@ namespace LB
         int textureID=0; 
         //Keeps track of how many textures we can have.
         bool TextureSlots[32]{false};
+
     };
 
     extern AssetManager* ASSETMANAGER;

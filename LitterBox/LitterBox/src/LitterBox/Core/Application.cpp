@@ -14,6 +14,7 @@ namespace LB {
 		GameObjectManager*		gameManager		= new GameObjectManager();
 		GameLogic*				logic			= new GameLogic();
 		RigidBodyManager*		physics			= new RigidBodyManager();
+		AudioManager*			audio			= new AudioManager();
 		AssetManager*			assetManager	= new AssetManager();
 		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
 		Memory*					memory			= new Memory();
@@ -29,6 +30,7 @@ namespace LB {
 		Engine->AddSystem(assetManager);
 		Engine->AddSystem(physics);
 		Engine->AddSystem(logic);
+		Engine->AddSystem(audio);
 		Engine->AddSystem(graphics);
 		Engine->AddSystem(memory);
 		Engine->AddSystem(debug);
