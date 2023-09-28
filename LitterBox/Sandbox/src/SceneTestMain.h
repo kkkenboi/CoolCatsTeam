@@ -1,7 +1,6 @@
 #pragma once
 
 #include "LitterBox.h"
-
 using namespace LB;
 
 class SceneTestMain : public Scene

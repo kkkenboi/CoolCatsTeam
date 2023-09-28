@@ -1,9 +1,11 @@
 #include "SceneTestMain.h"
 
-GameObject *test, *test2, *test3;
+#include "Player/Player.h"
 
+GameObject *test, *test2, *test3;
 GameObject *scaleObj, *rotObj, *animObj;
 
+Player* testPlayer;
 
 void SceneTestMain::Init()
 {
@@ -21,6 +23,8 @@ void SceneTestMain::Init()
 	rotObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(800, 600));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Player example
+	testPlayer = new Player;
 }
 
 void SceneTestMain::Update()
@@ -38,5 +42,5 @@ void SceneTestMain::Update()
 
 void SceneTestMain::Destroy()
 {
-
+	delete testPlayer;
 }
