@@ -109,14 +109,15 @@ namespace LB
 		bool initialized{ false };
 
 	public:
-		Vec2<float>						position;
-		float						scal;
 		float						w;
 		float						h;
-		Vec3<float>						col;
-		std::array<Vec2<float>, 4>			uv; //bot left, bot right, top right, top left
+		float						rotation;
 		int							texture;
 		bool						activated;
+		Vec2<float>					scal;
+		Vec2<float>					position;
+		Vec3<float>					col;
+		std::array<Vec2<float>, 4>	uv; //bot left, bot right, top right, top left
 
 		CPTransform* transform;
 
@@ -124,7 +125,7 @@ namespace LB
 			Vec2<float>	 pos = { 0.f, 0.f },
 			float width = 100.f,
 			float height = 100.f,
-			float scale = 1.f,
+			Vec2<float> scale = {1.f, 1.f},
 			Vec3<float>	 color = { 0.f,0.f,0.f },
 			std::array<Vec2<float>, 4> uv = {},
 			int texture = -1,
@@ -151,6 +152,8 @@ namespace LB
 
 		inline void get_transform_data() { 
 			position = initialized ? transform->GetPosition() : position;
+			rotation = initialized ? transform->GetRotation() : rotation;
+			scal = initialized ? transform->GetScale() : scal;
 		};
 
 		void animate();

@@ -58,7 +58,7 @@ namespace LB
 		void DrawBox(Vec2<float> center, float length, Vec4<float> color);
 		void DrawBox(Vec2<float> center, float width, float height, Vec4<float> color);
 		void DrawBox(Vec2<float> center, float length);
-		void DrawCircle(Vec2<float> center, float radius);
+		void DrawCircle(Vec2<float> center, float radius, Vec4<float> color);
 
 		void Assert(bool expectedCondition, std::string const& message, const char* file = "Unnamed", int line = 0);
 		void Log(std::string const& message, const char* file = "Unnamed", int line = 0);
