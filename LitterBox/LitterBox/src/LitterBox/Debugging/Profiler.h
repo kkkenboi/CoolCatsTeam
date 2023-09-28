@@ -66,6 +66,10 @@ namespace LB
 		std::map<char const*, double> systemInfoMap0, systemInfoMap1; // Double buffer
 	};
 
+	/*!***********************************************************************
+	 \brief
+	 
+	*************************************************************************/
 	void SwapSystemInfoMapBuffer(); // For event subscription
 
 	void DumpGeneralInfo();

@@ -8,6 +8,10 @@
 namespace LB {
 	#define KEY_EVENT_PRIORITY 100
 
+	/*!***********************************************************************
+	 \brief
+
+	*************************************************************************/
 	enum class KeyCode
 	{
 		//1 to 1 mapping to GLFW enums
@@ -31,6 +35,10 @@ namespace LB {
 		KEY_Z,
 	};
 
+	/*!***********************************************************************
+	 \brief
+
+	*************************************************************************/
 	enum class KeyEvent
 	{
 		TRIGGERED,
@@ -39,21 +47,60 @@ namespace LB {
 
 	};
 
+	/*!***********************************************************************
+	 \brief
+
+	*************************************************************************/
 	class InputSystem : public ISystem
 	{
 	public:
+		/*!***********************************************************************
+		 \brief
+
+		*************************************************************************/
 		InputSystem();
 
+		/*!***********************************************************************
+		 \brief
+
+		*************************************************************************/
 		void Initialize() override { SetSystemName("Input System"); }
 
+		/*!***********************************************************************
+		 \brief
+
+		*************************************************************************/
 		virtual void Update();
 
+		/*!***********************************************************************
+		 \brief
+
+		*************************************************************************/
 		void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
+
+		/*!***********************************************************************
+		 \brief
+
+		*************************************************************************/
 		void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
+
+		/*!***********************************************************************
+		 \brief
+
+		*************************************************************************/
 		void SubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent);
+
+		/*!***********************************************************************
+		 \brief
+
+		*************************************************************************/
 		void UnsubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent);
 
 	private:
+		/*!***********************************************************************
+		 \brief
+
+		*************************************************************************/
 		struct Key
 		{
 			Event<> onTrigger;
@@ -61,13 +108,26 @@ namespace LB {
 			Event<> onReleased;
 		};
 
-		std::map<KeyCode, Key> inputKeys; //Mao create a new pair a keycode to key when it doesnt exist
+		/*!***********************************************************************
+		 \brief
+		 Map create a new pair a keycode to key when it doesnt exist
+		*************************************************************************/
+		std::map<KeyCode, Key> inputKeys;
 	};
 
-	extern InputSystem* INPUT; //other ppl can reference input from anywhere
+	extern InputSystem* INPUT; //can reference input from anywhere
 	//if they want to use INPUT they just type INPUT
 
 	// For GLFW
+	/*!***********************************************************************
+	\brief
+
+	*************************************************************************/
 	void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
+
+	/*!***********************************************************************
+	 \brief
+
+	*************************************************************************/
 	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
 }
