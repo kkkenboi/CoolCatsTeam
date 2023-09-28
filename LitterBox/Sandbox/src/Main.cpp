@@ -1,6 +1,5 @@
 #include "LitterBox.h"
 #include "LitterBox/Engine/Layer.h"
-#include <LitterBox/Core/EntryPoint.h>
 class GameplayLayer : public Layer
 {
 public:

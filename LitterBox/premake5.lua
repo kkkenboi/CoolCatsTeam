@@ -43,7 +43,6 @@ group "Dependencies"
     include "dependencies/GLFW"
     include "dependencies/Glad"
     include "dependencies/ImGui"
-    include "dependencies/FreeType"
 group ""
 
 group "Engine"

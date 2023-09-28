@@ -15,8 +15,6 @@
 #include "LitterBox/Engine/Message.h"
 #include "LitterBox/Serialization/Serializer.h"
 
-#define UNREFERENCED_PARAMETER
-
 namespace LB
 {
 	/*!***********************************************************************
