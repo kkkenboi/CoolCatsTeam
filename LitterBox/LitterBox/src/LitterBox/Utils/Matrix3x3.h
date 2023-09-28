@@ -6,7 +6,6 @@
  \date				27-09-2023
  \brief
  The functions in the Matrix class include:
-
 **************************************************************************/
 
 #include "Math.h"	// For PI, sin, cos
@@ -15,7 +14,7 @@ namespace LB
 {
 	/*!***********************************************************************
 	 \brief
-	 A 3x3 Matrix that holds any type T, used for calculating TRS for transform
+	 A 3x3 Matrix class that holds any type T, used for calculating TRS for transform
 	*************************************************************************/
 	template<typename T>
 	class Matrix3x3

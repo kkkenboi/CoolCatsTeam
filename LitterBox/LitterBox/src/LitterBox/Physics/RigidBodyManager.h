@@ -41,6 +41,8 @@ namespace LB
         // back to the Manager, which means that it is not being calculated on anymore
         void ReturnPooledRigidBody(CPRigidBody* rb);
 
+        CPRigidBody* LookForMainCharacter();
+
         // Steps
         // Movement Step
         // Update Velocities
@@ -67,6 +69,16 @@ namespace LB
     bool CheckCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out);
 
     void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth);
+
+    // Rudimentary Game Character Controller Stuff
+    void MoveUp();
+
+    void MoveDown();
+
+    void MoveLeft();
+
+    void MoveRight();
+
 
     extern RigidBodyManager* PHYSICS;
 }

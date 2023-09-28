@@ -27,9 +27,9 @@ namespace LB {
 		Engine->AddSystem(windows);
 		Engine->AddSystem(gameManager);
 		Engine->AddSystem(assetManager);
-		Engine->AddSystem(graphics);
-		Engine->AddSystem(logic);
 		Engine->AddSystem(physics);
+		Engine->AddSystem(logic);
+		Engine->AddSystem(graphics);
 		Engine->AddSystem(memory);
 		Engine->AddSystem(debug);
 		Engine->AddSystem(sceneManager);
