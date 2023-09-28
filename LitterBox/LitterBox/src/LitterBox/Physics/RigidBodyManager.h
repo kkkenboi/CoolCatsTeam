@@ -68,5 +68,15 @@ namespace LB
 
     void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth);
 
+    // Rudimentary Game Character Controller Stuff
+    void MoveUp();
+
+    void MoveDown();
+
+    void MoveLeft();
+
+    void MoveRight();
+
+
     extern RigidBodyManager* PHYSICS;
 }

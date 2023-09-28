@@ -69,7 +69,8 @@ private:
 // ===============================
 
 bool CollisionIntersection_BoxBox(const AABB & aabb1, const LB::Vec2<float> & vel1, 
-									const AABB & aabb2, const LB::Vec2<float> & vel2, float dt);
+									const AABB & aabb2, const LB::Vec2<float> & vel2, float dt,
+									LB::Vec2<float>& normal_out, float& depth_out);
 
 bool CollisionIntersection_CircleCircle(LB::Vec2<float> centerA, LB::Vec2<float> centerB, float radiusA, float radiusB, LB::Vec2<float>& normal_out, float& depth_out);
 

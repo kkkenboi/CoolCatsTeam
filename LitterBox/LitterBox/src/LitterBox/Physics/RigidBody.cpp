@@ -1,7 +1,19 @@
+/*!************************************************************************
+ \file                Math.h
+ \author(s)           Vanessa Chua Siew Jin, Carlo Villa Ilao Justine
+ \par DP email(s):    vanessasiewjin.chua@digipen.edu, justine.c@digipen.edu
+ \par Course:         CSD2401A
+ \date                24-09-2023
+ \brief
+ The functions in the Math class include:
+
+**************************************************************************/
+
 #include "RigidBody.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Factory/Components.h"
 #include "LitterBox/Physics/RigidBodyManager.h"
+#include "LitterBox/Engine/Input.h"
 
 //TEST
 #include <string>
@@ -9,6 +21,7 @@
 
 namespace LB
 {
+    //int CPRigidBody::mNumberID = -1;
 
     void CPRigidBody::Start(LB::Vec2<float> position, LB::Vec2<float> prevposition, LB::Vec2<float> velocity, LB::Vec2<float> acceleration,
         float rotation, float rotationvelocity, float density, float mass, float invmass, float restitution,
@@ -52,6 +65,7 @@ namespace LB
         this->mVelocity = LB::Vec2<float>{ 0.f, 0.f };
         this->mAcceleration = LB::Vec2<float>{ 0.f, 0.f };
         this->mFriction = 0.99f;
+        //this->mNumberID += 1;
 
         // Check if static and update the InvMass
         if (!this->isStatic)
@@ -194,10 +208,6 @@ namespace LB
         this->obj_aabb.m_c = LB::Vec2<float>{ (minX + maxX) / 2.f, (minY + maxY) / 2.f };
         this->obj_aabb.m_max = LB::Vec2<float>{ maxX, maxY };
         this->obj_aabb.m_min = LB::Vec2<float>{ minX, minY };
-
-        //std::cout << "Center of AABB: " << this->obj_aabb.m_c.x << " , " << this->obj_aabb.m_c.y << std::endl;
-        //std::cout << "AABB Max: " << this->obj_aabb.m_max.x << " , " << this->obj_aabb.m_max.y << std::endl;
-        //std::cout << "AABB Min: " << this->obj_aabb.m_min.x << " , " << this->obj_aabb.m_min.y << std::endl;
     }
 
     void CPRigidBody::UpdateRigidBodyPos(float time)
@@ -208,17 +218,12 @@ namespace LB
             return;
         }
 
-        //std::cout << "Update Position: " << mPosition.x << " " << mPosition.y << '\n';
-        //std::cout << "Velocity: " << this->mVelocity.x << this->mVelocity.y << std::endl;
-        //std::cout << "Time: " << time << std::endl;
         this->mPosition += this->mVelocity * time;
-        //std::cout << "!!!!Updated Position: " << mPosition.x << " " << mPosition.y << '\n';
         transform->SetPosition(mPosition);
-
-        //std::cout << "BOX POS: " << mPosition.x << mPosition.y << "\n";
 
         this->mRotation += this->mRotationalVelocity * time;
         transform->SetRotation(mRotation);
+
 
         // Update the TransformedVertices
         // HERE
@@ -227,6 +232,15 @@ namespace LB
         // Update the AABB
         // HERE
         this->UpdateRigidBodyAABB();
+
+
+        // Debug draw box
+        if (this->mShapeType == BOX)
+        {
+            DEBUG->DrawBox(this->mPosition, this->mWidth, this->mHeight, LB::Vec4<float>{0.f, 0.f, 1.f, 0.f});
+            // Debug draw velocity from center
+            //DEBUG->DrawLine(this->mPosition, this->mVelocity, LB::Vec4<float>{1.f, 0.f, 0.f, 0.f});
+        }
     }
 
     void CPRigidBody::UpdateRigidBodyVel(float time)
@@ -252,6 +266,7 @@ namespace LB
         this->UpdateRigidBodyVel(time);
         this->UpdateRigidBodyPos(time);
     }
+
 
     // END OF RIGIDBODY MEMBER FUNCTIONS
     // ===========================================
