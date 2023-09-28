@@ -1,5 +1,7 @@
 #include "SceneTestMain.h"
 
+GameObject* test;
+
 void SceneTestMain::Init()
 {
 

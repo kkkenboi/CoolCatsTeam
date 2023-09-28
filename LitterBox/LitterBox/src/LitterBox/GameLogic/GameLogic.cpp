@@ -28,7 +28,6 @@ namespace LB
 		// Might be redundant too because we should initialize a pool at the start
 		GOMANAGER->AddGameObject(gameObj);
 
-
 		std::cout << "Game Object Spawned!!!\n";
 	}
 
@@ -67,7 +66,4 @@ namespace LB
 	{
 
 	}
-
-
-
 }

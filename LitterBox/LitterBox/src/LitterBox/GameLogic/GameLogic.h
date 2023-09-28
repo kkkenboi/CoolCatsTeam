@@ -7,7 +7,6 @@ namespace LB
 	class GameLogic : public ISystem
 	{
 	public:
-
 		GameLogic();
 		~GameLogic();
 

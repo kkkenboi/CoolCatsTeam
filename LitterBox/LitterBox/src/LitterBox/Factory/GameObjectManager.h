@@ -1,6 +1,8 @@
 #pragma once
 #include "pch.h"
 #include "LitterBox/Core/System.h"
+#include "LitterBox/Factory/GameObjectFactory.h"
+#include <initializer_list>
 
 namespace LB
 {
@@ -38,6 +40,10 @@ namespace LB
 
 		GameObjectManager();
 		void Destroy() override;
+
+		// Use these functions to spawn game objects for now, TODO: refactor
+		void SpawnGameObject();
+		void SpawnGameObject(std::initializer_list<std::string> components);
 
 		std::vector<GameObject*> GetGameObjects() const;
 		void AddGameObject(GameObject* gameObject);
