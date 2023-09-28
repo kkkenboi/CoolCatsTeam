@@ -11,6 +11,7 @@
 #include "LitterBox/Debugging/Profiler.h"
 #include "LitterBox/Physics/RigidBodyManager.h"
 #include "LitterBox/Debugging/Debug.h"
+#include "LitterBox/Serialization/AssetManager.h"
 #include "Core.h"
 
 namespace LB {
