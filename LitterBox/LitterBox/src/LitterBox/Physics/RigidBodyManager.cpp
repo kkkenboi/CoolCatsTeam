@@ -124,6 +124,18 @@ namespace LB
         }
     }
 
+    CPRigidBody* RigidBodyManager::LookForMainCharacter()
+    {
+        for (int i = 0; i < m_poolSize; ++i)
+        {
+            if (m_rigidBodies[i]->mNumberID == 1)
+            {
+                return m_rigidBodies[i];
+            }
+        }
+        return nullptr;
+    }
+
     void RigidBodyManager::RBSystemSteps()
     {
         //std::cout << "JOE IS RBSYSTEM\n";
@@ -179,8 +191,8 @@ namespace LB
                     //std::cout << "BodyB Prev POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
 
                     // Debug View
-                    DEBUG->DrawBox(bodyA->mPosition, bodyA->mWidth, bodyA->mHeight, Vec4<float>{ 1.0f, 0.f, 0.f, 0.f });
-                    DEBUG->DrawBox(bodyB->mPosition, bodyB->mWidth, bodyB->mHeight, Vec4<float>{ 1.0f, 0.f, 0.f, 0.f });
+                    //DEBUG->DrawBox(bodyA->mPosition, bodyA->mWidth, bodyA->mHeight, Vec4<float>{ 1.0f, 0.f, 0.f, 0.f });
+                    //DEBUG->DrawBox(bodyB->mPosition, bodyB->mWidth, bodyB->mHeight, Vec4<float>{ 1.0f, 0.f, 0.f, 0.f });
 
                     LB::Vec2<float>inverse_normal{ -normal_out.x, -normal_out.y };
                     if (bodyA->isStatic)
@@ -304,21 +316,25 @@ namespace LB
 
     void MoveUp()
     {
-
-        //std::cout << "IN MOVEUP" << std::endl;
-        CPRigidBody* temp_mainchar;
-        if (temp_mainchar = PHYSICS->GetPooledRigidBody(0))
+        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
+        if (temp_mainchar == nullptr)
         {
-            //std::cout << "TRYING TO MOVEUP" << std::endl;
+            return;
+        }
+        if (temp_mainchar->mNumberID == 1)
+        {
             temp_mainchar->addForce(Vec2<float>{0.f, 10.f});
-            //std::cout <<  "MC Vel: " << temp_mainchar->mVelocity.x << " , " << temp_mainchar->mVelocity.y << std::endl;
         }
     }
 
     void MoveDown()
     {
-        CPRigidBody* temp_mainchar;
-        if (temp_mainchar = PHYSICS->GetPooledRigidBody(0))
+        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
+        if (temp_mainchar == nullptr)
+        {
+            return;
+        }
+        if (temp_mainchar->mNumberID == 1)
         {
             temp_mainchar->addForce(Vec2<float>{0.f, -10.f});
         }
@@ -326,8 +342,12 @@ namespace LB
 
     void MoveLeft()
     {
-        CPRigidBody* temp_mainchar;
-        if (temp_mainchar = PHYSICS->GetPooledRigidBody(0))
+        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
+        if (temp_mainchar == nullptr)
+        {
+            return;
+        }
+        if (temp_mainchar->mNumberID == 1)
         {
             temp_mainchar->addForce(Vec2<float>{-10.f, 0.f});
         }
@@ -335,8 +355,12 @@ namespace LB
 
     void MoveRight()
     {
-        CPRigidBody* temp_mainchar;
-        if (temp_mainchar = PHYSICS->GetPooledRigidBody(0))
+        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
+        if (temp_mainchar == nullptr)
+        {
+            return;
+        }
+        if (temp_mainchar->mNumberID == 1)
         {
             temp_mainchar->addForce(Vec2<float>{10.f, 0.f});
         }

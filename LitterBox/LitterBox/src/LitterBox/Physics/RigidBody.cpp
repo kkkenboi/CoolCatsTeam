@@ -65,7 +65,7 @@ namespace LB
         this->mVelocity = LB::Vec2<float>{ 0.f, 0.f };
         this->mAcceleration = LB::Vec2<float>{ 0.f, 0.f };
         this->mFriction = 0.99f;
-        //this->mNumberID += 1;
+        this->mNumberID = 0;
 
         // Check if static and update the InvMass
         if (!this->isStatic)
@@ -221,6 +221,8 @@ namespace LB
         this->mPosition += this->mVelocity * time;
         transform->SetPosition(mPosition);
 
+        std::cout << mPosition.ToString() << "\n";
+
         this->mRotation += this->mRotationalVelocity * time;
         transform->SetRotation(mRotation);
 
@@ -237,7 +239,7 @@ namespace LB
         // Debug draw box
         if (this->mShapeType == BOX)
         {
-            DEBUG->DrawBox(this->mPosition, this->mWidth, this->mHeight, LB::Vec4<float>{0.f, 0.f, 1.f, 0.f});
+            //DEBUG->DrawBox(this->mPosition, this->mWidth, this->mHeight, LB::Vec4<float>{0.f, 0.f, 1.f, 0.f});
             // Debug draw velocity from center
             //DEBUG->DrawLine(this->mPosition, this->mVelocity, LB::Vec4<float>{1.f, 0.f, 0.f, 0.f});
         }
@@ -262,9 +264,13 @@ namespace LB
             return;
         }
 
+        mPosition = transform->GetPosition();
+
         // Semi-implicit euler system
         this->UpdateRigidBodyVel(time);
         this->UpdateRigidBodyPos(time);
+
+        transform->SetPosition(mPosition);
     }
 
 

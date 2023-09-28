@@ -41,6 +41,8 @@ namespace LB
         // back to the Manager, which means that it is not being calculated on anymore
         void ReturnPooledRigidBody(CPRigidBody* rb);
 
+        CPRigidBody* LookForMainCharacter();
+
         // Steps
         // Movement Step
         // Update Velocities
