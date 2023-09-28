@@ -8,7 +8,9 @@
 
 **************************************************************************/
 
+#include "Platform/Windows/Windows.h"
 #include "Input.h"
+#include "LitterBox/Engine/Time.h"
 
 namespace LB
 {
@@ -38,7 +40,40 @@ namespace LB
 	*************************************************************************/	
 	void InputSystem::Update()
 	{
+		for (int i = 0; i < GLFW_KEY_LAST; ++i)
+		{
+			inputKeysLast[i] = inputKeysCurr[i];
+		}
+
 		glfwPollEvents();
+
+		std::cout << inputKeys.size() << "\n";
+
+		for (auto key = inputKeys.begin(); key != inputKeys.end(); ++key) 
+		{
+			// Refactor pausing for input
+			if (TIME->IsPaused() && key->first != KeyCode::KEY_U) continue;
+
+			if (inputKeysCurr[(int)key->first] && !inputKeysLast[(int)key->first])
+			{
+
+				inputKeys[key->first].onTrigger.Invoke(); //invoke, notifying all subscribers for the keycode on Trigger
+				inputKeys[key->first].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
+			}
+			else if (inputKeysCurr[(int)key->first] && inputKeysLast[(int)key->first])
+			{
+				inputKeys[key->first].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
+			}
+			else if (!inputKeysCurr[(int)key->first] && inputKeysLast[(int)key->first])
+			{
+				inputKeys[key->first].onReleased.Invoke(); //invoke, notifying all subscribers for the keycode on Release
+			}
+		}
+	}
+
+	bool InputSystem::IsKeyPressed(KeyCode key)
+	{
+		return inputKeysCurr[(int)key];
 	}
 
 	/*!***********************************************************************
@@ -55,18 +90,13 @@ namespace LB
 		UNREFERENCED_PARAMETER(mod);
 
 		//all the functions subscribe
-		if (action == GLFW_PRESS)
+		if (action == GLFW_PRESS || action == GLFW_REPEAT)
 		{
-			inputKeys[(KeyCode)key].onTrigger.Invoke(); //invoke, notifying all subscribers for the keycode on Trigger
-			inputKeys[(KeyCode)key].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
-		}
-		else if(action == GLFW_REPEAT) 
-		{
-			inputKeys[(KeyCode)key].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
+			inputKeysCurr[key] = true;
 		}
 		else if (action == GLFW_RELEASE)
 		{
-			inputKeys[(KeyCode)key].onReleased.Invoke(); //invoke, notifying all subscribers for the keycode on Release
+			inputKeysCurr[key] = false;
 		}
 	}
 

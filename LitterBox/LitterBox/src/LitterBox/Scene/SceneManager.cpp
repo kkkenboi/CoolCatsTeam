@@ -58,6 +58,7 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::Update()
 	{
+		if (TIME->IsPaused()) return;
 		currentScene->Update();
 	}
 

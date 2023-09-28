@@ -22,24 +22,21 @@ void Player::Initialise()
 void Player::Update()
 {
 
-
-
-
 }
 
 void MoveUp()
 {
-	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{0.f, 150.f});
+	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{0.f, 3000.f * (float)TIME->GetDeltaTime()});
 }
 void MoveLeft()
 {
-	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{-150.f, 0.f});
+	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{-3000.f * (float)TIME->GetDeltaTime(), 0.f});
 }
 void MoveRight()
 {
-	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{150.f, 0.f});
+	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{3000.f * (float)TIME->GetDeltaTime(), 0.f});
 }
 void MoveDown()
 {
-	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{0.f, -150.f});
+	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{0.f, -3000.f * (float)TIME->GetDeltaTime()});
 }

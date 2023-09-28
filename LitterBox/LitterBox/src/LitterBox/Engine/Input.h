@@ -96,6 +96,8 @@ namespace LB {
 		*************************************************************************/
 		void UnsubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent);
 
+		bool IsKeyPressed(KeyCode key);
+
 	private:
 		/*!***********************************************************************
 		 \brief
@@ -113,6 +115,8 @@ namespace LB {
 		 Map create a new pair a keycode to key when it doesnt exist
 		*************************************************************************/
 		std::map<KeyCode, Key> inputKeys;
+
+		bool inputKeysLast[GLFW_KEY_LAST] { false }, inputKeysCurr[GLFW_KEY_LAST]{ false };
 	};
 
 	extern InputSystem* INPUT; //can reference input from anywhere
