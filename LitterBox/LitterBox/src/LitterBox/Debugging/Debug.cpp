@@ -146,9 +146,15 @@ namespace LB
 			color });
 	}
 
-	void Debugger::DrawLine(Vec2<float> start, Vec2<float> end)
+	void Debugger::DrawLine(Vec2<float> start, Vec2<float> direction, float magnitude, Vec4<float> color)
 	{
-		//DrawLine(start, end, m_drawColor);
+		direction.x = direction.x * magnitude;
+		direction.y = direction.y * magnitude;
+
+		direction.x = direction.x + start.x;
+		direction.y = direction.y + start.y;
+
+		DrawLine(start, direction, color);
 	}
 
 	void Debugger::DrawBox(Vec2<float> center, float length, Vec4<float> color)
