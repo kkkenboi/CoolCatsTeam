@@ -100,8 +100,8 @@ namespace LB
 		}
 
 		// Destroying gameobjects
-		int gameObjSize = m_GameObjects.size();
-		for (int i{}; i < gameObjSize; ++i)
+		size_t gameObjSize = m_GameObjects.size();
+		for (size_t i{}; i < gameObjSize; ++i)
 		{
 			delete m_GameObjects[i];
 		}

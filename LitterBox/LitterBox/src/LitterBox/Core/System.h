@@ -1,6 +1,6 @@
 /*!************************************************************************
  \file
- \author(s)
+ \author(s)			Kenji Brannon Chong, Jarrett Ang Jia Wei
  \par DP email(s):
  \par Course:		CSD2401A
  \date
@@ -31,49 +31,41 @@ namespace LB
 		 Systems can receive all message send to the Core. 
 		 Will be updated with Logging 
 		*************************************************************************/
-		// ---------------------------------------------------------------------------------
-		virtual void SendMessage(Message* message) { UNREFERENCED_PARAMETER(message); };
-		// ---------------------------------------------------------------------------------
+		virtual void SendMessage(Message* message) { UNREFERENCED_PARAMETER(message); }
 
 		/*!***********************************************************************
 		 \brief
 		 Update is called every game frame.
-
 		*************************************************************************/
 		virtual void Update() {}
 
 		/*!***********************************************************************
 		 \brief
 		 Fixed update is called independent of frame rate at a constant pace.
-		 
 		*************************************************************************/
 		virtual void FixedUpdate() {}
 
 		/*!***********************************************************************
 		 \brief
 		 All systems provide a string name for debugging.
-
 		*************************************************************************/
 		virtual std::string const& GetName() { return systemName; }
 
 		/*!***********************************************************************
 		 \brief
 		Initialize the system before the core game loop.
-
 		*************************************************************************/
 		virtual void Initialize() {}
 
 		/*!***********************************************************************
 		 \brief
-		 Destroy the system after the core game loop.
-
+		 Destroy the system after the core game loop
 		*************************************************************************/
 		virtual void Destroy() {}
 
 		/*!***********************************************************************
 		 \brief
 		 Set name of the system
-
 		*************************************************************************/
 		void SetSystemName(std::string newName) { systemName = newName; }
 

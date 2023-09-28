@@ -8,12 +8,6 @@ namespace LB
 		{
 			None,
 			Quit,
-			Collide,
-			ToggleDebugInfo,
-			CharacterKey,
-			MouseButton,
-			MouseMove,
-			FileDrop
 		};
 	}
 

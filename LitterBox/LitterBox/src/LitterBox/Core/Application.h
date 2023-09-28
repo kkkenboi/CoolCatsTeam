@@ -32,3 +32,5 @@ namespace LB {
 	Application* CreateApplication();
 
 }
+
+extern LB::Application* LB::CreateApplication();
