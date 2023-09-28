@@ -102,11 +102,11 @@ namespace LB
 					filepathNames["APPDATA"] = _jsonFile["APPDATA"].GetString();
 					fileDestinationMap[FILEDESTINATION::APPDATA] = _jsonFile["APPDATA"].GetString();
 				}
-				for (auto elem : fileDestinationMap)
-				{
-					//Just to double check that we stored the filepaths to the map correctly
-					//DebuggerLog(elem.second);
-				}
+				//for (auto elem : fileDestinationMap)
+				//{
+				//	//Just to double check that we stored the filepaths to the map correctly
+				//	//DebuggerLog(elem.second);
+				//}
 			}
 		}
 		
@@ -203,7 +203,7 @@ namespace LB
 			//DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
 			std::string jsonString((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
 			inputFile.close();
-			if (_jsonFile.Parse(jsonString.c_str()).HasParseError()) {}
+			if (_jsonFile.Parse(jsonString.c_str()).HasParseError()) { std::cout << "Unable to parse " + filePath << std::endl; }
 			return _jsonFile;	//this should contain the parsed information
 		}
 		/// @brief helper function to write to file FROM json object

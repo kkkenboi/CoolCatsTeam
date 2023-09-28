@@ -88,6 +88,8 @@ namespace LB
 		*************************************************************************/
 		GameObject* CreateGameObject();
 
+		GameObject* SpawnGameObject(GameObject* prefab);
+
 		/*!***********************************************************************
 		 \brief
 

@@ -568,7 +568,7 @@ Renderer::Texture::~Texture()
 
 bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
 {
-	LB::ASSETMANAGER->AddTexture(file_path, name);
+	//LB::ASSETMANAGER->AddTexture(file_path, name);
 
 	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
 	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };

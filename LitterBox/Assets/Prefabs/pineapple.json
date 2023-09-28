@@ -14,7 +14,7 @@
         "Width": 100.0,
         "Height": 100.0,
         "Density": 10.0
-    },
+    }, 
     "Render": {
         "Texture": 1
     }

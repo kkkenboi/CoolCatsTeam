@@ -18,6 +18,8 @@ namespace LB
 			std::cerr << "Asset Manager already exists" << std::endl;
 
         LoadSounds();
+        LoadTextures();
+        LoadPrefabs();
     }
     /*!************************************************************************
      * \brief This function creates and ADDS a texture to the map with the appropriate ID
@@ -79,7 +81,12 @@ namespace LB
     }
     void AssetManager::LoadTextures()
     {
-        TextureFilePaths[TextureNames::NONE];       
+        TextureFilePaths[TextureNames::NONE];    
+        AddTexture("../Assets/Textures/walk.png", "run");
+        AddTexture("../Assets/Textures/test3.png", "pine");
+        AddTexture("../Assets/Textures/Environment_Background.png", "bg");
+
+
     }
     void AssetManager::LoadSounds()
     {
@@ -90,6 +97,19 @@ namespace LB
         AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("../Assets/Sounds/Oof.wav", FMOD_DEFAULT, nullptr, &ahhSound);
         if (AUDIOMANAGER->result != FMOD_OK) std::cout << "UNABLE TO LOAD OOF SOUND!!\n";
 
+    }
+
+    void AssetManager::LoadPrefabs()
+    {
+        //PineappleObject = FACTORY->SpawnGameObject({ "CPRender","CPRigidBody" });
+        PineappleObject = FACTORY->CreateGameObject();
+        //AvatarObject = FACTORY->CreateGameObject();
+        //std::cout <<"Pineapple component size : " << PineappleObject->GetComponents().size() << '\n';
+
+        JSONSerializer stream;
+        stream.DeserializeFromFile("../Assets/Prefabs/pineapple", *PineappleObject);
+
+        //stream.DeserializeFromFile("../Assets/Prefabs/apple",*AvatarObject);
     }
 
 }

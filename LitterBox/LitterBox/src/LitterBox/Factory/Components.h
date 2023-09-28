@@ -167,16 +167,30 @@ namespace LB
 		}
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
+			data.SetObject();
+			Value textureName;
+			data.AddMember("Texture", texture,alloc);
 			return true;
 		}
 		bool Deserialize(const Value& data) override
 		{
+			bool HasTexture = data.HasMember("Texture");
+			if (data.IsObject())
+			{
+				if (HasTexture)
+				{
+					const Value& textureValue = data["Texture"];
+					texture = textureValue.GetInt();
+					return true;
+				}
+			}
 			return false;
 		}
 
 		inline const unsigned int get_index() const { return quad_id; }
 		inline const size_t get_queue_size() const { return animation.size(); }
 		inline const Renderer::Renderer_Types get_r_type() const { return renderer_id; }
+		void resetState() { initialized = false; }
 
 		inline bool operator==(const CPRender& rhs) const {
 			return quad_id == rhs.quad_id;
@@ -280,10 +294,29 @@ namespace LB
 		void CreateRigidBody ();
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
+			std::cout << "Serialising RB\n";
+			data.SetObject();
+			data.AddMember("Width", mWidth, alloc);
+			data.AddMember("Height", mHeight, alloc);
+			data.AddMember("Density", mDensity,alloc);
 			return true;
 		}
 		bool Deserialize(const Value& data) override
 		{
+			std::cout << "Deserialising RB\n";
+			bool HasWidth = data.HasMember("Width");
+			bool HasHeight = data.HasMember("Height");
+			bool HasDensity = data.HasMember("Density");
+			if (data.IsObject())
+			{
+				if (HasWidth && HasHeight && HasDensity)
+				{
+					mWidth = data["Width"].GetFloat();
+					mHeight = data["Height"].GetFloat();
+					mDensity = data["Density"].GetFloat();
+					return true;
+				}
+			}
 			return false;
 		}
 

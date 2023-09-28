@@ -127,12 +127,15 @@ void SceneTestMain::Init()
 	LB::INPUT->SubscribeToKey(PlayAHHSound, LB::KeyCode::KEY_A, LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(PlayExplosionSound, LB::KeyCode::KEY_D, LB::KeyEvent::TRIGGERED);
 
+
+	LB::INPUT->SubscribeToKey(SpawnPineapples, LB::KeyCode::KEY_Q, LB::KeyEvent::TRIGGERED);
+
 	static_wall = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" }, Vec2<float>(200, 600));
 	static_wall->GetComponent<CPRigidBody>("CPRigidBody")->isStatic = true;
 
 	JSONSerializer stream;
 	stream.DeserializeFromFile("TestObject", *testPlayer->playerObj);
-	std::cout << testPlayer->playerObj->GetComponent<CPTransform>("CPTransform")->GetPosition().ToString();
+	//std::cout << testPlayer->playerObj->GetComponent<CPTransform>("CPTransform")->GetPosition().ToString();
 }
 
 void SceneTestMain::Update()

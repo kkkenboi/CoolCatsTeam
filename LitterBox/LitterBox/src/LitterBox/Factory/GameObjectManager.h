@@ -14,6 +14,7 @@
 #include <initializer_list>
 #include "LitterBox/Serialization/Serializer.h"
 
+
 namespace LB
 {
 	/*!***********************************************************************
@@ -57,6 +58,7 @@ namespace LB
 
 		*************************************************************************/
 		std::unordered_map<std::string, IComponent*> GetComponents();
+		void SetComponents(const std::unordered_map<std::string, IComponent*>& );
 
 		/*!***********************************************************************
 		 \brief

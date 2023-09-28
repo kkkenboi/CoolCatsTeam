@@ -1,14 +1,14 @@
 {
     "Transform": {
         "Position": {
-            "x": 1051.48,
-            "y": 229.0
+            "x": 919.54,
+            "y": 417.0
         },
         "Scale": {
-            "x": 1.0,
-            "y": 1.0
+            "x": 5.0,
+            "y": 2.0
         },
-        "Rotation": 0.0
+        "Rotation": 45.0
     },
     "RigidBody": {
         "Width": 100.0,

@@ -10,7 +10,7 @@
 
 #include "GameObjectManager.h"
 #include "Components.h"
-
+#include "GameObjectFactory.h"
 namespace LB
 {
 	/***************************************************************************************************
@@ -186,6 +186,11 @@ namespace LB
 		return m_Components;
 	}
 
+	void GameObject::SetComponents(const std::unordered_map<std::string, IComponent*>& otherMap)
+	{
+		this->m_Components = otherMap;
+	}
+
 	/*!***********************************************************************
 	 \brief
 
@@ -208,24 +213,66 @@ namespace LB
 			Value TransfromComponent;
 			m_Components["CPTransform"]->Serialize(TransfromComponent, alloc);
 			data.AddMember("Transform", TransfromComponent, alloc);
-			return true;
 		}
-		return false;
+		//We will return false if we fail to serialise a transform because
+		//ALL GAMEOBJECTS MUST HAVE TRANSFORM!
+		else return false;
+		if (m_Components.find("CPRigidBody") != m_Components.end())
+		{
+			Value RigidBodyComponent;
+			m_Components["CPRigidBody"]->Serialize(RigidBodyComponent,alloc);
+			data.AddMember("RigidBody", RigidBodyComponent, alloc);
+		}
+		if (m_Components.find("CPRender") != m_Components.end())
+		{
+			Value RenderComponent;
+			m_Components["CPRender"]->Serialize(RenderComponent, alloc);
+			data.AddMember("Render", RenderComponent, alloc);
+		}
+		return true;
 	}
 
 	bool GameObject::Deserialize(const Value& data)
 	{
 		bool HasTransform = data.HasMember("Transform");
+		bool HasRigidBody = data.HasMember("RigidBody");
+		bool HasRender = data.HasMember("Render");
 		if (data.IsObject())
 		{
 			if (HasTransform)
 			{
+				if (m_Components.find("CPTransform") == m_Components.end())
+				{
+					std::cout << "GO doesn't have a transform :C so we make one\n";
+					AddComponent("CPTransform", FACTORY->GetCMs()["CPTransform"]->Create());
+				}
 				const Value& transformValue = data["Transform"];
 				m_Components["CPTransform"]->Deserialize(transformValue);
-				return true;
+			}
+			//ALL GO's MUST HAVE TRANSFORM!
+			else return false; 
+			if (HasRigidBody)
+			{
+				if (m_Components.find("CPRigidBody") == m_Components.end())
+				{
+					std::cout << "GO doesn't have a rigidbody :C so we make one\n";
+					AddComponent("CPRigidBody", FACTORY->GetCMs()["CPRigidBody"]->Create());
+				}
+				const Value& rigidBodyValue = data["RigidBody"];
+				m_Components["CPRigidBody"]->Deserialize(rigidBodyValue);
+			}
+			if (HasRender)
+			{
+				if (m_Components.find("CPRender") == m_Components.end())
+				{
+					std::cout << "GO doesn't have a render :C so we make one\n";
+					AddComponent("CPRender", FACTORY->GetCMs()["CPRender"]->Create());
+				}
+				const Value& renderValue = data["Render"];
+				m_Components["CPRender"]->Deserialize(renderValue);
 			}
 		}
-		return false;
+		return true;
 	}
 
 	void GameObject::StartComponents()
