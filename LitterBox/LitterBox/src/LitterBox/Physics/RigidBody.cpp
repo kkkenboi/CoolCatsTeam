@@ -24,10 +24,7 @@ namespace LB
 {
     //int CPRigidBody::mNumberID = -1;
 
-    void CPRigidBody::Start(LB::Vec2<float> position, LB::Vec2<float> prevposition, LB::Vec2<float> velocity, LB::Vec2<float> acceleration,
-        float rotation, float rotationvelocity, float density, float mass, float invmass, float restitution,
-        float area, float friction, bool isstatic, bool isactive, float radius, float width, float height,
-        SHAPETYPE shape)
+    void CPRigidBody::CreateRigidBody()
     {
         transform = gameObj->GetComponent<CPTransform>("CPTransform");
         
@@ -36,39 +33,26 @@ namespace LB
 
         this->mPosition = transform->GetPosition();
         this->mPrevPosition = mPosition;
-
-        this->mVelocity = velocity;
-        this->mAcceleration = acceleration;
-
-        this->mRotation = rotation;
-        this->mRotationalVelocity = rotationvelocity;
-
-        this->mDensity = density;
-        this->mMass = mass;
-        this->mInvMass = invmass;
-        this->mRestitution = restitution;
-        this->mArea = area;
-
-        this->mFriction = friction;
-        this->isStatic = isstatic;
-        this->isActive = isactive;
-
-        this->mRadius = radius;
-        this->mWidth = width;
-        this->mHeight = height;
-      
-        this->mShapeType = shape;
-
-           // TEST
-        this->isStatic = false;
-        this->mWidth = 100.f;
-        this->mHeight = 100.f;
-        this->mShapeType = BOX;
+        
         this->mVelocity = LB::Vec2<float>{ 0.f, 0.f };
         this->mAcceleration = LB::Vec2<float>{ 0.f, 0.f };
-        this->mFriction = 0.79f;
+
+        this->mRotation = 0.f;
+        this->mRotationalVelocity = 0.f;
+
         this->mMass = 10.f;
         this->mDensity = 10.f;
+        this->mRestitution = 0.5f;
+
+        this->mFriction = 0.95f;
+        this->isStatic = false;
+        this->isActive = true;
+
+        this->mRadius = 50.f;
+        this->mWidth = 100.f;
+        this->mHeight = 100.f;
+
+        this->mShapeType = BOX;
         this->mNumberID = 0;
 
         this->mArea = this->mWidth * this->mHeight;
@@ -170,19 +154,7 @@ namespace LB
             this->mTransformedVertices[i] = LB::Vec2<float>{
                 transform.m_cos * og_vec.x - transform.m_sin * og_vec.y + transform.m_posX,
                 transform.m_sin * og_vec.x + transform.m_cos * og_vec.y + transform.m_posY };
-            //std::cout << this->mTransformedVertices[i].x << " Verticle X" << std::endl;
-            //std::cout << this->mTransformedVertices[i].y << " Verticle Y" << std::endl;
         }
-        //std::cout << "untranspt0: " << this->mVertices[0].x << " , " << this->mVertices[0].y << std::endl;
-        //std::cout << "untranspt1: " << this->mVertices[1].x << " , " << this->mVertices[1].y << std::endl;
-        //std::cout << "untranspt2: " << this->mVertices[2].x << " , " << this->mVertices[2].y << std::endl;
-        //std::cout << "untranspt3: " << this->mVertices[3].x << " , " << this->mVertices[3].y << std::endl;
-        //std::cout << "transformed" << std::endl;
-        //std::cout << "pt0: " << this->mTransformedVertices[0].x << " , " << this->mTransformedVertices[0].y << std::endl;
-        //std::cout << "pt1: " << this->mTransformedVertices[1].x << " , " << this->mTransformedVertices[1].y << std::endl;
-        //std::cout << "pt2: " << this->mTransformedVertices[2].x << " , " << this->mTransformedVertices[2].y << std::endl;
-        //std::cout << "pt3: " << this->mTransformedVertices[3].x << " , " << this->mTransformedVertices[3].y << std::endl;
-
 
 
     }
@@ -294,7 +266,7 @@ namespace LB
         // Add if check to see if DEBUG MODE on
         DEBUG->DrawBox(mPosition, mWidth, mHeight,
             Vec4<float> { 0.f, 0.f, 1.0f, 1.0f }, mRotation);
-        DEBUG->DrawLine(mPosition, PHY_MATH::Normalize(mVelocity), PHY_MATH::Length(mVelocity) / 2.f,
+        DEBUG->DrawLine(mPosition, PHY_MATH::Normalize(mVelocity), PHY_MATH::Length(mVelocity) / 5.f,
             Vec4<float> {1.0f, 0.f, 0.f, 0.f});
     }
 

@@ -138,7 +138,6 @@ namespace LB
 
     void RigidBodyManager::RBSystemSteps()
     {
-        //std::cout << "JOE IS RBSYSTEM\n";
         // ==================
         // Movement Step
         // ==================
@@ -322,11 +321,16 @@ namespace LB
         // Magnitude * Normal to get the impulse given to the objects
         LB::Vec2<float> impulse = normal * j;
 
-        bodyA->mVelocity -= impulse * bodyA->mInvMass;
-        bodyB->mVelocity += impulse * bodyB->mInvMass;
-
-        //std::cout << "bodyA vel: " << bodyA->mVelocity.x << " , " << bodyA->mVelocity.y << std::endl;
-        //std::cout << "bodyB vel: " << bodyB->mVelocity.x << " , " << bodyB->mVelocity.y << std::endl;
+        
+        if (!bodyA->isStatic)
+        {
+            bodyA->mVelocity -= impulse * bodyA->mInvMass;
+        }
+        if (!bodyB->isStatic)
+        {
+            bodyB->mVelocity += impulse * bodyB->mInvMass;
+        }
+        
     }
 
 } // Namespace LB
