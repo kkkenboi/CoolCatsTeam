@@ -4,14 +4,18 @@
 using namespace LB;
 
 class Player {
+public:
 	GameObject* playerObj;
 
 public:
 	void Initialise();
 	void Update();
 
-	//void MoveUp();
-	//void MoveUp();
-	//void MoveUp();
-	//void MoveUp();
 };
+
+void MoveUp();
+void MoveLeft();
+void MoveRight();
+void MoveDown();
+
+extern GameObject* PlayerObj;

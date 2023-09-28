@@ -2,7 +2,7 @@
 #include "LitterBox/Engine/Input.h"
 #include "Player/Player.h"
 
-GameObject *test, *test2, *test3;
+GameObject* test, *test2, *test3, *static_wall;
 GameObject *scaleObj, *rotObj, *animObj;
 
 Player* testPlayer;
@@ -79,7 +79,7 @@ void SceneTestMain::Init()
 
 	test = FACTORY->SpawnGameObject({ "CPRender" });
 	test2 = FACTORY->SpawnGameObject({ "CPRender" });
-	test3 = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody"}, Vec2<float>(200, 200));
+	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
 	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,6 +114,9 @@ void SceneTestMain::Init()
 	LB::INPUT->SubscribeToKey(PlayTestSound, LB::KeyCode::KEY_S, LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(PlayAHHSound, LB::KeyCode::KEY_A, LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(PlayExplosionSound, LB::KeyCode::KEY_D, LB::KeyEvent::TRIGGERED);
+
+	static_wall = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" }, Vec2<float>(200, 600));
+	static_wall->GetComponent<CPRigidBody>("CPRigidBody")->isStatic = true;
 }
 
 void SceneTestMain::Update()

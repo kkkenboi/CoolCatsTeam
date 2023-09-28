@@ -208,9 +208,9 @@ namespace LB
                         bodyA->Move(inverse_normal * depth_out);
                         bodyB->Move(normal_out * depth_out);
                     }
-                    /*
+                    
                     ResolveCollisions(bodyA, bodyB, normal_out, depth_out);
-                    */
+                    
                     //std::cout << "COLLISION RESOLVED" << std::endl;
                     //std::cout << "BodyA After POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
                     //std::cout << "BodyB After POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
@@ -233,6 +233,21 @@ namespace LB
     {
         RBSystemSteps();
     }
+
+    void RigidBodyManager::Update()
+    {
+        // IF DEBUG MODE ON
+        
+        for (size_t i = 0; i < m_poolSize; ++i)
+        {
+            if (m_rigidBodies[i] != nullptr)
+            {
+                m_rigidBodies[i]->DebugDraw();
+            }
+        }
+        
+    }
+
 
     // END OF RIGIDBODYMANAGER MEMBER FUNCTIONS
     // =======================================================
@@ -312,58 +327,6 @@ namespace LB
 
         //std::cout << "bodyA vel: " << bodyA->mVelocity.x << " , " << bodyA->mVelocity.y << std::endl;
         //std::cout << "bodyB vel: " << bodyB->mVelocity.x << " , " << bodyB->mVelocity.y << std::endl;
-    }
-
-    void MoveUp()
-    {
-        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
-        if (temp_mainchar == nullptr)
-        {
-            return;
-        }
-        if (temp_mainchar->mNumberID == 1)
-        {
-            temp_mainchar->addForce(Vec2<float>{0.f, 10.f});
-        }
-    }
-
-    void MoveDown()
-    {
-        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
-        if (temp_mainchar == nullptr)
-        {
-            return;
-        }
-        if (temp_mainchar->mNumberID == 1)
-        {
-            temp_mainchar->addForce(Vec2<float>{0.f, -10.f});
-        }
-    }
-
-    void MoveLeft()
-    {
-        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
-        if (temp_mainchar == nullptr)
-        {
-            return;
-        }
-        if (temp_mainchar->mNumberID == 1)
-        {
-            temp_mainchar->addForce(Vec2<float>{-10.f, 0.f});
-        }
-    }
-
-    void MoveRight()
-    {
-        CPRigidBody* temp_mainchar = PHYSICS->LookForMainCharacter();
-        if (temp_mainchar == nullptr)
-        {
-            return;
-        }
-        if (temp_mainchar->mNumberID == 1)
-        {
-            temp_mainchar->addForce(Vec2<float>{10.f, 0.f});
-        }
     }
 
 } // Namespace LB

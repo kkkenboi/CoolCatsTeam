@@ -14,5 +14,4 @@ namespace LB
     void CreateBoxVertices(LB::Vec2<float>* vertices_arr, float width, float height);
 
     void CreateBoxVerticesTransformed(LB::Vec2<float>* vertices_arr, LB::Vec2<float> position);
-
 }

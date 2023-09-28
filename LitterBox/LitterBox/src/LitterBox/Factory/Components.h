@@ -252,6 +252,8 @@ namespace LB
 		// Force is added upon object's velocity
 		void addForce(LB::Vec2<float> force);
 
+		void addImpulse(LB::Vec2<float> force);
+
 		// Just to move the RigidBody with a vector
 		void Move(LB::Vec2<float> vec);
 
@@ -276,6 +278,8 @@ namespace LB
 		// Side note: Might be impulsed based system instead
 		// therefore accel = force / mass should be introduced later
 		void FixedUpdate();
+
+		void DebugDraw();
 
 	};
 
