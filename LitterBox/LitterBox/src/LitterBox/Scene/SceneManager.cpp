@@ -11,6 +11,9 @@
 
 #include "SceneManager.h"
 
+// Test scene, to be refactored in M2
+#include "../../../Sandbox/src/SceneTestMain.h"
+
 namespace LB
 {
 	SceneManager* SCENEMANAGER = nullptr;
@@ -21,7 +24,35 @@ namespace LB
 			SCENEMANAGER = this;
 		else
 			std::cerr << "SceneManager System already exist" << std::endl;
+
+		// For now create a test scene
+		currentScene = new SceneTestMain;
 	}
 
+	void SceneManager::Initialize()
+	{
+		SetSystemName("SceneManager System");
+		currentScene->Init();
+	}
 
+	void SceneManager::Update()
+	{
+		currentScene->Update();
+	}
+
+	void SceneManager::Destroy()
+	{
+		currentScene->Destroy();
+		delete currentScene;
+	}
+
+	//void SceneManager::LoadScene(int index)
+	//{
+
+	//}
+
+	//void SceneManager::LoadScene(std::string name)
+	//{
+
+	//}
 }

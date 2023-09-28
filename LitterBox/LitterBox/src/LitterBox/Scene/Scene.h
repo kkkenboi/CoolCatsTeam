@@ -19,15 +19,19 @@ namespace LB
 	class Scene
 	{
 	public:
+		virtual void Init() {};
+		virtual void Update() {};
+		virtual void Destroy() {};
 
 	private:
 		std::string name;
 
-		std::list<GameObject> gameObjs;
+		// Hierachy will be done in M2
+		// GameObject* gameObjs; // All game objects are children of this root game object
 	};
 
-	bool operator==(Scene const& lhs, Scene const& rhs)
-	{
+	//bool operator==(Scene const& lhs, Scene const& rhs)
+	//{
 
-	}
+	//}
 }

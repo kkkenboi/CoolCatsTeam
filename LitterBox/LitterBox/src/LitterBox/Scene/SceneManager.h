@@ -21,14 +21,19 @@ namespace LB
 	class SceneManager : public ISystem
 	{
 	public:
-		void Initialize() override { SetSystemName("SceneManager System"); }
+		SceneManager();
 
-		void CreateScene();
-		void LoadScene(int index);
-		void LoadScene(std::string name);
+		void Initialize() override;
+		void Update() override;
+		void Destroy() override;
+
+		//void LoadScene(int index);
+		//void LoadScene(std::string name);
 
 	private:
-		std::vector<Scene> scenes;
+		//std::vector<Scene> scenes;
+
+		Scene* currentScene;
 	};
 
 	extern SceneManager* SCENEMANAGER;
