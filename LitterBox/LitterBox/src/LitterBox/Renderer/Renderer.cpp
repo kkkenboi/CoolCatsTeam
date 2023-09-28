@@ -85,10 +85,6 @@ unsigned int create_shader(const char* vertex_shader, const char* fragment_shade
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
 
 //---------------------------------------ANIMATIONS-------------------------------------
-//place holder animations
-//TODO convert these to serialization
-//TODO for even later, make an editor that can select custom uv
-std::array<std::array<LB::Vec2<float>, 4>, 12> frames[4];
 
 //TODO for array of UV data for serialization probably gonna need to store data on heap
 
@@ -470,7 +466,7 @@ Renderer::RenderSystem::RenderSystem() :
 	test2->uv[3].y = 1.f;//			{0.f,0.f, 1.f,0.f, 1.f,1.f, 0.f,1.f};
 	std::cout << " After: " << bg_renderer.get_ao_size() << std::endl;
 	//-################TEST CODE REMOVE AFTER##########################
-	a_Manager.load_anim("running down", frames[0].data(), .5f, 12);
+	//a_Manager.load_anim("running down", frames[0].data(), .5f, 12);
 	//testobj->play_repeat("running down");
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
