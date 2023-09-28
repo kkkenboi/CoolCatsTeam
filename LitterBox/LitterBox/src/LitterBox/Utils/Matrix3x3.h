@@ -19,7 +19,7 @@ namespace LB
 	template<typename T>
 	class Matrix3x3
 	{
-		public:
+	public:
 		// Shortform alphabets for different elements
 		#define a m[0][0]
 		#define b m[0][1]

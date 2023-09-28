@@ -1,3 +1,13 @@
+/*!************************************************************************
+ \file
+ \author(s)
+ \par DP email(s):
+ \par Course:		CSD2401A
+ \date
+ \brief
+
+**************************************************************************/
+
 #include "GameObjectFactory.h"
 #include "Components.h"
 
@@ -5,6 +15,14 @@ namespace LB
 {
 	FactorySystem* FACTORY = nullptr;
 
+
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	FactorySystem::FactorySystem()
 	{
 		// Ensure singleton
@@ -44,6 +62,14 @@ namespace LB
 		std::cout << "Factory Initialised\n";
 	}
 
+
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void FactorySystem::SerialiseGameObjs(int jsonThing)
 	{
 		// Serialise the Game Objects with all of their data
@@ -53,11 +79,27 @@ namespace LB
 		// if more than one game object created, set toUpdate to true
 	}
 
+
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void FactorySystem::InitCM(const std::string& name, ComponentMaker* newComponent)
 	{
 		m_ComponentMakers[name] = newComponent;
 	}
 
+
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void FactorySystem::DeleteAllCMs(std::map<std::string, ComponentMaker*> ComponentMakers)
 	{
 		for (std::map<std::string, ComponentMaker*>::iterator it = ComponentMakers.begin(); it != ComponentMakers.end(); ++it)
@@ -68,6 +110,14 @@ namespace LB
 		std::cout << "ComponentMakers all deleted\n";
 	}
 
+
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void FactorySystem::Update()
 	{
 
@@ -87,12 +137,26 @@ namespace LB
 		toUpdate = false;
 	}
 
+
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void FactorySystem::SendMessage(Message* message)
 	{ 
 		UNREFERENCED_PARAMETER(message); 
 	};
 
+	/*!***********************************************************************
+	 \brief
 
+
+	 \return
+
+	*************************************************************************/
 	GameObject* FactorySystem::CreateGameObject()
 	{
 		++m_LastObjID;
@@ -106,21 +170,49 @@ namespace LB
 		return new GameObject(FACTORY->GetLastObjID());
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	std::map<std::string, ComponentMaker*> FactorySystem::GetCMs() const
 	{
 		return m_ComponentMakers;
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	int FactorySystem::GetLastObjID() const
 	{
 		return m_LastObjID;
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	GameObject* FactorySystem::SpawnGameObject(Vec2<float> pos)
 	{
 		return SpawnGameObject({}, pos);
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<std::string> components, Vec2<float> pos)
 	{
 		// Creating the game object
@@ -149,6 +241,13 @@ namespace LB
 		return gameObj;
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void FactorySystem::Destroy()
 	{
 		DeleteAllCMs(m_ComponentMakers);

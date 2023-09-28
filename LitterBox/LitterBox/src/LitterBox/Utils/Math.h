@@ -45,7 +45,7 @@ namespace LB
 	template<typename T>
 	class Vec2 
 	{
-		public:
+	public:
 		/*!***********************************************************************
 		 \brief
 		  Data members of x and y

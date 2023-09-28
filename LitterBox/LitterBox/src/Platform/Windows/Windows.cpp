@@ -1,3 +1,13 @@
+/*!************************************************************************
+ \file
+ \author(s)
+ \par DP email(s):
+ \par Course:		CSD2401A
+ \date
+ \brief
+
+**************************************************************************/
+
 #include "Windows.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Core/Core.h"
@@ -9,12 +19,20 @@ namespace LB
 {
     WindowsSystem* WINDOWSSYSTEM = nullptr;
 
+    /*!***********************************************************************
+     \brief
+
+
+     \return
+
+    *************************************************************************/
 	WindowsSystem::WindowsSystem()
 	{
         // Ensure that there is only one window as it should only be called once for one engine
         // 
         // 
         // Set the global pointer to the windows system
+
         if (!WINDOWSSYSTEM)
         {
             WINDOWSSYSTEM = this;
@@ -92,6 +110,13 @@ namespace LB
         FrameBufferCB(m_Data.PtrToWindow, fb_width, fb_height);
 	}
 
+    /*!***********************************************************************
+     \brief
+
+
+     \return
+
+    *************************************************************************/
     WindowsSystem::~WindowsSystem()
 	{
         glfwDestroyWindow(this->m_Data.PtrToWindow);
@@ -99,6 +124,13 @@ namespace LB
         // If there are any resources allocated, delete before destructing WindowsSystem
 	}
 
+    /*!***********************************************************************
+     \brief
+
+
+     \return
+
+    *************************************************************************/
 	void WindowsSystem::Update()
 	{
         if (glfwWindowShouldClose(this->m_Data.PtrToWindow)) 
@@ -111,6 +143,13 @@ namespace LB
 
     }//Update the system every frame
 
+    /*!***********************************************************************
+     \brief
+
+
+     \return
+
+    *************************************************************************/
     void WindowsSystem::Draw(WindowsData _m_Data)
     {
         std::string title{_m_Data.Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime())};
@@ -126,7 +165,13 @@ namespace LB
 
     }//Update the system every frame
 
+    /*!***********************************************************************
+     \brief
 
+
+     \return
+
+    *************************************************************************/
     void WindowsSystem::ErrorCB(int error, char const* description)
     {
         UNREFERENCED_PARAMETER(error);
@@ -136,6 +181,14 @@ namespace LB
         #endif
 
     }
+
+    /*!***********************************************************************
+     \brief
+
+
+     \return
+
+    *************************************************************************/
     void WindowsSystem::FrameBufferCB(GLFWwindow* ptr_win, int width, int height)
     {
         UNREFERENCED_PARAMETER(ptr_win);
