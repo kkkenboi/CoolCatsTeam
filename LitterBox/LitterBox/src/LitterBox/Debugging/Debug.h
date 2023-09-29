@@ -17,21 +17,23 @@
 #include "LitterBox/Renderer/Camera.h"
 #include <stack>
 
-
 namespace LB
 {
+	// Keycode forward declaration
+	enum class KeyCode;
+
+	// Macro to remove full file path, leaving only the name of the file
 	#define DebuggerFileName (std::string(__FILE__).substr(std::string(__FILE__).rfind("\\") + 1))
 
+	// Macros for Debugging, calls the respective functions with __FILE__ and __LINE__
 	#define DebuggerAssert(expectedCondition, message) LB::DEBUG->Assert(expectedCondition, message, DebuggerFileName.c_str(), __LINE__)
 	#define DebuggerLog(message) LB::DEBUG->Log(message, DebuggerFileName.c_str(), __LINE__)
 	#define DebuggerLogWarning(message) LB::DEBUG->LogWarning(message, DebuggerFileName.c_str(), __LINE__)
 	#define DebuggerLogError(message) LB::DEBUG->LogError(message, DebuggerFileName.c_str(), __LINE__)
 
-
 	/*!***********************************************************************
 	\brief
-	 Deprecated Enum class that was meant to help determine which type of 
-	 debug object to draw.
+	 Determine which type of debug object to draw.
 	*************************************************************************/
 	enum class Debug_Types {
 		CIRCLE,
@@ -55,14 +57,13 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	 Debugger class is an Engine system used when you want to start drawing 
-	 debugging info for collision. Yes it's really only used for collision 
-	 what else could it be for.
+	 Debugger class is an Engine system used when you want to print something to
+	 console or start drawing debugging info for collision. Yes it's really only 
+	 used for collision what else could it be for.
 	*************************************************************************/
 	class Debugger : public ISystem
 	{
 	public:
-
 		/*!***********************************************************************
 		\brief
 		 Debugger class constructor
@@ -75,6 +76,7 @@ namespace LB
 		 to start drawing things on the screen.
 		*************************************************************************/
 		void Initialize() override;
+
 		/*!***********************************************************************
 		\brief
 		 The system's update function which sends compiles the data and sends
@@ -94,6 +96,7 @@ namespace LB
 		 start and an end point.
 		*************************************************************************/
 		void DrawLine(Vec2<float> start, Vec2<float> end, Vec4<float> color);
+
 		/*!***********************************************************************
 		\brief
 		 Function pushes a line for update to draw. This line is defined by a
@@ -104,23 +107,25 @@ namespace LB
 		*************************************************************************/
 		void DrawLine(Vec2<float> start, Vec2<float> direction, float magnitude, Vec4<float> color);
 
-
 		/*!***********************************************************************
 		\brief
 		 Deprecated DrawBox function.
 		*************************************************************************/
 		void DrawBox(Vec2<float> center, float length, Vec4<float> color);
+
 		/*!***********************************************************************
 		\brief
 		 DrawBox function loads 4 lines to be drawn to represent a box with a
 		 rotation defined in radians turning counter clockwise.
 		*************************************************************************/
 		void DrawBox(Vec2<float> center, float width, float height, Vec4<float> color, float rot);
+
 		/*!***********************************************************************
 		\brief
 		 Deprecated DrawBox function.
 		*************************************************************************/
 		void DrawBox(Vec2<float> center, float length);
+
 		/*!***********************************************************************
 		\brief
 		 DrawCircle draws lines in a way that represents a circle at center with
@@ -133,17 +138,20 @@ namespace LB
 		 Assert prints out a debug line if a specific condition is not met.
 		*************************************************************************/
 		void Assert(bool expectedCondition, std::string const& message, const char* file = "Unnamed", int line = 0);
+
 		/*!***********************************************************************
 		\brief
 		 Log prints a given message and the file that called it and from which line.
 		*************************************************************************/
 		void Log(std::string const& message, const char* file = "Unnamed", int line = 0);
+
 		/*!***********************************************************************
 		\brief
 		 LogWarning does the same thing as log but this time prints an additional
 		 word WARNING! so you know it's serious.
 		*************************************************************************/
 		void LogWarning(std::string const& message, const char* file = "Unnamed", int line = 0);
+
 		/*!***********************************************************************
 		\brief
 		 LogError does the same thing as LogWarning but this time prints an additional
@@ -151,8 +159,17 @@ namespace LB
 		*************************************************************************/
 		void LogError(std::string const& message, const char* file = "Unnamed", int line = 0);
 
-		private:
-		Vec2<float> m_writePos;
+		bool IsDebugOn();
+		void ToggleDebugMode();
+
+		void StepPhysics();
+
+	private:
+		//-----------------Member variables----------------
+		bool m_debugModeOn { false };
+		KeyCode m_debugToggleKey, m_stepPhysicsKey;
+		double m_stepped { false };
+
 		Vec4<float> m_drawColor;
 
 		unsigned int vao;
@@ -171,5 +188,13 @@ namespace LB
 		void line_update(Debug_Object& obj, const size_t& index);
 	};
 
+	void InitializeLoggers();
+	void FlushDebugLog();
+	void FlushCrashLog(int signal);
+
+	void ToggleDebugOn();
+	void StepPhysics();
+
+	// A pointer to the system object in the core engine made to be singleton
 	extern Debugger* DEBUG;
 }

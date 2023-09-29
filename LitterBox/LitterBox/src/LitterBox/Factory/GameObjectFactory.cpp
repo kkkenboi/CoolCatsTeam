@@ -20,7 +20,6 @@ namespace LB
 {
 	FactorySystem* FACTORY = nullptr;
 
-
 	/*!***********************************************************************
 	 \brief
 	 Initialises the factory with known component types to make ComponentMakers
@@ -50,7 +49,7 @@ namespace LB
 		// Deserialise the data file and initialise the game objects with it
 		SerialiseGameObjs(1);
 
-		std::cout << "Factory Initialised\n";
+		DebuggerLog("Factory Initialised");
 	}
 
 	/*!***********************************************************************
@@ -85,7 +84,7 @@ namespace LB
 
 			// For now just make it be the same
 			//GOMANAGER->m_Pool = m_WaitingList;
-			//std::cout << "Factory Updated\n";
+			DebuggerLog("Factory Updated");
 		}
 
 		m_ToUpdate = false;
@@ -149,7 +148,7 @@ namespace LB
 			delete it->second;
 		}
 
-		std::cout << "ComponentMakers all deleted\n";
+		DebuggerLog("ComponentMakers all deleted");
 	}
 
 	/*!***********************************************************************
@@ -198,6 +197,32 @@ namespace LB
 		GOMANAGER->AddGameObject(gameObj);
 		return gameObj;
 	}
+	/*!***********************************************************************
+	 \brief
+	 Spawns a GameObject with the exact same components as the provided GameObject
+
+	 \return
+	 A pointer to the GameObject
+	*************************************************************************/
+	GameObject* FactorySystem::SpawnGameObject(GameObject* prefab)
+	{
+		GameObject* clone = FACTORY->CreateGameObject();
+		if (clone->GetID() == 0) 		// ID only starts at 1
+		{
+			clone->SetID(FACTORY->GetLastObjID());
+		}
+		//We loop through all the components in the prefab
+		for (auto& elem : prefab->GetComponents())
+		{	//Then we add it to our clone
+			clone->AddComponent(elem.first,FACTORY->GetCMs()[elem.first]->Create());
+		}
+		//This copies the data from our prefab components over to the clone
+		clone->SetComponents(prefab->GetComponents());
+		//Then we initialise the data for the clone
+		clone->StartComponents();
+		GOMANAGER->AddGameObject(clone);
+		return clone;
+	}
 
 	/*!***********************************************************************
 	 \brief
@@ -209,7 +234,8 @@ namespace LB
 	GameObject* FactorySystem::CreateGameObject()
 	{
 		++m_LastObjID;
-		std::cout << "GO " << m_LastObjID << " has been created\n";
+
+		DebuggerLog("GO" + std::to_string(m_LastObjID) + " has been created");
 		//toUpdate = true;
 
 		// Does this mean that only default constructors are allowed?

@@ -4,10 +4,11 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions definitions of the
-					Layer class that provides a "layer" on the screen which
-					will allow for overlay layers, and additional interfaces
-					such as ImGui to coexist with the editor.
+ \brief
+
+ This file contains functions defintions of the Layer class that provides
+ a "layer" on the screen which will allow for overlay layers, and additional
+ interfaces such as ImGui to coexist with the editor.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent

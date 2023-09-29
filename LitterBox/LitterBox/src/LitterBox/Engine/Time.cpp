@@ -311,9 +311,9 @@ namespace LB {
 	 \return
 
 	*************************************************************************/
-	void Time::ToggleVSync(bool on)
+	void Time::StepFixedDeltaTime()
 	{
-		UNREFERENCED_PARAMETER(on);
-
+		// Accumulate time to ensure one Fixed Update
+		m_accumulatedTime += m_unscaledFixedDeltaTime + 0.001;
 	}
 }

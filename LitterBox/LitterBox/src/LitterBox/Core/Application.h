@@ -4,9 +4,11 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions declarations of the
-					Application class that sets up the engine functionalities.
-					This is to allow it to be used on other projects.
+ \brief				
+ 
+ This file contains functions declarations of the Application class that 
+ sets up the engine functionalities. This is to allow it to be used on 
+ other projects.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -22,6 +24,7 @@
 #include "LitterBox/GameLogic/GameLogic.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Engine/Layer.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Debugging/Profiler.h"
 #include "LitterBox/Physics/RigidBodyManager.h"

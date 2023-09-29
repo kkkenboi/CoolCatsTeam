@@ -8,20 +8,31 @@
 
 **************************************************************************/
 
-#include "Debug.h"
 #include "LitterBox/Renderer/Renderer.h"
+#include "LitterBox/Engine/Input.h"
+#include "LitterBox/Engine/Time.h"
+#include "Debug.h"
 #include <iostream>
+#include <sstream>
+
+#include <csignal>			// For getting crash signals
+#include "spdlog/spdlog.h"	// For logging information to files
+#include "spdlog/sinks/basic_file_sink.h"
 
 //-----------------Pre-defines------------------------------
 constexpr int CIRCLE_LINES{ 20 };
 constexpr float INCREMENT{ 2.f * (float)PI / (float)CIRCLE_LINES };
 
-float wid_div;// { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
-float height_div;// { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
+float wid_div;		// { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
+float height_div;	// { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
 //-----------------Pre-defines------------------------------
 
 namespace LB 
 {
+	//------------------File logger--------------------
+	std::shared_ptr<spdlog::logger> debugInfoLogger;
+	std::shared_ptr<spdlog::logger> crashInfoLogger;
+
 	Debugger* DEBUG = nullptr;
 	/*!***********************************************************************
 	\brief
@@ -33,6 +44,14 @@ namespace LB
 			DEBUG = this;
 		else
 			std::cerr << "Debug System already exist" << std::endl;
+
+		// Toggle debug mode on key press
+		m_debugToggleKey = KeyCode::KEY_J;
+		m_stepPhysicsKey = KeyCode::KEY_I;
+
+		//--------------------Crash signal Setup---------------------
+		signal(SIGSEGV, FlushCrashLog);
+		signal(SIGABRT, FlushCrashLog);
 	}
 	/*!***********************************************************************
 	\brief
@@ -42,6 +61,71 @@ namespace LB
 		Vec2<float> pos;
 		Vec4<float> col;
 	};
+
+	bool Debugger::IsDebugOn()
+	{
+		return m_debugModeOn;
+	}
+
+	void Debugger::ToggleDebugMode()
+	{
+		m_debugModeOn = !m_debugModeOn;
+	}
+
+	// TODO: Refactor so that it uses a different pause
+	// Only works if paused
+	void Debugger::StepPhysics()
+	{
+		if (!TIME->IsPaused()) return;
+		m_stepped = true;
+		TIME->Pause(false);
+		TIME->StepFixedDeltaTime();
+	}
+
+	// For event
+	void StepPhysics()
+	{
+		DEBUG->StepPhysics();
+	}
+
+	// For event
+	void ToggleDebugOn()
+	{
+		DEBUG->ToggleDebugMode();
+	}
+
+	void InitializeLoggers()
+	{
+		//--------------------Loggers Setup---------------------
+		debugInfoLogger = spdlog::basic_logger_mt("DEBUG LOGGER", "Logs/DebugLog.txt");
+		debugInfoLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+		debugInfoLogger->set_level(spdlog::level::debug);
+
+		crashInfoLogger = spdlog::basic_logger_mt("CrashLogger", "../Logs/CrashLog.txt");
+		crashInfoLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+		crashInfoLogger->set_level(spdlog::level::err);
+	}
+
+	void FlushDebugLog()
+	{
+		std::ofstream logFile("Logs/DebugLog.txt", std::ios::trunc);
+		logFile.close();
+
+		// Log all debug info on exit
+		debugInfoLogger->flush();
+	}
+
+
+	void FlushCrashLog(int signal)
+	{
+		// Flush the debug log as well
+		FlushDebugLog();
+		
+		std::ofstream logFile("Logs/CrashLog.txt", std::ios::trunc);
+		logFile.close();
+
+		crashInfoLogger->error("Unexpected application crash! Signal: {}", signal);
+	}
 
 	//TODO modulate the vertex size
 	//vertex size should = min 3000 x 4 (number of quads in render object)
@@ -56,10 +140,16 @@ namespace LB
 		else
 			std::cerr << "Debug System already exist" << std::endl;
 
+		SetSystemName("Debug System");
+
+		//--------------------Debugging input registering---------------------
+		INPUT->SubscribeToKey(ToggleDebugOn, m_debugToggleKey, KeyEvent::TRIGGERED);
+		INPUT->SubscribeToKey(LB::StepPhysics, m_stepPhysicsKey, KeyEvent::TRIGGERED);
+
+		//--------------------Drawing Setup---------------------
 		wid_div = { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
 		height_div = { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
 
-		SetSystemName("Debug System");
 		//assume we have one index per vertex
 		idx.resize(12000);
 
@@ -138,6 +228,17 @@ namespace LB
 	 the information to the GPU to get drawn
 	*************************************************************************/
 	void Debugger::Update() {
+		// If stepped, pause again since it was paused before
+		if (m_stepped)
+		{
+			m_stepped = false;
+			TIME->Pause(true);
+		}
+
+		//-----------------Debug Rendering------------------
+		// Don't do any rendering if debug mode is off
+		if (!IsDebugOn()) return;
+
 		size_t index{ 0 };
 		while (drawobj.size()) {
 			//loop through object to 
@@ -284,7 +385,14 @@ namespace LB
 	*************************************************************************/
 	void Debugger::Log(std::string const& message, const char* file, int line)
 	{
-		fprintf(stdout, "[DEBUGGER LOG] [%s:%d] %s\n", file, line, message.c_str());
+		std::ostringstream output;
+		output << "[" << file << ":" << line << "] " << message;
+
+		// Print to console
+		fprintf(stdout, "[DEBUGGER LOG] %s\n", output.str().c_str());
+
+		// Save to debug file
+		debugInfoLogger->debug(output.str());	
 	}
 
 	/*!***********************************************************************
@@ -319,5 +427,4 @@ namespace LB
 			fprintf(stderr, "[DEBUGGER ASSERT!!] [%s:%d] %s\n", file, line, message.c_str());
 		}
 	}
-
 }

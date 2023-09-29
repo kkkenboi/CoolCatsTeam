@@ -4,9 +4,11 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions definitions of the  
-					Application class that sets up the engine functionalities.
-					This is to allow it to be used on other projects.
+ \brief
+
+ This file contains functions definitions of the Application class that
+ sets up the engine functionalities. This is to allow it to be used on
+ other projects.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or 
  disclosure of this file or its contents without the prior written consent 
@@ -25,11 +27,14 @@ namespace LB {
 		// Setting up LitterBox Engine with the available systems
 		Engine = new LBEngine();
 
+		// TODO: Refactor intialization order and move back to debugger system
+		InitializeLoggers();
 		Time*					time			= new Time(100, 60);
 		InputSystem*			input			= new InputSystem();
 		ProfilerManager*		profiler		= new ProfilerManager();
-		FactorySystem*			factory			= new FactorySystem();
 		WindowsSystem*			windows			= new WindowsSystem();
+		Debugger*				debug			= new Debugger();
+		FactorySystem*			factory			= new FactorySystem();
 		GameObjectManager*		gameManager		= new GameObjectManager();
 		GameLogic*				logic			= new GameLogic();
 		RigidBodyManager*		physics			= new RigidBodyManager();
@@ -37,7 +42,6 @@ namespace LB {
 		AssetManager*			assetManager	= new AssetManager();
 		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
 		Memory*					memory			= new Memory();
-		Debugger*				debug			= new Debugger();
 		SceneManager*			sceneManager	= new SceneManager();
 
 		Engine->AddSystem(time);
@@ -67,6 +71,9 @@ namespace LB {
 	{
 		//Delete all the systems
 		Engine->DestroySystems();
+
+		// TODO: Refactor intialization order and move back to debugger system
+		FlushDebugLog();
 
 		//Delete the engine itself
 		delete Engine;
