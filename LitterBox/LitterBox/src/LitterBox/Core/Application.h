@@ -1,3 +1,18 @@
+/*!************************************************************************
+ \file				Application.h
+ \author(s)			Kenji Brannon Chong
+ \par DP email(s):	kenjibrannon.c@digipen.edu
+ \par Course:       CSD2401A
+ \date				29/09/2023
+ \brief				This file contains functions declarations of the
+					Application class that sets up the engine functionalities.
+					This is to allow it to be used on other projects.
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Renderer/Renderer.h"
@@ -17,18 +32,40 @@
 #include "Core.h"
 
 namespace LB {
-	class Application 
+
+	/*!***********************************************************************
+	 \brief
+	 Sets up an application used on other projects with the LitterBox Engine
+	*************************************************************************/
+	class Application
 	{
 	public:
+		/*!***********************************************************************
+		 \brief
+		 Initialises the LitterBox Engine with all the systems added
+		*************************************************************************/
 		Application();
+
+		/*!***********************************************************************
+		 \brief
+		 Destroys the systems and the LitterBox Engine itself
+		*************************************************************************/
 		virtual ~Application();
 
+		/*!***********************************************************************
+		 \brief
+		 Keeps the LitterBox Engine game loop running if program is not closing
+		*************************************************************************/
 		void Run();
 	private:
 		LBEngine* Engine;
 	};
 
-	// To be used in Client
+	/*!***********************************************************************
+	\brief
+	Creates the application in the project area, to be used by other projects
+	eg. Sandbox
+	*************************************************************************/
 	Application* CreateApplication();
 
 }

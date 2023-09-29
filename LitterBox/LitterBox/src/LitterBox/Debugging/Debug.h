@@ -44,7 +44,6 @@ namespace LB
 	class Debugger : public ISystem
 	{
 	public:
-		Debugger();
 
 		void Initialize() override;
 		void Update() override;

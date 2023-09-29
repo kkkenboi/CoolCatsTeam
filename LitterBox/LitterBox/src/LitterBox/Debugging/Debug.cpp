@@ -24,14 +24,6 @@ namespace LB
 {
 	Debugger* DEBUG = nullptr;
 
-	Debugger::Debugger()
-	{
-		if (!DEBUG)
-			DEBUG = this;
-		else
-			std::cerr << "Debug System already exist" << std::endl;
-	}
-
 	struct debug_vertex {
 		Vec2<float> pos;
 		Vec4<float> col;
@@ -40,6 +32,11 @@ namespace LB
 	//TODO modulate the vertex size
 	//vertex size should = min 3000 x 4 (number of quads in render object)
 	void Debugger::Initialize() {
+		if (!DEBUG)
+			DEBUG = this;
+		else
+			std::cerr << "Debug System already exist" << std::endl;
+
 		wid_div = { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
 		height_div = { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
 
@@ -106,8 +103,8 @@ namespace LB
 		server_data[1].col = obj.color;
 
 		glNamedBufferSubData(vbo, index * sizeof(debug_vertex), sizeof(debug_vertex) * 2U, server_data);
-		idx.at(index) = index;
-		idx.at(index + 1) = index + 1;
+		idx.at(index) = static_cast<unsigned short>(index);
+		idx.at(index + 1) = static_cast<unsigned short>(index + 1);
 		//-----------------Send data to GPU--------------
 	}
 
