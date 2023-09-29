@@ -49,10 +49,6 @@ group "Engine"
     include "LitterBox"
 group ""
 
-group "Editor"
-    include "Editor"
-group ""
-
 group "Sandbox"
     include "Sandbox"
 group ""

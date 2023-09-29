@@ -32,6 +32,10 @@ void TogglePause()
 	TIME->Pause(paused);
 }
 
+/*!***********************************************************************
+ \brief
+ Initialises the current scene (for now it contains a lot of tests)
+*************************************************************************/
 void SceneTestMain::Init()
 {
 	Renderer::GRAPHICS->create_texture("../Assets/Textures/walk.png", "run");
@@ -40,11 +44,11 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
-	/*test2 = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" });
+	test2 = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" });
 	test2->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
 
 	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
-	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));*/
+	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
@@ -75,15 +79,11 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
-	//test = FACTORY->SpawnGameObject({ "CPRender" });
-	test2 = FACTORY->SpawnGameObject({ "CPRender" });
-	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
-	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
-	scaleObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(600, 600));
-	rotObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(800, 600));
+	scaleObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(600, 300));
+	rotObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(800, 300));
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Animation test
@@ -126,6 +126,10 @@ void SceneTestMain::Init()
 	//std::cout << testPlayer->playerObj->GetComponent<CPTransform>("CPTransform")->GetPosition().ToString();
 }
 
+/*!***********************************************************************
+ \brief
+ Updates the current Scene 
+*************************************************************************/
 void SceneTestMain::Update()
 {
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,9 +143,14 @@ void SceneTestMain::Update()
 	testPlayer->Update();
 }
 
+/*!***********************************************************************
+ \brief
+ Functions that will be called when the scene is destroyed
+*************************************************************************/
 void SceneTestMain::Destroy()
 {
 	//delete testPlayer;
+	//This test lets us know that we can "save" the player's position
 	JSONSerializer stream;
 	stream.SerializeToFile("TestObject", *testPlayer->playerObj);
 }

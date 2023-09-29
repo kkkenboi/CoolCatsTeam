@@ -762,6 +762,8 @@ Renderer::Texture::~Texture()
 *************************************************************************/
 bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
 {
+	file_path;
+	name;
 	//LB::ASSETMANAGER->AddTexture(file_path, name);
 
 	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");

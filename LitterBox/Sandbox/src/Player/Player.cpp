@@ -1,6 +1,17 @@
+/*!************************************************************************
+ \file				Player.cpp
+ \author(s)			Ang Jiawei Jarrett | Ryan Tan Jian Hao
+ \par DP email(s):	a.jiaweijarrett@digipen.edu | ryanjianhao.tan\@digipen.edu
+ \par Course:		CSD2401A
+ \date				28-09-2023
+ \brief
+ This file contains the definitions for a player class. This file is a test
+ file and simulates a "user created" script that utilises the engine
 
+**************************************************************************/
 #include "Player.h"
 
+//Game object that will be the player
 GameObject* PlayerObj;
 
 extern GameObject** test;
@@ -27,7 +38,10 @@ void spawn2500() {
 	}
 }
 
-
+/*!***********************************************************************
+\brief
+ Initialises the player and all its components (also subscribing key events)
+*************************************************************************/
 void Player::Initialise()
 {
 	this->playerObj = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody"});
@@ -55,6 +69,11 @@ void Player::Initialise()
 	PlayerObj = playerObj;
 }
 
+
+/*!***********************************************************************
+\brief
+ Updates the player
+*************************************************************************/
 void Player::Update()
 {
 
@@ -156,6 +175,11 @@ void AnimDown()
 	PlayerObj->GetComponent<CPRender>("CPRender")->play_repeat("down_walk");
 }
 
+
+/*!***********************************************************************
+\brief
+ Function that is meant to spawn game object prefabs (unused for now)
+*************************************************************************/
 void SpawnPineapples()
 {
 	 //clone = FACTORY->SpawnGameObject(ASSETMANAGER->PineappleObject);
