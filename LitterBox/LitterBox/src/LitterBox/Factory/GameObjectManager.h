@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				GameObjectManager.h
- \author(s)			Kenji Brannon Chong
- \par DP email(s):	kenjibrannon.c@digipen.edu
+ \author(s)			Kenji Brannon Chong | Amadeus Chia Jinhan
+ \par DP email(s):	kenjibrannon.c@digipen.edu | amadeusjinhan.chia@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
  \brief		
@@ -68,6 +68,11 @@ namespace LB
 		 Gets all the components of the GameObject
 		*************************************************************************/
 		std::unordered_map<std::string, IComponent*> GetComponents();
+
+		/*!***********************************************************************
+		 \brief
+		 Sets all of the components of one GameObject to another map
+		*************************************************************************/
 		void SetComponents(const std::unordered_map<std::string, IComponent*>& );
 
 		/*!***********************************************************************
@@ -75,7 +80,17 @@ namespace LB
 		 Adds a component to the GameObject
 		*************************************************************************/
 		void AddComponent(std::string name, IComponent* component);
+
+		/*!***********************************************************************
+		 \brief
+		 Serializes the GameObject data into a file
+		*************************************************************************/
 		bool Serialize(Value&, Document::AllocatorType&);
+
+		/*!***********************************************************************
+		 \brief
+		 Deserializes the GameObject data from a file
+		*************************************************************************/
 		bool Deserialize(const Value&);
 
 		/*!***********************************************************************
