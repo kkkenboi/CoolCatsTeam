@@ -6,6 +6,9 @@
  \date			22-09-2023
  \brief
 
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "Platform/Windows/Windows.h"
@@ -20,6 +23,12 @@ namespace LB
 
 	/**************************************************************************************************/
 	// Profiler manager
+
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
 	ProfilerManager::ProfilerManager() 
 	{
 		if (!PROFILER)
@@ -33,7 +42,12 @@ namespace LB
 		TIME->onFrameEnd.Subscribe(LB::SwapSystemInfoMapBuffer);
 	}
 
-	void ProfilerManager::Destroy() 
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
+	void ProfilerManager::Destroy()
 	{
 		INPUT->UnsubscribeToKey(LB::DumpGeneralInfo, dumpGeneralInfoKey, KeyEvent::TRIGGERED);
 		INPUT->UnsubscribeToKey(LB::DumpFrameInfo, dumpFrameInfoKey, KeyEvent::TRIGGERED);
@@ -41,6 +55,11 @@ namespace LB
 		TIME->onFrameEnd.Unsubscribe(LB::SwapSystemInfoMapBuffer);
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
 	void ProfilerManager::AddProfilerInfo(char const* name, double duration, ProfileMap map, bool overrideInfo)
 	{
 		switch (map) {
@@ -54,6 +73,11 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
 	void ProfilerManager::SwapSystemInfoMapBuffer()
 	{
 		// Record frame number, budget, FPS before swapping
@@ -78,11 +102,21 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
 	void SwapSystemInfoMapBuffer()
 	{
 		PROFILER->SwapSystemInfoMapBuffer();
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
 	void ProfilerManager::DumpGeneralInfo()
 	{
 		// Print and delete the information
@@ -98,6 +132,11 @@ namespace LB
 		generalInfoMap.clear();
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
 	void ProfilerManager::DumpFrameInfo()
 	{
 		double totalTime		= (*systemInfoMap)["Total Frame Time"];
@@ -139,11 +178,21 @@ namespace LB
 		std::cout << std::setfill('=') << std::setw(59) << "=" << std::setfill(' ') << "\n\n";
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
 	void DumpGeneralInfo()
 	{
 		PROFILER->DumpGeneralInfo();
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
 	void DumpFrameInfo()
 	{
 		PROFILER->DumpFrameInfo();
@@ -151,12 +200,22 @@ namespace LB
 
 	/**************************************************************************************************/
 	// Profiler object
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
 	Profiler::Profiler(char const* _name, ProfileResult _result, ProfileMap _map, bool _overrideInfo) : name(_name), result(_result), map(_map), overrideInfo(_overrideInfo)
 	{ 
 		start = TIME->GetTimeStamp();
 	}
 
-	Profiler::~Profiler() 
+	/*!***********************************************************************
+	 \brief
+
+	 \return
+	*************************************************************************/
+	Profiler::~Profiler()
 	{
 		std::chrono::high_resolution_clock::time_point end = TIME->GetTimeStamp();
 		std::chrono::duration<double, std::milli> duration{end - start};
