@@ -1,7 +1,9 @@
 #pragma once
 #include "LitterBox/Core/System.h"
+#pragma warning(push, 0)
 #include "../../dependencies/FMOD/core/inc/fmod.hpp"
 #include "../../dependencies/FMOD/core/inc/fmod_errors.h"
+#pragma warning(pop)
 #include "LitterBox/Serialization/AssetManager.h"
 
 namespace LB
