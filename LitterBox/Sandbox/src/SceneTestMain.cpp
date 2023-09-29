@@ -40,11 +40,11 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
-	/*test2 = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" });
+	test2 = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" });
 	test2->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
 
 	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
-	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));*/
+	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
@@ -75,15 +75,11 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
-	//test = FACTORY->SpawnGameObject({ "CPRender" });
-	test2 = FACTORY->SpawnGameObject({ "CPRender" });
-	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
-	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
-	scaleObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(600, 600));
-	rotObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(800, 600));
+	scaleObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(600, 300));
+	rotObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(800, 300));
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Animation test
