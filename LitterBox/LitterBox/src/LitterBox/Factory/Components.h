@@ -313,16 +313,10 @@ namespace LB
 		// =================
 		void Initialise() override
 		{
-			Start();
+			CreateRigidBody();
 		}
 
-		void Start (LB::Vec2<float> position = LB::Vec2<float>{ 0.f,0.f },
-			LB::Vec2<float> prevposition = LB::Vec2<float>{ 0.f, 0.f },
-			LB::Vec2<float> velocity = LB::Vec2<float>{ 0.f, 0.f },
-			LB::Vec2<float> acceleration = LB::Vec2<float>{ 0.f, 0.f },
-			float rotation = 0.0f, float rotationvelocity = 0.0f, float density = 0.0f, float mass = 0.0f, float invmass = 0.0f, float restitution = 0.0f,
-			float area = 0.0f, float friction = 0.0f, bool isstatic = false, bool isactive = false, float radius = 0.0f, float width = 0.0f, float height = 0.0f,
-			SHAPETYPE shape = SHAPETYPE::NONE);
+		void CreateRigidBody ();
 
 
 	public:
@@ -331,6 +325,8 @@ namespace LB
 
 		// Force is added upon object's velocity
 		void addForce(LB::Vec2<float> force);
+
+		void addImpulse(LB::Vec2<float> force);
 
 		// Just to move the RigidBody with a vector
 		void Move(LB::Vec2<float> vec);
@@ -356,6 +352,8 @@ namespace LB
 		// Side note: Might be impulsed based system instead
 		// therefore accel = force / mass should be introduced later
 		void FixedUpdate();
+
+		void DebugDraw();
 
 	};
 

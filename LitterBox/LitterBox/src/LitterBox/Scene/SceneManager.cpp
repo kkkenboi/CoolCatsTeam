@@ -18,6 +18,13 @@ namespace LB
 {
 	SceneManager* SCENEMANAGER = nullptr;
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	SceneManager::SceneManager()
 	{
 		if (!DEBUG)
@@ -29,17 +36,39 @@ namespace LB
 		currentScene = new SceneTestMain;
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void SceneManager::Initialize()
 	{
 		SetSystemName("SceneManager System");
 		currentScene->Init();
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void SceneManager::Update()
 	{
+		if (TIME->IsPaused()) return;
 		currentScene->Update();
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void SceneManager::Destroy()
 	{
 		currentScene->Destroy();

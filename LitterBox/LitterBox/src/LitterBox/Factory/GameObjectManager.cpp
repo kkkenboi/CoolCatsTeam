@@ -1,3 +1,13 @@
+/*!************************************************************************
+ \file
+ \author(s)
+ \par DP email(s):
+ \par Course:		CSD2401A
+ \date
+ \brief
+
+**************************************************************************/
+
 #include "GameObjectManager.h"
 #include "Components.h"
 
@@ -11,6 +21,13 @@ namespace LB
 
 	GameObjectManager* GOMANAGER = nullptr;
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	GameObjectManager::GameObjectManager()
 	{
 		SetSystemName("GameObjectManager System");
@@ -25,16 +42,37 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	std::vector<GameObject*> GameObjectManager::GetGameObjects() const
 	{
 		return m_GameObjects;
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void GameObjectManager::AddGameObject(GameObject* gameObject)
 	{
 		m_GameObjects.push_back(gameObject);
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void GameObjectManager::DestroyAllGOs()
 	{
 		std::cout << "Entering!!\n";
@@ -62,8 +100,8 @@ namespace LB
 		}
 
 		// Destroying gameobjects
-		int gameObjSize = m_GameObjects.size();
-		for (int i{}; i < gameObjSize; ++i)
+		size_t gameObjSize = m_GameObjects.size();
+		for (size_t i{}; i < gameObjSize; ++i)
 		{
 			delete m_GameObjects[i];
 		}
@@ -76,6 +114,13 @@ namespace LB
 		std::cout << "All GOs deleted\n";
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void GameObjectManager::Destroy()
 	{
 		DestroyAllGOs();
@@ -87,10 +132,25 @@ namespace LB
 	* Game Object
 	*
 	***************************************************************************************************/
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	GameObject::GameObject(int ID) : m_Components{}, isActive{ false }, m_ID{ ID }
 	{
 		std::cout << "GO constructed\n";
 	}
+
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	GameObject::GameObject() : m_Components{}, isActive{ false }, m_ID{}
 	{
 		std::cout << "GO constructed\n";
@@ -101,23 +161,51 @@ namespace LB
 	//	std::cout << "GO parameterized constructor\n";
 	//};
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	GameObject::~GameObject()
 	{
 		// Should delete all of the components
 		std::cout << "GO destructed\n";
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	std::unordered_map<std::string, IComponent*> GameObject::GetComponents()
 	{
 		return m_Components;
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void GameObject::AddComponent(std::string name, IComponent* component)
 	{
 		component->gameObj = this;
 		m_Components[name] = component;
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void GameObject::StartComponents()
 	{
 		for (auto const& component : m_Components)
@@ -126,15 +214,27 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	int GameObject::GetID() const
 	{
 		return m_ID;
 	}
+
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void GameObject::SetID(int ID)
 	{
 		m_ID = ID;
 	}
-
-
-
 }

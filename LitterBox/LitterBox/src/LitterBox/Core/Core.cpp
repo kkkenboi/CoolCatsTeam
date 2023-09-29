@@ -1,3 +1,13 @@
+/*!************************************************************************
+ \file				Core.cpp
+ \author(s)			
+ \par DP email(s):	
+ \par Course:		CSD2401A
+ \date				
+ \brief
+ 
+**************************************************************************/
+
 #include "pch.h"
 #include "Core.h"
 #include <GLFW/glfw3.h>
@@ -8,6 +18,10 @@ namespace LB
 {
 	LBEngine* CORE;
 
+	/*!***********************************************************************
+	 \brief
+
+	*************************************************************************/
 	LBEngine::LBEngine()
 	{
 		m_Running = true;
@@ -17,17 +31,35 @@ namespace LB
 		CORE = this; //Set the global pointer
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+	*************************************************************************/
 	LBEngine::~LBEngine()
 	{
 		//Nothing for the destructor to do
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void LBEngine::Initialize()
 	{
 		for (unsigned i = 0; i < Systems.size(); ++i)
 			Systems[i]->Initialize();
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/	
 	void LBEngine::GameLoop()
 	{
 		while (m_Running)
@@ -63,6 +95,13 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/	
 	void LBEngine::BroadcastMessage(Message* message)
 	{
 		//The message that tells the game to quit
@@ -70,12 +109,17 @@ namespace LB
 			m_Running = false;
 
 		//Send the message to every system--each
-		//system can figure out whether it cares
-		//about a given message or not
 		for (unsigned i = 0; i < Systems.size(); ++i)
 			Systems[i]->SendMessage(message);
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void LBEngine::AddSystem(ISystem* system)
 	{
 		//Add a system to the core to be updated
@@ -83,6 +127,13 @@ namespace LB
 		Systems.push_back(system);
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/	
 	void LBEngine::DestroySystems()
 	{
 		//Delete all the systems in reverse order
@@ -95,33 +146,15 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	bool LBEngine::IsRunning()
 	{
 		return m_Running ? true : false;
-	}
-
-	void LBEngine::UpdateFPS(double fpsUpdateInterval)
-	{
-		static double prevTime = glfwGetTime();
-		double currTime = glfwGetTime();
-		double m_DeltaTime = currTime - prevTime;
-		prevTime = currTime;
-
-		// fps calculations
-		static double count = 0.0; // number of game loop iterations
-		static double startTime = glfwGetTime();
-		// get elapsed time since very beginning (in seconds) ...
-		double elapsedTime = currTime - startTime;
-
-		++count;
-
-		// update fps at least every 10 seconds ...
-		fpsUpdateInterval = (fpsUpdateInterval < 0.0) ? 0.0 : fpsUpdateInterval;
-		fpsUpdateInterval = (fpsUpdateInterval > 10.0) ? 10.0 : fpsUpdateInterval;
-		if (elapsedTime > fpsUpdateInterval) {
-			m_FPS = count / elapsedTime;
-			startTime = currTime;
-			count = 0.0;
-		}
 	}
 }

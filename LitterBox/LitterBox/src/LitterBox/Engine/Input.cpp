@@ -1,9 +1,28 @@
+/*!************************************************************************
+ \file
+ \author(s)
+ \par DP email(s):
+ \par Course:		CSD2401A
+ \date
+ \brief
+
+**************************************************************************/
+
+#include "Platform/Windows/Windows.h"
 #include "Input.h"
+#include "LitterBox/Engine/Time.h"
 
 namespace LB
 {
 	InputSystem* INPUT = nullptr;
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	InputSystem::InputSystem()
 	{
 		if (!INPUT) //when theres no input instance, assign this new input system object as input
@@ -12,11 +31,58 @@ namespace LB
 			std::cerr << "Input System already exist" << std::endl;
 	}
 	
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/	
 	void InputSystem::Update()
 	{
+		for (int i = 0; i < GLFW_KEY_LAST; ++i)
+		{
+			inputKeysLast[i] = inputKeysCurr[i];
+		}
+
 		glfwPollEvents();
+
+		std::cout << inputKeys.size() << "\n";
+
+		for (auto key = inputKeys.begin(); key != inputKeys.end(); ++key) 
+		{
+			// Refactor pausing for input
+			if (TIME->IsPaused() && key->first != KeyCode::KEY_U) continue;
+
+			if (inputKeysCurr[(int)key->first] && !inputKeysLast[(int)key->first])
+			{
+
+				inputKeys[key->first].onTrigger.Invoke(); //invoke, notifying all subscribers for the keycode on Trigger
+				inputKeys[key->first].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
+			}
+			else if (inputKeysCurr[(int)key->first] && inputKeysLast[(int)key->first])
+			{
+				inputKeys[key->first].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
+			}
+			else if (!inputKeysCurr[(int)key->first] && inputKeysLast[(int)key->first])
+			{
+				inputKeys[key->first].onReleased.Invoke(); //invoke, notifying all subscribers for the keycode on Release
+			}
+		}
 	}
 
+	bool InputSystem::IsKeyPressed(KeyCode key)
+	{
+		return inputKeysCurr[(int)key];
+	}
+
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void InputSystem::InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod)
 	{
 		UNREFERENCED_PARAMETER(pwin);
@@ -24,26 +90,35 @@ namespace LB
 		UNREFERENCED_PARAMETER(mod);
 
 		//all the functions subscribe
-		if (action == GLFW_PRESS)
+		if (action == GLFW_PRESS || action == GLFW_REPEAT)
 		{
-			inputKeys[(KeyCode)key].onTrigger.Invoke(); //invoke, notifying all subscribers for the keycode on Trigger
-			inputKeys[(KeyCode)key].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
-		}
-		else if(action == GLFW_REPEAT) 
-		{
-			inputKeys[(KeyCode)key].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
+			inputKeysCurr[key] = true;
 		}
 		else if (action == GLFW_RELEASE)
 		{
-			inputKeys[(KeyCode)key].onReleased.Invoke(); //invoke, notifying all subscribers for the keycode on Release
+			inputKeysCurr[key] = false;
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void InputSystem::InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) //overload function due to  glfw mouscallback have different sets of parameters
 	{
 		InvokeKeyPressed(pwin, button, 0, action, mod);
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void InputSystem::SubscribeToKey(Event<>::func_ptr function,  KeyCode key, KeyEvent keyEvent)
 	{
 		if (keyEvent == KeyEvent::TRIGGERED)
@@ -60,6 +135,13 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void InputSystem::UnsubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent)
 	{
 		if (keyEvent == KeyEvent::TRIGGERED)
@@ -77,27 +159,27 @@ namespace LB
 	}
 
 	// For GLFW
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
 		INPUT->InvokeKeyPressed(pwin, key, scancode, action, mod);
 	}
+
+	/*!***********************************************************************
+	 \brief
+
+
+	 \return
+
+	*************************************************************************/
 	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) {
 		INPUT->InvokeKeyPressed(pwin, button, action, mod);
 	}
 }
-
-//void CCPInputMouseCallBack(GLFWwindow* pwin, int button, int action, int mod)
-//{
-//	if (action == GLFW_PRESS)
-//	{
-//		switch (button)
-//		{
-//			case GLFW_MOUSE_BUTTON_LEFT:
-//				CCPInputKeyTrigger(KeyCode::LMouse);
-//				break;
-//			case GLFW_MOUSE_BUTTON_RIGHT:
-//				CCPInputKeyTrigger(KeyCode::RMouse);
-//		}
-//	}
-//}
 
 

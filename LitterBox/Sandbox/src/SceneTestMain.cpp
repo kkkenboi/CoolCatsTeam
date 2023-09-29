@@ -2,7 +2,7 @@
 #include "LitterBox/Engine/Input.h"
 #include "Player/Player.h"
 
-GameObject *test, *test2, *test3;
+GameObject* test, *test2, *test3, *static_wall;
 GameObject *scaleObj, *rotObj, *animObj;
 
 Player* testPlayer;
@@ -10,6 +10,13 @@ Player* testPlayer;
 //place holder animations
 //TODO for even later, make an editor that can select custom uv
 std::array<std::array<LB::Vec2<float>, 4>, 12> frames[4];
+
+bool paused = false;
+void TogglePause()
+{
+	paused = !paused;
+	TIME->Pause(paused);
+}
 
 //------------------------------MOVEMENT and ANIMATION FUNCTION TEST--------------------------------
 /*!***********************************************************************
@@ -131,7 +138,7 @@ void SceneTestMain::Init()
 
 	test = FACTORY->SpawnGameObject({ "CPRender" });
 	test2 = FACTORY->SpawnGameObject({ "CPRender" });
-	test3 = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody"}, Vec2<float>(200, 200));
+	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
 	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,10 +165,19 @@ void SceneTestMain::Init()
 	LB::INPUT->SubscribeToKey(up_trig, LB::KeyCode::KEY_W,LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(down_trig, LB::KeyCode::KEY_S,LB::KeyEvent::TRIGGERED);
 
+	LB::INPUT->SubscribeToKey(TogglePause, KeyCode::KEY_U, LB::KeyEvent::TRIGGERED);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Player example
 	testPlayer = new Player;
 	testPlayer->Initialise();
+	LB::INPUT->SubscribeToKey(PlayTestSound, LB::KeyCode::KEY_W, LB::KeyEvent::TRIGGERED);
+	LB::INPUT->SubscribeToKey(PlayTestSound, LB::KeyCode::KEY_S, LB::KeyEvent::TRIGGERED);
+	LB::INPUT->SubscribeToKey(PlayAHHSound, LB::KeyCode::KEY_A, LB::KeyEvent::TRIGGERED);
+	LB::INPUT->SubscribeToKey(PlayExplosionSound, LB::KeyCode::KEY_D, LB::KeyEvent::TRIGGERED);
+
+	static_wall = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" }, Vec2<float>(200, 600));
+	static_wall->GetComponent<CPRigidBody>("CPRigidBody")->isStatic = true;
 }
 
 void SceneTestMain::Update()
