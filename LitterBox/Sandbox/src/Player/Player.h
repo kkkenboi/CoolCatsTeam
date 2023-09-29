@@ -9,8 +9,12 @@ public:
 public:
 	void Initialise();
 	void Update();
-
 };
+
+void AnimUp();
+void AnimLeft();
+void AnimRight();
+void AnimDown();
 
 void MoveUp();
 void MoveLeft();

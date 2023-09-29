@@ -87,6 +87,7 @@ namespace LB
         TextureFilePaths[TextureNames::NONE];    
         AddTexture("../Assets/Textures/walk.png", "run");
         AddTexture("../Assets/Textures/test3.png", "pine");
+        AddTexture("../Assets/Textures/cat.png", "cat");
         AddTexture("../Assets/Textures/Environment_Background.png", "bg");
 
 
