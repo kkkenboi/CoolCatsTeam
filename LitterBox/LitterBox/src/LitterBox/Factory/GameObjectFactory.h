@@ -1,11 +1,16 @@
 /*!************************************************************************
- \file
- \author(s)
- \par DP email(s):
- \par Course:		CSD2401A
- \date
- \brief
+ \file				GameObjectFactory.h
+ \author(s)			Kenji Brannon Chong
+ \par DP email(s):	kenjibrannon.c@digipen.edu
+ \par Course:       CSD2401A
+ \date				29/09/2023
+ \brief				This file contains functions declarations of the
+					FactorySystem class that creates a GameObject with 
+					different components.
 
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #pragma once
@@ -19,72 +24,71 @@ namespace LB
 {
 	/*!***********************************************************************
 	 \brief
-	 This class creates ComponentMakers to create Components
-
+	 FactorySystem class allows the creation of GameObjects with components
+	 such as CPTransform, CPRender and more, allowing for modularity.
 	*************************************************************************/
 	class FactorySystem : public ISystem
 	{
 	public:
 		/*!***********************************************************************
 		 \brief
-		 Let the factory initialize the known component types listed in the file
-		 and/or start creating game objects from a data file
+		 Initialises the factory with known component types to make ComponentMakers
+		 of those types
 		*************************************************************************/
 		FactorySystem();
 
 		/*!***********************************************************************
 		 \brief
-		 Based on event/messaging system, how many game objects to be created/destroyed
-		 will be updated here
+		 Initialise the factory and sets the system's name
+		*************************************************************************/
+		void Initialize() override;
+
+		/*!***********************************************************************
+		 \brief
+		 Updates the factory
 		*************************************************************************/
 		void Update() override;
 
 		/*!***********************************************************************
 		 \brief
-		 Communicate with other systems
+		 Destroys the factory
 		*************************************************************************/
-		void SendMessage(Message* message) override;
+		void Destroy() override;
 
 		/*!***********************************************************************
 		 \brief
-
-		*************************************************************************/
-		void Initialize() override { SetSystemName("GameObject Factory System"); }
-
-		/*!***********************************************************************
-		 \brief
-		 Serialise all known ComponentMakers
+		 Serialises all of the Game Objects
 		*************************************************************************/
 		void SerialiseGameObjs(int json_thing);
 
 		/*!***********************************************************************
 		 \brief
-		 Create all known ComponentMaker of their type, eg. Physics / Graphics
+		 Initialise this ComponentMaker of their type, eg. Physics / Graphics
 		*************************************************************************/
 		void InitCM(const std::string& name, ComponentMaker* newComponent);
 
 		/*!***********************************************************************
 		 \brief
-		 Since the 
+		 Delete all ComponentMakers from all GameObjects 
 		*************************************************************************/
 		void DeleteAllCMs(std::map<std::string, ComponentMaker*> ComponentMakers);
 
 		/*!***********************************************************************
 		 \brief
-		 Use these functions to spawn game objects for now, TODO: refactor
+		 Spawns a GameObject with no components but specified position
 		*************************************************************************/
 		GameObject* SpawnGameObject(Vec2<float> pos = { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f });
 
 		/*!***********************************************************************
 		 \brief
-
+		 Spawns a GameObject with specified components and position
 		*************************************************************************/
-		GameObject* SpawnGameObject(std::initializer_list<std::string> components, Vec2<float> pos = { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f });
+		GameObject* SpawnGameObject(std::initializer_list<std::string> components, 
+									Vec2<float> pos = { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f });
 
 		/*!***********************************************************************
 		 \brief
-		 Creates a game object with a component list, if component list is empty, no components
-		 will be tied to the game object
+		 Creates a empty GameObject with no components.
 		*************************************************************************/
 		GameObject* CreateGameObject();
 
@@ -92,59 +96,26 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-
+		 Gets all of the ComponentMakers
 		*************************************************************************/
 		std::map<std::string, ComponentMaker*> GetCMs() const;
 
 		/*!***********************************************************************
 		 \brief
-
+		 Gets the last created GameObject's ID.
 		*************************************************************************/
 		int GetLastObjID() const;
 
-		/*!***********************************************************************
-		 \brief
-
-		*************************************************************************/
-		void Destroy() override;
-
 	private:
 
-		/*!***********************************************************************
-		 \brief
-		 Needs to hold all of the componentmakers to know what available componentmakers are there
-		 Does not need to have the game objects because that is the gameobjmanager job to hold
-		 Strictly only to create game objects and let go from there on
+		std::map<std::string, ComponentMaker*>	m_ComponentMakers;
+		std::vector<GameObject*>				m_WaitingList;
 
-		 For now we use map to hold the componentmakers, might change in the future
-
-		*************************************************************************/
-		int m_LastObjID;
-
-		/*!***********************************************************************
-		 \brief
-
-		*************************************************************************/
-		std::map<std::string, ComponentMaker*> m_ComponentMakers;
-
-		/*!***********************************************************************
-		 \brief
-
-		*************************************************************************/
-		std::vector<GameObject*> m_WaitingList;
-
-		/*!***********************************************************************
-		 \brief
-
-		*************************************************************************/
-		bool toUpdate = false;
+		int										m_LastObjID{};
+		bool									m_ToUpdate{};
 
 	};
 
-	/*!***********************************************************************
-	 \brief
-
-	*************************************************************************/
 	extern FactorySystem* FACTORY;
 }
 

@@ -139,7 +139,7 @@ namespace LB
 	 \return
 
 	*************************************************************************/
-	GameObject::GameObject(int ID) : m_Components{}, isActive{ false }, m_ID{ ID }
+	GameObject::GameObject(int ID) : m_Components{}, m_IsActive{ false }, m_ID{ ID }
 	{
 		std::cout << "GO constructed\n";
 	}
@@ -151,7 +151,7 @@ namespace LB
 	 \return
 
 	*************************************************************************/
-	GameObject::GameObject() : m_Components{}, isActive{ false }, m_ID{}
+	GameObject::GameObject() : m_Components{}, m_IsActive{ false }, m_ID{}
 	{
 		std::cout << "GO constructed\n";
 	}

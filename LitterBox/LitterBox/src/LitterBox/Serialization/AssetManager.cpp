@@ -1,7 +1,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "AssetManager.h"
+#pragma warning(push, 0)
+#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#pragma warning(pop)
 
 
 namespace LB

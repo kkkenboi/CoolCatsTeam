@@ -4,7 +4,9 @@
 //#include <unordered_map>
 #include "Serializer.h"
 #include "LitterBox/Core/System.h"
+#pragma warning(push, 0)
 #include "../../dependencies/FMOD/core/inc/fmod.hpp"
+#pragma warning(pop)
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
