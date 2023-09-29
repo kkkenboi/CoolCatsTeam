@@ -92,6 +92,10 @@ namespace LB
 		*************************************************************************/
 		GameObject* CreateGameObject();
 
+		/*!***********************************************************************
+		 \brief
+		 Spawns a GameObject with the exact same components as the provided GameObject
+		*************************************************************************/
 		GameObject* SpawnGameObject(GameObject* prefab);
 
 		/*!***********************************************************************
