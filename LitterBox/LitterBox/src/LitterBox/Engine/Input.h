@@ -1,3 +1,18 @@
+/*!************************************************************************
+ \file				Input.h
+ \author(s)			Vanessa Chua Siew Jin
+ \par DP email(s):	vanessasiewjin.chua@digipen.edu
+ \par Course:		CSD2401A
+ \date				15-09-2023
+ \brief
+ The functions in the Input class include:
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
+
 #pragma once
 
 #include <GLFW/glfw3.h>
@@ -10,7 +25,7 @@ namespace LB {
 
 	/*!***********************************************************************
 	 \brief
-
+	 enum class for all keycodes as GLFW keys increments.
 	*************************************************************************/
 	enum class KeyCode
 	{
@@ -37,7 +52,7 @@ namespace LB {
 
 	/*!***********************************************************************
 	 \brief
-
+	 3 types of KeyEvent, Trigger, pressed and released
 	*************************************************************************/
 	enum class KeyEvent
 	{
@@ -49,50 +64,50 @@ namespace LB {
 
 	/*!***********************************************************************
 	 \brief
-
+	 Class InputSystem that inherits from ISystem
 	*************************************************************************/
 	class InputSystem : public ISystem
 	{
 	public:
 		/*!***********************************************************************
 		 \brief
-
+		 Constructor for InputSystem
 		*************************************************************************/
 		InputSystem();
 
 		/*!***********************************************************************
 		 \brief
-
+		 Initialize function to set the input system name
 		*************************************************************************/
 		void Initialize() override { SetSystemName("Input System"); }
 
 		/*!***********************************************************************
 		 \brief
-
+		 Update function that updates the input
 		*************************************************************************/
 		virtual void Update();
 
 		/*!***********************************************************************
 		 \brief
-
+		 Invoke Key overload press to notify all subscribers for all keycode presses
 		*************************************************************************/
 		void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
 
 		/*!***********************************************************************
 		 \brief
-
+		 Invoke Key overload press to notify all subscribers for all keycode presses
 		*************************************************************************/
 		void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
 
 		/*!***********************************************************************
 		 \brief
-
+		 Subscribes the key event to register/notify when the event occurs
 		*************************************************************************/
 		void SubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent);
 
 		/*!***********************************************************************
 		 \brief
-
+		 Unsubscribes the key where it stop its interest in listening to the the key input.
 		*************************************************************************/
 		void UnsubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent);
 
@@ -101,7 +116,7 @@ namespace LB {
 	private:
 		/*!***********************************************************************
 		 \brief
-
+		 Getting Events for onTrigger onPressed and onReleased
 		*************************************************************************/
 		struct Key
 		{
@@ -119,19 +134,23 @@ namespace LB {
 		bool inputKeysLast[GLFW_KEY_LAST] { false }, inputKeysCurr[GLFW_KEY_LAST]{ false };
 	};
 
+	/*!***********************************************************************
+	\brief
+	 So others can use the INPUT
+	*************************************************************************/
 	extern InputSystem* INPUT; //can reference input from anywhere
 	//if they want to use INPUT they just type INPUT
 
 	// For GLFW
 	/*!***********************************************************************
 	\brief
-
+	 Invoke Key overload press to notify all subscribers for all keycode presses
 	*************************************************************************/
 	void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
 
 	/*!***********************************************************************
 	 \brief
-
+	 Invoke Key overload press to notify all subscribers for all keycode presses
 	*************************************************************************/
 	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
 }
