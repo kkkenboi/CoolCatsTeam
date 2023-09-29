@@ -93,6 +93,11 @@ namespace LB
 		float angle{};
 	};
 
+	/*!***********************************************************************
+	\brief
+	 CPRender is the render object that is the component to add into a game
+	 object to get it to show something on the screen.
+	*************************************************************************/
 	class CPRender : public IComponent
 	{
 	private:
@@ -115,7 +120,11 @@ namespace LB
 		std::array<Vec2<float>, 4>	uv; //bot left, bot right, top right, top left
 
 		CPTransform* transform;
-
+		/*!***********************************************************************
+		\brief
+		 Constructor for the component. Sets all the appropriate values and
+		 calls the function to place itself into the appropriate Renderer classes
+		*************************************************************************/
 		CPRender(
 			Vec2<float>	 pos = { 0.f, 0.f },
 			float width = 100.f,
@@ -126,26 +135,88 @@ namespace LB
 			int texture = -1,
 			bool active = true,
 			Renderer::Renderer_Types rend_type = Renderer::Renderer_Types::RT_OBJECT);
+		/*!***********************************************************************
+		\brief
+		 Component object destructor
+		*************************************************************************/
 		~CPRender();
-
+		/*!***********************************************************************
+		\brief
+		 Function that gets the transform component tied to a game object and
+		 sets the initialized flag to true so the component does not start reading
+		 from an unitilized or nullptr.
+		*************************************************************************/
 		void Initialise() override {
 			transform = gameObj->GetComponent<CPTransform>("CPTransform");
 			initialized = true;
 		}
+		/*!***********************************************************************
+		\brief
+		 Gets the quad_id of the component that was given to it during construction.
 
+		\return
+		 The id of the render component.
+		*************************************************************************/
 		inline const unsigned int get_index() const { return quad_id; }
-		inline const size_t get_queue_size() const { return animation.size(); }
-		inline const Renderer::Renderer_Types get_r_type() const { return renderer_id; }
+		/*!***********************************************************************
+		\brief
+		 Gets the number of animations queued for the specific game object.
 
+		\return
+		 The number of animations queued in the component
+		*************************************************************************/
+		inline const size_t get_queue_size() const { return animation.size(); }
+		/*!***********************************************************************
+		\brief
+		 Gets the type of rendering object/component and also the target Renderer.
+
+		\return
+		 The rendering type of the component default is RT_OBJECT
+		*************************************************************************/
+		inline const Renderer::Renderer_Types get_r_type() const { return renderer_id; }
+		/*!***********************************************************************
+		\brief
+		 Overloaded comparison operator for the lambda function for removing
+		 render objects from a renderer's active object list.
+
+		\return
+		 bool whether this object and the compared object has the same unique_id
+		*************************************************************************/
 		inline bool operator==(const CPRender& rhs) const {
 			return quad_id == rhs.quad_id;
 		}
-
+		/*!***********************************************************************
+		\brief
+		 Loads the animation into the queue with a flag that tells the animation
+		 function to play that animation on repeat.
+		*************************************************************************/
 		void play_repeat(const std::string& name);
+		/*!***********************************************************************
+		\brief
+		 Loads an animation into the queue and makes it wait till queue pops all
+		 the other animations infront of it.
+		*************************************************************************/
 		void play_next(const std::string& name);
+		/*!***********************************************************************
+		\brief
+		 Pops every animtion currently in the queue before pushing the given animation
+		 into the queue.
+		*************************************************************************/
 		void play_now(const std::string& name);
+		/*!***********************************************************************
+		\brief
+		 Pops of all animation currently in the animation queue.
+		*************************************************************************/
 		void stop_anim();
 
+		/*!***********************************************************************
+		\brief
+		 Sets the texture variable to a provided texture slot and sets the UV
+		 coorindates to be defaulted.
+
+		 NOTE: the texture slot may or may not be bound. The ounus is on the 
+		 developer to ensure the _texture argument is a valid texture
+		*************************************************************************/
 		void UpdateTexture(int _texture)
 		{
 			texture = _texture;
@@ -155,12 +226,21 @@ namespace LB
 			uv[3] = { 0.f, 1.f };
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Function that pulls data from the transform component of the game object
+		*************************************************************************/
 		inline void get_transform_data() { 
 			position = initialized ? transform->GetPosition() : position;
 			rotation = initialized ? transform->GetRotation() : rotation;
 			scal = initialized ? transform->GetScale() : scal;
 		};
 
+		/*!***********************************************************************
+		\brief
+		 Function that is incharge of play the animation in the front of the queue
+		 based on time and not frames.
+		*************************************************************************/
 		void animate();
 	};
 
