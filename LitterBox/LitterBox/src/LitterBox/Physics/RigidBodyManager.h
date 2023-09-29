@@ -1,3 +1,16 @@
+/*!************************************************************************
+ \file				RigidBodyManager.h
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:       CSD2401A
+ \date				29/09/2023
+ \brief				This file contains the RigidBodyManager class and its
+                    functions declarations
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #pragma once
 #include "RigidBody.h"
 #include "LitterBox/Core/System.h"
@@ -16,59 +29,121 @@ namespace LB
 
     public:
 
-
+        /*!***********************************************************************
+            \brief
+            RigidBodyManager's constructor, assigns memory to the rigidbody pool
+            and rb states
+        *************************************************************************/
         RigidBodyManager();
 
-        // Allocates memory to the pool using size
-        // Also sets all the states to false
-        // Constructor
+        /*!***********************************************************************
+          \brief
+          RigidBodyManager's constructor, assigns memory to the rigidbody pool
+          with size
+        *************************************************************************/
         RigidBodyManager(int size);
 
-        // Destructor
+        /*!***********************************************************************
+          \brief
+          RigidBodyManager destructor, frees the memory allocated for the pool
+          and states
+        *************************************************************************/
         ~RigidBodyManager();
 
-        // This functions allows you to add a RigidBody to the pool
+        /*!***********************************************************************
+          \brief
+          This function allows you to add a RigidBody to the pool
+        *************************************************************************/
         void AddRigidBodyToPool(CPRigidBody* rb);
 
-        // This allows you to find the RigidBody within an index
+        /*!***********************************************************************
+          \brief
+          This function allows you to get a pointer to a RigidBody within the
+          pool with the index given
+          \return
+          Returns a pointer to the RigidBody in the pool
+        *************************************************************************/
         CPRigidBody* GetPooledRigidBody(size_t index);
 
-        // This allows you to find the next nearest unpulled RigidBody in the array
-        // Returns a pointer to the Rigidbody allowing you to check its calculations
+        /*!***********************************************************************
+          \brief
+          This function gets the nearest unused CPRigidBody according to its
+          RBStates, within the pool
+          \return
+          Returns a pointer to a CPRigidBody that is unused according to RBStates
+        *************************************************************************/
         CPRigidBody* GetPooledRigidBody();
 
-        // This function allows you to return a RigidBody that was pulled previously
-        // back to the Manager, which means that it is not being calculated on anymore
+        /*!***********************************************************************
+          \brief
+          This function returns a CPRigidBody that was pulled from GetPooledRigidBody
+          back into the pool with RBStates false now
+        *************************************************************************/
         void ReturnPooledRigidBody(CPRigidBody* rb);
 
+        /*!***********************************************************************
+          \brief
+          This function returns a pointer to a CPRigidBody that has the ID of 1
+        *************************************************************************/
         CPRigidBody* LookForMainCharacter();
 
-        // Steps
-        // Movement Step
-        // Update Velocities
-        // Update Positions
-        // Collision Step
-        // Check BOXBOX, BOXCIRCLE, CIRCLEBOX, CIRCLECIRCLE
-        // From the checks get the normal and depth for the separation movement
-        // Move the objects away from each other
+        /*!***********************************************************************
+          \brief
+          Does all the update steps for all the CPRigidBodies within the pool
+          - Movement Step
+          - Update Velocities
+          - Update Positions
+          - Collision Step
+          - Check BOXBOX, BOXCIRCLE, CIRCLEBOX, CIRCLECIRCLE Collisions
+          - Get normal and depth for separation movement
+          - Resolve Collisions
+        *************************************************************************/
         void RBSystemSteps();
 
 
         // ======================================
         // ISystem function overrides
         // ======================================
+        /*!***********************************************************************
+          \brief
+          Initialize function override of ISystem, allocates the CPRigidBody pool
+          memory
+        *************************************************************************/
         void Initialize() override;
 
+        /*!***********************************************************************
+          \brief
+          Updates the CPRigidBody pool in a fixed timestep  
+        *************************************************************************/
         void FixedUpdate() override;
+
+        /*!***********************************************************************
+          \brief
+          Updates the Physics debugger in normal framerate
+        *************************************************************************/
         void Update() override;
 
 
     };
 
-    // Check collisions between two RigidBodies
-    // Normal outputted is pushing bodyB away from bodyA
+
+    /*!***********************************************************************
+      \brief
+      Takes in two CPRigidBodies and checks the collision between the two
+      while outputting the normal_out and depth_out of the collision for
+      collision resolution
+      - normal_out is from A to B
+      \return
+      Returns a bool or whether or not the two CPRigidBodies collided or not
+    *************************************************************************/
     bool CheckCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out);
 
+    /*!***********************************************************************
+      \brief
+      Takes in two CPRigidBodies and checks the collision between the two
+      while outputting the normal_out and depth_out of the collision for
+      collision resolution
+    *************************************************************************/
     void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth);
 
     extern RigidBodyManager* PHYSICS;

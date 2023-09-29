@@ -1,12 +1,16 @@
 /*!************************************************************************
- \file                Math.h
- \author(s)           Vanessa Chua Siew Jin, Carlo Villa Ilao Justine
- \par DP email(s):    vanessasiewjin.chua@digipen.edu, justine.c@digipen.edu
+ \file                RigidBody.cpp
+ \author(s)           Justine Carlo Villa Ilao
+ \par DP email(s):    justine.c@digipen.edu
  \par Course:         CSD2401A
- \date                24-09-2023
+ \date                04-09-2023
  \brief
- The functions in the Math class include:
+ This file contains the function definitions for the CPRigidBody class'
+ member functions and non-member functions
 
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "RigidBody.h"
@@ -22,8 +26,11 @@
 
 namespace LB
 {
-    //int CPRigidBody::mNumberID = -1;
-
+    /*!***********************************************************************
+        \brief
+        Creates a CPRigidBody with default parameters stated in the function
+        definition
+    *************************************************************************/
     void CPRigidBody::CreateRigidBody()
     {
         transform = gameObj->GetComponent<CPTransform>("CPTransform");
@@ -113,33 +120,57 @@ namespace LB
         PHYSICS->AddRigidBodyToPool(this);
     }
 
+    /*!***********************************************************************
+        \brief
+        Gets the position of the CPRigidBody
+    *************************************************************************/
     LB::Vec2<float> CPRigidBody::getPos() 
     {
         return mPosition;
     }
 
+    /*!***********************************************************************
+        \brief
+        Adds a Force to the CPRigidBody
+    *************************************************************************/
     void CPRigidBody::addForce(LB::Vec2<float> force)
     {
         this->mVelocity += force;
     }
 
+    /*!***********************************************************************
+        \brief
+        Adds an Impulse to the CPRigidBody
+    *************************************************************************/
     void CPRigidBody::addImpulse(LB::Vec2<float> force)
     {
         this->mAcceleration += force;
     }
 
+    /*!***********************************************************************
+        \brief
+        Moves the CPRigidBody directly with a vector
+    *************************************************************************/
     void CPRigidBody::Move(LB::Vec2<float> vec)
     {
         this->mPosition += vec;
         transform->SetPosition(mPosition);
     }
 
+    /*!***********************************************************************
+        \brief
+        Moves the CPRigidBody directly to a certain position
+    *************************************************************************/
     void CPRigidBody::MoveTo(LB::Vec2<float> position)
     {
         this->mPosition = position;
         transform->SetPosition(mPosition);
     }
 
+    /*!***********************************************************************
+        \brief
+        Updates the CPRigidBody Box Vertices within its' data members
+    *************************************************************************/
     void CPRigidBody::UpdateRigidBodyBoxVertices()
     {
         PhysicsTransform xtransform{ this->mPosition, this->mRotation };
@@ -156,6 +187,10 @@ namespace LB
 
     }
 
+    /*!***********************************************************************
+        \brief
+        Updates the AABB collider in the CPRigidBody's data members
+    *************************************************************************/
     void CPRigidBody::UpdateRigidBodyAABB()
     {
         float minX = 10000000.f;
@@ -191,6 +226,10 @@ namespace LB
         this->obj_aabb.m_min = LB::Vec2<float>{ minX, minY };
     }
 
+    /*!***********************************************************************
+        \brief
+        Updates the position of the CPRigidBody
+    *************************************************************************/
     void CPRigidBody::UpdateRigidBodyPos(float time)
     {
         // If static do not move or update the position of the RigidBody
@@ -201,8 +240,6 @@ namespace LB
 
         this->mPosition += this->mVelocity * time;
         transform->SetPosition(mPosition);
-
-        //std::cout << mPosition.ToString() << "\n";
 
         this->mRotation += this->mRotationalVelocity * time;
         transform->SetRotation(mRotation);
@@ -216,16 +253,12 @@ namespace LB
         // HERE
         this->UpdateRigidBodyAABB();
 
-
-        // Debug draw box
-        if (this->mShapeType == BOX)
-        {
-            //DEBUG->DrawBox(this->mPosition, this->mWidth, this->mHeight, LB::Vec4<float>{0.f, 0.f, 1.f, 0.f});
-            // Debug draw velocity from center
-            //DEBUG->DrawLine(this->mPosition, this->mVelocity, LB::Vec4<float>{1.f, 0.f, 0.f, 0.f});
-        }
     }
 
+    /*!***********************************************************************
+        \brief
+        Updates the CPRigidBody's velocity
+    *************************************************************************/
     void CPRigidBody::UpdateRigidBodyVel(float time)
     {
         //std::cout << "BEFORE: " << this->mVelocity.ToString() << std::endl;
@@ -240,6 +273,13 @@ namespace LB
         this->mAcceleration = zeroed;
     }
 
+    /*!***********************************************************************
+        \brief
+        Override of the FixedUpdate() of IComponent
+        Updates the RigidBody within a fixed timestep
+        - Semi-implicit Euler system, updating velocity first then positions
+        - Also updates the Transform IComponent that is stored in CPRigidBody
+    *************************************************************************/
     void CPRigidBody::FixedUpdate()
     {
         float time = static_cast<float>(TIME->GetFixedDeltaTime());
@@ -258,6 +298,11 @@ namespace LB
         transform->SetPosition(mPosition);
     }
 
+    /*!***********************************************************************
+        \brief
+        This is the function that calls the debug drawer to draw all the
+        RigidBody collision boxes as well as their velocities
+    *************************************************************************/
     void CPRigidBody::DebugDraw()
     {
         // Add if check to see if DEBUG MODE on
@@ -269,7 +314,10 @@ namespace LB
 
     // END OF RIGIDBODY MEMBER FUNCTIONS
     // ===========================================
-
+    /*!***********************************************************************
+        \brief
+        Creates the Vertice Box placing it in the give Vec2<float> pointer
+    *************************************************************************/
     void CreateBoxVertices(LB::Vec2<float>* vertices_arr, float width, float height)
     {
         float left = -width / 2;
@@ -291,6 +339,10 @@ namespace LB
         vertices_arr[3].y = bottom;
     }
 
+    /*!***********************************************************************
+        \brief
+        Creates the BoxVertices Transformed
+    *************************************************************************/
     void CreateBoxVerticesTransformed(LB::Vec2<float>* vertices_arr, LB::Vec2<float> position)
     {
         vertices_arr[0] += position;
