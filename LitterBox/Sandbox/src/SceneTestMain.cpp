@@ -32,6 +32,10 @@ void TogglePause()
 	TIME->Pause(paused);
 }
 
+/*!***********************************************************************
+ \brief
+ Initialises the current scene (for now it contains a lot of tests)
+*************************************************************************/
 void SceneTestMain::Init()
 {
 	Renderer::GRAPHICS->create_texture("../Assets/Textures/walk.png", "run");
@@ -122,6 +126,10 @@ void SceneTestMain::Init()
 	//std::cout << testPlayer->playerObj->GetComponent<CPTransform>("CPTransform")->GetPosition().ToString();
 }
 
+/*!***********************************************************************
+ \brief
+ Updates the current Scene 
+*************************************************************************/
 void SceneTestMain::Update()
 {
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,9 +143,14 @@ void SceneTestMain::Update()
 	testPlayer->Update();
 }
 
+/*!***********************************************************************
+ \brief
+ Functions that will be called when the scene is destroyed
+*************************************************************************/
 void SceneTestMain::Destroy()
 {
 	//delete testPlayer;
+	//This test lets us know that we can "save" the player's position
 	JSONSerializer stream;
 	stream.SerializeToFile("TestObject", *testPlayer->playerObj);
 }

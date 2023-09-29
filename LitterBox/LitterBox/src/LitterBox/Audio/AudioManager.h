@@ -35,7 +35,6 @@ namespace LB
 		 * (FMOD::System is initialised here)
 		 **************************************************************************/
 		AudioManager();
-		//void PlayTestSound();
 		/*!***********************************************************************
 		 \brief
 		 Initalises Audio Manager System

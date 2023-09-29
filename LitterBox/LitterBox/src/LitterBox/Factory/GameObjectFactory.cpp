@@ -4,9 +4,9 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions definitions of the
-					FactorySystem class that creates a GameObject with 
-					different components.
+ \brief				
+ This file contains functions definitions of the FactorySystem class that 
+ creates a GameObject with different components.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -44,10 +44,6 @@ namespace LB
 		CreateComponentMaker(CPTransform);
 		CreateComponentMaker(CPRender);
 		CreateComponentMaker(CPRigidBody);
-
-		// Game Object Data File
-		// Deserialise the data file and initialise the game objects with it
-		SerialiseGameObjs(1);
 
 		DebuggerLog("Factory Initialised");
 	}
@@ -102,24 +98,6 @@ namespace LB
 	{
 		DeleteAllCMs(m_ComponentMakers);
 	}
-
-
-	/*!***********************************************************************
-	 \brief
-	 Serialises all of the Game Objects
-
-	 \return
-	 Nothing
-	*************************************************************************/
-	void FactorySystem::SerialiseGameObjs(int jsonThing)
-	{
-		// Serialise the Game Objects with all of their data
-		//
-		jsonThing = 1;
-		// Update the Factory 
-		// if more than one game object created, set toUpdate to true
-	}
-
 
 	/*!***********************************************************************
 	 \brief
@@ -236,10 +214,6 @@ namespace LB
 		++m_LastObjID;
 
 		DebuggerLog("GO" + std::to_string(m_LastObjID) + " has been created");
-		//toUpdate = true;
-
-		// Does this mean that only default constructors are allowed?
-		//return MEMORY->Allocate<GameObject>();
 
 		// Original return
 		return new GameObject(FACTORY->GetLastObjID());

@@ -192,7 +192,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		  
+		  A function that returns a stringn containing the vector data
 		*************************************************************************/
 		std::string ToString();
 
@@ -230,13 +230,13 @@ namespace LB
 		//Serializing & Deserializing
 		/*!***********************************************************************
 		 \brief
-		 
+		  A function that serializes vector into json data
 		*************************************************************************/
 		bool Serialize(rapidjson::Value&, rapidjson::Document::AllocatorType&);
 
 		/*!***********************************************************************
 		 \brief
-
+		  A function that deserializes json data into a vector
 		*************************************************************************/
 		bool Deserialize(const rapidjson::Value&);
 
@@ -454,7 +454,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-
+		  A function that returns a stringn containing a vector
 		*************************************************************************/
 		std::string ToString();
 
@@ -492,13 +492,13 @@ namespace LB
 		//Serializing & Deserializing
 		/*!***********************************************************************
 		 \brief
-
+		  A function that serializes the vector into json data
 		*************************************************************************/
 		bool Serialize(rapidjson::Value&, rapidjson::Document::AllocatorType&);
 
 		/*!***********************************************************************
 		 \brief
-
+		  A function that deserializes the json data into the vector
 		*************************************************************************/
 		bool Deserialize(const rapidjson::Value&);
 	};
@@ -724,7 +724,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-
+		 A function that returns a string containing the vector data
 		*************************************************************************/
 		std::string ToString();
 
@@ -763,13 +763,13 @@ namespace LB
 		//Serializing & Deserializing
 		/*!***********************************************************************
 		 \brief
-
+		  A function that serializes the vector to json data	
 		*************************************************************************/
 		bool Serialize(rapidjson::Value&, rapidjson::Document::AllocatorType&);
 
 		/*!***********************************************************************
 		 \brief
-
+		  A function that deserializes json data to the vector
 		*************************************************************************/
 		bool Deserialize(const rapidjson::Value&);
 	};
@@ -1181,9 +1181,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	 
+	 This function returns a string containing the vector
 	\return
-	 
+	 string containing the vector
 	*************************************************************************/
 	template<typename T>
 	std::string Vec2<T>::ToString()
@@ -1372,9 +1372,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	
+	This function serializes the vector into json data
 	\return
-	
+	returns false if serialization  has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec2<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
@@ -1387,9 +1387,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	 
+	 This function deserializes the json data into the vector
 	\return
-	 
+	returns false if deserialization has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec2<T>::Deserialize(const rapidjson::Value& data)
@@ -1784,9 +1784,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-
+	This function serializes the vector into json data
 	\return
-
+	returns false if serialization has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec3<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
@@ -1800,9 +1800,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-
+	This function deserializes json data into the vector
 	\return
-
+	returns false if deserialization has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec3<T>::Deserialize(const rapidjson::Value& data)
@@ -2253,9 +2253,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-
+	This function creates a string with the vector
 	\return
-
+	string containing the vector
 	*************************************************************************/
 	template<typename T>
 	std::string Vec4<T>::ToString()
@@ -2342,9 +2342,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-
+	This function serializes the vector into json data
 	\return
-
+	returns false if serialization has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec4<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
@@ -2359,9 +2359,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-
+	This function deserializes json data into the vector
 	\return
-
+	returns false if deserialization has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec4<T>::Deserialize(const rapidjson::Value& data)

@@ -1,11 +1,15 @@
 /*!************************************************************************
- \file
- \author(s)
- \par DP email(s):
+ \file				Input.cpp
+ \author(s)			Vanessa Chua Siew Jin
+ \par DP email(s):	vanessasiewjin.chua@digipen.edu
  \par Course:		CSD2401A
- \date
+ \date				15-09-2023
  \brief
+ The functions in the Input class include:
 
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "Platform/Windows/Windows.h"
@@ -18,10 +22,7 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-
-	 \return
-
+	 Constructor for InputSystem to check if input system exist
 	*************************************************************************/
 	InputSystem::InputSystem()
 	{
@@ -33,10 +34,9 @@ namespace LB
 	
 	/*!***********************************************************************
 	 \brief
-
-
+	 In this update function, when is pause prevent all keys to activate
 	 \return
-
+	 void
 	*************************************************************************/	
 	void InputSystem::Update()
 	{
@@ -69,6 +69,12 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Check if key is pressed of not
+	 \return
+	 return true if it does, false if not
+	*************************************************************************/
 	bool InputSystem::IsKeyPressed(KeyCode key)
 	{
 		return inputKeysCurr[(int)key];
@@ -76,10 +82,9 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-
+	 Invoke Key overload press to notify all subscribers for all keycode presses
 	 \return
-
+	 void
 	*************************************************************************/
 	void InputSystem::InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod)
 	{
@@ -98,12 +103,12 @@ namespace LB
 		}
 	}
 
+
 	/*!***********************************************************************
 	 \brief
-
-
+	 Invoke Key overload press to notify all subscribers for all keycode presses
 	 \return
-
+	 void
 	*************************************************************************/
 	void InputSystem::InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) //overload function due to  glfw mouscallback have different sets of parameters
 	{
@@ -112,10 +117,9 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-
+	 Subscribes the key event to register/notify when the event occurs
 	 \return
-
+	 void
 	*************************************************************************/
 	void InputSystem::SubscribeToKey(Event<>::func_ptr function,  KeyCode key, KeyEvent keyEvent)
 	{
@@ -135,10 +139,9 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-
+	 Unsubscribes the key where it stop its interest in listening to the the key input.
 	 \return
-
+	 void
 	*************************************************************************/
 	void InputSystem::UnsubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent)
 	{
@@ -159,10 +162,9 @@ namespace LB
 	// For GLFW
 	/*!***********************************************************************
 	 \brief
-
-
+	 Invoke Key overload press to notify all subscribers for all keycode presses
 	 \return
-
+	 void
 	*************************************************************************/
 	void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
 		INPUT->InvokeKeyPressed(pwin, key, scancode, action, mod);
@@ -170,10 +172,9 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-
+	 Invoke Key overload press to notify all subscribers for all keycode presses
 	 \return
-
+	 void
 	*************************************************************************/
 	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) {
 		INPUT->InvokeKeyPressed(pwin, button, action, mod);
