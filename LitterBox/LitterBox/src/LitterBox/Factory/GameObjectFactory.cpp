@@ -49,7 +49,7 @@ namespace LB
 		// Deserialise the data file and initialise the game objects with it
 		SerialiseGameObjs(1);
 
-		std::cout << "Factory Initialised\n";
+		DebuggerLog("Factory Initialised");
 	}
 
 	/*!***********************************************************************
@@ -84,7 +84,7 @@ namespace LB
 
 			// For now just make it be the same
 			//GOMANAGER->m_Pool = m_WaitingList;
-			std::cout << "Factory Updated\n";
+			DebuggerLog("Factory Updated");
 		}
 
 		m_ToUpdate = false;
@@ -148,7 +148,7 @@ namespace LB
 			delete it->second;
 		}
 
-		std::cout << "ComponentMakers all deleted\n";
+		DebuggerLog("ComponentMakers all deleted");
 	}
 
 	/*!***********************************************************************
@@ -224,7 +224,8 @@ namespace LB
 	GameObject* FactorySystem::CreateGameObject()
 	{
 		++m_LastObjID;
-		std::cout << "GO " << m_LastObjID << " has been created\n";
+
+		DebuggerLog("GO" + std::to_string(m_LastObjID) + " has been created");
 		//toUpdate = true;
 
 		// Does this mean that only default constructors are allowed?

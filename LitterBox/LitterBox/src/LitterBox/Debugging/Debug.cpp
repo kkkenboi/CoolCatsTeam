@@ -13,6 +13,10 @@
 #include "LitterBox/Engine/Time.h"
 #include "Debug.h"
 #include <iostream>
+#include <sstream>
+
+#include "spdlog/spdlog.h" // For logging information to files
+#include "spdlog/sinks/basic_file_sink.h"
 
 //-----------------Pre-defines------------------------------
 constexpr int CIRCLE_LINES{ 20 };
@@ -24,6 +28,10 @@ float height_div;	// { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
 
 namespace LB 
 {
+	//------------------File logger--------------------
+	std::shared_ptr<spdlog::logger> debugInfoLogger;
+	//std::shared_ptr<spdlog::logger> crashInfoLogger;
+
 	Debugger* DEBUG = nullptr;
 	/*!***********************************************************************
 	\brief
@@ -39,9 +47,6 @@ namespace LB
 		// Toggle debug mode on key press
 		m_debugToggleKey = KeyCode::KEY_J;
 		m_stepPhysicsKey = KeyCode::KEY_I;
-
-		INPUT->SubscribeToKey(ToggleDebugOn, m_debugToggleKey, KeyEvent::TRIGGERED);
-		INPUT->SubscribeToKey(LB::StepPhysics, m_stepPhysicsKey, KeyEvent::TRIGGERED);
 	}
 	/*!***********************************************************************
 	\brief
@@ -84,6 +89,26 @@ namespace LB
 		DEBUG->ToggleDebugMode();
 	}
 
+	void InitializeLoggers()
+	{
+		//--------------------Loggers Setup---------------------
+		debugInfoLogger = spdlog::basic_logger_mt("DEBUG LOGGER", "Logs/DebugLog.txt");
+		debugInfoLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+		debugInfoLogger->set_level(spdlog::level::debug);
+
+		//crashInfoLogger = spdlog::basic_logger_mt("CrashLogger", "../Logs/CrashLog.txt");
+		//crashInfoLogger->set_level(spdlog::level::err);
+	}
+
+	void FlushLoggers()
+	{
+		std::ofstream logFile("Logs/DebugLog.txt", std::ios::trunc);
+		logFile.close();
+
+		// Log all debug info on exit
+		debugInfoLogger->flush();
+	}
+
 	//TODO modulate the vertex size
 	//vertex size should = min 3000 x 4 (number of quads in render object)
 	/*!***********************************************************************
@@ -97,10 +122,16 @@ namespace LB
 		else
 			std::cerr << "Debug System already exist" << std::endl;
 
+		SetSystemName("Debug System");
+
+		//--------------------Debugging input registering---------------------
+		INPUT->SubscribeToKey(ToggleDebugOn, m_debugToggleKey, KeyEvent::TRIGGERED);
+		INPUT->SubscribeToKey(LB::StepPhysics, m_stepPhysicsKey, KeyEvent::TRIGGERED);
+
+		//--------------------Drawing Setup---------------------
 		wid_div = { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
 		height_div = { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
 
-		SetSystemName("Debug System");
 		//assume we have one index per vertex
 		idx.resize(12000);
 
@@ -336,7 +367,14 @@ namespace LB
 	*************************************************************************/
 	void Debugger::Log(std::string const& message, const char* file, int line)
 	{
-		fprintf(stdout, "[DEBUGGER LOG] [%s:%d] %s\n", file, line, message.c_str());
+		std::ostringstream output;
+		output << "[" << file << ":" << line << "] " << message;
+
+		// Print to console
+		fprintf(stdout, "[DEBUGGER LOG] %s\n", output.str().c_str());
+
+		// Save to debug file
+		debugInfoLogger->debug(output.str());	
 	}
 
 	/*!***********************************************************************

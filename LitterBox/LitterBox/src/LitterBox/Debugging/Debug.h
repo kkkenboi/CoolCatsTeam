@@ -31,7 +31,6 @@ namespace LB
 	#define DebuggerLogWarning(message) LB::DEBUG->LogWarning(message, DebuggerFileName.c_str(), __LINE__)
 	#define DebuggerLogError(message) LB::DEBUG->LogError(message, DebuggerFileName.c_str(), __LINE__)
 
-
 	/*!***********************************************************************
 	\brief
 	 Determine which type of debug object to draw.
@@ -188,6 +187,9 @@ namespace LB
 		*************************************************************************/
 		void line_update(Debug_Object& obj, const size_t& index);
 	};
+
+	void InitializeLoggers();
+	void FlushLoggers();
 
 	void ToggleDebugOn();
 	void StepPhysics();
