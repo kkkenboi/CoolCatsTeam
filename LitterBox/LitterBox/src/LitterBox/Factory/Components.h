@@ -422,6 +422,11 @@ namespace LB
 			CreateRigidBody();
 		}
 
+		/*!***********************************************************************
+			\brief
+			Creates a CPRigidBody with default parameters stated in the function
+			definition
+		*************************************************************************/
 		void CreateRigidBody ();
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
@@ -453,38 +458,74 @@ namespace LB
 
 	public:
 
+		/*!***********************************************************************
+			\brief
+			Gets the position of the CPRigidBody
+		*************************************************************************/
 		LB::Vec2<float> getPos();
 
-		// Force is added upon object's velocity
+		/*!***********************************************************************
+			\brief
+			Adds a Force to the CPRigidBody
+		*************************************************************************/
 		void addForce(LB::Vec2<float> force);
 
+		/*!***********************************************************************
+			\brief
+			Adds an Impulse to the CPRigidBody
+		*************************************************************************/
 		void addImpulse(LB::Vec2<float> force);
 
-		// Just to move the RigidBody with a vector
+		/*!***********************************************************************
+			\brief
+			Moves the CPRigidBody directly with a vector
+		*************************************************************************/
 		void Move(LB::Vec2<float> vec);
 
-		// Move the RigidBody to a specific position
+		/*!***********************************************************************
+			\brief
+			Moves the CPRigidBody directly to a certain position
+		*************************************************************************/
 		void MoveTo(LB::Vec2<float> position);
 
-		// Updates the TransformedVertices of the RigidBody
-		// Accounts for positional changes and rotational changes
+		/*!***********************************************************************
+			\brief
+			Updates the CPRigidBody Box Vertices within its' data members
+		*************************************************************************/
 		void UpdateRigidBodyBoxVertices();
 
+		/*!***********************************************************************
+			\brief
+			Updates the AABB collider in the CPRigidBody's data members
+		*************************************************************************/
 		void UpdateRigidBodyAABB();
 
-		// Updates the position of the RigidBody
+		/*!***********************************************************************
+			\brief
+			Updates the position of the CPRigidBody
+		*************************************************************************/
 		void UpdateRigidBodyPos(float time);
 
-		// Updates the velocities of the RigidBody
+		/*!***********************************************************************
+			\brief
+			Updates the CPRigidBody's velocity
+		*************************************************************************/
 		void UpdateRigidBodyVel(float time);
 
-		// Updates the RigidBody with all the steps
-		// Using a semi-implicit euler system, updating velocity first
-		// then updating positions
-		// Side note: Might be impulsed based system instead
-		// therefore accel = force / mass should be introduced later
+		/*!***********************************************************************
+			\brief
+			Override of the FixedUpdate() of IComponent
+			Updates the RigidBody within a fixed timestep
+			- Semi-implicit Euler system, updating velocity first then positions
+			- Also updates the Transform IComponent that is stored in CPRigidBody
+		*************************************************************************/
 		void FixedUpdate();
 
+		/*!***********************************************************************
+			\brief
+			This is the function that calls the debug drawer to draw all the
+			RigidBody collision boxes as well as their velocities
+		*************************************************************************/
 		void DebugDraw();
 
 	};
