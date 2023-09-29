@@ -197,6 +197,13 @@ namespace LB
 		GOMANAGER->AddGameObject(gameObj);
 		return gameObj;
 	}
+	/*!***********************************************************************
+	 \brief
+	 Spawns a GameObject with the exact same components as the provided GameObject
+
+	 \return
+	 A pointer to the GameObject
+	*************************************************************************/
 	GameObject* FactorySystem::SpawnGameObject(GameObject* prefab)
 	{
 		GameObject* clone = FACTORY->CreateGameObject();
@@ -204,11 +211,14 @@ namespace LB
 		{
 			clone->SetID(FACTORY->GetLastObjID());
 		}
+		//We loop through all the components in the prefab
 		for (auto& elem : prefab->GetComponents())
-		{
+		{	//Then we add it to our clone
 			clone->AddComponent(elem.first,FACTORY->GetCMs()[elem.first]->Create());
 		}
+		//This copies the data from our prefab components over to the clone
 		clone->SetComponents(prefab->GetComponents());
+		//Then we initialise the data for the clone
 		clone->StartComponents();
 		GOMANAGER->AddGameObject(clone);
 		return clone;
