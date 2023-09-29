@@ -100,12 +100,13 @@ namespace LB
 	public:
 		/*!***********************************************************************
 		\brief
-		 COmponent Initializer function
+		 Component Initializer function
 		*************************************************************************/
 		void Initialise() override
 		{
-			std::cout << "Initialising Transform\n";
+
 		}
+
 		/*!***********************************************************************
 		\brief
 		 Function will serialize data from an outer json file to get data.
@@ -132,6 +133,7 @@ namespace LB
 			data.AddMember("Rotation", angle, alloc);
 			return true;
 		}
+
 		/*!***********************************************************************
 		\brief
 		 Function will save data from scene to json file.

@@ -31,10 +31,14 @@ namespace LB
 	#define DebuggerFileName (std::string(__FILE__).substr(std::string(__FILE__).rfind("\\") + 1))
 
 	// Macros for Debugging, calls the respective functions with __FILE__ and __LINE__
-	#define DebuggerAssert(expectedCondition, message) LB::DEBUG->Assert(expectedCondition, message, DebuggerFileName.c_str(), __LINE__)
 	#define DebuggerLog(message) LB::DEBUG->Log(message, DebuggerFileName.c_str(), __LINE__)
+	#define DebuggerLogFormat(format, ...) LB::DEBUG->LogFormat(DebuggerFileName.c_str(), __LINE__, format, __VA_ARGS__)
+
 	#define DebuggerLogWarning(message) LB::DEBUG->LogWarning(message, DebuggerFileName.c_str(), __LINE__)
+
 	#define DebuggerLogError(message) LB::DEBUG->LogError(message, DebuggerFileName.c_str(), __LINE__)
+
+	#define DebuggerAssert(expectedCondition, message) LB::DEBUG->Assert(expectedCondition, message, DebuggerFileName.c_str(), __LINE__)
 
 	/*!***********************************************************************
 	\brief
@@ -149,6 +153,12 @@ namespace LB
 		 Log prints a given message and the file that called it and from which line.
 		*************************************************************************/
 		void Log(std::string const& message, const char* file = "Unnamed", int line = 0);
+
+		/*!***********************************************************************
+		\brief
+		 Log prints a given message and the file that called it and from which line.
+		*************************************************************************/
+		void LogFormat(const char* file = "Unnamed", int line = 0, const char* format = "", ...);
 
 		/*!***********************************************************************
 		\brief
