@@ -640,7 +640,7 @@ LB::Vec2<float> FindCenterOfBoxVertices(LB::Vec2<float>* vertices)
 
 int FindIndexClosestPointOnBox(LB::Vec2<float>* vertices, LB::Vec2<float> center)
 {
-
+	UNREFERENCED_PARAMETER(center);
 	// Loop through the the vertices
 	// Get the vec from vertex to center
 	// Always keep the vec with the smallest length
