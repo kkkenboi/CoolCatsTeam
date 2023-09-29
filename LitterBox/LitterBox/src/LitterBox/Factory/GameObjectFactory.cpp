@@ -197,6 +197,22 @@ namespace LB
 		GOMANAGER->AddGameObject(gameObj);
 		return gameObj;
 	}
+	GameObject* FactorySystem::SpawnGameObject(GameObject* prefab)
+	{
+		GameObject* clone = FACTORY->CreateGameObject();
+		if (clone->GetID() == 0) 		// ID only starts at 1
+		{
+			clone->SetID(FACTORY->GetLastObjID());
+		}
+		for (auto& elem : prefab->GetComponents())
+		{
+			clone->AddComponent(elem.first,FACTORY->GetCMs()[elem.first]->Create());
+		}
+		clone->SetComponents(prefab->GetComponents());
+		clone->StartComponents();
+		GOMANAGER->AddGameObject(clone);
+		return clone;
+	}
 
 	/*!***********************************************************************
 	 \brief

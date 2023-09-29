@@ -29,6 +29,7 @@
 #include "LitterBox/Physics/Collisions.h"
 #include "LitterBox/Renderer/ForwardDeclerators.h"
 #include "Platform/Windows/Windows.h"
+#include "LitterBox/Serialization/Serializer.h"
 #include <queue>
 
 namespace LB
@@ -50,7 +51,6 @@ namespace LB
 	class IComponent
 	{
 	public:
-
 		/*!***********************************************************************
 		 \brief
 		 Initialises the component
@@ -67,13 +67,13 @@ namespace LB
 		 \brief
 		 Serialises the components based on its derived member's data
 		*************************************************************************/
-		virtual void Serialise() {};
+		virtual bool Serialize(Value&, Document::AllocatorType&) { return false; };
 
 		/*!***********************************************************************
 		 \brief
 		 Deserialises the components based on its derived member's data
 		*************************************************************************/
-		virtual void Deserialise() {};
+		virtual bool Deserialize(const Value&) { return false; };
 
 		/*!***********************************************************************
 		 \brief
@@ -94,6 +94,54 @@ namespace LB
 	class CPTransform : public IComponent
 	{
 	public:
+		void Initialise() override
+		{
+			std::cout << "Initialising Transform\n";
+		}
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override
+		{
+			std::cout << "Serialising Transform\n";
+			data.SetObject();
+			Value PositionValue;
+			if (pos.Serialize(PositionValue, alloc))
+			{
+				data.AddMember("Position", PositionValue, alloc);
+			}
+			else return false;
+			Value ScaleValue;
+			if (scale.Serialize(ScaleValue, alloc))
+			{
+				data.AddMember("Scale", ScaleValue, alloc);
+			}
+			else return false;
+			data.AddMember("Rotation", angle, alloc);
+			return true;
+		}
+		bool Deserialize(const Value& data) override
+		{
+			bool HasPosition = data.HasMember("Position");
+			bool HasScale = data.HasMember("Scale");
+			bool HasRot = data.HasMember("Rotation");
+			std::cout << "Deserialising Transform\n";
+			if (data.IsObject())
+			{
+				if (HasPosition && HasScale && HasRot)
+				{
+					const Value& positionValue = data["Position"];
+					const Value& scaleValue = data["Scale"];
+					const Value& rotationValue = data["Rotation"];
+					pos.Deserialize(positionValue);
+					scale.Deserialize(scaleValue);
+					angle = rotationValue.GetFloat();
+					return true;
+				}
+			}
+			return false;
+		}
+		void Destroy() override
+		{
+			std::cout << "Destroying Transform\n";
+		}
 
 		Vec2<float> GetPosition() const
 		{
@@ -186,6 +234,27 @@ namespace LB
 		void Initialise() override {
 			transform = gameObj->GetComponent<CPTransform>("CPTransform");
 			initialized = true;
+		}
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override
+		{
+			data.SetObject();
+			Value textureName;
+			data.AddMember("Texture", texture,alloc);
+			return true;
+		}
+		bool Deserialize(const Value& data) override
+		{
+			bool HasTexture = data.HasMember("Texture");
+			if (data.IsObject())
+			{
+				if (HasTexture)
+				{
+					const Value& textureValue = data["Texture"];
+					texture = textureValue.GetInt();
+					return true;
+				}
+			}
+			return false;
 		}
 		/*!***********************************************************************
 		\brief
@@ -354,7 +423,33 @@ namespace LB
 		}
 
 		void CreateRigidBody ();
-
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override
+		{
+			std::cout << "Serialising RB\n";
+			data.SetObject();
+			data.AddMember("Width", mWidth, alloc);
+			data.AddMember("Height", mHeight, alloc);
+			data.AddMember("Density", mDensity,alloc);
+			return true;
+		}
+		bool Deserialize(const Value& data) override
+		{
+			std::cout << "Deserialising RB\n";
+			bool HasWidth = data.HasMember("Width");
+			bool HasHeight = data.HasMember("Height");
+			bool HasDensity = data.HasMember("Density");
+			if (data.IsObject())
+			{
+				if (HasWidth && HasHeight && HasDensity)
+				{
+					mWidth = data["Width"].GetFloat();
+					mHeight = data["Height"].GetFloat();
+					mDensity = data["Density"].GetFloat();
+					return true;
+				}
+			}
+			return false;
+		}
 
 	public:
 

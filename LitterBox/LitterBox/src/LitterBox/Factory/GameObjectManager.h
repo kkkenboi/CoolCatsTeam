@@ -23,6 +23,8 @@
 #include "pch.h"
 #include "LitterBox/Core/System.h"
 #include <initializer_list>
+#include "LitterBox/Serialization/Serializer.h"
+
 
 namespace LB
 {
@@ -66,12 +68,15 @@ namespace LB
 		 Gets all the components of the GameObject
 		*************************************************************************/
 		std::unordered_map<std::string, IComponent*> GetComponents();
+		void SetComponents(const std::unordered_map<std::string, IComponent*>& );
 
 		/*!***********************************************************************
 		 \brief
 		 Adds a component to the GameObject
 		*************************************************************************/
 		void AddComponent(std::string name, IComponent* component);
+		bool Serialize(Value&, Document::AllocatorType&);
+		bool Deserialize(const Value&);
 
 		/*!***********************************************************************
 		 \brief

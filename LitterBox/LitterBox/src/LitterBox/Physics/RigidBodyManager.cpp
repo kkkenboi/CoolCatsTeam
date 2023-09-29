@@ -1,3 +1,16 @@
+/*!************************************************************************
+ \file				RigidBodyManager.cpp
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:       CSD2401A
+ \date				29/09/2023
+ \brief				This file contains the RigidBodyManager class and its
+                    functions definitions
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #pragma once
 
 #include "RigidBody.h"
@@ -9,10 +22,13 @@ namespace LB
 {
     RigidBodyManager* PHYSICS = nullptr;
 
+    /*!***********************************************************************
+        \brief
+        RigidBodyManager's constructor, assigns memory to the rigidbody pool
+        and rb states
+    *************************************************************************/
     RigidBodyManager::RigidBodyManager()
     {
-        //INPUT->SubscribeToKey(func, KeyCode::KEY_W, KeyEvent)
-
 
         if (!PHYSICS)
         {
@@ -41,6 +57,11 @@ namespace LB
         std::cout << "Physics initialized\n";
     }
 
+    /*!***********************************************************************
+      \brief
+      RigidBodyManager's constructor, assigns memory to the rigidbody pool
+      with size
+    *************************************************************************/
     RigidBodyManager::RigidBodyManager(int size) : m_poolSize(size), m_currentIndex(0)
     {
         m_rigidBodies = new CPRigidBody * [size];
@@ -54,7 +75,11 @@ namespace LB
         }
     }
 
-    // Destructor
+    /*!***********************************************************************
+      \brief
+      RigidBodyManager destructor, frees the memory allocated for the pool
+      and states
+    *************************************************************************/
     RigidBodyManager::~RigidBodyManager()
     {
         for (int i = 0; i < m_poolSize; ++i)
@@ -68,7 +93,10 @@ namespace LB
         delete[] m_rbStates;
     }
 
-    // This functions allows you to add a RigidBody to the pool
+    /*!***********************************************************************
+      \brief
+      This function allows you to add a RigidBody to the pool
+    *************************************************************************/
     void RigidBodyManager::AddRigidBodyToPool(CPRigidBody* rb)
     {
         for (int i = 0; i < m_poolSize; ++i)
@@ -82,7 +110,13 @@ namespace LB
         }
     }
 
-    // This allows you to find the RigidBody within an index
+    /*!***********************************************************************
+      \brief
+      This function allows you to get a pointer to a RigidBody within the
+      pool with the index given
+      \return
+      Returns a pointer to the RigidBody in the pool
+    *************************************************************************/
     CPRigidBody* RigidBodyManager::GetPooledRigidBody(size_t index)
     {
         if (index < 0 || index >= m_poolSize)
@@ -93,8 +127,13 @@ namespace LB
         return m_rigidBodies[index];
     }
 
-    // This allows you to find the next nearest unpulled RigidBody in the array
-    // Returns a pointer to the Rigidbody allowing you to check its calculations
+    /*!***********************************************************************
+      \brief
+      This function gets the nearest unused CPRigidBody according to its
+      RBStates, within the pool
+      \return
+      Returns a pointer to a CPRigidBody that is unused according to RBStates
+    *************************************************************************/
     CPRigidBody* RigidBodyManager::GetPooledRigidBody()
     {
         for (int i = 0; i < m_poolSize; ++i)
@@ -110,8 +149,11 @@ namespace LB
         return nullptr;
     }
 
-    // This function allows you to return a RigidBody that was pulled previously
-    // back to the Manager, which means that it is not being calculated on anymore
+    /*!***********************************************************************
+      \brief
+      This function returns a CPRigidBody that was pulled from GetPooledRigidBody
+      back into the pool with RBStates false now
+    *************************************************************************/
     void RigidBodyManager::ReturnPooledRigidBody(CPRigidBody* rb)
     {
         for (int i = 0; i < m_poolSize; ++i)
@@ -124,6 +166,10 @@ namespace LB
         }
     }
 
+    /*!***********************************************************************
+      \brief
+      This function returns a pointer to a CPRigidBody that has the ID of 1
+    *************************************************************************/
     CPRigidBody* RigidBodyManager::LookForMainCharacter()
     {
         for (int i = 0; i < m_poolSize; ++i)
@@ -135,7 +181,18 @@ namespace LB
         }
         return nullptr;
     }
-
+    
+    /*!***********************************************************************
+      \brief
+      Does all the update steps for all the CPRigidBodies within the pool
+      - Movement Step
+      - Update Velocities
+      - Update Positions
+      - Collision Step
+      - Check BOXBOX, BOXCIRCLE, CIRCLEBOX, CIRCLECIRCLE Collisions
+      - Get normal and depth for separation movement
+      - Resolve Collisions
+    *************************************************************************/
     void RigidBodyManager::RBSystemSteps()
     {
         // ==================
@@ -157,12 +214,10 @@ namespace LB
 
         for (size_t i = 0; i < m_poolSize; ++i)
         {
-            //std::cout << "JOE IS HERE\n";
             CPRigidBody* bodyA = m_rigidBodies[i];
 
             for (size_t j = i + 1; j < m_poolSize; ++j)
             {
-                //std::cout << "JOE IS IN SECOND BODY\n";
                 CPRigidBody* bodyB = m_rigidBodies[j];
 
                 if (bodyA == bodyB)
@@ -185,13 +240,6 @@ namespace LB
                 // Normal here is moving B away from A
                 if (CheckCollisions(bodyA, bodyB, normal_out, depth_out))
                 {
-                    //std::cout << "JOE HIT\n";
-                    //std::cout << "BodyA Prev POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
-                    //std::cout << "BodyB Prev POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
-
-                    // Debug View
-                    //DEBUG->DrawBox(bodyA->mPosition, bodyA->mWidth, bodyA->mHeight, Vec4<float>{ 1.0f, 0.f, 0.f, 0.f });
-                    //DEBUG->DrawBox(bodyB->mPosition, bodyB->mWidth, bodyB->mHeight, Vec4<float>{ 1.0f, 0.f, 0.f, 0.f });
 
                     LB::Vec2<float>inverse_normal{ -normal_out.x, -normal_out.y };
                     if (bodyA->isStatic)
@@ -210,9 +258,6 @@ namespace LB
                     
                     ResolveCollisions(bodyA, bodyB, normal_out, depth_out);
                     
-                    //std::cout << "COLLISION RESOLVED" << std::endl;
-                    //std::cout << "BodyA After POS: " << bodyA->mPosition.x << " , " << bodyA->mPosition.y << std::endl;
-                    //std::cout << "BodyB After POS: " << bodyB->mPosition.x << " , " << bodyB->mPosition.y << std::endl;
                 }
 
 
@@ -223,16 +268,30 @@ namespace LB
     // ======================================
     // ISystem function overrides
     // ======================================
+
+    /*!***********************************************************************
+        \brief
+        Initialize function override of ISystem, allocates the CPRigidBody pool
+        memory
+    *************************************************************************/
     void RigidBodyManager::Initialize()
     {
         SetSystemName("Physics System");
     }
 
+    /*!***********************************************************************
+      \brief
+      Updates the CPRigidBody pool in a fixed timestep
+    *************************************************************************/
     void RigidBodyManager::FixedUpdate()
     {
         RBSystemSteps();
     }
 
+    /*!***********************************************************************
+      \brief
+      Updates the Physics debugger in normal framerate
+    *************************************************************************/
     void RigidBodyManager::Update()
     {
         // IF DEBUG MODE ON
@@ -251,8 +310,15 @@ namespace LB
     // END OF RIGIDBODYMANAGER MEMBER FUNCTIONS
     // =======================================================
 
-    // Check collisions between two RigidBodies
-    // Normal is pushing bodyB away from bodyA
+    /*!***********************************************************************
+      \brief
+      Takes in two CPRigidBodies and checks the collision between the two
+      while outputting the normal_out and depth_out of the collision for
+      collision resolution
+      - normal_out is from A to B
+      \return
+      Returns a bool or whether or not the two CPRigidBodies collided or not
+    *************************************************************************/
     bool CheckCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out) {
         normal_out.x = 0.f; // Make it zeroed first, in case of any values beforehand
         normal_out.y = 0.f;
@@ -260,10 +326,8 @@ namespace LB
 
         if (bodyA->mShapeType == BOX)
         {
-            //std::cout << "JOE IS BOX\n";
             if (bodyB->mShapeType == BOX)
             {
-                //std::cout << "BOTH JOES ARE BOXES\n";
                 // A - B
                 // BOX-BOX
                 return CollisionIntersection_BoxBox_SAT(bodyA->mTransformedVertices, bodyB->mTransformedVertices, normal_out, depth_out);
@@ -301,13 +365,16 @@ namespace LB
         return false;
     }
 
+    /*!***********************************************************************
+      \brief
+      Takes in two CPRigidBodies and checks the collision between the two
+      while outputting the normal_out and depth_out of the collision for
+      collision resolution
+    *************************************************************************/
     void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth) {
 
         UNREFERENCED_PARAMETER(depth);
         // Need to get relative velocity from A to B
-        // Due to normal being from A to B
-        //std::cout << "bodyA vel: " << bodyA->mVelocity.x << " , " << bodyA->mVelocity.y << std::endl;
-        //std::cout << "bodyB vel: " << bodyB->mVelocity.x << " , " << bodyB->mVelocity.y << std::endl;
         LB::Vec2<float> relativeVelocity = bodyB->mVelocity - bodyA->mVelocity;
 
         // If the dot product of relVel and normal is more than 0.f
