@@ -1,12 +1,18 @@
 /*!************************************************************************
- \file				GameObjectFactory.h
+ \file				GameObjectManager.h
  \author(s)			Kenji Brannon Chong
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions declarations of the
-					FactorySystem class that creates a GameObject with
-					different components.
+ \brief		
+
+ This file contains functions declarations and definition of the GameObject 
+ and GameObjectManager class. The GameObject acts as a container to hold all 
+ of the different components for the components to interact with each other 
+ during the gameloop.
+
+ The GameObjectManager manages all of the GameObject's lifetime throughout the 
+ entire application.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -53,10 +59,7 @@ namespace LB
 		 Gets a specified component within the GameObject
 		*************************************************************************/
 		template <typename T>
-		T* GetComponent(std::string name)
-		{
-			return static_cast<T*>(m_Components[name]);
-		}
+		T* GetComponent(std::string name) { return static_cast<T*>(m_Components[name]); }
 
 		/*!***********************************************************************
 		 \brief
@@ -103,46 +106,39 @@ namespace LB
 	public:
 		/*!***********************************************************************
 		 \brief
-		 Creates the GameObjectManager4
+		 Creates the GameObjectManager
 		*************************************************************************/
 		GameObjectManager();
 
 		/*!***********************************************************************
 		 \brief
-		 Destroys the GameObjectManager
+		 Destroys all of the GameObjects and signifies end of lifecycle of
+		 GameObjectManager
 		*************************************************************************/
 		void Destroy() override;
 
 		/*!***********************************************************************
 		 \brief
-
+		 Gets all of the current GameObjects the GameObjectManager is managing
 		*************************************************************************/
 		std::vector<GameObject*> GetGameObjects() const;
 
 		/*!***********************************************************************
 		 \brief
-
+		 Adds a GameObject to the current pool of GameObjects
 		*************************************************************************/
 		void AddGameObject(GameObject* gameObject);
 
 		/*!***********************************************************************
 		 \brief
-
+		 Destroys all of the GameObjects
 		*************************************************************************/
 		void DestroyAllGOs();
 
 	private:
-		/*!***********************************************************************
-		 \brief
-
-		*************************************************************************/
 		std::vector<GameObject*> m_GameObjects;
 	};
 
-	/*!***********************************************************************
-	 \brief
-
-	*************************************************************************/
 	extern GameObjectManager* GOMANAGER;
 }
 

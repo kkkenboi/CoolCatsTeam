@@ -1,11 +1,21 @@
 /*!************************************************************************
- \file
- \author(s)
- \par DP email(s):
- \par Course:		CSD2401A
- \date
- \brief
+ \file				Windows.cpp
+ \author(s)			Kenji Brannon Chong | Amadeus Chia Jinhan
+ \par DP email(s):	kenjibrannon.c@digipen.edu | amadeusjinhan.chia@digipen.edu
+ \par Course:       CSD2401A
+ \date				29/09/2023
+ \brief				
 
+ This file contains functions definitions of the Windows class. It holds all 
+ of the current window's data and provides callbacks for GLFW, such as Error
+ and FrameBuffer.
+
+ This file also contains functions definitions of the MessageQuit class to 
+ allow the Windows system to receive a message to quit.
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "Windows.h"
@@ -21,18 +31,12 @@ namespace LB
 
     /*!***********************************************************************
      \brief
-
-
-     \return
-
+     Initialises the WindowsSystem with GLFW functions, specifying
     *************************************************************************/
-	WindowsSystem::WindowsSystem()
+    WindowsSystem::WindowsSystem()
 	{
-        // Ensure that there is only one window as it should only be called once for one engine
-        // 
-        // 
-        // Set the global pointer to the windows system
-
+        // Ensure that there is only one window as it should only be 
+        // called once for the engine
         if (!WINDOWSSYSTEM)
         {
             WINDOWSSYSTEM = this;
@@ -61,29 +65,25 @@ namespace LB
         stream.DeserializeFromFile("config settings", m_Data);
         // Update Window Title
 
-
         // Create GLFW window
-        m_Data.PtrToWindow = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), NULL, NULL);
-        if (!m_Data.PtrToWindow) {
+        m_Data.m_PtrToWindow = glfwCreateWindow(m_Data.m_Width, m_Data.m_Height, m_Data.m_Title.c_str(), NULL, NULL);
+        if (!m_Data.m_PtrToWindow) {
             std::cerr << "GLFW unable to create OpenGL context - abort program\n";
             glfwTerminate();
             //return false;
         }
 
         // Make the OpenGL context current
-        glfwMakeContextCurrent(m_Data.PtrToWindow);
+        glfwMakeContextCurrent(m_Data.m_PtrToWindow);
 
         // VSYNC OFF: 0, VSYNC ON: 1
         glfwSwapInterval(0);
 
         // Set GLFW callbacks
-        glfwSetFramebufferSizeCallback(m_Data.PtrToWindow, FrameBufferCB);
-        glfwSetKeyCallback(m_Data.PtrToWindow,  InvokeKeyPressed);
-        glfwSetMouseButtonCallback(m_Data.PtrToWindow, InvokeKeyPressed);
-        //glfwSetCursorPosCallback(m_Data.PtrToWindow, MousePositionCB);
-        //glfwSetScrollCallback(m_Data.PtrToWindow, MouseScrollCB);
-
-        glfwSetInputMode(m_Data.PtrToWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        glfwSetFramebufferSizeCallback(m_Data.m_PtrToWindow, FrameBufferCB);
+        glfwSetKeyCallback(m_Data.m_PtrToWindow,  InvokeKeyPressed);
+        glfwSetMouseButtonCallback(m_Data.m_PtrToWindow, InvokeKeyPressed);
+        glfwSetInputMode(m_Data.m_PtrToWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
         // Initialize Glad
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -101,39 +101,37 @@ namespace LB
         }
         else {
             std::cerr << "Driver doesn't support at least OpenGL 4.5 - abort program" << std::endl;
-            //return false;
         }
 
         // Get the framebuffer size and set the viewport
         int fb_width, fb_height;
-        glfwGetFramebufferSize(m_Data.PtrToWindow, &fb_width, &fb_height);
-        FrameBufferCB(m_Data.PtrToWindow, fb_width, fb_height);
+        glfwGetFramebufferSize(m_Data.m_PtrToWindow, &fb_width, &fb_height);
+        FrameBufferCB(m_Data.m_PtrToWindow, fb_width, fb_height);
+
+        SetSystemName("Windows System");
 	}
 
     /*!***********************************************************************
      \brief
-
-
-     \return
-
+     Destroys the WindowsSystems with GLFW functions
     *************************************************************************/
     WindowsSystem::~WindowsSystem()
 	{
-        glfwDestroyWindow(this->m_Data.PtrToWindow);
+        glfwDestroyWindow(this->m_Data.m_PtrToWindow);
         glfwTerminate();
         // If there are any resources allocated, delete before destructing WindowsSystem
 	}
 
     /*!***********************************************************************
      \brief
-
+     Checks if the window is closing each frame
 
      \return
-
+     Nothing
     *************************************************************************/
-	void WindowsSystem::Update()
-	{
-        if (glfwWindowShouldClose(this->m_Data.PtrToWindow)) 
+    void WindowsSystem::Update()
+    {
+        if (glfwWindowShouldClose(this->m_Data.m_PtrToWindow))
         {
             MessageQuit q;
             CORE->BroadcastMessage(&q);
@@ -141,36 +139,121 @@ namespace LB
 
         Draw(this->m_Data);
 
-    }//Update the system every frame
+    }
 
     /*!***********************************************************************
      \brief
-
+     Swaps framebuffer and sets the window title every frame
 
      \return
-
+     Nothing
     *************************************************************************/
     void WindowsSystem::Draw(WindowsData _m_Data)
     {
-        std::string title{_m_Data.Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime())};
+        std::string title{_m_Data.m_Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime())};
 
         // Set Window Title (Name + FPS)
-        glfwSetWindowTitle(_m_Data.PtrToWindow, title.c_str());
+        glfwSetWindowTitle(_m_Data.m_PtrToWindow, title.c_str());
 
         // Rendering portion
 
 
         // Swap buffer
-        glfwSwapBuffers(_m_Data.PtrToWindow);
+        glfwSwapBuffers(_m_Data.m_PtrToWindow);
 
-    }//Update the system every frame
+    }
 
     /*!***********************************************************************
      \brief
-
+     Sends a message to other systems
 
      \return
+     Nothing
+    *************************************************************************/
+    void WindowsSystem::SendMessage(Message* message) 
+    { 
+        UNREFERENCED_PARAMETER(message); 
+    };
 
+    /*!***********************************************************************
+     \brief
+     Gets the width of the current window
+
+     \return
+     Width of current window
+    *************************************************************************/
+    unsigned int WindowsSystem::GetWidth() const 
+    { 
+        return m_Data.m_Width; 
+    }
+
+    /*!***********************************************************************
+     \brief
+     Gets the height of the current window
+
+     \return
+     Height of current window
+    *************************************************************************/
+    unsigned int WindowsSystem::GetHeight() const
+    { 
+        return m_Data.m_Height;
+    }
+
+    /*!***********************************************************************
+     \brief
+     Gets the title of the current window
+
+     \return
+     Title of current window
+    *************************************************************************/
+    std::string WindowsSystem::GetTitle() const
+    { 
+        return m_Data.m_Title; 
+    }
+
+    /*!***********************************************************************
+     \brief
+     Gets the x position of the current window
+
+     \return
+     Width of current window
+    *************************************************************************/
+    double WindowsSystem::GetPosX() const
+    { 
+        return m_Data.m_PosX; 
+    }
+
+    /*!***********************************************************************
+     \brief
+     Gets the y position the current window
+
+     \return
+     Width of current window
+    *************************************************************************/
+    double WindowsSystem::GetPosY() const
+    { 
+        return m_Data.m_PosY; 
+    }
+
+    /*!***********************************************************************
+     \brief
+     Gets the pointer to the current window
+
+     \return
+     Pointer to current window
+    *************************************************************************/
+    GLFWwindow* WindowsSystem::GetWindow() const
+    { 
+        return m_Data.m_PtrToWindow; 
+    }
+
+
+    /*!***********************************************************************
+     \brief
+     Sets the Error callback for GLFW
+
+     \return
+     Nothing
     *************************************************************************/
     void WindowsSystem::ErrorCB(int error, char const* description)
     {
@@ -184,10 +267,10 @@ namespace LB
 
     /*!***********************************************************************
      \brief
-
+     Sets the FrameBuffer callback for GLFW
 
      \return
-
+     Nothing
     *************************************************************************/
     void WindowsSystem::FrameBufferCB(GLFWwindow* ptr_win, int width, int height)
     {

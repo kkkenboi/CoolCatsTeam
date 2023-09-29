@@ -4,9 +4,9 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions for the Message class that
-					allows systems to send messages to each other. 
-					Currently allows the program to exit.
+ \brief				
+ This file contains the Message class that allows systems to send messages 
+ to each other.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent

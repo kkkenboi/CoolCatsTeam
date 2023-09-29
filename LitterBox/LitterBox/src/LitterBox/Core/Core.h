@@ -4,10 +4,11 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions declarations of the
-					LBEngine class that controls the engine and systems.
-					Has a layer system to allow for ImGui implementation
-					later on.
+ \brief				
+ 
+ This file contains functions declarations of the LBEngine class that controls
+ the engine and systems. Has a layer system to allow for ImGui implementation
+ later on.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
