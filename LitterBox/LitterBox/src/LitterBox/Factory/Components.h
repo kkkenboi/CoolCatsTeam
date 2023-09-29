@@ -90,14 +90,29 @@ namespace LB
 		ComponentTypeID TypeID		{ C_CPNone };
 		GameObject*		gameObj		{ nullptr };
 	};
-
+	/*!***********************************************************************
+	\brief
+	 CPTransform is a default component that every game object will have. It
+	 contains a position vector, scale vector and rotation vector.
+	*************************************************************************/
 	class CPTransform : public IComponent
 	{
 	public:
+		/*!***********************************************************************
+		\brief
+		 COmponent Initializer function
+		*************************************************************************/
 		void Initialise() override
 		{
 			std::cout << "Initialising Transform\n";
 		}
+		/*!***********************************************************************
+		\brief
+		 Function will serialize data from an outer json file to get data.
+		
+		\return
+		 returns true if serialization succeeds and false if not.
+		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
 			std::cout << "Serialising Transform\n";
@@ -117,6 +132,13 @@ namespace LB
 			data.AddMember("Rotation", angle, alloc);
 			return true;
 		}
+		/*!***********************************************************************
+		\brief
+		 Function will save data from scene to json file.
+		
+		\return
+		 returns true if deserialization succeeds and false if not.
+		*************************************************************************/
 		bool Deserialize(const Value& data) override
 		{
 			bool HasPosition = data.HasMember("Position");
@@ -138,36 +160,75 @@ namespace LB
 			}
 			return false;
 		}
+		
+		/*!***********************************************************************
+		\brief
+		 Component Destroy function
+		*************************************************************************/
 		void Destroy() override
 		{
 			std::cout << "Destroying Transform\n";
 		}
-
+		
+		/*!***********************************************************************
+		\brief
+		 Getter function to get the position of the game object transform
+		
+		\return
+		 2D vector of the position of the game object(Transform)
+		*************************************************************************/
 		Vec2<float> GetPosition() const
 		{
 			return pos;
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Setter function to set the position of the game object transform
+		*************************************************************************/
 		void SetPosition(Vec2<float> const& newPos)
 		{
 			pos = newPos;
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Getter function to get the scale of the game object transform
+		
+		\return
+		 2D vector of the x and y scale of the game object(Transform)
+		*************************************************************************/
 		Vec2<float> GetScale() const
 		{
 			return scale;
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Setter function to set the x and y scale of the game object transform
+		*************************************************************************/
 		void SetScale(Vec2<float> const& newScale)
 		{
 			scale = newScale;
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Getter function to get the rotation of the game object transform
+		
+		\return
+		 Clockwise angle in radians of the game object
+		*************************************************************************/
 		float GetRotation() const
 		{
 			return angle;
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Setter function to set the clockwise angle in radians of the game object 
+		 transform
+		*************************************************************************/
 		void SetRotation(float newRotation)
 		{
 			angle = newRotation;
