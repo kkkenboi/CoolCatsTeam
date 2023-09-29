@@ -142,15 +142,15 @@ namespace LB
 
     void CPRigidBody::UpdateRigidBodyBoxVertices()
     {
-        PhysicsTransform transform{ this->mPosition, this->mRotation };
+        PhysicsTransform xtransform{ this->mPosition, this->mRotation };
 
         for (int i = 0; i < 4; ++i) {
             // Uses the untransformed vertices as the basis for tranasformation
             LB::Vec2<float> og_vec = this->mVertices[i];
             // Transforming the vertices using trigo formulas
             this->mTransformedVertices[i] = LB::Vec2<float>{
-                transform.m_cos * og_vec.x - transform.m_sin * og_vec.y + transform.m_posX,
-                transform.m_sin * og_vec.x + transform.m_cos * og_vec.y + transform.m_posY };
+                xtransform.m_cos * og_vec.x - xtransform.m_sin * og_vec.y + xtransform.m_posX,
+                xtransform.m_sin * og_vec.x + xtransform.m_cos * og_vec.y + xtransform.m_posY };
         }
 
 
