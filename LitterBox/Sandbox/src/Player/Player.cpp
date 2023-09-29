@@ -4,6 +4,11 @@
 GameObject* PlayerObj;
 
 extern GameObject** test;
+/*!***********************************************************************
+\brief
+ Temp function to create and display the 2500 object test. Is mapped to
+ P. It will only spawn it once and it cannot be despawned.
+*************************************************************************/
 void spawn2500() {
 	if (test) {
 		return;
