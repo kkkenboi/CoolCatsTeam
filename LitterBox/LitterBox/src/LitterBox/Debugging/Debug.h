@@ -189,7 +189,8 @@ namespace LB
 	};
 
 	void InitializeLoggers();
-	void FlushLoggers();
+	void FlushDebugLog();
+	void FlushCrashLog(int signal);
 
 	void ToggleDebugOn();
 	void StepPhysics();

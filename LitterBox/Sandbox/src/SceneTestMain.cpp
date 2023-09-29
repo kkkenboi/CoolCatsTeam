@@ -101,6 +101,11 @@ void SceneTestMain::Init()
 	static_wall->GetComponent<CPRigidBody>("CPRigidBody")->isStatic = true;
 	static_wall->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Crash logging test (Uncomment code below for a crash!!!)
+	//int* test = nullptr;
+	//*test = 5;
+
 	//JSONSerializer stream;
 	//stream.DeserializeFromFile("TestObject", *testPlayer->playerObj);
 	//std::cout << testPlayer->playerObj->GetComponent<CPTransform>("CPTransform")->GetPosition().ToString();

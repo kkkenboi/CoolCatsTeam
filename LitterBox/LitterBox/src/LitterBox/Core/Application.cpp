@@ -73,7 +73,7 @@ namespace LB {
 		Engine->DestroySystems();
 
 		// TODO: Refactor intialization order and move back to debugger system
-		FlushLoggers();
+		FlushDebugLog();
 
 		//Delete the engine itself
 		delete Engine;

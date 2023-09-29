@@ -15,7 +15,8 @@
 #include <iostream>
 #include <sstream>
 
-#include "spdlog/spdlog.h" // For logging information to files
+#include <csignal>			// For getting crash signals
+#include "spdlog/spdlog.h"	// For logging information to files
 #include "spdlog/sinks/basic_file_sink.h"
 
 //-----------------Pre-defines------------------------------
@@ -30,7 +31,7 @@ namespace LB
 {
 	//------------------File logger--------------------
 	std::shared_ptr<spdlog::logger> debugInfoLogger;
-	//std::shared_ptr<spdlog::logger> crashInfoLogger;
+	std::shared_ptr<spdlog::logger> crashInfoLogger;
 
 	Debugger* DEBUG = nullptr;
 	/*!***********************************************************************
@@ -47,6 +48,10 @@ namespace LB
 		// Toggle debug mode on key press
 		m_debugToggleKey = KeyCode::KEY_J;
 		m_stepPhysicsKey = KeyCode::KEY_I;
+
+		//--------------------Crash signal Setup---------------------
+		signal(SIGSEGV, FlushCrashLog);
+		signal(SIGABRT, FlushCrashLog);
 	}
 	/*!***********************************************************************
 	\brief
@@ -96,17 +101,30 @@ namespace LB
 		debugInfoLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
 		debugInfoLogger->set_level(spdlog::level::debug);
 
-		//crashInfoLogger = spdlog::basic_logger_mt("CrashLogger", "../Logs/CrashLog.txt");
-		//crashInfoLogger->set_level(spdlog::level::err);
+		crashInfoLogger = spdlog::basic_logger_mt("CrashLogger", "../Logs/CrashLog.txt");
+		crashInfoLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+		crashInfoLogger->set_level(spdlog::level::err);
 	}
 
-	void FlushLoggers()
+	void FlushDebugLog()
 	{
 		std::ofstream logFile("Logs/DebugLog.txt", std::ios::trunc);
 		logFile.close();
 
 		// Log all debug info on exit
 		debugInfoLogger->flush();
+	}
+
+
+	void FlushCrashLog(int signal)
+	{
+		// Flush the debug log as well
+		FlushDebugLog();
+		
+		std::ofstream logFile("Logs/CrashLog.txt", std::ios::trunc);
+		logFile.close();
+
+		crashInfoLogger->error("Unexpected application crash! Signal: {}", signal);
 	}
 
 	//TODO modulate the vertex size

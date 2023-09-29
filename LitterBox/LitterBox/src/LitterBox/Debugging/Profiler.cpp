@@ -11,11 +11,14 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
+// Include the headers of systems to profile!!
 #include "Platform/Windows/Windows.h"
 #include "Profiler.h"
 #include "LitterBox/Renderer/Renderer.h"
-#include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Debugging/Memory.h"
+#include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Physics/RigidBodyManager.h"
+#include "LitterBox/Audio/AudioManager.h"
 
 namespace LB 
 {
@@ -144,10 +147,15 @@ namespace LB
 		double windowsSystem	= (*systemInfoMap)[WINDOWSSYSTEM->GetName().c_str()];
 		double factorySystem	= (*systemInfoMap)[FACTORY->GetName().c_str()];
 		double renderSystem		= (*systemInfoMap)[Renderer::GRAPHICS->GetName().c_str()];
+		double gameObjectSystem = (*systemInfoMap)[GOMANAGER->GetName().c_str()];
+		double physicsSystem	= (*systemInfoMap)[PHYSICS->GetName().c_str()];
+		double audioSystem		= (*systemInfoMap)[AUDIOMANAGER->GetName().c_str()];
 		double memorySystem		= (*systemInfoMap)[MEMORY->GetName().c_str()];
 
 		// Calculate the overhead for profiling (difference in total time, and time spent for each system)
-		double profilingSystem	= totalTime - (*systemInfoMap)[PROFILER->GetName().c_str()] - inputSystem - windowsSystem - factorySystem - renderSystem - memorySystem;
+		double profilingSystem	= totalTime - (*systemInfoMap)[PROFILER->GetName().c_str()] - 
+											  inputSystem - windowsSystem - factorySystem - renderSystem - 
+											  memorySystem - gameObjectSystem - physicsSystem - audioSystem;
 
 		/**************************************************************************************************/
 		// Nicely formatted output :D
@@ -166,7 +174,13 @@ namespace LB
 		
 		std::cout << std::right << std::setw(5) << std::setprecision(2) << (windowsSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << WINDOWSSYSTEM->GetName()			<< std::right << std::setw(7) << std::setprecision(4) << windowsSystem		<< " milliseconds\n";
 		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (gameObjectSystem / totalTime) * 100.0	<< "% | " << std::left << std::setw(30) << GOMANAGER->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << gameObjectSystem	<< " milliseconds\n";
+		
 		std::cout << std::right << std::setw(5) << std::setprecision(2) << (factorySystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << FACTORY->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << factorySystem		<< " milliseconds\n";
+		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (physicsSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << PHYSICS->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << physicsSystem		<< " milliseconds\n";
+		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (audioSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << AUDIOMANAGER->GetName()			<< std::right << std::setw(7) << std::setprecision(4) << audioSystem		<< " milliseconds\n";
 		
 		std::cout << std::right << std::setw(5) << std::setprecision(2) << (renderSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << Renderer::GRAPHICS->GetName()	<< std::right << std::setw(7) << std::setprecision(4) << renderSystem		<< " milliseconds\n";
 		
