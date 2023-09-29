@@ -205,7 +205,7 @@ namespace LB
 			//DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
 			std::string jsonString((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
 			inputFile.close();
-			if (_jsonFile.Parse(jsonString.c_str()).HasParseError()) { std::cout << "Unable to parse " + filePath << std::endl; }
+			if (_jsonFile.Parse(jsonString.c_str()).HasParseError()) { }
 			return _jsonFile;	//this should contain the parsed information
 		}
 		/// @brief helper function to write to file FROM json object

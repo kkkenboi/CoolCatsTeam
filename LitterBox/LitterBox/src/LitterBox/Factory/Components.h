@@ -53,13 +53,6 @@ namespace LB
 	class IComponent
 	{
 	public:
-		virtual void Initialise() {};
-		virtual void Update() {};
-		virtual bool Serialize(Value&, Document::AllocatorType&) { return false; };
-		virtual bool Deserialize(const Value&) { return false; };
-		virtual void Destroy() {};
-		// To destruct all other derived components
-
 		/*!***********************************************************************
 		 \brief
 		 Initialises the component
@@ -76,13 +69,13 @@ namespace LB
 		 \brief
 		 Serialises the components based on its derived member's data
 		*************************************************************************/
-		virtual void Serialise() {};
+		virtual bool Serialize(Value&, Document::AllocatorType&) { return false; };
 
 		/*!***********************************************************************
 		 \brief
 		 Deserialises the components based on its derived member's data
 		*************************************************************************/
-		virtual void Deserialise() {};
+		virtual bool Deserialize(const Value&) { return false; };
 
 		/*!***********************************************************************
 		 \brief
