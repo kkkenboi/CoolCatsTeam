@@ -302,6 +302,8 @@ namespace LB
     }
 
     void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth) {
+
+        UNREFERENCED_PARAMETER(depth);
         // Need to get relative velocity from A to B
         // Due to normal being from A to B
         //std::cout << "bodyA vel: " << bodyA->mVelocity.x << " , " << bodyA->mVelocity.y << std::endl;

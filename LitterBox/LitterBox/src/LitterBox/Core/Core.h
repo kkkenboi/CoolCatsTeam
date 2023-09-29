@@ -1,11 +1,17 @@
 /*!************************************************************************
  \file				Core.h
- \author(s)
- \par DP email(s):
- \par Course:		CSD2401A
- \date
- \brief
+ \author(s)			Kenji Brannon Chong
+ \par DP email(s):	kenjibrannon.c@digipen.edu
+ \par Course:       CSD2401A
+ \date				29/09/2023
+ \brief				This file contains functions declarations of the
+					LBEngine class that controls the engine and systems.
+					Has a layer system to allow for ImGui implementation
+					later on.
 
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #pragma once
@@ -18,122 +24,67 @@ namespace LB
 {
 	/*!***********************************************************************
 	 \brief
-
+	 The LitterBox Engine that encapsulates all of the systems
 	*************************************************************************/
 	class LBEngine
 	{
 	public:
+
 		/*!***********************************************************************
 		 \brief
-
+		 Initializes all systems in the game.
 		*************************************************************************/
-		LBEngine();
+		void Initialise();
 
 		/*!***********************************************************************
 		 \brief
-
-		*************************************************************************/
-		~LBEngine();
-
-		/*!***********************************************************************
-		 \brief
-
-		*************************************************************************/
-		bool IsRunning();
-
-		/*!***********************************************************************
-		 \brief
-
 		*************************************************************************/
 		void GameLoop();
 
 		/*!***********************************************************************
 		 \brief
-		 Update all the systems until the game is no longer active.
-
-		*************************************************************************/
-		void UpdateFPS(double dt);
-
-		/*!***********************************************************************
-		 \brief
-		 Destroy all systems in reverse order that they were added.
-
-		*************************************************************************/
-		void DestroySystems();
-
-		/*!***********************************************************************
-		 \brief
 		 Broadcasts a message to all systems.
-
 		*************************************************************************/
 		void BroadcastMessage(Message* m);
 
 		/*!***********************************************************************
 		 \brief
 		 Adds a new system to the game.
-
 		*************************************************************************/
 		void AddSystem(ISystem* system);
 
 		/*!***********************************************************************
 		 \brief
-		 Initializes all systems in the game.
-
+		 Destroy all systems in reverse order that they were added.
 		*************************************************************************/
-		void Initialize();
+		void DestroySystems();
 
 		/*!***********************************************************************
 		 \brief
-
+		 Checks if the engine is running
 		*************************************************************************/
-		void AddLayer(Layer* layer)
-		{
-			m_LayerStack.AddLayer(layer);
-		}
+		bool IsRunning() const;
 
 		/*!***********************************************************************
-		\brief
-
+		 \brief
+		 Adds a layer from the layerStack
 		*************************************************************************/
-		void RemoveLayer(Layer* layer)
-		{
-			m_LayerStack.RemoveLayer(layer);
-		}
+		void AddLayer(Layer* layer);
+
+		/*!***********************************************************************
+		 \brief
+		 Removes a layer from the layerStack
+		*************************************************************************/
+		void RemoveLayer(Layer* layer);
 
 	private:
-		LayerStack m_LayerStack;
-		/*!***********************************************************************
-		 \brief
-		 Tracks all the systems the game uses
 
-		*************************************************************************/
-		std::vector<ISystem*> Systems;
+		LayerStack				m_LayerStack;
+		std::vector<ISystem*>	Systems;
 
-		/*!***********************************************************************
-		 \brief
-		 Is the game running (true) or being shut down (false)?
-
-		*************************************************************************/
-		bool m_Running;
-
-		/*!***********************************************************************
-		 \brief
-
-		*************************************************************************/
-		double m_FPS{};
-
-		/*!***********************************************************************
-		 \brief
-
-		*************************************************************************/
-		double m_FPSInterval{ 1.0 };
+		bool					m_Running;
 	};
 
-	/*!***********************************************************************
-	\brief
-	 A global pointer to the instance of the core
-
-	*************************************************************************/
-	extern LBEngine* CORE;
+	extern LBEngine* CORE; // Global pointer to the singleton
 }
 

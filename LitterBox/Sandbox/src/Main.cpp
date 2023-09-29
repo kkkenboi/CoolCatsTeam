@@ -1,7 +1,6 @@
 #include "LitterBox.h"
 #include "LitterBox/Engine/Layer.h"
-#include <LitterBox/Core/EntryPoint.h>
-class GameplayLayer : public Layer
+class GameplayLayer : public LB::Layer
 {
 public:
 	GameplayLayer(std::string layerName);

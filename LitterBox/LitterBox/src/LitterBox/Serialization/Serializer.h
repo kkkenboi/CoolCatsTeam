@@ -4,7 +4,9 @@
 #include "../../dependencies/RapidJSON/include/document.h"
 
 //READ AND WRITING HEADERS FOR JSON
+#pragma warning(push, 0)
 #include "../../dependencies/RapidJSON/include/writer.h"
+#pragma warning(pop)
 #include "../../dependencies/RapidJSON/include/stringbuffer.h"
 #include "../../dependencies/RapidJSON/include/stream.h"
 #include "../../dependencies/RapidJSON/include/prettywriter.h"

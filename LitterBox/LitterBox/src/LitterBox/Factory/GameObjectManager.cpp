@@ -100,8 +100,8 @@ namespace LB
 		}
 
 		// Destroying gameobjects
-		int gameObjSize = m_GameObjects.size();
-		for (int i{}; i < gameObjSize; ++i)
+		size_t gameObjSize = m_GameObjects.size();
+		for (size_t i{}; i < gameObjSize; ++i)
 		{
 			delete m_GameObjects[i];
 		}
@@ -139,7 +139,7 @@ namespace LB
 	 \return
 
 	*************************************************************************/
-	GameObject::GameObject(int ID) : m_Components{}, isActive{ false }, m_ID{ ID }
+	GameObject::GameObject(int ID) : m_Components{}, m_IsActive{ false }, m_ID{ ID }
 	{
 		std::cout << "GO constructed\n";
 	}
@@ -151,7 +151,7 @@ namespace LB
 	 \return
 
 	*************************************************************************/
-	GameObject::GameObject() : m_Components{}, isActive{ false }, m_ID{}
+	GameObject::GameObject() : m_Components{}, m_IsActive{ false }, m_ID{}
 	{
 		std::cout << "GO constructed\n";
 	}

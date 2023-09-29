@@ -1,3 +1,18 @@
+/*!************************************************************************
+ \file                Renderer.cpp
+ \author(s)           Ryan Tan Jian Hao | Amadeus Chia Jinhan
+ \par DP email(s):    ryanjianhao.tan\@digipen.edu | amadeusjinhan.chia\@digipen.edu
+ \par Course:         CSD2401A
+ \date                29-09-2023
+ \brief
+
+ Header file that contains helper function definitions for Rendering as
+ well as the member functions of all the relevant classes.
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -7,13 +22,26 @@
 #include <sstream>
 #include <filesystem>
 #include "Renderer.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 #include "LitterBox/Factory/Components.h"
 
 #include "LitterBox/Engine/Time.h"
 
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
+/*!***********************************************************************
+\brief
+ shader_parse opens a file located at shader_file_name, copies and
+ stores the text into a shader_source struct.
+
+ NOTE: Shader file has both vertex and fragment shader delimited by
+ #VERTEX #FRAGMENT respectively
+
+\param shader_file_name
+ The location of the shader file to be compiled.
+
+\return
+ shader_source object with text data of the vertex shader and fragment
+ shader
+*************************************************************************/
 shader_source shader_parser(const char* shader_file_name) {
 	std::ifstream ifs{ shader_file_name };
 
@@ -45,7 +73,20 @@ shader_source shader_parser(const char* shader_file_name) {
 
 	return shader_source{ ss[0].str(), ss[1].str() };
 }
+/*!***********************************************************************
+\brief
+ compile_shader takes the text data of a specified shader type and compiles
+ the shader in the GPU.
 
+\param source
+ Shader text data in C style string
+
+\param type
+ The type of shader whether fragment or shader
+
+\return
+ The handle to the compiled shader in GPU
+*************************************************************************/
 unsigned int compile_shader(const char*& source, unsigned int type) {
 	unsigned int id = glCreateShader(type);
 	glShaderSource(id, 1, &source, nullptr);
@@ -67,6 +108,20 @@ unsigned int compile_shader(const char*& source, unsigned int type) {
 	return id;
 }
 
+/*!***********************************************************************
+\brief
+ create_shader creates the shader program in the GPU and returns the
+ handle to it.
+
+\param vertex_shader
+ vertex Shader text data in C style string
+
+\param fragment_shader
+ vertex Shader text data in C style string
+
+\return
+ The handle to the shader program in GPU
+*************************************************************************/
 unsigned int create_shader(const char* vertex_shader, const char* fragment_shader) {
 	unsigned int program = glCreateProgram();
 	unsigned int vs = compile_shader(vertex_shader, GL_VERTEX_SHADER);
@@ -88,12 +143,34 @@ unsigned int create_shader(const char* vertex_shader, const char* fragment_shade
 
 //TODO for array of UV data for serialization probably gonna need to store data on heap
 
+/*!***********************************************************************
+\brief
+ init_anim stores a pointer to an array of UV coordinates along with
+ the total animation playback time and number of UV coordinates in the
+ array.
+
+\param animation_name
+ The key assigned to the animation object
+
+\param data
+ Pointer to the UV coordinate array that acts as the animation
+
+\param anim_time
+ The playback time of the animation in terms of seconds
+
+\param number_of_frames
+ The number of UV coordinates quad stored in the array
+*************************************************************************/
 void Renderer::Animation_Manager::load_anim(const std::string& animation_name, const std::array<LB::Vec2<float>,4>* data, const float anim_time, const int number_of_frames) {
 	animations.emplace(std::make_pair(animation_name, Animation{ anim_time, number_of_frames, data }));
 }
 //---------------------------------------ANIMATIONS-------------------------------------
 
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
+/*!***********************************************************************
+\brief
+ constructor of CPRender object
+*************************************************************************/
 LB::CPRender::CPRender(
 	Vec2<float>	 pos,
 	float width,
@@ -116,13 +193,22 @@ LB::CPRender::CPRender(
 
 	quad_id = Renderer::GRAPHICS->create_object(renderer_id, this);
 }
-
+/*!***********************************************************************
+\brief
+ Destructor of CPRender object
+*************************************************************************/
 LB::CPRender::~CPRender()
 {
 	Renderer::GRAPHICS->remove_object(renderer_id, this);
 }
 
 //########################ANIMATION##############################
+
+/*!***********************************************************************
+\brief
+ Loads the animation into the queue with a flag that tells the animation
+ function to play that animation on repeat.
+*************************************************************************/
 void LB::CPRender::play_repeat(const std::string& name)
 {
 	const Renderer::Animation* anim{ Renderer::GRAPHICS->get_anim(name) };
@@ -134,6 +220,11 @@ void LB::CPRender::play_repeat(const std::string& name)
 	}
 }
 
+/*!***********************************************************************
+\brief
+ Loads an animation into the queue and makes it wait till queue pops all
+ the other animations infront of it.
+*************************************************************************/
 void LB::CPRender::play_next(const std::string& name)
 {
 	const Renderer::Animation* anim{ Renderer::GRAPHICS->get_anim(name) };
@@ -145,6 +236,11 @@ void LB::CPRender::play_next(const std::string& name)
 	}
 }
 
+/*!***********************************************************************
+\brief
+ Pops every animtion currently in the queue before pushing the given animation
+ into the queue.
+*************************************************************************/
 void LB::CPRender::play_now(const std::string& name)
 {
 	const Renderer::Animation* anim{ Renderer::GRAPHICS->get_anim(name) };
@@ -159,12 +255,21 @@ void LB::CPRender::play_now(const std::string& name)
 	}
 }
 
+/*!***********************************************************************
+\brief
+ Pops of all animation currently in the animation queue.
+*************************************************************************/
 void LB::CPRender::stop_anim()
 {
 	while (animation.size())
 		animation.pop();
 }
 
+/*!***********************************************************************
+\brief
+ Function that is incharge of play the animation in the front of the queue
+ based on time and not frames.
+*************************************************************************/
 void LB::CPRender::animate()
 {
 	//increment time elapsed
@@ -195,6 +300,13 @@ void LB::CPRender::animate()
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
 
 //----------------------------------------------RENDERER---------------------------------------------------
+/*!***********************************************************************
+\brief
+ Renderer constructor that sets up the VBO and VAO
+
+\param renderer
+ The type of renderer you want this renderer to be.
+*************************************************************************/
 Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 	vao{}, vbo{}, ibo{},
 	quad_buff{ nullptr }, index_buff{},
@@ -235,17 +347,17 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 	glVertexArrayAttribBinding(vao, 0, 1);
 	//texture coordinates
 	glEnableVertexArrayAttrib(vao, 1);
-	glVertexArrayVertexBuffer(vao, 2, vbo, sizeof(vec2), sizeof(Vertex));
+	glVertexArrayVertexBuffer(vao, 2, vbo, sizeof(LB::Vec2<float>), sizeof(Vertex));
 	glVertexArrayAttribFormat(vao, 1, 2, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 1, 2);
 	//color coordinates
 	glEnableVertexArrayAttrib(vao, 2);
-	glVertexArrayVertexBuffer(vao, 3, vbo, sizeof(vec2) * 2U, sizeof(Vertex));
+	glVertexArrayVertexBuffer(vao, 3, vbo, sizeof(LB::Vec2<float>) * 2U, sizeof(Vertex));
 	glVertexArrayAttribFormat(vao, 2, 3, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 2, 3);
 	//texture index
 	glEnableVertexArrayAttrib(vao, 4);
-	glVertexArrayVertexBuffer(vao, 4, vbo, sizeof(vec2) * 2U + sizeof(vec3), sizeof(Vertex));
+	glVertexArrayVertexBuffer(vao, 4, vbo, sizeof(LB::Vec2<float>) * 2U + sizeof(LB::Vec3<float>), sizeof(Vertex));
 	glVertexArrayAttribFormat(vao, 4, 1, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 4, 4);
 
@@ -254,7 +366,10 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 		nullptr, GL_DYNAMIC_STORAGE_BIT);
 	glVertexArrayElementBuffer(vao, ibo);
 }
-
+/*!***********************************************************************
+\brief
+ Renderer destructor
+*************************************************************************/
 Renderer::Renderer::~Renderer()
 {
 	//cleanup on server side
@@ -262,7 +377,14 @@ Renderer::Renderer::~Renderer()
 	glDeleteBuffers(1, &ibo);
 	glDeleteVertexArrays(1, &vao);
 }
+/*!***********************************************************************
+\brief
+ create_render_object stores a pointer to render object
+ into active_objs list. I don't know what else to say. OOOONGA BOONGA
 
+\param obj
+ Pointer to a render object to be added to List
+*************************************************************************/
 unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 {
 	unsigned int i{ 0 };
@@ -307,7 +429,14 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 
 	return i;
 }
+/*!***********************************************************************
+\brief
+ remove_render_object removes a render object pointer from its active
+ object list. Shock horror.
 
+\param obj
+ Pointer to a render object to be removed to List
+*************************************************************************/
 void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 {
 	for (int i{ 0 }; i < 4; ++i) {
@@ -316,22 +445,16 @@ void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 
 	active_objs.remove_if([obj](const LB::CPRender* in_list) { return *obj == *in_list; });
 }
+/*!***********************************************************************
+\brief
+ update_buff is the function that will update all render object values
+ and then pass the value to GPU
 
-void Renderer::Renderer::update_buff(Renderer_Types r_type)
+\param r_type
+ Type of render object
+*************************************************************************/
+void Renderer::Renderer::update_buff()
 {
-	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "z_val");
-	if (uni_loc == -1) {
-		std::cerr << "Uniform location does not exist" << std::endl;
-	}
-	switch (r_type) {
-	case Renderer_Types::RT_OBJECT:
-		glUniform1f(uni_loc, 0.f);
-		break;
-	case Renderer_Types::RT_BACKGROUND:
-		glUniform1f(uni_loc, 0.0f);
-		break;
-	}
-
 	static glm::vec4 mdl_pts[4]{
 		{-0.5f, -0.5f, 0.f, 1.f}, //bottom left
 		{0.5f, -0.5f, 0.f, 1.f}, //bottom right
@@ -418,6 +541,10 @@ Renderer::RenderSystem* Renderer::GRAPHICS = nullptr;
 
 LB::CPRender* test2;
 
+/*!***********************************************************************
+\brief
+ RenderSystem constructor sets up a shader program and initalizes a background
+*************************************************************************/
 Renderer::RenderSystem::RenderSystem() :
 	object_renderer{Renderer_Types::RT_OBJECT},
 	bg_renderer{Renderer_Types::RT_BACKGROUND},
@@ -461,6 +588,10 @@ Renderer::RenderSystem::RenderSystem() :
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
+/*!***********************************************************************
+\brief
+ RenderSystem destructor
+*************************************************************************/
 Renderer::RenderSystem::~RenderSystem()
 {
 	if (GRAPHICS)
@@ -469,10 +600,15 @@ Renderer::RenderSystem::~RenderSystem()
 	glDeleteProgram(shader_program);
 }
 
+/*!***********************************************************************
+\brief
+ The update function that gets called every loop also in charge of
+ drawing everything. Counterintuitive, I know.
+*************************************************************************/
 void Renderer::RenderSystem::Update()
 {
-	bg_renderer.update_buff(Renderer_Types::RT_BACKGROUND);
-	object_renderer.update_buff(Renderer_Types::RT_OBJECT);
+	bg_renderer.update_buff();
+	object_renderer.update_buff();
 	glClearColor(.3f, 0.5f, .8f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBindVertexArray(bg_renderer.get_vao());
@@ -480,24 +616,66 @@ void Renderer::RenderSystem::Update()
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 }
-
+/*!***********************************************************************
+\brief
+ Draw function does nothing for now
+*************************************************************************/
 void Renderer::RenderSystem::Draw()
 {
 	//TODO HAVE RENDERER PERFORM THE SWAP BUFFER INSTEAD OF WINDOW
 	// Draw stuff
 }
+/*!***********************************************************************
+\brief
+ create_texture acts as an API for any developer to load texture data into
+ the GPU.
+
+\param file_path
+ The file path of the texture you want to load
+
+\param name
+ The std::string key to assign to the Texture object
+
+\return
+ true if texture is successfully loaded into GPU and false if not.
+*************************************************************************/
 bool Renderer::RenderSystem::create_texture(const std::string& file_path, const std::string& name)
 {
 	return t_Manager.add_texture(file_path, name);
 }
+/*!***********************************************************************
+\brief
+ remove_texture is another API to delete texture data from the GPU.
+
+\param name
+ The key assigned to the Texture object
+
+\return
+ true if texture is successfully removed from GPU and false if not.
+*************************************************************************/
 bool Renderer::RenderSystem::remove_texture(const std::string& name)
 {
 	return t_Manager.remove_texture(name);
 }
+/*!***********************************************************************
+\brief
+ flush_textures is another API to delete all texture data from the GPU.
+*************************************************************************/
 void Renderer::RenderSystem::flush_textures()
 {
 	t_Manager.flush_textures();
 }
+/*!***********************************************************************
+\brief
+ create_object is a way to create a render object with a specific render
+ type that determines which renderer the render object would belong to.
+
+\param r_type
+ The type of render object
+
+\param obj
+ Poitner to a render object that was just created
+*************************************************************************/
 unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const LB::CPRender* obj)
 {
 	switch (r_type) {
@@ -509,7 +687,19 @@ unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const 
 		return debug_renderer.create_render_object(obj);
 	//TODO for UI and DEBUG
 	}
+	return 0;
 }
+/*!***********************************************************************
+\brief
+ remove_object is a way to remove a render object from a renderer the render
+ object would belongs to.
+
+\param r_type
+ The type of render object
+
+\param obj
+ Poitner to a render object that was just created
+*************************************************************************/
 void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRender* obj)
 {
 	switch (r_type) {
@@ -528,38 +718,64 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 
 
 //----------------------------------------------TEXTURES--------------------------------------------
-Renderer::Texture::Texture(const std::string& path) :
-	id{ 0 }, file_path{ path }, local_buff{ nullptr },
-	w{ 0 }, h{ 0 }, fluff{ 0 }
-{
-	stbi_set_flip_vertically_on_load(1);
+///*!***********************************************************************
+//\brief
+// Constructor for the texture object
+//\param path
+// The file path of the texture image
+//*************************************************************************/
+//Renderer::Texture::Texture(const std::string& path) :
+//	id{ 0 }, file_path{ path }, local_buff{ nullptr },
+//	w{ 0 }, h{ 0 }, fluff{ 0 }
+//{
+//	stbi_set_flip_vertically_on_load(1);
+//
+//	local_buff = stbi_load(path.c_str(), &w, &h, &fluff, 4);
+//	if (!local_buff) {
+//		std::cerr << "Texture file path: " << path << " NOT FOUND!" << std::endl;
+//		return;
+//	}
+//
+//	glCreateTextures(GL_TEXTURE_2D, 1, &id);
+//	glTextureStorage2D(id, 1, GL_RGBA8, w, h);
+//	glTextureSubImage2D(id, 0, 0, 0, w, h,
+//		GL_RGBA, GL_UNSIGNED_BYTE, local_buff);
+//
+//	stbi_image_free(local_buff);
+//
+//
+//	glTextureParameteri(id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//	glTextureParameteri(id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//
+//	//std::cout << "Picture specs: " << id << " " << w << " " << h << " " << fluff << std::endl;
+//}
 
-	local_buff = stbi_load(path.c_str(), &w, &h, &fluff, 4);
-	if (!local_buff) {
-		std::cerr << "Texture file path: " << path << " NOT FOUND!" << std::endl;
-		return;
-	}
-
-	glCreateTextures(GL_TEXTURE_2D, 1, &id);
-	glTextureStorage2D(id, 1, GL_RGBA8, w, h);
-	glTextureSubImage2D(id, 0, 0, 0, w, h,
-		GL_RGBA, GL_UNSIGNED_BYTE, local_buff);
-
-	stbi_image_free(local_buff);
-
-
-	glTextureParameteri(id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTextureParameteri(id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	//std::cout << "Picture specs: " << id << " " << w << " " << h << " " << fluff << std::endl;
-}
-
+/*!***********************************************************************
+\brief
+ Texture class destructor
+*************************************************************************/
 Renderer::Texture::~Texture()
 {
 	//std::cout << "DELETED TEXTURE " << id << std::endl;
 	glDeleteTextures(1, &id);
 }
 
+/*!***********************************************************************
+\brief
+ add_texture supposedly adds a texture to GPU memory and binds it to an
+ available texture slot.
+
+\param file_path
+ The file path of the texture, duh
+
+\param name
+ The key in the form of a std::string to get the Texture object and its
+ relevant data
+
+\return
+ The initial intention was to return true if successfully loaded texture
+ and false if not but I'm not gonna lie I don't think it does even that.
+*************************************************************************/
 bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
 {
 	LB::ASSETMANAGER->AddTexture(file_path, name);
@@ -571,6 +787,20 @@ bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const 
 	return true;
 }
 
+/*!***********************************************************************
+\brief
+ remove_texture frees a specified Texture data from the GPU
+
+\param name
+ The key in the form of a std::string to find the Texture object and its
+ relevant data
+
+\return
+ The initial intention was to return true if successfully deleted texture
+ and false if not but I'm not gonna lie I don't think it does even that.
+
+ Yes I did copy paste this header how'd you know?
+*************************************************************************/
 bool Renderer::Texture_Manager::remove_texture(const std::string& name)
 {
 	//unbind texture at that position
@@ -579,6 +809,11 @@ bool Renderer::Texture_Manager::remove_texture(const std::string& name)
 	return textures.erase(name);
 }
 
+/*!***********************************************************************
+\brief
+ flush_textures frees all Texture data from the GPU. Just like the posb
+ advertisements: So Simple! :D
+*************************************************************************/
 void Renderer::Texture_Manager::flush_textures()
 {
 	for (auto& e : textures) {

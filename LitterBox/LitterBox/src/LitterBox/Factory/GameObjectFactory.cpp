@@ -1,11 +1,16 @@
 /*!************************************************************************
- \file
- \author(s)
- \par DP email(s):
- \par Course:		CSD2401A
- \date
- \brief
+ \file				GameObjectFactory.cpp
+ \author(s)			Kenji Brannon Chong
+ \par DP email(s):	kenjibrannon.c@digipen.edu
+ \par Course:       CSD2401A
+ \date				29/09/2023
+ \brief				This file contains functions definitions of the
+					FactorySystem class that creates a GameObject with 
+					different components.
 
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "GameObjectFactory.h"
@@ -18,10 +23,8 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-
-	 \return
-
+	 Initialises the factory with known component types to make ComponentMakers
+	 of those types
 	*************************************************************************/
 	FactorySystem::FactorySystem()
 	{
@@ -47,28 +50,67 @@ namespace LB
 		// Deserialise the data file and initialise the game objects with it
 		SerialiseGameObjs(1);
 
-		//GameObject* gameObj = CreateGameObject();
-		//if (gameObj->GetID() == 0) 		// ID only starts at 1
-		//{
-		//	gameObj->SetID(GetLastObjID());
-		//}
-		////gameObj->AddComponent(FACTORY->GetCMs()["Physics"]->Create());
-		//gameObj->AddComponent("CPTransform", GetCMs()["CPTransform"]->Create());
-		//gameObj->AddComponent("CPRender", GetCMs()["CPRender"]->Create());
-		////gameObj->GetComponents()[0]->Initialise();
-		//gameObj->StartComponents();
-
-
 		std::cout << "Factory Initialised\n";
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Initialise the factory and sets the system's name
+
+	 \return
+	 Nothing
+	*************************************************************************/
+	void FactorySystem::Initialize()
+	{ 
+		SetSystemName("GameObject Factory System"); 
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Updates the factory
+
+	 \return
+	 Nothing
+	*************************************************************************/
+	void FactorySystem::Update()
+	{
+
+		if (m_ToUpdate)
+		{
+
+
+			// Send all of the game objects to the GameObjectManager's vector or something
+			// Send message to the GameObjectManager to add objects to its pool of game objects
+			// What about pools?
+
+			// For now just make it be the same
+			//GOMANAGER->m_Pool = m_WaitingList;
+			std::cout << "Factory Updated\n";
+		}
+
+		m_ToUpdate = false;
 	}
 
 
 	/*!***********************************************************************
 	 \brief
-
+	 Destroys the factory
 
 	 \return
+	 Nothing
+	*************************************************************************/
+	void FactorySystem::Destroy()
+	{
+		DeleteAllCMs(m_ComponentMakers);
+	}
 
+
+	/*!***********************************************************************
+	 \brief
+	 Serialises all of the Game Objects
+
+	 \return
+	 Nothing
 	*************************************************************************/
 	void FactorySystem::SerialiseGameObjs(int jsonThing)
 	{
@@ -82,10 +124,10 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
+	 Initialise this ComponentMaker of their type, eg. Physics / Graphics
 
 	 \return
-
+	 Nothing
 	*************************************************************************/
 	void FactorySystem::InitCM(const std::string& name, ComponentMaker* newComponent)
 	{
@@ -95,10 +137,10 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
+	 Delete all ComponentMakers from all GameObjects
 
 	 \return
-
+	 Nothing
 	*************************************************************************/
 	void FactorySystem::DeleteAllCMs(std::map<std::string, ComponentMaker*> ComponentMakers)
 	{
@@ -110,96 +152,12 @@ namespace LB
 		std::cout << "ComponentMakers all deleted\n";
 	}
 
-
 	/*!***********************************************************************
 	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	void FactorySystem::Update()
-	{
-
-		if (toUpdate)
-		{
-
-
-			// Send all of the game objects to the GameObjectManager's vector or something
-			// Send message to the GameObjectManager to add objects to its pool of game objects
-			// What about pools?
-
-			// For now just make it be the same
-			//GOMANAGER->m_Pool = m_WaitingList;
-			std::cout << "Factory Updated\n";
-		}
-
-		toUpdate = false;
-	}
-
-
-	/*!***********************************************************************
-	 \brief
-
+	 Spawns a GameObject with no components but specified position
 
 	 \return
-
-	*************************************************************************/
-	void FactorySystem::SendMessage(Message* message)
-	{ 
-		UNREFERENCED_PARAMETER(message); 
-	};
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	GameObject* FactorySystem::CreateGameObject()
-	{
-		++m_LastObjID;
-		std::cout << "GO " << m_LastObjID << " has been created\n";
-		//toUpdate = true;
-
-		// Does this mean that only default constructors are allowed?
-		//return MEMORY->Allocate<GameObject>();
-
-		// Original return
-		return new GameObject(FACTORY->GetLastObjID());
-	}
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	std::map<std::string, ComponentMaker*> FactorySystem::GetCMs() const
-	{
-		return m_ComponentMakers;
-	}
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	int FactorySystem::GetLastObjID() const
-	{
-		return m_LastObjID;
-	}
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	 A pointer to the GameObject
 	*************************************************************************/
 	GameObject* FactorySystem::SpawnGameObject(Vec2<float> pos)
 	{
@@ -208,10 +166,10 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
+	 Spawns a GameObject with specified components and position
 
 	 \return
-
+	 A pointer to the GameObject
 	*************************************************************************/
 	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<std::string> components, Vec2<float> pos)
 	{
@@ -243,13 +201,46 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
+	 Creates a empty GameObject with no components
 
 	 \return
-
+	 A pointer to an empty GameObject pointer
 	*************************************************************************/
-	void FactorySystem::Destroy()
+	GameObject* FactorySystem::CreateGameObject()
 	{
-		DeleteAllCMs(m_ComponentMakers);
+		++m_LastObjID;
+		std::cout << "GO " << m_LastObjID << " has been created\n";
+		//toUpdate = true;
+
+		// Does this mean that only default constructors are allowed?
+		//return MEMORY->Allocate<GameObject>();
+
+		// Original return
+		return new GameObject(FACTORY->GetLastObjID());
 	}
+
+	/*!***********************************************************************
+	 \brief
+	 Gets all of the ComponentMakers
+
+	 \return
+	 Map of names of ComponentMakers and ComponentMakers
+	*************************************************************************/
+	std::map<std::string, ComponentMaker*> FactorySystem::GetCMs() const
+	{
+		return m_ComponentMakers;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Gets the last created GameObject's ID.
+
+	 \return
+	 Last created GameObject's ID
+	*************************************************************************/
+	int FactorySystem::GetLastObjID() const
+	{
+		return m_LastObjID;
+	}
+
 }

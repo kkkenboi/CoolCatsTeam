@@ -19,8 +19,11 @@
 #pragma once
 #include <cmath>		// For sin, cos, sqrt
 #include <string>		//for custom to string functions
+
+#pragma warning(push, 0)
 #include "../../dependencies/RapidJSON/include/rapidjson.h" // For serialization
 #include "../../dependencies/RapidJSON/include/document.h"
+#pragma warning(pop)
 
 namespace LB 
 {

@@ -15,8 +15,6 @@
 #include "LitterBox/Engine/Message.h"
 #include "LitterBox/Serialization/Serializer.h"
 
-#define UNREFERENCED_PARAMETER
-
 namespace LB
 {
 	/*!***********************************************************************
@@ -222,12 +220,8 @@ namespace LB
 		 \brief
 
 		*************************************************************************/
-		MessageQuit() : Message(Mid::Quit) {};
+		MessageQuit() : Message(Quit) {};
 	};
 
-	/*!***********************************************************************
-	 \brief
-
-	*************************************************************************/
 	extern WindowsSystem* WINDOWSSYSTEM;
 }
