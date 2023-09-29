@@ -8,6 +8,10 @@
 #include "../../dependencies/FMOD/core/inc/fmod.hpp"
 #pragma warning(pop)
 #include "LitterBox/Audio/AudioManager.h"
+#include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Factory/GameObjectFactory.h"
+#include "LitterBox/Renderer/Renderer.h"
+#include <vector>
 
 
 namespace LB
@@ -52,10 +56,16 @@ namespace LB
         const int GetTextureIndex(const std::string& name) const { return Textures.find(name)->second.second; }
         void LoadTextures();
         void LoadSounds();
+        void LoadPrefabs();
+
         FMOD::Sound* sampleSound = nullptr;
         FMOD::Sound* explosionSound = nullptr;
         FMOD::Sound* ahhSound = nullptr;
 
+        GameObject* PineappleObject = nullptr;
+        GameObject* AvatarObject = nullptr;
+
+        std::vector<const CPRender*> renderObjs;
         private:
         //File names to their file paths
         //e.g "Char Sprite : /assets/charsprite.png"   
