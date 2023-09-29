@@ -45,7 +45,7 @@ namespace LB
 		CreateComponentMaker(CPRender);
 		CreateComponentMaker(CPRigidBody);
 
-		std::cout << "Factory Initialised\n";
+		DebuggerLog("Factory Initialised");
 	}
 
 	/*!***********************************************************************
@@ -59,6 +59,33 @@ namespace LB
 	{ 
 		SetSystemName("GameObject Factory System"); 
 	}
+
+	/*!***********************************************************************
+	 \brief
+	 Updates the factory
+
+	 \return
+	 Nothing
+	*************************************************************************/
+	void FactorySystem::Update()
+	{
+
+		if (m_ToUpdate)
+		{
+
+
+			// Send all of the game objects to the GameObjectManager's vector or something
+			// Send message to the GameObjectManager to add objects to its pool of game objects
+			// What about pools?
+
+			// For now just make it be the same
+			//GOMANAGER->m_Pool = m_WaitingList;
+			DebuggerLog("Factory Updated");
+		}
+
+		m_ToUpdate = false;
+	}
+
 
 	/*!***********************************************************************
 	 \brief
@@ -99,7 +126,7 @@ namespace LB
 			delete it->second;
 		}
 
-		std::cout << "ComponentMakers all deleted\n";
+		DebuggerLog("ComponentMakers all deleted");
 	}
 
 	/*!***********************************************************************
@@ -148,11 +175,9 @@ namespace LB
 		GOMANAGER->AddGameObject(gameObj);
 		return gameObj;
 	}
-
-
 	/*!***********************************************************************
 	 \brief
-	 Spawns a GameObject using prefabs
+	 Spawns a GameObject with the exact same components as the provided GameObject
 
 	 \return
 	 A pointer to the GameObject
@@ -164,11 +189,14 @@ namespace LB
 		{
 			clone->SetID(FACTORY->GetLastObjID());
 		}
+		//We loop through all the components in the prefab
 		for (auto& elem : prefab->GetComponents())
-		{
+		{	//Then we add it to our clone
 			clone->AddComponent(elem.first,FACTORY->GetCMs()[elem.first]->Create());
 		}
+		//This copies the data from our prefab components over to the clone
 		clone->SetComponents(prefab->GetComponents());
+		//Then we initialise the data for the clone
 		clone->StartComponents();
 		GOMANAGER->AddGameObject(clone);
 		return clone;
@@ -184,7 +212,8 @@ namespace LB
 	GameObject* FactorySystem::CreateGameObject()
 	{
 		++m_LastObjID;
-		std::cout << "GO " << m_LastObjID << " has been created\n";
+
+		DebuggerLog("GO" + std::to_string(m_LastObjID) + " has been created");
 
 		// Original return
 		return new GameObject(FACTORY->GetLastObjID());

@@ -27,11 +27,14 @@ namespace LB {
 		// Setting up LitterBox Engine with the available systems
 		Engine = new LBEngine();
 
+		// TODO: Refactor intialization order and move back to debugger system
+		InitializeLoggers();
 		Time*					time			= new Time(100, 60);
 		InputSystem*			input			= new InputSystem();
 		ProfilerManager*		profiler		= new ProfilerManager();
-		FactorySystem*			factory			= new FactorySystem();
 		WindowsSystem*			windows			= new WindowsSystem();
+		Debugger*				debug			= new Debugger();
+		FactorySystem*			factory			= new FactorySystem();
 		GameObjectManager*		gameManager		= new GameObjectManager();
 		GameLogic*				logic			= new GameLogic();
 		RigidBodyManager*		physics			= new RigidBodyManager();
@@ -39,7 +42,6 @@ namespace LB {
 		AssetManager*			assetManager	= new AssetManager();
 		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
 		Memory*					memory			= new Memory();
-		Debugger*				debug			= new Debugger();
 		SceneManager*			sceneManager	= new SceneManager();
 
 		Engine->AddSystem(time);
@@ -69,6 +71,9 @@ namespace LB {
 	{
 		//Delete all the systems
 		Engine->DestroySystems();
+
+		// TODO: Refactor intialization order and move back to debugger system
+		FlushDebugLog();
 
 		//Delete the engine itself
 		delete Engine;

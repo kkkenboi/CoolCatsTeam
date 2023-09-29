@@ -94,6 +94,12 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
+		 Spawns a GameObject with the exact same components as the provided GameObject
+		*************************************************************************/
+		GameObject* SpawnGameObject(GameObject* prefab);
+
+		/*!***********************************************************************
+		 \brief
 		 Gets all of the ComponentMakers
 		*************************************************************************/
 		std::map<std::string, ComponentMaker*> GetCMs() const;

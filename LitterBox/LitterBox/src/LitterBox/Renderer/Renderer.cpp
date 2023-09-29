@@ -356,10 +356,20 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 	glVertexArrayAttribFormat(vao, 2, 3, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 2, 3);
 	//texture index
-	glEnableVertexArrayAttrib(vao, 4);
+	glEnableVertexArrayAttrib(vao, 3);
 	glVertexArrayVertexBuffer(vao, 4, vbo, sizeof(LB::Vec2<float>) * 2U + sizeof(LB::Vec3<float>), sizeof(Vertex));
-	glVertexArrayAttribFormat(vao, 4, 1, GL_FLOAT, GL_FALSE, 0);
-	glVertexArrayAttribBinding(vao, 4, 4);
+	glVertexArrayAttribFormat(vao, 3, 1, GL_FLOAT, GL_FALSE, 0);
+	glVertexArrayAttribBinding(vao, 3, 4);
+	//width height data
+	glEnableVertexArrayAttrib(vao, 4);
+	glVertexArrayVertexBuffer(vao, 5, vbo, sizeof(LB::Vec2<float>) * 2U + sizeof(LB::Vec3<float>) + sizeof(float), sizeof(Vertex));
+	glVertexArrayAttribFormat(vao, 4, 3, GL_FLOAT, GL_FALSE, 0);
+	glVertexArrayAttribBinding(vao, 4, 5);
+	//scaling and rotation data
+	glEnableVertexArrayAttrib(vao, 5);
+	glVertexArrayVertexBuffer(vao, 6, vbo, sizeof(LB::Vec2<float>) * 2U + sizeof(LB::Vec3<float>) * 2U + sizeof(float), sizeof(Vertex));
+	glVertexArrayAttribFormat(vao, 5, 3, GL_FLOAT, GL_FALSE, 0);
+	glVertexArrayAttribBinding(vao, 5, 6);
 
 	glCreateBuffers(1, &ibo);
 	glNamedBufferStorage(ibo, index_buff.capacity() * sizeof(index),
@@ -455,32 +465,6 @@ void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 *************************************************************************/
 void Renderer::Renderer::update_buff()
 {
-	static glm::vec4 mdl_pts[4]{
-		{-0.5f, -0.5f, 0.f, 1.f}, //bottom left
-		{0.5f, -0.5f, 0.f, 1.f}, //bottom right
-		{0.5f, 0.5f, 0.f, 1.f}, //top right
-		{-0.5f, 0.5f, 0.f, 1.f} //top left
-	};
-
-	static glm::mat4 scale{
-		1.f,0.f,0.f,0.f,
-		0.f,1.f,0.f,0.f,
-		0.f,0.f,1.f,0.f,
-		0.f,0.f,0.f,1.f
-	};
-	static glm::mat4 rot{
-		1.f,0.f,0.f,0.f,
-		0.f,1.f,0.f,0.f,
-		0.f,0.f,1.f,0.f,
-		0.f,0.f,0.f,1.f
-	};
-	static glm::mat4 trans{
-		1.f,0.f,0.f,0.f,
-		0.f,1.f,0.f,0.f,
-		0.f,0.f,1.f,0.f,
-		0.f,0.f,0.f,1.f
-	};
-
 	for (const LB::CPRender*& e : active_objs) {
 		unsigned int obj_index{ e->get_index() };
 		//create index in index buffer
@@ -491,37 +475,31 @@ void Renderer::Renderer::update_buff()
 
 		if (e->get_queue_size()) {
 			const_cast<LB::CPRender*>(e)->animate();
+			for (int i{ 0 }; i < 4; ++i) {
+				quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+				quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+			}
 		}
 
 		const_cast<LB::CPRender*>(e)->get_transform_data();
-
-		//Set appropriate model to world matrices
-		scale[0][0] = e->scal.x * e->w;
-		scale[1][1] = e->scal.y * e->h;
-
-		rot[0][0] = cosf(e->rotation);
-		rot[0][1] = sinf(e->rotation);
-		rot[1][0] = -sinf(e->rotation);
-		rot[1][1] = cosf(e->rotation);
-
-		trans[3][0] = e->position.x;
-		trans[3][1] = e->position.y;
-
 		//set position based off camera mat
 		//edit color and uv coordinates and texture
 		for (int i{ 0 }; i < 4; ++i) {
-			glm::vec4 pos{ trans * rot * scale * mdl_pts[i] };
+			quad_buff[obj_index].data[i].pos.x = e->position.x;//pos.x;
+			quad_buff[obj_index].data[i].pos.y = e->position.y;//pos.y;
 
-			pos = cam.world_NDC * pos;
-			quad_buff[obj_index].data[i].pos.x = pos.x;
-			quad_buff[obj_index].data[i].pos.y = pos.y;
+			quad_buff[obj_index].data[i].widHeightType.x = e->w;
+			quad_buff[obj_index].data[i].widHeightType.y = e->h;
+			quad_buff[obj_index].data[i].widHeightType.z = (float)i;
+			quad_buff[obj_index].data[i].others.x = e->scal.x;
+			quad_buff[obj_index].data[i].others.y = e->scal.y;
+			quad_buff[obj_index].data[i].others.z = e->rotation;
 
 			quad_buff[obj_index].data[i].color.x = e->col.x;
 			quad_buff[obj_index].data[i].color.y = e->col.y;
 			quad_buff[obj_index].data[i].color.z = e->col.z;
-			quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
-			quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
-			quad_buff[obj_index].data[i].texIndex = (float)e->texture;
+			if(quad_buff[obj_index].data[i].texIndex != (float)e->texture)
+				quad_buff[obj_index].data[i].texIndex = (float)e->texture;
 		}
 	}
 
@@ -561,6 +539,11 @@ Renderer::RenderSystem::RenderSystem() :
 
 	glUseProgram(shader_program);
 	glBindVertexArray(object_renderer.get_vao());
+
+	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
+	if (uni_loc == -1)
+		std::cerr << "Cannot find uniform location" << std::endl;
+	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &object_renderer.cam.world_NDC[0][0]);
 
 	//-################FOR BACKGROUND##########################
 	//cache some values
@@ -611,6 +594,7 @@ void Renderer::RenderSystem::Update()
 	object_renderer.update_buff();
 	glClearColor(.3f, 0.5f, .8f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	glUseProgram(shader_program);
 	glBindVertexArray(bg_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());

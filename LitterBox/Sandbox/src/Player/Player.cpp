@@ -3,6 +3,31 @@
 
 GameObject* PlayerObj;
 
+extern GameObject** test;
+/*!***********************************************************************
+\brief
+ Temp function to create and display the 2500 object test. Is mapped to
+ P. It will only spawn it once and it cannot be despawned.
+*************************************************************************/
+void spawn2500() {
+	if (test) {
+		return;
+	}
+
+	test = new GameObject * [2500];
+	for (int i{ 0 }; i < 2500; ++i) {
+		test[i] = FACTORY->SpawnGameObject({ "CPRender" });
+	}
+
+	for (int y{ 0 }; y < 50; ++y) {
+		for (int x{ 0 }; x < 50; ++x) {
+			test[x + y * 50]->GetComponent<CPTransform>("CPTransform")->SetPosition({ x * (WINDOWSSYSTEM->GetWidth() - 100.f) / 50.f + 50.f, y * (WINDOWSSYSTEM->GetHeight() - 100.f) / 50.f + 50.f });
+			test[x + y * 50]->GetComponent<CPTransform>("CPTransform")->SetScale({ 0.1f, 0.1f });
+		}
+	}
+}
+
+
 void Player::Initialise()
 {
 	this->playerObj = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody"});
@@ -25,6 +50,7 @@ void Player::Initialise()
 	INPUT->SubscribeToKey(AnimRight, KeyCode::KEY_D, KeyEvent::TRIGGERED);
 	INPUT->SubscribeToKey(AnimLeft, KeyCode::KEY_A, KeyEvent::TRIGGERED);
 	INPUT->SubscribeToKey(AnimDown, KeyCode::KEY_S, KeyEvent::TRIGGERED);
+	INPUT->SubscribeToKey(spawn2500, KeyCode::KEY_P, KeyEvent::TRIGGERED);
 
 	PlayerObj = playerObj;
 }

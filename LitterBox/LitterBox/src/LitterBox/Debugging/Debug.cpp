@@ -13,6 +13,11 @@
 #include "LitterBox/Engine/Time.h"
 #include "Debug.h"
 #include <iostream>
+#include <sstream>
+
+#include <csignal>			// For getting crash signals
+#include "spdlog/spdlog.h"	// For logging information to files
+#include "spdlog/sinks/basic_file_sink.h"
 
 //-----------------Pre-defines------------------------------
 constexpr int CIRCLE_LINES{ 20 };
@@ -24,6 +29,10 @@ float height_div;	// { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
 
 namespace LB 
 {
+	//------------------File logger--------------------
+	std::shared_ptr<spdlog::logger> debugInfoLogger;
+	std::shared_ptr<spdlog::logger> crashInfoLogger;
+
 	Debugger* DEBUG = nullptr;
 	/*!***********************************************************************
 	\brief
@@ -40,8 +49,9 @@ namespace LB
 		m_debugToggleKey = KeyCode::KEY_J;
 		m_stepPhysicsKey = KeyCode::KEY_I;
 
-		INPUT->SubscribeToKey(ToggleDebugOn, m_debugToggleKey, KeyEvent::TRIGGERED);
-		INPUT->SubscribeToKey(LB::StepPhysics, m_stepPhysicsKey, KeyEvent::TRIGGERED);
+		//--------------------Crash signal Setup---------------------
+		signal(SIGSEGV, FlushCrashLog);
+		signal(SIGABRT, FlushCrashLog);
 	}
 	/*!***********************************************************************
 	\brief
@@ -84,6 +94,39 @@ namespace LB
 		DEBUG->ToggleDebugMode();
 	}
 
+	void InitializeLoggers()
+	{
+		//--------------------Loggers Setup---------------------
+		debugInfoLogger = spdlog::basic_logger_mt("DEBUG LOGGER", "Logs/DebugLog.txt");
+		debugInfoLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+		debugInfoLogger->set_level(spdlog::level::debug);
+
+		crashInfoLogger = spdlog::basic_logger_mt("CrashLogger", "../Logs/CrashLog.txt");
+		crashInfoLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+		crashInfoLogger->set_level(spdlog::level::err);
+	}
+
+	void FlushDebugLog()
+	{
+		std::ofstream logFile("Logs/DebugLog.txt", std::ios::trunc);
+		logFile.close();
+
+		// Log all debug info on exit
+		debugInfoLogger->flush();
+	}
+
+
+	void FlushCrashLog(int signal)
+	{
+		// Flush the debug log as well
+		FlushDebugLog();
+		
+		std::ofstream logFile("Logs/CrashLog.txt", std::ios::trunc);
+		logFile.close();
+
+		crashInfoLogger->error("Unexpected application crash! Signal: {}", signal);
+	}
+
 	//TODO modulate the vertex size
 	//vertex size should = min 3000 x 4 (number of quads in render object)
 	/*!***********************************************************************
@@ -97,10 +140,16 @@ namespace LB
 		else
 			std::cerr << "Debug System already exist" << std::endl;
 
+		SetSystemName("Debug System");
+
+		//--------------------Debugging input registering---------------------
+		INPUT->SubscribeToKey(ToggleDebugOn, m_debugToggleKey, KeyEvent::TRIGGERED);
+		INPUT->SubscribeToKey(LB::StepPhysics, m_stepPhysicsKey, KeyEvent::TRIGGERED);
+
+		//--------------------Drawing Setup---------------------
 		wid_div = { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
 		height_div = { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
 
-		SetSystemName("Debug System");
 		//assume we have one index per vertex
 		idx.resize(12000);
 
@@ -128,7 +177,7 @@ namespace LB
 			nullptr, GL_DYNAMIC_STORAGE_BIT);
 		glVertexArrayElementBuffer(vao, ibo);
 
-		shader_source shd_pgm{ shader_parser("../Assets/Shaders/Basic.shader") };
+		shader_source shd_pgm{ shader_parser("../Assets/Shaders/debug.shader") };
 		shader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
 		glLineWidth(5.f);
@@ -200,7 +249,7 @@ namespace LB
 
 		//pass index data inside
 		glNamedBufferSubData(ibo, 0, index * sizeof(unsigned short), idx.data());
-		glVertexAttrib1f(4, -1.f);
+		glUseProgram(shader);
 		glBindVertexArray(vao);
 		glDrawElements(GL_LINES, (GLsizei)index, GL_UNSIGNED_SHORT, nullptr);
 	}
@@ -336,7 +385,14 @@ namespace LB
 	*************************************************************************/
 	void Debugger::Log(std::string const& message, const char* file, int line)
 	{
-		fprintf(stdout, "[DEBUGGER LOG] [%s:%d] %s\n", file, line, message.c_str());
+		std::ostringstream output;
+		output << "[" << file << ":" << line << "] " << message;
+
+		// Print to console
+		fprintf(stdout, "[DEBUGGER LOG] %s\n", output.str().c_str());
+
+		// Save to debug file
+		debugInfoLogger->debug(output.str());	
 	}
 
 	/*!***********************************************************************
