@@ -1,11 +1,17 @@
 /*!************************************************************************
- \file			Debug.cpp
- \author		Ang Jiawei Jarrett | Ryan Tan Jian Hao
- \par DP email: a.jiaweijarrett@digipen.edu | ryanjianhao.tan\@digipen.edu
- \par Course:	CSD2401A
- \date			18-09-2023
+ \file				Debug.cpp
+ \author(s)			Ang Jiawei Jarrett, Ryan Tan Jian Hao
+ \par DP email(s):	a.jiaweijarrett@digipen.edu, ryanjianhao.tan\@digipen.edu
+ \par Course:		CSD2401A
+ \date				18/09/23
  \brief
 
+ This file contains functions to log messages and errors to the console and files,
+ and draw boxes and lines (for physics).
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "LitterBox/Renderer/Renderer.h"
@@ -15,9 +21,9 @@
 #include <iostream>
 #include <sstream>
 
-#include <csignal>			// For getting crash signals
-#include "spdlog/spdlog.h"	// For logging information to files
-#include "spdlog/sinks/basic_file_sink.h"
+#include <csignal>							// For getting crash signals
+#include "spdlog/spdlog.h"					// For logging information to files
+#include "spdlog/sinks/basic_file_sink.h"	// File sinks
 
 //-----------------Pre-defines------------------------------
 constexpr int CIRCLE_LINES{ 20 };
@@ -62,18 +68,29 @@ namespace LB
 		Vec4<float> col;
 	};
 
+	/*!***********************************************************************
+	\brief
+	 Returns true if debug mode is on
+	*************************************************************************/
 	bool Debugger::IsDebugOn()
 	{
 		return m_debugModeOn;
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Flips the state of debug mode on/off
+	*************************************************************************/
 	void Debugger::ToggleDebugMode()
 	{
 		m_debugModeOn = !m_debugModeOn;
 	}
 
 	// TODO: Refactor so that it uses a different pause
-	// Only works if paused
+	/*!***********************************************************************
+	\brief
+	 If game is currently paused, runs the simulation for 1 frame then pauses
+	*************************************************************************/
 	void Debugger::StepPhysics()
 	{
 		if (!TIME->IsPaused()) return;
@@ -82,18 +99,28 @@ namespace LB
 		TIME->StepFixedDeltaTime();
 	}
 
-	// For event
+	/*!***********************************************************************
+	\brief
+	Steps the physics by 1 frame (Used for event subscription)
+	*************************************************************************/
 	void StepPhysics()
 	{
 		DEBUG->StepPhysics();
 	}
 
-	// For event
+	/*!***********************************************************************
+	\brief
+	 Sets the debug mode true (Used for event subscription)
+	*************************************************************************/
 	void ToggleDebugOn()
 	{
 		DEBUG->ToggleDebugMode();
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Sets up the file loggers (Debug & Crash)
+	*************************************************************************/
 	void InitializeLoggers()
 	{
 		//--------------------Loggers Setup---------------------
@@ -106,6 +133,10 @@ namespace LB
 		crashInfoLogger->set_level(spdlog::level::err);
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Prints the information stored in the debug log logger
+	*************************************************************************/
 	void FlushDebugLog()
 	{
 		std::ofstream logFile("Logs/DebugLog.txt", std::ios::trunc);
@@ -115,7 +146,10 @@ namespace LB
 		debugInfoLogger->flush();
 	}
 
-
+	/*!***********************************************************************
+	\brief
+	 Prints the information stored in the crash log & all loggers
+	*************************************************************************/
 	void FlushCrashLog(int signal)
 	{
 		// Flush the debug log as well
@@ -177,7 +211,7 @@ namespace LB
 			nullptr, GL_DYNAMIC_STORAGE_BIT);
 		glVertexArrayElementBuffer(vao, ibo);
 
-		shader_source shd_pgm{ shader_parser("../Assets/Shaders/Basic.shader") };
+		shader_source shd_pgm{ shader_parser("../Assets/Shaders/debug.shader") };
 		shader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
 		glLineWidth(5.f);
@@ -249,7 +283,7 @@ namespace LB
 
 		//pass index data inside
 		glNamedBufferSubData(ibo, 0, index * sizeof(unsigned short), idx.data());
-		glVertexAttrib1f(4, -1.f);
+		glUseProgram(shader);
 		glBindVertexArray(vao);
 		glDrawElements(GL_LINES, (GLsizei)index, GL_UNSIGNED_SHORT, nullptr);
 	}

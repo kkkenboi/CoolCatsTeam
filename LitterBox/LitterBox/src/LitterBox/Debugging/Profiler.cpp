@@ -28,9 +28,8 @@ namespace LB
 	// Profiler manager
 
 	/*!***********************************************************************
-	 \brief
-
-	 \return
+	\brief
+	Default constructor, ensures this system is a singleton
 	*************************************************************************/
 	ProfilerManager::ProfilerManager() 
 	{
@@ -46,9 +45,8 @@ namespace LB
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-	 \return
+	\brief
+	Removes key events subscriptions
 	*************************************************************************/
 	void ProfilerManager::Destroy()
 	{
@@ -60,8 +58,7 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-	 \return
+	 Adds the information from a finished profiler to the map to print
 	*************************************************************************/
 	void ProfilerManager::AddProfilerInfo(char const* name, double duration, ProfileMap map, bool overrideInfo)
 	{
@@ -78,8 +75,7 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-	 \return
+	 Every frame, the buffer for times needs to swap to print accurate info
 	*************************************************************************/
 	void ProfilerManager::SwapSystemInfoMapBuffer()
 	{
@@ -105,20 +101,10 @@ namespace LB
 		}
 	}
 
-	/*!***********************************************************************
-	 \brief
-
-	 \return
-	*************************************************************************/
-	void SwapSystemInfoMapBuffer()
-	{
-		PROFILER->SwapSystemInfoMapBuffer();
-	}
 
 	/*!***********************************************************************
 	 \brief
-
-	 \return
+	 Prints all the timings stored in the general snapshot
 	*************************************************************************/
 	void ProfilerManager::DumpGeneralInfo()
 	{
@@ -137,8 +123,7 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-	 \return
+	 Prints all the timings in the systems (frame) snapshot
 	*************************************************************************/
 	void ProfilerManager::DumpFrameInfo()
 	{
@@ -194,8 +179,16 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
+	 For event subscribing, at the end of each frame, swap buffer
+	*************************************************************************/
+	void SwapSystemInfoMapBuffer()
+	{
+		PROFILER->SwapSystemInfoMapBuffer();
+	}
 
-	 \return
+	/*!***********************************************************************
+	 \brief
+	 For event subscription, print general snapshot on key press
 	*************************************************************************/
 	void DumpGeneralInfo()
 	{
@@ -204,8 +197,7 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-	 \return
+	 For event subscription, print systems (frame) snapshot on key press
 	*************************************************************************/
 	void DumpFrameInfo()
 	{
@@ -216,8 +208,7 @@ namespace LB
 	// Profiler object
 	/*!***********************************************************************
 	 \brief
-
-	 \return
+	 On profiler object creation, save the time
 	*************************************************************************/
 	Profiler::Profiler(char const* _name, ProfileResult _result, ProfileMap _map, bool _overrideInfo) : name(_name), result(_result), map(_map), overrideInfo(_overrideInfo)
 	{ 
@@ -226,8 +217,7 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-	 \return
+	 On file scope end, save time and calculate time information
 	*************************************************************************/
 	Profiler::~Profiler()
 	{

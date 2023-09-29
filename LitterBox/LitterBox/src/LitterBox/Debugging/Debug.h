@@ -1,12 +1,17 @@
 /*!************************************************************************
- \file				Debug.h
- \author(s)			Ang Jiawei Jarrett | Ryan Tan Jian Hao
- \par DP email(s):	a.jiaweijarrett@digipen.edu | ryanjianhao.tan\@digipen.edu
+ \file				Debug.cpp
+ \author(s)			Ang Jiawei Jarrett, Ryan Tan Jian Hao
+ \par DP email(s):	a.jiaweijarrett@digipen.edu, ryanjianhao.tan\@digipen.edu
  \par Course:		CSD2401A
- \date				18-09-2023
+ \date				18/09/23
  \brief
- The functions in the Debug class include:
 
+ This file contains functions to log messages and errors to the console and files,
+ and draw boxes and lines (for physics).
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #pragma once
@@ -159,19 +164,33 @@ namespace LB
 		*************************************************************************/
 		void LogError(std::string const& message, const char* file = "Unnamed", int line = 0);
 
+		/*!***********************************************************************
+		\brief
+		 Returns true if debug mode is on
+		*************************************************************************/
 		bool IsDebugOn();
+
+		/*!***********************************************************************
+		\brief
+		 Flips the state of debug mode on/off
+		*************************************************************************/
 		void ToggleDebugMode();
 
+		/*!***********************************************************************
+		\brief
+		 If game is currently paused, runs the simulation for 1 frame then pauses
+		*************************************************************************/
 		void StepPhysics();
 
 	private:
-		//-----------------Member variables----------------
+		//-----------------Member variables-----------------
 		bool m_debugModeOn { false };
 		KeyCode m_debugToggleKey, m_stepPhysicsKey;
 		double m_stepped { false };
 
 		Vec4<float> m_drawColor;
 
+		//----------Box & Lines rendering information------------
 		unsigned int vao;
 		unsigned int vbo;
 		unsigned int ibo;
@@ -188,11 +207,34 @@ namespace LB
 		void line_update(Debug_Object& obj, const size_t& index);
 	};
 
+	/*!***********************************************************************
+	\brief
+	 Sets up the file loggers (Debug & Crash)
+	*************************************************************************/
 	void InitializeLoggers();
+
+	/*!***********************************************************************
+	\brief
+	 Prints the information stored in the debug log logger
+	*************************************************************************/
 	void FlushDebugLog();
+
+	/*!***********************************************************************
+	\brief
+	 Prints the information stored in the crash log & all loggers
+	*************************************************************************/
 	void FlushCrashLog(int signal);
 
+	/*!***********************************************************************
+	\brief
+	 Sets the debug mode true (Used for event subscription)
+	*************************************************************************/
 	void ToggleDebugOn();
+
+	/*!***********************************************************************
+	\brief
+	 Steps the physics by 1 frame (Used for event subscription)
+	*************************************************************************/
 	void StepPhysics();
 
 	// A pointer to the system object in the core engine made to be singleton
