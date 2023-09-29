@@ -1,11 +1,16 @@
 /*!************************************************************************
- \file			Time.h
- \author		Ang Jiawei Jarrett
- \par DP email: a.jiaweijarrett@digipen.edu
- \par Course:	CSD2401A
- \date			19-09-2023
+ \file				Time.h
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \par Course:		CSD2401A
+ \date				19/09/23
  \brief
 
+ This file tracks allocations and deallocations used by the game engine.
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #pragma once

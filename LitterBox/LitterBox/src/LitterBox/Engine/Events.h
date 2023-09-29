@@ -1,11 +1,12 @@
 /*!************************************************************************
- \file          Events.h
- \author        Ang Jiawei Jarrett
- \par DP email: a.jiaweijarrett@digipen.edu
- \par Course:   CSD2401A
- \date          11-09-2023
+ \file				Events.h
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \par Course:		CSD2401A
+ \date				11/09/23
  \brief
- This header file defines a generic event class, overloaded to support the 
+
+ This header file defines a generic event class, overloaded to support the
  subscribing of functions (observers) that have up to 4 unique parameters.
 
  E.g. Creating a onMouseClick event that broadcasts its position:
@@ -16,13 +17,17 @@
  The functions in the Event class include:
  - Invoke
  This observable sends a message to all observers subscribed.
- - Subscribe 
+ - Subscribe
  Adds an observer (function) to the list.
  - Unsubscribe
  Removes an observer (function) from the list.
  - UnsubscribeAll
- Removes all observers from the list, useful when destructing an object 
+ Removes all observers from the list, useful when destructing an object
  containing an Event.
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #pragma once
@@ -39,6 +44,10 @@ class Event
     public:
     typedef void (*func_ptr)();
 
+    /*!***********************************************************************
+     \brief
+     Calls all the functions subscribed to this event
+    *************************************************************************/
     void Invoke() 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -47,6 +56,10 @@ class Event
 		}
     }
 
+    /*!***********************************************************************
+     \brief
+     Adds a function (observer) to this event
+    *************************************************************************/
     void Subscribe(func_ptr func, int priority = 0) 
     {
         EventData new_sub{func, priority};
@@ -66,6 +79,10 @@ class Event
 		subscribers.push_back(new_sub);
     }
 
+    /*!***********************************************************************
+     \brief
+     Removes a function (observer) from this event
+    *************************************************************************/
     void Unsubscribe(func_ptr func) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -78,16 +95,24 @@ class Event
         }
     }
 
+    /*!***********************************************************************
+     \brief
+     Removes all functions (observers) from this event, good for destruction
+    *************************************************************************/
     void UnsubscribeAll() 
     {
         subscribers.clear();
     }
 
     private:
+    /*!***********************************************************************
+     \brief
+     Event subscription info
+    *************************************************************************/
     struct EventData
     {
-        func_ptr func;
-        int priority;
+        func_ptr func;  // The function to call
+        int priority;   // Call order, higher number goes first
     };
 
     std::list<EventData> subscribers;
@@ -101,8 +126,12 @@ template <typename T1, typename... T>
 class Event<T1, T...> 
 {
     public:
-    typedef void (*func_ptr)(T1)
-        ;
+    typedef void (*func_ptr)(T1);
+
+    /*!***********************************************************************
+     \brief
+     Calls all the functions subscribed to this event
+    *************************************************************************/
     void Invoke(T1 var1) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -111,6 +140,10 @@ class Event<T1, T...>
 		}
     }
 
+    /*!***********************************************************************
+     \brief
+     Adds a function (observer) to this event
+    *************************************************************************/
     void Subscribe(func_ptr func, int priority = 0) 
     {
         EventData new_sub{func, priority};
@@ -129,6 +162,10 @@ class Event<T1, T...>
 		subscribers.push_back(new_sub);
     }
 
+    /*!***********************************************************************
+     \brief
+     Removes a function (observer) from this event
+    *************************************************************************/
     void Unsubscribe(func_ptr func) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -141,6 +178,10 @@ class Event<T1, T...>
         }
     }
 
+    /*!***********************************************************************
+     \brief
+     Removes all functions (observers) from this event, good for destruction
+    *************************************************************************/
     void UnsubscribeAll() 
     {
         subscribers.clear();
@@ -149,8 +190,8 @@ class Event<T1, T...>
     private:
     struct EventData
     {
-        func_ptr func;
-        int priority;
+        func_ptr func;  // The function to call
+        int priority;   // Call order, higher number goes first
     };
 
     std::list<EventData> subscribers;
@@ -167,6 +208,10 @@ class Event<T1, T2, T...>
     public:
     typedef void (*func_ptr)(T1, T2);
 
+    /*!***********************************************************************
+     \brief
+     Calls all the functions subscribed to this event
+    *************************************************************************/
     void Invoke(T1 var1, T2 var2) {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
         {
@@ -174,6 +219,10 @@ class Event<T1, T2, T...>
 		}
     }
 
+    /*!***********************************************************************
+     \brief
+     Adds a function (observer) to this event
+    *************************************************************************/
     void Subscribe(func_ptr func, int priority = 0) {
         EventData new_sub{func, priority};
 
@@ -190,6 +239,10 @@ class Event<T1, T2, T...>
 		subscribers.push_back(new_sub);
     }
 
+    /*!***********************************************************************
+     \brief
+     Removes a function (observer) from this event
+    *************************************************************************/
     void Unsubscribe(func_ptr func) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -202,6 +255,10 @@ class Event<T1, T2, T...>
         }
     }
 
+    /*!***********************************************************************
+     \brief
+     Removes all functions (observers) from this event, good for destruction
+    *************************************************************************/
     void UnsubscribeAll() 
     {
         subscribers.clear();
@@ -210,8 +267,8 @@ class Event<T1, T2, T...>
     private:
     struct EventData
     {
-        func_ptr func;
-        int priority;
+        func_ptr func;  // The function to call
+        int priority;   // Call order, higher number goes first
     };
 
     std::list<EventData> subscribers;
@@ -228,6 +285,10 @@ class Event<T1, T2, T3, T...>
     public:
     typedef void (*func_ptr)(T1, T2, T3);
 
+    /*!***********************************************************************
+     \brief
+     Calls all the functions subscribed to this event
+    *************************************************************************/
     void Invoke(T1 var1, T2 var2, T3 var3) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -236,6 +297,10 @@ class Event<T1, T2, T3, T...>
 		}
     }
 
+    /*!***********************************************************************
+     \brief
+     Adds a function (observer) to this event
+    *************************************************************************/
     void Subscribe(func_ptr func, int priority = 0) 
     {
         EventData new_sub{func, priority};
@@ -255,6 +320,10 @@ class Event<T1, T2, T3, T...>
 		subscribers.push_back(new_sub);
     }
 
+    /*!***********************************************************************
+     \brief
+     Removes a function (observer) from this event
+    *************************************************************************/
     void Unsubscribe(func_ptr func) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -267,6 +336,10 @@ class Event<T1, T2, T3, T...>
         }
     }
 
+    /*!***********************************************************************
+     \brief
+     Removes all functions (observers) from this event, good for destruction
+    *************************************************************************/
     void UnsubscribeAll() 
     {
         subscribers.clear();
@@ -275,8 +348,8 @@ class Event<T1, T2, T3, T...>
     private:
     struct EventData
     {
-        func_ptr func;
-        int priority;
+        func_ptr func;  // The function to call
+        int priority;   // Call order, higher number goes first
     };
 
     std::list<EventData> subscribers;
@@ -292,6 +365,10 @@ class Event<T1, T2, T3, T4, T...>
     public:
     typedef void (*func_ptr)(T1, T2, T3, T4);
 
+    /*!***********************************************************************
+     \brief
+     Calls all the functions subscribed to this event
+    *************************************************************************/
     void Invoke(T1 var1, T2 var2, T3 var3, T4 var4) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -300,6 +377,10 @@ class Event<T1, T2, T3, T4, T...>
 		}
     }
 
+    /*!***********************************************************************
+     \brief
+     Adds a function (observer) to this event
+    *************************************************************************/
     void Subscribe(func_ptr func, int priority = 0) 
     {
         EventData new_sub{func, priority};
@@ -318,6 +399,10 @@ class Event<T1, T2, T3, T4, T...>
 		subscribers.push_back(new_sub);
     }
 
+    /*!***********************************************************************
+     \brief
+     Removes a function (observer) from this event
+    *************************************************************************/
     void Unsubscribe(func_ptr func) 
     {
         for (typename std::list<EventData>::iterator i = subscribers.begin(); i != subscribers.end(); ++i) 
@@ -330,6 +415,10 @@ class Event<T1, T2, T3, T4, T...>
         }
     }
 
+    /*!***********************************************************************
+     \brief
+     Removes all functions (observers) from this event, good for destruction
+    *************************************************************************/
     void UnsubscribeAll() 
     {
         subscribers.clear();
@@ -338,8 +427,8 @@ class Event<T1, T2, T3, T4, T...>
     private:
     struct EventData
     {
-        func_ptr func;
-        int priority;
+        func_ptr func;  // The function to call
+        int priority;   // Call order, higher number goes first
     };
 
     std::list<EventData> subscribers;
