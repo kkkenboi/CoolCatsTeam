@@ -27,7 +27,7 @@ namespace LB
 	\brief
 	 Debugger class constructor
 	*************************************************************************/
-	Debugger::Debugger()
+	Debugger::Debugger() : ibo{}, shader{}, vao{}, vbo{}
 	{
 		if (!DEBUG)
 			DEBUG = this;
@@ -121,8 +121,8 @@ namespace LB
 		server_data[1].col = obj.color;
 
 		glNamedBufferSubData(vbo, index * sizeof(debug_vertex), sizeof(debug_vertex) * 2U, server_data);
-		idx.at(index) = index;
-		idx.at(index + 1) = index + 1;
+		idx.at(index) = (unsigned short)index;
+		idx.at(index + 1) = (unsigned short)(index + 1);
 		//-----------------Send data to GPU--------------
 	}
 
@@ -145,7 +145,7 @@ namespace LB
 		glNamedBufferSubData(ibo, 0, index * sizeof(unsigned short), idx.data());
 		glVertexAttrib1f(4, -1.f);
 		glBindVertexArray(vao);
-		glDrawElements(GL_LINES, index, GL_UNSIGNED_SHORT, nullptr);
+		glDrawElements(GL_LINES, (GLsizei)index, GL_UNSIGNED_SHORT, nullptr);
 	}
 
 	/*!***********************************************************************

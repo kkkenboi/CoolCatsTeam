@@ -22,8 +22,6 @@
 #include <sstream>
 #include <filesystem>
 #include "Renderer.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 #include "LitterBox/Factory/Components.h"
 
 #include "LitterBox/Engine/Time.h"
@@ -455,21 +453,8 @@ void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 \param r_type
  Type of render object
 *************************************************************************/
-void Renderer::Renderer::update_buff(Renderer_Types r_type)
+void Renderer::Renderer::update_buff()
 {
-	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "z_val");
-	if (uni_loc == -1) {
-		std::cerr << "Uniform location does not exist" << std::endl;
-	}
-	switch (r_type) {
-	case Renderer_Types::RT_OBJECT:
-		glUniform1f(uni_loc, 0.f);
-		break;
-	case Renderer_Types::RT_BACKGROUND:
-		glUniform1f(uni_loc, 0.0f);
-		break;
-	}
-
 	static glm::vec4 mdl_pts[4]{
 		{-0.5f, -0.5f, 0.f, 1.f}, //bottom left
 		{0.5f, -0.5f, 0.f, 1.f}, //bottom right
@@ -622,8 +607,8 @@ Renderer::RenderSystem::~RenderSystem()
 *************************************************************************/
 void Renderer::RenderSystem::Update()
 {
-	bg_renderer.update_buff(Renderer_Types::RT_BACKGROUND);
-	object_renderer.update_buff(Renderer_Types::RT_OBJECT);
+	bg_renderer.update_buff();
+	object_renderer.update_buff();
 	glClearColor(.3f, 0.5f, .8f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBindVertexArray(bg_renderer.get_vao());
@@ -705,6 +690,7 @@ unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const 
 		return 0;
 	//TODO for UI and DEBUG
 	}
+	return 0;
 }
 /*!***********************************************************************
 \brief
@@ -738,37 +724,37 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 
 
 //----------------------------------------------TEXTURES--------------------------------------------
-/*!***********************************************************************
-\brief
- Constructor for the texture object
-\param path
- The file path of the texture image
-*************************************************************************/
-Renderer::Texture::Texture(const std::string& path) :
-	id{ 0 }, file_path{ path }, local_buff{ nullptr },
-	w{ 0 }, h{ 0 }, fluff{ 0 }
-{
-	stbi_set_flip_vertically_on_load(1);
-
-	local_buff = stbi_load(path.c_str(), &w, &h, &fluff, 4);
-	if (!local_buff) {
-		std::cerr << "Texture file path: " << path << " NOT FOUND!" << std::endl;
-		return;
-	}
-
-	glCreateTextures(GL_TEXTURE_2D, 1, &id);
-	glTextureStorage2D(id, 1, GL_RGBA8, w, h);
-	glTextureSubImage2D(id, 0, 0, 0, w, h,
-		GL_RGBA, GL_UNSIGNED_BYTE, local_buff);
-
-	stbi_image_free(local_buff);
-
-
-	glTextureParameteri(id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTextureParameteri(id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	//std::cout << "Picture specs: " << id << " " << w << " " << h << " " << fluff << std::endl;
-}
+///*!***********************************************************************
+//\brief
+// Constructor for the texture object
+//\param path
+// The file path of the texture image
+//*************************************************************************/
+//Renderer::Texture::Texture(const std::string& path) :
+//	id{ 0 }, file_path{ path }, local_buff{ nullptr },
+//	w{ 0 }, h{ 0 }, fluff{ 0 }
+//{
+//	stbi_set_flip_vertically_on_load(1);
+//
+//	local_buff = stbi_load(path.c_str(), &w, &h, &fluff, 4);
+//	if (!local_buff) {
+//		std::cerr << "Texture file path: " << path << " NOT FOUND!" << std::endl;
+//		return;
+//	}
+//
+//	glCreateTextures(GL_TEXTURE_2D, 1, &id);
+//	glTextureStorage2D(id, 1, GL_RGBA8, w, h);
+//	glTextureSubImage2D(id, 0, 0, 0, w, h,
+//		GL_RGBA, GL_UNSIGNED_BYTE, local_buff);
+//
+//	stbi_image_free(local_buff);
+//
+//
+//	glTextureParameteri(id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//	glTextureParameteri(id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//
+//	//std::cout << "Picture specs: " << id << " " << w << " " << h << " " << fluff << std::endl;
+//}
 
 /*!***********************************************************************
 \brief

@@ -1,3 +1,14 @@
+/*!************************************************************************
+ \file				SceneTestMain.cpp
+ \author(s)			Ang Jiawei Jarrett | Ryan Tan Jian Hao
+ \par DP email(s):	a.jiaweijarrett@digipen.edu | ryanjianhao.tan\@digipen.edu
+ \par Course:		CSD2401A
+ \date				28-09-2023
+ \brief
+ This file contains the first test script that will be used to develop the
+ game.
+
+**************************************************************************/
 #include "SceneTestMain.h"
 #include "LitterBox/Engine/Input.h"
 #include "Player/Player.h"

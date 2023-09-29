@@ -337,7 +337,7 @@ namespace Renderer {
 		\param r_type
 		 Type of render object
 		*************************************************************************/
-		void update_buff(Renderer_Types r_type);
+		void update_buff();
 	};
 
 	//The actual system that will get initialized into the engine
