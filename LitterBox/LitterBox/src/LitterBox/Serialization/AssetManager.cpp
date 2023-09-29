@@ -1,6 +1,21 @@
+/*!************************************************************************
+ \file				AssetManager.h
+ \author(s)			Amadeus Chia Jinhan, 
+ \par DP email(s):	amadeusjinhan.chia@digipen.edu,
+ \par Course:       CSD2401A
+ \date				29/09/2023
+ \brief				This file contains the implementation of AssetManager 
+                    functions. 
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
+//CRUCIAL FOR GRAPHICS (Textures)
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "AssetManager.h"
+#include "AssetManager.h"  
 #pragma warning(push, 0)
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -9,10 +24,14 @@
 
 namespace LB
 {
+    //Global pointer for AssetManager Singleton
     AssetManager* ASSETMANAGER = nullptr;
-
-   
     
+    /**
+     * \brief Construct a new Asset Manager:: Asset Manager object
+     * On initialise, AssetManager will load all the data!
+     * (TODO : Maybe queue it to load AFTER all other systems have loaded...)
+     */
     AssetManager::AssetManager()
     {
         if (!ASSETMANAGER)
@@ -27,8 +46,8 @@ namespace LB
     /*!************************************************************************
      * \brief This function creates and ADDS a texture to the map with the appropriate ID
      * 
-     * \param[in] fileName 
-     * \return TextureData* 
+     * \param[in] fileName file path of where the texture is stored at
+     * \return TextureData* texture data pointer 
      **************************************************************************/
     TextureData* AssetManager::CreateTexture(const std::string &fileName)
     {
