@@ -685,9 +685,6 @@ unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const 
 		return bg_renderer.create_render_object(obj);
 	case Renderer_Types::RT_DEBUG:
 		return debug_renderer.create_render_object(obj);
-	case Renderer_Types::RT_UI:
-		std::cout << "entering heree aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!\n";
-		return 0;
 	//TODO for UI and DEBUG
 	}
 	return 0;
@@ -714,9 +711,6 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 		break;
 	case Renderer_Types::RT_DEBUG:
 		debug_renderer.remove_render_object(obj);
-		break;
-	case Renderer_Types::RT_UI:
-		std::cout << "oh no here too!\n";
 		break;
 	}
 }

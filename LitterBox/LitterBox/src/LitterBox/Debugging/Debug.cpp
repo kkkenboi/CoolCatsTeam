@@ -51,6 +51,11 @@ namespace LB
 	 to start drawing things on the screen.
 	*************************************************************************/
 	void Debugger::Initialize() {
+		if (!DEBUG)
+			DEBUG = this;
+		else
+			std::cerr << "Debug System already exist" << std::endl;
+
 		wid_div = { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
 		height_div = { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
 

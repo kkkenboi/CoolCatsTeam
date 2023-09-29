@@ -1,3 +1,28 @@
+/*!************************************************************************
+ \file				Components.h
+ \author(s)			Kenji Brannon Chong, 
+ \par DP email(s):	kenjibrannon.c@digipen.edu,
+ \par Course:       CSD2401A
+ \date				29/09/2023
+ \brief				This file contains functions of the IComponent, 
+					CPTransform, CPRender, CPRigidBody, ComponentMaker and
+					ComponentMakerType class.
+
+					IComponent acts as the interface for CPTransform, 
+					CPRender, CPRigidBody to build off from to create 
+					components to be attached to GameObjects. These derived
+					components are then updated by their own systems.
+					
+					ComponentMaker acts as the interface for different 
+					ComponentMakerType classes to create ComponentMaker of
+					those types. ComponentMakers are incharge to create 
+					components of that type.
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #pragma once
 #include <Litterbox/Engine/Message.h>
 #include <LitterBox/Debugging/Memory.h>
@@ -7,11 +32,9 @@
 #include "LitterBox/Renderer/ForwardDeclerators.h"
 #include "Platform/Windows/Windows.h"
 #include <queue>
-//#include "LitterBox/Physics/RigidBody.h"
 
 namespace LB
 {
-	// --can be changed to be serialised--
 	enum ComponentTypeID
 	{
 		C_CPNone = 0,
@@ -20,43 +43,59 @@ namespace LB
 		C_CPRender
 	};
 
-	// Interface for derived components to use as a base
+
+	/*!***********************************************************************
+	 \brief
+	 IComponent class provides an interface for other components to build off
+	 from.
+	*************************************************************************/
 	class IComponent
 	{
 	public:
-		virtual void Initialise() {};
-		virtual void Serialise() {};
-		virtual void Update() {};
-		virtual void Deserialise() {};
-		virtual void Destroy() {};
-		// To destruct all other derived components
 
+		/*!***********************************************************************
+		 \brief
+		 Initialises the component
+		*************************************************************************/
+		virtual void Initialise() {};
+
+		/*!***********************************************************************
+		 \brief
+		 Updates the component
+		*************************************************************************/
+		virtual void Update() {};
+
+		/*!***********************************************************************
+		 \brief
+		 Serialises the components based on its derived member's data
+		*************************************************************************/
+		virtual void Serialise() {};
+
+		/*!***********************************************************************
+		 \brief
+		 Deserialises the components based on its derived member's data
+		*************************************************************************/
+		virtual void Deserialise() {};
+
+		/*!***********************************************************************
+		 \brief
+		 Destroys the component
+		*************************************************************************/
+		virtual void Destroy() {};
+
+		/*!***********************************************************************
+		 \brief
+		 Gets the type of the component
+		*************************************************************************/
 		ComponentTypeID GetType()	{ return TypeID; }
 
 		ComponentTypeID TypeID		{ C_CPNone };
-		GameObject* gameObj			{ nullptr };
-	//protected:
+		GameObject*		gameObj		{ nullptr };
 	};
 
 	class CPTransform : public IComponent
 	{
 	public:
-		void Initialise() override
-		{
-			std::cout << "Initialising Transform\n";
-		}
-		void Serialise() override
-		{
-			std::cout << "Serialising Transform\n";
-		}
-		void Deserialise() override
-		{
-			std::cout << "Deserialising Transform\n";
-		}
-		void Destroy() override
-		{
-			std::cout << "Destroying Transform\n";
-		}
 
 		Vec2<float> GetPosition() const
 		{
