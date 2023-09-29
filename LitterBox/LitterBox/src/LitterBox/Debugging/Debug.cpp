@@ -424,7 +424,7 @@ namespace LB
 	\brief
 	 Log prints a given message and the file that called it and from which line.
 	*************************************************************************/
-	void Debugger::Log(std::string const& message, const char* file, int line)
+	void Debugger::Log(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
 		output << "[" << file << ":" << line << "] " << message;
@@ -447,7 +447,7 @@ namespace LB
 
 		va_end(args);
 
-		Log(std::string(cStrBuffer), file, line);
+		Log(file, line, std::string(cStrBuffer));
 	}
 
 
@@ -456,7 +456,7 @@ namespace LB
 	 LogWarning does the same thing as log but this time prints an additional
 	 word WARNING! so you know it's serious.
 	*************************************************************************/
-	void Debugger::LogWarning(std::string const& message, const char* file, int line)
+	void Debugger::LogWarning(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
 		output << "[" << file << ":" << line << "] " << message;
@@ -469,12 +469,25 @@ namespace LB
 		FlushDebugLog();
 	}
 
+	void Debugger::LogWarningFormat(const char* file, int line, const char* format, ...)
+	{
+		va_list args;
+		va_start(args, format);
+
+		char cStrBuffer[512];
+		vsnprintf(cStrBuffer, 512, format, args);
+
+		va_end(args);
+
+		LogWarning(file, line, std::string(cStrBuffer));
+	}
+
 	/*!***********************************************************************
 	\brief
 	 LogError does the same thing as LogWarning but this time prints an additional
 	 word ERROR!! so you know it's even more serious.
 	*************************************************************************/
-	void Debugger::LogError(std::string const& message, const char* file, int line)
+	void Debugger::LogError(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
 		output << "[" << file << ":" << line << "] " << message;
@@ -489,11 +502,24 @@ namespace LB
 		// Then assert
 	}
 
+	void Debugger::LogErrorFormat(const char* file, int line, const char* format, ...)
+	{
+		va_list args;
+		va_start(args, format);
+
+		char cStrBuffer[512];
+		vsnprintf(cStrBuffer, 512, format, args);
+
+		va_end(args);
+
+		LogError(file, line, std::string(cStrBuffer));
+	}
+
 	/*!***********************************************************************
 	\brief
 	 Assert prints out a debug line if a specific condition is not met.
 	*************************************************************************/
-	void Debugger::Assert(bool expectedCondition, std::string const& message, const char* file, int line)
+	void Debugger::Assert(const char* file, int line, bool expectedCondition, std::string const& message)
 	{
 		if (!expectedCondition)
 		{
@@ -507,5 +533,18 @@ namespace LB
 			debugInfoLogger->error(output.str());
 			FlushDebugLog();
 		}
+	}
+
+	void Debugger::AssertFormat(const char* file, int line, bool expectedCondition, const char* format, ...)
+	{
+		va_list args;
+		va_start(args, format);
+
+		char cStrBuffer[512];
+		vsnprintf(cStrBuffer, 512, format, args);
+
+		va_end(args);
+
+		Assert(file, line, expectedCondition, std::string(cStrBuffer));
 	}
 }

@@ -121,6 +121,21 @@ void SceneTestMain::Init()
 	//int* test = nullptr;
 	//*test = 5;
 
+	//int uwuCounter = 1, joe = -5;
+	//char grade = 'F';
+
+	//DebuggerLog("uwu");
+	//DebuggerLogFormat("uwu counter: %d, joe: %d", uwuCounter, joe);
+
+	//DebuggerLogWarning("UWU");
+	//DebuggerLogWarningFormat("THE %d UWU IS TOO STRONG FOR ME", uwuCounter);
+
+	//DebuggerLogError("UWUWUWUWUWU");
+	//DebuggerLogErrorFormat("F in the chat for %d, %d", joe, uwuCounter);
+
+	//DebuggerAssert(grade == 'A', "Grade not A :(");
+	//DebuggerAssertFormat(grade == 'A', "Grade is %c but expected an A :((", grade);
+
 	//JSONSerializer stream;
 	//stream.DeserializeFromFile("TestObject", *testPlayer->playerObj);
 	//std::cout << testPlayer->playerObj->GetComponent<CPTransform>("CPTransform")->GetPosition().ToString();
