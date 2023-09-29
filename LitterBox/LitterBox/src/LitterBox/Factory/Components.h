@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				Components.h
- \author(s)			Kenji Brannon Chong, 
- \par DP email(s):	kenjibrannon.c@digipen.edu,
+ \author(s)			Kenji Brannon Chong, Ryan Tan Jian Hao
+ \par DP email(s):	kenjibrannon.c@digipen.edu, ryanjianhao.tan\@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
  \brief				This file contains functions of the IComponent, 
@@ -157,6 +157,8 @@ namespace LB
 		Vec2<float>					position;
 		Vec3<float>					col;
 		std::array<Vec2<float>, 4>	uv; //bot left, bot right, top right, top left
+
+
 
 		CPTransform* transform;
 		/*!***********************************************************************

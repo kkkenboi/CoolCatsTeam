@@ -103,6 +103,8 @@ namespace Renderer {
 		LB::Vec2<float> tex{ 0.f,0.f };
 		LB::Vec3<float> color{ 1.f,0.f,0.f };
 		float texIndex{ -1.f };
+		LB::Vec3<float> widHeightType{ 0.f, 0.f, 0.f };
+		LB::Vec3<float> others {0.f, 0.f, 0.f }; //width, height, scale x, scale y, rotation
 		unsigned int index{ 0 };
 		bool active{ false };
 	};

@@ -85,7 +85,7 @@ namespace LB
 
 			// For now just make it be the same
 			//GOMANAGER->m_Pool = m_WaitingList;
-			std::cout << "Factory Updated\n";
+			//std::cout << "Factory Updated\n";
 		}
 
 		m_ToUpdate = false;

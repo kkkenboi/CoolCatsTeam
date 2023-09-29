@@ -87,7 +87,7 @@ namespace LB
 			nullptr, GL_DYNAMIC_STORAGE_BIT);
 		glVertexArrayElementBuffer(vao, ibo);
 
-		shader_source shd_pgm{ shader_parser("../Assets/Shaders/Basic.shader") };
+		shader_source shd_pgm{ shader_parser("../Assets/Shaders/debug.shader") };
 		shader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
 		glLineWidth(5.f);
@@ -148,7 +148,7 @@ namespace LB
 
 		//pass index data inside
 		glNamedBufferSubData(ibo, 0, index * sizeof(unsigned short), idx.data());
-		glVertexAttrib1f(4, -1.f);
+		glUseProgram(shader);
 		glBindVertexArray(vao);
 		glDrawElements(GL_LINES, (GLsizei)index, GL_UNSIGNED_SHORT, nullptr);
 	}

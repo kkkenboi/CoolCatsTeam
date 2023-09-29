@@ -47,7 +47,7 @@ namespace LB
 
 		glfwPollEvents();
 
-		std::cout << inputKeys.size() << "\n";
+		//std::cout << inputKeys.size() << "\n";
 
 		for (auto key = inputKeys.begin(); key != inputKeys.end(); ++key) 
 		{
