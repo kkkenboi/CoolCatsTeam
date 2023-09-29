@@ -8,7 +8,7 @@ void Player::Initialise()
 	this->playerObj = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody"});
 
 	playerObj->GetComponent<CPTransform>("CPTransform")->SetPosition(LB::Vec2<float>{400.f, 400.f});
-
+	playerObj->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 	this->playerObj->GetComponent<CPRigidBody>("CPRigidBody")->mNumberID = 1;
 
 	INPUT->SubscribeToKey(MoveUp, KeyCode::KEY_W, KeyEvent::PRESSED);
@@ -39,4 +39,26 @@ void MoveRight()
 void MoveDown()
 {
 	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{0.f, -3000.f * (float)TIME->GetDeltaTime()});
+}
+
+void SpawnPineapples()
+{
+	 //clone = FACTORY->SpawnGameObject(ASSETMANAGER->PineappleObject);
+	//GameObject* clone2 = FACTORY->SpawnGameObject(ASSETMANAGER->PineappleObject);
+	//GameObject* clone = FACTORY->CreateGameObject();
+	//for (int i{ 0 }; i < 5; ++i)
+	//{
+	//	clones->GetComponent<CPRigidBody>("CPRigidBody")->mNumberID;
+	//	//clones->GetComponent<CPRigidBody>("CPRigidBody")->isStatic = true;
+	//	//clones->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+	//}
+	//clones->GetComponent<CPRender>("CPRender")->resetState();
+	//clones->StartComponents();
+
+
+	//GameObject* pClones = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" });
+
+	//pClones->GetComponent<CPTransform>("CPTransform")->SetPosition(ASSETMANAGER->PineappleObject->GetComponent<CPTransform>("CPTransform")->GetPosition());
+	//pClones->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+
 }
