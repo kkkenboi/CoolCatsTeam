@@ -150,101 +150,39 @@ namespace LB {
 		*************************************************************************/
 		void Pause(bool shouldPause);
 
+		/*!***********************************************************************
+		 \brief
+
+		*************************************************************************/
 		bool IsPaused();
 
 		/*!***********************************************************************
 		 \brief
 
 		*************************************************************************/
-		void ToggleVSync(bool on);
+		void StepFixedDeltaTime();
 
-		/*!***********************************************************************
-		 \brief
-		 Used to broadcast that a frame has ended
-
-		*************************************************************************/
-		Event<> onFrameEnd;
-
+		Event<> onFrameEnd;									// Used to broadcast that a frame has ended
 		
 		private:
-		/*!***********************************************************************
-		 \brief
-		 Time points to calculate the time taken for each frame
+		time_point m_frameStart, m_frameEnd;				// Time points to calculate the time taken for each frame
+		std::chrono::duration<double> m_frameDuration;		// Length of time from m_frameStart and m_frameEnd
 
-		*************************************************************************/
-		time_point m_frameStart, m_frameEnd;
+		double m_deltaTime{}, m_unscaledDeltaTime{};		// How much time passed each frame (m_deltaTime is scaled by timeScale, m_unscaledDeltaTime is not)
+		double m_fixedDeltaTime, m_unscaledFixedDeltaTime;	// m_fixedDeltaTime is used to maintain a constant stable loop at a fixed interval
 
-		/*!***********************************************************************
-		 \brief
-		 Length of time from m_frameStart and m_frameEnd
-		*************************************************************************/
-		std::chrono::duration<double> m_frameDuration;
+		double m_time{ 0.0 };								// Time tracks the total amount of time passed since application start
+		double m_timeScale{ 1.0 };							// Changes deltaTime and fixedDeltaTime, useful to speed up/slow down
 
-		/*!***********************************************************************
-		 \brief
-		 How much time passed each frame 
-		 (m_deltaTime is scaled by timeScale, m_unscaledDeltaTime is not)
-		*************************************************************************/
-		double m_deltaTime{}, m_unscaledDeltaTime{};
-		
-		/*!***********************************************************************
-		 \brief
-		  m_fixedDeltaTime is used to maintain a constant stable loop at a fixed interval
-		*************************************************************************/
-		double m_fixedDeltaTime, m_unscaledFixedDeltaTime;
+		double m_timeScaleBeforePause{};					// Used to return the timescale back to before it was paused
+		double m_accumulatedTime{};							// Accumulates time until fixed delta time, used by FixedUpdate for constant loops	
+		double m_minDeltaTime;								// The minimum delta time should be (prevents loop from running too fast)		
+		double m_frameBudget{};								// The amount of time to wait before next frame (if it is going too fast)	 
 
-		/*!***********************************************************************
-		 \brief
-		 Time tracks the total amount of time passed since application start
-		*************************************************************************/
-		double m_time{ 0.0 };
-
-		/*!***********************************************************************
-		 \brief
-		 Changes deltaTime and fixedDeltaTime, useful to speed up/slow down
-		*************************************************************************/
-		double m_timeScale{ 1.0 };			
-
-		/*!***********************************************************************
-		 \brief
-		 Used to return the timescale back to before it was paused
-		*************************************************************************/
-		double m_timeScaleBeforePause{};	
-
-		/*!***********************************************************************
-		 \brief
-		 Accumulates time until fixed delta time, used by FixedUpdate for constant loops
-		*************************************************************************/
-		double m_accumulatedTime{};			
-
-		/*!***********************************************************************
-		 \brief
-		 The minimum delta time should be (prevents loop from running too fast)
-		*************************************************************************/
-		double m_minDeltaTime;				
-
-		/*!***********************************************************************
-		 \brief
-		 The amount of time to wait before next frame (if it is going too fast)
-		*************************************************************************/
-		double m_frameBudget{};				 
-
-		/*!***********************************************************************
-		 \brief
-		 The total number of frames rendered since application start
-		*************************************************************************/
-		long frameCounter{};				
-
-		/*!***********************************************************************
-		 \brief
-		 The target fps for Update and FixedUpdate
-		*************************************************************************/
-		int m_maxFrameRate, m_fixedFrameRate;
+		long frameCounter{};								// The total number of frames rendered since application start		
+		int m_maxFrameRate, m_fixedFrameRate;				// The target fps for Update and FixedUpdate
 	};
 
-	/*!***********************************************************************
-	\brief
-	 A pointer to the system object in the core engine made to be singleton
-	*************************************************************************/
+	// A pointer to the system object in the core engine made to be singleton
 	extern Time* TIME;
 }

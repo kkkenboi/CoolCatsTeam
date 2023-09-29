@@ -8,16 +8,18 @@
 
 **************************************************************************/
 
-#include "Debug.h"
 #include "LitterBox/Renderer/Renderer.h"
+#include "LitterBox/Engine/Input.h"
+#include "LitterBox/Engine/Time.h"
+#include "Debug.h"
 #include <iostream>
 
 //-----------------Pre-defines------------------------------
 constexpr int CIRCLE_LINES{ 20 };
 constexpr float INCREMENT{ 2.f * (float)PI / (float)CIRCLE_LINES };
 
-float wid_div;// { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
-float height_div;// { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
+float wid_div;		// { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
+float height_div;	// { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
 //-----------------Pre-defines------------------------------
 
 namespace LB 
@@ -33,6 +35,13 @@ namespace LB
 			DEBUG = this;
 		else
 			std::cerr << "Debug System already exist" << std::endl;
+
+		// Toggle debug mode on key press
+		m_debugToggleKey = KeyCode::KEY_J;
+		m_stepPhysicsKey = KeyCode::KEY_I;
+
+		INPUT->SubscribeToKey(ToggleDebugOn, m_debugToggleKey, KeyEvent::TRIGGERED);
+		INPUT->SubscribeToKey(LB::StepPhysics, m_stepPhysicsKey, KeyEvent::TRIGGERED);
 	}
 	/*!***********************************************************************
 	\brief
@@ -42,6 +51,38 @@ namespace LB
 		Vec2<float> pos;
 		Vec4<float> col;
 	};
+
+	bool Debugger::IsDebugOn()
+	{
+		return m_debugModeOn;
+	}
+
+	void Debugger::ToggleDebugMode()
+	{
+		m_debugModeOn = !m_debugModeOn;
+	}
+
+	// TODO: Refactor so that it uses a different pause
+	// Only works if paused
+	void Debugger::StepPhysics()
+	{
+		if (!TIME->IsPaused()) return;
+		m_stepped = true;
+		TIME->Pause(false);
+		TIME->StepFixedDeltaTime();
+	}
+
+	// For event
+	void StepPhysics()
+	{
+		DEBUG->StepPhysics();
+	}
+
+	// For event
+	void ToggleDebugOn()
+	{
+		DEBUG->ToggleDebugMode();
+	}
 
 	//TODO modulate the vertex size
 	//vertex size should = min 3000 x 4 (number of quads in render object)
@@ -138,6 +179,17 @@ namespace LB
 	 the information to the GPU to get drawn
 	*************************************************************************/
 	void Debugger::Update() {
+		// If stepped, pause again since it was paused before
+		if (m_stepped)
+		{
+			m_stepped = false;
+			TIME->Pause(true);
+		}
+
+		//-----------------Debug Rendering------------------
+		// Don't do any rendering if debug mode is off
+		if (!IsDebugOn()) return;
+
 		size_t index{ 0 };
 		while (drawobj.size()) {
 			//loop through object to 
@@ -319,5 +371,4 @@ namespace LB
 			fprintf(stderr, "[DEBUGGER ASSERT!!] [%s:%d] %s\n", file, line, message.c_str());
 		}
 	}
-
 }

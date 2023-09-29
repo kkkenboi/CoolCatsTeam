@@ -47,12 +47,10 @@ namespace LB
 
 		glfwPollEvents();
 
-		std::cout << inputKeys.size() << "\n";
-
 		for (auto key = inputKeys.begin(); key != inputKeys.end(); ++key) 
 		{
-			// Refactor pausing for input
-			if (TIME->IsPaused() && key->first != KeyCode::KEY_U) continue;
+			// TODO: Refactor pausing input, have two maps, one affected by time, one not
+			if (TIME->IsPaused() && !(key->first == KeyCode::KEY_U || key->first == KeyCode::KEY_J || key->first == KeyCode::KEY_I || key->first == KeyCode::KEY_L)) continue;
 
 			if (inputKeysCurr[(int)key->first] && !inputKeysLast[(int)key->first])
 			{

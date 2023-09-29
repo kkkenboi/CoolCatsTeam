@@ -77,6 +77,8 @@ namespace LB
 				TIME->AccumulateFixedUpdate();
 				while (TIME->ShouldFixedUpdate()) 
 				{
+					std::cout << "RAN!\n";
+
 					for (unsigned i = 0; i < Systems.size(); ++i) 
 					{
 						Profiler systemProfiler{ Systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS, false };

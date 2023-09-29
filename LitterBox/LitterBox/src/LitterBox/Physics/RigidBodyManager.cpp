@@ -235,16 +235,17 @@ namespace LB
 
     void RigidBodyManager::Update()
     {
-        // IF DEBUG MODE ON
-        
-        for (size_t i = 0; i < m_poolSize; ++i)
+        // Draw collision data if debug is on
+        if (DEBUG->IsDebugOn())
         {
-            if (m_rigidBodies[i] != nullptr)
+            for (size_t i = 0; i < m_poolSize; ++i)
             {
-                m_rigidBodies[i]->DebugDraw();
+                if (m_rigidBodies[i] != nullptr)
+                {
+                    m_rigidBodies[i]->DebugDraw();
+                }
             }
         }
-        
     }
 
 
