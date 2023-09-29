@@ -14,11 +14,9 @@ namespace LB {
 	Time* TIME = nullptr;
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Default constructor, ensures this system is a singleton, sets the target
+	frame rate for Update and FixedUpdate
 	*************************************************************************/
 	Time::Time(int maxFrameRate, int fixedFrameRate) 
 	{ 
@@ -34,11 +32,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Returns the time point for at this current moment
 	*************************************************************************/
 	time_point Time::GetTimeStamp() 
 	{
@@ -46,11 +41,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Time stamps the start of the frame
 	*************************************************************************/
 	void Time::LBFrameStart() 
 	{
@@ -58,11 +50,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Time stamps the end of the frame and updates dt, fixeddt, etc.
 	*************************************************************************/
 	void Time::LBFrameEnd() 
 	{
@@ -88,11 +77,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	How many times should Update runs per second
 	*************************************************************************/
 	void Time::SetMaxFrameRate(int fps)
 	{
@@ -101,11 +87,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Returns the number of times Update runs per second
 	*************************************************************************/
 	int Time::GetMaxFrameRate()
 	{
@@ -113,11 +96,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	How many times should FixedUpdate runs per second
 	*************************************************************************/
 	void Time::SetFixedFrameRate(int fps)
 	{
@@ -127,11 +107,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Returns whether FixedUpdate should be called
 	*************************************************************************/
 	bool Time::ShouldFixedUpdate() 
 	{
@@ -143,11 +120,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Adds Dt to a counter until it is time to FixedUpdate
 	*************************************************************************/
 	void Time::AccumulateFixedUpdate()
 	{
@@ -158,11 +132,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Returns time taken last frame
 	*************************************************************************/
 	double Time::GetDeltaTime()
 	{
@@ -170,11 +141,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Returns time taken for each FixedUpdate loop
 	*************************************************************************/
 	double Time::GetFixedDeltaTime()
 	{
@@ -182,11 +150,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Returns time taken last frame (not affected by timeScale)
 	*************************************************************************/
 	double Time::GetUnscaledDeltaTime()
 	{
@@ -194,11 +159,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Returns time taken for each FixedUpdate loop (not affected by timeScale)
 	*************************************************************************/
 	double Time::GetUnscaledFixedDeltaTime()
 	{
@@ -206,11 +168,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	How fast is the current simulation running? 1 is default
 	*************************************************************************/
 	double Time::GetTimeScale()
 	{
@@ -218,11 +177,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Sets the speed for the simulation (1 is default, 0.5 is half speed, etc)
 	*************************************************************************/
 	void Time::SetTimeScale(double newTimeScale)
 	{
@@ -231,11 +187,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Returns total time since application launch
 	*************************************************************************/
 	double Time::GetTime()
 	{
@@ -243,11 +196,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	How long to wait after end of each frame to match the FPS set
 	*************************************************************************/
 	double Time::GetFrameBudget()
 	{
@@ -255,11 +205,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	How many frames completed since application launch
 	*************************************************************************/
 	int Time::GetFrameCount()
 	{
@@ -267,11 +214,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Pauses the simulation for this set amount of time
 	*************************************************************************/
 	void Time::Sleep(double time) 
 	{
@@ -279,11 +223,8 @@ namespace LB {
 	}
 
 	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
+	\brief
+	Pauses the simulation
 	*************************************************************************/
 	void Time::Pause(bool shouldPause) 
 	{
@@ -298,18 +239,18 @@ namespace LB {
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Returns whether the simulation is currently paused
+	*************************************************************************/
 	bool Time::IsPaused()
 	{
 		return m_timeScale == 0.0;
 	}
 
-
 	/*!***********************************************************************
 	 \brief
-
-
-	 \return
-
+	 Runs one loop of FixedUpdate
 	*************************************************************************/
 	void Time::StepFixedDeltaTime()
 	{
