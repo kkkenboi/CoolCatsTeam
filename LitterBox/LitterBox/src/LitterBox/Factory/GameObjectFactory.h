@@ -4,9 +4,9 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions declarations of the
-					FactorySystem class that creates a GameObject with 
-					different components.
+ \brief				
+ This file contains functions declarations of the FactorySystem class that 
+ creates a GameObject with different components.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -57,12 +57,6 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Serialises all of the Game Objects
-		*************************************************************************/
-		void SerialiseGameObjs(int json_thing);
-
-		/*!***********************************************************************
-		 \brief
 		 Initialise this ComponentMaker of their type, eg. Physics / Graphics
 		*************************************************************************/
 		void InitCM(const std::string& name, ComponentMaker* newComponent);
@@ -88,11 +82,15 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
+		 Spawns a GameObject using prefabs
+		*************************************************************************/
+		GameObject* SpawnGameObject(GameObject* prefab);
+
+		/*!***********************************************************************
+		 \brief
 		 Creates a empty GameObject with no components.
 		*************************************************************************/
 		GameObject* CreateGameObject();
-
-		GameObject* SpawnGameObject(GameObject* prefab);
 
 		/*!***********************************************************************
 		 \brief

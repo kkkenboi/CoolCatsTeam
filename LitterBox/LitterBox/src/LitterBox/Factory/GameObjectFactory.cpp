@@ -4,9 +4,9 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions definitions of the
-					FactorySystem class that creates a GameObject with 
-					different components.
+ \brief				
+ This file contains functions definitions of the FactorySystem class that 
+ creates a GameObject with different components.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -45,10 +45,6 @@ namespace LB
 		CreateComponentMaker(CPRender);
 		CreateComponentMaker(CPRigidBody);
 
-		// Game Object Data File
-		// Deserialise the data file and initialise the game objects with it
-		SerialiseGameObjs(1);
-
 		std::cout << "Factory Initialised\n";
 	}
 
@@ -66,33 +62,6 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-	 Updates the factory
-
-	 \return
-	 Nothing
-	*************************************************************************/
-	void FactorySystem::Update()
-	{
-
-		if (m_ToUpdate)
-		{
-
-
-			// Send all of the game objects to the GameObjectManager's vector or something
-			// Send message to the GameObjectManager to add objects to its pool of game objects
-			// What about pools?
-
-			// For now just make it be the same
-			//GOMANAGER->m_Pool = m_WaitingList;
-			std::cout << "Factory Updated\n";
-		}
-
-		m_ToUpdate = false;
-	}
-
-
-	/*!***********************************************************************
-	 \brief
 	 Destroys the factory
 
 	 \return
@@ -102,24 +71,6 @@ namespace LB
 	{
 		DeleteAllCMs(m_ComponentMakers);
 	}
-
-
-	/*!***********************************************************************
-	 \brief
-	 Serialises all of the Game Objects
-
-	 \return
-	 Nothing
-	*************************************************************************/
-	void FactorySystem::SerialiseGameObjs(int jsonThing)
-	{
-		// Serialise the Game Objects with all of their data
-		//
-		jsonThing = 1;
-		// Update the Factory 
-		// if more than one game object created, set toUpdate to true
-	}
-
 
 	/*!***********************************************************************
 	 \brief
@@ -197,6 +148,15 @@ namespace LB
 		GOMANAGER->AddGameObject(gameObj);
 		return gameObj;
 	}
+
+
+	/*!***********************************************************************
+	 \brief
+	 Spawns a GameObject using prefabs
+
+	 \return
+	 A pointer to the GameObject
+	*************************************************************************/
 	GameObject* FactorySystem::SpawnGameObject(GameObject* prefab)
 	{
 		GameObject* clone = FACTORY->CreateGameObject();
@@ -225,10 +185,6 @@ namespace LB
 	{
 		++m_LastObjID;
 		std::cout << "GO " << m_LastObjID << " has been created\n";
-		//toUpdate = true;
-
-		// Does this mean that only default constructors are allowed?
-		//return MEMORY->Allocate<GameObject>();
 
 		// Original return
 		return new GameObject(FACTORY->GetLastObjID());
