@@ -13,8 +13,10 @@
 #include "LitterBox/Engine/Input.h"
 #include "Player/Player.h"
 
-GameObject* *test, *test2, *test3, *static_wall;
+GameObject*test2, *test3, *static_wall;
 GameObject *scaleObj, *rotObj, *animObj;
+
+GameObject** test;
 
 Player* testPlayer;
 //-------------------------Scene Objects----------------------------
@@ -38,15 +40,11 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
-
-	test = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" });
-	test->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
-
-	test2 = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" });
+	/*test2 = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" });
 	test2->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
 
 	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
-	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
+	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));*/
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
@@ -77,18 +75,6 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
-
-	test = new GameObject * [2500];
-	for (int i{ 0 }; i < 2500; ++i) {
-		test[i] = FACTORY->SpawnGameObject({ "CPRender" });
-	}
-
-	for (int y{ 0 }; y < 50; ++y) {
-		for (int x{ 0 }; x < 50; ++x) {
-			test[x + y * 50]->GetComponent<CPTransform>("CPTransform")->SetPosition({ x * (WINDOWSSYSTEM->GetWidth() - 100.f) / 50.f + 50.f, y * (WINDOWSSYSTEM->GetHeight() - 100.f) / 50.f + 50.f });
-			test[x + y * 50]->GetComponent<CPTransform>("CPTransform")->SetScale({ 0.1f, 0.1f });
-		}
-	}
 	//test = FACTORY->SpawnGameObject({ "CPRender" });
 	test2 = FACTORY->SpawnGameObject({ "CPRender" });
 	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
