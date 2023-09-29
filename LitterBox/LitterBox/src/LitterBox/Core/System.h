@@ -4,8 +4,10 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu, a.jiaweijarrett@digipen.edu
  \par Course:		CSD2401A
  \date				29/09/23
- \brief				This file contains functions of the Isystem class which
-					acts as an interface for other systems to build off.
+ \brief				
+ 
+ This file contains functions of the ISystem class which acts as an interface 
+ for other systems to build off.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent

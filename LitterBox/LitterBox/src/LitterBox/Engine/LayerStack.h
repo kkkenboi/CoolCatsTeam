@@ -4,10 +4,11 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions declarations of the
-					LayerStack class that manages all of the layers,
-					ensuring that all of them are in the right order to be
-					updated and shown in the program
+ \brief				
+ 
+ This file contains functions declarations of the LayerStack class that 
+ manages all of the layers, ensuring that all of them are in the right order 
+ to be updated and shown in the program
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent

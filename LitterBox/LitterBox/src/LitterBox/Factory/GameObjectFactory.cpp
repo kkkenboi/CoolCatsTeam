@@ -20,7 +20,6 @@ namespace LB
 {
 	FactorySystem* FACTORY = nullptr;
 
-
 	/*!***********************************************************************
 	 \brief
 	 Initialises the factory with known component types to make ComponentMakers

@@ -4,19 +4,17 @@
  \par DP email(s):	kenjibrannon.c@digipen.edu,
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				This file contains functions of the IComponent, 
-					CPTransform, CPRender, CPRigidBody, ComponentMaker and
-					ComponentMakerType class.
+ \brief				
+ This file contains functions of the IComponent, CPTransform, CPRender, 
+ CPRigidBody, ComponentMaker and ComponentMakerType class.
 
-					IComponent acts as the interface for CPTransform, 
-					CPRender, CPRigidBody to build off from to create 
-					components to be attached to GameObjects. These derived
-					components are then updated by their own systems.
+ IComponent acts as the interface for CPTransform, CPRender, CPRigidBody to 
+ build off from to create components to be attached to GameObjects. These 
+ derived components are then updated by their own systems.
 					
-					ComponentMaker acts as the interface for different 
-					ComponentMakerType classes to create ComponentMaker of
-					those types. ComponentMakers are incharge to create 
-					components of that type.
+ ComponentMaker acts as the interface for different ComponentMakerType 
+ classes to create ComponentMaker of those types. ComponentMakers are 
+ incharge to create components of that type.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent

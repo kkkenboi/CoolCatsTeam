@@ -1,5 +1,4 @@
 #include "LitterBox.h"
-#include "LitterBox/Engine/Layer.h"
 class GameplayLayer : public LB::Layer
 {
 public:

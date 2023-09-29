@@ -1,11 +1,21 @@
 /*!************************************************************************
- \file
- \author(s)
- \par DP email(s):
- \par Course:		CSD2401A
- \date
+ \file				GameObjectManager.cpp
+ \author(s)			Kenji Brannon Chong | Amadeus Chia Jinhan
+ \par DP email(s):	kenjibrannon.c@digipen.edu | amadeusjinhan.chia@digipen.edu
+ \par Course:       CSD2401A
+ \date				29/09/2023
  \brief
 
+ This file contains functions definition of the GameObject and GameObjectManager 
+ class. The GameObject acts as a container to hold all of the different components 
+ for the components to interact with each other during the gameloop.
+
+ The GameObjectManager manages all of the GameObject's lifetime throughout the
+ entire application.
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "GameObjectManager.h"
@@ -13,6 +23,191 @@
 #include "GameObjectFactory.h"
 namespace LB
 {
+	/***************************************************************************************************
+	*
+	* Game Object
+	*
+	***************************************************************************************************/
+	
+	/*!***********************************************************************
+	 \brief
+	 Creates a GameObject
+	*************************************************************************/
+	GameObject::GameObject() : m_Components{}, m_IsActive{ false }, m_ID{} {}
+
+	/*!***********************************************************************
+	 \brief
+	 Creates a GameObject with an ID
+	*************************************************************************/
+	GameObject::GameObject(int ID) : m_Components{}, m_IsActive{ false }, m_ID{ ID } {}
+
+	/*!***********************************************************************
+	 \brief
+	 Destroys a GameObject
+	*************************************************************************/
+	GameObject::~GameObject() {}
+
+	/*!***********************************************************************
+	 \brief
+	 Gets all the components of the GameObject
+
+	 \return
+	 Map to the GameObject's components
+	*************************************************************************/
+	std::unordered_map<std::string, IComponent*> GameObject::GetComponents()
+	{
+		return m_Components;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Sets all of the components of one GameObject to another map
+
+	 \return
+	 Nothing
+	*************************************************************************/
+	void GameObject::SetComponents(const std::unordered_map<std::string, IComponent*>& otherMap)
+	{
+		this->m_Components = otherMap;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Adds a component to the GameObject
+
+	 \return
+	 Nothing
+	*************************************************************************/
+	void GameObject::AddComponent(std::string name, IComponent* component)
+	{
+		component->gameObj = this;
+		m_Components[name] = component;
+	}
+	
+	/*!***********************************************************************
+	 \brief
+	 Serializes the GameObject data into a file
+
+	 \return
+	 True if serialized, else false
+	*************************************************************************/
+	bool GameObject::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+
+		if (m_Components.find("CPTransform") != m_Components.end())
+		{
+			data.SetObject();
+			Value TransfromComponent;
+			m_Components["CPTransform"]->Serialize(TransfromComponent, alloc);
+			data.AddMember("Transform", TransfromComponent, alloc);
+		}
+		//We will return false if we fail to serialise a transform because
+		//ALL GAMEOBJECTS MUST HAVE TRANSFORM!
+		else return false;
+		if (m_Components.find("CPRigidBody") != m_Components.end())
+		{
+			Value RigidBodyComponent;
+			m_Components["CPRigidBody"]->Serialize(RigidBodyComponent, alloc);
+			data.AddMember("RigidBody", RigidBodyComponent, alloc);
+		}
+		if (m_Components.find("CPRender") != m_Components.end())
+		{
+			Value RenderComponent;
+			m_Components["CPRender"]->Serialize(RenderComponent, alloc);
+			data.AddMember("Render", RenderComponent, alloc);
+		}
+		return true;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Deserializes the GameObject data from a file
+
+	 \return
+	 True if deserialised, else false
+	*************************************************************************/
+	bool GameObject::Deserialize(const Value& data)
+	{
+		bool HasTransform = data.HasMember("Transform");
+		bool HasRigidBody = data.HasMember("RigidBody");
+		bool HasRender = data.HasMember("Render");
+		if (data.IsObject())
+		{
+			if (HasTransform)
+			{
+				if (m_Components.find("CPTransform") == m_Components.end())
+				{
+					std::cout << "GO doesn't have a transform :C so we make one\n";
+					AddComponent("CPTransform", FACTORY->GetCMs()["CPTransform"]->Create());
+				}
+				const Value& transformValue = data["Transform"];
+				m_Components["CPTransform"]->Deserialize(transformValue);
+			}
+			//ALL GO's MUST HAVE TRANSFORM!
+			else return false;
+			if (HasRigidBody)
+			{
+				if (m_Components.find("CPRigidBody") == m_Components.end())
+				{
+					std::cout << "GO doesn't have a rigidbody :C so we make one\n";
+					AddComponent("CPRigidBody", FACTORY->GetCMs()["CPRigidBody"]->Create());
+				}
+				const Value& rigidBodyValue = data["RigidBody"];
+				m_Components["CPRigidBody"]->Deserialize(rigidBodyValue);
+			}
+			if (HasRender)
+			{
+				if (m_Components.find("CPRender") == m_Components.end())
+				{
+					std::cout << "GO doesn't have a render :C so we make one\n";
+					AddComponent("CPRender", FACTORY->GetCMs()["CPRender"]->Create());
+				}
+				const Value& renderValue = data["Render"];
+				m_Components["CPRender"]->Deserialize(renderValue);
+			}
+		}
+		return true;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Initialises all of the components in the GameObject
+
+	 \return
+	 Nothing
+	*************************************************************************/
+	void GameObject::StartComponents()
+	{
+		for (auto const& component : m_Components)
+		{
+			component.second->Initialise();
+		}
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Gets the ID of the GameObject
+
+	 \return
+	 ID of the GameObject
+	 *************************************************************************/
+	int GameObject::GetID() const
+	{
+		return m_ID;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Sets the ID of the GameObject
+
+	 \return
+	 Nothing
+	*************************************************************************/
+	void GameObject::SetID(int ID)
+	{
+		m_ID = ID;
+	}
+
 	/***************************************************************************************************
 	*
 	* Game Object Manager
@@ -23,10 +218,7 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
-
-	 \return
-
+	 Creates the GameObjectManager
 	*************************************************************************/
 	GameObjectManager::GameObjectManager()
 	{
@@ -44,10 +236,24 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
+	 Destroys all of the GameObjects and signifies end of lifecycle of
+	 GameObjectManager
 
 	 \return
+	 Nothing
+	*************************************************************************/
+	void GameObjectManager::Destroy()
+	{
+		DestroyAllGOs();
+		std::cout << "GOM destructed\n";
+	}
 
+	/*!***********************************************************************
+	 \brief
+	 Gets all of the current GameObjects the GameObjectManager is managing
+
+	 \return
+	 All current GameObjects
 	*************************************************************************/
 	std::vector<GameObject*> GameObjectManager::GetGameObjects() const
 	{
@@ -56,10 +262,10 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
+	 Adds a GameObject to the current pool of GameObjects
 
 	 \return
-
+	 Nothing
 	*************************************************************************/
 	void GameObjectManager::AddGameObject(GameObject* gameObject)
 	{
@@ -68,10 +274,10 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-
+	 Destroys all of the GameObjects
 
 	 \return
-
+	 Nothing
 	*************************************************************************/
 	void GameObjectManager::DestroyAllGOs()
 	{
@@ -112,198 +318,5 @@ namespace LB
 		std::cout << m_GameObjects.size() << std::endl;
 
 		std::cout << "All GOs deleted\n";
-	}
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	void GameObjectManager::Destroy()
-	{
-		DestroyAllGOs();
-		std::cout << "GOM destructed\n";
-	}
-
-	/***************************************************************************************************
-	*
-	* Game Object
-	*
-	***************************************************************************************************/
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	GameObject::GameObject(int ID) : m_Components{}, m_IsActive{ false }, m_ID{ ID }
-	{
-		std::cout << "GO constructed\n";
-	}
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	GameObject::GameObject() : m_Components{}, m_IsActive{ false }, m_ID{}
-	{
-		std::cout << "GO constructed\n";
-	}
-
-	//GameObject::GameObject(std::vector<IComponent*> const& componentList) : m_Components{ componentList }, isActive{ false }
-	//{
-	//	std::cout << "GO parameterized constructor\n";
-	//};
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	GameObject::~GameObject()
-	{
-		// Should delete all of the components
-		std::cout << "GO destructed\n";
-	}
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	std::unordered_map<std::string, IComponent*> GameObject::GetComponents()
-	{
-		return m_Components;
-	}
-
-	void GameObject::SetComponents(const std::unordered_map<std::string, IComponent*>& otherMap)
-	{
-		this->m_Components = otherMap;
-	}
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	void GameObject::AddComponent(std::string name, IComponent* component)
-	{
-		component->gameObj = this;
-		m_Components[name] = component;
-	}
-
-	bool GameObject::Serialize(Value& data, Document::AllocatorType& alloc)
-	{
-	
-		if (m_Components.find("CPTransform") != m_Components.end())
-		{
-			data.SetObject();
-			Value TransfromComponent;
-			m_Components["CPTransform"]->Serialize(TransfromComponent, alloc);
-			data.AddMember("Transform", TransfromComponent, alloc);
-		}
-		//We will return false if we fail to serialise a transform because
-		//ALL GAMEOBJECTS MUST HAVE TRANSFORM!
-		else return false;
-		if (m_Components.find("CPRigidBody") != m_Components.end())
-		{
-			Value RigidBodyComponent;
-			m_Components["CPRigidBody"]->Serialize(RigidBodyComponent,alloc);
-			data.AddMember("RigidBody", RigidBodyComponent, alloc);
-		}
-		if (m_Components.find("CPRender") != m_Components.end())
-		{
-			Value RenderComponent;
-			m_Components["CPRender"]->Serialize(RenderComponent, alloc);
-			data.AddMember("Render", RenderComponent, alloc);
-		}
-		return true;
-	}
-
-	bool GameObject::Deserialize(const Value& data)
-	{
-		bool HasTransform = data.HasMember("Transform");
-		bool HasRigidBody = data.HasMember("RigidBody");
-		bool HasRender = data.HasMember("Render");
-		if (data.IsObject())
-		{
-			if (HasTransform)
-			{
-				if (m_Components.find("CPTransform") == m_Components.end())
-				{
-					std::cout << "GO doesn't have a transform :C so we make one\n";
-					AddComponent("CPTransform", FACTORY->GetCMs()["CPTransform"]->Create());
-				}
-				const Value& transformValue = data["Transform"];
-				m_Components["CPTransform"]->Deserialize(transformValue);
-			}
-			//ALL GO's MUST HAVE TRANSFORM!
-			else return false; 
-			if (HasRigidBody)
-			{
-				if (m_Components.find("CPRigidBody") == m_Components.end())
-				{
-					std::cout << "GO doesn't have a rigidbody :C so we make one\n";
-					AddComponent("CPRigidBody", FACTORY->GetCMs()["CPRigidBody"]->Create());
-				}
-				const Value& rigidBodyValue = data["RigidBody"];
-				m_Components["CPRigidBody"]->Deserialize(rigidBodyValue);
-			}
-			if (HasRender)
-			{
-				if (m_Components.find("CPRender") == m_Components.end())
-				{
-					std::cout << "GO doesn't have a render :C so we make one\n";
-					AddComponent("CPRender", FACTORY->GetCMs()["CPRender"]->Create());
-				}
-				const Value& renderValue = data["Render"];
-				m_Components["CPRender"]->Deserialize(renderValue);
-			}
-		}
-		return true;
-	}
-
-	void GameObject::StartComponents()
-	{
-		for (auto const& component : m_Components)
-		{
-			component.second->Initialise();
-		}
-	}
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	int GameObject::GetID() const
-	{
-		return m_ID;
-	}
-
-	/*!***********************************************************************
-	 \brief
-
-
-	 \return
-
-	*************************************************************************/
-	void GameObject::SetID(int ID)
-	{
-		m_ID = ID;
 	}
 }
