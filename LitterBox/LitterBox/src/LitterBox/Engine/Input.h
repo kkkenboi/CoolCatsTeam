@@ -12,7 +12,6 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-
 #pragma once
 
 #include <GLFW/glfw3.h>
@@ -50,6 +49,12 @@ namespace LB {
 		KEY_Z,
 	};
 
+	enum class KeyTriggerType 
+	{
+		PAUSABLE,
+		NONPAUSABLE
+	};
+
 	/*!***********************************************************************
 	 \brief
 	 3 types of KeyEvent, Trigger, pressed and released
@@ -59,7 +64,6 @@ namespace LB {
 		TRIGGERED,
 		PRESSED,
 		RELEASED
-
 	};
 
 	/*!***********************************************************************
@@ -91,25 +95,25 @@ namespace LB {
 		 \brief
 		 Invoke Key overload press to notify all subscribers for all keycode presses
 		*************************************************************************/
-		void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
+		void GLFWKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
 
 		/*!***********************************************************************
 		 \brief
 		 Invoke Key overload press to notify all subscribers for all keycode presses
 		*************************************************************************/
-		void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
+		void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
 
 		/*!***********************************************************************
 		 \brief
 		 Subscribes the key event to register/notify when the event occurs
 		*************************************************************************/
-		void SubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent);
+		void SubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent, KeyTriggerType triggerType = KeyTriggerType::PAUSABLE);
 
 		/*!***********************************************************************
 		 \brief
 		 Unsubscribes the key where it stop its interest in listening to the the key input.
 		*************************************************************************/
-		void UnsubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent);
+		void UnsubscribeFromKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent, KeyTriggerType triggerType = KeyTriggerType::PAUSABLE);
 
 		bool IsKeyPressed(KeyCode key);
 
@@ -129,7 +133,7 @@ namespace LB {
 		 \brief
 		 Map create a new pair a keycode to key when it doesnt exist
 		*************************************************************************/
-		std::map<KeyCode, Key> inputKeys;
+		std::map<KeyCode, Key> inputKeys, inputKeysPausable;
 
 		bool inputKeysLast[GLFW_KEY_LAST] { false }, inputKeysCurr[GLFW_KEY_LAST]{ false };
 	};
@@ -146,11 +150,11 @@ namespace LB {
 	\brief
 	 Invoke Key overload press to notify all subscribers for all keycode presses
 	*************************************************************************/
-	void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
+	void GLFWKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
 
 	/*!***********************************************************************
 	 \brief
 	 Invoke Key overload press to notify all subscribers for all keycode presses
 	*************************************************************************/
-	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
+	void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
 }

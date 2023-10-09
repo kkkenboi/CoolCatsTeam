@@ -184,8 +184,8 @@ namespace LB
 		SetSystemName("Debug System");
 
 		//--------------------Debugging input registering---------------------
-		INPUT->SubscribeToKey(ToggleDebugOn, m_debugToggleKey, KeyEvent::TRIGGERED);
-		INPUT->SubscribeToKey(LB::StepPhysics, m_stepPhysicsKey, KeyEvent::TRIGGERED);
+		INPUT->SubscribeToKey(ToggleDebugOn, m_debugToggleKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		INPUT->SubscribeToKey(LB::StepPhysics, m_stepPhysicsKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		//--------------------Drawing Setup---------------------
 		wid_div = { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };

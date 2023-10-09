@@ -47,14 +47,11 @@ namespace LB
 
 		glfwPollEvents();
 
-		for (auto key = inputKeys.begin(); key != inputKeys.end(); ++key) 
+		// Trigger non-pausable key press events
+		for (auto key = inputKeys.begin(); key != inputKeys.end(); ++key)
 		{
-			// TODO: Refactor pausing input, have two maps, one affected by time, one not
-			if (TIME->IsPaused() && !(key->first == KeyCode::KEY_U || key->first == KeyCode::KEY_J || key->first == KeyCode::KEY_I || key->first == KeyCode::KEY_L)) continue;
-
 			if (inputKeysCurr[(int)key->first] && !inputKeysLast[(int)key->first])
 			{
-
 				inputKeys[key->first].onTrigger.Invoke(); //invoke, notifying all subscribers for the keycode on Trigger
 				inputKeys[key->first].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
 			}
@@ -65,6 +62,25 @@ namespace LB
 			else if (!inputKeysCurr[(int)key->first] && inputKeysLast[(int)key->first])
 			{
 				inputKeys[key->first].onReleased.Invoke(); //invoke, notifying all subscribers for the keycode on Release
+			}
+		}
+
+		// Trigger pausable key press events
+		if (TIME->IsPaused()) return;
+		for (auto key = inputKeysPausable.begin(); key != inputKeysPausable.end(); ++key)
+		{
+			if (inputKeysCurr[(int)key->first] && !inputKeysLast[(int)key->first])
+			{
+				inputKeysPausable[key->first].onTrigger.Invoke(); //invoke, notifying all subscribers for the keycode on Trigger
+				inputKeysPausable[key->first].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
+			}
+			else if (inputKeysCurr[(int)key->first] && inputKeysLast[(int)key->first])
+			{
+				inputKeysPausable[key->first].onPressed.Invoke(); //invoke, notifying all subscribers for the keycode on Press
+			}
+			else if (!inputKeysCurr[(int)key->first] && inputKeysLast[(int)key->first])
+			{
+				inputKeysPausable[key->first].onReleased.Invoke(); //invoke, notifying all subscribers for the keycode on Release
 			}
 		}
 	}
@@ -86,7 +102,7 @@ namespace LB
 	 \return
 	 void
 	*************************************************************************/
-	void InputSystem::InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod)
+	void InputSystem::GLFWKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod)
 	{
 		UNREFERENCED_PARAMETER(pwin);
 		UNREFERENCED_PARAMETER(scancode);
@@ -110,9 +126,9 @@ namespace LB
 	 \return
 	 void
 	*************************************************************************/
-	void InputSystem::InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) //overload function due to  glfw mouscallback have different sets of parameters
+	void InputSystem::GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod) //overload function due to  glfw mouscallback have different sets of parameters
 	{
-		InvokeKeyPressed(pwin, button, 0, action, mod);
+		GLFWKeyPressed(pwin, button, 0, action, mod);
 	}
 
 	/*!***********************************************************************
@@ -121,19 +137,40 @@ namespace LB
 	 \return
 	 void
 	*************************************************************************/
-	void InputSystem::SubscribeToKey(Event<>::func_ptr function,  KeyCode key, KeyEvent keyEvent)
+	void InputSystem::SubscribeToKey(Event<>::func_ptr function,  KeyCode key, KeyEvent keyEvent, KeyTriggerType triggerType)
 	{
 		if (keyEvent == KeyEvent::TRIGGERED)
 		{
-			inputKeys[key].onTrigger.Subscribe(function, KEY_EVENT_PRIORITY);
+			if (triggerType == KeyTriggerType::PAUSABLE) 
+			{
+				inputKeysPausable[key].onTrigger.Subscribe(function, KEY_EVENT_PRIORITY);
+			}
+			else 
+			{
+				inputKeys[key].onTrigger.Subscribe(function, KEY_EVENT_PRIORITY);
+			}
 		}
 		else if (keyEvent == KeyEvent::PRESSED)
 		{
-			inputKeys[key].onPressed.Subscribe(function, KEY_EVENT_PRIORITY);
+			if (triggerType == KeyTriggerType::PAUSABLE)
+			{
+				inputKeysPausable[key].onPressed.Subscribe(function, KEY_EVENT_PRIORITY);
+			}
+			else
+			{
+				inputKeys[key].onPressed.Subscribe(function, KEY_EVENT_PRIORITY);
+			}
 		}
 		else if (keyEvent == KeyEvent::RELEASED)
 		{
-			inputKeys[key].onReleased.Subscribe(function, KEY_EVENT_PRIORITY);
+			if (triggerType == KeyTriggerType::PAUSABLE)
+			{
+				inputKeysPausable[key].onReleased.Subscribe(function, KEY_EVENT_PRIORITY);
+			}
+			else
+			{
+				inputKeys[key].onReleased.Subscribe(function, KEY_EVENT_PRIORITY);
+			}
 		}
 	}
 
@@ -143,7 +180,7 @@ namespace LB
 	 \return
 	 void
 	*************************************************************************/
-	void InputSystem::UnsubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent)
+	void InputSystem::UnsubscribeFromKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent, KeyTriggerType triggerType)
 	{
 		if (keyEvent == KeyEvent::TRIGGERED)
 		{
@@ -166,8 +203,8 @@ namespace LB
 	 \return
 	 void
 	*************************************************************************/
-	void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
-		INPUT->InvokeKeyPressed(pwin, key, scancode, action, mod);
+	void GLFWKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
+		INPUT->GLFWKeyPressed(pwin, key, scancode, action, mod);
 	}
 
 	/*!***********************************************************************
@@ -176,8 +213,8 @@ namespace LB
 	 \return
 	 void
 	*************************************************************************/
-	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod) {
-		INPUT->InvokeKeyPressed(pwin, button, action, mod);
+	void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod) {
+		INPUT->GLFWKeyPressed(pwin, button, action, mod);
 	}
 }
 

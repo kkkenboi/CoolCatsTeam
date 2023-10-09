@@ -97,7 +97,7 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Pause & Debug example
-	LB::INPUT->SubscribeToKey(TogglePause, KeyCode::KEY_U, LB::KeyEvent::TRIGGERED);
+	LB::INPUT->SubscribeToKey(TogglePause, KeyCode::KEY_U, LB::KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Player example

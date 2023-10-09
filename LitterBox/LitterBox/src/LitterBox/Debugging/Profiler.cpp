@@ -38,8 +38,8 @@ namespace LB
 		else
 			std::cerr << "Profiling System already exist" << std::endl;
 
-		INPUT->SubscribeToKey(LB::DumpGeneralInfo, dumpGeneralInfoKey, KeyEvent::TRIGGERED);
-		INPUT->SubscribeToKey(LB::DumpFrameInfo, dumpFrameInfoKey, KeyEvent::TRIGGERED);
+		INPUT->SubscribeToKey(LB::DumpGeneralInfo, dumpGeneralInfoKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		INPUT->SubscribeToKey(LB::DumpFrameInfo, dumpFrameInfoKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		TIME->onFrameEnd.Subscribe(LB::SwapSystemInfoMapBuffer);
 	}
@@ -50,8 +50,8 @@ namespace LB
 	*************************************************************************/
 	void ProfilerManager::Destroy()
 	{
-		INPUT->UnsubscribeToKey(LB::DumpGeneralInfo, dumpGeneralInfoKey, KeyEvent::TRIGGERED);
-		INPUT->UnsubscribeToKey(LB::DumpFrameInfo, dumpFrameInfoKey, KeyEvent::TRIGGERED);
+		INPUT->UnsubscribeFromKey(LB::DumpGeneralInfo, dumpGeneralInfoKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		INPUT->UnsubscribeFromKey(LB::DumpFrameInfo, dumpFrameInfoKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		TIME->onFrameEnd.Unsubscribe(LB::SwapSystemInfoMapBuffer);
 	}

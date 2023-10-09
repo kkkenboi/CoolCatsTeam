@@ -182,6 +182,12 @@ namespace LB {
 	*************************************************************************/
 	void Time::SetTimeScale(double newTimeScale)
 	{
+		if (newTimeScale < 0.0) 
+		{
+			DebuggerLogWarning("Time Scale cannot be less than 0!");
+			return;
+		}
+
 		m_timeScale = newTimeScale;
 		m_fixedDeltaTime = m_unscaledFixedDeltaTime * m_timeScale;
 	}
