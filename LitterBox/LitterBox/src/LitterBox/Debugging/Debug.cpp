@@ -18,12 +18,12 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
 #include "Debug.h"
-#include <iostream>
 #include <sstream>
 
-#include <csignal>							// For getting crash signals
-#include "spdlog/spdlog.h"					// For logging information to files
-#include "spdlog/sinks/basic_file_sink.h"	// File sinks
+#include <csignal>								// For getting crash signals
+#include "spdlog/spdlog.h"						// For logging information to files
+#include "spdlog/sinks/basic_file_sink.h"		// File sink
+#include "spdlog/sinks/stdout_color_sinks.h"	// Console sink
 
 //-----------------Pre-defines------------------------------
 constexpr int CIRCLE_LINES{ 20 };
@@ -38,6 +38,7 @@ namespace LB
 	//------------------File logger--------------------
 	std::shared_ptr<spdlog::logger> debugInfoLogger;
 	std::shared_ptr<spdlog::logger> crashInfoLogger;
+	std::shared_ptr<spdlog::logger> consoleLogger;
 
 	Debugger* DEBUG = nullptr;
 	/*!***********************************************************************
@@ -125,12 +126,21 @@ namespace LB
 	{
 		//--------------------Loggers Setup---------------------
 		debugInfoLogger = spdlog::basic_logger_mt("DEBUG LOGGER", "Logs/DebugLog.txt");
-		debugInfoLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+		debugInfoLogger->set_pattern("[%H:%M:%S] [%L] %v");
 		debugInfoLogger->set_level(spdlog::level::debug);
 
-		crashInfoLogger = spdlog::basic_logger_mt("CrashLogger", "../Logs/CrashLog.txt");
-		crashInfoLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] %v");
+		crashInfoLogger = spdlog::basic_logger_mt("CRASH LOGGER", "../Logs/CrashLog.txt");
+		crashInfoLogger->set_pattern("[%H:%M:%S] [%L] %v");
 		crashInfoLogger->set_level(spdlog::level::err);
+
+		consoleLogger = spdlog::stdout_color_mt("CONSOLE LOGGER");
+		consoleLogger->set_pattern("%^[%H:%M:%S] [%L] %v%$");
+		consoleLogger->set_level(spdlog::level::debug);
+
+		// Clear the debug log for logging
+		std::ofstream logFile("Logs/DebugLog.txt", std::ios::trunc);
+		logFile.close();
+
 	}
 
 	/*!***********************************************************************
@@ -139,9 +149,6 @@ namespace LB
 	*************************************************************************/
 	void FlushDebugLog()
 	{
-		std::ofstream logFile("Logs/DebugLog.txt", std::ios::trunc);
-		logFile.close();
-
 		// Log all debug info on exit
 		debugInfoLogger->flush();
 	}
@@ -154,7 +161,7 @@ namespace LB
 	{
 		// Flush the debug log as well
 		FlushDebugLog();
-		
+
 		std::ofstream logFile("Logs/CrashLog.txt", std::ios::trunc);
 		logFile.close();
 
@@ -177,8 +184,8 @@ namespace LB
 		SetSystemName("Debug System");
 
 		//--------------------Debugging input registering---------------------
-		INPUT->SubscribeToKey(ToggleDebugOn, m_debugToggleKey, KeyEvent::TRIGGERED);
-		INPUT->SubscribeToKey(LB::StepPhysics, m_stepPhysicsKey, KeyEvent::TRIGGERED);
+		INPUT->SubscribeToKey(ToggleDebugOn, m_debugToggleKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		INPUT->SubscribeToKey(LB::StepPhysics, m_stepPhysicsKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		//--------------------Drawing Setup---------------------
 		wid_div = { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
@@ -417,26 +424,62 @@ namespace LB
 	\brief
 	 Log prints a given message and the file that called it and from which line.
 	*************************************************************************/
-	void Debugger::Log(std::string const& message, const char* file, int line)
+	void Debugger::Log(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
 		output << "[" << file << ":" << line << "] " << message;
 
 		// Print to console
-		fprintf(stdout, "[DEBUGGER LOG] %s\n", output.str().c_str());
+		consoleLogger->debug(output.str());
 
-		// Save to debug file
+		// Save to debug file and flush it
 		debugInfoLogger->debug(output.str());	
+		FlushDebugLog();
 	}
+
+	void Debugger::LogFormat(const char* file, int line, const char* format, ...)
+	{
+		va_list args;
+		va_start(args, format);
+
+		char cStrBuffer[512];
+		vsnprintf(cStrBuffer, 512, format, args);
+
+		va_end(args);
+
+		Log(file, line, std::string(cStrBuffer));
+	}
+
 
 	/*!***********************************************************************
 	\brief
 	 LogWarning does the same thing as log but this time prints an additional
 	 word WARNING! so you know it's serious.
 	*************************************************************************/
-	void Debugger::LogWarning(std::string const& message, const char* file, int line)
+	void Debugger::LogWarning(const char* file, int line, std::string const& message)
 	{
-		fprintf(stdout, "[DEBUGGER WARNING!] [%s:%d] %s\n", file, line, message.c_str());
+		std::ostringstream output;
+		output << "[" << file << ":" << line << "] " << message;
+
+		// Print to console
+		consoleLogger->warn(output.str());
+
+		// Save to debug file and flush it
+		debugInfoLogger->warn(output.str());
+		FlushDebugLog();
+	}
+
+	void Debugger::LogWarningFormat(const char* file, int line, const char* format, ...)
+	{
+		va_list args;
+		va_start(args, format);
+
+		char cStrBuffer[512];
+		vsnprintf(cStrBuffer, 512, format, args);
+
+		va_end(args);
+
+		LogWarning(file, line, std::string(cStrBuffer));
 	}
 
 	/*!***********************************************************************
@@ -444,21 +487,64 @@ namespace LB
 	 LogError does the same thing as LogWarning but this time prints an additional
 	 word ERROR!! so you know it's even more serious.
 	*************************************************************************/
-	void Debugger::LogError(std::string const& message, const char* file, int line)
+	void Debugger::LogError(const char* file, int line, std::string const& message)
 	{
-		fprintf(stderr, "[DEBUGGER ERROR!!] [%s:%d] %s\n", file, line, message.c_str());
+		std::ostringstream output;
+		output << "[" << file << ":" << line << "] " << message;
 
+		// Print to console
+		consoleLogger->error(output.str());
+
+		// Save to debug file and flush it
+		debugInfoLogger->error(output.str());
+		FlushDebugLog();
+
+		// Then assert
+	}
+
+	void Debugger::LogErrorFormat(const char* file, int line, const char* format, ...)
+	{
+		va_list args;
+		va_start(args, format);
+
+		char cStrBuffer[512];
+		vsnprintf(cStrBuffer, 512, format, args);
+
+		va_end(args);
+
+		LogError(file, line, std::string(cStrBuffer));
 	}
 
 	/*!***********************************************************************
 	\brief
 	 Assert prints out a debug line if a specific condition is not met.
 	*************************************************************************/
-	void Debugger::Assert(bool expectedCondition, std::string const& message, const char* file, int line)
+	void Debugger::Assert(const char* file, int line, bool expectedCondition, std::string const& message)
 	{
 		if (!expectedCondition)
 		{
-			fprintf(stderr, "[DEBUGGER ASSERT!!] [%s:%d] %s\n", file, line, message.c_str());
+			std::ostringstream output;
+			output << "[" << file << ":" << line << "] " << message;
+
+			// Print to console
+			consoleLogger->error(output.str());
+
+			// Save to debug file and flush it
+			debugInfoLogger->error(output.str());
+			FlushDebugLog();
 		}
+	}
+
+	void Debugger::AssertFormat(const char* file, int line, bool expectedCondition, const char* format, ...)
+	{
+		va_list args;
+		va_start(args, format);
+
+		char cStrBuffer[512];
+		vsnprintf(cStrBuffer, 512, format, args);
+
+		va_end(args);
+
+		Assert(file, line, expectedCondition, std::string(cStrBuffer));
 	}
 }

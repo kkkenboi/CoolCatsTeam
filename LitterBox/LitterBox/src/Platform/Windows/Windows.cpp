@@ -81,8 +81,8 @@ namespace LB
 
         // Set GLFW callbacks
         glfwSetFramebufferSizeCallback(m_Data.m_PtrToWindow, FrameBufferCB);
-        glfwSetKeyCallback(m_Data.m_PtrToWindow,  InvokeKeyPressed);
-        glfwSetMouseButtonCallback(m_Data.m_PtrToWindow, InvokeKeyPressed);
+        glfwSetKeyCallback(m_Data.m_PtrToWindow, GLFWKeyPressed);
+        glfwSetMouseButtonCallback(m_Data.m_PtrToWindow, GLFWKeyPressed);
         glfwSetInputMode(m_Data.m_PtrToWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
         // Initialize Glad

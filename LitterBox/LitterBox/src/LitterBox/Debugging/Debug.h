@@ -31,10 +31,17 @@ namespace LB
 	#define DebuggerFileName (std::string(__FILE__).substr(std::string(__FILE__).rfind("\\") + 1))
 
 	// Macros for Debugging, calls the respective functions with __FILE__ and __LINE__
-	#define DebuggerAssert(expectedCondition, message) LB::DEBUG->Assert(expectedCondition, message, DebuggerFileName.c_str(), __LINE__)
-	#define DebuggerLog(message) LB::DEBUG->Log(message, DebuggerFileName.c_str(), __LINE__)
-	#define DebuggerLogWarning(message) LB::DEBUG->LogWarning(message, DebuggerFileName.c_str(), __LINE__)
-	#define DebuggerLogError(message) LB::DEBUG->LogError(message, DebuggerFileName.c_str(), __LINE__)
+	#define DebuggerLog(message) LB::DEBUG->Log(DebuggerFileName.c_str(), __LINE__, message)
+	#define DebuggerLogFormat(format, ...) LB::DEBUG->LogFormat(DebuggerFileName.c_str(), __LINE__, format, __VA_ARGS__)
+
+	#define DebuggerLogWarning(message) LB::DEBUG->LogWarning(DebuggerFileName.c_str(), __LINE__, message)
+	#define DebuggerLogWarningFormat(format, ...) LB::DEBUG->LogWarningFormat(DebuggerFileName.c_str(), __LINE__, format, __VA_ARGS__)
+
+	#define DebuggerLogError(message) LB::DEBUG->LogError(DebuggerFileName.c_str(), __LINE__, message)
+	#define DebuggerLogErrorFormat(format, ...) LB::DEBUG->LogErrorFormat(DebuggerFileName.c_str(), __LINE__, format, __VA_ARGS__)
+
+	#define DebuggerAssert(expectedCondition, message) LB::DEBUG->Assert(DebuggerFileName.c_str(), __LINE__, expectedCondition, message)
+	#define DebuggerAssertFormat(expectedCondition, format, ...) LB::DEBUG->AssertFormat(DebuggerFileName.c_str(), __LINE__, expectedCondition, format, __VA_ARGS__)
 
 	/*!***********************************************************************
 	\brief
@@ -142,27 +149,35 @@ namespace LB
 		\brief
 		 Assert prints out a debug line if a specific condition is not met.
 		*************************************************************************/
-		void Assert(bool expectedCondition, std::string const& message, const char* file = "Unnamed", int line = 0);
+		void Assert(const char* file, int line, bool expectedCondition, std::string const& message);
+
+		void AssertFormat(const char* file, int line, bool expectedCondition, const char* format, ...);
 
 		/*!***********************************************************************
 		\brief
 		 Log prints a given message and the file that called it and from which line.
 		*************************************************************************/
-		void Log(std::string const& message, const char* file = "Unnamed", int line = 0);
+		void Log(const char* file, int line, std::string const& message);
+
+		void LogFormat(const char* file, int line, const char* format, ...);
 
 		/*!***********************************************************************
 		\brief
 		 LogWarning does the same thing as log but this time prints an additional
 		 word WARNING! so you know it's serious.
 		*************************************************************************/
-		void LogWarning(std::string const& message, const char* file = "Unnamed", int line = 0);
+		void LogWarning(const char* file, int line, std::string const& message);
+
+		void LogWarningFormat(const char* fil, int line, const char* format, ...);
 
 		/*!***********************************************************************
 		\brief
 		 LogError does the same thing as LogWarning but this time prints an additional
 		 word ERROR!! so you know it's even more serious.
 		*************************************************************************/
-		void LogError(std::string const& message, const char* file = "Unnamed", int line = 0);
+		void LogError(const char* file, int line, std::string const& message);
+
+		void LogErrorFormat(const char* file, int line, const char* format, ...);
 
 		/*!***********************************************************************
 		\brief
