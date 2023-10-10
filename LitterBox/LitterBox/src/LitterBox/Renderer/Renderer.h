@@ -117,18 +117,6 @@ namespace Renderer {
 	struct quad {
 		std::array<Vertex, 4> data;
 	};
-
-	//NOTE: because index data type is unsigned short
-	//the maximum number of vectors allowed is 65535
-	//therefore maximum number of quads allowed is 16383
-
-	/*!***********************************************************************
-	\brief
-	 Struct of the indices required to draw one quad.
-	*************************************************************************/
-	struct index {
-		std::array<unsigned short, 6> indexes;
-	};
 	//-----------------------Vertex data------------------------
 
 	//---------------------TEXTURES-------------------------------------------
@@ -340,6 +328,15 @@ namespace Renderer {
 		 Type of render object
 		*************************************************************************/
 		void update_buff();
+		/*!***********************************************************************
+		\brief
+		 change_render_state will change the indices in the index buffer so that
+		 a particular will or will not be shown.
+
+		\param object
+		 The CPRender object which you want to either show or hide.
+		*************************************************************************/
+		void change_render_state(const LB::CPRender& object);
 	};
 
 	//The actual system that will get initialized into the engine
@@ -358,7 +355,6 @@ namespace Renderer {
 
 		Renderer bg_renderer;
 		Renderer object_renderer;
-		Renderer debug_renderer;
 	public:
 
 		/*!***********************************************************************
@@ -497,6 +493,20 @@ namespace Renderer {
 		 Handle to the shader program of the render system in GPU.
 		*************************************************************************/
 		inline unsigned int get_shader() { return shader_program; }
+		/*!***********************************************************************
+		\brief
+		 change_object_state is a way for the CPRender object to tell it's renderer
+		 that they either do not want to or want to be shown. This is achieved by
+		 changing the indices in the index buffer so the CPRender object quad is not
+		 rendered.
+
+		\param r_type
+		 The type of render object
+
+		\param obj
+		 Poitner to a render object that was just created
+		*************************************************************************/
+		inline void change_object_state(Renderer_Types r_type, const LB::CPRender* obj);
 	};
 
 	//A pointer to the system object in the core engine

@@ -118,4 +118,16 @@ namespace Renderer {
 		RT_DEBUG,
 		RT_UI
 	};
+
+	//NOTE: because index data type is unsigned short
+	//the maximum number of vectors allowed is 65535
+	//therefore maximum number of quads allowed is 16383
+
+	/*!***********************************************************************
+	\brief
+	 Struct of the indices required to draw one quad.
+	*************************************************************************/
+	struct index {
+		std::array<unsigned short, 6> indexes;
+	};
 }

@@ -252,6 +252,7 @@ namespace LB
 		unsigned int									frame;
 		float											time_elapsed;
 		std::queue<std::pair<const  Renderer::Animation*, bool>>	animation;
+		Renderer::index									indices;
 		bool initialized{ false };
 
 	public:
@@ -407,10 +408,25 @@ namespace LB
 
 		/*!***********************************************************************
 		\brief
+		 Function that gets the indices of the quad the CPRender object is using
+		*************************************************************************/
+		inline const Renderer::index get_indices() const {
+			return indices;
+		}
+
+		/*!***********************************************************************
+		\brief
 		 Function that is incharge of play the animation in the front of the queue
 		 based on time and not frames.
 		*************************************************************************/
 		void animate();
+
+		/*!***********************************************************************
+		\brief
+		 Turns on or off the rendering of the particular instance of the class.
+		 Depending on the previous state of the object.
+		*************************************************************************/
+		void set_active();
 	};
 
 

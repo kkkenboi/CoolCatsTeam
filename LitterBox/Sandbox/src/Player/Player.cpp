@@ -38,6 +38,14 @@ void spawn2500() {
 	}
 }
 
+void hide2500() {
+	if (!test)
+		return;
+	for (int i{ 0 }; i < 2500; ++i) {
+		test[i]->GetComponent<CPRender>("CPRender")->set_active();
+	}
+}
+
 /*!***********************************************************************
 \brief
  Initialises the player and all its components (also subscribing key events)
@@ -65,6 +73,7 @@ void Player::Initialise()
 	INPUT->SubscribeToKey(AnimLeft, KeyCode::KEY_A, KeyEvent::TRIGGERED);
 	INPUT->SubscribeToKey(AnimDown, KeyCode::KEY_S, KeyEvent::TRIGGERED);
 	INPUT->SubscribeToKey(spawn2500, KeyCode::KEY_P, KeyEvent::TRIGGERED);
+	INPUT->SubscribeToKey(hide2500, KeyCode::KEY_H, KeyEvent::TRIGGERED);
 
 	PlayerObj = playerObj;
 }

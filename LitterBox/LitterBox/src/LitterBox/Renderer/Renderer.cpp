@@ -26,6 +26,10 @@
 
 #include "LitterBox/Engine/Time.h"
 
+//---------------------------------DEFINES-------------------------------
+constexpr Renderer::index inactive_idx{ 0,0,0,0,0 };
+//---------------------------------DEFINES-------------------------------
+
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
 /*!***********************************************************************
 \brief
@@ -183,7 +187,8 @@ LB::CPRender::CPRender(
 	Renderer::Renderer_Types rend_type) :
 	renderer_id{ rend_type }, position{ pos }, scal{ scale }, w{ width }, h{ height },
 	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ texture },
-	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }, rotation{ 0.f }, transform{nullptr}
+	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }, rotation{ 0.f }, transform{ nullptr },
+	indices{}
 {
 	if (!Renderer::GRAPHICS) {
 		std::cerr << "GRAPHICS SYSTEM NOT INITIALIZED" << std::endl;
@@ -192,6 +197,11 @@ LB::CPRender::CPRender(
 
 
 	quad_id = Renderer::GRAPHICS->create_object(renderer_id, this);
+
+	unsigned short idx{ (unsigned short)(quad_id * 4) };
+
+	indices = Renderer::index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
+			(unsigned short)(idx + 2), (unsigned short)(idx + 3), idx} };
 }
 /*!***********************************************************************
 \brief
@@ -295,6 +305,15 @@ void LB::CPRender::animate()
 		return;
 
 	uv = *animation.front().first->get_uv(frame);
+}
+
+void LB::CPRender::set_active()
+{
+	activated = !activated;
+	if (Renderer::GRAPHICS)
+		Renderer::GRAPHICS->change_object_state(renderer_id, this);
+	else
+		std::cerr << "GRAPHICS system not initialized" << std::endl;
 }
 //########################ANIMATION##############################
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
@@ -425,15 +444,15 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 	quad_buff[i].data[2].pos = { 0.5f, 0.5f   };//top right
 	quad_buff[i].data[3].pos = { -0.5f, 0.5f  };//top left
 
-	quad_buff[i].data[0].index = obj->texture;
-	quad_buff[i].data[1].index = obj->texture;
-	quad_buff[i].data[2].index = obj->texture;
-	quad_buff[i].data[3].index = obj->texture;
-
 	quad_buff[i].data[0].tex = { 0.f, 0.f };
 	quad_buff[i].data[1].tex = { 1.f, 0.f };
 	quad_buff[i].data[2].tex = { 1.f, 1.f };
 	quad_buff[i].data[3].tex = { 0.f, 1.f };
+
+	unsigned short idx{ (unsigned short)(i * 4) };
+
+	index_buff.at(i) = index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
+			(unsigned short)(idx + 2), (unsigned short)(idx + 3), idx} };
 
 	active_objs.emplace_back(obj);
 
@@ -466,12 +485,10 @@ void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 void Renderer::Renderer::update_buff()
 {
 	for (const LB::CPRender*& e : active_objs) {
-		unsigned int obj_index{ e->get_index() };
-		//create index in index buffer
-		unsigned short idx{ unsigned short(e->get_index() * 4) };
+		if (!e->activated)
+			continue;
 
-		index_buff.at(obj_index) = index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
-			(unsigned short)(idx + 2), (unsigned short)(idx + 3), idx} };
+		unsigned int obj_index{ e->get_index() };
 
 		if (e->get_queue_size()) {
 			const_cast<LB::CPRender*>(e)->animate();
@@ -510,6 +527,18 @@ void Renderer::Renderer::update_buff()
 		std::cerr << (int)err << std::endl;
 
 }
+/*!***********************************************************************
+\brief
+ change_render_state will change the indices in the index buffer so that
+ a particular will or will not be shown.
+
+\param object
+ The CPRender object which you want to either show or hide.
+*************************************************************************/
+void Renderer::Renderer::change_render_state(const LB::CPRender& object)
+{
+	index_buff.at(object.get_index()) = object.activated ? object.get_indices() : inactive_idx;
+}
 //----------------------------------------------RENDERER---------------------------------------------------
 
 //----------------------------------------------RENDERER-SYSTEM-------------------------------------------
@@ -525,8 +554,7 @@ LB::CPRender* test2;
 *************************************************************************/
 Renderer::RenderSystem::RenderSystem() :
 	object_renderer{Renderer_Types::RT_OBJECT},
-	bg_renderer{Renderer_Types::RT_BACKGROUND},
-	debug_renderer{Renderer_Types::RT_DEBUG}
+	bg_renderer{Renderer_Types::RT_BACKGROUND}
 {
 	//singleton that shiet
 	if (!GRAPHICS)
@@ -667,8 +695,6 @@ unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const 
 		return object_renderer.create_render_object(obj);
 	case Renderer_Types::RT_BACKGROUND:
 		return bg_renderer.create_render_object(obj);
-	case Renderer_Types::RT_DEBUG:
-		return debug_renderer.create_render_object(obj);
 	//TODO for UI and DEBUG
 	}
 	return 0;
@@ -693,8 +719,29 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 	case Renderer_Types::RT_BACKGROUND:
 		bg_renderer.remove_render_object(obj);
 		break;
-	case Renderer_Types::RT_DEBUG:
-		debug_renderer.remove_render_object(obj);
+	}
+}
+/*!***********************************************************************
+\brief
+ change_object_state is a way for the CPRender object to tell it's renderer
+ that they either do not want to or want to be shown. This is achieved by
+ changing the indices in the index buffer so the CPRender object quad is not
+ rendered.
+
+\param r_type
+ The type of render object
+
+\param obj
+ Poitner to a render object that was just created
+*************************************************************************/
+inline void Renderer::RenderSystem::change_object_state(Renderer_Types r_type, const LB::CPRender* obj)
+{
+	switch (r_type) {
+	case Renderer_Types::RT_OBJECT:
+		object_renderer.change_render_state(*obj);
+		break;
+	case Renderer_Types::RT_BACKGROUND:
+		bg_renderer.change_render_state(*obj);
 		break;
 	}
 }
@@ -702,38 +749,6 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 
 
 //----------------------------------------------TEXTURES--------------------------------------------
-///*!***********************************************************************
-//\brief
-// Constructor for the texture object
-//\param path
-// The file path of the texture image
-//*************************************************************************/
-//Renderer::Texture::Texture(const std::string& path) :
-//	id{ 0 }, file_path{ path }, local_buff{ nullptr },
-//	w{ 0 }, h{ 0 }, fluff{ 0 }
-//{
-//	stbi_set_flip_vertically_on_load(1);
-//
-//	local_buff = stbi_load(path.c_str(), &w, &h, &fluff, 4);
-//	if (!local_buff) {
-//		std::cerr << "Texture file path: " << path << " NOT FOUND!" << std::endl;
-//		return;
-//	}
-//
-//	glCreateTextures(GL_TEXTURE_2D, 1, &id);
-//	glTextureStorage2D(id, 1, GL_RGBA8, w, h);
-//	glTextureSubImage2D(id, 0, 0, 0, w, h,
-//		GL_RGBA, GL_UNSIGNED_BYTE, local_buff);
-//
-//	stbi_image_free(local_buff);
-//
-//
-//	glTextureParameteri(id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//	glTextureParameteri(id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-//
-//	//std::cout << "Picture specs: " << id << " " << w << " " << h << " " << fluff << std::endl;
-//}
-
 /*!***********************************************************************
 \brief
  Texture class destructor
