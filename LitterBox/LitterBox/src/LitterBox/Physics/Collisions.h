@@ -61,7 +61,7 @@ private:
 
 	LB::Vec2<float> m_pos;
 
-	float m_length;
+	float m_width;
 	float m_height;
 	float m_radius;
 
@@ -78,7 +78,7 @@ private:
 	  Constructor for the Collider class
 	*************************************************************************/
 	Collider(SHAPETYPE shape = NONE, LB::Vec2<float> pos = LB::Vec2<float>{ 0.f,0.f },
-		float length = 0.f, float height = 0.f, float radius = 0.f);
+		float width = 0.f, float height = 0.f, float radius = 0.f);
 
 	/*!***********************************************************************
       \brief

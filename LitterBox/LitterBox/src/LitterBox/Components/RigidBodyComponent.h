@@ -150,6 +150,9 @@ namespace LB
 		*************************************************************************/
 		void addImpulse(LB::Vec2<float> force);
 
+		void addRotation(float angle);
+
+
 		/*!***********************************************************************
 			\brief
 			Moves the CPRigidBody directly with a vector

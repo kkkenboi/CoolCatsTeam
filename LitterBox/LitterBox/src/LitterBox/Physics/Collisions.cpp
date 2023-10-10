@@ -41,7 +41,7 @@ Collider::Collider(SHAPETYPE shape, LB::Vec2<float> pos,
 {
 	this->m_shape = shape;
 	this->m_pos = pos;
-	this->m_length = length;
+	this->m_width = length;
 	this->m_height = height;
 	this->m_radius = radius;
 
@@ -64,8 +64,8 @@ void Collider::CreateAABB()
 	else if (this->m_shape == BOX)
 	{
 		this->m_aabb.m_c = m_pos;
-		this->m_aabb.m_min = LB::Vec2<float>{ m_pos.x - m_length / 2, m_pos.y - m_height / 2 };
-		this->m_aabb.m_max = LB::Vec2<float>{ m_pos.x + m_length / 2, m_pos.y + m_length / 2 };
+		this->m_aabb.m_min = LB::Vec2<float>{ m_pos.x - m_width / 2, m_pos.y - m_height / 2 };
+		this->m_aabb.m_max = LB::Vec2<float>{ m_pos.x + m_width / 2, m_pos.y + m_height / 2 };
 	}
 	else
 	{
@@ -85,8 +85,8 @@ void Collider::CreatePolygon()
 	// Polygon vertices creations goes from
 	// Top-Left -> Top-Right -> Bottom-Right -> Bottom-Left
 	// Get vertices for a polygon
-	float left = -m_length / 2;
-	float right = m_length / 2;
+	float left = -m_width / 2;
+	float right = m_width / 2;
 	float top = m_height / 2;
 	float bottom = -m_height / 2;
 

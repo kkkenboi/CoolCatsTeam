@@ -66,6 +66,9 @@ void Player::Initialise()
 	INPUT->SubscribeToKey(MoveDown, KeyCode::KEY_S, KeyEvent::PRESSED);
 	INPUT->SubscribeToKey(MoveLeft, KeyCode::KEY_A, KeyEvent::PRESSED);
 	INPUT->SubscribeToKey(MoveRight, KeyCode::KEY_D, KeyEvent::PRESSED);
+	INPUT->SubscribeToKey(RotateClockwise, KeyCode::KEY_E, KeyEvent::PRESSED);
+	INPUT->SubscribeToKey(RotateCounterClockwise, KeyCode::KEY_Q, KeyEvent::PRESSED);
+
 
 	// Anim events
 	INPUT->SubscribeToKey(AnimUp, KeyCode::KEY_W, KeyEvent::TRIGGERED);
@@ -126,6 +129,16 @@ void MoveRight()
 void MoveDown()
 {
 	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, -3000.f * (float)TIME->GetDeltaTime()});
+}
+
+void RotateClockwise()
+{
+	PlayerObj->GetComponent<CPRigidBody>()->addRotation(-0.1f);
+}
+
+void RotateCounterClockwise()
+{
+	PlayerObj->GetComponent<CPRigidBody>()->addRotation(0.1f);
 }
 
 /*!***********************************************************************
