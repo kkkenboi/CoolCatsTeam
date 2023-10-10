@@ -200,20 +200,20 @@ namespace LB
 		 \brief
 		  A function that Normalise Vec2, to find direction
 		*************************************************************************/
-		Vec2<T>& Normalise()	 const;
+		Vec2<T>& Normalise();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the magnitude of a Vec2
 		*************************************************************************/
-		T		 Length()		 const;
+		T		 Length();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the squared magnitude of a Vec2, this is when it did
 		  not sqrt.
 		*************************************************************************/
-		T		 LengthSquared() const;
+		T		 LengthSquared();
 
 		/*!***********************************************************************
 		 \brief
@@ -462,20 +462,20 @@ namespace LB
 		 \brief
 		  A function that Normalise Vec3, to find direction
 		*************************************************************************/
-		Vec3<T>& Normalise()	 const;
+		Vec3<T>& Normalise();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the magnitude of a Vec3
 		*************************************************************************/
-		T		 Length()		 const;
+		T		 Length();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the squared magnitude of a Vec3, this is when it did
 		  not sqrt.
 		*************************************************************************/
-		T		 LengthSquared() const;
+		T		 LengthSquared();
 
 		/*!***********************************************************************
 		 \brief
@@ -732,20 +732,20 @@ namespace LB
 		 \brief
 		  A function that Normalise Vec4, to find direction
 		*************************************************************************/
-		Vec4<T>& Normalise()	 const;
+		Vec4<T>& Normalise();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the magnitude of a Vec4
 		*************************************************************************/
-		T		 Length()		 const;
+		T		 Length();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the squared magnitude of a Vec4, this is when it did
 		  not sqrt.
 		*************************************************************************/
-		T		 LengthSquared() const;
+		T		 LengthSquared();
 
 		/*!***********************************************************************
 		 \brief
@@ -1197,8 +1197,9 @@ namespace LB
 	\return
 	 Vec2<T>&
 	*************************************************************************/
+	//Vec2<T>& Normalise()
 	template<typename T>
-	Vec2<T>& Vec2<T>::Normalise() const
+	Vec2<T>& Vec2<T>::Normalise()
 	{
 		T length = Length();
 
@@ -1215,7 +1216,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec2<T>::Length() const
+	T Vec2<T>::Length()
 	{
 		return (T)sqrt((double)LengthSquared());
 	}
@@ -1227,7 +1228,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec2<T>::LengthSquared() const
+	T Vec2<T>::LengthSquared()
 	{
 		return (x * x + y * y);
 	}
@@ -1715,7 +1716,7 @@ namespace LB
 	 Vec3<T>&
 	*************************************************************************/
 	template<typename T>
-	Vec3<T>& Vec3<T>::Normalise() const
+	Vec3<T>& Vec3<T>::Normalise()
 	{
 		T length = Length();
 
@@ -1733,7 +1734,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec3<T>::Length() const
+	T Vec3<T>::Length()
 	{
 		return (T)sqrt((double)LengthSquared());
 	}
@@ -1745,7 +1746,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec3<T>::LengthSquared() const
+	T Vec3<T>::LengthSquared()
 	{
 		return (x * x + y * y + z * z);
 	}
@@ -2270,7 +2271,7 @@ namespace LB
 	 Vec4<T>&
 	*************************************************************************/
 	template<typename T>
-	Vec4<T>& Vec4<T>::Normalise() const
+	Vec4<T>& Vec4<T>::Normalise()
 	{
 		T length = Length();
 
@@ -2289,7 +2290,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec4<T>::Length() const
+	T Vec4<T>::Length()
 	{
 		return (T)sqrt((double)LengthSquared());
 	}
@@ -2301,7 +2302,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec4<T>::LengthSquared() const
+	T Vec4<T>::LengthSquared()
 	{
 		return (x * x + y * y + z * z + w * w);
 	}
