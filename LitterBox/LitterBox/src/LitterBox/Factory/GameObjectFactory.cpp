@@ -86,7 +86,6 @@ namespace LB
 		m_ToUpdate = false;
 	}
 
-
 	/*!***********************************************************************
 	 \brief
 	 Destroys the factory
@@ -110,7 +109,6 @@ namespace LB
 	{
 		m_ComponentMakers[name] = newComponent;
 	}
-
 
 	/*!***********************************************************************
 	 \brief

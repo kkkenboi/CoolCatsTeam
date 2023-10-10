@@ -16,6 +16,7 @@
 #pragma once
 #include "pch.h"
 #include "Components.h"
+#include "Platform/Windows/Windows.h"
 #include "GameObjectManager.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Core/System.h"

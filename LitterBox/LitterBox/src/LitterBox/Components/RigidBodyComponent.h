@@ -1,0 +1,205 @@
+/*!************************************************************************
+ \file				RigidBodyComponent.h
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:       CSD2401A
+ \date				29/09/2023
+ \brief
+ This file contains functions of the CPRigidBody class.
+
+ CPRigidBody is a component that allows the GameObject to interact with other
+ physics game objects. If the game object wants to move, be pushed, etc. They
+ will need to add this RigidBody component.
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
+#pragma once
+#include "TransformComponent.h"
+#include "LitterBox/Physics/Collisions.h"
+
+namespace LB
+{
+	class CPRigidBody : public IComponent
+	{
+	public:
+
+		// Vectors here allow the user to know
+		// the current and previous location of the object
+		LB::Vec2<float> mPosition;
+		LB::Vec2<float> mPrevPosition;
+
+		// Vectors here allow the user to know
+		// which direection the object is moving towards
+		LB::Vec2<float> mVelocity;
+		LB::Vec2<float> mAcceleration;
+
+		float mRotation;
+		float mRotationalVelocity;
+
+	public:
+		CPTransform* transform;
+
+		// These data will not change will be set upon initialization
+		float mDensity;
+		float mMass; // Used for F = MA
+		float mInvMass;
+		float mRestitution; // How bouncy the object is
+		float mArea;
+
+		float mFriction;
+
+		bool isStatic;
+		bool isActive;
+
+		// For storing data for circles or rectangles
+		float mRadius;
+		float mWidth;
+		float mHeight;
+
+		SHAPETYPE mShapeType;
+
+		// =====
+		// TEST STUFF
+		// =====
+		int mNumberID;
+		// ==============
+
+		// =====
+		//  WRAP THIS SECTION IN A COLLIDER CLASS, separating from RigidBody
+		// =====
+		// Vertices and AABB
+
+		// Untransformed vertices (Vertices from origin)
+		LB::Vec2<float> mVertices[4];
+		LB::Vec2<float> mTransformedVertices[4];
+
+		AABB obj_aabb;
+		// =====
+		// PLS WRAP
+		// =====
+
+		bool mUpdateVerticesRequired;
+		bool mUpdateAABBRequired;
+
+		// =================
+		// Constructor
+		// =================
+		void Initialise() override
+		{
+			CreateRigidBody();
+		}
+
+		ComponentTypeID GetType() override
+		{
+			return C_CPRigidBody;
+		}
+
+		/*!***********************************************************************
+			\brief
+			Creates a CPRigidBody with default parameters stated in the function
+			definition
+		*************************************************************************/
+		void CreateRigidBody();
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override
+		{
+			std::cout << "Serialising RB\n";
+			data.SetObject();
+			data.AddMember("Width", mWidth, alloc);
+			data.AddMember("Height", mHeight, alloc);
+			data.AddMember("Density", mDensity, alloc);
+			return true;
+		}
+		bool Deserialize(const Value& data) override
+		{
+			std::cout << "Deserialising RB\n";
+			bool HasWidth = data.HasMember("Width");
+			bool HasHeight = data.HasMember("Height");
+			bool HasDensity = data.HasMember("Density");
+			if (data.IsObject())
+			{
+				if (HasWidth && HasHeight && HasDensity)
+				{
+					mWidth = data["Width"].GetFloat();
+					mHeight = data["Height"].GetFloat();
+					mDensity = data["Density"].GetFloat();
+					return true;
+				}
+			}
+			return false;
+		}
+
+	public:
+		/*!***********************************************************************
+			\brief
+			Gets the position of the CPRigidBody
+		*************************************************************************/
+		LB::Vec2<float> getPos();
+
+		/*!***********************************************************************
+			\brief
+			Adds a Force to the CPRigidBody
+		*************************************************************************/
+		void addForce(LB::Vec2<float> force);
+
+		/*!***********************************************************************
+			\brief
+			Adds an Impulse to the CPRigidBody
+		*************************************************************************/
+		void addImpulse(LB::Vec2<float> force);
+
+		/*!***********************************************************************
+			\brief
+			Moves the CPRigidBody directly with a vector
+		*************************************************************************/
+		void Move(LB::Vec2<float> vec);
+
+		/*!***********************************************************************
+			\brief
+			Moves the CPRigidBody directly to a certain position
+		*************************************************************************/
+		void MoveTo(LB::Vec2<float> position);
+
+		/*!***********************************************************************
+			\brief
+			Updates the CPRigidBody Box Vertices within its' data members
+		*************************************************************************/
+		void UpdateRigidBodyBoxVertices();
+
+		/*!***********************************************************************
+			\brief
+			Updates the AABB collider in the CPRigidBody's data members
+		*************************************************************************/
+		void UpdateRigidBodyAABB();
+
+		/*!***********************************************************************
+			\brief
+			Updates the position of the CPRigidBody
+		*************************************************************************/
+		void UpdateRigidBodyPos(float time);
+
+		/*!***********************************************************************
+			\brief
+			Updates the CPRigidBody's velocity
+		*************************************************************************/
+		void UpdateRigidBodyVel(float time);
+
+		/*!***********************************************************************
+			\brief
+			Override of the FixedUpdate() of IComponent
+			Updates the RigidBody within a fixed timestep
+			- Semi-implicit Euler system, updating velocity first then positions
+			- Also updates the Transform IComponent that is stored in CPRigidBody
+		*************************************************************************/
+		void FixedUpdate();
+
+		/*!***********************************************************************
+			\brief
+			This is the function that calls the debug drawer to draw all the
+			RigidBody collision boxes as well as their velocities
+		*************************************************************************/
+		void DebugDraw();
+	};
+}
