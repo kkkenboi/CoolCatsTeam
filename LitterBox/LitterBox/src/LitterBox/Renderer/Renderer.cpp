@@ -490,14 +490,6 @@ void Renderer::Renderer::update_buff()
 
 		unsigned int obj_index{ e->get_index() };
 
-		if (e->get_queue_size()) {
-			const_cast<LB::CPRender*>(e)->animate();
-			for (int i{ 0 }; i < 4; ++i) {
-				quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
-				quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
-			}
-		}
-
 		const_cast<LB::CPRender*>(e)->get_transform_data();
 		//set position based off camera mat
 		//edit color and uv coordinates and texture
@@ -526,6 +518,28 @@ void Renderer::Renderer::update_buff()
 	if (err != GL_NO_ERROR)
 		std::cerr << (int)err << std::endl;
 
+}
+/*!***********************************************************************
+\brief
+ update_anim is the function that will update all render object animations
+ if the object has any.
+*************************************************************************/
+void Renderer::Renderer::update_anim()
+{
+	for (const LB::CPRender*& e : active_objs) {
+		if (!e->activated)
+			continue;
+
+		unsigned int obj_index{ e->get_index() };
+
+		if (e->get_queue_size()) {
+			const_cast<LB::CPRender*>(e)->animate();
+			for (int i{ 0 }; i < 4; ++i) {
+				quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+				quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+			}
+		}
+	}
 }
 /*!***********************************************************************
 \brief
@@ -627,6 +641,20 @@ void Renderer::RenderSystem::Update()
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+}
+/*!***********************************************************************
+\brief
+ The FixedUpdate function is a time based update function that will only
+ be called after a set amount of time is passed or will be called multiple
+ times if application runs to slowly.
+
+ NOTE: For rendering context FixedUpdate is used for consistent aniamtion
+ regardless of framerate.
+*************************************************************************/
+void Renderer::RenderSystem::FixedUpdate()
+{
+	bg_renderer.update_anim();
+	object_renderer.update_anim();
 }
 /*!***********************************************************************
 \brief
