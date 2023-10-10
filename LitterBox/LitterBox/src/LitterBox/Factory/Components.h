@@ -39,9 +39,9 @@ namespace LB
 		C_CPNone = 0,
 		C_CPRigidBody,
 		C_CPTransform,
-		C_CPRender
+		C_CPRender,
+		C_CPScript
 	};
-
 
 	/*!***********************************************************************
 	 \brief
@@ -55,41 +55,42 @@ namespace LB
 		 \brief
 		 Initialises the component
 		*************************************************************************/
-		virtual void Initialise() {};
+		virtual void Initialise() {}
 
 		/*!***********************************************************************
 		 \brief
 		 Updates the component
 		*************************************************************************/
-		virtual void Update() {};
+		virtual void Update() {}
 
 		/*!***********************************************************************
 		 \brief
 		 Serialises the components based on its derived member's data
 		*************************************************************************/
-		virtual bool Serialize(Value&, Document::AllocatorType&) { return false; };
+		virtual bool Serialize(Value&, Document::AllocatorType&) { return false; }
 
 		/*!***********************************************************************
 		 \brief
 		 Deserialises the components based on its derived member's data
 		*************************************************************************/
-		virtual bool Deserialize(const Value&) { return false; };
+		virtual bool Deserialize(const Value&) { return false; }
 
 		/*!***********************************************************************
 		 \brief
 		 Destroys the component
 		*************************************************************************/
-		virtual void Destroy() {};
+		virtual void Destroy() {}
 
 		/*!***********************************************************************
 		 \brief
 		 Gets the type of the component
 		*************************************************************************/
-		ComponentTypeID GetType()	{ return TypeID; }
+		virtual ComponentTypeID GetType() = 0;
 
-		ComponentTypeID TypeID		{ C_CPNone };
+		//ComponentTypeID TypeID	{ C_CPNone };
 		GameObject*		gameObj		{ nullptr };
 	};
+
 	/*!***********************************************************************
 	\brief
 	 CPTransform is a default component that every game object will have. It
@@ -98,13 +99,9 @@ namespace LB
 	class CPTransform : public IComponent
 	{
 	public:
-		/*!***********************************************************************
-		\brief
-		 Component Initializer function
-		*************************************************************************/
-		void Initialise() override
+		ComponentTypeID GetType() override
 		{
-
+			return C_CPTransform;
 		}
 
 		/*!***********************************************************************
@@ -291,14 +288,21 @@ namespace LB
 		 Component object destructor
 		*************************************************************************/
 		~CPRender();
+
+		ComponentTypeID GetType() override
+		{
+			return C_CPRender;
+		}
+
 		/*!***********************************************************************
 		\brief
 		 Function that gets the transform component tied to a game object and
 		 sets the initialized flag to true so the component does not start reading
 		 from an unitilized or nullptr.
 		*************************************************************************/
-		void Initialise() override {
-			transform = gameObj->GetComponent<CPTransform>("CPTransform");
+		void Initialise() override 
+		{
+			transform = gameObj->GetComponent<CPTransform>();
 			initialized = true;
 		}
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
@@ -432,9 +436,8 @@ namespace LB
 	};
 
 
-	class CPRigidBody : public IComponent {
-
-
+	class CPRigidBody : public IComponent 
+	{
 	public:
 
 		// Vectors here allow the user to know
@@ -503,6 +506,11 @@ namespace LB
 			CreateRigidBody();
 		}
 
+		ComponentTypeID GetType() override
+		{
+			return C_CPRigidBody;
+		}
+
 		/*!***********************************************************************
 			\brief
 			Creates a CPRigidBody with default parameters stated in the function
@@ -538,7 +546,6 @@ namespace LB
 		}
 
 	public:
-
 		/*!***********************************************************************
 			\brief
 			Gets the position of the CPRigidBody
@@ -611,7 +618,6 @@ namespace LB
 
 	};
 
-
 	// Interface to make components and tag IDs
 	class ComponentMaker
 	{
@@ -642,4 +648,4 @@ namespace LB
 
 }
 
-#define CreateComponentMaker(ComponentType) FACTORY->InitCM ( #ComponentType, new ComponentMakerType<ComponentType>( C_##ComponentType ) );
+#define CreateComponentMaker(ComponentType, ComponentTypeID) FACTORY->InitCM (ComponentTypeID, new ComponentMakerType<ComponentType>( ComponentTypeID ) );

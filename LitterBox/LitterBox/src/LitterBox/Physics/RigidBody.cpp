@@ -33,7 +33,7 @@ namespace LB
     *************************************************************************/
     void CPRigidBody::CreateRigidBody()
     {
-        transform = gameObj->GetComponent<CPTransform>("CPTransform");
+        transform = gameObj->GetComponent<CPTransform>();
 
         this->mPosition = transform->GetPosition();
         this->mPrevPosition = mPosition;

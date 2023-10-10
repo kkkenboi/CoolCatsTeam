@@ -24,11 +24,12 @@
 #include "LitterBox/Core/System.h"
 #include <initializer_list>
 #include "LitterBox/Serialization/Serializer.h"
-
+#include <type_traits>
 
 namespace LB
 {
 	class IComponent; // Forward Declaration
+	enum ComponentTypeID;
 
 	/*!***********************************************************************
 	 \brief
@@ -60,26 +61,34 @@ namespace LB
 		 \brief
 		 Gets a specified component within the GameObject
 		*************************************************************************/
+		/*template <typename T>
+		T* GetComponent(std::string name) { return static_cast<T*>(m_Components[name]); }*/
+
 		template <typename T>
-		T* GetComponent(std::string name) { return static_cast<T*>(m_Components[name]); }
+		T* GetComponent() 
+		{ 
+			DebuggerAssertFormat(std::is_base_of<IComponent, T>::value, "Tried to get invalid component of type %s", typeid(T).name());
+
+			return static_cast<T*>(m_Components[T().GetType()]);;
+		}
 
 		/*!***********************************************************************
 		 \brief
 		 Gets all the components of the GameObject
 		*************************************************************************/
-		std::unordered_map<std::string, IComponent*> GetComponents();
+		std::unordered_map<ComponentTypeID, IComponent*> GetComponents();
 
 		/*!***********************************************************************
 		 \brief
 		 Sets all of the components of one GameObject to another map
 		*************************************************************************/
-		void SetComponents(const std::unordered_map<std::string, IComponent*>& );
+		void SetComponents(const std::unordered_map<ComponentTypeID, IComponent*>& );
 
 		/*!***********************************************************************
 		 \brief
 		 Adds a component to the GameObject
 		*************************************************************************/
-		void AddComponent(std::string name, IComponent* component);
+		void AddComponent(ComponentTypeID id, IComponent* component);
 
 		/*!***********************************************************************
 		 \brief
@@ -112,9 +121,9 @@ namespace LB
 		void SetID(int ID);
 
 	private:
-		std::unordered_map<std::string, IComponent*>	m_Components;
-		int												m_ID;
-		bool											m_IsActive;
+		std::unordered_map<ComponentTypeID, IComponent*>	m_Components;
+		int													m_ID;
+		bool												m_IsActive;
 	};
 
 	/*!***********************************************************************

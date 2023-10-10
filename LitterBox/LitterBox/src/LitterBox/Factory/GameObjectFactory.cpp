@@ -41,9 +41,9 @@ namespace LB
 
 		// Deserialise the data file and initialise ComponentMakers
 		// 
-		CreateComponentMaker(CPTransform);
-		CreateComponentMaker(CPRender);
-		CreateComponentMaker(CPRigidBody);
+		CreateComponentMaker(CPTransform, C_CPTransform);
+		CreateComponentMaker(CPRender, C_CPRender);
+		CreateComponentMaker(CPRigidBody,C_CPRigidBody);
 
 		DebuggerLog("Factory Initialised");
 	}
@@ -106,7 +106,7 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void FactorySystem::InitCM(const std::string& name, ComponentMaker* newComponent)
+	void FactorySystem::InitCM(const ComponentTypeID& name, ComponentMaker* newComponent)
 	{
 		m_ComponentMakers[name] = newComponent;
 	}
@@ -119,9 +119,9 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void FactorySystem::DeleteAllCMs(std::map<std::string, ComponentMaker*> ComponentMakers)
+	void FactorySystem::DeleteAllCMs(std::map<ComponentTypeID, ComponentMaker*> ComponentMakers)
 	{
-		for (std::map<std::string, ComponentMaker*>::iterator it = ComponentMakers.begin(); it != ComponentMakers.end(); ++it)
+		for (std::map<ComponentTypeID, ComponentMaker*>::iterator it = ComponentMakers.begin(); it != ComponentMakers.end(); ++it)
 		{
 			delete it->second;
 		}
@@ -148,7 +148,7 @@ namespace LB
 	 \return
 	 A pointer to the GameObject
 	*************************************************************************/
-	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<std::string> components, Vec2<float> pos)
+	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<ComponentTypeID> components, Vec2<float> pos)
 	{
 		// Creating the game object
 		GameObject* gameObj = FACTORY->CreateGameObject();
@@ -158,10 +158,10 @@ namespace LB
 		}
 
 		// Every gameobject must have a transform!!!
-		gameObj->AddComponent("CPTransform", FACTORY->GetCMs()["CPTransform"]->Create());
-		gameObj->GetComponent<CPTransform>("CPTransform")->SetPosition(pos);
+		gameObj->AddComponent(C_CPTransform, FACTORY->GetCMs()[C_CPTransform]->Create());
+		gameObj->GetComponent<CPTransform>()->SetPosition(pos);
 
-		for (std::string component : components)
+		for (ComponentTypeID component : components)
 		{
 			gameObj->AddComponent(component, FACTORY->GetCMs()[component]->Create());
 		}
@@ -226,7 +226,7 @@ namespace LB
 	 \return
 	 Map of names of ComponentMakers and ComponentMakers
 	*************************************************************************/
-	std::map<std::string, ComponentMaker*> FactorySystem::GetCMs() const
+	std::map<ComponentTypeID, ComponentMaker*> FactorySystem::GetCMs() const
 	{
 		return m_ComponentMakers;
 	}
