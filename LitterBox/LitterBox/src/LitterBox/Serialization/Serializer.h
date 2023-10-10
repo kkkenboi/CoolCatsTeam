@@ -252,7 +252,7 @@ namespace LB
 			Document _jsonFile;
 			std::ifstream inputFile(filePath);
 			//Assert if it's NOT open
-			//DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
+			DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
 			std::string jsonString((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
 			inputFile.close();
 			if (_jsonFile.Parse(jsonString.c_str()).HasParseError()) { }
@@ -269,6 +269,7 @@ namespace LB
 			/// @param filePath filepath the json file is at
 			/// @param jsonFileToSave json object that holds the data to be saved
 			std::ofstream outputFile(filePath);
+			DebuggerAssert(outputFile.is_open(), std::string{ filePath + " not found!" });
 			StringBuffer buffer;
 			PrettyWriter<StringBuffer> jsonWriter(buffer);
 			jsonWriter.SetMaxDecimalPlaces(2); //sets the max dp to 2. tweak this for higher precision!

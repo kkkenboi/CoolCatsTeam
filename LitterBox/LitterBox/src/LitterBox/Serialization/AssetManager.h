@@ -27,6 +27,9 @@
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Renderer/Renderer.h"
 
+#include <memory>
+#include "LitterBox/Engine/Input.h"
+
 
 namespace LB
 {   
@@ -48,16 +51,11 @@ namespace LB
         int width,height,fluff;
     };
 
-    /*!***********************************************************************
-     * \brief 
-     * Enum names for textures, allows for easy mapping of texture ID to a name
-     **************************************************************************/
-    enum TextureNames
+   
+    struct AudioClip
     {
-        NONE = 0,
-        RUN,
-        PINEAPPLE,
-        BACKGROUND
+        FMOD::Sound* _audioClip = nullptr;
+        std::string name;
     };
 
     /*!***********************************************************************
@@ -89,7 +87,7 @@ namespace LB
          * \brief 
          * Create a Texture object 
          **************************************************************************/
-        TextureData* CreateTexture(const std::string& fileName);
+        std::shared_ptr<TextureData> CreateTexture(const std::string& fileName);
 
         /*!***********************************************************************
          * \brief 
@@ -105,7 +103,7 @@ namespace LB
          * Texture map that maps texture names to their texture pairs like so:
          * "SpriteName" : texturePair
          **************************************************************************/
-        std::map<std::string, std::pair<const TextureData*,int>> Textures;
+        std::map<std::string, std::pair<std::shared_ptr<TextureData>,int>> Textures;
 
         //Maps enums to the file paths
         // 0 (NONE) : "../Assets/cat.png"
@@ -113,16 +111,22 @@ namespace LB
         /*!***********************************************************************
          * \brief 
          * Texture file path map that maps texture enum names to file paths
-         * Allows for storing ID : Filepath in json
-         * "1" : "/Assets/Pineapple.png"
+         * "../Assets/Textures/name.png" : "name"
          **************************************************************************/
-        std::map<TextureNames, std::string> TextureFilePaths;
+        std::map<std::string, std::string> TextureFilePaths;
+
+        //ID : Shared_Ptr to audio clip
+        //[0] : Shared_Ptr to audio clip
+        std::map<int, std::shared_ptr<AudioClip>> AudioClips;
 
         /*!***********************************************************************
          * \brief 
          * Get the Texture Index object for the renderer
          **************************************************************************/
-        const int GetTextureIndex(const std::string& name) const { return Textures.find(name)->second.second; }
+        const int GetTextureIndex(const std::string& name) const;
+        const std::string GetTextureName(const int& index) const;
+
+        void GenerateTextureFilePathsJson();
 
         /*!***********************************************************************
          * \brief Loads all textures from file paths into the relevant maps
@@ -141,6 +145,21 @@ namespace LB
          * (TODO : Load instances directly into the GOManager!)
          **************************************************************************/
         void LoadPrefabs();
+
+        std::string KeyCodeToString(KeyCode keycode);
+        KeyCode StringToKeyCode(std::string keycode);
+        void LoadKeyBinds();
+        void LoadKeyCodeTable();
+        void GenerateKeyBindsJson();
+        void GenerateKeyCodeTable();
+        //Map of keybind names to their respective ints
+        // "PrintDebug" : 0
+        std::map <std::string, std::string> KeyBindNameMap;
+
+        //Map of keycodes to their respective keybind enum
+        //"KEY_J" : 74
+        std::map <std::string,int> KeyCodeTable;
+
 
         /*!***********************************************************************
          * \brief Sound instances to be used throughout the engine
