@@ -13,9 +13,8 @@
 **************************************************************************/
 
 #include "SceneManager.h"
-
-// Test scene, to be refactored in M2
-#include "../../../Sandbox/src/SceneTestMain.h"
+#include "SceneEmpty.h"
+#include "LitterBox/Engine/Time.h"
 
 namespace LB
 {
@@ -25,15 +24,14 @@ namespace LB
 	 \brief
 	 Constructor for the SceneManager and creates a new scene
 	*************************************************************************/
-	SceneManager::SceneManager()
+	SceneManager::SceneManager(Scene* firstScene)
 	{
 		if (!DEBUG)
 			SCENEMANAGER = this;
 		else
 			std::cerr << "SceneManager System already exist" << std::endl;
 
-		// For now create a test scene
-		currentScene = new SceneTestMain;
+		nextScene = firstScene;
 	}
 
 	/*!***********************************************************************
@@ -43,7 +41,9 @@ namespace LB
 	void SceneManager::Initialize()
 	{
 		SetSystemName("SceneManager System");
-		currentScene->Init();
+
+		// Load an empty scene first
+		LoadScene(nextScene);
 	}
 
 	/*!***********************************************************************
@@ -75,4 +75,17 @@ namespace LB
 	//{
 
 	//}
+
+	// TODO: REFACTOR TO USE JSON FILE 
+	void SceneManager::LoadScene(Scene* newScene)
+	{
+		// Free current scene first
+		if (currentScene) {
+			currentScene->Destroy();
+			delete currentScene;
+		}
+
+		currentScene = newScene;
+		currentScene->Init();
+	}
 }

@@ -1,4 +1,6 @@
 #include "LitterBox.h"
+#include "SceneTestMain.h"
+
 class GameplayLayer : public LB::Layer
 {
 public:
@@ -23,7 +25,7 @@ void GameplayLayer::UpdateLayer()
 class Sandbox : public LB::Application
 {
 public:
-	Sandbox()
+	Sandbox() : Application(new SceneTestMain)
 	{
 		LB::CORE->AddLayer(new GameplayLayer("Engine"));
 	}
@@ -37,7 +39,6 @@ LB::Application* LB::CreateApplication()
 {
 	return new Sandbox();
 }
-
 
 int main(int argc, char** argv)
 {
