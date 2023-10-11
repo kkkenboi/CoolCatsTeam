@@ -5,8 +5,11 @@
  \par Course:         CSD2401A
  \date                27-09-2023
  \brief
- The functions in the SceneManager class include:
+ This file contains the function definitions for the Scene Manager
 
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "SceneManager.h"
@@ -18,6 +21,10 @@ namespace LB
 {
 	SceneManager* SCENEMANAGER = nullptr;
 
+	/*!***********************************************************************
+	 \brief
+	 Constructor for the SceneManager and creates a new scene
+	*************************************************************************/
 	SceneManager::SceneManager()
 	{
 		if (!DEBUG)
@@ -29,17 +36,30 @@ namespace LB
 		currentScene = new SceneTestMain;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Initializes the SceneManager, setting it's name and initialising the scene
+	*************************************************************************/
 	void SceneManager::Initialize()
 	{
 		SetSystemName("SceneManager System");
 		currentScene->Init();
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Updates all active scenes
+	*************************************************************************/
 	void SceneManager::Update()
 	{
+		if (TIME->IsPaused()) return;
 		currentScene->Update();
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Destroys all scenes 
+	*************************************************************************/
 	void SceneManager::Destroy()
 	{
 		currentScene->Destroy();

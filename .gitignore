@@ -401,3 +401,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+LitterBox/cloc-1.98.exe

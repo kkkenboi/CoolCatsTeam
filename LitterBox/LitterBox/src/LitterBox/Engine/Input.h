@@ -1,3 +1,17 @@
+/*!************************************************************************
+ \file				Input.h
+ \author(s)			Vanessa Chua Siew Jin
+ \par DP email(s):	vanessasiewjin.chua@digipen.edu
+ \par Course:		CSD2401A
+ \date				15-09-2023
+ \brief
+ The functions in the Input class include:
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #pragma once
 
 #include <GLFW/glfw3.h>
@@ -8,6 +22,10 @@
 namespace LB {
 	#define KEY_EVENT_PRIORITY 100
 
+	/*!***********************************************************************
+	 \brief
+	 enum class for all keycodes as GLFW keys increments.
+	*************************************************************************/
 	enum class KeyCode
 	{
 		//1 to 1 mapping to GLFW enums
@@ -31,29 +49,79 @@ namespace LB {
 		KEY_Z,
 	};
 
+	enum class KeyTriggerType 
+	{
+		PAUSABLE,
+		NONPAUSABLE
+	};
+
+	/*!***********************************************************************
+	 \brief
+	 3 types of KeyEvent, Trigger, pressed and released
+	*************************************************************************/
 	enum class KeyEvent
 	{
 		TRIGGERED,
 		PRESSED,
 		RELEASED
-
 	};
 
+	/*!***********************************************************************
+	 \brief
+	 Class InputSystem that inherits from ISystem
+	*************************************************************************/
 	class InputSystem : public ISystem
 	{
 	public:
+		/*!***********************************************************************
+		 \brief
+		 Constructor for InputSystem
+		*************************************************************************/
 		InputSystem();
 
+		/*!***********************************************************************
+		 \brief
+		 Initialize function to set the input system name
+		*************************************************************************/
 		void Initialize() override { SetSystemName("Input System"); }
 
+		/*!***********************************************************************
+		 \brief
+		 Update function that updates the input
+		*************************************************************************/
 		virtual void Update();
 
-		void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
-		void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
-		void SubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent);
-		void UnsubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent);
+		/*!***********************************************************************
+		 \brief
+		 Invoke Key overload press to notify all subscribers for all keycode presses
+		*************************************************************************/
+		void GLFWKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
+
+		/*!***********************************************************************
+		 \brief
+		 Invoke Key overload press to notify all subscribers for all keycode presses
+		*************************************************************************/
+		void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
+
+		/*!***********************************************************************
+		 \brief
+		 Subscribes the key event to register/notify when the event occurs
+		*************************************************************************/
+		void SubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent, KeyTriggerType triggerType = KeyTriggerType::PAUSABLE);
+
+		/*!***********************************************************************
+		 \brief
+		 Unsubscribes the key where it stop its interest in listening to the the key input.
+		*************************************************************************/
+		void UnsubscribeFromKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent, KeyTriggerType triggerType = KeyTriggerType::PAUSABLE);
+
+		bool IsKeyPressed(KeyCode key);
 
 	private:
+		/*!***********************************************************************
+		 \brief
+		 Getting Events for onTrigger onPressed and onReleased
+		*************************************************************************/
 		struct Key
 		{
 			Event<> onTrigger;
@@ -61,13 +129,32 @@ namespace LB {
 			Event<> onReleased;
 		};
 
-		std::map<KeyCode, Key> inputKeys; //Mao create a new pair a keycode to key when it doesnt exist
+		/*!***********************************************************************
+		 \brief
+		 Map create a new pair a keycode to key when it doesnt exist
+		*************************************************************************/
+		std::map<KeyCode, Key> inputKeys, inputKeysPausable;
+
+		bool inputKeysLast[GLFW_KEY_LAST] { false }, inputKeysCurr[GLFW_KEY_LAST]{ false };
 	};
 
-	extern InputSystem* INPUT; //other ppl can reference input from anywhere
+	/*!***********************************************************************
+	\brief
+	 So others can use the INPUT
+	*************************************************************************/
+	extern InputSystem* INPUT; //can reference input from anywhere
 	//if they want to use INPUT they just type INPUT
 
 	// For GLFW
-	void InvokeKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
-	void InvokeKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
+	/*!***********************************************************************
+	\brief
+	 Invoke Key overload press to notify all subscribers for all keycode presses
+	*************************************************************************/
+	void GLFWKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
+
+	/*!***********************************************************************
+	 \brief
+	 Invoke Key overload press to notify all subscribers for all keycode presses
+	*************************************************************************/
+	void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
 }

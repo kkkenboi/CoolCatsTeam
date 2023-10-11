@@ -16,11 +16,6 @@ project "Sandbox"
         "src/**.cpp",
     }
 
-    defines
-    {
-
-    }
-
     -- Includes for any additional dependencies for this project
     includedirs
     {

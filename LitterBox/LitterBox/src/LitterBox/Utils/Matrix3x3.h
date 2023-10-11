@@ -6,6 +6,10 @@
  \date				27-09-2023
  \brief
  The functions in the Matrix class include:
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "Math.h"	// For PI, sin, cos
@@ -19,7 +23,7 @@ namespace LB
 	template<typename T>
 	class Matrix3x3
 	{
-		public:
+	public:
 		// Shortform alphabets for different elements
 		#define a m[0][0]
 		#define b m[0][1]
@@ -366,7 +370,7 @@ namespace LB
 		T det = Determinant();
 		if (det == 0)
 		{
-			//DebuggerLogError("Trying to inverse a matrix with det <= 0!");
+			DebuggerLogError("Trying to inverse a matrix with det <= 0!");
 			return *this;
 		}
 		Matrix3x3<T> inverseMatrix;
@@ -520,7 +524,8 @@ namespace LB
 	*************************************************************************/
 	//This is for printing of Matrix
 	template <typename T>
-	void Matrix3x3<T>::Display() {
+	void Matrix3x3<T>::Display() 
+	{
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int col = 0; col < 3; ++col)

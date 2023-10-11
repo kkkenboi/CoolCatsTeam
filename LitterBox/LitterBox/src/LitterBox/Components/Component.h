@@ -1,14 +1,16 @@
 /*!************************************************************************
- \file				Core.h
+ \file				Component.h
  \author(s)			Kenji Brannon Chong
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
- \brief				
- 
- This file contains functions declarations of the LBEngine class that controls
- the engine and systems. Has a layer system to allow for ImGui implementation
- later on.
+ \brief
+ This file contains functions of the IComponent class, as well as the enum
+ to identify different components.
+
+ IComponent acts as the interface for all GameObject components to
+ build off from to create components to be attached to GameObjects. These
+ derived components are then updated by their own systems.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -16,76 +18,65 @@
 **************************************************************************/
 
 #pragma once
+#include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Serialization/Serializer.h"
 
-#include "pch.h"
-#include "System.h"
-#include "LitterBox/Engine/LayerStack.h"
-
-namespace LB 
+namespace LB
 {
-	/*!***********************************************************************
-	 \brief
-	 The LitterBox Engine that encapsulates all of the systems
-	*************************************************************************/
-	class LBEngine
+	enum ComponentTypeID
 	{
-	public:
-
-		/*!***********************************************************************
-		 \brief
-		 Initializes all systems in the game.
-		*************************************************************************/
-		void Initialise();
-
-		/*!***********************************************************************
-		 \brief
-		*************************************************************************/
-		void GameLoop();
-
-		/*!***********************************************************************
-		 \brief
-		 Broadcasts a message to all systems.
-		*************************************************************************/
-		void BroadcastMessage(Message* m);
-
-		/*!***********************************************************************
-		 \brief
-		 Adds a new system to the game.
-		*************************************************************************/
-		void AddSystem(ISystem* system);
-
-		/*!***********************************************************************
-		 \brief
-		 Destroy all systems in reverse order that they were added.
-		*************************************************************************/
-		void DestroySystems();
-
-		/*!***********************************************************************
-		 \brief
-		 Checks if the engine is running
-		*************************************************************************/
-		bool IsRunning() const;
-
-		/*!***********************************************************************
-		 \brief
-		 Adds a layer from the layerStack
-		*************************************************************************/
-		void AddLayer(Layer* layer);
-
-		/*!***********************************************************************
-		 \brief
-		 Removes a layer from the layerStack
-		*************************************************************************/
-		void RemoveLayer(Layer* layer);
-
-	private:
-
-		LayerStack				m_LayerStack;
-		std::vector<ISystem*>	Systems;
-
-		bool					m_Running;
+		C_CPNone = 0,
+		C_CPRigidBody,
+		C_CPTransform,
+		C_CPRender,
+		C_CPScript
 	};
 
-	extern LBEngine* CORE; // Global pointer to the singleton
-}
+	/*!***********************************************************************
+	 \brief
+	 IComponent class provides an interface for other components to build off
+	 from.
+	*************************************************************************/
+	class IComponent
+	{
+	public:
+		/*!***********************************************************************
+		 \brief
+		 Initialises the component
+		*************************************************************************/
+		virtual void Initialise() {}
 
+		/*!***********************************************************************
+		 \brief
+		 Updates the component
+		*************************************************************************/
+		virtual void Update() {}
+
+		/*!***********************************************************************
+		 \brief
+		 Serialises the components based on its derived member's data
+		*************************************************************************/
+		virtual bool Serialize(Value&, Document::AllocatorType&) { return false; }
+
+		/*!***********************************************************************
+		 \brief
+		 Deserialises the components based on its derived member's data
+		*************************************************************************/
+		virtual bool Deserialize(const Value&) { return false; }
+
+		/*!***********************************************************************
+		 \brief
+		 Destroys the component
+		*************************************************************************/
+		virtual void Destroy() {}
+
+		/*!***********************************************************************
+		 \brief
+		 Gets the type of the component
+		*************************************************************************/
+		virtual ComponentTypeID GetType() = 0;
+
+		//ComponentTypeID TypeID	{ C_CPNone };
+		GameObject* gameObj{ nullptr };
+	};
+}

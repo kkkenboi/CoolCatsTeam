@@ -6,13 +6,19 @@
  \date			22-09-2023
  \brief
 
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
+// Include the headers of systems to profile!!
 #include "Platform/Windows/Windows.h"
 #include "Profiler.h"
 #include "LitterBox/Renderer/Renderer.h"
-#include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Debugging/Memory.h"
+#include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Physics/RigidBodyManager.h"
+#include "LitterBox/Audio/AudioManager.h"
 
 namespace LB 
 {
@@ -20,6 +26,11 @@ namespace LB
 
 	/**************************************************************************************************/
 	// Profiler manager
+
+	/*!***********************************************************************
+	\brief
+	Default constructor, ensures this system is a singleton
+	*************************************************************************/
 	ProfilerManager::ProfilerManager() 
 	{
 		if (!PROFILER)
@@ -27,20 +38,28 @@ namespace LB
 		else
 			std::cerr << "Profiling System already exist" << std::endl;
 
-		INPUT->SubscribeToKey(LB::DumpGeneralInfo, dumpGeneralInfoKey, KeyEvent::TRIGGERED);
-		INPUT->SubscribeToKey(LB::DumpFrameInfo, dumpFrameInfoKey, KeyEvent::TRIGGERED);
+		INPUT->SubscribeToKey(LB::DumpGeneralInfo, dumpGeneralInfoKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		INPUT->SubscribeToKey(LB::DumpFrameInfo, dumpFrameInfoKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		TIME->onFrameEnd.Subscribe(LB::SwapSystemInfoMapBuffer);
 	}
 
-	void ProfilerManager::Destroy() 
+	/*!***********************************************************************
+	\brief
+	Removes key events subscriptions
+	*************************************************************************/
+	void ProfilerManager::Destroy()
 	{
-		INPUT->UnsubscribeToKey(LB::DumpGeneralInfo, dumpGeneralInfoKey, KeyEvent::TRIGGERED);
-		INPUT->UnsubscribeToKey(LB::DumpFrameInfo, dumpFrameInfoKey, KeyEvent::TRIGGERED);
+		INPUT->UnsubscribeFromKey(LB::DumpGeneralInfo, dumpGeneralInfoKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		INPUT->UnsubscribeFromKey(LB::DumpFrameInfo, dumpFrameInfoKey, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		TIME->onFrameEnd.Unsubscribe(LB::SwapSystemInfoMapBuffer);
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Adds the information from a finished profiler to the map to print
+	*************************************************************************/
 	void ProfilerManager::AddProfilerInfo(char const* name, double duration, ProfileMap map, bool overrideInfo)
 	{
 		switch (map) {
@@ -54,6 +73,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Every frame, the buffer for times needs to swap to print accurate info
+	*************************************************************************/
 	void ProfilerManager::SwapSystemInfoMapBuffer()
 	{
 		// Record frame number, budget, FPS before swapping
@@ -78,11 +101,11 @@ namespace LB
 		}
 	}
 
-	void SwapSystemInfoMapBuffer()
-	{
-		PROFILER->SwapSystemInfoMapBuffer();
-	}
 
+	/*!***********************************************************************
+	 \brief
+	 Prints all the timings stored in the general snapshot
+	*************************************************************************/
 	void ProfilerManager::DumpGeneralInfo()
 	{
 		// Print and delete the information
@@ -98,6 +121,10 @@ namespace LB
 		generalInfoMap.clear();
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Prints all the timings in the systems (frame) snapshot
+	*************************************************************************/
 	void ProfilerManager::DumpFrameInfo()
 	{
 		double totalTime		= (*systemInfoMap)["Total Frame Time"];
@@ -105,10 +132,15 @@ namespace LB
 		double windowsSystem	= (*systemInfoMap)[WINDOWSSYSTEM->GetName().c_str()];
 		double factorySystem	= (*systemInfoMap)[FACTORY->GetName().c_str()];
 		double renderSystem		= (*systemInfoMap)[Renderer::GRAPHICS->GetName().c_str()];
+		double gameObjectSystem = (*systemInfoMap)[GOMANAGER->GetName().c_str()];
+		double physicsSystem	= (*systemInfoMap)[PHYSICS->GetName().c_str()];
+		double audioSystem		= (*systemInfoMap)[AUDIOMANAGER->GetName().c_str()];
 		double memorySystem		= (*systemInfoMap)[MEMORY->GetName().c_str()];
 
 		// Calculate the overhead for profiling (difference in total time, and time spent for each system)
-		double profilingSystem	= totalTime - (*systemInfoMap)[PROFILER->GetName().c_str()] - inputSystem - windowsSystem - factorySystem - renderSystem - memorySystem;
+		double profilingSystem	= totalTime - (*systemInfoMap)[PROFILER->GetName().c_str()] - 
+											  inputSystem - windowsSystem - factorySystem - renderSystem - 
+											  memorySystem - gameObjectSystem - physicsSystem - audioSystem;
 
 		/**************************************************************************************************/
 		// Nicely formatted output :D
@@ -127,7 +159,13 @@ namespace LB
 		
 		std::cout << std::right << std::setw(5) << std::setprecision(2) << (windowsSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << WINDOWSSYSTEM->GetName()			<< std::right << std::setw(7) << std::setprecision(4) << windowsSystem		<< " milliseconds\n";
 		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (gameObjectSystem / totalTime) * 100.0	<< "% | " << std::left << std::setw(30) << GOMANAGER->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << gameObjectSystem	<< " milliseconds\n";
+		
 		std::cout << std::right << std::setw(5) << std::setprecision(2) << (factorySystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << FACTORY->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << factorySystem		<< " milliseconds\n";
+		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (physicsSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << PHYSICS->GetName()				<< std::right << std::setw(7) << std::setprecision(4) << physicsSystem		<< " milliseconds\n";
+		
+		std::cout << std::right << std::setw(5) << std::setprecision(2) << (audioSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << AUDIOMANAGER->GetName()			<< std::right << std::setw(7) << std::setprecision(4) << audioSystem		<< " milliseconds\n";
 		
 		std::cout << std::right << std::setw(5) << std::setprecision(2) << (renderSystem / totalTime) * 100.0		<< "% | " << std::left << std::setw(30) << Renderer::GRAPHICS->GetName()	<< std::right << std::setw(7) << std::setprecision(4) << renderSystem		<< " milliseconds\n";
 		
@@ -139,11 +177,28 @@ namespace LB
 		std::cout << std::setfill('=') << std::setw(59) << "=" << std::setfill(' ') << "\n\n";
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 For event subscribing, at the end of each frame, swap buffer
+	*************************************************************************/
+	void SwapSystemInfoMapBuffer()
+	{
+		PROFILER->SwapSystemInfoMapBuffer();
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 For event subscription, print general snapshot on key press
+	*************************************************************************/
 	void DumpGeneralInfo()
 	{
 		PROFILER->DumpGeneralInfo();
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 For event subscription, print systems (frame) snapshot on key press
+	*************************************************************************/
 	void DumpFrameInfo()
 	{
 		PROFILER->DumpFrameInfo();
@@ -151,12 +206,20 @@ namespace LB
 
 	/**************************************************************************************************/
 	// Profiler object
+	/*!***********************************************************************
+	 \brief
+	 On profiler object creation, save the time
+	*************************************************************************/
 	Profiler::Profiler(char const* _name, ProfileResult _result, ProfileMap _map, bool _overrideInfo) : name(_name), result(_result), map(_map), overrideInfo(_overrideInfo)
 	{ 
 		start = TIME->GetTimeStamp();
 	}
 
-	Profiler::~Profiler() 
+	/*!***********************************************************************
+	 \brief
+	 On file scope end, save time and calculate time information
+	*************************************************************************/
+	Profiler::~Profiler()
 	{
 		std::chrono::high_resolution_clock::time_point end = TIME->GetTimeStamp();
 		std::chrono::duration<double, std::milli> duration{end - start};

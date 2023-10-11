@@ -11,13 +11,19 @@
  \brief
  The functions in the Math class include:
 
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #pragma once
 #include <cmath>		// For sin, cos, sqrt
 #include <string>		//for custom to string functions
+
+#pragma warning(push, 0)
 #include "../../dependencies/RapidJSON/include/rapidjson.h" // For serialization
 #include "../../dependencies/RapidJSON/include/document.h"
+#pragma warning(pop)
 
 namespace LB 
 {
@@ -45,7 +51,7 @@ namespace LB
 	template<typename T>
 	class Vec2 
 	{
-		public:
+	public:
 		/*!***********************************************************************
 		 \brief
 		  Data members of x and y
@@ -186,7 +192,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		  
+		  A function that returns a stringn containing the vector data
 		*************************************************************************/
 		std::string ToString();
 
@@ -194,20 +200,20 @@ namespace LB
 		 \brief
 		  A function that Normalise Vec2, to find direction
 		*************************************************************************/
-		Vec2<T>& Normalise()	 const;
+		Vec2<T>& Normalise();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the magnitude of a Vec2
 		*************************************************************************/
-		T		 Length()		 const;
+		T		 Length();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the squared magnitude of a Vec2, this is when it did
 		  not sqrt.
 		*************************************************************************/
-		T		 LengthSquared() const;
+		T		 LengthSquared();
 
 		/*!***********************************************************************
 		 \brief
@@ -224,13 +230,13 @@ namespace LB
 		//Serializing & Deserializing
 		/*!***********************************************************************
 		 \brief
-		 
+		  A function that serializes vector into json data
 		*************************************************************************/
 		bool Serialize(rapidjson::Value&, rapidjson::Document::AllocatorType&);
 
 		/*!***********************************************************************
 		 \brief
-
+		  A function that deserializes json data into a vector
 		*************************************************************************/
 		bool Deserialize(const rapidjson::Value&);
 
@@ -448,7 +454,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-
+		  A function that returns a stringn containing a vector
 		*************************************************************************/
 		std::string ToString();
 
@@ -456,20 +462,20 @@ namespace LB
 		 \brief
 		  A function that Normalise Vec3, to find direction
 		*************************************************************************/
-		Vec3<T>& Normalise()	 const;
+		Vec3<T>& Normalise();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the magnitude of a Vec3
 		*************************************************************************/
-		T		 Length()		 const;
+		T		 Length();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the squared magnitude of a Vec3, this is when it did
 		  not sqrt.
 		*************************************************************************/
-		T		 LengthSquared() const;
+		T		 LengthSquared();
 
 		/*!***********************************************************************
 		 \brief
@@ -486,13 +492,13 @@ namespace LB
 		//Serializing & Deserializing
 		/*!***********************************************************************
 		 \brief
-
+		  A function that serializes the vector into json data
 		*************************************************************************/
 		bool Serialize(rapidjson::Value&, rapidjson::Document::AllocatorType&);
 
 		/*!***********************************************************************
 		 \brief
-
+		  A function that deserializes the json data into the vector
 		*************************************************************************/
 		bool Deserialize(const rapidjson::Value&);
 	};
@@ -718,7 +724,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-
+		 A function that returns a string containing the vector data
 		*************************************************************************/
 		std::string ToString();
 
@@ -726,20 +732,20 @@ namespace LB
 		 \brief
 		  A function that Normalise Vec4, to find direction
 		*************************************************************************/
-		Vec4<T>& Normalise()	 const;
+		Vec4<T>& Normalise();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the magnitude of a Vec4
 		*************************************************************************/
-		T		 Length()		 const;
+		T		 Length();
 
 		/*!***********************************************************************
 		 \brief
 		  A function that finds the squared magnitude of a Vec4, this is when it did
 		  not sqrt.
 		*************************************************************************/
-		T		 LengthSquared() const;
+		T		 LengthSquared();
 
 		/*!***********************************************************************
 		 \brief
@@ -757,13 +763,13 @@ namespace LB
 		//Serializing & Deserializing
 		/*!***********************************************************************
 		 \brief
-
+		  A function that serializes the vector to json data	
 		*************************************************************************/
 		bool Serialize(rapidjson::Value&, rapidjson::Document::AllocatorType&);
 
 		/*!***********************************************************************
 		 \brief
-
+		  A function that deserializes json data to the vector
 		*************************************************************************/
 		bool Deserialize(const rapidjson::Value&);
 	};
@@ -1175,9 +1181,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	 
+	 This function returns a string containing the vector
 	\return
-	 
+	 string containing the vector
 	*************************************************************************/
 	template<typename T>
 	std::string Vec2<T>::ToString()
@@ -1191,8 +1197,9 @@ namespace LB
 	\return
 	 Vec2<T>&
 	*************************************************************************/
+	//Vec2<T>& Normalise()
 	template<typename T>
-	Vec2<T>& Vec2<T>::Normalise() const
+	Vec2<T>& Vec2<T>::Normalise()
 	{
 		T length = Length();
 
@@ -1209,7 +1216,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec2<T>::Length() const
+	T Vec2<T>::Length()
 	{
 		return (T)sqrt((double)LengthSquared());
 	}
@@ -1221,7 +1228,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec2<T>::LengthSquared() const
+	T Vec2<T>::LengthSquared()
 	{
 		return (x * x + y * y);
 	}
@@ -1366,9 +1373,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	
+	This function serializes the vector into json data
 	\return
-	
+	returns false if serialization  has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec2<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
@@ -1381,9 +1388,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	 
+	 This function deserializes the json data into the vector
 	\return
-	 
+	returns false if deserialization has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec2<T>::Deserialize(const rapidjson::Value& data)
@@ -1709,7 +1716,7 @@ namespace LB
 	 Vec3<T>&
 	*************************************************************************/
 	template<typename T>
-	Vec3<T>& Vec3<T>::Normalise() const
+	Vec3<T>& Vec3<T>::Normalise()
 	{
 		T length = Length();
 
@@ -1727,7 +1734,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec3<T>::Length() const
+	T Vec3<T>::Length()
 	{
 		return (T)sqrt((double)LengthSquared());
 	}
@@ -1739,7 +1746,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec3<T>::LengthSquared() const
+	T Vec3<T>::LengthSquared()
 	{
 		return (x * x + y * y + z * z);
 	}
@@ -1778,9 +1785,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-
+	This function serializes the vector into json data
 	\return
-
+	returns false if serialization has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec3<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
@@ -1794,9 +1801,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-
+	This function deserializes json data into the vector
 	\return
-
+	returns false if deserialization has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec3<T>::Deserialize(const rapidjson::Value& data)
@@ -2247,9 +2254,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-
+	This function creates a string with the vector
 	\return
-
+	string containing the vector
 	*************************************************************************/
 	template<typename T>
 	std::string Vec4<T>::ToString()
@@ -2264,7 +2271,7 @@ namespace LB
 	 Vec4<T>&
 	*************************************************************************/
 	template<typename T>
-	Vec4<T>& Vec4<T>::Normalise() const
+	Vec4<T>& Vec4<T>::Normalise()
 	{
 		T length = Length();
 
@@ -2283,7 +2290,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec4<T>::Length() const
+	T Vec4<T>::Length()
 	{
 		return (T)sqrt((double)LengthSquared());
 	}
@@ -2295,7 +2302,7 @@ namespace LB
 	 T
 	*************************************************************************/
 	template<typename T>
-	T Vec4<T>::LengthSquared() const
+	T Vec4<T>::LengthSquared()
 	{
 		return (x * x + y * y + z * z + w * w);
 	}
@@ -2336,9 +2343,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-
+	This function serializes the vector into json data
 	\return
-
+	returns false if serialization has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec4<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
@@ -2353,9 +2360,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-
+	This function deserializes json data into the vector
 	\return
-
+	returns false if deserialization has failed, true if it has succeeded
 	*************************************************************************/
 	template<typename T>
 	bool Vec4<T>::Deserialize(const rapidjson::Value& data)

@@ -23,12 +23,6 @@ project "LitterBox"
         "src/LitterBox/Renderer/**.shader", 
     }
 
-    defines
-    {
-        -- "_CRT_SECURE_NO_WARNINGS",
-        -- "UNREFERENCED_PARAMETER"
-    }
-
     -- Includes for any additional directories/dependencies for this project
     includedirs
     {
@@ -67,10 +61,6 @@ project "LitterBox"
     filter "configurations:Debug"
         runtime "Debug" -- uses the debug Runtime Library
         symbols "On"
-        defines
-        {
-            "_DEBUG"
-        }    
         architecture "x86_64"
 
     filter "configurations:Release"

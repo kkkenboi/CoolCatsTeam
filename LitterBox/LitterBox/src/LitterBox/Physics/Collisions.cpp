@@ -7,6 +7,10 @@
  \brief
  This file contains the function definitions of all the Collision Checks
  as well as the PhysicsTransform constructor and the Collider constructor
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #pragma once
@@ -37,7 +41,7 @@ Collider::Collider(SHAPETYPE shape, LB::Vec2<float> pos,
 {
 	this->m_shape = shape;
 	this->m_pos = pos;
-	this->m_length = length;
+	this->m_width = length;
 	this->m_height = height;
 	this->m_radius = radius;
 
@@ -60,8 +64,8 @@ void Collider::CreateAABB()
 	else if (this->m_shape == BOX)
 	{
 		this->m_aabb.m_c = m_pos;
-		this->m_aabb.m_min = LB::Vec2<float>{ m_pos.x - m_length / 2, m_pos.y - m_height / 2 };
-		this->m_aabb.m_max = LB::Vec2<float>{ m_pos.x + m_length / 2, m_pos.y + m_length / 2 };
+		this->m_aabb.m_min = LB::Vec2<float>{ m_pos.x - m_width / 2, m_pos.y - m_height / 2 };
+		this->m_aabb.m_max = LB::Vec2<float>{ m_pos.x + m_width / 2, m_pos.y + m_height / 2 };
 	}
 	else
 	{
@@ -81,8 +85,8 @@ void Collider::CreatePolygon()
 	// Polygon vertices creations goes from
 	// Top-Left -> Top-Right -> Bottom-Right -> Bottom-Left
 	// Get vertices for a polygon
-	float left = -m_length / 2;
-	float right = m_length / 2;
+	float left = -m_width / 2;
+	float right = m_width / 2;
 	float top = m_height / 2;
 	float bottom = -m_height / 2;
 
@@ -127,15 +131,11 @@ bool CollisionIntersection_BoxBox(const AABB & aabb1, const LB::Vec2<float> & ve
 		if (aabb1.m_max.y < aabb2.m_min.y || aabb1.m_min.y > aabb2.m_max.y) {
 			return 0;
 		}
-		//std::cout << " joe is here" << std::endl;
+
 		LB::Vec2<float> vecAB = aabb2.m_c - aabb1.m_c;
 
 		depth_out = PHY_MATH::Length(vecAB);
 		normal_out = PHY_MATH::Normalize(vecAB);
-
-		//std::cout << "DEPTH_OUT: " << depth_out << std::endl;
-		//std::cout << "NORMAL_OUT: " << normal_out.x << " , " << normal_out.y << std::endl;
-
 
 		return 1;
 
@@ -622,6 +622,14 @@ void ProjectCircleOntoAxis(LB::Vec2<float> axisToProj, LB::Vec2<float> center, f
 	}
 }
 
+/*!***********************************************************************
+  \brief
+  This function takes in an array of Vec2<float> that is the representation
+  of vertices of a polygon, this function then calculates where the center
+  of the given polygon is
+  \return
+  Returns the position of the center of the vertices as a Vec2<float>
+*************************************************************************/
 LB::Vec2<float> FindCenterOfBoxVertices(LB::Vec2<float>* vertices) 
 {
 	// Loop through all the vertices and add them together and
@@ -638,9 +646,16 @@ LB::Vec2<float> FindCenterOfBoxVertices(LB::Vec2<float>* vertices)
 	return LB::Vec2<float>{xSum / 4.f, ySum / 4.f};
 }
 
+/*!***********************************************************************
+  \brief
+  This function is a helper function to Circle-Box SAT collision checks
+  It takes in the box vertices and the center of the circle to find the
+  nearest vertice to the circle's center
+  \return
+  Returns the position of the center of the vertices as a Vec2<float>
+*************************************************************************/
 int FindIndexClosestPointOnBox(LB::Vec2<float>* vertices, LB::Vec2<float> center)
 {
-
 	// Loop through the the vertices
 	// Get the vec from vertex to center
 	// Always keep the vec with the smallest length
@@ -651,7 +666,9 @@ int FindIndexClosestPointOnBox(LB::Vec2<float>* vertices, LB::Vec2<float> center
 	for (int i = 0; i < 4; ++i)
 	{
 		LB::Vec2<float> vec = vertices[i];
-		float distance = PHY_MATH::Length(vec);
+		float dx = vertices[i].x - center.x;
+		float dy = vertices[i].y - center.y;
+		float distance = sqrt(dx * dx + dy * dy);
 
 		if (distance < minDistance)
 		{

@@ -1,66 +1,70 @@
+/*!************************************************************************
+ \file				SceneTestMain.cpp
+ \author(s)			Ang Jiawei Jarrett | Ryan Tan Jian Hao
+ \par DP email(s):	a.jiaweijarrett@digipen.edu | ryanjianhao.tan\@digipen.edu
+ \par Course:		CSD2401A
+ \date				28-09-2023
+ \brief
+ This file contains the first test script that will be used to develop the
+ game.
+
+**************************************************************************/
 #include "SceneTestMain.h"
 #include "LitterBox/Engine/Input.h"
 #include "Player/Player.h"
 
-GameObject* test, *test2, *test3, *static_wall;
+GameObject*test2, *test3, *static_wall;
+GameObject* ball1, *ball2;
 GameObject *scaleObj, *rotObj, *animObj;
 
+GameObject** test;
+
 Player* testPlayer;
+//-------------------------Scene Objects----------------------------
 
 //place holder animations
 //TODO for even later, make an editor that can select custom uv
 std::array<std::array<LB::Vec2<float>, 4>, 12> frames[4];
 
-//------------------------------MOVEMENT and ANIMATION FUNCTION TEST--------------------------------
-void func() {
-	Vec2<float> position = animObj->GetComponent<CPTransform>("CPTransform")->GetPosition();
-	animObj->GetComponent<CPTransform>("CPTransform")->SetPosition({ position.x + 10.f, position.y });
-};
+bool paused = false;
+void TogglePause()
+{
+	paused = !paused;
+	TIME->Pause(paused);
+}
 
-void left() {
-	Vec2<float> position = animObj->GetComponent<CPTransform>("CPTransform")->GetPosition();
-	animObj->GetComponent<CPTransform>("CPTransform")->SetPosition({ position.x - 10.f, position.y });
-};
-
-void up() {
-	Vec2<float> position = animObj->GetComponent<CPTransform>("CPTransform")->GetPosition();
-	animObj->GetComponent<CPTransform>("CPTransform")->SetPosition({ position.x, position.y + 10.f });
-};
-
-void down() {
-	Vec2<float> position = animObj->GetComponent<CPTransform>("CPTransform")->GetPosition();
-	animObj->GetComponent<CPTransform>("CPTransform")->SetPosition({ position.x, position.y - 10.f });
-};
-
-void right_trig() {
-	animObj->GetComponent<CPRender>("CPRender")->stop_anim();
-	animObj->GetComponent<CPRender>("CPRender")->play_repeat("right_walk");
-};
-
-void left_trig() {
-	animObj->GetComponent<CPRender>("CPRender")->stop_anim();
-	animObj->GetComponent<CPRender>("CPRender")->play_repeat("left_walk");
-};
-
-void up_trig() {
-	animObj->GetComponent<CPRender>("CPRender")->stop_anim();
-	animObj->GetComponent<CPRender>("CPRender")->play_repeat("up_walk");
-};
-
-void down_trig() {
-	animObj->GetComponent<CPRender>("CPRender")->stop_anim();
-	animObj->GetComponent<CPRender>("CPRender")->play_repeat("down_walk");
-};
-//------------------------------MOVEMENT and ANIMATION FUNCTION TEST--------------------------------
-
+/*!***********************************************************************
+ \brief
+ Initialises the current scene (for now it contains a lot of tests)
+*************************************************************************/
 void SceneTestMain::Init()
 {
 	Renderer::GRAPHICS->create_texture("../Assets/Textures/walk.png", "run");
 	Renderer::GRAPHICS->create_texture("../Assets/Textures/test3.png", "pine");
+	Renderer::GRAPHICS->create_texture("../Assets/Textures/cat.png", "cat");
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// GameObject use example
+	test2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody });
+	test2->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
+
+	test3 = FACTORY->SpawnGameObject({ C_CPRender ,C_CPRigidBody }, Vec2<float>(200, 200));
+	test3->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Rotate and scale test
+	scaleObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(600, 600));
+	scaleObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+
+	rotObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(800, 600));
+	rotObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	// Animation test
 	//---------------------------getting the uvs for the run------------------------
 	if (LB::ASSETMANAGER->Textures.find("run") != LB::ASSETMANAGER->Textures.end()) {
-		int img_width	{ LB::ASSETMANAGER->Textures.find("run")->second.first->width };
-		int img_height	{ LB::ASSETMANAGER->Textures.find("run")->second.first->height };
+		int img_width{ LB::ASSETMANAGER->Textures.find("run")->second.first->width };
+		int img_height{ LB::ASSETMANAGER->Textures.find("run")->second.first->height };
 
 		float x_inc{ (float)img_width / (12.f * (float)img_width) };
 		float y_inc{ (float)img_height / (4.f * (float)img_height) };
@@ -77,34 +81,24 @@ void SceneTestMain::Init()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
 
-	test = FACTORY->SpawnGameObject({ "CPRender" });
-	test2 = FACTORY->SpawnGameObject({ "CPRender" });
-	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
-	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
-
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
-	scaleObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(600, 600));
-	rotObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(800, 600));
+	scaleObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(600, 300));
+	rotObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(800, 300));
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Animation test
-	animObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(700, 300));
-	animObj->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("run"));
+	animObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(700, 300));
+	animObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("run"));
 
 	Renderer::GRAPHICS->init_anim("up_walk", frames[0].data(), 0.5f, 12);
 	Renderer::GRAPHICS->init_anim("right_walk", frames[1].data(), 0.5f, 12);
 	Renderer::GRAPHICS->init_anim("left_walk", frames[2].data(), 0.5f, 12);
 	Renderer::GRAPHICS->init_anim("down_walk", frames[3].data(), 0.5f, 12);
-	animObj->GetComponent<CPRender>("CPRender")->play_repeat("up_walk");
-	LB::INPUT->SubscribeToKey(func, LB::KeyCode::KEY_D, LB::KeyEvent::PRESSED);
-	LB::INPUT->SubscribeToKey(left, LB::KeyCode::KEY_A, LB::KeyEvent::PRESSED);
-	LB::INPUT->SubscribeToKey(up, LB::KeyCode::KEY_W, LB::KeyEvent::PRESSED);
-	LB::INPUT->SubscribeToKey(down, LB::KeyCode::KEY_S, LB::KeyEvent::PRESSED);
-	LB::INPUT->SubscribeToKey(right_trig, LB::KeyCode::KEY_D,LB::KeyEvent::TRIGGERED);
-	LB::INPUT->SubscribeToKey(left_trig, LB::KeyCode::KEY_A,LB::KeyEvent::TRIGGERED);
-	LB::INPUT->SubscribeToKey(up_trig, LB::KeyCode::KEY_W,LB::KeyEvent::TRIGGERED);
-	LB::INPUT->SubscribeToKey(down_trig, LB::KeyCode::KEY_S,LB::KeyEvent::TRIGGERED);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Pause & Debug example
+	LB::INPUT->SubscribeToKey(TogglePause, KeyCode::KEY_U, LB::KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Player example
@@ -114,25 +108,73 @@ void SceneTestMain::Init()
 	LB::INPUT->SubscribeToKey(PlayTestSound, LB::KeyCode::KEY_S, LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(PlayAHHSound, LB::KeyCode::KEY_A, LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(PlayExplosionSound, LB::KeyCode::KEY_D, LB::KeyEvent::TRIGGERED);
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Player example
+	ball1 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float> (800, 400));
+	ball1->GetComponent<CPRigidBody>()->mShapeType = CIRCLE;
+	ball2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(1000, 400));
+	ball2->GetComponent<CPRigidBody>()->mShapeType = CIRCLE;
 
-	static_wall = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" }, Vec2<float>(200, 600));
-	static_wall->GetComponent<CPRigidBody>("CPRigidBody")->isStatic = true;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Prefab example
+	LB::INPUT->SubscribeToKey(SpawnPineapples, LB::KeyCode::KEY_Q, LB::KeyEvent::TRIGGERED);
+
+	static_wall = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(200, 600));
+	static_wall->GetComponent<CPRigidBody>()->isStatic = true;
+	static_wall->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Crash logging test (Uncomment code below for a crash!!!)
+	//int* test = nullptr;
+	//*test = 5;
+
+	//int uwuCounter = 1, joe = -5;
+	//char grade = 'F';
+
+	//DebuggerLog("uwu");
+	//DebuggerLogFormat("uwu counter: %d, joe: %d", uwuCounter, joe);
+
+	//DebuggerLogWarning("UWU");
+	//DebuggerLogWarningFormat("THE %d UWU IS TOO STRONG FOR ME", uwuCounter);
+
+	//DebuggerLogError("UWUWUWUWUWU");
+	//DebuggerLogErrorFormat("F in the chat for %d, %d", joe, uwuCounter);
+
+	//DebuggerAssert(grade == 'A', "Grade not A :(");
+	//DebuggerAssertFormat(grade == 'A', "Grade is %c but expected an A :((", grade);
+
+	//JSONSerializer stream;
+	//stream.DeserializeFromFile("TestObject", *testPlayer->playerObj);
+	//std::cout << testPlayer->playerObj->GetComponent<CPTransform>("CPTransform")->GetPosition().ToString();
 }
 
+/*!***********************************************************************
+ \brief
+ Updates the current Scene 
+*************************************************************************/
 void SceneTestMain::Update()
 {
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
 	static float degree{ 0.f };
-	scaleObj->GetComponent<CPTransform>("CPTransform")->SetScale({ sinf(degree) ,sinf(degree) });
-	rotObj->GetComponent<CPTransform>("CPTransform")->SetRotation(degree);
+	scaleObj->GetComponent<CPTransform>()->SetScale({ sinf(degree) ,sinf(degree) });
+	rotObj->GetComponent<CPTransform>()->SetRotation(degree);
 
 	degree = degree > 6.28318531f ? 0.f : degree + 0.01f;
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	testPlayer->Update();
 }
 
+/*!***********************************************************************
+ \brief
+ Functions that will be called when the scene is destroyed
+*************************************************************************/
 void SceneTestMain::Destroy()
 {
 	//delete testPlayer;
+	//This test lets us know that we can "save" the player's position
+	JSONSerializer stream;
+	stream.SerializeToFile("TestObject", *testPlayer->playerObj);
 }
