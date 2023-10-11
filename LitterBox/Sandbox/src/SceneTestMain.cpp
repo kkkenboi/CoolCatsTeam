@@ -13,9 +13,9 @@
 #include "LitterBox/Engine/Input.h"
 #include "Player/Player.h"
 
-GameObject*test2, *test3, *static_wall;
-GameObject* ball1, *ball2;
-GameObject *scaleObj, *rotObj, *animObj;
+GameObject* test2, * test3, * static_wall;
+GameObject* ball1, * ball2;
+GameObject* scaleObj, * rotObj, * animObj;
 
 GameObject** test;
 
@@ -108,10 +108,10 @@ void SceneTestMain::Init()
 	LB::INPUT->SubscribeToKey(PlayTestSound, LB::KeyCode::KEY_S, LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(PlayAHHSound, LB::KeyCode::KEY_A, LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(PlayExplosionSound, LB::KeyCode::KEY_D, LB::KeyEvent::TRIGGERED);
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Player example
-	ball1 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float> (800, 400));
+	ball1 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(800, 400));
 	ball1->GetComponent<CPRigidBody>()->mShapeType = CIRCLE;
 	ball2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(1000, 400));
 	ball2->GetComponent<CPRigidBody>()->mShapeType = CIRCLE;
@@ -152,7 +152,7 @@ void SceneTestMain::Init()
 
 /*!***********************************************************************
  \brief
- Updates the current Scene 
+ Updates the current Scene
 *************************************************************************/
 void SceneTestMain::Update()
 {

@@ -16,6 +16,7 @@
 **************************************************************************/
 
 #include "Platform/Windows/Windows.h"
+#include "Platform/Editor/Editor.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Renderer/Text.h"
