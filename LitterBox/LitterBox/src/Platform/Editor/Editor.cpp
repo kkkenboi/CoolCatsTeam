@@ -85,6 +85,9 @@ namespace LB
 		ImGuiID dockspace_id = ImGui::GetID("Dockspace");
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
 
+		//ImGui::DockBuilderRemoveNode(dockspace_id);
+		//ImGui::DockBuilderAddNode(dockspace_id, viewport->Size); // Add empty node
+
 		ImGui::End();
 
 		// Update all the ImGui layers here

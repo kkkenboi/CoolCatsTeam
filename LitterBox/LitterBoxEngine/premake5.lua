@@ -1,4 +1,4 @@
-project "Sandbox"
+project "LitterBoxEngine"
     kind "ConsoleApp" -- Outputs a console
     staticruntime "On"
 
@@ -28,12 +28,27 @@ project "Sandbox"
         "%{IncludeDir.stb}",
         "%{IncludeDir.FreeType}",
         "%{IncludeDir.FMOD}",
-        "%{IncludeDir.RapidJSON}"
+        "%{IncludeDir.RapidJSON}",
+        "%{IncludeDir.Mono}"
+
     }
 
     postbuildcommands
     {
-        "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/Sandbox\""    
+        "mkdir \"$(TargetDir)Assets\"", 
+        "mkdir \"$(TargetDir)Assets/Font\"", 
+        "mkdir \"$(TargetDir)Assets/Audio\"",
+        "mkdir \"$(TargetDir)Assets/Art\"",
+        "mkdir \"$(TargetDir)Assets/Scenes\"",
+        "mkdir \"$(TargetDir)Assets/Scripts\"",
+        "mkdir \"$(TargetDir)Assets/Prefabs\"",
+        "mkdir \"$(TargetDir)Builds\"",
+        "mkdir \"$(TargetDir)Editor\"",
+        "mkdir \"$(TargetDir)Editor/Lib\"",
+        "mkdir \"$(TargetDir)Logs\"",
+        "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/LitterBoxEngine\"",
+        "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\LitterBoxEngine\" /y",
+        "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\lib\\mono\\4.5\" /y /i /s",
     }
 
     -- Link to our engine library

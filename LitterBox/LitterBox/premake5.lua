@@ -35,13 +35,17 @@ project "LitterBox"
         "%{IncludeDir.stb}",
         "%{IncludeDir.FreeType}",
         "%{IncludeDir.FMOD}",
-        "%{IncludeDir.RapidJSON}"
+        "%{IncludeDir.RapidJSON}",
+        "%{IncludeDir.Mono}"
     }
 
     libdirs
     {
         "%{wks.location}/dependencies/FMOD/core/lib/x64",
-        "%{wks.location}/dependencies/FreeType/lib"
+        "%{wks.location}/dependencies/FreeType/lib",
+        "%{wks.location}/dependencies/Mono/lib",
+        "%{wks.location}/dependencies/Mono/lib/mono/4.5/*",
+        
     }
 
     -- Links to libraries by providing their project's name
@@ -52,7 +56,9 @@ project "LitterBox"
         "ImGui",
         "opengl32.lib",
         "fmod_vc",
-        "freetype"
+        "mono-2.0-sgen",
+        -- "mscorlib"
+        -- "freetype"
     }
 
     filter "system:windows"
