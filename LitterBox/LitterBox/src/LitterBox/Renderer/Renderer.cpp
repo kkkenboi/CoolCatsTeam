@@ -585,7 +585,7 @@ Renderer::RenderSystem::RenderSystem() :
 	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
 	if (uni_loc == -1)
 		std::cerr << "Cannot find uniform location" << std::endl;
-	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &object_renderer.cam.world_NDC[0][0]);
+	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 
 	//-################FOR BACKGROUND##########################
 	//cache some values

@@ -264,8 +264,6 @@ namespace Renderer {
 		//std::string shader_file_path
 
 	public:
-		Camera cam;
-
 		/*!***********************************************************************
 		\brief
 		 Renderer constructor
@@ -358,6 +356,9 @@ namespace Renderer {
 
 		Renderer bg_renderer;
 		Renderer object_renderer;
+
+		Camera cam;
+		Camera editor_cam;
 	public:
 
 		/*!***********************************************************************
