@@ -13,8 +13,9 @@
 #include "LitterBox/Engine/Input.h"
 #include "Player/Player.h"
 
-GameObject*test2, *test3, *static_wall;
-GameObject *scaleObj, *rotObj, *animObj;
+GameObject* test2, * test3, * static_wall;
+GameObject* ball1, * ball2;
+GameObject* scaleObj, * rotObj, * animObj;
 
 GameObject** test;
 
@@ -44,19 +45,19 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
-	test2 = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" });
-	test2->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
+	test2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody });
+	test2->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
 
-	test3 = FACTORY->SpawnGameObject({ "CPRender" , "CPRigidBody"}, Vec2<float>(200, 200));
-	test3->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
+	test3 = FACTORY->SpawnGameObject({ C_CPRender ,C_CPRigidBody }, Vec2<float>(200, 200));
+	test3->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
-	scaleObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(600, 600));
-	scaleObj->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+	scaleObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(600, 600));
+	scaleObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 
-	rotObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(800, 600));
-	rotObj->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+	rotObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(800, 600));
+	rotObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Animation test
@@ -82,13 +83,13 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
-	scaleObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(600, 300));
-	rotObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(800, 300));
+	scaleObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(600, 300));
+	rotObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(800, 300));
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Animation test
-	animObj = FACTORY->SpawnGameObject({ "CPRender" }, Vec2<float>(700, 300));
-	animObj->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("run"));
+	animObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(700, 300));
+	animObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("run"));
 
 	Renderer::GRAPHICS->init_anim("up_walk", frames[0].data(), 0.5f, 12);
 	Renderer::GRAPHICS->init_anim("right_walk", frames[1].data(), 0.5f, 12);
@@ -109,12 +110,20 @@ void SceneTestMain::Init()
 	LB::INPUT->SubscribeToKey(PlayExplosionSound, LB::KeyCode::KEY_D, LB::KeyEvent::TRIGGERED);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
+	// Player example
+	ball1 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(800, 400));
+	ball1->GetComponent<CPRigidBody>()->mShapeType = CIRCLE;
+	ball2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(1000, 400));
+	ball2->GetComponent<CPRigidBody>()->mShapeType = CIRCLE;
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Prefab example
 	LB::INPUT->SubscribeToKey(SpawnPineapples, LB::KeyCode::KEY_Q, LB::KeyEvent::TRIGGERED);
 
-	static_wall = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody" }, Vec2<float>(200, 600));
-	static_wall->GetComponent<CPRigidBody>("CPRigidBody")->isStatic = true;
-	static_wall->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+	static_wall = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(200, 600));
+	static_wall->GetComponent<CPRigidBody>()->isStatic = true;
+	static_wall->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Crash logging test (Uncomment code below for a crash!!!)
@@ -143,15 +152,15 @@ void SceneTestMain::Init()
 
 /*!***********************************************************************
  \brief
- Updates the current Scene 
+ Updates the current Scene
 *************************************************************************/
 void SceneTestMain::Update()
 {
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
 	static float degree{ 0.f };
-	scaleObj->GetComponent<CPTransform>("CPTransform")->SetScale({ sinf(degree) ,sinf(degree) });
-	rotObj->GetComponent<CPTransform>("CPTransform")->SetRotation(degree);
+	scaleObj->GetComponent<CPTransform>()->SetScale({ sinf(degree) ,sinf(degree) });
+	rotObj->GetComponent<CPTransform>()->SetRotation(degree);
 
 	degree = degree > 6.28318531f ? 0.f : degree + 0.01f;
 	/////////////////////////////////////////////////////////////////////////////////////////////

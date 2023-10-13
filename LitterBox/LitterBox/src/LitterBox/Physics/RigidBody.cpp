@@ -33,7 +33,7 @@ namespace LB
     *************************************************************************/
     void CPRigidBody::CreateRigidBody()
     {
-        transform = gameObj->GetComponent<CPTransform>("CPTransform");
+        transform = gameObj->GetComponent<CPTransform>();
 
         this->mPosition = transform->GetPosition();
         this->mPrevPosition = mPosition;
@@ -145,6 +145,11 @@ namespace LB
     void CPRigidBody::addImpulse(LB::Vec2<float> force)
     {
         this->mAcceleration += force;
+    }
+
+    void CPRigidBody::addRotation(float angle)
+    {
+        this->mRotation += angle;
     }
 
     /*!***********************************************************************
@@ -305,9 +310,16 @@ namespace LB
     *************************************************************************/
     void CPRigidBody::DebugDraw()
     {
-        // Add if check to see if DEBUG MODE on
-        DEBUG->DrawBox(mPosition, mWidth, mHeight,
-            Vec4<float> { 0.f, 0.f, 1.0f, 1.0f }, mRotation);
+        if (this->mShapeType == BOX)
+        {
+            DEBUG->DrawBox(mPosition, mWidth, mHeight,
+                Vec4<float> { 0.f, 0.f, 1.0f, 1.0f }, mRotation);
+        }
+        if (this->mShapeType == CIRCLE)
+        {
+            DEBUG->DrawCircle(mPosition,mRadius,
+                Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
+        }
         DEBUG->DrawLine(mPosition, PHY_MATH::Normalize(mVelocity), PHY_MATH::Length(mVelocity) / 5.f,
             Vec4<float> {1.0f, 0.f, 0.f, 0.f});
     }

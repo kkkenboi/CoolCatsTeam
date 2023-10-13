@@ -16,6 +16,7 @@
 #pragma once
 #include "pch.h"
 #include "Components.h"
+#include "Platform/Windows/Windows.h"
 #include "GameObjectManager.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Core/System.h"
@@ -59,13 +60,13 @@ namespace LB
 		 \brief
 		 Initialise this ComponentMaker of their type, eg. Physics / Graphics
 		*************************************************************************/
-		void InitCM(const std::string& name, ComponentMaker* newComponent);
+		void InitCM(const ComponentTypeID& name, ComponentMaker* newComponent);
 
 		/*!***********************************************************************
 		 \brief
 		 Delete all ComponentMakers from all GameObjects 
 		*************************************************************************/
-		void DeleteAllCMs(std::map<std::string, ComponentMaker*> ComponentMakers);
+		void DeleteAllCMs(std::map<ComponentTypeID, ComponentMaker*> ComponentMakers);
 
 		/*!***********************************************************************
 		 \brief
@@ -77,7 +78,7 @@ namespace LB
 		 \brief
 		 Spawns a GameObject with specified components and position
 		*************************************************************************/
-		GameObject* SpawnGameObject(std::initializer_list<std::string> components, 
+		GameObject* SpawnGameObject(std::initializer_list<ComponentTypeID> components,
 									Vec2<float> pos = { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f });
 
 		/*!***********************************************************************
@@ -96,7 +97,7 @@ namespace LB
 		 \brief
 		 Gets all of the ComponentMakers
 		*************************************************************************/
-		std::map<std::string, ComponentMaker*> GetCMs() const;
+		std::map<ComponentTypeID, ComponentMaker*> GetCMs() const;
 
 		/*!***********************************************************************
 		 \brief
@@ -106,11 +107,11 @@ namespace LB
 
 	private:
 
-		std::map<std::string, ComponentMaker*>	m_ComponentMakers;
-		std::vector<GameObject*>				m_WaitingList;
+		std::map<ComponentTypeID, ComponentMaker*>	m_ComponentMakers;
+		std::vector<GameObject*>					m_WaitingList;
 
-		int										m_LastObjID{};
-		bool									m_ToUpdate{};
+		int											m_LastObjID{};
+		bool										m_ToUpdate{};
 
 	};
 

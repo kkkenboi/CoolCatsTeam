@@ -2,7 +2,7 @@
 workspace "LitterBox"
     
     architecture "x86_64"
-    startproject "Sandbox"        -- Set startup project
+    startproject "LitterBoxEngine"        -- Set startup project
     toolset "v143"               -- Toolset v143 = Visual Studio 2022
 
     configurations
@@ -33,9 +33,10 @@ IncludeDir["glm"]           = "%{wks.location}/dependencies/glm/glm"
 IncludeDir["ImGui"]         = "%{wks.location}/dependencies/ImGui"
 IncludeDir["spdlog"]        = "%{wks.location}/dependencies/spdlog"
 IncludeDir["stb"]           = "%{wks.location}/dependencies/stb"
-IncludeDir["FreeType"]      = "%{wks.location}/dependencies/FreeType/include"
+IncludeDir["FreeType"]      = "%{wks.location}/dependencies/FreeType/**"
 IncludeDir["FMOD"]          = "%{wks.location}/dependencies/FMOD/include"
 IncludeDir["RapidJSON"]     = "%{wks.location}/dependencies/RapidJSON/include"
+IncludeDir["Mono"]          = "%{wks.location}/dependencies/Mono/include/mono-2.0"
 
 -- Projects 
 group "Dependencies"
@@ -49,6 +50,6 @@ group "Engine"
     include "LitterBox"
 group ""
 
-group "Sandbox"
-    include "Sandbox"
+group "Executable" -- !!! Need to change this name fr !!!
+    include "LitterBoxEngine"
 group ""

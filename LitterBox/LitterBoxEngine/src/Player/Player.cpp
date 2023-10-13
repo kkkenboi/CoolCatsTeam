@@ -10,6 +10,8 @@
 
 **************************************************************************/
 #include "Player.h"
+#include <mono/metadata/assembly.h>
+#include <mono/jit/jit.h>
 
 //Game object that will be the player
 GameObject* PlayerObj;
@@ -27,13 +29,13 @@ void spawn2500() {
 
 	test = new GameObject * [2500];
 	for (int i{ 0 }; i < 2500; ++i) {
-		test[i] = FACTORY->SpawnGameObject({ "CPRender" });
+		test[i] = FACTORY->SpawnGameObject({ C_CPRender });
 	}
 
 	for (int y{ 0 }; y < 50; ++y) {
 		for (int x{ 0 }; x < 50; ++x) {
-			test[x + y * 50]->GetComponent<CPTransform>("CPTransform")->SetPosition({ x * (WINDOWSSYSTEM->GetWidth() - 100.f) / 50.f + 50.f, y * (WINDOWSSYSTEM->GetHeight() - 100.f) / 50.f + 50.f });
-			test[x + y * 50]->GetComponent<CPTransform>("CPTransform")->SetScale({ 0.1f, 0.1f });
+			test[x + y * 50]->GetComponent<CPTransform>()->SetPosition({ x * (WINDOWSSYSTEM->GetWidth() - 100.f) / 50.f + 50.f, y * (WINDOWSSYSTEM->GetHeight() - 100.f) / 50.f + 50.f });
+			test[x + y * 50]->GetComponent<CPTransform>()->SetScale({ 0.1f, 0.1f });
 		}
 	}
 }
@@ -42,7 +44,7 @@ void hide2500() {
 	if (!test)
 		return;
 	for (int i{ 0 }; i < 2500; ++i) {
-		test[i]->GetComponent<CPRender>("CPRender")->set_active();
+		test[i]->GetComponent<CPRender>()->set_active();
 	}
 }
 
@@ -52,20 +54,24 @@ void hide2500() {
 *************************************************************************/
 void Player::Initialise()
 {
-	this->playerObj = FACTORY->SpawnGameObject({ "CPRender", "CPRigidBody"});
+	auto m = mono_init("LitterBoxEngine.exe");
+	this->playerObj = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody});
 
-	playerObj->GetComponent<CPTransform>("CPTransform")->SetPosition(LB::Vec2<float>{400.f, 400.f});
+	playerObj->GetComponent<CPTransform>()->SetPosition(LB::Vec2<float>{400.f, 400.f});
 	// Test player texture
-	playerObj->GetComponent<CPRender>("CPRender")->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("run"));
-	playerObj->GetComponent<CPRender>("CPRender")->play_repeat("up_walk");
+	playerObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("run"));
+	playerObj->GetComponent<CPRender>()->play_repeat("up_walk");
 
-	playerObj->GetComponent<CPRigidBody>("CPRigidBody")->mNumberID = 1;
+	playerObj->GetComponent<CPRigidBody>()->mNumberID = 1;
 
 	// Movement events
 	INPUT->SubscribeToKey(MoveUp, KeyCode::KEY_W, KeyEvent::PRESSED);
 	INPUT->SubscribeToKey(MoveDown, KeyCode::KEY_S, KeyEvent::PRESSED);
 	INPUT->SubscribeToKey(MoveLeft, KeyCode::KEY_A, KeyEvent::PRESSED);
 	INPUT->SubscribeToKey(MoveRight, KeyCode::KEY_D, KeyEvent::PRESSED);
+	INPUT->SubscribeToKey(RotateClockwise, KeyCode::KEY_E, KeyEvent::PRESSED);
+	INPUT->SubscribeToKey(RotateCounterClockwise, KeyCode::KEY_Q, KeyEvent::PRESSED);
+
 
 	// Anim events
 	INPUT->SubscribeToKey(AnimUp, KeyCode::KEY_W, KeyEvent::TRIGGERED);
@@ -95,7 +101,7 @@ void Player::Update()
 *************************************************************************/
 void MoveUp()
 {
-	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{0.f, 3000.f * (float)TIME->GetDeltaTime()});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, 3000.f * (float)TIME->GetDeltaTime()});
 }
 
 /*!***********************************************************************
@@ -105,7 +111,7 @@ void MoveUp()
 *************************************************************************/
 void MoveLeft()
 {
-	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{-3000.f * (float)TIME->GetDeltaTime(), 0.f});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{-3000.f * (float)TIME->GetDeltaTime(), 0.f});
 }
 
 /*!***********************************************************************
@@ -115,7 +121,7 @@ void MoveLeft()
 *************************************************************************/
 void MoveRight()
 {
-	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{3000.f * (float)TIME->GetDeltaTime(), 0.f});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{3000.f * (float)TIME->GetDeltaTime(), 0.f});
 }
 
 /*!***********************************************************************
@@ -125,7 +131,17 @@ void MoveRight()
 *************************************************************************/
 void MoveDown()
 {
-	PlayerObj->GetComponent<CPRigidBody>("CPRigidBody")->addForce(Vec2<float>{0.f, -3000.f * (float)TIME->GetDeltaTime()});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, -3000.f * (float)TIME->GetDeltaTime()});
+}
+
+void RotateClockwise()
+{
+	PlayerObj->GetComponent<CPRigidBody>()->addRotation(-0.1f);
+}
+
+void RotateCounterClockwise()
+{
+	PlayerObj->GetComponent<CPRigidBody>()->addRotation(0.1f);
 }
 
 /*!***********************************************************************
@@ -138,8 +154,8 @@ void MoveDown()
 *************************************************************************/
 void AnimUp()
 {
-	PlayerObj->GetComponent<CPRender>("CPRender")->stop_anim();
-	PlayerObj->GetComponent<CPRender>("CPRender")->play_repeat("up_walk");
+	PlayerObj->GetComponent<CPRender>()->stop_anim();
+	PlayerObj->GetComponent<CPRender>()->play_repeat("up_walk");
 }
 
 /*!***********************************************************************
@@ -152,8 +168,8 @@ void AnimUp()
 *************************************************************************/
 void AnimLeft()
 {
-	PlayerObj->GetComponent<CPRender>("CPRender")->stop_anim();
-	PlayerObj->GetComponent<CPRender>("CPRender")->play_repeat("left_walk");
+	PlayerObj->GetComponent<CPRender>()->stop_anim();
+	PlayerObj->GetComponent<CPRender>()->play_repeat("left_walk");
 }
 
 /*!***********************************************************************
@@ -166,8 +182,8 @@ void AnimLeft()
 *************************************************************************/
 void AnimRight()
 {
-	PlayerObj->GetComponent<CPRender>("CPRender")->stop_anim();
-	PlayerObj->GetComponent<CPRender>("CPRender")->play_repeat("right_walk");
+	PlayerObj->GetComponent<CPRender>()->stop_anim();
+	PlayerObj->GetComponent<CPRender>()->play_repeat("right_walk");
 }
 
 /*!***********************************************************************
@@ -180,8 +196,8 @@ void AnimRight()
 *************************************************************************/
 void AnimDown()
 {
-	PlayerObj->GetComponent<CPRender>("CPRender")->stop_anim();
-	PlayerObj->GetComponent<CPRender>("CPRender")->play_repeat("down_walk");
+	PlayerObj->GetComponent<CPRender>()->stop_anim();
+	PlayerObj->GetComponent<CPRender>()->play_repeat("down_walk");
 }
 
 

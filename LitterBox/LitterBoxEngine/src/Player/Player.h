@@ -52,6 +52,10 @@ void MoveUp();
 void MoveLeft();
 void MoveRight();
 void MoveDown(); 
+void RotateClockwise();
+void RotateCounterClockwise();
+
+
 void SpawnPineapples();
 
 extern GameObject* PlayerObj;

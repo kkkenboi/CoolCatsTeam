@@ -54,7 +54,7 @@ namespace LB
 	 \return
 	 Map to the GameObject's components
 	*************************************************************************/
-	std::unordered_map<std::string, IComponent*> GameObject::GetComponents()
+	std::unordered_map<ComponentTypeID, IComponent*> GameObject::GetComponents()
 	{
 		return m_Components;
 	}
@@ -66,7 +66,7 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void GameObject::SetComponents(const std::unordered_map<std::string, IComponent*>& otherMap)
+	void GameObject::SetComponents(const std::unordered_map<ComponentTypeID, IComponent*>& otherMap)
 	{
 		this->m_Components = otherMap;
 	}
@@ -78,10 +78,10 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void GameObject::AddComponent(std::string name, IComponent* component)
+	void GameObject::AddComponent(ComponentTypeID id, IComponent* component)
 	{
 		component->gameObj = this;
-		m_Components[name] = component;
+		m_Components[id] = component;
 	}
 	
 	/*!***********************************************************************
@@ -93,27 +93,26 @@ namespace LB
 	*************************************************************************/
 	bool GameObject::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
-
-		if (m_Components.find("CPTransform") != m_Components.end())
+		if (m_Components.find(C_CPTransform) != m_Components.end())
 		{
 			data.SetObject();
-			Value TransfromComponent;
-			m_Components["CPTransform"]->Serialize(TransfromComponent, alloc);
-			data.AddMember("Transform", TransfromComponent, alloc);
+			Value TransformComponent;
+			m_Components[C_CPTransform]->Serialize(TransformComponent, alloc);
+			data.AddMember("Transform", TransformComponent, alloc);
 		}
 		//We will return false if we fail to serialise a transform because
 		//ALL GAMEOBJECTS MUST HAVE TRANSFORM!
 		else return false;
-		if (m_Components.find("CPRigidBody") != m_Components.end())
+		if (m_Components.find(C_CPRigidBody) != m_Components.end())
 		{
 			Value RigidBodyComponent;
-			m_Components["CPRigidBody"]->Serialize(RigidBodyComponent, alloc);
+			m_Components[C_CPRigidBody]->Serialize(RigidBodyComponent, alloc);
 			data.AddMember("RigidBody", RigidBodyComponent, alloc);
 		}
-		if (m_Components.find("CPRender") != m_Components.end())
+		if (m_Components.find(C_CPRender) != m_Components.end())
 		{
 			Value RenderComponent;
-			m_Components["CPRender"]->Serialize(RenderComponent, alloc);
+			m_Components[C_CPRender]->Serialize(RenderComponent, alloc);
 			data.AddMember("Render", RenderComponent, alloc);
 		}
 		return true;
@@ -135,35 +134,35 @@ namespace LB
 		{
 			if (HasTransform)
 			{
-				if (m_Components.find("CPTransform") == m_Components.end())
+				if (m_Components.find(C_CPTransform) == m_Components.end())
 				{
 					std::cout << "GO doesn't have a transform :C so we make one\n";
-					AddComponent("CPTransform", FACTORY->GetCMs()["CPTransform"]->Create());
+					AddComponent(C_CPTransform, FACTORY->GetCMs()[C_CPTransform]->Create());
 				}
 				const Value& transformValue = data["Transform"];
-				m_Components["CPTransform"]->Deserialize(transformValue);
+				m_Components[C_CPTransform]->Deserialize(transformValue);
 			}
 			//ALL GO's MUST HAVE TRANSFORM!
 			else return false;
 			if (HasRigidBody)
 			{
-				if (m_Components.find("CPRigidBody") == m_Components.end())
+				if (m_Components.find(C_CPRigidBody) == m_Components.end())
 				{
 					std::cout << "GO doesn't have a rigidbody :C so we make one\n";
-					AddComponent("CPRigidBody", FACTORY->GetCMs()["CPRigidBody"]->Create());
+					AddComponent(C_CPRigidBody, FACTORY->GetCMs()[C_CPRigidBody]->Create());
 				}
 				const Value& rigidBodyValue = data["RigidBody"];
-				m_Components["CPRigidBody"]->Deserialize(rigidBodyValue);
+				m_Components[C_CPRigidBody]->Deserialize(rigidBodyValue);
 			}
 			if (HasRender)
 			{
-				if (m_Components.find("CPRender") == m_Components.end())
+				if (m_Components.find(C_CPRender) == m_Components.end())
 				{
 					std::cout << "GO doesn't have a render :C so we make one\n";
-					AddComponent("CPRender", FACTORY->GetCMs()["CPRender"]->Create());
+					AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 				}
 				const Value& renderValue = data["Render"];
-				m_Components["CPRender"]->Deserialize(renderValue);
+				m_Components[C_CPRender]->Deserialize(renderValue);
 			}
 		}
 		return true;
