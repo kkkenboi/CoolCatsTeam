@@ -15,7 +15,7 @@
 #include "SceneManager.h"
 
 // Test scene, to be refactored in M2
-#include "../../../Sandbox/src/SceneTestMain.h"
+#include "../../../LitterBoxEngine/src/SceneTestMain.h"
 
 namespace LB
 {
