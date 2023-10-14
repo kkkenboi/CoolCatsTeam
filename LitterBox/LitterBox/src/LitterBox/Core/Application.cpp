@@ -43,6 +43,7 @@ namespace LB {
 		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
 		Memory*					memory			= new Memory();
 		SceneManager*			sceneManager	= new SceneManager(firstScene);
+		Editor*					editor			= new Editor();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
@@ -58,6 +59,7 @@ namespace LB {
 		Engine->AddSystem(memory);
 		Engine->AddSystem(debug);
 		Engine->AddSystem(sceneManager);
+		Engine->AddSystem(editor);
 
 		Engine->Initialise();
 
