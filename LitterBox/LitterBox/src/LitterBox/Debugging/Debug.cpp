@@ -166,6 +166,7 @@ namespace LB
 		logFile.close();
 
 		crashInfoLogger->error("Unexpected application crash! Signal: {}", signal);
+		crashInfoLogger->flush();
 	}
 
 	//TODO modulate the vertex size
@@ -498,8 +499,6 @@ namespace LB
 		// Save to debug file and flush it
 		debugInfoLogger->error(output.str());
 		FlushDebugLog();
-
-		// Then assert
 	}
 
 	void Debugger::LogErrorFormat(const char* file, int line, const char* format, ...)
@@ -513,11 +512,13 @@ namespace LB
 		va_end(args);
 
 		LogError(file, line, std::string(cStrBuffer));
+
+		// TODO: Add an option to pause on error
 	}
 
 	/*!***********************************************************************
 	\brief
-	 Assert prints out a debug line if a specific condition is not met.
+	 Assert prints out a debug line and stops the program if a specific condition is not met.
 	*************************************************************************/
 	void Debugger::Assert(const char* file, int line, bool expectedCondition, std::string const& message)
 	{
@@ -532,6 +533,8 @@ namespace LB
 			// Save to debug file and flush it
 			debugInfoLogger->error(output.str());
 			FlushDebugLog();
+			
+			std::terminate();
 		}
 	}
 

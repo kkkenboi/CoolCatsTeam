@@ -17,6 +17,9 @@
 #include "pch.h"
 #include "GameLogic.h"
 
+#include "mono/jit/jit.h"
+#include "mono/metadata/assembly.h"
+
 namespace LB
 {
 	GameLogic* GAMELOGIC = nullptr;
@@ -41,7 +44,11 @@ namespace LB
 		}
 
 		SetSystemName("Game Logic System");
+
+		m_domain = mono_jit_init("LitterBoxDomain");
 	}
+
+
 
 	/*!***********************************************************************
 	 \brief
@@ -64,6 +71,6 @@ namespace LB
 	*************************************************************************/
 	void GameLogic::Destroy()
 	{
-		// Empty for now
+		mono_jit_cleanup(m_domain);
 	}
 }

@@ -16,10 +16,12 @@
 
 #pragma once
 #include "LitterBox/Core/System.h"
-
+#include "mono/utils/mono-forward.h"
 
 namespace LB
 {
+	//class MonoDomain;
+
 	/*!***********************************************************************
 	 \brief
 	 GameLogic class will contain functions that checks whether GameObjects
@@ -48,7 +50,7 @@ namespace LB
 		void Destroy() override;
 
 	private:
-
+		MonoDomain *m_domain;
 	};
 
 	/*!***********************************************************************
