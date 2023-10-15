@@ -1,7 +1,7 @@
 project "LBMonoDLL"
     kind "SharedLib" -- Outputs a console
     staticruntime "On"
-    targetextension {".dll"}
+    targetextension (".dll")
 
     language "C++"
     cppdialect "C++20"
