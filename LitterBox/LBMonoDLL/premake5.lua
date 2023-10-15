@@ -1,6 +1,7 @@
-project "LitterBox"
-    kind "StaticLib" -- Engine Library
+project "LBMonoDLL"
+    kind "SharedLib" -- Outputs a console
     staticruntime "On"
+    targetextension (".dll")
 
     language "C++"
     cppdialect "C++20"
@@ -10,23 +11,16 @@ project "LitterBox"
     targetdir ("%{wks.location}/bin/" .. outputDir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputDir .. "/%{prj.name}")
 
-    -- Precompiled headers for engine
-    pchheader "pch.h"
-    pchsource "src/pch.cpp"
-    
-    forceincludes { "pch.h" } -- Inserts this include for every src file
-
     files
     {
         "src/**.h",
         "src/**.cpp",
-        "src/LitterBox/Renderer/**.shader", 
     }
 
-    -- Includes for any additional directories/dependencies for this project
+    -- Include the header file to be exposed
     includedirs
     {
-        "%{wks.location}/LitterBox/src",
+        "%{wks.location}/LBEngine/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
@@ -37,28 +31,13 @@ project "LitterBox"
         "%{IncludeDir.FMOD}",
         "%{IncludeDir.RapidJSON}",
         "%{IncludeDir.Mono}"
+
     }
 
-    libdirs
-    {
-        "%{wks.location}/dependencies/FMOD/core/lib/x64",
-        "%{wks.location}/dependencies/FreeType/lib",
-        "%{wks.location}/dependencies/Mono/lib",
-        "%{wks.location}/dependencies/Mono/lib/mono/4.5/*",
-        
-    }
-
-    -- Links to libraries by providing their project's name
+    -- Link to our engine library
     links
     {
-        "GLFW",
-        "Glad",
-        "ImGui",
-        "opengl32.lib",
-        "fmod_vc",
-        "mono-2.0-sgen",
-        -- "mscorlib"
-        -- "freetype"
+        "LBEngine"
     }
 
     filter "system:windows"
