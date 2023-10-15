@@ -2,7 +2,7 @@
 workspace "LitterBox"
     
     architecture "x86_64"
-    startproject "LitterBoxEngine"        -- Set startup project
+    startproject "LBEditor"        -- Set startup project
     toolset "v143"               -- Toolset v143 = Visual Studio 2022
 
     configurations
@@ -46,10 +46,14 @@ group "Dependencies"
     include "dependencies/ImGui"
 group ""
 
-group "Engine"
-    include "LitterBox"
+group "Script"
+    include "LBMonoDLL"
 group ""
 
-group "Executable" -- !!! Need to change this name fr !!!
-    include "LitterBoxEngine"
+group "Engine"
+    include "LBEngine"
+group ""
+
+group "Editor" 
+    include "LBEditor"
 group ""

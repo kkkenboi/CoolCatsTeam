@@ -1,4 +1,4 @@
-project "LitterBox"
+project "LBEngine"
     kind "StaticLib" -- Engine Library
     staticruntime "On"
 
@@ -20,13 +20,13 @@ project "LitterBox"
     {
         "src/**.h",
         "src/**.cpp",
-        "src/LitterBox/Renderer/**.shader", 
+        "src/LBEngine/Renderer/**.shader", 
     }
 
     -- Includes for any additional directories/dependencies for this project
     includedirs
     {
-        "%{wks.location}/LitterBox/src",
+        "%{wks.location}/LBEngine/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
@@ -57,7 +57,6 @@ project "LitterBox"
         "opengl32.lib",
         "fmod_vc",
         "mono-2.0-sgen",
-        -- "mscorlib"
         -- "freetype"
     }
 

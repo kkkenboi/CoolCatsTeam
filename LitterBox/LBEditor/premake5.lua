@@ -1,4 +1,4 @@
-project "LitterBoxEngine"
+project "LBEditor"
     kind "ConsoleApp" -- Outputs a console
     staticruntime "On"
 
@@ -19,7 +19,7 @@ project "LitterBoxEngine"
     -- Includes for any additional dependencies for this project
     includedirs
     {
-        "%{wks.location}/LitterBox/src",
+        "%{wks.location}/LBEngine/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
@@ -46,15 +46,15 @@ project "LitterBoxEngine"
         "mkdir \"$(TargetDir)Editor\"",
         "mkdir \"$(TargetDir)Editor/Lib\"",
         "mkdir \"$(TargetDir)Logs\"",
-        "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/LitterBoxEngine\"",
-        "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\LitterBoxEngine\" /y",
+        "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBEditor\"",
+        "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\LBEditor\" /y",
         "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\lib\\mono\\4.5\" /y /i /s",
     }
 
     -- Link to our engine library
     links
     {
-        "LitterBox"
+        "LBEngine"
     }
 
     filter "system:windows"
