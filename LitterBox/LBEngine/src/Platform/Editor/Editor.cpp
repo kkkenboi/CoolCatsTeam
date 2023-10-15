@@ -21,11 +21,16 @@
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
 #include "Platform/Windows/Windows.h"
-#include "LitterBox/Renderer/Renderer.h"
+#include "LitterBox/Engine/Input.h"
 
 
 namespace LB
 {
+	void ToggleEditor()
+	{
+		EDITOR->m_EditorMode = !EDITOR->m_EditorMode;
+	}
+
 	Editor* EDITOR = nullptr;
 
 	void Editor::Initialize()
@@ -33,11 +38,14 @@ namespace LB
 		if (!EDITOR)
 		{
 			EDITOR = this;
+			m_EditorMode = true;
 		}
 		else
 		{
 			std::cerr << "Editor already exists" << std::endl;
 		}
+
+		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();
@@ -62,144 +70,147 @@ namespace LB
 
 	void Editor::Update()
 	{
-		// To start every frame
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// Docking Section
-        static bool dockspaceOpen = true;
-        ImGuiViewport* viewport = ImGui::GetMainViewport();
-        ImGui::SetNextWindowPos(viewport->Pos);
-        ImGui::SetNextWindowSize(viewport->Size);
-        ImGui::SetNextWindowViewport(viewport->ID);
+		if (m_EditorMode)
+		{
+			// To start every frame
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+			ImGui::NewFrame();
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					// Docking Section
+			static bool dockspaceOpen = true;
+			ImGuiViewport* viewport = ImGui::GetMainViewport();
+			ImGui::SetNextWindowPos(viewport->Pos);
+			ImGui::SetNextWindowSize(viewport->Size);
+			ImGui::SetNextWindowViewport(viewport->ID);
 
-        ImGuiWindowFlags dockingFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-        								ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoNav;
+			ImGuiWindowFlags dockingFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+				ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoNav;
 
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-        ImGui::Begin("Dockspace", &dockspaceOpen, dockingFlags);
-        ImGui::PopStyleVar();
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+			ImGui::Begin("Dockspace", &dockspaceOpen, dockingFlags);
+			ImGui::PopStyleVar();
 
-        // Menu Bar 
-        if (ImGui::BeginMenuBar())
-        {
-            if (ImGui::BeginMenu("File"))
-            {
+			// Menu Bar 
+			if (ImGui::BeginMenuBar())
+			{
+				if (ImGui::BeginMenu("File"))
+				{
 
-                if (ImGui::MenuItem("Hide Docking Bar"))
-                {
-                    ;
-                }
+					if (ImGui::MenuItem("Hide Docking Bar"))
+					{
+						;
+					}
 
-                ImGui::Separator();
+					ImGui::Separator();
 
-                if (ImGui::MenuItem("Exit"))
-                {
-                    MessageQuit q;
-                    CORE->BroadcastMessage(&q);
-                }
+					if (ImGui::MenuItem("Exit"))
+					{
+						MessageQuit q;
+						CORE->BroadcastMessage(&q);
+					}
 
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenuBar();
-        }
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenuBar();
+			}
 
-		// Dockspace
-        if (ImGui::DockBuilderGetNode(ImGui::GetID("MyDockspace")) == NULL)
-        {
-            ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
-            ImGuiViewport* viewport = ImGui::GetMainViewport();
-            ImGui::DockBuilderRemoveNode(dockspace_id); // Clear out existing layout
-            ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace); // Add empty node
+			// Dockspace
+			if (ImGui::DockBuilderGetNode(ImGui::GetID("MyDockspace")) == NULL)
+			{
+				ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
+				ImGuiViewport* viewport = ImGui::GetMainViewport();
+				ImGui::DockBuilderRemoveNode(dockspace_id); // Clear out existing layout
+				ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace); // Add empty node
 
-            ImGuiID dock_main_id = dockspace_id; // This variable will track the document node, however we are not using it here as we aren't docking anything into it.
-            ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 200000.f, NULL, &dock_main_id);
-            //ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.20f, NULL, &dock_main_id);
-            //ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.20f, NULL, &dock_main_id);
+				ImGuiID dock_main_id = dockspace_id; // This variable will track the document node, however we are not using it here as we aren't docking anything into it.
+				ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 200000.f, NULL, &dock_main_id);
+				//ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.20f, NULL, &dock_main_id);
+				//ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.20f, NULL, &dock_main_id);
 
-            ImGui::DockBuilderDockWindow("Hierarchy", dock_id_left);
-            ImGui::DockBuilderDockWindow("Inspector", dock_main_id);
-            ImGui::DockBuilderFinish(dockspace_id);
-        }
+				ImGui::DockBuilderDockWindow("Hierarchy", dock_id_left);
+				ImGui::DockBuilderDockWindow("Inspector", dock_main_id);
+				ImGui::DockBuilderFinish(dockspace_id);
+			}
 
-		ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
-		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
+			ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
+			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
 
-        ImGui::End();
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//bool open = true;
+			ImGui::End();
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				  //bool open = true;
 
-		//ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-		//ImGuiViewport* viewport = ImGui::GetMainViewport();
-		//ImGui::SetNextWindowPos(viewport->Pos);
-		//ImGui::SetNextWindowSize(viewport->Size);
-		//ImGui::SetNextWindowViewport(viewport->ID);
-		//ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-		//ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-		//window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-		//window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+				  //ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+				  //ImGuiViewport* viewport = ImGui::GetMainViewport();
+				  //ImGui::SetNextWindowPos(viewport->Pos);
+				  //ImGui::SetNextWindowSize(viewport->Size);
+				  //ImGui::SetNextWindowViewport(viewport->ID);
+				  //ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+				  //ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+				  //window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+				  //window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
-		//ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-		//ImGui::Begin("DockSpace Demo", &open, window_flags);
-		//ImGui::PopStyleVar();
+				  //ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+				  //ImGui::Begin("DockSpace Demo", &open, window_flags);
+				  //ImGui::PopStyleVar();
 
-		//ImGui::PopStyleVar(2);
+				  //ImGui::PopStyleVar(2);
 
-		//if (ImGui::DockBuilderGetNode(ImGui::GetID("MyDockspace")) == NULL)
-		//{
-		//	ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
-		//	ImGuiViewport* viewport = ImGui::GetMainViewport();
-		//	ImGui::DockBuilderRemoveNode(dockspace_id); // Clear out existing layout
-		//	ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace); // Add empty node
+				  //if (ImGui::DockBuilderGetNode(ImGui::GetID("MyDockspace")) == NULL)
+				  //{
+				  //	ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
+				  //	ImGuiViewport* viewport = ImGui::GetMainViewport();
+				  //	ImGui::DockBuilderRemoveNode(dockspace_id); // Clear out existing layout
+				  //	ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace); // Add empty node
 
-		//	ImGuiID dock_main_id = dockspace_id; // This variable will track the document node, however we are not using it here as we aren't docking anything into it.
-		//	ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.20f, NULL, &dock_main_id);
-		//	ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.20f, NULL, &dock_main_id);
-		//	ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.20f, NULL, &dock_main_id);
+				  //	ImGuiID dock_main_id = dockspace_id; // This variable will track the document node, however we are not using it here as we aren't docking anything into it.
+				  //	ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.20f, NULL, &dock_main_id);
+				  //	ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.20f, NULL, &dock_main_id);
+				  //	ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.20f, NULL, &dock_main_id);
 
-		//	ImGui::DockBuilderDockWindow("James_1", dock_id_left);
-		//	ImGui::DockBuilderDockWindow("James_2", dock_main_id);
-		//	ImGui::DockBuilderDockWindow("James_3", dock_id_right);
-		//	ImGui::DockBuilderDockWindow("James_4", dock_id_bottom);
-		//	ImGui::DockBuilderFinish(dockspace_id);
-		//}
+				  //	ImGui::DockBuilderDockWindow("James_1", dock_id_left);
+				  //	ImGui::DockBuilderDockWindow("James_2", dock_main_id);
+				  //	ImGui::DockBuilderDockWindow("James_3", dock_id_right);
+				  //	ImGui::DockBuilderDockWindow("James_4", dock_id_bottom);
+				  //	ImGui::DockBuilderFinish(dockspace_id);
+				  //}
 
-		//ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, 0);
-		//ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
-		//ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
-		//ImGui::PopStyleColor();
-		//ImGui::End();
+				  //ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, 0);
+				  //ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
+				  //ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
+				  //ImGui::PopStyleColor();
+				  //ImGui::End();
 
-		//ImGui::Begin("James_1", &open, 0);
-		//ImGui::Text("Text 1");
-		//ImGui::End();
+				  //ImGui::Begin("James_1", &open, 0);
+				  //ImGui::Text("Text 1");
+				  //ImGui::End();
 
-		//ImGui::Begin("James_2", &open, 0);
-		//ImGui::Text("Text 2");
-		//ImGui::End();
+				  //ImGui::Begin("James_2", &open, 0);
+				  //ImGui::Text("Text 2");
+				  //ImGui::End();
 
-		//ImGui::Begin("James_3", &open, 0);
-		//ImGui::Text("Text 3");
-		//ImGui::End();
+				  //ImGui::Begin("James_3", &open, 0);
+				  //ImGui::Text("Text 3");
+				  //ImGui::End();
 
-		//ImGui::Begin("James_4", &open, 0);
-		//ImGui::Text("Text 4");
-		//ImGui::End();
-        // Update all the ImGui layers here
-        for (Layer* layer : m_ImGuiLayers)
-        {
-            layer->UpdateLayer();
-        }
+				  //ImGui::Begin("James_4", &open, 0);
+				  //ImGui::Text("Text 4");
+				  //ImGui::End();
+				  // Update all the ImGui layers here
+			for (Layer* layer : m_ImGuiLayers)
+			{
+				layer->UpdateLayer();
+			}
 
-        // Render Portion
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+			// Render Portion
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-        glfwMakeContextCurrent(WINDOWSSYSTEM->GetWindow());
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(WINDOWSSYSTEM->GetWindow());
 
+		}
 	}
 
 	void Editor::FixedUpdate()
