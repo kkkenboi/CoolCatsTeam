@@ -79,8 +79,6 @@ namespace LB
 		void RemoveLayer(Layer* layer);
 
 	private:
-
-		LayerStack				m_LayerStack;
 		std::vector<ISystem*>	Systems;
 
 		bool					m_Running;

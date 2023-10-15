@@ -63,18 +63,7 @@ namespace LB
 			{
 				Profiler frameProfiler{ "Total Frame Time", ProfileResult::MANAGER, ProfileMap::SYSTEMS };
 
-				for (Layer* layer : m_LayerStack)
-				{
-					layer->UpdateLayer();
-				}
-
-				// Update every system 
-				for (unsigned i = 0; i < Systems.size(); ++i) 
-				{
-					Profiler systemProfiler{ Systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS };
-					Systems[i]->Update();
-				}
-
+				// Update every system every fixed timestep (Usually for physics)
 				TIME->AccumulateFixedUpdate();
 				while (TIME->ShouldFixedUpdate()) 
 				{
@@ -83,6 +72,13 @@ namespace LB
 						Profiler systemProfiler{ Systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS, false };
 						Systems[i]->FixedUpdate();
 					}
+				}
+
+				// Update every system every frame
+				for (unsigned i = 0; i < Systems.size(); ++i) 
+				{
+					Profiler systemProfiler{ Systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS };
+					Systems[i]->Update();
 				}
 			}
 
@@ -148,23 +144,4 @@ namespace LB
 	{
 		return m_Running ? true : false;
 	}
-	
-	/*!***********************************************************************
-	 \brief
-	 Adds a layer from the layerStack
-	*************************************************************************/
-	void LBEngine::AddLayer(Layer* layer)
-	{
-		m_LayerStack.AddLayer(layer);
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Removes a layer from the layerStack
-	*************************************************************************/
-	void LBEngine::RemoveLayer(Layer* layer)
-	{
-		m_LayerStack.RemoveLayer(layer);
-	}
-
 }
