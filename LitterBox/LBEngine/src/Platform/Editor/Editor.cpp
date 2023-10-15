@@ -17,12 +17,19 @@
 **************************************************************************/
 #include "pch.h"
 #include "LitterBox/Core/Core.h"
+
 #include "Editor.h"
+#include "EditorToolBar.h"
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
+#include "EditorGameView.h"
+#include "EditorSceneView.h"
+#include "EditorAssets.h"
+#include "EditorConsole.h"
+#include "EditorProfiler.h"
+
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
-
 
 namespace LB
 {
@@ -64,8 +71,14 @@ namespace LB
 		ImGui::StyleColorsDark();
 
 		// Add the different ImGui layers in here
+		m_ImGuiLayers.AddLayer(new EditorToolBar("ToolBar"));
 		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
 		m_ImGuiLayers.AddLayer(new EditorInspector("Inspector"));
+		m_ImGuiLayers.AddLayer(new EditorSceneView("Scene View"));
+		m_ImGuiLayers.AddLayer(new EditorGameView("Game View"));
+		m_ImGuiLayers.AddLayer(new EditorConsole("Console"));
+		m_ImGuiLayers.AddLayer(new EditorProfiler("Profiler"));
+		m_ImGuiLayers.AddLayer(new EditorAssets("Assets"));
 	}
 
 	void Editor::Update()
@@ -209,7 +222,6 @@ namespace LB
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(WINDOWSSYSTEM->GetWindow());
-
 		}
 	}
 

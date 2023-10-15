@@ -116,7 +116,6 @@ void SceneTestMain::Init()
 	ball2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(1000, 400));
 	ball2->GetComponent<CPRigidBody>()->mShapeType = CIRCLE;
 
-
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Prefab example
 	LB::INPUT->SubscribeToKey(SpawnPineapples, LB::KeyCode::KEY_Q, LB::KeyEvent::TRIGGERED);

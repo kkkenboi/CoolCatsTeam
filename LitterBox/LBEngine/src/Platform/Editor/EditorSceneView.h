@@ -22,6 +22,7 @@ namespace LB
 {
 	class EditorSceneView : public Layer
 	{
+	public:
 		EditorSceneView(std::string layerName);
 
 		void UpdateLayer() override;

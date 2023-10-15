@@ -136,7 +136,7 @@ namespace LB
 			{
 				if (m_Components.find(C_CPTransform) == m_Components.end())
 				{
-					std::cout << "GO doesn't have a transform :C so we make one\n";
+					DebuggerLog("Deserialize: GO doesn't have a transform :C so we make one");
 					AddComponent(C_CPTransform, FACTORY->GetCMs()[C_CPTransform]->Create());
 				}
 				const Value& transformValue = data["Transform"];
@@ -148,7 +148,7 @@ namespace LB
 			{
 				if (m_Components.find(C_CPRigidBody) == m_Components.end())
 				{
-					std::cout << "GO doesn't have a rigidbody :C so we make one\n";
+					DebuggerLog("Deserialize: GO doesn't have a rigidbody :C so we make one");
 					AddComponent(C_CPRigidBody, FACTORY->GetCMs()[C_CPRigidBody]->Create());
 				}
 				const Value& rigidBodyValue = data["RigidBody"];
@@ -158,7 +158,7 @@ namespace LB
 			{
 				if (m_Components.find(C_CPRender) == m_Components.end())
 				{
-					std::cout << "GO doesn't have a render :C so we make one\n";
+					DebuggerLog("Deserialize: GO doesn't have a render :C so we make one");
 					AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 				}
 				const Value& renderValue = data["Render"];
