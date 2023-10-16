@@ -20,11 +20,35 @@
 
 namespace LB
 {
+	enum class EditorConsoleMsgType
+	{
+		DEBUG,
+		WARNING,
+		ERROR
+	};
+
+	struct ConsoleMessage
+	{
+		std::string msg;
+		EditorConsoleMsgType type;
+	};
+
 	class EditorConsole : public Layer
 	{
 	public:
 		EditorConsole(std::string layerName);
 
 		void UpdateLayer() override;
+
+		void AddLogMessage(std::string const& log);
+		void AddWarningMessage(std::string const& warning);
+		void AddErrorMessage(std::string const& error);
+
+	private:
+		std::map<EditorConsoleMsgType, ImVec4> messageColors;
+		std::vector<ConsoleMessage> messages{};
+		ImGuiTextFilter messageFilter;
 	};
+
+	extern EditorConsole* EDITORCONSOLE;
 }

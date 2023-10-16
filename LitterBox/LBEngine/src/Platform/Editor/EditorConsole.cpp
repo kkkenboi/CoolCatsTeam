@@ -18,12 +18,77 @@
 
 namespace LB
 {
-	EditorConsole::EditorConsole(std::string layerName) : Layer(layerName) {}
+	EditorConsole* EDITORCONSOLE = nullptr;
+
+	EditorConsole::EditorConsole(std::string layerName) : Layer(layerName) 
+	{
+		if (!EDITORCONSOLE)
+			EDITORCONSOLE = this;
+		else
+			DebuggerLogError("Editor Console already exist!");
+
+		// Add the colors into the lookup table (Serialize this in the future)
+		messageColors[EditorConsoleMsgType::DEBUG]		= ImVec4(0.25f, 0.56f, 0.4f, 1.0f);
+		messageColors[EditorConsoleMsgType::WARNING]	= ImVec4(0.8f, 0.8f, 0.28f, 1.0f);
+		messageColors[EditorConsoleMsgType::ERROR]		= ImVec4(0.8f, 0.27f, 0.25f, 1.0f);
+	}
 
 	void EditorConsole::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
 
+		// Buttons and filter box at the top of the console
+		if (ImGui::SmallButton("Clear")) 
+		{
+			messages.clear();
+		}
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Error Pause")) 
+		{
+
+		}
+		ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - 240.0f);
+		messageFilter.Draw("Filter", 180.0f);
+
+		ImGui::Separator();
+
+		// Message logs
+		const float consoleLogHeight = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
+        if (ImGui::BeginChild("ScrollingRegion", ImVec2(0, -consoleLogHeight), false, ImGuiWindowFlags_HorizontalScrollbar))
+        {
+            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
+
+            for (ConsoleMessage const& message : messages)
+            {
+                if (!messageFilter.PassFilter(message.msg.c_str()))
+                    continue;
+
+				ImGui::PushStyleColor(ImGuiCol_Text, messageColors[message.type]);
+                ImGui::TextUnformatted(message.msg.c_str());
+				ImGui::PopStyleColor();
+			}
+
+            ImGui::PopStyleVar();
+        }
+		ImGui::EndChild();
+
+		ImGui::ShowDemoWindow(); // Open the ImGui demo window
+
 		ImGui::End();
+	}
+
+	void EditorConsole::AddLogMessage(std::string const& log)
+	{
+		messages.emplace_back(log, EditorConsoleMsgType::DEBUG);
+	}
+
+	void EditorConsole::AddWarningMessage(std::string const& warning)
+	{
+		messages.emplace_back(warning, EditorConsoleMsgType::WARNING);
+	}
+
+	void EditorConsole::AddErrorMessage(std::string const& error)
+	{
+		messages.emplace_back(error, EditorConsoleMsgType::ERROR);
 	}
 }

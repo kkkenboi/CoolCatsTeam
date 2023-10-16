@@ -29,10 +29,12 @@ namespace LB
 	class Editor : public ISystem
 	{
 	public:
-		void Initialize() override;
-		void Update() override;
-		void FixedUpdate() override;
-		void Destroy() override;
+		Editor();
+
+		void Initialize()	override;
+		void Update()		override;
+		void FixedUpdate()	override;
+		void Destroy()		override;
 		bool	m_EditorMode = true;
 	private:
 		LayerStack m_ImGuiLayers;

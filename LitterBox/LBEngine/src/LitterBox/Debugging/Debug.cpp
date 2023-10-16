@@ -18,6 +18,7 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
 #include "Debug.h"
+#include "Platform/Editor/EditorConsole.h"		// For logging to ImGUI console
 #include <sstream>
 
 #include <csignal>								// For getting crash signals
@@ -140,7 +141,6 @@ namespace LB
 		// Clear the debug log for logging
 		std::ofstream logFile("Logs/DebugLog.txt", std::ios::trunc);
 		logFile.close();
-
 	}
 
 	/*!***********************************************************************
@@ -180,7 +180,7 @@ namespace LB
 		if (!DEBUG)
 			DEBUG = this;
 		else
-			std::cerr << "Debug System already exist" << std::endl;
+			DebuggerLogError("Debug System already exist!");
 
 		SetSystemName("Debug System");
 
@@ -421,6 +421,16 @@ namespace LB
 		}
 	}
 
+	std::string Debugger::GetCurrentTimeStamp()
+	{
+		std::time_t now = std::time(nullptr);
+		std::tm timeStamp = *std::localtime(&now);
+
+		std::ostringstream timeStampString;
+		timeStampString << std::put_time(&timeStamp, "%H:%M:%S");
+		return timeStampString.str();
+	}
+
 	/*!***********************************************************************
 	\brief
 	 Log prints a given message and the file that called it and from which line.
@@ -428,10 +438,14 @@ namespace LB
 	void Debugger::Log(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
-		output << "[" << file << ":" << line << "] " << message;
+		// output << "[" << file << ":" << line << "] " << message;
+		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-		// Print to console
-		consoleLogger->debug(output.str());
+		// Print to console (DECAP)
+		// consoleLogger->debug(output.str());
+
+		// Print to ImGUI console
+		EDITORCONSOLE->AddLogMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->debug(output.str());	
@@ -460,10 +474,14 @@ namespace LB
 	void Debugger::LogWarning(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
-		output << "[" << file << ":" << line << "] " << message;
+		//output << "[" << file << ":" << line << "] " << message;
+		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-		// Print to console
-		consoleLogger->warn(output.str());
+		// Print to console (DECAP)
+		//consoleLogger->warn(output.str());
+
+		// Print to ImGUI console
+		EDITORCONSOLE->AddWarningMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->warn(output.str());
@@ -491,10 +509,14 @@ namespace LB
 	void Debugger::LogError(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
-		output << "[" << file << ":" << line << "] " << message;
+		//output << "[" << file << ":" << line << "] " << message;
+		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-		// Print to console
-		consoleLogger->error(output.str());
+		// Print to console (DECAP)
+		//consoleLogger->error(output.str());
+
+		// Print to ImGUI console
+		EDITORCONSOLE->AddErrorMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->error(output.str());

@@ -33,14 +33,14 @@
 
 namespace LB
 {
+	Editor* EDITOR = nullptr;
+
 	void ToggleEditor()
 	{
 		EDITOR->m_EditorMode = !EDITOR->m_EditorMode;
 	}
 
-	Editor* EDITOR = nullptr;
-
-	void Editor::Initialize()
+	Editor::Editor() 
 	{
 		if (!EDITOR)
 		{
@@ -48,10 +48,21 @@ namespace LB
 			m_EditorMode = true;
 		}
 		else
-		{
-			std::cerr << "Editor already exists" << std::endl;
-		}
+			DebuggerLogError("Editor System already exists!");
 
+		// Add the different ImGui layers in here
+		m_ImGuiLayers.AddLayer(new EditorToolBar("ToolBar"));
+		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
+		m_ImGuiLayers.AddLayer(new EditorInspector("Inspector"));
+		m_ImGuiLayers.AddLayer(new EditorSceneView("Scene View"));
+		m_ImGuiLayers.AddLayer(new EditorGameView("Game View"));
+		m_ImGuiLayers.AddLayer(new EditorConsole("Console"));
+		m_ImGuiLayers.AddLayer(new EditorProfiler("Profiler"));
+		m_ImGuiLayers.AddLayer(new EditorAssets("Assets"));
+	}
+
+	void Editor::Initialize()
+	{
 		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
@@ -69,16 +80,6 @@ namespace LB
 
 		// Set Style
 		ImGui::StyleColorsDark();
-
-		// Add the different ImGui layers in here
-		m_ImGuiLayers.AddLayer(new EditorToolBar("ToolBar"));
-		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
-		m_ImGuiLayers.AddLayer(new EditorInspector("Inspector"));
-		m_ImGuiLayers.AddLayer(new EditorSceneView("Scene View"));
-		m_ImGuiLayers.AddLayer(new EditorGameView("Game View"));
-		m_ImGuiLayers.AddLayer(new EditorConsole("Console"));
-		m_ImGuiLayers.AddLayer(new EditorProfiler("Profiler"));
-		m_ImGuiLayers.AddLayer(new EditorAssets("Assets"));
 	}
 
 	void Editor::Update()

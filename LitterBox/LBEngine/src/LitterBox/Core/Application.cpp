@@ -29,6 +29,7 @@ namespace LB {
 
 		// TODO: Refactor intialization order and move back to debugger system
 		InitializeLoggers();
+		Editor*					editor			= new Editor();
 		Time*					time			= new Time(100, 60);
 		InputSystem*			input			= new InputSystem();
 		ProfilerManager*		profiler		= new ProfilerManager();
@@ -43,7 +44,6 @@ namespace LB {
 		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
 		Memory*					memory			= new Memory();
 		SceneManager*			sceneManager	= new SceneManager(firstScene);
-		Editor*					editor			= new Editor();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
