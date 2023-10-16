@@ -56,7 +56,7 @@ namespace LB
         this->mWidth = 100.f;
         this->mHeight = 100.f;
 
-        this->mShapeType = BOX;
+        this->mShapeType = COL_BOX;
         this->mNumberID = 0;
 
         this->mArea = this->mWidth * this->mHeight;
@@ -73,7 +73,7 @@ namespace LB
         }
 
         // Check if Box
-        if (this->mShapeType == BOX)
+        if (this->mShapeType == COL_BOX)
         {
             // If it is a box then create the vertices
             // as well as the AABB data
@@ -116,6 +116,8 @@ namespace LB
             mTransformedVertices[3] = zeroed;
 
         }
+
+        this->UpdateRigidBodyAABB();
 
         PHYSICS->AddRigidBodyToPool(this);
     }
@@ -203,7 +205,7 @@ namespace LB
         float minY = 10000000.f;
         float maxY = -10000000.f;
 
-        if (this->mShapeType == BOX)
+        if (this->mShapeType == COL_BOX)
         {
             for (int i = 0; i < 4; ++i)
             {
@@ -216,7 +218,7 @@ namespace LB
                 if (vec.y > maxY) maxY = vec.y;
             }
         }
-        else if (this->mShapeType == CIRCLE)
+        else if (this->mShapeType == COL_CIRCLE)
         {
             // Basically grab the position and make a box using radius as the width and height
             // of the box
@@ -243,21 +245,31 @@ namespace LB
             return;
         }
 
+        //std::cout << "POS: " << mPosition.x << " , " << mPosition.y << std::endl;
+        //std::cout << "VEL: " << mVelocity.x << " , " << mVelocity.y << std::endl;
+        //Vec2<float> temp_pos = this->mPosition;
+        //float temp_rot = this->mRotation;
+
         this->mPosition += this->mVelocity * time;
         transform->SetPosition(mPosition);
 
         this->mRotation += this->mRotationalVelocity * time;
         transform->SetRotation(mRotation);
 
+        //if (temp_pos != this->mPosition || temp_rot != this->mRotation)
+        //{
 
         // Update the TransformedVertices
         // HERE
         this->UpdateRigidBodyBoxVertices();
-
+        //}
+        //if (temp_pos != this->mPosition)
+        //{
         // Update the AABB
         // HERE
         this->UpdateRigidBodyAABB();
-
+        //}
+        
     }
 
     /*!***********************************************************************
@@ -310,12 +322,12 @@ namespace LB
     *************************************************************************/
     void CPRigidBody::DebugDraw()
     {
-        if (this->mShapeType == BOX)
+        if (this->mShapeType == COL_BOX)
         {
             DEBUG->DrawBox(mPosition, mWidth, mHeight,
                 Vec4<float> { 0.f, 0.f, 1.0f, 1.0f }, mRotation);
         }
-        if (this->mShapeType == CIRCLE)
+        if (this->mShapeType == COL_CIRCLE)
         {
             DEBUG->DrawCircle(mPosition,mRadius,
                 Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
