@@ -112,9 +112,9 @@ void SceneTestMain::Init()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Player example
 	ball1 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(800, 400));
-	ball1->GetComponent<CPRigidBody>()->mShapeType = CIRCLE;
+	ball1->GetComponent<CPRigidBody>()->mShapeType = COL_CIRCLE;
 	ball2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(1000, 400));
-	ball2->GetComponent<CPRigidBody>()->mShapeType = CIRCLE;
+	ball2->GetComponent<CPRigidBody>()->mShapeType = COL_CIRCLE;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Prefab example

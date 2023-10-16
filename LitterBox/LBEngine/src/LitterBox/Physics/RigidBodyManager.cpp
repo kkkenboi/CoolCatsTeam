@@ -325,16 +325,16 @@ namespace LB
         normal_out.y = 0.f;
         depth_out = 0.f; // Zeroed in case of previous values
 
-        if (bodyA->mShapeType == BOX)
+        if (bodyA->mShapeType == COL_BOX)
         {
-            if (bodyB->mShapeType == BOX)
+            if (bodyB->mShapeType == COL_BOX)
             {
                 // A - B
                 // BOX-BOX
                 return CollisionIntersection_BoxBox_SAT(bodyA->mTransformedVertices, bodyB->mTransformedVertices, normal_out, depth_out);
                 //return CollisionIntersection_BoxBox(bodyA->obj_aabb, bodyA->mVelocity, bodyB->obj_aabb, bodyB->mVelocity, TIME->GetFixedDeltaTime(), normal_out, depth_out);
             }
-            else if (bodyB->mShapeType == CIRCLE) {
+            else if (bodyB->mShapeType == COL_CIRCLE) {
                 // A - B
                 // BOX-CIRCLE
                 // normal here is pushing B away from A
@@ -346,9 +346,9 @@ namespace LB
                 return result;
             }
         }
-        if (bodyA->mShapeType == CIRCLE)
+        if (bodyA->mShapeType == COL_CIRCLE)
         {
-            if (bodyB->mShapeType == BOX)
+            if (bodyB->mShapeType == COL_BOX)
             {
                 // A - B
                 // CIRCLE-BOX
@@ -356,7 +356,7 @@ namespace LB
                 bool result = CollisionIntersection_CircleBox_SAT(bodyA->mPosition, bodyA->mRadius, bodyB->mTransformedVertices, normal_out, depth_out);
                 return result;
             }
-            if (bodyB->mShapeType == CIRCLE)
+            if (bodyB->mShapeType == COL_CIRCLE)
             {
                 // A - B 
                 // CIRCLE-CIRCLE

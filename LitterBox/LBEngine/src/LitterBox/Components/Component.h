@@ -29,7 +29,8 @@ namespace LB
 		C_CPRigidBody,
 		C_CPTransform,
 		C_CPRender,
-		C_CPScript
+		C_CPScript,
+		C_CPCollider
 	};
 
 	/*!***********************************************************************
