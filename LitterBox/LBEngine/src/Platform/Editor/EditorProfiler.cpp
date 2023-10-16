@@ -15,15 +15,41 @@
 
 #include "pch.h"
 #include "EditorProfiler.h"
+#include "LitterBox/Core/Core.h" // For getting system names
 
 namespace LB
 {
-	EditorProfiler::EditorProfiler(std::string layerName) : Layer(layerName) {}
+	EditorProfiler::EditorProfiler(std::string layerName) : Layer(layerName) 
+	{
+		// Serialize this in the future
+		SetFrameHistorySize(120);
+	}
+
+	void EditorProfiler::Initialize()
+	{
+		InitializeSystemFrames();
+	}
+
+	void EditorProfiler::InitializeSystemFrames()
+	{
+		// Clear the previous vector just in case
+		systemFrames.clear();
+
+		// Add each system into the frame
+		std::vector systemNames = CORE->GetAllSystemNames();
+	}
 
 	void EditorProfiler::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
 
+		ImGui::ShowDemoWindow();
+
 		ImGui::End();
+	}
+
+	void EditorProfiler::SetFrameHistorySize(int newSize)
+	{
+		framesHistorySize = newSize;
 	}
 }

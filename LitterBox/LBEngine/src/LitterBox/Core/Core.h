@@ -30,7 +30,6 @@ namespace LB
 	class LBEngine
 	{
 	public:
-
 		/*!***********************************************************************
 		 \brief
 		 Initializes all systems in the game.
@@ -78,10 +77,11 @@ namespace LB
 		*************************************************************************/
 		void RemoveLayer(Layer* layer);
 
-	private:
-		std::vector<ISystem*>	Systems;
+		std::vector<std::string> GetAllSystemNames();
 
-		bool					m_Running;
+	private:
+		std::vector<ISystem*>	m_systems;
+		bool					m_running;
 	};
 
 	extern LBEngine* CORE; // Global pointer to the singleton

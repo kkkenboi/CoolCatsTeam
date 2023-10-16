@@ -20,11 +20,27 @@
 
 namespace LB
 {
+	struct EditorProfilerSystem
+	{
+		std::string name;
+		std::vector<float> frameTimes;
+	};
+
 	class EditorProfiler : public Layer
 	{
 	public:
 		EditorProfiler(std::string layerName);
 
+		void Initialize() override;
+
+		void InitializeSystemFrames();
+
 		void UpdateLayer() override;
+
+		void SetFrameHistorySize(int newSize);
+
+	private:
+		std::vector<EditorProfilerSystem> systemFrames;
+		int framesHistorySize, currentFrameHistoryIndex;
 	};
 }

@@ -35,7 +35,10 @@ namespace LB
 		void Update()		override;
 		void FixedUpdate()	override;
 		void Destroy()		override;
-		bool	m_EditorMode = true;
+
+		bool m_EditorMode = true;
+		bool m_IsPlaying = false;
+
 	private:
 		LayerStack m_ImGuiLayers;
 	};

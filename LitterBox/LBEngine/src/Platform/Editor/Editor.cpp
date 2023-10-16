@@ -80,6 +80,9 @@ namespace LB
 
 		// Set Style
 		ImGui::StyleColorsDark();
+
+		// Call Initialize for all layers in the layerstack
+		m_ImGuiLayers.InitializeLayers();
 	}
 
 	void Editor::Update()
@@ -91,7 +94,7 @@ namespace LB
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					// Docking Section
+			// Docking Section
 			static bool dockspaceOpen = true;
 			ImGuiViewport* viewport = ImGui::GetMainViewport();
 			ImGui::SetNextWindowPos(viewport->Pos);
@@ -110,7 +113,6 @@ namespace LB
 			{
 				if (ImGui::BeginMenu("File"))
 				{
-
 					if (ImGui::MenuItem("Hide Docking Bar"))
 					{
 						;
@@ -228,6 +230,7 @@ namespace LB
 
 	void Editor::FixedUpdate()
 	{
+
 	}
 
 	void Editor::Destroy()
@@ -236,5 +239,4 @@ namespace LB
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
-
 }

@@ -34,7 +34,7 @@ namespace LB
 	*************************************************************************/
 	void LBEngine::Initialise()
 	{
-		m_Running = true;
+		m_running = true;
 		if (!CORE)
 		{
 			CORE = this;
@@ -44,8 +44,8 @@ namespace LB
 			std::cerr << "LitterBox engine already exist\n";
 		}
 
-		for (unsigned i = 0; i < Systems.size(); ++i)
-			Systems[i]->Initialize();
+		for (unsigned i = 0; i < m_systems.size(); ++i)
+			m_systems[i]->Initialize();
 	}
 
 	/*!***********************************************************************
@@ -57,7 +57,7 @@ namespace LB
 	*************************************************************************/
 	void LBEngine::GameLoop()
 	{
-		while (m_Running)
+		while (m_running)
 		{
 			TIME->LBFrameStart();
 			{
@@ -67,18 +67,18 @@ namespace LB
 				TIME->AccumulateFixedUpdate();
 				while (TIME->ShouldFixedUpdate()) 
 				{
-					for (unsigned i = 0; i < Systems.size(); ++i) 
+					for (unsigned i = 0; i < m_systems.size(); ++i) 
 					{
-						Profiler systemProfiler{ Systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS, false };
-						Systems[i]->FixedUpdate();
+						Profiler systemProfiler{ m_systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS, false };
+						m_systems[i]->FixedUpdate();
 					}
 				}
 
 				// Update every system every frame
-				for (unsigned i = 0; i < Systems.size(); ++i) 
+				for (unsigned i = 0; i < m_systems.size(); ++i) 
 				{
-					Profiler systemProfiler{ Systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS };
-					Systems[i]->Update();
+					Profiler systemProfiler{ m_systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS };
+					m_systems[i]->Update();
 				}
 			}
 
@@ -97,11 +97,11 @@ namespace LB
 	{
 		//The message that tells the game to quit
 		if (message->MessageID == Quit)
-			m_Running = false;
+			m_running = false;
 
 		//Send the message to every system
-		for (unsigned i = 0; i < Systems.size(); ++i)
-			Systems[i]->SendMessage(message);
+		for (unsigned i = 0; i < m_systems.size(); ++i)
+			m_systems[i]->SendMessage(message);
 	}
 
 	/*!***********************************************************************
@@ -114,7 +114,7 @@ namespace LB
 	void LBEngine::AddSystem(ISystem* system)
 	{
 		//Add a system to the core to be updated every frame
-		Systems.push_back(system);
+		m_systems.push_back(system);
 	}
 
 	/*!***********************************************************************
@@ -126,10 +126,10 @@ namespace LB
 	*************************************************************************/
 	void LBEngine::DestroySystems()
 	{
-		for (unsigned i = 0; i < Systems.size(); ++i)
+		for (unsigned i = 0; i < m_systems.size(); ++i)
 		{
-			Systems[Systems.size() - i - 1]->Destroy();
-			delete Systems[Systems.size() - i - 1];
+			m_systems[m_systems.size() - i - 1]->Destroy();
+			delete m_systems[m_systems.size() - i - 1];
 		}
 	}
 
@@ -142,6 +142,16 @@ namespace LB
 	*************************************************************************/
 	bool LBEngine::IsRunning() const
 	{
-		return m_Running ? true : false;
+		return m_running ? true : false;
+	}
+
+	std::vector<std::string> LBEngine::GetAllSystemNames()
+	{
+		std::vector<std::string> systemNames;
+		for (ISystem* system : m_systems)
+		{
+			systemNames.push_back(system->GetName());
+		}
+		return systemNames;
 	}
 }
