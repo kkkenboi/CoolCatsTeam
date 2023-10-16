@@ -78,6 +78,13 @@ namespace LB {
 		// ========
 		void Initialise();
 
+		void Update();
+
+		ComponentTypeID GetType() override
+		{
+			return C_CPCollider;
+		}
+
 		
 		
 

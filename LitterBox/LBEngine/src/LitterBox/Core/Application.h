@@ -29,6 +29,7 @@
 #include "LitterBox/Engine/Layer.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Debugging/Profiler.h"
+#include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Physics/RigidBodyManager.h"
 #include "LitterBox/Scene/SceneManager.h"
 #include "LitterBox/Debugging/Debug.h"
