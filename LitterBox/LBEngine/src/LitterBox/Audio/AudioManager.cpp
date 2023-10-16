@@ -14,6 +14,7 @@
 **************************************************************************/
 #include "pch.h"
 #include "AudioManager.h"
+#include "LitterBox/Debugging/Debug.h"
 namespace LB
 {
 	AudioManager* AUDIOMANAGER = nullptr;
@@ -36,6 +37,7 @@ namespace LB
 			// Handle initialization error
 			// We can use FMOD_ErrorString(result) to get an error description
 			//TODO TAKE THIS OUT AND USE OUR BEAUTIFUL DEBUGGER!
+			//DebuggerLogError(std::string{ "FMOD ERROR : " + FMOD_ErrorString(result) + "\n" });
 			std::cerr <<"FMOD ERROR : " << FMOD_ErrorString(result) << '\n';
 		}
 
@@ -87,5 +89,11 @@ namespace LB
 	{
 		//In the future we can check for 
 		audioSystem->update();
+	}
+
+	void AudioManager::Destroy()
+	{
+		//This shuts down FMOD studio
+		audioSystem->release();
 	}
 }

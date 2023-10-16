@@ -1,0 +1,7 @@
+{
+    "../Assets/Textures/Environment_Background.png": "bg",
+    "../Assets/Textures/cat.png": "cat",
+    "../Assets/Textures/despair.png": "despair",
+    "../Assets/Textures/test3.png": "pine",
+    "../Assets/Textures/walk.png": "run"
+}

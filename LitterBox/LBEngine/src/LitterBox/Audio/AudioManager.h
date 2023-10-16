@@ -47,6 +47,9 @@ namespace LB
 		 **************************************************************************/
 		void Update() override;
 
+
+		void Destroy() override;
+
 		/*!***********************************************************************
 		 * \brief AudioSystem that provides FMOD functionality to play sounds
 		 * MUST be initialised before it can be used!
