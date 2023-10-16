@@ -20,10 +20,10 @@
 
 namespace LB
 {
-	struct EditorProfilerSystem
+	struct SystemFrame
 	{
 		std::string name;
-		std::vector<float> frameTimes;
+		float currentFrameTiming;
 	};
 
 	class EditorProfiler : public Layer
@@ -37,10 +37,16 @@ namespace LB
 
 		void UpdateLayer() override;
 
+		void UpdateSystemFrames(std::vector<SystemFrame> const& timings);
+
 		void SetFrameHistorySize(int newSize);
 
 	private:
-		std::vector<EditorProfilerSystem> systemFrames;
-		int framesHistorySize, currentFrameHistoryIndex;
+		bool m_shouldProfile;
+
+		std::map<std::string, std::vector<float>> m_systemFrames;
+		int m_framesHistorySize, m_currentFrameHistoryIndex;
 	};
+
+	extern EditorProfiler* EDITORPROFILER;
 }

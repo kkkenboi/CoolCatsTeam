@@ -19,7 +19,7 @@
 
 namespace LB
 {
-	EditorProfiler::EditorProfiler(std::string layerName) : Layer(layerName) 
+	EditorProfiler::EditorProfiler(std::string layerName) : Layer(layerName), m_currentFrameHistoryIndex(0)
 	{
 		// Serialize this in the future
 		SetFrameHistorySize(120);
@@ -33,23 +33,40 @@ namespace LB
 	void EditorProfiler::InitializeSystemFrames()
 	{
 		// Clear the previous vector just in case
-		systemFrames.clear();
+		m_systemFrames.clear();
 
 		// Add each system into the frame
-		std::vector systemNames = CORE->GetAllSystemNames();
+		std::vector<std::string> systemNames = CORE->GetAllSystemNames();
+		for (std::string const& name : systemNames)
+		{
+			m_systemFrames[name].resize(m_framesHistorySize);
+		}
 	}
 
 	void EditorProfiler::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
 
+		// Graph out the time taken for each system in this frame
+
 		ImGui::ShowDemoWindow();
 
 		ImGui::End();
 	}
 
+	void EditorProfiler::UpdateSystemFrames(std::vector<SystemFrame> const& timings)
+	{
+		// Ring buffer, move the index by 1 to store current frame information
+		m_currentFrameHistoryIndex = (m_currentFrameHistoryIndex + 1) % m_framesHistorySize;
+
+		for (SystemFrame const& timing : timings)
+		{
+			m_systemFrames[timing.name][m_currentFrameHistoryIndex] = timing.currentFrameTiming;
+		}
+	}
+
 	void EditorProfiler::SetFrameHistorySize(int newSize)
 	{
-		framesHistorySize = newSize;
+		m_framesHistorySize = newSize;
 	}
 }

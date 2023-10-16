@@ -130,7 +130,7 @@ namespace LB
 		debugInfoLogger->set_pattern("[%H:%M:%S] [%L] %v");
 		debugInfoLogger->set_level(spdlog::level::debug);
 
-		crashInfoLogger = spdlog::basic_logger_mt("CRASH LOGGER", "../Logs/CrashLog.txt");
+		crashInfoLogger = spdlog::basic_logger_mt("CRASH LOGGER", "Logs/CrashLog.txt");
 		crashInfoLogger->set_pattern("[%H:%M:%S] [%L] %v");
 		crashInfoLogger->set_level(spdlog::level::err);
 

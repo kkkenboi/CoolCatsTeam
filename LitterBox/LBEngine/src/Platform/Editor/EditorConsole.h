@@ -45,11 +45,11 @@ namespace LB
 		void AddErrorMessage(std::string const& error);
 
 	private:
-		std::map<EditorConsoleMsgType, ImVec4> messageColors;
-		std::vector<ConsoleMessage> messages{};
-		ImGuiTextFilter messageFilter;
+		std::map<EditorConsoleMsgType, ImVec4> m_messageColors;
+		std::vector<ConsoleMessage> m_messages{};
+		ImGuiTextFilter m_messageFilter;
 
-		bool pauseOnError;
+		bool m_pauseOnError;
 	};
 
 	extern EditorConsole* EDITORCONSOLE;

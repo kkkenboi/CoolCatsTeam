@@ -28,9 +28,9 @@ namespace LB
 			DebuggerLogError("Editor Console already exist!");
 
 		// Add the colors into the lookup table (Serialize this in the future)
-		messageColors[EditorConsoleMsgType::DEBUG]		= ImVec4(0.25f, 0.56f, 0.4f, 1.0f);
-		messageColors[EditorConsoleMsgType::WARNING]	= ImVec4(0.8f, 0.8f, 0.28f, 1.0f);
-		messageColors[EditorConsoleMsgType::ERROR]		= ImVec4(0.8f, 0.27f, 0.25f, 1.0f);
+		m_messageColors[EditorConsoleMsgType::DEBUG]		= ImVec4(0.25f, 0.56f, 0.4f, 1.0f);
+		m_messageColors[EditorConsoleMsgType::WARNING]	= ImVec4(0.8f, 0.8f, 0.28f, 1.0f);
+		m_messageColors[EditorConsoleMsgType::ERROR]		= ImVec4(0.8f, 0.27f, 0.25f, 1.0f);
 	}
 
 	void EditorConsole::UpdateLayer()
@@ -40,12 +40,12 @@ namespace LB
 		// Buttons and filter box at the top of the console
 		if (ImGui::Button("Clear")) 
 		{
-			messages.clear();
+			m_messages.clear();
 		}
 		ImGui::SameLine();
-		ImGui::Checkbox("Error Pause", &pauseOnError);
+		ImGui::Checkbox("Error Pause", &m_pauseOnError);
 		ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - 240.0f);
-		messageFilter.Draw("Filter", 180.0f);
+		m_messageFilter.Draw("Filter", 180.0f);
 
 		ImGui::Separator();
 
@@ -53,12 +53,12 @@ namespace LB
 		const float consoleLogHeight = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
         if (ImGui::BeginChild("ScrollingRegion", ImVec2(0, -consoleLogHeight), false, ImGuiWindowFlags_HorizontalScrollbar))
         {
-            for (ConsoleMessage const& message : messages)
+            for (ConsoleMessage const& message : m_messages)
             {
-                if (!messageFilter.PassFilter(message.msg.c_str()))
+                if (!m_messageFilter.PassFilter(message.msg.c_str()))
                     continue;
 
-				ImGui::PushStyleColor(ImGuiCol_Text, messageColors[message.type]);
+				ImGui::PushStyleColor(ImGuiCol_Text, m_messageColors[message.type]);
                 ImGui::TextUnformatted(message.msg.c_str());
 				ImGui::PopStyleColor();
 			}
@@ -74,16 +74,16 @@ namespace LB
 
 	void EditorConsole::AddLogMessage(std::string const& log)
 	{
-		messages.emplace_back(log, EditorConsoleMsgType::DEBUG);
+		m_messages.emplace_back(log, EditorConsoleMsgType::DEBUG);
 	}
 
 	void EditorConsole::AddWarningMessage(std::string const& warning)
 	{
-		messages.emplace_back(warning, EditorConsoleMsgType::WARNING);
+		m_messages.emplace_back(warning, EditorConsoleMsgType::WARNING);
 	}
 
 	void EditorConsole::AddErrorMessage(std::string const& error)
 	{
-		messages.emplace_back(error, EditorConsoleMsgType::ERROR);
+		m_messages.emplace_back(error, EditorConsoleMsgType::ERROR);
 	}
 }
