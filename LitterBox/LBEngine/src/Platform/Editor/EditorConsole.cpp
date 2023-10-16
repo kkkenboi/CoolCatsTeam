@@ -38,15 +38,12 @@ namespace LB
 		ImGui::Begin(GetName().c_str());
 
 		// Buttons and filter box at the top of the console
-		if (ImGui::SmallButton("Clear")) 
+		if (ImGui::Button("Clear")) 
 		{
 			messages.clear();
 		}
 		ImGui::SameLine();
-		if (ImGui::SmallButton("Error Pause")) 
-		{
-
-		}
+		ImGui::Checkbox("Error Pause", &pauseOnError);
 		ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - 240.0f);
 		messageFilter.Draw("Filter", 180.0f);
 
@@ -56,8 +53,6 @@ namespace LB
 		const float consoleLogHeight = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
         if (ImGui::BeginChild("ScrollingRegion", ImVec2(0, -consoleLogHeight), false, ImGuiWindowFlags_HorizontalScrollbar))
         {
-            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
-
             for (ConsoleMessage const& message : messages)
             {
                 if (!messageFilter.PassFilter(message.msg.c_str()))
@@ -68,11 +63,11 @@ namespace LB
 				ImGui::PopStyleColor();
 			}
 
-            ImGui::PopStyleVar();
+			// If the current scroll position is at the bottom, remain at the bottom
+			if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+				ImGui::SetScrollHereY(1.0f);
         }
 		ImGui::EndChild();
-
-		ImGui::ShowDemoWindow(); // Open the ImGui demo window
 
 		ImGui::End();
 	}

@@ -48,6 +48,8 @@ namespace LB
 		std::map<EditorConsoleMsgType, ImVec4> messageColors;
 		std::vector<ConsoleMessage> messages{};
 		ImGuiTextFilter messageFilter;
+
+		bool pauseOnError;
 	};
 
 	extern EditorConsole* EDITORCONSOLE;
