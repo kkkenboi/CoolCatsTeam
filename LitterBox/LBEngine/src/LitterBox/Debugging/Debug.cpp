@@ -219,7 +219,7 @@ namespace LB
 			nullptr, GL_DYNAMIC_STORAGE_BIT);
 		glVertexArrayElementBuffer(vao, ibo);
 
-		shader_source shd_pgm{ shader_parser("../Assets/Shaders/debug.shader") };
+		shader_source shd_pgm{ shader_parser("Assets/Shaders/debug.shader") };
 		shader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
 		glLineWidth(5.f);

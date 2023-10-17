@@ -384,7 +384,7 @@ namespace Renderer {
 		 Initialize function from base class ISystem. 
 		 Does cool whacky stuff. Or not.
 		*************************************************************************/
-		void Initialize() override { SetSystemName("Renderer System"); }
+		void Initialize() override;
 
 		/*!***********************************************************************
 		\brief

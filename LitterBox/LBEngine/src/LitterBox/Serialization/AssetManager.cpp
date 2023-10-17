@@ -33,12 +33,17 @@ namespace LB
      **************************************************************************/
     AssetManager::AssetManager()
     {
+        SetSystemName("AssetManager System"); 
         //Basic singleton stuff
         if (!ASSETMANAGER)
 			ASSETMANAGER = this;
 		else
 			std::cerr << "Asset Manager already exists" << std::endl;
 
+    }
+    void AssetManager::Initialize()
+    {
+        DebuggerLog("Assetmanager is initializing");
         //Load all assets here
         LoadSounds();
         LoadTextures();
@@ -63,7 +68,7 @@ namespace LB
         {
             std::cerr<< "Texture filepath :" <<
             fileName << "NOT FOUND!\n";
-             std::string funnyPng{"../Assets/Textures/despair.png"};
+             std::string funnyPng{"Assets/Textures/despair.png"};
              cachedTexture->stbBuffer = stbi_load(funnyPng.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
             
         } 
@@ -146,7 +151,7 @@ namespace LB
     {
         //First we get the json file containing all the texture paths : texture names
         JSONSerializer stream;
-        Document _jsonFile = stream.GetJSONFile("TextureFilePaths.json");
+        Document _jsonFile = stream.GetJSONFile("Editor/Jason/TextureFilePaths.json");
         //then we loop through the json file and add each texture with its corresponding name
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
@@ -184,7 +189,7 @@ namespace LB
         
 
         //This is to test if the get texture name function works
-        //std::cout << "Test GetTextName : " << GetTextureName(GetTextureIndex("rund")) << '\n';
+        //std::cout << "Test GetTextName : " << GetTextureName(GetTextureIndex("bg")) << '\n';
     }
 
     void AssetManager::GenerateTextureFilePathsJson()
@@ -200,7 +205,7 @@ namespace LB
             _jsonFile.AddMember(key, val, alloc);
         }
         
-        stream.SaveToJSON("TextureFilePaths.json", _jsonFile);
+        stream.SaveToJSON("Editor/Jason/TextureFilePaths.json", _jsonFile);
     }
 
     /*!***********************************************************************
@@ -214,11 +219,11 @@ namespace LB
         //TODO File path prefix to be set by enum
         //TODO Audio names to be tagged to enum
         //TODO Audio IDs to be stored in json
-        AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("../Assets/Sounds/Enemy hurt.wav", FMOD_DEFAULT, nullptr, &sampleSound);
+        AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("Assets/Audio/Enemy hurt.wav", FMOD_DEFAULT, nullptr, &sampleSound);
         if (AUDIOMANAGER->result != FMOD_OK) std::cout << "UNABLE TO LOAD AHH SOUND!!\n";
-        AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("../Assets/Sounds/EXPLOSION.wav", FMOD_DEFAULT, nullptr, &explosionSound);
+        AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("Assets/Audio/EXPLOSION.wav", FMOD_DEFAULT, nullptr, &explosionSound);
         if (AUDIOMANAGER->result != FMOD_OK) std::cout << "UNABLE TO LOAD EXPLODE SOUND!!\n";
-        AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("../Assets/Sounds/Oof.wav", FMOD_DEFAULT, nullptr, &ahhSound);
+        AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("Assets/Audio/Oof.wav", FMOD_DEFAULT, nullptr, &ahhSound);
         if (AUDIOMANAGER->result != FMOD_OK) std::cout << "UNABLE TO LOAD OOF SOUND!!\n";
 
     }
@@ -236,7 +241,7 @@ namespace LB
         //std::cout <<"Pineapple component size : " << PineappleObject->GetComponents().size() << '\n';
         //* Don't touch this, it works!
         JSONSerializer stream;
-        stream.DeserializeFromFile("../Assets/Prefabs/pineapple", *PineappleObject);
+        stream.DeserializeFromFile("Assets/Prefabs/pineapple", *PineappleObject);
 
         //stream.DeserializeFromFile("../Assets/Prefabs/apple",*AvatarObject);
     }
@@ -267,7 +272,7 @@ namespace LB
         //We need to load the keycode table from json first
         LoadKeyCodeTable();
         JSONSerializer stream;
-        Document _jsonFile = stream.GetJSONFile("KeyBinds.json");
+        Document _jsonFile = stream.GetJSONFile("Editor/Jason/KeyBinds.json");
         //Then we get the keybinds json and go through each member
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
@@ -290,7 +295,7 @@ namespace LB
     void AssetManager::LoadKeyCodeTable()
     {
         JSONSerializer stream;
-        Document _jsonFile = stream.GetJSONFile("KeyCodeTable.json");
+        Document _jsonFile = stream.GetJSONFile("Editor/Jason/KeyCodeTable.json");
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
         {
@@ -319,7 +324,7 @@ namespace LB
             Value val(elem.second.c_str(), alloc);
             _jsonFile.AddMember(key, val, alloc);
         }
-        stream.SaveToJSON("KeyBinds.json", _jsonFile);
+        stream.SaveToJSON("Editor/Jason/KeyBinds.json", _jsonFile);
         //To test if the keycode and string to keycode function works
         //std::cout << KeyCodeToString(StringToKeyCode("KEY_J")) << '\n';
     }
@@ -362,6 +367,6 @@ namespace LB
             Value key(elem.first.c_str(), alloc);
             _jsonFile.AddMember(key, elem.second, alloc);
         }
-        stream.SaveToJSON("KeyCodeTable.json", _jsonFile);
+        stream.SaveToJSON("Editor/Jason/KeyCodeTable.json", _jsonFile);
     }
 }
