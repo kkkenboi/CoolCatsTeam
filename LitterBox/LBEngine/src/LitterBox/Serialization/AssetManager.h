@@ -44,7 +44,7 @@ namespace LB
         //Copy Ctor for the texture data
         TextureData(const TextureData& texture):id{texture.id},stbBuffer{texture.stbBuffer},width{texture.width},height{texture.height},fluff{texture.fluff}{};
         //Dtor for the texture data
-        ~TextureData(){};
+        ~TextureData(){ glDeleteTextures(1, &id); }
         //Member variables
         unsigned int id;
         unsigned char* stbBuffer;
