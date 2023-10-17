@@ -45,7 +45,7 @@ namespace Renderer {
 		//complete the rest of the perspective matrix
 		glm::mat4 perps = {
 
-		}
+		};
 
 		world_NDC = ortho * nel;
 	}
