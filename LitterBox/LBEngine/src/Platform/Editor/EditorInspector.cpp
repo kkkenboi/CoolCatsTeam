@@ -16,18 +16,201 @@
 **************************************************************************/
 #include "pch.h"
 #include "EditorInspector.h"
+#include "LitterBox/Components/RenderComponent.h"
+#include "LitterBox/Components/RigidBodyComponent.h"
+#include "LitterBox/Components/TransformComponent.h"
 
+
+// For testing 
+#include "LitterBox/Factory/GameObjectFactory.h"
 namespace LB
 {
-	EditorInspector::EditorInspector(std::string layerName) : Layer(layerName) {}
+	// For testing
+	GameObject* inspectTest;
+	bool onlyOnce = true;
+	//
+
+	EditorInspector::EditorInspector(std::string layerName) : Layer(layerName) 
+	{
+	}
 
 	void EditorInspector::UpdateLayer()
 	{
-		ImGui::Begin(GetName().c_str());
-		if (ImGui::Button("Create Game Object"))
+		// For testing
+		if (onlyOnce)
 		{
-			std::cout << "Hello world :D\n";
+			inspectTest = FACTORY->SpawnGameObject();
+			std::cout << inspectTest->GetComponents().size() << std::endl;
+			EDITOR->InspectGO(inspectTest);
+			onlyOnce = false;
 		}
+		//
+
+		ImGui::Begin(GetName().c_str(), 0, ImGuiWindowFlags_MenuBar);
+
+		if ((GOMANAGER->GetGameObjects().size() <= 0) || (EDITOR->InspectedGO() == nullptr))
+		{	
+			ImGui::End();
+			// Comment the return to interact with the rest of the function, 
+			// but must assign a GameObject to the m_GameObjectPointer
+			return; 
+		}
+
+		if (ImGui::Button("Add Component"))
+		{
+			ImGui::OpenPopup("Add Component");
+		}
+
+		// Upon clicking to add a component to the Inspected Game Object
+		if (ImGui::BeginPopup("Add Component"))
+		{
+			// If every game object already has a transform do we need?
+			if (ImGui::MenuItem("Transform"))
+			{
+				if (EDITOR->InspectedGO()->HasComponent<CPTransform>())
+				{
+					// Should we have an assert message here to signify there is already a component?
+					// Else just refrain from changing the values of the component
+					std::cout << "Transform already exists." << std::endl;
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					EDITOR->InspectedGO()->AddComponent(C_CPTransform, FACTORY->GetCMs()[C_CPTransform]->Create());
+					std::cout << "Transform added!" << std::endl;
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Render"))
+			{
+				if (EDITOR->InspectedGO()->HasComponent<CPRender>())
+				{
+					std::cout << "Render already exists." << std::endl;
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					EDITOR->InspectedGO()->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+					std::cout << "Render added!" << std::endl;
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("RigidBody"))
+			{
+				if (EDITOR->InspectedGO()->HasComponent<CPRigidBody>())
+				{
+					std::cout << "RigidBody already exists." << std::endl;
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					EDITOR->InspectedGO()->AddComponent(C_CPRigidBody, FACTORY->GetCMs()[C_CPRigidBody]->Create());
+					std::cout << "RigidBody added!" << std::endl;
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Collider"))
+			{
+				if (EDITOR->InspectedGO()->HasComponent<CPCollider>())
+				{
+					std::cout << "Collider already exists." << std::endl;
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					EDITOR->InspectedGO()->AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
+					std::cout << "Collider added!" << std::endl;
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::EndPopup();
+		}
+
+		int width = 75;
+		std::cout << inspectTest->GetComponents().size() << std::endl;
+
+		// Individual Component Sections
+		if (EDITOR->InspectedGO()->HasComponent<CPTransform>())
+		{
+			if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_None))
+			{
+				Vec2<float> pos = EDITOR->InspectedGO()->GetComponent<CPTransform>()->GetPosition();
+				ImGui::Text("Position %10s", "X");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(width);
+				ImGui::InputFloat("##X", &pos.x, 0.0f, 0.0f, "%.2f");
+				ImGui::SameLine();
+				ImGui::Text("Y");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(width);
+				ImGui::InputFloat("##Y", &pos.y, 0.0f, 0.0f, "%.2f");
+				EDITOR->InspectedGO()->GetComponent<CPTransform>()->SetPosition(pos);
+
+				// For Testing
+				Vec2<float> returnval = EDITOR->InspectedGO()->GetComponent<CPTransform>()->GetPosition();
+				std::cout << returnval.x << " " << returnval.y << std::endl;
+				//
+
+				if (ImGui::Button("Delete Transform Component"))
+				{
+					EDITOR->InspectedGO()->RemoveComponent(C_CPTransform);
+				}
+			}
+		}
+		if (EDITOR->InspectedGO()->HasComponent<CPRender>())
+		{
+			if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_None))
+			{
+				// Interface Buttons
+
+
+				// Delete Component
+				if (ImGui::Button("Delete Render Component"))
+				{
+					EDITOR->InspectedGO()->RemoveComponent(C_CPRender);
+				}
+			}
+		}
+		if (EDITOR->InspectedGO()->HasComponent<CPRigidBody>())
+		{
+			if (ImGui::CollapsingHeader("RigidBody", ImGuiTreeNodeFlags_None))
+			{
+				// Interface Buttons
+
+
+				// Delete Component
+				if (ImGui::Button("Delete RigidBody Component"))
+				{
+					EDITOR->InspectedGO()->RemoveComponent(C_CPRigidBody);
+				}
+			}
+		}
+		if (EDITOR->InspectedGO()->HasComponent<CPCollider>())
+		{
+			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_None))
+			{
+				// Interface Buttons
+
+
+				// Delete Component
+				if (ImGui::Button("Delete Collider Component"))
+				{
+					EDITOR->InspectedGO()->RemoveComponent(C_CPCollider);
+				}
+			}
+		}
+
+
 		ImGui::End();
 	}
 

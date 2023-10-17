@@ -83,6 +83,19 @@ namespace LB
 		component->gameObj = this;
 		m_Components[id] = component;
 	}
+
+	/*!***********************************************************************
+	 \brief
+	 Removes a component from the GameObject
+
+	 \return
+	 Nothing
+	*************************************************************************/
+	void GameObject::RemoveComponent(ComponentTypeID id)
+	{
+		
+		m_Components.erase(id);
+	}
 	
 	/*!***********************************************************************
 	 \brief
