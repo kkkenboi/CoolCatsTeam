@@ -103,7 +103,7 @@ namespace LB
         // ---------------------------------------------------------
         // Might need change this in the future when want to switch shaders
 
-        shader_source shd_pgm{ shader_parser("../Assets/Shaders/text.shader") };
+        shader_source shd_pgm{ shader_parser("Assets/Shaders/text.shader") };
         textShader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
         glUseProgram(textShader);
