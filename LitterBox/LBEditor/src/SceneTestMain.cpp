@@ -39,9 +39,9 @@ void TogglePause()
 *************************************************************************/
 void SceneTestMain::Init()
 {
-	Renderer::GRAPHICS->create_texture("Assets/Textures/walk.png", "run");
-	Renderer::GRAPHICS->create_texture("Assets/Textures/test3.png", "pine");
-	Renderer::GRAPHICS->create_texture("Assets/Textures/cat.png", "cat");
+	//Renderer::GRAPHICS->create_texture("Assets/Textures/walk.png", "run");
+	//Renderer::GRAPHICS->create_texture("Assets/Textures/test3.png", "pine");
+	//Renderer::GRAPHICS->create_texture("Assets/Textures/cat.png", "cat");
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
@@ -175,5 +175,5 @@ void SceneTestMain::Destroy()
 	//delete testPlayer;
 	//This test lets us know that we can "save" the player's position
 	JSONSerializer stream;
-	stream.SerializeToFile("TestObject", *testPlayer->playerObj);
+	stream.SerializeToFile("Editor/Jason/TestObject", *testPlayer->playerObj);
 }
