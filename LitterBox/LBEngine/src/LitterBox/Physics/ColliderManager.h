@@ -33,9 +33,9 @@ namespace LB
 		void Update();
 	};
 
-	//void CheckCollisions(CPCollider* colA, CPCollider* colB, Vec2<float> normal_out, float depth_out);
+	bool CheckColliders(CPCollider* colA, CPCollider* colB, Vec2<float>& normal_out, float& depth_out);
 
-	//void ResolveCollisions(CPCollider* colA, CPCollider* colB, Vec2<float> normal_out, float depth_out);
+	void ResolveColliders(CPCollider* colA, CPCollider* colB, Vec2<float> normal_out, float depth_out);
 	
 	extern ColliderManager* COLLIDERS;
 }

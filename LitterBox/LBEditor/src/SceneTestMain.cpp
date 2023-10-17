@@ -45,10 +45,10 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
-	test2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody });
+	test2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider });
 	test2->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
 
-	test3 = FACTORY->SpawnGameObject({ C_CPRender ,C_CPRigidBody }, Vec2<float>(200, 200));
+	test3 = FACTORY->SpawnGameObject({ C_CPRender ,C_CPRigidBody, C_CPCollider }, Vec2<float>(200, 200));
 	test3->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,16 +111,16 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Player example
-	ball1 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(800, 400));
-	ball1->GetComponent<CPRigidBody>()->mShapeType = COL_CIRCLE;
-	ball2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(1000, 400));
-	ball2->GetComponent<CPRigidBody>()->mShapeType = COL_CIRCLE;
+	ball1 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider}, Vec2<float>(800, 400));
+	ball1->GetComponent<CPCollider>()->m_shape = COL_CIRCLE;
+	ball2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPCollider}, Vec2<float>(1000, 400));
+	ball2->GetComponent<CPCollider>()->m_shape = COL_CIRCLE;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Prefab example
 	LB::INPUT->SubscribeToKey(SpawnPineapples, LB::KeyCode::KEY_Q, LB::KeyEvent::TRIGGERED);
 
-	static_wall = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody }, Vec2<float>(200, 600));
+	static_wall = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider }, Vec2<float>(200, 600));
 	static_wall->GetComponent<CPRigidBody>()->isStatic = true;
 	static_wall->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
 

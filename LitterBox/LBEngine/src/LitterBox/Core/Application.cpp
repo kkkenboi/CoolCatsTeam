@@ -38,8 +38,8 @@ namespace LB {
 		FactorySystem*			factory			= new FactorySystem();
 		GameObjectManager*		gameManager		= new GameObjectManager();
 		GameLogic*				logic			= new GameLogic();
-		ColliderManager*        colliders       = new ColliderManager();
 		RigidBodyManager*		physics			= new RigidBodyManager();
+		ColliderManager*        colliders       = new ColliderManager();
 		AudioManager*			audio			= new AudioManager();
 		AssetManager*			assetManager	= new AssetManager();
 		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
@@ -53,8 +53,8 @@ namespace LB {
 		Engine->AddSystem(windows);
 		Engine->AddSystem(gameManager);
 		Engine->AddSystem(assetManager);
-		Engine->AddSystem(colliders);
 		Engine->AddSystem(physics);
+		Engine->AddSystem(colliders);
 		Engine->AddSystem(logic);
 		Engine->AddSystem(audio);
 		Engine->AddSystem(memory);

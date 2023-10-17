@@ -18,7 +18,7 @@
 
 #pragma once
 #include "TransformComponent.h"
-#include "LitterBox/Physics/Collisions.h"
+//#include "LitterBox/Physics/Collisions.h"
 
 namespace LB
 {
@@ -59,7 +59,7 @@ namespace LB
 		float mWidth;
 		float mHeight;
 
-		SHAPETYPE mShapeType;
+		//SHAPETYPE mShapeType;
 
 		// =====
 		// TEST STUFF
@@ -73,10 +73,10 @@ namespace LB
 		// Vertices and AABB
 
 		// Untransformed vertices (Vertices from origin)
-		LB::Vec2<float> mVertices[4];
-		LB::Vec2<float> mTransformedVertices[4];
+		//LB::Vec2<float> mVertices[4];
+		//LB::Vec2<float> mTransformedVertices[4];
 
-		AABB obj_aabb;
+		//AABB obj_aabb;
 		// =====
 		// PLS WRAP
 		// =====
@@ -169,13 +169,13 @@ namespace LB
 			\brief
 			Updates the CPRigidBody Box Vertices within its' data members
 		*************************************************************************/
-		void UpdateRigidBodyBoxVertices();
+		//void UpdateRigidBodyBoxVertices();
 
 		/*!***********************************************************************
 			\brief
 			Updates the AABB collider in the CPRigidBody's data members
 		*************************************************************************/
-		void UpdateRigidBodyAABB();
+		//void UpdateRigidBodyAABB();
 
 		/*!***********************************************************************
 			\brief
@@ -203,6 +203,6 @@ namespace LB
 			This is the function that calls the debug drawer to draw all the
 			RigidBody collision boxes as well as their velocities
 		*************************************************************************/
-		void DebugDraw();
+		//void DebugDraw();
 	};
 }

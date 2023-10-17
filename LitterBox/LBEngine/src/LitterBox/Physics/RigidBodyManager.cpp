@@ -205,7 +205,7 @@ namespace LB
                 m_rigidBodies[i]->FixedUpdate();
             }
         }
-
+        /*
         // ==================
         // Collision Step
         // ==================
@@ -264,6 +264,7 @@ namespace LB
             }
 
         }
+        */
     }
     // ======================================
     // ISystem function overrides
@@ -295,6 +296,7 @@ namespace LB
     void RigidBodyManager::Update()
     {
         // Draw collision data if debug is on
+        /*
         if (DEBUG->IsDebugOn())
         {
             for (size_t i = 0; i < m_poolSize; ++i)
@@ -305,6 +307,7 @@ namespace LB
                 }
             }
         }
+        */
     }
 
 
@@ -320,6 +323,7 @@ namespace LB
       \return
       Returns a bool or whether or not the two CPRigidBodies collided or not
     *************************************************************************/
+    /*
     bool CheckCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out) {
         normal_out.x = 0.f; // Make it zeroed first, in case of any values beforehand
         normal_out.y = 0.f;
@@ -365,13 +369,14 @@ namespace LB
         }
         return false;
     }
-
+    */
     /*!***********************************************************************
       \brief
       Takes in two CPRigidBodies and checks the collision between the two
       while outputting the normal_out and depth_out of the collision for
       collision resolution
     *************************************************************************/
+    /*
     void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth) {
 
         UNREFERENCED_PARAMETER(depth);
@@ -402,5 +407,6 @@ namespace LB
         }
         
     }
+    */
 
 } // Namespace LB

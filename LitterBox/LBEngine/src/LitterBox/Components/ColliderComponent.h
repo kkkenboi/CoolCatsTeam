@@ -1,6 +1,7 @@
 #pragma once
 #include "LitterBox/Utils/Math.h"
 #include "TransformComponent.h"
+#include "RigidBodyComponent.h"
 
 namespace LB {
 
@@ -31,7 +32,8 @@ namespace LB {
 	{
 	public:
 		CPTransform* transform;
-	private:
+		CPRigidBody* rigidbody;
+	public:
 		SHAPETYPE m_shape;
 		bool m_simpleCol;
 
@@ -72,13 +74,21 @@ namespace LB {
 		  Collider class
 		*************************************************************************/
 		void CreatePolygon();
+
+		void DebugDraw();
+
+		void UpdateColliderBoxVertices();
+
+		void UpdateColliderAABB();
+
+
 	public:
 		// ========
 		// IComponent Overrides
 		// ========
 		void Initialise();
 
-		void Update();
+		void FixedUpdate();
 
 		ComponentTypeID GetType() override
 		{
