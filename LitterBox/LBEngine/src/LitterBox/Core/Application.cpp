@@ -57,11 +57,11 @@ namespace LB {
 		Engine->AddSystem(physics);
 		Engine->AddSystem(logic);
 		Engine->AddSystem(audio);
-		Engine->AddSystem(graphics);
 		Engine->AddSystem(memory);
 		Engine->AddSystem(debug);
-		Engine->AddSystem(sceneManager);
 		Engine->AddSystem(editor);
+		Engine->AddSystem(graphics);
+		Engine->AddSystem(sceneManager);
 
 		Engine->Initialise();
 

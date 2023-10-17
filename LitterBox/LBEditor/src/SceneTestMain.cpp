@@ -39,9 +39,9 @@ void TogglePause()
 *************************************************************************/
 void SceneTestMain::Init()
 {
-	Renderer::GRAPHICS->create_texture("../Assets/Textures/walk.png", "run");
-	Renderer::GRAPHICS->create_texture("../Assets/Textures/test3.png", "pine");
-	Renderer::GRAPHICS->create_texture("../Assets/Textures/cat.png", "cat");
+	Renderer::GRAPHICS->create_texture("Assets/Textures/walk.png", "run");
+	Renderer::GRAPHICS->create_texture("Assets/Textures/test3.png", "pine");
+	Renderer::GRAPHICS->create_texture("Assets/Textures/cat.png", "cat");
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example

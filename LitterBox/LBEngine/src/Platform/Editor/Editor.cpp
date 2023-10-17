@@ -146,6 +146,13 @@ namespace LB
 
 				ImGui::DockBuilderDockWindow("Hierarchy", dock_id_left);
 				ImGui::DockBuilderDockWindow("Inspector", dock_main_id);
+				ImGui::DockBuilderDockWindow("ToolBar", dock_id_left);
+				ImGui::DockBuilderDockWindow("Scene View", dock_id_left);
+				ImGui::DockBuilderDockWindow("Game View", dock_id_left);
+				ImGui::DockBuilderDockWindow("Console", dock_id_left);
+				ImGui::DockBuilderDockWindow("Profiler", dock_id_left);
+				ImGui::DockBuilderDockWindow("Assets", dock_id_left);
+
 				ImGui::DockBuilderFinish(dockspace_id);
 			}
 

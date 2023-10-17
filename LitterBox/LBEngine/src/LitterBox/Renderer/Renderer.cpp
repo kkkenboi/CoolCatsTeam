@@ -601,6 +601,9 @@ void Renderer::RenderSystem::Initialize()
 	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// TODO: If not in editor mode, fullscreen the game view
+	glEnable(GL_SCISSOR_TEST);
 }
 
 
@@ -623,8 +626,13 @@ Renderer::RenderSystem::~RenderSystem()
 *************************************************************************/
 void Renderer::RenderSystem::Update()
 {
+	// Render the game scene window
 	bg_renderer.update_buff();
 	object_renderer.update_buff();
+
+	glScissor(m_winPos.x, m_winPos.y, m_winSize.x, m_winSize.y);
+	glViewport(m_winPos.x, m_winPos.y, m_winSize.x, m_winSize.y);
+
 	glClearColor(.3f, 0.5f, .8f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(shader_program);
@@ -633,6 +641,20 @@ void Renderer::RenderSystem::Update()
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 }
+
+/*!***********************************************************************
+\brief
+ Updates the game viewport position and size based on the current ImGUI
+ window.
+*************************************************************************/
+void Renderer::RenderSystem::UpdateGameWindowPos(GLint winPosX, GLint winPosY, GLsizei winSizeX, GLsizei winSizeY)
+{
+	m_winPos.x = winPosX;
+	m_winPos.y = winPosY;
+	m_winSize.x = winSizeX;
+	m_winSize.y = winSizeY;
+}
+
 /*!***********************************************************************
 \brief
  Draw function does nothing for now

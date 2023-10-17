@@ -355,6 +355,10 @@ namespace Renderer {
 
 		Renderer bg_renderer;
 		Renderer object_renderer;
+
+		LB::Vec2<GLint> m_winPos;
+		LB::Vec2<GLsizei> m_winSize;
+
 	public:
 
 		/*!***********************************************************************
@@ -374,6 +378,14 @@ namespace Renderer {
 		 drawing everything. Counterintuitive, I know.
 		*************************************************************************/
 		void Update() override;
+
+		/*!***********************************************************************
+		\brief
+		 Updates the game viewport position and size based on the current ImGUI
+		 window.
+		*************************************************************************/
+		void UpdateGameWindowPos(GLint winPosX, GLint winPosY, GLsizei winSizeX, GLsizei winSizeY);
+
 		/*!***********************************************************************
 		\brief
 		 Draw function does nothing for now

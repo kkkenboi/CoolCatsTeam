@@ -26,5 +26,9 @@ namespace LB
 		EditorGameView(std::string layerName);
 
 		void UpdateLayer() override;
+
+	private:
+		// To prevent having to cast ImVec2 to our vector EVERY frame, we will use ImVec2 instead of our vector
+		ImVec2 m_winPos, m_winSize;
 	};
 }

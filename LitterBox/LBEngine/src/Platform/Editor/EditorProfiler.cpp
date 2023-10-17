@@ -49,7 +49,7 @@ namespace LB
 
 		// Graph out the time taken for each system in this frame
 
-		ImGui::ShowDemoWindow();
+		//ImGui::ShowDemoWindow();
 
 		ImGui::End();
 	}
