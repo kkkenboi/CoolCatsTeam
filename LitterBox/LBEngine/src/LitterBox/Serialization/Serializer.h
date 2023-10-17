@@ -73,7 +73,7 @@ namespace LB
 		{
 			//We instantiate none to be an empty string
 			fileDestinationMap[FILEDESTINATION::NONE];
-			Document _jsonFile = GetJSONFile("filepaths.json");
+			Document _jsonFile = GetJSONFile("Editor/Jason/filepaths.json");
 			//Document::AllocatorType& allocator = _jsonFile.GetAllocator();
 			//Avert your gaze! somehow rapidjson only takes in const char*
 			//Can't use strings or any other thing for some reason ;__;

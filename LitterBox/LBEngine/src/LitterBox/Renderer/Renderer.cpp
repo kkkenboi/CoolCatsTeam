@@ -546,23 +546,27 @@ void Renderer::Renderer::change_render_state(const LB::CPRender& object)
 //render objects
 Renderer::RenderSystem* Renderer::GRAPHICS = nullptr;
 
-LB::CPRender* test2;
 
 /*!***********************************************************************
 \brief
  RenderSystem constructor sets up a shader program and initalizes a background
 *************************************************************************/
-Renderer::RenderSystem::RenderSystem() :
-	object_renderer{Renderer_Types::RT_OBJECT},
-	bg_renderer{Renderer_Types::RT_BACKGROUND}
+Renderer::RenderSystem::RenderSystem() : shader_program{0},
+object_renderer{Renderer_Types::RT_OBJECT},
+bg_renderer{Renderer_Types::RT_BACKGROUND}
 {
+	SetSystemName("Renderer System"); 
 	//singleton that shiet
 	if (!GRAPHICS)
 		GRAPHICS = this;
 	else
-		std::cerr << "Render System already exist" << std::endl;
+		std::cerr << "Render System already exist" << std::endl;	
+}
 
-	shader_source shd_pgm{ shader_parser("../Assets/Shaders/Basic.shader") };
+LB::CPRender* test2;
+void Renderer::RenderSystem::Initialize()
+{
+	shader_source shd_pgm{ shader_parser("Assets/Shaders/Basic.shader") };
 	shader_program = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
 	glUseProgram(shader_program);
@@ -579,11 +583,11 @@ Renderer::RenderSystem::RenderSystem() :
 	float midy = (float)LB::WINDOWSSYSTEM->GetHeight() * 0.5f;
 	float w = (float)LB::WINDOWSSYSTEM->GetWidth();
 	float h = (float)LB::WINDOWSSYSTEM->GetHeight();
-	
+
 	test2 = new LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
 
-	t_Manager.add_texture("../Assets/Textures/test3.png", "pine");
-	t_Manager.add_texture("../Assets/Textures/Environment_Background.png", "bg");
+	//t_Manager.add_texture("Assets/Textures/test3.png", "pine");
+	//t_Manager.add_texture("Assets/Textures/Environment_Background.png", "bg");
 
 	test2->texture = LB::ASSETMANAGER->GetTextureIndex("bg");
 	test2->uv[0].x = 0.f;
@@ -598,6 +602,7 @@ Renderer::RenderSystem::RenderSystem() :
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
+
 
 /*!***********************************************************************
 \brief

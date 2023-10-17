@@ -23,6 +23,7 @@
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Time.h"
 
+
 #define UNREFERENCED_PARAMETER
 
 namespace LB
@@ -62,7 +63,8 @@ namespace LB
 
         //Deserialise the config settings
         LB::JSONSerializer stream;
-        stream.DeserializeFromFile("config settings", m_Data);
+        //Current file path is : \LBEditor\Editor\Jason\config settings.json"
+        stream.DeserializeFromFile("Editor/Jason/config settings", m_Data);
         // Update Window Title
 
         // Create GLFW window
