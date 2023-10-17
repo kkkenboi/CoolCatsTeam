@@ -808,18 +808,18 @@ Renderer::Texture::~Texture()
  The initial intention was to return true if successfully loaded texture
  and false if not but I'm not gonna lie I don't think it does even that.
 *************************************************************************/
-bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
-{
-	file_path;
-	name;
-	//LB::ASSETMANAGER->AddTexture(file_path, name);
-
-	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
-	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-	glUniform1iv(uni_loc, 13, test);
-
-	return true;
-}
+//bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
+//{
+//	file_path;
+//	name;
+//	//LB::ASSETMANAGER->AddTexture(file_path, name);
+//
+//	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
+//	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+//	glUniform1iv(uni_loc, 13, test);
+//
+//	return true;
+//}
 
 /*!***********************************************************************
 \brief

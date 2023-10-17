@@ -120,6 +120,27 @@ namespace LB
 	    return true;
     }
 
+    bool AssetManager::RemoveTexture(const std::string& name)
+    {
+        if (Textures.find(name) == Textures.end())
+        {
+            DebuggerLogErrorFormat("Unable to find %s in Textures!", name);
+            return false;
+        }
+        TextureSlots[Textures.find(name)->second.second] = false;
+        Textures.erase(name);   //since it's a shared pointer it shoulddddd deallocate properly right???
+        return true;
+    }
+
+    void AssetManager::FlushTextures()
+    {
+        Textures.clear();
+        for (int i{ 0 }; i < 32; ++i)
+        {
+            TextureSlots[i] = false;
+        }
+    }
+
     const int AssetManager::GetTextureIndex(const std::string& name) const
     {
         if (Textures.find(name) == Textures.end())
