@@ -1,0 +1,21 @@
+{
+    "Transform": {
+        "Position": {
+            "x": 582.14,
+            "y": 436.26
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0
+    },
+    "RigidBody": {
+        "Width": 100.0,
+        "Height": 100.0,
+        "Density": 10.0
+    },
+    "Render": {
+        "Texture": 0
+    }
+}

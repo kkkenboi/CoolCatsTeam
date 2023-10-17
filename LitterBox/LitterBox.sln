@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Executable", "Executable", "{2EFA00BB-1AF3-1F0D-4325-05922F7DFF18}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Editor", "Editor", "{339C0AE1-1FFF-9985-C884-D23BB4C66508}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LitterBoxEngine", "LitterBoxEngine\LitterBoxEngine.vcxproj", "{D8D93126-4465-9FEA-4D76-22DFB980FBEA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LBEditor", "LBEditor\LBEditor.vcxproj", "{5A3C0320-4609-5E2B-6F22-4CD35B4E93B9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{53E47842-3FC8-3998-A828-34EB942B241A}"
 EndProject
@@ -15,7 +15,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "dependencies\ImGui
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{8249BEE1-6EAC-4D86-1732-863C03741909}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LitterBox", "LitterBox\LitterBox.vcxproj", "{42AD6B65-AE17-20DC-F755-D18163FFFD30}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LBEngine", "LBEngine\LBEngine.vcxproj", "{A9E9B620-95B6-112C-BECF-FFD3AAFB46BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Script", "Script", "{417DA501-2DE0-34A6-D665-6D5CC2A70029}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LBMonoDLL", "LBMonoDLL\LBMonoDLL.vcxproj", "{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +29,14 @@ Global
 		Release|Executable = Release|Executable
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D8D93126-4465-9FEA-4D76-22DFB980FBEA}.Debug|Editor.ActiveCfg = Debug Editor|x64
-		{D8D93126-4465-9FEA-4D76-22DFB980FBEA}.Debug|Editor.Build.0 = Debug Editor|x64
-		{D8D93126-4465-9FEA-4D76-22DFB980FBEA}.Debug|Executable.ActiveCfg = Debug Executable|x64
-		{D8D93126-4465-9FEA-4D76-22DFB980FBEA}.Debug|Executable.Build.0 = Debug Executable|x64
-		{D8D93126-4465-9FEA-4D76-22DFB980FBEA}.Release|Editor.ActiveCfg = Release Editor|x64
-		{D8D93126-4465-9FEA-4D76-22DFB980FBEA}.Release|Editor.Build.0 = Release Editor|x64
-		{D8D93126-4465-9FEA-4D76-22DFB980FBEA}.Release|Executable.ActiveCfg = Release Executable|x64
-		{D8D93126-4465-9FEA-4D76-22DFB980FBEA}.Release|Executable.Build.0 = Release Executable|x64
+		{5A3C0320-4609-5E2B-6F22-4CD35B4E93B9}.Debug|Editor.ActiveCfg = Debug Editor|x64
+		{5A3C0320-4609-5E2B-6F22-4CD35B4E93B9}.Debug|Editor.Build.0 = Debug Editor|x64
+		{5A3C0320-4609-5E2B-6F22-4CD35B4E93B9}.Debug|Executable.ActiveCfg = Debug Executable|x64
+		{5A3C0320-4609-5E2B-6F22-4CD35B4E93B9}.Debug|Executable.Build.0 = Debug Executable|x64
+		{5A3C0320-4609-5E2B-6F22-4CD35B4E93B9}.Release|Editor.ActiveCfg = Release Editor|x64
+		{5A3C0320-4609-5E2B-6F22-4CD35B4E93B9}.Release|Editor.Build.0 = Release Editor|x64
+		{5A3C0320-4609-5E2B-6F22-4CD35B4E93B9}.Release|Executable.ActiveCfg = Release Executable|x64
+		{5A3C0320-4609-5E2B-6F22-4CD35B4E93B9}.Release|Executable.Build.0 = Release Executable|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Debug|Editor.ActiveCfg = Debug Editor|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Debug|Editor.Build.0 = Debug Editor|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Debug|Executable.ActiveCfg = Debug Executable|x64
@@ -57,23 +61,32 @@ Global
 		{C0FF640D-2C14-8DBE-F595-301E616989EF}.Release|Editor.Build.0 = Release Editor|x64
 		{C0FF640D-2C14-8DBE-F595-301E616989EF}.Release|Executable.ActiveCfg = Release Executable|x64
 		{C0FF640D-2C14-8DBE-F595-301E616989EF}.Release|Executable.Build.0 = Release Executable|x64
-		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Debug|Editor.ActiveCfg = Debug Editor|x64
-		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Debug|Editor.Build.0 = Debug Editor|x64
-		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Debug|Executable.ActiveCfg = Debug Executable|x64
-		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Debug|Executable.Build.0 = Debug Executable|x64
-		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Release|Editor.ActiveCfg = Release Editor|x64
-		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Release|Editor.Build.0 = Release Editor|x64
-		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Release|Executable.ActiveCfg = Release Executable|x64
-		{42AD6B65-AE17-20DC-F755-D18163FFFD30}.Release|Executable.Build.0 = Release Executable|x64
+		{A9E9B620-95B6-112C-BECF-FFD3AAFB46BA}.Debug|Editor.ActiveCfg = Debug Editor|x64
+		{A9E9B620-95B6-112C-BECF-FFD3AAFB46BA}.Debug|Editor.Build.0 = Debug Editor|x64
+		{A9E9B620-95B6-112C-BECF-FFD3AAFB46BA}.Debug|Executable.ActiveCfg = Debug Executable|x64
+		{A9E9B620-95B6-112C-BECF-FFD3AAFB46BA}.Debug|Executable.Build.0 = Debug Executable|x64
+		{A9E9B620-95B6-112C-BECF-FFD3AAFB46BA}.Release|Editor.ActiveCfg = Release Editor|x64
+		{A9E9B620-95B6-112C-BECF-FFD3AAFB46BA}.Release|Editor.Build.0 = Release Editor|x64
+		{A9E9B620-95B6-112C-BECF-FFD3AAFB46BA}.Release|Executable.ActiveCfg = Release Executable|x64
+		{A9E9B620-95B6-112C-BECF-FFD3AAFB46BA}.Release|Executable.Build.0 = Release Executable|x64
+		{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}.Debug|Editor.ActiveCfg = Debug Editor|x64
+		{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}.Debug|Editor.Build.0 = Debug Editor|x64
+		{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}.Debug|Executable.ActiveCfg = Debug Executable|x64
+		{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}.Debug|Executable.Build.0 = Debug Executable|x64
+		{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}.Release|Editor.ActiveCfg = Release Editor|x64
+		{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}.Release|Editor.Build.0 = Release Editor|x64
+		{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}.Release|Executable.ActiveCfg = Release Executable|x64
+		{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}.Release|Executable.Build.0 = Release Executable|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D8D93126-4465-9FEA-4D76-22DFB980FBEA} = {2EFA00BB-1AF3-1F0D-4325-05922F7DFF18}
+		{5A3C0320-4609-5E2B-6F22-4CD35B4E93B9} = {339C0AE1-1FFF-9985-C884-D23BB4C66508}
 		{154B857C-0182-860D-AA6E-6C109684020F} = {53E47842-3FC8-3998-A828-34EB942B241A}
 		{BDD6857C-A90D-870D-52FA-6C103E10030F} = {53E47842-3FC8-3998-A828-34EB942B241A}
 		{C0FF640D-2C14-8DBE-F595-301E616989EF} = {53E47842-3FC8-3998-A828-34EB942B241A}
-		{42AD6B65-AE17-20DC-F755-D18163FFFD30} = {8249BEE1-6EAC-4D86-1732-863C03741909}
+		{A9E9B620-95B6-112C-BECF-FFD3AAFB46BA} = {8249BEE1-6EAC-4D86-1732-863C03741909}
+		{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D} = {417DA501-2DE0-34A6-D665-6D5CC2A70029}
 	EndGlobalSection
 EndGlobal
