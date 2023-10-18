@@ -179,6 +179,8 @@ namespace LB
 
 		void LogErrorFormat(const char* file, int line, const char* format, ...);
 
+		std::string GetCurrentTimeStamp();
+
 		/*!***********************************************************************
 		\brief
 		 Returns true if debug mode is on

@@ -33,7 +33,7 @@ namespace LB
 		 \brief
 		 Constructor for the Scenemanager (Initialises its singleton)
 		*************************************************************************/
-		SceneManager();
+		SceneManager(Scene* firstScene);
 
 		/*!***********************************************************************
 		 \brief
@@ -55,15 +55,17 @@ namespace LB
 
 		//void LoadScene(int index);
 		//void LoadScene(std::string name);
+		void LoadScene(Scene* scene);
 
 	private:
-		//std::vector<Scene> scenes;
+		std::vector<Scene> scenes;
+
 		//TODO : Implementation for multiple scenes in the future
 		/*!***********************************************************************
 		 \brief
 		 Pointer the current scene (This is the main scene)
 		*************************************************************************/
-		Scene* currentScene;
+		Scene *currentScene{ nullptr }, *nextScene{ nullptr };
 	};
 
 	/*!***********************************************************************

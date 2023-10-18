@@ -43,6 +43,18 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
+	 Calls the Initialize function in each layer
+	*************************************************************************/
+	void LayerStack::InitializeLayers()
+	{
+		for (Layer* layer : m_Layers)
+		{
+			layer->Initialize();
+		}
+	}
+
+	/*!***********************************************************************
+	 \brief
 	 Adds a layer to the LayerStack
 
 	 \return

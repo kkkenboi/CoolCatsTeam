@@ -18,6 +18,7 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
 #include "Debug.h"
+#include "Platform/Editor/EditorConsole.h"		// For logging to ImGUI console
 #include <sstream>
 
 #include <csignal>								// For getting crash signals
@@ -129,7 +130,7 @@ namespace LB
 		debugInfoLogger->set_pattern("[%H:%M:%S] [%L] %v");
 		debugInfoLogger->set_level(spdlog::level::debug);
 
-		crashInfoLogger = spdlog::basic_logger_mt("CRASH LOGGER", "../Logs/CrashLog.txt");
+		crashInfoLogger = spdlog::basic_logger_mt("CRASH LOGGER", "Logs/CrashLog.txt");
 		crashInfoLogger->set_pattern("[%H:%M:%S] [%L] %v");
 		crashInfoLogger->set_level(spdlog::level::err);
 
@@ -140,7 +141,6 @@ namespace LB
 		// Clear the debug log for logging
 		std::ofstream logFile("Logs/DebugLog.txt", std::ios::trunc);
 		logFile.close();
-
 	}
 
 	/*!***********************************************************************
@@ -166,6 +166,7 @@ namespace LB
 		logFile.close();
 
 		crashInfoLogger->error("Unexpected application crash! Signal: {}", signal);
+		crashInfoLogger->flush();
 	}
 
 	//TODO modulate the vertex size
@@ -179,7 +180,7 @@ namespace LB
 		if (!DEBUG)
 			DEBUG = this;
 		else
-			std::cerr << "Debug System already exist" << std::endl;
+			DebuggerLogError("Debug System already exist!");
 
 		SetSystemName("Debug System");
 
@@ -420,6 +421,16 @@ namespace LB
 		}
 	}
 
+	std::string Debugger::GetCurrentTimeStamp()
+	{
+		std::time_t now = std::time(nullptr);
+		std::tm timeStamp = *std::localtime(&now);
+
+		std::ostringstream timeStampString;
+		timeStampString << std::put_time(&timeStamp, "%H:%M:%S");
+		return timeStampString.str();
+	}
+
 	/*!***********************************************************************
 	\brief
 	 Log prints a given message and the file that called it and from which line.
@@ -427,10 +438,14 @@ namespace LB
 	void Debugger::Log(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
-		output << "[" << file << ":" << line << "] " << message;
+		// output << "[" << file << ":" << line << "] " << message;
+		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-		// Print to console
-		consoleLogger->debug(output.str());
+		// Print to console (DECAP)
+		// consoleLogger->debug(output.str());
+
+		// Print to ImGUI console
+		EDITORCONSOLE->AddLogMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->debug(output.str());	
@@ -459,10 +474,14 @@ namespace LB
 	void Debugger::LogWarning(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
-		output << "[" << file << ":" << line << "] " << message;
+		//output << "[" << file << ":" << line << "] " << message;
+		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-		// Print to console
-		consoleLogger->warn(output.str());
+		// Print to console (DECAP)
+		//consoleLogger->warn(output.str());
+
+		// Print to ImGUI console
+		EDITORCONSOLE->AddWarningMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->warn(output.str());
@@ -490,16 +509,18 @@ namespace LB
 	void Debugger::LogError(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
-		output << "[" << file << ":" << line << "] " << message;
+		//output << "[" << file << ":" << line << "] " << message;
+		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-		// Print to console
-		consoleLogger->error(output.str());
+		// Print to console (DECAP)
+		//consoleLogger->error(output.str());
+
+		// Print to ImGUI console
+		EDITORCONSOLE->AddErrorMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->error(output.str());
 		FlushDebugLog();
-
-		// Then assert
 	}
 
 	void Debugger::LogErrorFormat(const char* file, int line, const char* format, ...)
@@ -513,11 +534,13 @@ namespace LB
 		va_end(args);
 
 		LogError(file, line, std::string(cStrBuffer));
+
+		// TODO: Add an option to pause on error
 	}
 
 	/*!***********************************************************************
 	\brief
-	 Assert prints out a debug line if a specific condition is not met.
+	 Assert prints out a debug line and stops the program if a specific condition is not met.
 	*************************************************************************/
 	void Debugger::Assert(const char* file, int line, bool expectedCondition, std::string const& message)
 	{
@@ -532,6 +555,8 @@ namespace LB
 			// Save to debug file and flush it
 			debugInfoLogger->error(output.str());
 			FlushDebugLog();
+			
+			std::terminate();
 		}
 	}
 

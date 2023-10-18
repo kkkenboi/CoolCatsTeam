@@ -1,43 +1,10 @@
 #include "LitterBox.h"
-class GameplayLayer : public LB::Layer
-{
-public:
-	GameplayLayer(std::string layerName);
-
-	//~GameplayLayer() override;
-
-	//void AttachLayer() override;
-	//void DetachLayer() override;
-
-	void UpdateLayer() override;
-};
-
-GameplayLayer::GameplayLayer(std::string layerName) : Layer(layerName)
-{
-}
-
-void GameplayLayer::UpdateLayer()
-{
-}
-
-class Sandbox : public LB::Application
-{
-public:
-	Sandbox()
-	{
-		LB::CORE->AddLayer(new GameplayLayer("Engine"));
-	}
-	~Sandbox()
-	{
-
-	}
-};
+#include "SceneTestMain.h"
 
 LB::Application* LB::CreateApplication()
 {
-	return new Sandbox();
+	return new Application(new SceneTestMain);
 }
-
 
 int main(int argc, char** argv)
 {

@@ -9,7 +9,7 @@
  \par Course:		CSD2401A
  \date				24-09-2023
  \brief
- The functions in the Math class include:
+ The functions in the SceneTestMain class include:
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent

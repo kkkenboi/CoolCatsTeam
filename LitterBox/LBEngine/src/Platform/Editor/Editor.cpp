@@ -17,23 +17,30 @@
 **************************************************************************/
 #include "pch.h"
 #include "LitterBox/Core/Core.h"
+
 #include "Editor.h"
+#include "EditorToolBar.h"
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
+#include "EditorGameView.h"
+#include "EditorSceneView.h"
+#include "EditorAssets.h"
+#include "EditorConsole.h"
+#include "EditorProfiler.h"
+
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
 
-
 namespace LB
 {
+	Editor* EDITOR = nullptr;
+
 	void ToggleEditor()
 	{
 		EDITOR->m_EditorMode = !EDITOR->m_EditorMode;
 	}
 
-	Editor* EDITOR = nullptr;
-
-	void Editor::Initialize()
+	Editor::Editor() 
 	{
 		if (!EDITOR)
 		{
@@ -41,10 +48,21 @@ namespace LB
 			m_EditorMode = true;
 		}
 		else
-		{
-			std::cerr << "Editor already exists" << std::endl;
-		}
+			DebuggerLogError("Editor System already exists!");
 
+		// Add the different ImGui layers in here
+		m_ImGuiLayers.AddLayer(new EditorToolBar("ToolBar"));
+		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
+		m_ImGuiLayers.AddLayer(new EditorInspector("Inspector"));
+		m_ImGuiLayers.AddLayer(new EditorSceneView("Scene View"));
+		m_ImGuiLayers.AddLayer(new EditorGameView("Game View"));
+		m_ImGuiLayers.AddLayer(new EditorConsole("Console"));
+		m_ImGuiLayers.AddLayer(new EditorProfiler("Profiler"));
+		m_ImGuiLayers.AddLayer(new EditorAssets("Assets"));
+	}
+
+	void Editor::Initialize()
+	{
 		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
@@ -63,9 +81,8 @@ namespace LB
 		// Set Style
 		ImGui::StyleColorsDark();
 
-		// Add the different ImGui layers in here
-		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
-		m_ImGuiLayers.AddLayer(new EditorInspector("Inspector"));
+		// Call Initialize for all layers in the layerstack
+		m_ImGuiLayers.InitializeLayers();
 	}
 
 	void Editor::Update()
@@ -77,7 +94,7 @@ namespace LB
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					// Docking Section
+			// Docking Section
 			static bool dockspaceOpen = true;
 			ImGuiViewport* viewport = ImGui::GetMainViewport();
 			ImGui::SetNextWindowPos(viewport->Pos);
@@ -96,7 +113,6 @@ namespace LB
 			{
 				if (ImGui::BeginMenu("File"))
 				{
-
 					if (ImGui::MenuItem("Hide Docking Bar"))
 					{
 						;
@@ -130,6 +146,13 @@ namespace LB
 
 				ImGui::DockBuilderDockWindow("Hierarchy", dock_id_left);
 				ImGui::DockBuilderDockWindow("Inspector", dock_main_id);
+				ImGui::DockBuilderDockWindow("ToolBar", dock_id_left);
+				ImGui::DockBuilderDockWindow("Scene View", dock_id_left);
+				ImGui::DockBuilderDockWindow("Game View", dock_id_left);
+				ImGui::DockBuilderDockWindow("Console", dock_id_left);
+				ImGui::DockBuilderDockWindow("Profiler", dock_id_left);
+				ImGui::DockBuilderDockWindow("Assets", dock_id_left);
+
 				ImGui::DockBuilderFinish(dockspace_id);
 			}
 
@@ -209,12 +232,12 @@ namespace LB
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(WINDOWSSYSTEM->GetWindow());
-
 		}
 	}
 
 	void Editor::FixedUpdate()
 	{
+
 	}
 
 	void Editor::Destroy()
@@ -223,5 +246,4 @@ namespace LB
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
-
 }

@@ -56,7 +56,7 @@ namespace LB
         this->mWidth = 100.f;
         this->mHeight = 100.f;
 
-        this->mShapeType = COL_BOX;
+        //this->mShapeType = COL_BOX;
         this->mNumberID = 0;
 
         this->mArea = this->mWidth * this->mHeight;
@@ -71,7 +71,7 @@ namespace LB
         {
             this->mInvMass = 0.f;
         }
-
+        /*
         // Check if Box
         if (this->mShapeType == COL_BOX)
         {
@@ -118,7 +118,7 @@ namespace LB
         }
 
         this->UpdateRigidBodyAABB();
-
+        */
         PHYSICS->AddRigidBodyToPool(this);
     }
 
@@ -178,6 +178,7 @@ namespace LB
         \brief
         Updates the CPRigidBody Box Vertices within its' data members
     *************************************************************************/
+    /*
     void CPRigidBody::UpdateRigidBodyBoxVertices()
     {
         PhysicsTransform xtransform{ this->mPosition, this->mRotation };
@@ -193,11 +194,13 @@ namespace LB
 
 
     }
+    */
 
     /*!***********************************************************************
         \brief
         Updates the AABB collider in the CPRigidBody's data members
     *************************************************************************/
+    /*
     void CPRigidBody::UpdateRigidBodyAABB()
     {
         float minX = 10000000.f;
@@ -232,6 +235,7 @@ namespace LB
         this->obj_aabb.m_max = LB::Vec2<float>{ maxX, maxY };
         this->obj_aabb.m_min = LB::Vec2<float>{ minX, minY };
     }
+    */
 
     /*!***********************************************************************
         \brief
@@ -261,13 +265,13 @@ namespace LB
 
         // Update the TransformedVertices
         // HERE
-        this->UpdateRigidBodyBoxVertices();
+        //this->UpdateRigidBodyBoxVertices();
         //}
         //if (temp_pos != this->mPosition)
         //{
         // Update the AABB
         // HERE
-        this->UpdateRigidBodyAABB();
+        //this->UpdateRigidBodyAABB();
         //}
         
     }
@@ -320,6 +324,7 @@ namespace LB
         This is the function that calls the debug drawer to draw all the
         RigidBody collision boxes as well as their velocities
     *************************************************************************/
+    /*
     void CPRigidBody::DebugDraw()
     {
         if (this->mShapeType == COL_BOX)
@@ -335,6 +340,7 @@ namespace LB
         DEBUG->DrawLine(mPosition, PHY_MATH::Normalize(mVelocity), PHY_MATH::Length(mVelocity) / 5.f,
             Vec4<float> {1.0f, 0.f, 0.f, 0.f});
     }
+    */
 
     // END OF RIGIDBODY MEMBER FUNCTIONS
     // ===========================================

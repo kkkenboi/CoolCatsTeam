@@ -10,8 +10,6 @@
 
 **************************************************************************/
 #include "Player.h"
-#include <mono/metadata/assembly.h>
-#include <mono/jit/jit.h>
 
 //Game object that will be the player
 GameObject* PlayerObj;
@@ -54,8 +52,8 @@ void hide2500() {
 *************************************************************************/
 void Player::Initialise()
 {
-	auto m = mono_init("LitterBoxEngine.exe");
-	this->playerObj = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody});
+	//auto m = mono_init("LitterBoxEngine.exe");
+	this->playerObj = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider});
 
 	playerObj->GetComponent<CPTransform>()->SetPosition(LB::Vec2<float>{400.f, 400.f});
 	// Test player texture

@@ -144,7 +144,7 @@ namespace LB
 		 *************************************************************************/
 		void HelperFunction()
 		{
-			Document _jsonFile = GetJSONFile("filepaths");
+			Document _jsonFile = GetJSONFile("Editor/Jason/filepaths");
 			Document::AllocatorType& allocator = _jsonFile.GetAllocator();
 			_jsonFile.SetObject();
 			_jsonFile.AddMember("EDITOR", "/editor", allocator);

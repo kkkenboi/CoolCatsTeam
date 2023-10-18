@@ -34,13 +34,26 @@ namespace LB
 	void CPCollider::CreateCPCollider()
 	{
 		this->transform = gameObj->GetComponent<CPTransform>();
+		if (gameObj->HasComponent<CPRigidBody>())
+		{
+			this->rigidbody = gameObj->GetComponent<CPRigidBody>();
+		}
+		else
+		{
+			this->rigidbody = nullptr;
+		}
 
 		this->m_shape = COL_BOX;
 		this->m_simpleCol = true;
+		this->m_collided = false;
+
 		this->m_pos = transform->GetPosition();
 		this->m_width = 100.f;
 		this->m_height = 100.f;
-		this->m_radius = 5.f;
+		this->m_radius = 50.f;
+
+		this->m_rotation = 0.f;
+		this->m_vertAmount = 4;
 
 		this->CreateAABB();
 		this->CreatePolygon();
@@ -103,6 +116,86 @@ namespace LB
 		m_untransformedVerts[3].y = bottom;
 	}
 
+
+	/*!***********************************************************************
+		\brief
+		Updates the CPRigidBody Box Vertices within its' data members
+	*************************************************************************/
+	void CPCollider::UpdateColliderBoxVertices()
+	{
+		PhysicsTransform xtransform{ this->m_pos, this->m_rotation };
+
+		for (int i = 0; i < 4; ++i) {
+			// Uses the untransformed vertices as the basis for tranasformation
+			LB::Vec2<float> og_vec = this->m_untransformedVerts[i];
+			// Transforming the vertices using trigo formulas
+			this->m_transformedVerts[i] = LB::Vec2<float>{
+				xtransform.m_cos * og_vec.x - xtransform.m_sin * og_vec.y + xtransform.m_posX,
+				xtransform.m_sin * og_vec.x + xtransform.m_cos * og_vec.y + xtransform.m_posY };
+		}
+
+
+	}
+
+	/*!***********************************************************************
+		\brief
+		Updates the AABB collider in the CPRigidBody's data members
+	*************************************************************************/
+	void CPCollider::UpdateColliderAABB()
+	{
+		float minX = 10000000.f;
+		float maxX = -10000000.f;
+		float minY = 10000000.f;
+		float maxY = -10000000.f;
+
+		if (this->m_shape == COL_BOX)
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				// Take the Transformed Vertices and use it as the new AABB
+				LB::Vec2<float> vec = this->m_transformedVerts[i];
+
+				if (vec.x < minX) minX = vec.x;
+				if (vec.x > maxX) maxX = vec.x;
+				if (vec.y < minY) minY = vec.y;
+				if (vec.y > maxY) maxY = vec.y;
+			}
+		}
+		else if (this->m_shape == COL_CIRCLE)
+		{
+			// Basically grab the position and make a box using radius as the width and height
+			// of the box
+			minX = this->m_pos.x - this->m_radius;
+			maxX = this->m_pos.x + this->m_radius;
+			minY = this->m_pos.y - this->m_radius;
+			maxY = this->m_pos.y + this->m_radius;
+		}
+
+		this->m_aabb.m_c = LB::Vec2<float>{ (minX + maxX) / 2.f, (minY + maxY) / 2.f };
+		this->m_aabb.m_max = LB::Vec2<float>{ maxX, maxY };
+		this->m_aabb.m_min = LB::Vec2<float>{ minX, minY };
+	}
+
+	void CPCollider::DebugDraw()
+	{
+		if (this->m_shape == COL_BOX)
+		{
+			DEBUG->DrawBox(m_pos, m_width, m_height,
+				Vec4<float> { 0.f, 0.f, 1.0f, 1.0f }, m_rotation);
+		}
+		if (this->m_shape == COL_CIRCLE)
+		{
+			DEBUG->DrawCircle(m_pos, m_radius,
+				Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
+		}
+		if (this->rigidbody != nullptr)
+		{
+			DEBUG->DrawLine(m_pos, PHY_MATH::Normalize(this->rigidbody->mVelocity), PHY_MATH::Length(this->rigidbody->mVelocity) / 5.f,
+				Vec4<float> {1.0f, 0.f, 0.f, 0.f});
+		}
+	}
+
+
 	// Overrides !!!!!!!
 
 	void CPCollider::Initialise() 
@@ -110,10 +203,17 @@ namespace LB
 		this->CreateCPCollider();
 	}
 
-	void CPCollider::Update()
+	void CPCollider::FixedUpdate()
 	{
+		this->m_pos = transform->GetPosition();
+		this->m_rotation = transform->GetRotation();
+
+
+		this->UpdateColliderAABB();
+		this->UpdateColliderBoxVertices();
 
 	}
+
 
 
 	// ============================================================================= !!!!!!!!!

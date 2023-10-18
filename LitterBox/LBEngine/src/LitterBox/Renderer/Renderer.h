@@ -359,6 +359,9 @@ namespace Renderer {
 
 		Camera cam;
 		Camera editor_cam;
+		LB::Vec2<GLint> m_winPos;
+		LB::Vec2<GLsizei> m_winSize;
+
 	public:
 
 		/*!***********************************************************************
@@ -378,6 +381,14 @@ namespace Renderer {
 		 drawing everything. Counterintuitive, I know.
 		*************************************************************************/
 		void Update() override;
+
+		/*!***********************************************************************
+		\brief
+		 Updates the game viewport position and size based on the current ImGUI
+		 window.
+		*************************************************************************/
+		void UpdateGameWindowPos(GLint winPosX, GLint winPosY, GLsizei winSizeX, GLsizei winSizeY);
+
 		/*!***********************************************************************
 		\brief
 		 The FixedUpdate function is a time based update function that will only

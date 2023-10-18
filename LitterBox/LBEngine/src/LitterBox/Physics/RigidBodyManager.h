@@ -136,7 +136,7 @@ namespace LB
       \return
       Returns a bool or whether or not the two CPRigidBodies collided or not
     *************************************************************************/
-    bool CheckCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out);
+    //bool CheckCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out);
 
     /*!***********************************************************************
       \brief
@@ -144,7 +144,7 @@ namespace LB
       while outputting the normal_out and depth_out of the collision for
       collision resolution
     *************************************************************************/
-    void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth);
+    //void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth);
 
     extern RigidBodyManager* PHYSICS;
 }

@@ -22,13 +22,14 @@ namespace LB {
 	 \brief 
 	 Initialises the LitterBox Engine with all the systems added
 	*************************************************************************/
-	Application::Application()
+	Application::Application(Scene* firstScene)
 	{
 		// Setting up LitterBox Engine with the available systems
 		Engine = new LBEngine();
 
 		// TODO: Refactor intialization order and move back to debugger system
 		InitializeLoggers();
+		Editor*					editor			= new Editor();
 		Time*					time			= new Time(100, 60);
 		InputSystem*			input			= new InputSystem();
 		ProfilerManager*		profiler		= new ProfilerManager();
@@ -37,14 +38,13 @@ namespace LB {
 		FactorySystem*			factory			= new FactorySystem();
 		GameObjectManager*		gameManager		= new GameObjectManager();
 		GameLogic*				logic			= new GameLogic();
-		ColliderManager*        colliders       = new ColliderManager();
 		RigidBodyManager*		physics			= new RigidBodyManager();
+		ColliderManager*        colliders       = new ColliderManager();
 		AudioManager*			audio			= new AudioManager();
 		AssetManager*			assetManager	= new AssetManager();
 		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
 		Memory*					memory			= new Memory();
-		SceneManager*			sceneManager	= new SceneManager();
-		Editor*					editor			= new Editor();
+		SceneManager*			sceneManager	= new SceneManager(firstScene);
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
@@ -53,15 +53,15 @@ namespace LB {
 		Engine->AddSystem(windows);
 		Engine->AddSystem(gameManager);
 		Engine->AddSystem(assetManager);
-		Engine->AddSystem(colliders);
 		Engine->AddSystem(physics);
+		Engine->AddSystem(colliders);
 		Engine->AddSystem(logic);
 		Engine->AddSystem(audio);
-		Engine->AddSystem(graphics);
 		Engine->AddSystem(memory);
 		Engine->AddSystem(debug);
-		Engine->AddSystem(sceneManager);
 		Engine->AddSystem(editor);
+		Engine->AddSystem(graphics);
+		Engine->AddSystem(sceneManager);
 
 		Engine->Initialise();
 

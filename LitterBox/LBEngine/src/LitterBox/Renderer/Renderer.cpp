@@ -25,6 +25,7 @@
 #include "LitterBox/Factory/Components.h"
 
 #include "LitterBox/Engine/Time.h"
+#include "LitterBox/Debugging/Debug.h"
 
 //---------------------------------DEFINES-------------------------------
 constexpr Renderer::index inactive_idx{ 0,0,0,0,0 };
@@ -56,7 +57,8 @@ shader_source shader_parser(const char* shader_file_name) {
 	};
 
 	if (!ifs.is_open()) {
-		printf("COULD NOT OPEN FILE %s\n", shader_file_name);
+		//printf("COULD NOT OPEN FILE %s\n", shader_file_name);
+		DebuggerLogErrorFormat("Could not open file %s", shader_file_name);
 		exit(EXIT_FAILURE);
 	}
 
@@ -104,7 +106,7 @@ unsigned int compile_shader(const char*& source, unsigned int type) {
 
 		char* message = (char*)_malloca(length * sizeof(char));
 		glGetShaderInfoLog(id, length, &length, message);
-		printf("Failed to compile shader: %s\n", message);
+		DebuggerLogErrorFormat("Failed to compile shader: %s", message);
 		glDeleteShader(id);
 		return 0;
 	}
@@ -191,7 +193,7 @@ LB::CPRender::CPRender(
 	indices{}
 {
 	if (!Renderer::GRAPHICS) {
-		std::cerr << "GRAPHICS SYSTEM NOT INITIALIZED" << std::endl;
+		DebuggerLogError("GRAPHICS SYSTEM NOT INITIALIZED");
 		return;
 	}
 
@@ -226,7 +228,7 @@ void LB::CPRender::play_repeat(const std::string& name)
 		animation.push(std::make_pair(anim, true));
 	}
 	else {
-		std::cerr << "There is no animation: " << name << " loaded." << std::endl;
+		DebuggerLogErrorFormat("There is no animation: %s loaded.", name);
 	}
 }
 
@@ -242,7 +244,7 @@ void LB::CPRender::play_next(const std::string& name)
 		animation.push(std::make_pair(anim, false));
 	}
 	else {
-		std::cerr << "There is no animation: " << name << " loaded." << std::endl;
+		DebuggerLogErrorFormat("There is no animation: %s loaded.", name);
 	}
 }
 
@@ -261,7 +263,7 @@ void LB::CPRender::play_now(const std::string& name)
 		animation.push(std::make_pair(anim, false));
 	}
 	else {
-		std::cerr << "There is no animation: " << name << " loaded." << std::endl;
+		DebuggerLogErrorFormat("There is no animation: %s loaded.", name);
 	}
 }
 
@@ -313,7 +315,7 @@ void LB::CPRender::set_active()
 	if (Renderer::GRAPHICS)
 		Renderer::GRAPHICS->change_object_state(renderer_id, this);
 	else
-		std::cerr << "GRAPHICS system not initialized" << std::endl;
+		DebuggerLogError("GRAPHICS SYSTEM NOT INITIALIZED");
 }
 //########################ANIMATION##############################
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
@@ -432,7 +434,7 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 	}
 
 	if (i == quad_buff_size) {
-		std::cerr << "OBJECT BUFFER FULL" << std::endl;
+		DebuggerLogError("OBJECT BUFFER FULL");
 
 		//return quad_data full of garbage
 		return i;
@@ -574,7 +576,7 @@ bg_renderer{Renderer_Types::RT_BACKGROUND}
 	if (!GRAPHICS)
 		GRAPHICS = this;
 	else
-		std::cerr << "Render System already exist" << std::endl;	
+		DebuggerLogError("Render System already exists");
 }
 
 LB::CPRender* test2;
@@ -588,9 +590,13 @@ void Renderer::RenderSystem::Initialize()
 
 	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
 	if (uni_loc == -1)
-		std::cerr << "Cannot find uniform location" << std::endl;
-	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
+		DebuggerLogError("Unable to find uniform location");
+	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &object_renderer.cam.world_NDC[0][0]);
 
+
+	GLint uni_loc2 = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
+	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+	glUniform1iv(uni_loc2, 13, test);
 	//-################FOR BACKGROUND##########################
 	//cache some values
 	float midx = (float)LB::WINDOWSSYSTEM->GetWidth() * 0.5f;
@@ -615,6 +621,9 @@ void Renderer::RenderSystem::Initialize()
 	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// TODO: If not in editor mode, fullscreen the game view
+	glEnable(GL_SCISSOR_TEST);
 }
 
 
@@ -637,8 +646,13 @@ Renderer::RenderSystem::~RenderSystem()
 *************************************************************************/
 void Renderer::RenderSystem::Update()
 {
+	// Render the game scene window
 	bg_renderer.update_buff();
 	object_renderer.update_buff();
+
+	glScissor(m_winPos.x, m_winPos.y, m_winSize.x, m_winSize.y);
+	glViewport(m_winPos.x, m_winPos.y, m_winSize.x, m_winSize.y);
+
 	glClearColor(.3f, 0.5f, .8f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(shader_program);
@@ -647,6 +661,20 @@ void Renderer::RenderSystem::Update()
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 }
+
+/*!***********************************************************************
+\brief
+ Updates the game viewport position and size based on the current ImGUI
+ window.
+*************************************************************************/
+void Renderer::RenderSystem::UpdateGameWindowPos(GLint winPosX, GLint winPosY, GLsizei winSizeX, GLsizei winSizeY)
+{
+	m_winPos.x = winPosX;
+	m_winPos.y = winPosY;
+	m_winSize.x = winSizeX;
+	m_winSize.y = winSizeY;
+}
+
 /*!***********************************************************************
 \brief
  The FixedUpdate function is a time based update function that will only
@@ -684,10 +712,10 @@ void Renderer::RenderSystem::Draw()
 \return
  true if texture is successfully loaded into GPU and false if not.
 *************************************************************************/
-bool Renderer::RenderSystem::create_texture(const std::string& file_path, const std::string& name)
-{
-	return t_Manager.add_texture(file_path, name);
-}
+//bool Renderer::RenderSystem::create_texture(const std::string& file_path, const std::string& name)
+//{
+//	return t_Manager.add_texture(file_path, name);
+//}
 /*!***********************************************************************
 \brief
  remove_texture is another API to delete texture data from the GPU.
