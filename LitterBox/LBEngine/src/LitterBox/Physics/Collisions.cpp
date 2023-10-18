@@ -48,15 +48,23 @@ namespace LB
 		this->m_collided = false;
 
 		this->m_pos = transform->GetPosition();
-		this->m_width = 100.f;
-		this->m_height = 100.f;
-		this->m_radius = 50.f;
+
+		this->m_widthUnscaled = 100.f;
+		this->m_heightUnscaled = 100.f;
+		this->m_radiusUnscaled = 50.f;
+
+		this->m_width = this->m_widthUnscaled * transform->GetScale().x;
+		this->m_height = this->m_heightUnscaled * transform->GetScale().y;
+		this->m_radius = this->m_radiusUnscaled * transform->GetScale().x;
 
 		this->m_rotation = 0.f;
 		this->m_vertAmount = 4;
 
 		this->CreateAABB();
 		this->CreatePolygonBox();
+
+		// Update the length and width of the RigidBody depending
+		// on the Collider
 
 		COLLIDERS->AddColliderToPool(this);
 	}
@@ -281,6 +289,7 @@ namespace LB
 		this->UpdateColliderAABB();
 
 	}
+
 	/*
 	void CPCollider::Destroy()
 	{
@@ -517,7 +526,7 @@ namespace LB
 	  \return
 	  Returns true if the boxes collided and false if the boxes did not collide
 	*************************************************************************/
-	bool CollisionIntersection_BoxBox_SAT(std::vector<Vec2<float>> const& verticesA, std::vector<Vec2<float>> const& verticesB, LB::Vec2<float>& normal_out, float& depth_out)
+	bool CollisionIntersection_PolygonPolygon_SAT(std::vector<Vec2<float>> const& verticesA, std::vector<Vec2<float>> const& verticesB, LB::Vec2<float>& normal_out, float& depth_out)
 	{
 		normal_out = LB::Vec2<float>{ 0.f,0.f };
 		depth_out = 100000000.f;
@@ -617,8 +626,8 @@ namespace LB
 		normal_out = PHY_MATH::Normalize(normal_out);
 
 		// Get the center of each obj's vertices
-		LB::Vec2<float> vecCenterA = FindCenterOfBoxVertices(verticesA);
-		LB::Vec2<float> vecCenterB = FindCenterOfBoxVertices(verticesB);
+		LB::Vec2<float> vecCenterA = FindCenterOfPolygonVertices(verticesA);
+		LB::Vec2<float> vecCenterB = FindCenterOfPolygonVertices(verticesB);
 
 		LB::Vec2<float> vecAB = vecCenterB - vecCenterA;
 
@@ -642,7 +651,7 @@ namespace LB
 	  \return
 	  Returns true if the objects collided and false if the objects did not collide
 	*************************************************************************/
-	bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float circleRadius, std::vector<Vec2<float>> const& vertices, LB::Vec2<float>& normal_out, float& depth_out)
+	bool CollisionIntersection_CirclePolygon_SAT(LB::Vec2<float> circleCenter, float circleRadius, std::vector<Vec2<float>> const& vertices, LB::Vec2<float>& normal_out, float& depth_out)
 	{
 		normal_out = LB::Vec2<float>{ 0.f, 0.f };
 		depth_out = 100000000.f;
@@ -701,7 +710,7 @@ namespace LB
 		// Now we need to check the axis from the circle center to closest vertice to circle center
 
 		// First we get the nearest VerticeIndex from the box to the circle's center
-		int nearestVerticeIndex = FindIndexClosestPointOnBox(vertices, circleCenter);
+		int nearestVerticeIndex = FindIndexClosestPointOnPolygon(vertices, circleCenter);
 		LB::Vec2<float> nearestVertice = vertices[nearestVerticeIndex];
 
 		// Next we make a vector from the circle center to nearestVertice
@@ -738,7 +747,7 @@ namespace LB
 
 		// Get the center of each obj's vertices
 		// Use center of the circle
-		LB::Vec2<float> vecCenterBox = FindCenterOfBoxVertices(vertices);
+		LB::Vec2<float> vecCenterBox = FindCenterOfPolygonVertices(vertices);
 
 		// Circle center to polygon center
 		LB::Vec2<float> vecAB = vecCenterBox - circleCenter;
@@ -833,7 +842,7 @@ namespace LB
 	  \return
 	  Returns the position of the center of the vertices as a Vec2<float>
 	*************************************************************************/
-	LB::Vec2<float> FindCenterOfBoxVertices(std::vector<Vec2<float>> const& vertices)
+	LB::Vec2<float> FindCenterOfPolygonVertices(std::vector<Vec2<float>> const& vertices)
 	{
 		// Loop through all the vertices and add them together and
 		// then divide by the number of vertices in the array
@@ -857,7 +866,7 @@ namespace LB
 	  \return
 	  Returns the position of the center of the vertices as a Vec2<float>
 	*************************************************************************/
-	int FindIndexClosestPointOnBox(std::vector<Vec2<float>> const& vertices, LB::Vec2<float> center)
+	int FindIndexClosestPointOnPolygon(std::vector<Vec2<float>> const& vertices, LB::Vec2<float> center)
 	{
 		// Loop through the the vertices
 		// Get the vec from vertex to center

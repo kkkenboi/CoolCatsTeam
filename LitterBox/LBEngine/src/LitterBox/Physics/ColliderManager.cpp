@@ -72,7 +72,7 @@ namespace LB
 
 		for (size_t i = 0; i < m_poolSize; ++i)
 		{
-			if (CollisionIntersection_CircleBox_SAT(position, radius,
+			if (CollisionIntersection_CirclePolygon_SAT(position, radius,
 				m_colliderPool[i]->m_transformedVerts, normal, depth))
 			{
 				vec_overlapped.push_back(*m_colliderPool[i]);
@@ -100,13 +100,13 @@ namespace LB
 			{
 				// A-B
 				// BOX-BOX
-				return CollisionIntersection_BoxBox_SAT(colA->m_transformedVerts, colB->m_transformedVerts, normal_out, depth_out);
+				return CollisionIntersection_PolygonPolygon_SAT(colA->m_transformedVerts, colB->m_transformedVerts, normal_out, depth_out);
 			}
 			else if (colB->m_shape == COL_CIRCLE)
 			{
 				// A-B
 				// BOX-CIRCLE
-				bool result = CollisionIntersection_CircleBox_SAT(colB->m_pos, colB->m_radius, colA->m_transformedVerts, normal_out, depth_out);
+				bool result = CollisionIntersection_CirclePolygon_SAT(colB->m_pos, colB->m_radius, colA->m_transformedVerts, normal_out, depth_out);
 
 				normal_out.x = -normal_out.x;
 				normal_out.y = -normal_out.y;
@@ -120,7 +120,7 @@ namespace LB
 			{
 				// A-B
 				// CIRCLE-BOX
-				bool result = CollisionIntersection_CircleBox_SAT(colA->m_pos, colA->m_radius, colB->m_transformedVerts, normal_out, depth_out);
+				bool result = CollisionIntersection_CirclePolygon_SAT(colA->m_pos, colA->m_radius, colB->m_transformedVerts, normal_out, depth_out);
 				return result;
 			}
 			else if (colB->m_shape == COL_CIRCLE)
@@ -259,6 +259,7 @@ namespace LB
 			}
 		}
 	}
+
 	/*
 	void ColliderManager::Destroy()
 	{

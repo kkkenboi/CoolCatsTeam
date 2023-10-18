@@ -41,6 +41,10 @@ namespace LB {
 
 		LB::Vec2<float> m_pos;
 
+		float m_widthUnscaled;
+		float m_heightUnscaled;
+		float m_radiusUnscaled;
+
 		float m_width;
 		float m_height;
 		float m_radius;
