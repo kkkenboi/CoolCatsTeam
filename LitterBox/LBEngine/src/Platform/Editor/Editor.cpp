@@ -31,6 +31,8 @@
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
 
+#include "implot.h"
+
 namespace LB
 {
 	Editor* EDITOR = nullptr;
@@ -70,6 +72,7 @@ namespace LB
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
+		ImPlot::CreateContext();
 		ImGuiIO& io = ImGui::GetIO();
 
 		// ImGui flags for docking and viewport
@@ -247,6 +250,7 @@ namespace LB
 	{
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
+		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 	}
 

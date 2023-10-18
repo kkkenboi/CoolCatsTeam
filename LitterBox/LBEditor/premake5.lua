@@ -12,6 +12,8 @@ project "LBEditor"
 
     files
     {
+        "./**.cs",
+        "./**.json",
         "src/**.h",
         "src/**.cpp",
     }
