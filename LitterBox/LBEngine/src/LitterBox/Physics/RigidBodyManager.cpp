@@ -205,66 +205,6 @@ namespace LB
                 m_rigidBodies[i]->FixedUpdate();
             }
         }
-        /*
-        // ==================
-        // Collision Step
-        // ==================
-        LB::Vec2<float> normal_out{ 0.f , 0.f };
-        float depth_out{ 0.f };
-
-        for (size_t i = 0; i < m_poolSize; ++i)
-        {
-            CPRigidBody* bodyA = m_rigidBodies[i];
-
-            for (size_t j = i + 1; j < m_poolSize; ++j)
-            {
-                CPRigidBody* bodyB = m_rigidBodies[j];
-
-                if (bodyA == bodyB)
-                {
-                    continue;
-                }
-
-                // If either rigidBody is not instantiated
-                if (bodyA == nullptr || bodyB == nullptr)
-                {
-                    continue;
-                }
-
-                // If both bodies are static
-                if (bodyA->isStatic == true && bodyB->isStatic == true)
-                {
-                    continue;
-                }
-
-                // Normal here is moving B away from A
-                if (CheckCollisions(bodyA, bodyB, normal_out, depth_out))
-                {
-
-                    LB::Vec2<float>inverse_normal{ -normal_out.x, -normal_out.y };
-                    if (bodyA->isStatic)
-                    {
-                        bodyB->Move(normal_out * depth_out);
-                    }
-                    else if (bodyB->isStatic)
-                    {
-                        bodyA->Move(inverse_normal * depth_out);
-                    }
-                    else
-                    {
-                        bodyA->Move(inverse_normal * depth_out);
-                        bodyB->Move(normal_out * depth_out);
-                    }
-                    
-                    ResolveCollisions(bodyA, bodyB, normal_out, depth_out);
-                    
-                }
-
-
-            }
-
-        }
-        */
     }
     // ======================================
     // ISystem function overrides
@@ -295,118 +235,11 @@ namespace LB
     *************************************************************************/
     void RigidBodyManager::Update()
     {
-        // Draw collision data if debug is on
-        /*
-        if (DEBUG->IsDebugOn())
-        {
-            for (size_t i = 0; i < m_poolSize; ++i)
-            {
-                if (m_rigidBodies[i] != nullptr)
-                {
-                    m_rigidBodies[i]->DebugDraw();
-                }
-            }
-        }
-        */
     }
 
 
     // END OF RIGIDBODYMANAGER MEMBER FUNCTIONS
     // =======================================================
 
-    /*!***********************************************************************
-      \brief
-      Takes in two CPRigidBodies and checks the collision between the two
-      while outputting the normal_out and depth_out of the collision for
-      collision resolution
-      - normal_out is from A to B
-      \return
-      Returns a bool or whether or not the two CPRigidBodies collided or not
-    *************************************************************************/
-    /*
-    bool CheckCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float>& normal_out, float& depth_out) {
-        normal_out.x = 0.f; // Make it zeroed first, in case of any values beforehand
-        normal_out.y = 0.f;
-        depth_out = 0.f; // Zeroed in case of previous values
-
-        if (bodyA->mShapeType == COL_BOX)
-        {
-            if (bodyB->mShapeType == COL_BOX)
-            {
-                // A - B
-                // BOX-BOX
-                return CollisionIntersection_BoxBox_SAT(bodyA->mTransformedVertices, bodyB->mTransformedVertices, normal_out, depth_out);
-                //return CollisionIntersection_BoxBox(bodyA->obj_aabb, bodyA->mVelocity, bodyB->obj_aabb, bodyB->mVelocity, TIME->GetFixedDeltaTime(), normal_out, depth_out);
-            }
-            else if (bodyB->mShapeType == COL_CIRCLE) {
-                // A - B
-                // BOX-CIRCLE
-                // normal here is pushing B away from A
-                bool result = CollisionIntersection_CircleBox_SAT(bodyB->mPosition, bodyB->mRadius, bodyA->mTransformedVertices, normal_out, depth_out);
-                // The normal given is inverse bodyB is circle and bodyA is box
-                // So normal given is circle away from box, therefore need to inverse it
-                normal_out.x = -normal_out.x;
-                normal_out.y = -normal_out.y;
-                return result;
-            }
-        }
-        if (bodyA->mShapeType == COL_CIRCLE)
-        {
-            if (bodyB->mShapeType == COL_BOX)
-            {
-                // A - B
-                // CIRCLE-BOX
-                // normal here is pushing box away from circle
-                bool result = CollisionIntersection_CircleBox_SAT(bodyA->mPosition, bodyA->mRadius, bodyB->mTransformedVertices, normal_out, depth_out);
-                return result;
-            }
-            if (bodyB->mShapeType == COL_CIRCLE)
-            {
-                // A - B 
-                // CIRCLE-CIRCLE
-                return CollisionIntersection_CircleCircle(bodyA->mPosition, bodyB->mPosition, bodyA->mRadius, bodyB->mRadius, normal_out, depth_out);
-            }
-        }
-        return false;
-    }
-    */
-    /*!***********************************************************************
-      \brief
-      Takes in two CPRigidBodies and checks the collision between the two
-      while outputting the normal_out and depth_out of the collision for
-      collision resolution
-    *************************************************************************/
-    /*
-    void ResolveCollisions(CPRigidBody* bodyA, CPRigidBody* bodyB, LB::Vec2<float> normal, float depth) {
-
-        UNREFERENCED_PARAMETER(depth);
-        // Need to get relative velocity from A to B
-        LB::Vec2<float> relativeVelocity = bodyB->mVelocity - bodyA->mVelocity;
-
-        // If the dot product of relVel and normal is more than 0.f
-        if (PHY_MATH::DotProduct(relativeVelocity, normal) > 0.f) {
-            return;
-        }
-
-        float e = PHY_MATH::FindMin(bodyA->mRestitution, bodyB->mRestitution);
-
-        float j = -(1.f + e) * PHY_MATH::DotProduct(relativeVelocity, normal);
-        j /= bodyA->mInvMass + bodyB->mInvMass;
-
-        // Magnitude * Normal to get the impulse given to the objects
-        LB::Vec2<float> impulse = normal * j;
-
-        
-        if (!bodyA->isStatic)
-        {
-            bodyA->mVelocity -= impulse * bodyA->mInvMass;
-        }
-        if (!bodyB->isStatic)
-        {
-            bodyB->mVelocity += impulse * bodyB->mInvMass;
-        }
-        
-    }
-    */
 
 } // Namespace LB

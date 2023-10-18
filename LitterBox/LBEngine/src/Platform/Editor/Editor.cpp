@@ -31,6 +31,8 @@
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
 
+#include "implot.h"
+
 namespace LB
 {
 	Editor* EDITOR = nullptr;
@@ -50,6 +52,8 @@ namespace LB
 		else
 			DebuggerLogError("Editor System already exists!");
 
+		m_GameObjectPointer = nullptr;
+
 		// Add the different ImGui layers in here
 		m_ImGuiLayers.AddLayer(new EditorToolBar("ToolBar"));
 		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
@@ -68,9 +72,11 @@ namespace LB
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
+		ImPlot::CreateContext();
 		ImGuiIO& io = ImGui::GetIO();
 
 		// ImGui flags for docking and viewport
+		io.ConfigFlags |= ImGuiWindowFlags_MenuBar;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
@@ -101,8 +107,8 @@ namespace LB
 			ImGui::SetNextWindowSize(viewport->Size);
 			ImGui::SetNextWindowViewport(viewport->ID);
 
-			ImGuiWindowFlags dockingFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-				ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoNav;
+			ImGuiWindowFlags dockingFlags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+											ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoNav;
 
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 			ImGui::Begin("Dockspace", &dockspaceOpen, dockingFlags);
@@ -244,6 +250,18 @@ namespace LB
 	{
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
+		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 	}
+
+	GameObject* Editor::InspectedGO()
+	{
+		return m_GameObjectPointer;
+	}
+
+	void Editor::InspectGO(GameObject* go)
+	{
+		m_GameObjectPointer = go;
+	}
+
 }
