@@ -52,15 +52,51 @@ namespace LB
 		}
 	}
 
+	void ColliderManager::RemoveColliderFromPool(CPCollider* col)
+	{
+		for (size_t i = 0; i < m_poolSize; ++i)
+		{
+			if (m_colliderPool[i] == col)
+			{
+				m_colliderPool[i] = nullptr;
+			}
+		}
+	}
+
+	std::vector<CPCollider> ColliderManager::OverlapCircle(Vec2<float> position, float radius)
+	{
+		Vec2<float> normal{ 0.f,0.f };
+		float depth{ 0.f };
+
+		std::vector<CPCollider> vec_overlapped;
+
+		for (size_t i = 0; i < m_poolSize; ++i)
+		{
+			if (CollisionIntersection_CircleBox_SAT(position, radius,
+				m_colliderPool[i]->m_transformedVerts, normal, depth))
+			{
+				vec_overlapped.push_back(*m_colliderPool[i]);
+			}
+
+		}
+
+		return vec_overlapped;
+	}
+
+
+	// ===
+	// END OF ColliderManager member functions
+	// ===
+
 	bool CheckColliders(CPCollider* colA, CPCollider* colB, Vec2<float>& normal_out, float& depth_out)
 	{
 		normal_out.x = 0.f;
 		normal_out.y = 0.f;
 		depth_out = 0.f;
 
-		if (colA->m_shape == COL_BOX)
+		if (colA->m_shape == COL_POLYGON)
 		{
-			if (colB->m_shape == COL_BOX)
+			if (colB->m_shape == COL_POLYGON)
 			{
 				// A-B
 				// BOX-BOX
@@ -80,7 +116,7 @@ namespace LB
 		}
 		if (colA->m_shape == COL_CIRCLE)
 		{
-			if (colB->m_shape == COL_BOX)
+			if (colB->m_shape == COL_POLYGON)
 			{
 				// A-B
 				// CIRCLE-BOX
@@ -147,6 +183,7 @@ namespace LB
 			if (this->m_colliderPool[i] != nullptr)
 			{
 				this->m_colliderPool[i]->FixedUpdate();
+				this->m_colliderPool[i]->m_collided = false;
 			}
 		}
 
@@ -179,6 +216,8 @@ namespace LB
 				// Normal here is moving B away from A
 				if (CheckColliders(colA, colB, normal_out, depth_out))
 				{
+					colA->m_collided = true;
+					colB->m_collided = true;
 					if (colA->rigidbody != nullptr && colB->rigidbody != nullptr)
 					{
 
@@ -200,7 +239,6 @@ namespace LB
 						ResolveColliders(colA, colB, normal_out, depth_out);
 					}
 				}
-
 			}
 		}
 
@@ -219,6 +257,14 @@ namespace LB
 					m_colliderPool[i] ->DebugDraw();
 				}
 			}
+		}
+	}
+
+	void ColliderManager::Destroy()
+	{
+		for (size_t i = 0; i < m_poolSize; ++i)
+		{
+			m_colliderPool[i] = nullptr;
 		}
 	}
 }

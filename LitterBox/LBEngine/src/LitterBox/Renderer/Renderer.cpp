@@ -492,14 +492,6 @@ void Renderer::Renderer::update_buff()
 
 		unsigned int obj_index{ e->get_index() };
 
-		if (e->get_queue_size()) {
-			const_cast<LB::CPRender*>(e)->animate();
-			for (int i{ 0 }; i < 4; ++i) {
-				quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
-				quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
-			}
-		}
-
 		const_cast<LB::CPRender*>(e)->get_transform_data();
 		//set position based off camera mat
 		//edit color and uv coordinates and texture
@@ -528,6 +520,28 @@ void Renderer::Renderer::update_buff()
 	if (err != GL_NO_ERROR)
 		std::cerr << (int)err << std::endl;
 
+}
+/*!***********************************************************************
+\brief
+ update_anim is the function that will update all render object animations
+ if the object has any.
+*************************************************************************/
+void Renderer::Renderer::update_anim()
+{
+	for (const LB::CPRender*& e : active_objs) {
+		if (!e->activated)
+			continue;
+
+		unsigned int obj_index{ e->get_index() };
+
+		if (e->get_queue_size()) {
+			const_cast<LB::CPRender*>(e)->animate();
+			for (int i{ 0 }; i < 4; ++i) {
+				quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+				quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+			}
+		}
+	}
 }
 /*!***********************************************************************
 \brief
@@ -565,6 +579,9 @@ bg_renderer{Renderer_Types::RT_BACKGROUND}
 		DebuggerLogError("Render System already exists");
 }
 
+static unsigned int framebuffer;
+unsigned int textureColorbuffer;
+
 LB::CPRender* test2;
 void Renderer::RenderSystem::Initialize()
 {
@@ -577,12 +594,13 @@ void Renderer::RenderSystem::Initialize()
 	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
 	if (uni_loc == -1)
 		DebuggerLogError("Unable to find uniform location");
-	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &object_renderer.cam.world_NDC[0][0]);
+	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 
 
 	GLint uni_loc2 = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
 	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 	glUniform1iv(uni_loc2, 13, test);
+	
 	//-################FOR BACKGROUND##########################
 	//cache some values
 	float midx = (float)LB::WINDOWSSYSTEM->GetWidth() * 0.5f;
@@ -608,8 +626,25 @@ void Renderer::RenderSystem::Initialize()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	// TODO: If not in editor mode, fullscreen the game view
-	glEnable(GL_SCISSOR_TEST);
+
+	//----For rendering scene onto texture for ImGUI-------------
+
+	//TODO make this only applicable in editor mode
+	//TODO make the monitor dimensions based on the window instead of primary monitor
+	GLFWvidmode dimensions;
+	GLFWmonitor* mon = glfwGetPrimaryMonitor();
+	dimensions = *glfwGetVideoMode(mon);
+
+	glGenFramebuffers(1, &framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+
+	glGenTextures(1, &textureColorbuffer);
+	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
 }
 
 
@@ -632,20 +667,20 @@ Renderer::RenderSystem::~RenderSystem()
 *************************************************************************/
 void Renderer::RenderSystem::Update()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now
+
 	// Render the game scene window
 	bg_renderer.update_buff();
 	object_renderer.update_buff();
 
-	glScissor(m_winPos.x, m_winPos.y, m_winSize.x, m_winSize.y);
-	glViewport(m_winPos.x, m_winPos.y, m_winSize.x, m_winSize.y);
-
-	glClearColor(.3f, 0.5f, .8f, 1.f);
-	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(shader_program);
 	glBindVertexArray(bg_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 /*!***********************************************************************
@@ -661,6 +696,20 @@ void Renderer::RenderSystem::UpdateGameWindowPos(GLint winPosX, GLint winPosY, G
 	m_winSize.y = winSizeY;
 }
 
+/*!***********************************************************************
+\brief
+ The FixedUpdate function is a time based update function that will only
+ be called after a set amount of time is passed or will be called multiple
+ times if application runs to slowly.
+
+ NOTE: For rendering context FixedUpdate is used for consistent aniamtion
+ regardless of framerate.
+*************************************************************************/
+void Renderer::RenderSystem::FixedUpdate()
+{
+	bg_renderer.update_anim();
+	object_renderer.update_anim();
+}
 /*!***********************************************************************
 \brief
  Draw function does nothing for now

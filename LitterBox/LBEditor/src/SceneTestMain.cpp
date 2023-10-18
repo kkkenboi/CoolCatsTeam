@@ -47,6 +47,7 @@ void SceneTestMain::Init()
 	// GameObject use example
 	test2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider });
 	test2->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
+	test2->GetComponent<CPCollider>()->CreatePolygonHexagon();
 
 	test3 = FACTORY->SpawnGameObject({ C_CPRender ,C_CPRigidBody, C_CPCollider }, Vec2<float>(200, 200));
 	test3->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));

@@ -103,7 +103,9 @@ namespace LB
             return false;
         }
         //This lets us keep track of the id
-        int i{0};
+        //TODO have a check for editor vs game
+        //      if editor then start from 0 otherwise start from 1
+        int i{1}; //START FROM 1 BECAUSE texture unit 0 will be reserved for ImGUI texture
         for(; i<32; ++i)
         {
             if(!TextureSlots[i]) break;

@@ -264,8 +264,6 @@ namespace Renderer {
 		//std::string shader_file_path
 
 	public:
-		Camera cam;
-
 		/*!***********************************************************************
 		\brief
 		 Renderer constructor
@@ -323,11 +321,14 @@ namespace Renderer {
 		\brief
 		 update_buff is the function that will update all render object values
 		 and then pass the value to GPU
-
-		\param r_type
-		 Type of render object
 		*************************************************************************/
 		void update_buff();
+		/*!***********************************************************************
+		\brief
+		 update_anim is the function that will update all render object animations
+		 if the object has any.
+		*************************************************************************/
+		void update_anim();
 		/*!***********************************************************************
 		\brief
 		 change_render_state will change the indices in the index buffer so that
@@ -356,6 +357,8 @@ namespace Renderer {
 		Renderer bg_renderer;
 		Renderer object_renderer;
 
+		Camera cam;
+		Camera editor_cam;
 		LB::Vec2<GLint> m_winPos;
 		LB::Vec2<GLsizei> m_winSize;
 
@@ -386,6 +389,16 @@ namespace Renderer {
 		*************************************************************************/
 		void UpdateGameWindowPos(GLint winPosX, GLint winPosY, GLsizei winSizeX, GLsizei winSizeY);
 
+		/*!***********************************************************************
+		\brief
+		 The FixedUpdate function is a time based update function that will only
+		 be called after a set amount of time is passed or will be called multiple
+		 times if application runs to slowly.
+
+		 NOTE: For rendering context FixedUpdate is used for consistent aniamtion
+		 regardless of framerate.
+		*************************************************************************/
+		void FixedUpdate() override;
 		/*!***********************************************************************
 		\brief
 		 Draw function does nothing for now

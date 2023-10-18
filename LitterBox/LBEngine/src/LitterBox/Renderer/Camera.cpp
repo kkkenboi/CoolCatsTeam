@@ -39,6 +39,14 @@ namespace Renderer {
 				 0.f, 2.f / hvf, 0.f, 0.f,
 				 0.f, 0.f, 0.2f, 0.f,
 				 -(rvf + lvf) / (rvf - lvf), -1.f, -0.2f, 1.f };
+
+		float near { 4.f };
+		float far{ -10.f };
+		//complete the rest of the perspective matrix
+		glm::mat4 perps = {
+
+		};
+
 		world_NDC = ortho * nel;
 	}
 }
