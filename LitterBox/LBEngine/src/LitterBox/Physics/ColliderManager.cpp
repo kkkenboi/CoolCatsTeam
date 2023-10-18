@@ -213,6 +213,14 @@ namespace LB
 					continue;
 				}
 
+				if (colA->rigidbody != nullptr && colB->rigidbody != nullptr)
+				{
+					if (colA->rigidbody->isStatic == true && colB->rigidbody->isStatic)
+					{
+						continue;
+					}
+				}
+
 				// Normal here is moving B away from A
 				if (CheckColliders(colA, colB, normal_out, depth_out))
 				{
@@ -232,8 +240,8 @@ namespace LB
 						}
 						else
 						{
-							colA->rigidbody->Move(inverse_normal * depth_out);
-							colB->rigidbody->Move(normal_out * depth_out);
+							colA->rigidbody->Move(inverse_normal * depth_out / 2.f);
+							colB->rigidbody->Move(normal_out * depth_out / 2.f);
 						}
 
 						ResolveColliders(colA, colB, normal_out, depth_out);

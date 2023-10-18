@@ -106,7 +106,7 @@ void Player::Update()
 *************************************************************************/
 void MoveUp()
 {
-	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, 3000.f * (float)TIME->GetDeltaTime()});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, 5000.f});
 }
 
 /*!***********************************************************************
@@ -116,7 +116,7 @@ void MoveUp()
 *************************************************************************/
 void MoveLeft()
 {
-	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{-3000.f * (float)TIME->GetDeltaTime(), 0.f});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{-5000.f, 0.f});
 }
 
 /*!***********************************************************************
@@ -126,7 +126,7 @@ void MoveLeft()
 *************************************************************************/
 void MoveRight()
 {
-	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{3000.f * (float)TIME->GetDeltaTime(), 0.f});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{5000.f, 0.f});
 }
 
 /*!***********************************************************************
@@ -136,7 +136,7 @@ void MoveRight()
 *************************************************************************/
 void MoveDown()
 {
-	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, -3000.f * (float)TIME->GetDeltaTime()});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, -5000.f});
 }
 
 void RotateClockwise()

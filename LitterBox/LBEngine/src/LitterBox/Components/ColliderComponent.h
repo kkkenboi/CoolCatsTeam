@@ -85,11 +85,13 @@ namespace LB {
 
 		void AddVertice(float x, float y);
 
-		void DebugDraw();
-
 		void UpdateColliderBoxVertices();
 
 		void UpdateColliderAABB();
+
+		void DebugDraw();
+
+		void SetWidthHeightRadius(float width, float height, float radius);
 
 	public:
 		// ========

@@ -138,6 +138,8 @@ namespace LB
 
 		void addRotation(float angle);
 
+		void ToggleIsStatic();
+
 
 		/*!***********************************************************************
 			\brief

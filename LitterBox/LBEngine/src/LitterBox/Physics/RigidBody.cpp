@@ -46,7 +46,7 @@ namespace LB
 
         this->mMass = 10.f;
         this->mDensity = 10.f;
-        this->mRestitution = 0.5f;
+        this->mRestitution = 0.75f;
 
         this->mFriction = 0.95f;
         this->isStatic = false;
@@ -61,6 +61,7 @@ namespace LB
 
         this->mArea = this->mWidth * this->mHeight;
         this->mMass = this->mArea * this->mDensity;
+        this->mMass = 1.f;
 
         // Check if static and update the InvMass
         if (!this->isStatic)
@@ -89,7 +90,7 @@ namespace LB
     *************************************************************************/
     void CPRigidBody::addForce(LB::Vec2<float> force)
     {
-        this->mVelocity += force;
+        this->mForce += force;
     }
 
     /*!***********************************************************************
@@ -104,6 +105,20 @@ namespace LB
     void CPRigidBody::addRotation(float angle)
     {
         this->mRotation += angle;
+    }
+
+    void CPRigidBody::ToggleIsStatic()
+    {
+        if (isStatic == true)
+        {
+            isStatic = false;
+            mInvMass = 1.f/ mMass;
+        }
+        if (isStatic == false)
+        {
+            isStatic = true;
+            mInvMass = 0.f;
+        }
     }
 
     /*!***********************************************************************
@@ -152,16 +167,20 @@ namespace LB
     *************************************************************************/
     void CPRigidBody::UpdateRigidBodyVel(float time)
     {
-        //std::cout << "BEFORE: " << this->mVelocity.ToString() << std::endl;
+        this->mAcceleration = this->mForce / this->mMass;
         this->mVelocity += this->mAcceleration * time;
         this->mVelocity = this->mVelocity * this->mFriction;
-        //std::cout << "AFTER: " << this->mVelocity.ToString() << std::endl;
-        //std::cout << this->mFriction << std::endl;
 
-        LB::Vec2<float> zeroed;
-        zeroed.x = 0.f;
-        zeroed.y = 0.f;
-        this->mAcceleration = zeroed;
+        float threshold = 0.01f;
+        if (PHY_MATH::Absolute(mVelocity.x) < threshold) {
+            this->mVelocity.x = 0.f;
+        }
+        if (PHY_MATH::Absolute(mVelocity.y) < threshold) {
+            this->mVelocity.y = 0.f;
+        }
+
+        this->mForce.x = 0.f;
+        this->mForce.y = 0.f;
     }
 
     /*!***********************************************************************
@@ -177,6 +196,7 @@ namespace LB
 
         // If body is static do not update velocities or pos
         if (this->isStatic) {
+            //this->mInvMass = 0.f;
             return;
         }
 

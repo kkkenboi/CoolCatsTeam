@@ -105,4 +105,13 @@ namespace PHY_MATH {
         return valB;
     }
 
+
+    float Absolute(float val) 
+    {
+        if (val < 0)
+        {
+            val = -val;
+        }
+        return val;
+    }
 }

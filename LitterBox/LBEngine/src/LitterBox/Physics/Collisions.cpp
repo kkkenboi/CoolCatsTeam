@@ -270,6 +270,23 @@ namespace LB
 		}
 	}
 
+	void CPCollider::SetWidthHeightRadius(float width, float height, float radius)
+	{
+		this->m_widthUnscaled = width;
+		this->m_width = m_widthUnscaled * transform->GetScale().x;
+
+		this->m_heightUnscaled = height;
+		this->m_height = m_heightUnscaled * transform->GetScale().y;
+
+		this->m_radiusUnscaled = radius;
+		this->m_radius = m_radiusUnscaled * transform->GetScale().x;
+
+		if (this->m_shape == COL_POLYGON) 
+		{
+			CreatePolygonBox();
+		}
+	}
+
 
 	// Overrides !!!!!!!
 
