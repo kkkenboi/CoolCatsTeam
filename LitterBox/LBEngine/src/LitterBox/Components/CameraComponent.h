@@ -17,6 +17,9 @@
 #include "LitterBox/Utils/Math.h"
 
 namespace LB {
+
+	//CPCamera* game_cam{ nullptr };
+
 	/*!***********************************************************************
 	\brief
 	 CPCamera is the scene camera for the game.
@@ -24,7 +27,17 @@ namespace LB {
 	class CPCamera : public IComponent 
 	{
 		Vec3<float> position;
-		
 
+		CPCamera() : position{0.f,0.f,5.f} {
+			/*if (!game_cam)
+				game_cam = this;
+			else
+				DebuggerLogError("Camera component already exists. Ignoring newly made camera");*/
+		}
+
+		void Initialise() override
+		{
+			
+		}
 	};
 }

@@ -44,6 +44,7 @@ namespace LB
     void AssetManager::Initialize()
     {
         DebuggerLog("Assetmanager is initializing");
+        Textures["none"];
         //Load all assets here
         LoadSounds();
         LoadTextures();
@@ -66,11 +67,11 @@ namespace LB
         cachedTexture->stbBuffer = stbi_load(fileName.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
         if(!cachedTexture->stbBuffer)
         {
-            std::cerr<< "Texture filepath :" <<
-            fileName << "NOT FOUND!\n";
-             std::string funnyPng{"Assets/Textures/despair.png"};
-             cachedTexture->stbBuffer = stbi_load(funnyPng.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
-            
+            DebuggerLogErrorFormat("Texture filepath %s not found!", fileName);
+            //std::string funnyPng{"Assets/Textures/despair.png"};
+            //cachedTexture->stbBuffer = stbi_load(funnyPng.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
+            cachedTexture->id = -1;
+            return cachedTexture;
         } 
          //else //if it doesn't exist, we set some funny png so we know
          //{
@@ -122,6 +123,27 @@ namespace LB
 	    return true;
     }
 
+    bool AssetManager::RemoveTexture(const std::string& name)
+    {
+        if (Textures.find(name) == Textures.end())
+        {
+            DebuggerLogErrorFormat("Unable to find %s in Textures!", name);
+            return false;
+        }
+        TextureSlots[Textures.find(name)->second.second] = false;
+        Textures.erase(name);   //since it's a shared pointer it shoulddddd deallocate properly right???
+        return true;
+    }
+
+    void AssetManager::FlushTextures()
+    {
+        Textures.clear();
+        for (int i{ 0 }; i < 32; ++i)
+        {
+            TextureSlots[i] = false;
+        }
+    }
+
     const int AssetManager::GetTextureIndex(const std::string& name) const
     {
         if (Textures.find(name) == Textures.end())
@@ -129,10 +151,18 @@ namespace LB
             DebuggerLogWarning("Texture " + name + " can't be found!");
             return -1;  //return an invalid index for a graceful fail
         }
+        if (name == "none")
+        {
+            return 0;
+        }
         return Textures.find(name)->second.second;
     }
     const std::string AssetManager::GetTextureName(const int& index) const
     {
+        if (index == 0)
+        {
+            return "none";
+        }
         for (const auto& elem : Textures)
         {
             if (elem.second.second == index)
@@ -140,7 +170,6 @@ namespace LB
                 return elem.first;
             }
         }
-        
         DebuggerLogWarning("Texture index : " + std::to_string(index) + " can't be found!");
         return "";
     }
@@ -152,8 +181,7 @@ namespace LB
     void AssetManager::LoadTextures()
     {
         //First we get the json file containing all the texture paths : texture names
-        JSONSerializer stream;
-        Document _jsonFile = stream.GetJSONFile("Editor/Jason/TextureFilePaths.json");
+        Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/TextureFilePaths.json");
         //then we loop through the json file and add each texture with its corresponding name
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
@@ -242,8 +270,9 @@ namespace LB
         //AvatarObject = FACTORY->CreateGameObject();
         //std::cout <<"Pineapple component size : " << PineappleObject->GetComponents().size() << '\n';
         //* Don't touch this, it works!
-        JSONSerializer stream;
-        stream.DeserializeFromFile("Assets/Prefabs/pineapple", *PineappleObject);
+        //JSONSerializer stream;
+        //stream.DeserializeFromFile("Assets/Prefabs/pineapple", *PineappleObject);
+        JSONSerializer::DeserializeFromFile("pineapple.json", *PineappleObject);
 
         //stream.DeserializeFromFile("../Assets/Prefabs/apple",*AvatarObject);
     }
@@ -273,8 +302,7 @@ namespace LB
     {
         //We need to load the keycode table from json first
         LoadKeyCodeTable();
-        JSONSerializer stream;
-        Document _jsonFile = stream.GetJSONFile("Editor/Jason/KeyBinds.json");
+        Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyBinds.json");
         //Then we get the keybinds json and go through each member
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
@@ -296,8 +324,7 @@ namespace LB
     }
     void AssetManager::LoadKeyCodeTable()
     {
-        JSONSerializer stream;
-        Document _jsonFile = stream.GetJSONFile("Editor/Jason/KeyCodeTable.json");
+        Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyCodeTable.json");
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
         {
@@ -316,7 +343,6 @@ namespace LB
     }
     void AssetManager::GenerateKeyBindsJson()
     {
-        JSONSerializer stream;
         Document _jsonFile;
         Document::AllocatorType& alloc = _jsonFile.GetAllocator();
         _jsonFile.SetObject();
@@ -326,7 +352,7 @@ namespace LB
             Value val(elem.second.c_str(), alloc);
             _jsonFile.AddMember(key, val, alloc);
         }
-        stream.SaveToJSON("Editor/Jason/KeyBinds.json", _jsonFile);
+        JSONSerializer::SaveToJSON("Editor/Jason/KeyBinds.json", _jsonFile);
         //To test if the keycode and string to keycode function works
         //std::cout << KeyCodeToString(StringToKeyCode("KEY_J")) << '\n';
     }
@@ -337,7 +363,6 @@ namespace LB
         //This generates the keycode mapping 
         //So that our keybindmaps are human readable
         //Basic json serializer stuff
-        JSONSerializer stream;
         Document _jsonFile;
         Document::AllocatorType& alloc = _jsonFile.GetAllocator();
         _jsonFile.SetObject();
@@ -369,6 +394,6 @@ namespace LB
             Value key(elem.first.c_str(), alloc);
             _jsonFile.AddMember(key, elem.second, alloc);
         }
-        stream.SaveToJSON("Editor/Jason/KeyCodeTable.json", _jsonFile);
+        JSONSerializer::SaveToJSON("Editor/Jason/KeyCodeTable.json", _jsonFile);
     }
 }

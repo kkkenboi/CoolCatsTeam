@@ -65,7 +65,7 @@ namespace LB
 			Vec2<float> scale = { 1.f, 1.f },
 			Vec3<float>	 color = { 0.f,0.f,0.f },
 			std::array<Vec2<float>, 4> uv = {},
-			int texture = -1,
+			int texture = 0,
 			bool active = true,
 			Renderer::Renderer_Types rend_type = Renderer::Renderer_Types::RT_OBJECT);
 		/*!***********************************************************************

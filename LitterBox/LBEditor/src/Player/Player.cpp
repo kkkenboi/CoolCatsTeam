@@ -13,6 +13,7 @@
 
 //Game object that will be the player
 GameObject* PlayerObj;
+GameObject* testObject;
 
 extern GameObject** test;
 /*!***********************************************************************
@@ -28,6 +29,7 @@ void spawn2500() {
 	test = new GameObject * [2500];
 	for (int i{ 0 }; i < 2500; ++i) {
 		test[i] = FACTORY->SpawnGameObject({ C_CPRender });
+		test[i]->GetComponent<CPRender>()->texture = -1;
 	}
 
 	for (int y{ 0 }; y < 50; ++y) {
@@ -36,6 +38,11 @@ void spawn2500() {
 			test[x + y * 50]->GetComponent<CPTransform>()->SetScale({ 0.1f, 0.1f });
 		}
 	}
+}
+
+void SpawnGameObject()
+{
+	testObject = ASSETMANAGER->PineappleObject;
 }
 
 void hide2500() {

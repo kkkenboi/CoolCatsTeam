@@ -114,8 +114,12 @@ void SceneTestMain::Init()
 	// Player example
 	ball1 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider}, Vec2<float>(800, 400));
 	ball1->GetComponent<CPCollider>()->m_shape = COL_CIRCLE;
+	ball1->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureIndex("cat");
+
 	ball2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPCollider}, Vec2<float>(1000, 400));
 	ball2->GetComponent<CPCollider>()->m_shape = COL_CIRCLE;
+	ball2->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureIndex("cat");
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Prefab example
@@ -160,7 +164,9 @@ void SceneTestMain::Update()
 	// Rotate and scale test
 	static float degree{ 0.f };
 	scaleObj->GetComponent<CPTransform>()->SetScale({ sinf(degree) ,sinf(degree) });
+	scaleObj->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureIndex("cat");
 	rotObj->GetComponent<CPTransform>()->SetRotation(degree);
+	rotObj->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureIndex("cat");
 
 	degree = degree > 6.28318531f ? 0.f : degree + 0.01f;
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -176,5 +182,5 @@ void SceneTestMain::Destroy()
 	//delete testPlayer;
 	//This test lets us know that we can "save" the player's position
 	JSONSerializer stream;
-	stream.SerializeToFile("Editor/Jason/TestObject", *testPlayer->playerObj);
+	stream.SerializeToFile("TestObject.json", *testPlayer->playerObj);
 }

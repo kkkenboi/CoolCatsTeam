@@ -97,6 +97,8 @@ namespace LB
          * The texture map consists of TEXTUREDATA : ID
          **************************************************************************/
         bool AddTexture(const std::string& fileName, const std::string& textureName);
+        bool RemoveTexture(const std::string& name);
+        void FlushTextures();
         //The map then maps the name to said pair like so:
         //"SpriteName" : texturePair
 

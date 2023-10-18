@@ -29,6 +29,7 @@
 
 //---------------------------------DEFINES-------------------------------
 constexpr Renderer::index inactive_idx{ 0,0,0,0,0 };
+extern LB::CPCamera* game_cam;
 //---------------------------------DEFINES-------------------------------
 
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
@@ -489,7 +490,8 @@ void Renderer::Renderer::update_buff()
 	for (const LB::CPRender*& e : active_objs) {
 		if (!e->activated)
 			continue;
-
+		if (e->texture == 0) 
+			continue;
 		unsigned int obj_index{ e->get_index() };
 
 		const_cast<LB::CPRender*>(e)->get_transform_data();
@@ -579,8 +581,9 @@ bg_renderer{Renderer_Types::RT_BACKGROUND}
 		DebuggerLogError("Render System already exists");
 }
 
-static unsigned int framebuffer;
+unsigned int framebuffer;
 unsigned int textureColorbuffer;
+bool imgui_ready{ false };
 
 LB::CPRender* test2;
 void Renderer::RenderSystem::Initialize()
@@ -628,7 +631,6 @@ void Renderer::RenderSystem::Initialize()
 
 
 	//----For rendering scene onto texture for ImGUI-------------
-
 	//TODO make this only applicable in editor mode
 	//TODO make the monitor dimensions based on the window instead of primary monitor
 	GLFWvidmode dimensions;
@@ -645,6 +647,8 @@ void Renderer::RenderSystem::Initialize()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
+	imgui_ready = true;
+	//----For rendering scene onto texture for ImGUI-------------
 }
 
 
@@ -857,18 +861,18 @@ Renderer::Texture::~Texture()
  The initial intention was to return true if successfully loaded texture
  and false if not but I'm not gonna lie I don't think it does even that.
 *************************************************************************/
-bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
-{
-	file_path;
-	name;
-	//LB::ASSETMANAGER->AddTexture(file_path, name);
-
-	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
-	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-	glUniform1iv(uni_loc, 13, test);
-
-	return true;
-}
+//bool Renderer::Texture_Manager::add_texture(const std::string& file_path, const std::string& name)
+//{
+//	file_path;
+//	name;
+//	//LB::ASSETMANAGER->AddTexture(file_path, name);
+//
+//	GLint uni_loc = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
+//	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+//	glUniform1iv(uni_loc, 13, test);
+//
+//	return true;
+//}
 
 /*!***********************************************************************
 \brief

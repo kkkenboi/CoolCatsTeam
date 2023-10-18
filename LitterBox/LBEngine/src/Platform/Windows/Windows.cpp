@@ -62,9 +62,8 @@ namespace LB
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         //Deserialise the config settings
-        LB::JSONSerializer stream;
         //Current file path is : \LBEditor\Editor\Jason\config settings.json"
-        stream.DeserializeFromFile("Editor/Jason/config settings", m_Data);
+         LB::JSONSerializer::DeserializeFromFile("config settings.json", m_Data);
         // Update Window Title
 
         // Create GLFW window
