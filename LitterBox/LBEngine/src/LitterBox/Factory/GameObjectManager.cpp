@@ -178,6 +178,7 @@ namespace LB
 				m_Components[C_CPRender]->Deserialize(renderValue);
 			}
 		}
+		this->StartComponents();
 		return true;
 	}
 

@@ -489,7 +489,8 @@ void Renderer::Renderer::update_buff()
 	for (const LB::CPRender*& e : active_objs) {
 		if (!e->activated)
 			continue;
-
+		if (e->texture == 0) 
+			continue;
 		unsigned int obj_index{ e->get_index() };
 
 		const_cast<LB::CPRender*>(e)->get_transform_data();
