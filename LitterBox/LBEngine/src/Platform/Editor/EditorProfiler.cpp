@@ -42,7 +42,10 @@ namespace LB
 		ImGui::Separator();
 
 		// Graph out the time taken for each system in this frame
+		for (auto & frame : m_systemFrames)
+		{
 
+		}
 
 		//ImGui::ShowDemoWindow();
 		ImGui::End();
@@ -58,11 +61,11 @@ namespace LB
 			// If the timing doesn't exist in the current map, add it first
 			if (m_systemFrames.find(timing.first) == m_systemFrames.end())
 			{
-				std::vector<double> systemFrameTimings(120);
+				std::vector<float> systemFrameTimings(120);
 				m_systemFrames[timing.first] = systemFrameTimings;
 			}
 
-			m_systemFrames[timing.first][m_currentFrameHistoryIndex] = timing.second;
+			m_systemFrames[timing.first][m_currentFrameHistoryIndex] = (float)timing.second;
 		}
 	}
 

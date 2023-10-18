@@ -40,7 +40,7 @@ namespace LB
 	private:
 		bool m_shouldProfile;
 
-		std::map<std::string, std::vector<double>> m_systemFrames;
+		std::map<std::string, std::vector<float>> m_systemFrames;
 		int m_framesHistorySize, m_currentFrameHistoryIndex;
 	};
 

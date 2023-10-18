@@ -22,11 +22,6 @@
 #include <sstream>
 
 #include <csignal>								// For getting crash signals
-
-#include <Windows.h>							// For back tracing on crash
-#include <DbgHelp.h>							// Also for back tracing on crash
-#pragma comment(lib, "Dbghelp.lib")
-
 #include "spdlog/spdlog.h"						// For logging information to files
 #include "spdlog/sinks/basic_file_sink.h"		// File sink
 #include "spdlog/sinks/stdout_color_sinks.h"	// Console sink
@@ -172,29 +167,7 @@ namespace LB
 		std::ofstream logFile("Logs/CrashLog.txt", std::ios::trunc);
 		logFile.close();
 
-		// TO DO: serialize max depth
-
-		//int traceDepth = 20;
-		//void** stackTrace = new void* [traceDepth];
-
-		//// WORD is basically unsigned short and 
-		//WORD frames = CaptureStackBackTrace(0, traceDepth, stackTrace, nullptr);
-
-		//SYMBOL_INFO symbol = { sizeof(SYMBOL_INFO), 255 };
-
-		//for (WORD index{ 0 }; index < frames; ++index) {
-		//	SymFromAddr(GetCurrentProcess(), (DWORD64)(stackTrace[index]), 0, &symbol);
-
-		//	std::cout << "ADDRESS " << stackTrace[index] << " NAME " << symbol.Name << "\n";
-
-		//	std::ostringstream message;
-		//	message << "[" << index << "]" << symbol.Name;
-		//	crashInfoLogger->error(message.str());
-		//}
-
-		//delete[] stackTrace;
-
-		crashInfoLogger->error("Unexpected application crash! Signal: {}", signal);
+		crashInfoLogger->error("[{}] Unexpected application crash! Signal: {}", DEBUG->GetCurrentTimeStamp(), signal);
 		crashInfoLogger->flush();
 	}
 
@@ -469,9 +442,6 @@ namespace LB
 		std::ostringstream output;
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-		// Print to console (DECAP)
-		// consoleLogger->debug(output.str());
-
 		// Print to ImGUI console
 		EDITORCONSOLE->AddLogMessage(output.str());
 
@@ -504,9 +474,6 @@ namespace LB
 		std::ostringstream output;
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-		// Print to console (DECAP)
-		//consoleLogger->warn(output.str());
-
 		// Print to ImGUI console
 		EDITORCONSOLE->AddWarningMessage(output.str());
 
@@ -538,14 +505,15 @@ namespace LB
 		std::ostringstream output;
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-		// Print to console (DECAP)
-		//consoleLogger->error(output.str());
+		// Print errors to console
+		consoleLogger->error(output.str());
 
 		// Print to ImGUI console
 		EDITORCONSOLE->AddErrorMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->error(output.str());
+		crashInfoLogger->error(output.str());
 		FlushDebugLog();
 	}
 
@@ -573,13 +541,14 @@ namespace LB
 		if (!expectedCondition)
 		{
 			std::ostringstream output;
-			output << "[" << file << ":" << line << "] " << message;
+			output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-			// Print to console
+			// Print errors to console
 			consoleLogger->error(output.str());
 
 			// Save to debug file and flush it
 			debugInfoLogger->error(output.str());
+			crashInfoLogger->error(output.str());
 			FlushDebugLog();
 			
 			std::terminate();
