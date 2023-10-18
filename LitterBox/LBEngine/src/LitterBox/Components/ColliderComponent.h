@@ -77,13 +77,15 @@ namespace LB {
 
 		void CreatePolygonHexagon();
 
+		void AddVertice(Vec2<float> vertice);
+
+		void AddVertice(float x, float y);
 
 		void DebugDraw();
 
 		void UpdateColliderBoxVertices();
 
 		void UpdateColliderAABB();
-
 
 	public:
 		// ========
@@ -92,6 +94,8 @@ namespace LB {
 		void Initialise();
 
 		void FixedUpdate();
+
+		void Destroy();
 
 		ComponentTypeID GetType() override
 		{

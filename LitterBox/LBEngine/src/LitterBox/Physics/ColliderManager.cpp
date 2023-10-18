@@ -52,6 +52,42 @@ namespace LB
 		}
 	}
 
+	void ColliderManager::RemoveColliderFromPool(CPCollider* col)
+	{
+		for (size_t i = 0; i < m_poolSize; ++i)
+		{
+			if (m_colliderPool[i] == col)
+			{
+				m_colliderPool[i] = nullptr;
+			}
+		}
+	}
+
+	std::vector<CPCollider> ColliderManager::OverlapCircle(Vec2<float> position, float radius)
+	{
+		Vec2<float> normal{ 0.f,0.f };
+		float depth{ 0.f };
+
+		std::vector<CPCollider> vec_overlapped;
+
+		for (size_t i = 0; i < m_poolSize; ++i)
+		{
+			if (CollisionIntersection_CircleBox_SAT(position, radius,
+				m_colliderPool[i]->m_transformedVerts, normal, depth))
+			{
+				vec_overlapped.push_back(*m_colliderPool[i]);
+			}
+
+		}
+
+		return vec_overlapped;
+	}
+
+
+	// ===
+	// END OF ColliderManager member functions
+	// ===
+
 	bool CheckColliders(CPCollider* colA, CPCollider* colB, Vec2<float>& normal_out, float& depth_out)
 	{
 		normal_out.x = 0.f;
@@ -221,6 +257,14 @@ namespace LB
 					m_colliderPool[i] ->DebugDraw();
 				}
 			}
+		}
+	}
+
+	void ColliderManager::Destroy()
+	{
+		for (size_t i = 0; i < m_poolSize; ++i)
+		{
+			m_colliderPool[i] = nullptr;
 		}
 	}
 }

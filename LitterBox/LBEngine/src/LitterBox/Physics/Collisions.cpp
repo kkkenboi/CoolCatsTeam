@@ -142,7 +142,18 @@ namespace LB
 
 		m_untransformedVerts.push_back(Vec2<float>{left, middle});
 
+		m_vertAmount = m_untransformedVerts.size();
+	}
 
+	void CPCollider::AddVertice(Vec2<float> vertice)
+	{
+		m_untransformedVerts.push_back(vertice);
+	}
+
+
+	void CPCollider::AddVertice(float x, float y)
+	{
+		m_untransformedVerts.push_back(Vec2<float>{x, y});
 	}
 
 
@@ -269,6 +280,11 @@ namespace LB
 		this->UpdateColliderBoxVertices();
 		this->UpdateColliderAABB();
 
+	}
+
+	void CPCollider::Destroy()
+	{
+		COLLIDERS->RemoveColliderFromPool(this);
 	}
 
 
