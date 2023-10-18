@@ -39,6 +39,7 @@ namespace Renderer {
 
 	public:
 		glm::mat4 world_NDC{};
+		glm::mat4 editor_world_NDC{};
 		/*!***********************************************************************
 		\brief
 		 Contrustor for Camera class object that does ortho graphic projection

@@ -43,7 +43,7 @@ namespace LB
 			this->rigidbody = nullptr;
 		}
 
-		this->m_shape = COL_BOX;
+		this->m_shape = COL_POLYGON;
 		this->m_simpleCol = true;
 		this->m_collided = false;
 
@@ -56,7 +56,7 @@ namespace LB
 		this->m_vertAmount = 4;
 
 		this->CreateAABB();
-		this->CreatePolygon();
+		this->CreatePolygonBox();
 
 		COLLIDERS->AddColliderToPool(this);
 	}
@@ -74,7 +74,7 @@ namespace LB
 			this->m_aabb.m_min = LB::Vec2<float>{ m_pos.x - m_radius, m_pos.y - m_radius };
 			this->m_aabb.m_max = LB::Vec2<float>{ m_pos.x + m_radius, m_pos.y + m_radius };
 		}
-		else if (this->m_shape == COL_BOX)
+		else if (this->m_shape == COL_POLYGON)
 		{
 			this->m_aabb.m_c = m_pos;
 			this->m_aabb.m_min = LB::Vec2<float>{ m_pos.x - m_width / 2, m_pos.y - m_height / 2 };
@@ -93,27 +93,67 @@ namespace LB
 	  This function instantiates the Polygon Array the known values in the
 	  Collider class
 	*************************************************************************/
-	void CPCollider::CreatePolygon()
+	void CPCollider::CreatePolygonBox()
 	{
 		// Polygon vertices creations goes from
 		// Top-Left -> Top-Right -> Bottom-Right -> Bottom-Left
 		// Get vertices for a polygon
+		m_untransformedVerts.clear();
+		m_transformedVerts.clear();
+
 		float left = -m_width / 2;
 		float right = m_width / 2;
 		float top = m_height / 2;
 		float bottom = -m_height / 2;
 
-		m_untransformedVerts[0].x = left;
-		m_untransformedVerts[0].y = top;
+		m_untransformedVerts.push_back(Vec2<float>{left, top});
 
-		m_untransformedVerts[1].x = right;
-		m_untransformedVerts[1].y = top;
+		m_untransformedVerts.push_back(Vec2<float>{right, top});
 
-		m_untransformedVerts[2].x = right;
-		m_untransformedVerts[2].y = bottom;
+		m_untransformedVerts.push_back(Vec2<float>{right, bottom});
+		
+		m_untransformedVerts.push_back(Vec2<float>{left, bottom});
 
-		m_untransformedVerts[3].x = left;
-		m_untransformedVerts[3].y = bottom;
+		m_vertAmount = m_untransformedVerts.size();
+	}
+
+	void CPCollider::CreatePolygonHexagon()
+	{
+		m_untransformedVerts.clear();
+		m_transformedVerts.clear();
+
+		float left = -m_width / 2;
+		float mid_left = -m_width / 3;
+		float right = m_width / 2;
+		float mid_right = m_width / 3;
+		float top = m_height / 2;
+		float middle = 0.f;
+		float bottom = -m_height / 2;
+
+		m_untransformedVerts.push_back(Vec2<float>{mid_left, top});
+
+		m_untransformedVerts.push_back(Vec2<float>{mid_right, top});
+
+		m_untransformedVerts.push_back(Vec2<float>{right, middle});
+
+		m_untransformedVerts.push_back(Vec2<float>{mid_right, bottom});
+
+		m_untransformedVerts.push_back(Vec2<float>{mid_left, bottom});
+
+		m_untransformedVerts.push_back(Vec2<float>{left, middle});
+
+		m_vertAmount = m_untransformedVerts.size();
+	}
+
+	void CPCollider::AddVertice(Vec2<float> vertice)
+	{
+		m_untransformedVerts.push_back(vertice);
+	}
+
+
+	void CPCollider::AddVertice(float x, float y)
+	{
+		m_untransformedVerts.push_back(Vec2<float>{x, y});
 	}
 
 
@@ -123,9 +163,17 @@ namespace LB
 	*************************************************************************/
 	void CPCollider::UpdateColliderBoxVertices()
 	{
+		// Initialize the transformed verts to be the same size as untransformed verts
+		// if it is not the same size
+		if (this->m_untransformedVerts.size() != this->m_transformedVerts.size()) {
+			for (size_t i = m_transformedVerts.size(); i < m_untransformedVerts.size(); ++i) 
+			{
+				m_transformedVerts.push_back(Vec2<float> {0.f, 0.f});
+			}
+		}
 		PhysicsTransform xtransform{ this->m_pos, this->m_rotation };
 
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < this->m_untransformedVerts.size(); ++i) {
 			// Uses the untransformed vertices as the basis for tranasformation
 			LB::Vec2<float> og_vec = this->m_untransformedVerts[i];
 			// Transforming the vertices using trigo formulas
@@ -148,7 +196,7 @@ namespace LB
 		float minY = 10000000.f;
 		float maxY = -10000000.f;
 
-		if (this->m_shape == COL_BOX)
+		if (this->m_shape == COL_POLYGON)
 		{
 			for (int i = 0; i < 4; ++i)
 			{
@@ -178,15 +226,34 @@ namespace LB
 
 	void CPCollider::DebugDraw()
 	{
-		if (this->m_shape == COL_BOX)
+		if (this->m_shape == COL_POLYGON)
 		{
-			DEBUG->DrawBox(m_pos, m_width, m_height,
-				Vec4<float> { 0.f, 0.f, 1.0f, 1.0f }, m_rotation);
+			for (size_t i = 0; i < this->m_vertAmount; ++i)
+			{
+				if (!this->m_collided)
+				{
+					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % m_vertAmount]
+						, Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
+				}
+				else
+				{
+					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % m_vertAmount]
+						, Vec4<float> { 0.5f, 0.f, 0.f, 1.0f });
+				}
+			}
 		}
 		if (this->m_shape == COL_CIRCLE)
 		{
-			DEBUG->DrawCircle(m_pos, m_radius,
-				Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
+			if (!this->m_collided)
+			{
+				DEBUG->DrawCircle(m_pos, m_radius,
+					Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
+			}
+			else
+			{
+				DEBUG->DrawCircle(m_pos, m_radius,
+					Vec4<float> { 0.5f, 0.f, 0.f, 1.0f });
+			}
 		}
 		if (this->rigidbody != nullptr)
 		{
@@ -207,11 +274,17 @@ namespace LB
 	{
 		this->m_pos = transform->GetPosition();
 		this->m_rotation = transform->GetRotation();
+		this->m_vertAmount = this->m_untransformedVerts.size();
 
 
-		this->UpdateColliderAABB();
 		this->UpdateColliderBoxVertices();
+		this->UpdateColliderAABB();
 
+	}
+
+	void CPCollider::Destroy()
+	{
+		COLLIDERS->RemoveColliderFromPool(this);
 	}
 
 
@@ -444,17 +517,17 @@ namespace LB
 	  \return
 	  Returns true if the boxes collided and false if the boxes did not collide
 	*************************************************************************/
-	bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float>* verticesB, LB::Vec2<float>& normal_out, float& depth_out)
+	bool CollisionIntersection_BoxBox_SAT(std::vector<Vec2<float>> const& verticesA, std::vector<Vec2<float>> const& verticesB, LB::Vec2<float>& normal_out, float& depth_out)
 	{
 		normal_out = LB::Vec2<float>{ 0.f,0.f };
 		depth_out = 100000000.f;
 
 		// Loop through each edge of obj A
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < verticesA.size(); ++i)
 		{
 			// Get two vertices from obj A
 			LB::Vec2<float> vert1 = verticesA[i];
-			LB::Vec2<float> vert2 = verticesA[(i + 1) % 4];
+			LB::Vec2<float> vert2 = verticesA[(i + 1) % verticesA.size()];
 
 			// Edge vector
 			LB::Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y };
@@ -494,11 +567,11 @@ namespace LB
 		} // End of looping through obj A's edges
 
 		// Start of obj B's edges
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < verticesB.size(); ++i)
 		{
 			// Get two vertices from obj B
 			LB::Vec2<float> vert1 = verticesB[i];
-			LB::Vec2<float> vert2 = verticesB[(i + 1) % 4];
+			LB::Vec2<float> vert2 = verticesB[(i + 1) % verticesB.size()];
 
 			// Edge vector
 			LB::Vec2<float> vecB{ vert2.x - vert1.x , vert2.y - vert1.y };
@@ -569,7 +642,7 @@ namespace LB
 	  \return
 	  Returns true if the objects collided and false if the objects did not collide
 	*************************************************************************/
-	bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float circleRadius, LB::Vec2<float>* verticesBox, LB::Vec2<float>& normal_out, float& depth_out)
+	bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float circleRadius, std::vector<Vec2<float>> const& vertices, LB::Vec2<float>& normal_out, float& depth_out)
 	{
 		normal_out = LB::Vec2<float>{ 0.f, 0.f };
 		depth_out = 100000000.f;
@@ -585,13 +658,13 @@ namespace LB
 		float axisDepth{ 0.f };
 
 		// Loop through each edge of box
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < vertices.size(); ++i)
 		{
 			// Get two vertices from box
-			LB::Vec2<float> vert1 = verticesBox[i];
+			LB::Vec2<float> vert1 = vertices[i];
 			// We get the remainder of 4 as we do not want to loop out of the array
 			// This also ensure that we get pt3 and pt0 as the pair of vertices which is right
-			LB::Vec2<float> vert2 = verticesBox[(i + 1) % 4];
+			LB::Vec2<float> vert2 = vertices[(i + 1) % vertices.size()];
 
 			// We now get the vector from 0 to 1 for example
 			LB::Vec2<float> vecA{ vert2.x - vert1.x , vert2.y - vert1.y };
@@ -603,7 +676,7 @@ namespace LB
 			axis = PHY_MATH::Normalize(axis);
 
 			// Project all points onto the axis
-			ProjectPointsOntoAxis(axis, verticesBox, minProjValueA, maxProjValueA);
+			ProjectPointsOntoAxis(axis, vertices, minProjValueA, maxProjValueA);
 			ProjectCircleOntoAxis(axis, circleCenter, circleRadius, minProjValueB, maxProjValueB);
 
 			// Checks if we can find separation by checking if the
@@ -628,15 +701,15 @@ namespace LB
 		// Now we need to check the axis from the circle center to closest vertice to circle center
 
 		// First we get the nearest VerticeIndex from the box to the circle's center
-		int nearestVerticeIndex = FindIndexClosestPointOnBox(verticesBox, circleCenter);
-		LB::Vec2<float> nearestVertice = verticesBox[nearestVerticeIndex];
+		int nearestVerticeIndex = FindIndexClosestPointOnBox(vertices, circleCenter);
+		LB::Vec2<float> nearestVertice = vertices[nearestVerticeIndex];
 
 		// Next we make a vector from the circle center to nearestVertice
 		axis = { nearestVertice.x - circleCenter.x, nearestVertice.y - circleCenter.y };
 		axis = PHY_MATH::Normalize(axis);
 
 		// Project all points onto the axis
-		ProjectPointsOntoAxis(axis, verticesBox, minProjValueA, maxProjValueA);
+		ProjectPointsOntoAxis(axis, vertices, minProjValueA, maxProjValueA);
 		ProjectCircleOntoAxis(axis, circleCenter, circleRadius, minProjValueB, maxProjValueB);
 
 		// Checks if we can find separation by checking if the
@@ -665,7 +738,7 @@ namespace LB
 
 		// Get the center of each obj's vertices
 		// Use center of the circle
-		LB::Vec2<float> vecCenterBox = FindCenterOfBoxVertices(verticesBox);
+		LB::Vec2<float> vecCenterBox = FindCenterOfBoxVertices(vertices);
 
 		// Circle center to polygon center
 		LB::Vec2<float> vecAB = vecCenterBox - circleCenter;
@@ -691,13 +764,14 @@ namespace LB
 	  \return
 	  Returns true if the boxes collided and false if the boxes did not collide
 	*************************************************************************/
-	void ProjectPointsOntoAxis(LB::Vec2<float> axisToProj, LB::Vec2<float>* verticesBody, float& minPtOnAxis, float& maxPtOnAxis) {
-		// get some arbitrary min and max things to update
+	void ProjectPointsOntoAxis(LB::Vec2<float> axisToProj, std::vector<Vec2<float>> const& verticesBody, float& minPtOnAxis, float& maxPtOnAxis)
+	{
+	// get some arbitrary min and max things to update
 		minPtOnAxis = 100000000.f;
 		maxPtOnAxis = -100000000.f;
 
 		// Loop through the vertices on the body and project them on the axis
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < verticesBody.size(); ++i)
 		{
 			float projection_val = PHY_MATH::DotProduct(verticesBody[i], axisToProj);
 
@@ -759,20 +833,20 @@ namespace LB
 	  \return
 	  Returns the position of the center of the vertices as a Vec2<float>
 	*************************************************************************/
-	LB::Vec2<float> FindCenterOfBoxVertices(LB::Vec2<float>* vertices)
+	LB::Vec2<float> FindCenterOfBoxVertices(std::vector<Vec2<float>> const& vertices)
 	{
 		// Loop through all the vertices and add them together and
 		// then divide by the number of vertices in the array
 		float xSum{ 0.f };
 		float ySum{ 0.f };
 
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < vertices.size(); ++i)
 		{
 			xSum += vertices[i].x;
 			ySum += vertices[i].y;
 		}
 
-		return LB::Vec2<float>{xSum / 4.f, ySum / 4.f};
+		return LB::Vec2<float>{xSum / static_cast<float>(vertices.size()), ySum / static_cast<float>(vertices.size())};
 	}
 
 	/*!***********************************************************************
@@ -783,7 +857,7 @@ namespace LB
 	  \return
 	  Returns the position of the center of the vertices as a Vec2<float>
 	*************************************************************************/
-	int FindIndexClosestPointOnBox(LB::Vec2<float>* vertices, LB::Vec2<float> center)
+	int FindIndexClosestPointOnBox(std::vector<Vec2<float>> const& vertices, LB::Vec2<float> center)
 	{
 		// Loop through the the vertices
 		// Get the vec from vertex to center
@@ -792,7 +866,7 @@ namespace LB
 		int arr_index = -1;
 		float minDistance = 100000000.f;
 
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < vertices.size(); ++i)
 		{
 			LB::Vec2<float> vec = vertices[i];
 			float dx = vertices[i].x - center.x;
