@@ -17,6 +17,9 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include "Debug.h"
 
+extern unsigned int framebuffer;
+extern bool imgui_ready;
+
 namespace LB
 {
 	//-----------------Pre-defines------------------------------
@@ -105,9 +108,18 @@ namespace LB
 
 		//pass index data inside
 		glNamedBufferSubData(ibo, 0, index * sizeof(unsigned short), idx.data());
+
+		//draw lines to the imgui renderered box
+		//Bind the frame buffer to the texture image
+		if (imgui_ready)
+			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+
 		glUseProgram(shader);
 		glBindVertexArray(vao);
 		glDrawElements(GL_LINES, (GLsizei)index, GL_UNSIGNED_SHORT, nullptr);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		//we don't change back because we let graphics system handle the rest
 	}
 
 	/*!***********************************************************************
