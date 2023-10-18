@@ -32,6 +32,9 @@ constexpr float INCREMENT{ 2.f * (float)PI / (float)CIRCLE_LINES };
 
 float wid_div;		// { 1.f / (LB::WINDOWSSYSTEM->GetWidth() * 0.5f) };
 float height_div;	// { 1.f / (LB::WINDOWSSYSTEM->GetHeight() * 0.5f) };
+
+extern unsigned int framebuffer;
+extern bool imgui_ready;
 //-----------------Pre-defines------------------------------
 
 namespace LB 
@@ -225,6 +228,8 @@ namespace LB
 		glLineWidth(5.f);
 	}
 
+
+
 	//loop through stack
 	//if line object then do matrix projection on both start and end points
 	//send the points to the gpu
@@ -291,9 +296,18 @@ namespace LB
 
 		//pass index data inside
 		glNamedBufferSubData(ibo, 0, index * sizeof(unsigned short), idx.data());
+		//draw lines to the imgui renderered box
+
+		//Bind the frame buffer to the texture image
+		if (imgui_ready)
+			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+
 		glUseProgram(shader);
 		glBindVertexArray(vao);
 		glDrawElements(GL_LINES, (GLsizei)index, GL_UNSIGNED_SHORT, nullptr);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		//we don't change back because we let graphics system handle the rest
 	}
 
 	/*!***********************************************************************

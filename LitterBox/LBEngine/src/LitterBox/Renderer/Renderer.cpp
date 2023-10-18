@@ -29,6 +29,7 @@
 
 //---------------------------------DEFINES-------------------------------
 constexpr Renderer::index inactive_idx{ 0,0,0,0,0 };
+extern LB::CPCamera* game_cam;
 //---------------------------------DEFINES-------------------------------
 
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
@@ -580,8 +581,9 @@ bg_renderer{Renderer_Types::RT_BACKGROUND}
 		DebuggerLogError("Render System already exists");
 }
 
-static unsigned int framebuffer;
+unsigned int framebuffer;
 unsigned int textureColorbuffer;
+bool imgui_ready{ false };
 
 LB::CPRender* test2;
 void Renderer::RenderSystem::Initialize()
@@ -629,7 +631,6 @@ void Renderer::RenderSystem::Initialize()
 
 
 	//----For rendering scene onto texture for ImGUI-------------
-
 	//TODO make this only applicable in editor mode
 	//TODO make the monitor dimensions based on the window instead of primary monitor
 	GLFWvidmode dimensions;
@@ -646,6 +647,8 @@ void Renderer::RenderSystem::Initialize()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
+	imgui_ready = true;
+	//----For rendering scene onto texture for ImGUI-------------
 }
 
 
