@@ -69,7 +69,7 @@ namespace LB
 	  \return
 	  Returns true if the boxes collided and false if the boxes did not collide
 	*************************************************************************/
-	bool CollisionIntersection_BoxBox_SAT(LB::Vec2<float>* verticesA, LB::Vec2<float>* verticesB, LB::Vec2<float>& normal_out, float& depth_out);
+	bool CollisionIntersection_BoxBox_SAT(std::vector<Vec2<float>> const& verticesA, std::vector<Vec2<float>> const& verticesB, LB::Vec2<float>& normal_out, float& depth_out);
 
 
 	/*!***********************************************************************
@@ -81,7 +81,7 @@ namespace LB
 	  \return
 	  Returns true if the objects collided and false if the objects did not collide
 	*************************************************************************/
-	bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float circleRadius, LB::Vec2<float>* verticesBox, LB::Vec2<float>& normal_out, float& depth_out);
+	bool CollisionIntersection_CircleBox_SAT(LB::Vec2<float> circleCenter, float circleRadius, std::vector<Vec2<float>> const& vertices, LB::Vec2<float>& normal_out, float& depth_out);
 
 	/*!***********************************************************************
 	  \brief
@@ -93,7 +93,7 @@ namespace LB
 	  \return
 	  Returns true if the boxes collided and false if the boxes did not collide
 	*************************************************************************/
-	void ProjectPointsOntoAxis(LB::Vec2<float> axisToProj, LB::Vec2<float>* verticesBody, float& minPtOnAxis, float& maxPtOnAxis);
+	void ProjectPointsOntoAxis(LB::Vec2<float> axisToProj, std::vector<Vec2<float>> const& verticesBody, float& minPtOnAxis, float& maxPtOnAxis);
 
 	/*!***********************************************************************
 	  \brief
@@ -115,7 +115,7 @@ namespace LB
 	  \return
 	  Returns the position of the center of the vertices as a Vec2<float>
 	*************************************************************************/
-	LB::Vec2<float> FindCenterOfBoxVertices(LB::Vec2<float>* vertices);
+	LB::Vec2<float> FindCenterOfBoxVertices(std::vector<Vec2<float>> const& vertices);
 
 	/*!***********************************************************************
 	  \brief
@@ -125,5 +125,5 @@ namespace LB
 	  \return
 	  Returns the position of the center of the vertices as a Vec2<float>
 	*************************************************************************/
-	int FindIndexClosestPointOnBox(LB::Vec2<float>* vertices, LB::Vec2<float> center);
+	int FindIndexClosestPointOnBox(std::vector<Vec2<float>> const& vertices, LB::Vec2<float> center);
 }

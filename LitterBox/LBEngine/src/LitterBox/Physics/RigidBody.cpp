@@ -71,54 +71,6 @@ namespace LB
         {
             this->mInvMass = 0.f;
         }
-        /*
-        // Check if Box
-        if (this->mShapeType == COL_BOX)
-        {
-            // If it is a box then create the vertices
-            // as well as the AABB data
-            obj_aabb.m_c = this->mPosition;
-            // Max is top right
-            obj_aabb.m_max.x = this->mWidth / 2 + this->mPosition.x;
-            obj_aabb.m_max.y = this->mHeight / 2 + this->mPosition.y;
-            // Min is bottom right
-            obj_aabb.m_min.x = this->mPosition.x - this->mWidth / 2;
-            obj_aabb.m_min.y = this->mPosition.y - this->mHeight / 2;
-
-            // Create the vertices
-            // Untransformed
-            CreateBoxVertices(this->mVertices, this->mWidth, this->mHeight);
-            // Transformed
-            this->UpdateRigidBodyBoxVertices();
-
-        }
-        else
-        {
-            LB::Vec2<float> zeroed;
-            zeroed.x = 0.f;
-            zeroed.y = 0.f;
-
-            obj_aabb.m_c = zeroed;
-
-            obj_aabb.m_min = zeroed;
-
-            obj_aabb.m_max = zeroed;
-
-
-            mVertices[0] = zeroed;
-            mVertices[1] = zeroed;
-            mVertices[2] = zeroed;
-            mVertices[3] = zeroed;
-
-            mTransformedVertices[0] = zeroed;
-            mTransformedVertices[1] = zeroed;
-            mTransformedVertices[2] = zeroed;
-            mTransformedVertices[3] = zeroed;
-
-        }
-
-        this->UpdateRigidBodyAABB();
-        */
         PHYSICS->AddRigidBodyToPool(this);
     }
 
@@ -176,69 +128,6 @@ namespace LB
 
     /*!***********************************************************************
         \brief
-        Updates the CPRigidBody Box Vertices within its' data members
-    *************************************************************************/
-    /*
-    void CPRigidBody::UpdateRigidBodyBoxVertices()
-    {
-        PhysicsTransform xtransform{ this->mPosition, this->mRotation };
-
-        for (int i = 0; i < 4; ++i) {
-            // Uses the untransformed vertices as the basis for tranasformation
-            LB::Vec2<float> og_vec = this->mVertices[i];
-            // Transforming the vertices using trigo formulas
-            this->mTransformedVertices[i] = LB::Vec2<float>{
-                xtransform.m_cos * og_vec.x - xtransform.m_sin * og_vec.y + xtransform.m_posX,
-                xtransform.m_sin * og_vec.x + xtransform.m_cos * og_vec.y + xtransform.m_posY };
-        }
-
-
-    }
-    */
-
-    /*!***********************************************************************
-        \brief
-        Updates the AABB collider in the CPRigidBody's data members
-    *************************************************************************/
-    /*
-    void CPRigidBody::UpdateRigidBodyAABB()
-    {
-        float minX = 10000000.f;
-        float maxX = -10000000.f;
-        float minY = 10000000.f;
-        float maxY = -10000000.f;
-
-        if (this->mShapeType == COL_BOX)
-        {
-            for (int i = 0; i < 4; ++i)
-            {
-                // Take the Transformed Vertices and use it as the new AABB
-                LB::Vec2<float> vec = this->mTransformedVertices[i];
-
-                if (vec.x < minX) minX = vec.x;
-                if (vec.x > maxX) maxX = vec.x;
-                if (vec.y < minY) minY = vec.y;
-                if (vec.y > maxY) maxY = vec.y;
-            }
-        }
-        else if (this->mShapeType == COL_CIRCLE)
-        {
-            // Basically grab the position and make a box using radius as the width and height
-            // of the box
-            minX = this->mPosition.x - this->mRadius;
-            maxX = this->mPosition.x + this->mRadius;
-            minY = this->mPosition.y - this->mRadius;
-            maxY = this->mPosition.y + this->mRadius;
-        }
-
-        this->obj_aabb.m_c = LB::Vec2<float>{ (minX + maxX) / 2.f, (minY + maxY) / 2.f };
-        this->obj_aabb.m_max = LB::Vec2<float>{ maxX, maxY };
-        this->obj_aabb.m_min = LB::Vec2<float>{ minX, minY };
-    }
-    */
-
-    /*!***********************************************************************
-        \brief
         Updates the position of the CPRigidBody
     *************************************************************************/
     void CPRigidBody::UpdateRigidBodyPos(float time)
@@ -249,30 +138,11 @@ namespace LB
             return;
         }
 
-        //std::cout << "POS: " << mPosition.x << " , " << mPosition.y << std::endl;
-        //std::cout << "VEL: " << mVelocity.x << " , " << mVelocity.y << std::endl;
-        //Vec2<float> temp_pos = this->mPosition;
-        //float temp_rot = this->mRotation;
-
         this->mPosition += this->mVelocity * time;
         transform->SetPosition(mPosition);
 
         this->mRotation += this->mRotationalVelocity * time;
         transform->SetRotation(mRotation);
-
-        //if (temp_pos != this->mPosition || temp_rot != this->mRotation)
-        //{
-
-        // Update the TransformedVertices
-        // HERE
-        //this->UpdateRigidBodyBoxVertices();
-        //}
-        //if (temp_pos != this->mPosition)
-        //{
-        // Update the AABB
-        // HERE
-        //this->UpdateRigidBodyAABB();
-        //}
         
     }
 
@@ -319,28 +189,6 @@ namespace LB
         transform->SetPosition(mPosition);
     }
 
-    /*!***********************************************************************
-        \brief
-        This is the function that calls the debug drawer to draw all the
-        RigidBody collision boxes as well as their velocities
-    *************************************************************************/
-    /*
-    void CPRigidBody::DebugDraw()
-    {
-        if (this->mShapeType == COL_BOX)
-        {
-            DEBUG->DrawBox(mPosition, mWidth, mHeight,
-                Vec4<float> { 0.f, 0.f, 1.0f, 1.0f }, mRotation);
-        }
-        if (this->mShapeType == COL_CIRCLE)
-        {
-            DEBUG->DrawCircle(mPosition,mRadius,
-                Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
-        }
-        DEBUG->DrawLine(mPosition, PHY_MATH::Normalize(mVelocity), PHY_MATH::Length(mVelocity) / 5.f,
-            Vec4<float> {1.0f, 0.f, 0.f, 0.f});
-    }
-    */
 
     // END OF RIGIDBODY MEMBER FUNCTIONS
     // ===========================================

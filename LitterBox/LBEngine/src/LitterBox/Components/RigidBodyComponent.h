@@ -167,18 +167,6 @@ namespace LB
 
 		/*!***********************************************************************
 			\brief
-			Updates the CPRigidBody Box Vertices within its' data members
-		*************************************************************************/
-		//void UpdateRigidBodyBoxVertices();
-
-		/*!***********************************************************************
-			\brief
-			Updates the AABB collider in the CPRigidBody's data members
-		*************************************************************************/
-		//void UpdateRigidBodyAABB();
-
-		/*!***********************************************************************
-			\brief
 			Updates the position of the CPRigidBody
 		*************************************************************************/
 		void UpdateRigidBodyPos(float time);
@@ -197,12 +185,5 @@ namespace LB
 			- Also updates the Transform IComponent that is stored in CPRigidBody
 		*************************************************************************/
 		void FixedUpdate();
-
-		/*!***********************************************************************
-			\brief
-			This is the function that calls the debug drawer to draw all the
-			RigidBody collision boxes as well as their velocities
-		*************************************************************************/
-		//void DebugDraw();
 	};
 }

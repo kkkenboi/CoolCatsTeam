@@ -12,6 +12,8 @@ project "LBEditor"
 
     files
     {
+        "./**.cs",
+        "./**.json",
         "src/**.h",
         "src/**.cpp",
     }
@@ -35,17 +37,14 @@ project "LBEditor"
 
     postbuildcommands
     {
-        "mkdir \"$(TargetDir)Assets\"", 
-        "mkdir \"$(TargetDir)Assets/Font\"", 
-        "mkdir \"$(TargetDir)Assets/Audio\"",
-        "mkdir \"$(TargetDir)Assets/Art\"",
-        "mkdir \"$(TargetDir)Assets/Scenes\"",
-        "mkdir \"$(TargetDir)Assets/Scripts\"",
-        "mkdir \"$(TargetDir)Assets/Prefabs\"",
         "mkdir \"$(TargetDir)Builds\"",
-        "mkdir \"$(TargetDir)Editor\"",
-        "mkdir \"$(TargetDir)Editor/Lib\"",
-        "mkdir \"$(TargetDir)Logs\"",
+
+        "xcopy \"%{wks.location}LBEditor\\Assets\" \"$(TargetDir)Assets\" /Y /I /E",
+        "xcopy \"%{wks.location}LBEditor\\Builds\" \"$(TargetDir)Builds\" /Y /I /E",
+        "xcopy \"%{wks.location}LBEditor\\Editor\" \"$(TargetDir)Editor\" /Y /I /E",
+        "xcopy \"%{wks.location}LBEditor\\Logs\" \"$(TargetDir)Logs\" /Y /I /E",
+        "xcopy \"%{wks.location}LBEditor\\imgui.ini\" \"$(TargetDir)\" /Y /I /E",
+
         "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBEditor\"",
         "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\LBEditor\" /y",
         "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\lib\\mono\\4.5\" /y /i /s",
