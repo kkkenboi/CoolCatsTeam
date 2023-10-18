@@ -19,6 +19,7 @@
 
 #include "Platform/Editor/Editor.h"
 #include "Litterbox/Engine/Layer.h"
+#include "LitterBox/Serialization/AssetManager.h"
 
 namespace LB
 {
@@ -30,6 +31,8 @@ namespace LB
         void Initialize() override;
 
         void UpdateLayer() override;
+
+        std::map<std::string, std::pair<std::shared_ptr<TextureData>, int>>::iterator m_AssetsIterator;
     };
 }
 

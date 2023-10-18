@@ -39,6 +39,8 @@ namespace LB
 		inspectTest = FACTORY->SpawnGameObject();
 		std::cout << inspectTest->GetComponents().size() << std::endl;
 		EDITOR->InspectGO(inspectTest);
+
+		m_AssetsIterator = ASSETMANAGER->Textures.begin();
 		//
 	}
 
@@ -119,8 +121,9 @@ namespace LB
 			ImGui::EndPopup();
 		}
 
-		int width = 75;
-		std::cout << inspectTest->GetComponents().size() << std::endl;
+		int normalWidth = 75;
+		int dropdownWidth = 150;
+		//std::cout << inspectTest->GetComponents().size() << std::endl;
 
 		// Individual Component Sections
 		if (EDITOR->InspectedGO()->HasComponent<CPTransform>())
@@ -130,12 +133,12 @@ namespace LB
 				Vec2<float> pos = EDITOR->InspectedGO()->GetComponent<CPTransform>()->GetPosition();
 				ImGui::Text("Position %10s", "X");
 				ImGui::SameLine();
-				ImGui::SetNextItemWidth(width);
+				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::InputFloat("##X", &pos.x, 0.0f, 0.0f, "%.2f");
 				ImGui::SameLine();
 				ImGui::Text("Y");
 				ImGui::SameLine();
-				ImGui::SetNextItemWidth(width);
+				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::InputFloat("##Y", &pos.y, 0.0f, 0.0f, "%.2f");
 				EDITOR->InspectedGO()->GetComponent<CPTransform>()->SetPosition(pos);
 
@@ -150,7 +153,21 @@ namespace LB
 			if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_None))
 			{
 				// Interface Buttons
-
+				ImGui::Text("Image : "); 
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				int inspectedTextureID = EDITOR->InspectedGO()->GetComponent<CPRender>()->texture;
+				if (ImGui::BeginCombo("##Texture", ASSETMANAGER->GetTextureName(inspectedTextureID).c_str()))
+				{
+					for (auto& [str, tex] : ASSETMANAGER->Textures)
+					{
+						if (ImGui::Selectable(str.c_str()))
+						{
+							EDITOR->InspectedGO()->GetComponent<CPRender>()->UpdateTexture(tex.second);
+						}
+					}
+					ImGui::EndCombo();
+				}
 
 				// Delete Component
 				if (ImGui::Button("Delete Render Component"))
