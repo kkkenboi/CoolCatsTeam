@@ -32,7 +32,7 @@
 #include <fstream>
 #include <unordered_map> //used to store the filepath maps
 #include "LitterBox/Debugging/Debug.h"	//used to log any errors
-
+#include "LitterBox/Serialization/FileSystemManager.h"
 using namespace rapidjson;	//makes it easy to use rapidjson stuff
 
 namespace LB
@@ -63,16 +63,17 @@ namespace LB
 			/// @param typeToSerialize Type of object that is being serialized
 			/// @return true on success, false on fail
 			//We need to load the json data from the json file
-			Document jsonFile = GetJSONFile(fileName + ".json");
+			Document jsonFile = GetJSONFile(FileSystemManager::GetFilePath(fileName).string());
 			//Once it has the data, it needs to allocate memory with the allocator
 			Document::AllocatorType& allocator = jsonFile.GetAllocator();
 			//then we pray to god the T has a serialize function
 			if (typeToSerialize.Serialize(jsonFile, allocator))
 			{
 				//then we save it to file
-				SaveToJSON(fileName + ".json", jsonFile);
+				SaveToJSON(FileSystemManager::GetFilePath(fileName).string(), jsonFile);
 				return true;
 			}
+
 			return false;
 		}
 
@@ -89,10 +90,9 @@ namespace LB
 			/// @param fileName Name of the JSON FILE
 			/// @param typeToDeserialize Out param for your data. 
 			//Get the file, then deserialize! magic
-			std::string fullFilePath{ fileName + ".json" };
-			DebuggerLog("Getting file from : " + fullFilePath);
+			DebuggerLog("Getting file from : " + fileName);
 			//std::cout << "Joe: " << fileDestinationMap[filePath] + fileName + ".json\n";
-			Document jsonFile = GetJSONFile(fileName + ".json");
+			Document jsonFile = GetJSONFile(FileSystemManager::GetFilePath(fileName).string());
 			typeToDeserialize.Deserialize(jsonFile);
 		}
 

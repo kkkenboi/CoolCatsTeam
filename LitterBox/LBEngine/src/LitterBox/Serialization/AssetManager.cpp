@@ -66,11 +66,11 @@ namespace LB
         cachedTexture->stbBuffer = stbi_load(fileName.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
         if(!cachedTexture->stbBuffer)
         {
-            std::cerr<< "Texture filepath :" <<
-            fileName << "NOT FOUND!\n";
-             std::string funnyPng{"Assets/Textures/despair.png"};
-             cachedTexture->stbBuffer = stbi_load(funnyPng.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
-            
+            DebuggerLogErrorFormat("Texture filepath %s not found!", fileName);
+            //std::string funnyPng{"Assets/Textures/despair.png"};
+            //cachedTexture->stbBuffer = stbi_load(funnyPng.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
+            cachedTexture->id = -1;
+            return cachedTexture;
         } 
          //else //if it doesn't exist, we set some funny png so we know
          //{
@@ -264,7 +264,7 @@ namespace LB
         //* Don't touch this, it works!
         //JSONSerializer stream;
         //stream.DeserializeFromFile("Assets/Prefabs/pineapple", *PineappleObject);
-        JSONSerializer::DeserializeFromFile("Assets/Prefabs/pineapple", *PineappleObject);
+        JSONSerializer::DeserializeFromFile("pineapple.json", *PineappleObject);
 
         //stream.DeserializeFromFile("../Assets/Prefabs/apple",*AvatarObject);
     }
