@@ -180,13 +180,29 @@ namespace LB
 	{
 		if (this->m_shape == COL_BOX)
 		{
-			DEBUG->DrawBox(m_pos, m_width, m_height,
-				Vec4<float> { 0.f, 0.f, 1.0f, 1.0f }, m_rotation);
+			if (!this->m_collided)
+			{
+				DEBUG->DrawBox(m_pos, m_width, m_height,
+					Vec4<float> { 0.f, 0.f, 1.0f, 1.0f }, m_rotation);
+			}
+			else
+			{
+				DEBUG->DrawBox(m_pos, m_width, m_height,
+					Vec4<float> { 0.5f, 0.f, 0.f, 1.0f }, m_rotation);
+			}
 		}
 		if (this->m_shape == COL_CIRCLE)
 		{
-			DEBUG->DrawCircle(m_pos, m_radius,
-				Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
+			if (!this->m_collided)
+			{
+				DEBUG->DrawCircle(m_pos, m_radius,
+					Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
+			}
+			else
+			{
+				DEBUG->DrawCircle(m_pos, m_radius,
+					Vec4<float> { 0.5f, 0.f, 0.f, 1.0f });
+			}
 		}
 		if (this->rigidbody != nullptr)
 		{

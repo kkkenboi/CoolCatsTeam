@@ -58,9 +58,9 @@ namespace LB {
 		Engine->AddSystem(logic);
 		Engine->AddSystem(audio);
 		Engine->AddSystem(memory);
-		Engine->AddSystem(debug);
 		Engine->AddSystem(editor);
 		Engine->AddSystem(graphics);
+		Engine->AddSystem(debug);
 		Engine->AddSystem(sceneManager);
 
 		Engine->Initialise();

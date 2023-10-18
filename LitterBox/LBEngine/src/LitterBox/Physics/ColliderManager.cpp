@@ -147,6 +147,7 @@ namespace LB
 			if (this->m_colliderPool[i] != nullptr)
 			{
 				this->m_colliderPool[i]->FixedUpdate();
+				this->m_colliderPool[i]->m_collided = false;
 			}
 		}
 
@@ -179,6 +180,8 @@ namespace LB
 				// Normal here is moving B away from A
 				if (CheckColliders(colA, colB, normal_out, depth_out))
 				{
+					colA->m_collided = true;
+					colB->m_collided = true;
 					if (colA->rigidbody != nullptr && colB->rigidbody != nullptr)
 					{
 
@@ -200,7 +203,6 @@ namespace LB
 						ResolveColliders(colA, colB, normal_out, depth_out);
 					}
 				}
-
 			}
 		}
 
