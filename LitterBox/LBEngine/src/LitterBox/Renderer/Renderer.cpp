@@ -579,6 +579,9 @@ bg_renderer{Renderer_Types::RT_BACKGROUND}
 		DebuggerLogError("Render System already exists");
 }
 
+static unsigned int framebuffer;
+unsigned int textureColorbuffer;
+
 LB::CPRender* test2;
 void Renderer::RenderSystem::Initialize()
 {
@@ -591,12 +594,13 @@ void Renderer::RenderSystem::Initialize()
 	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
 	if (uni_loc == -1)
 		DebuggerLogError("Unable to find uniform location");
-	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &object_renderer.cam.world_NDC[0][0]);
+	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 
 
 	GLint uni_loc2 = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
 	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 	glUniform1iv(uni_loc2, 13, test);
+	
 	//-################FOR BACKGROUND##########################
 	//cache some values
 	float midx = (float)LB::WINDOWSSYSTEM->GetWidth() * 0.5f;
@@ -622,8 +626,25 @@ void Renderer::RenderSystem::Initialize()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	// TODO: If not in editor mode, fullscreen the game view
-	glEnable(GL_SCISSOR_TEST);
+
+	//----For rendering scene onto texture for ImGUI-------------
+
+	//TODO make this only applicable in editor mode
+	//TODO make the monitor dimensions based on the window instead of primary monitor
+	GLFWvidmode dimensions;
+	GLFWmonitor* mon = glfwGetPrimaryMonitor();
+	dimensions = *glfwGetVideoMode(mon);
+
+	glGenFramebuffers(1, &framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+
+	glGenTextures(1, &textureColorbuffer);
+	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
 }
 
 
@@ -646,20 +667,20 @@ Renderer::RenderSystem::~RenderSystem()
 *************************************************************************/
 void Renderer::RenderSystem::Update()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now
+
 	// Render the game scene window
 	bg_renderer.update_buff();
 	object_renderer.update_buff();
 
-	glScissor(m_winPos.x, m_winPos.y, m_winSize.x, m_winSize.y);
-	glViewport(m_winPos.x, m_winPos.y, m_winSize.x, m_winSize.y);
-
-	glClearColor(.3f, 0.5f, .8f, 1.f);
-	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(shader_program);
 	glBindVertexArray(bg_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 /*!***********************************************************************
