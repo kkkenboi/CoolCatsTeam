@@ -100,6 +100,12 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
+		 Removes a component from the GameObject
+		*************************************************************************/
+		void RemoveComponent(ComponentTypeID id);
+
+		/*!***********************************************************************
+		 \brief
 		 Serializes the GameObject data into a file
 		*************************************************************************/
 		bool Serialize(Value&, Document::AllocatorType&);

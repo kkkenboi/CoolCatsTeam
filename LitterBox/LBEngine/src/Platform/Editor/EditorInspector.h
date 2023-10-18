@@ -27,6 +27,8 @@ namespace LB
     public:
         EditorInspector(std::string layerName);
 
+        void Initialize() override;
+
         void UpdateLayer() override;
     };
 }

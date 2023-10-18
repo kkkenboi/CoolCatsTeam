@@ -23,6 +23,7 @@
 #include <imgui_impl_opengl3.h>
 #include "LitterBox/Core/System.h"
 #include "LitterBox/Engine/LayerStack.h"
+#include "LitterBox/Factory/GameObjectManager.h"
 
 namespace LB
 {
@@ -36,14 +37,16 @@ namespace LB
 		void FixedUpdate()	override;
 		void Destroy()		override;
 
+		GameObject* InspectedGO();
+		void InspectGO(GameObject* go);
+
 		bool m_EditorMode = true;
 		bool m_IsPlaying = false;
 
 	private:
 		LayerStack m_ImGuiLayers;
+		GameObject* m_GameObjectPointer;
 	};
-
-	void ToggleEditor();
 
 	extern Editor* EDITOR;
 }
