@@ -22,6 +22,11 @@
 #include <sstream>
 
 #include <csignal>								// For getting crash signals
+
+#include <Windows.h>							// For back tracing on crash
+#include <DbgHelp.h>							// Also for back tracing on crash
+#pragma comment(lib, "Dbghelp.lib")
+
 #include "spdlog/spdlog.h"						// For logging information to files
 #include "spdlog/sinks/basic_file_sink.h"		// File sink
 #include "spdlog/sinks/stdout_color_sinks.h"	// Console sink
@@ -58,8 +63,9 @@ namespace LB
 		m_stepPhysicsKey = KeyCode::KEY_I;
 
 		//--------------------Crash signal Setup---------------------
-		signal(SIGSEGV, FlushCrashLog);
-		signal(SIGABRT, FlushCrashLog);
+		// Dump the crash log on...
+		signal(SIGSEGV, FlushCrashLog); // Segmentation fault
+		signal(SIGABRT, FlushCrashLog); // Application terminate / abort
 	}
 	/*!***********************************************************************
 	\brief
@@ -127,15 +133,15 @@ namespace LB
 	{
 		//--------------------Loggers Setup---------------------
 		debugInfoLogger = spdlog::basic_logger_mt("DEBUG LOGGER", "Logs/DebugLog.txt");
-		debugInfoLogger->set_pattern("[%H:%M:%S] [%L] %v");
+		debugInfoLogger->set_pattern("[%L] %v");
 		debugInfoLogger->set_level(spdlog::level::debug);
 
 		crashInfoLogger = spdlog::basic_logger_mt("CRASH LOGGER", "Logs/CrashLog.txt");
-		crashInfoLogger->set_pattern("[%H:%M:%S] [%L] %v");
+		crashInfoLogger->set_pattern("%v");
 		crashInfoLogger->set_level(spdlog::level::err);
 
 		consoleLogger = spdlog::stdout_color_mt("CONSOLE LOGGER");
-		consoleLogger->set_pattern("%^[%H:%M:%S] [%L] %v%$");
+		consoleLogger->set_pattern("%^[%L] %v%$");
 		consoleLogger->set_level(spdlog::level::debug);
 
 		// Clear the debug log for logging
@@ -162,8 +168,31 @@ namespace LB
 		// Flush the debug log as well
 		FlushDebugLog();
 
+		// Clear the old crash log
 		std::ofstream logFile("Logs/CrashLog.txt", std::ios::trunc);
 		logFile.close();
+
+		// TO DO: serialize max depth
+
+		//int traceDepth = 20;
+		//void** stackTrace = new void* [traceDepth];
+
+		//// WORD is basically unsigned short and 
+		//WORD frames = CaptureStackBackTrace(0, traceDepth, stackTrace, nullptr);
+
+		//SYMBOL_INFO symbol = { sizeof(SYMBOL_INFO), 255 };
+
+		//for (WORD index{ 0 }; index < frames; ++index) {
+		//	SymFromAddr(GetCurrentProcess(), (DWORD64)(stackTrace[index]), 0, &symbol);
+
+		//	std::cout << "ADDRESS " << stackTrace[index] << " NAME " << symbol.Name << "\n";
+
+		//	std::ostringstream message;
+		//	message << "[" << index << "]" << symbol.Name;
+		//	crashInfoLogger->error(message.str());
+		//}
+
+		//delete[] stackTrace;
 
 		crashInfoLogger->error("Unexpected application crash! Signal: {}", signal);
 		crashInfoLogger->flush();
@@ -438,7 +467,6 @@ namespace LB
 	void Debugger::Log(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
-		// output << "[" << file << ":" << line << "] " << message;
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
 		// Print to console (DECAP)
@@ -474,7 +502,6 @@ namespace LB
 	void Debugger::LogWarning(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
-		//output << "[" << file << ":" << line << "] " << message;
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
 		// Print to console (DECAP)
@@ -509,7 +536,6 @@ namespace LB
 	void Debugger::LogError(const char* file, int line, std::string const& message)
 	{
 		std::ostringstream output;
-		//output << "[" << file << ":" << line << "] " << message;
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
 		// Print to console (DECAP)

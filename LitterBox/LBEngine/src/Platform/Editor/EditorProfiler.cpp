@@ -19,49 +19,50 @@
 
 namespace LB
 {
+	EditorProfiler* EDITORPROFILER = nullptr;
+
 	EditorProfiler::EditorProfiler(std::string layerName) : Layer(layerName), m_currentFrameHistoryIndex(0)
 	{
+		if (!EDITORPROFILER)
+			EDITORPROFILER = this;
+		else
+			DebuggerLogError("Editor Profiler already exist!");
+
 		// Serialize this in the future
 		SetFrameHistorySize(120);
-	}
-
-	void EditorProfiler::Initialize()
-	{
-		InitializeSystemFrames();
-	}
-
-	void EditorProfiler::InitializeSystemFrames()
-	{
-		// Clear the previous vector just in case
-		m_systemFrames.clear();
-
-		// Add each system into the frame
-		std::vector<std::string> systemNames = CORE->GetAllSystemNames();
-		for (std::string const& name : systemNames)
-		{
-			m_systemFrames[name].resize(m_framesHistorySize);
-		}
 	}
 
 	void EditorProfiler::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
 
+		// Buttons in the top bar
+		ImGui::Checkbox("Profile", &m_shouldProfile);
+
+		ImGui::Separator();
+
 		// Graph out the time taken for each system in this frame
 
-		//ImGui::ShowDemoWindow();
 
+		//ImGui::ShowDemoWindow();
 		ImGui::End();
 	}
 
-	void EditorProfiler::UpdateSystemFrames(std::vector<SystemFrame> const& timings)
+	void EditorProfiler::UpdateSystemFrames(std::map<std::string, double> const& timings)
 	{
 		// Ring buffer, move the index by 1 to store current frame information
 		m_currentFrameHistoryIndex = (m_currentFrameHistoryIndex + 1) % m_framesHistorySize;
 
-		for (SystemFrame const& timing : timings)
+		for (auto const& timing : timings)
 		{
-			m_systemFrames[timing.name][m_currentFrameHistoryIndex] = timing.currentFrameTiming;
+			// If the timing doesn't exist in the current map, add it first
+			if (m_systemFrames.find(timing.first) == m_systemFrames.end())
+			{
+				std::vector<double> systemFrameTimings(120);
+				m_systemFrames[timing.first] = systemFrameTimings;
+			}
+
+			m_systemFrames[timing.first][m_currentFrameHistoryIndex] = timing.second;
 		}
 	}
 

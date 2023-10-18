@@ -77,8 +77,6 @@ namespace LB
 		*************************************************************************/
 		void RemoveLayer(Layer* layer);
 
-		std::vector<std::string> GetAllSystemNames();
-
 	private:
 		std::vector<ISystem*>	m_systems;
 		bool					m_running;
