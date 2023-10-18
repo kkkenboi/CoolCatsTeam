@@ -44,6 +44,7 @@ namespace LB
     void AssetManager::Initialize()
     {
         DebuggerLog("Assetmanager is initializing");
+        Textures["none"];
         //Load all assets here
         LoadSounds();
         LoadTextures();
@@ -150,10 +151,18 @@ namespace LB
             DebuggerLogWarning("Texture " + name + " can't be found!");
             return -1;  //return an invalid index for a graceful fail
         }
+        if (name == "none")
+        {
+            return 0;
+        }
         return Textures.find(name)->second.second;
     }
     const std::string AssetManager::GetTextureName(const int& index) const
     {
+        if (index == 0)
+        {
+            return "none";
+        }
         for (const auto& elem : Textures)
         {
             if (elem.second.second == index)
@@ -161,7 +170,6 @@ namespace LB
                 return elem.first;
             }
         }
-        
         DebuggerLogWarning("Texture index : " + std::to_string(index) + " can't be found!");
         return "";
     }
