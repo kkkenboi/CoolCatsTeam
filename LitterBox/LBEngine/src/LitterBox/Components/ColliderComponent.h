@@ -8,7 +8,7 @@ namespace LB {
 	enum SHAPETYPE
 	{
 		COL_CIRCLE = 0,
-		COL_BOX = 1,
+		COL_POLYGON = 1,
 		COL_NONE = 2
 	};
 
@@ -50,8 +50,8 @@ namespace LB {
 		// For SAT
 		float m_rotation;
 		int m_vertAmount;
-		LB::Vec2<float> m_untransformedVerts[4];
-		LB::Vec2<float> m_transformedVerts[4];
+		std::vector<Vec2<float>> m_untransformedVerts;
+		std::vector<Vec2<float>> m_transformedVerts;
 
 		// For physics
 		Vec2<float> normal_out;
@@ -73,7 +73,10 @@ namespace LB {
 		  This function instantiates the Polygon Array the known values in the
 		  Collider class
 		*************************************************************************/
-		void CreatePolygon();
+		void CreatePolygonBox();
+
+		void CreatePolygonHexagon();
+
 
 		void DebugDraw();
 

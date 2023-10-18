@@ -58,9 +58,9 @@ namespace LB
 		normal_out.y = 0.f;
 		depth_out = 0.f;
 
-		if (colA->m_shape == COL_BOX)
+		if (colA->m_shape == COL_POLYGON)
 		{
-			if (colB->m_shape == COL_BOX)
+			if (colB->m_shape == COL_POLYGON)
 			{
 				// A-B
 				// BOX-BOX
@@ -80,7 +80,7 @@ namespace LB
 		}
 		if (colA->m_shape == COL_CIRCLE)
 		{
-			if (colB->m_shape == COL_BOX)
+			if (colB->m_shape == COL_POLYGON)
 			{
 				// A-B
 				// CIRCLE-BOX
