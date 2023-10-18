@@ -27,24 +27,23 @@ namespace LB
 {
 	// For testing
 	GameObject* inspectTest;
-	bool onlyOnce = true;
 	//
 
 	EditorInspector::EditorInspector(std::string layerName) : Layer(layerName) 
 	{
 	}
 
-	void EditorInspector::UpdateLayer()
+	void EditorInspector::Initialize()
 	{
 		// For testing
-		if (onlyOnce)
-		{
-			inspectTest = FACTORY->SpawnGameObject();
-			std::cout << inspectTest->GetComponents().size() << std::endl;
-			EDITOR->InspectGO(inspectTest);
-			onlyOnce = false;
-		}
+		inspectTest = FACTORY->SpawnGameObject();
+		std::cout << inspectTest->GetComponents().size() << std::endl;
+		EDITOR->InspectGO(inspectTest);
 		//
+	}
+
+	void EditorInspector::UpdateLayer()
+	{
 
 		ImGui::Begin(GetName().c_str(), 0, ImGuiWindowFlags_MenuBar);
 
@@ -52,7 +51,7 @@ namespace LB
 		{	
 			ImGui::End();
 			// Comment the return to interact with the rest of the function, 
-			// but must assign a GameObject to the m_GameObjectPointer
+			// but currently a test GameObject is assigned to the m_GameObjectPointer
 			return; 
 		}
 
@@ -64,25 +63,6 @@ namespace LB
 		// Upon clicking to add a component to the Inspected Game Object
 		if (ImGui::BeginPopup("Add Component"))
 		{
-			// If every game object already has a transform do we need?
-			if (ImGui::MenuItem("Transform"))
-			{
-				if (EDITOR->InspectedGO()->HasComponent<CPTransform>())
-				{
-					// Should we have an assert message here to signify there is already a component?
-					// Else just refrain from changing the values of the component
-					std::cout << "Transform already exists." << std::endl;
-					ImGui::CloseCurrentPopup();
-				}
-				else
-				{
-					EDITOR->InspectedGO()->AddComponent(C_CPTransform, FACTORY->GetCMs()[C_CPTransform]->Create());
-					std::cout << "Transform added!" << std::endl;
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
-			ImGui::Separator();
 
 			if (ImGui::MenuItem("Render"))
 			{
@@ -94,6 +74,7 @@ namespace LB
 				else
 				{
 					EDITOR->InspectedGO()->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+					EDITOR->InspectedGO()->GetComponent<CPRender>()->Initialise();
 					std::cout << "Render added!" << std::endl;
 					ImGui::CloseCurrentPopup();
 				}
@@ -111,6 +92,7 @@ namespace LB
 				else
 				{
 					EDITOR->InspectedGO()->AddComponent(C_CPRigidBody, FACTORY->GetCMs()[C_CPRigidBody]->Create());
+					EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->Initialise();
 					std::cout << "RigidBody added!" << std::endl;
 					ImGui::CloseCurrentPopup();
 				}
@@ -128,6 +110,7 @@ namespace LB
 				else
 				{
 					EDITOR->InspectedGO()->AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
+					EDITOR->InspectedGO()->GetComponent<CPCollider>()->Initialise();
 					std::cout << "Collider added!" << std::endl;
 					ImGui::CloseCurrentPopup();
 				}
@@ -160,11 +143,6 @@ namespace LB
 				Vec2<float> returnval = EDITOR->InspectedGO()->GetComponent<CPTransform>()->GetPosition();
 				std::cout << returnval.x << " " << returnval.y << std::endl;
 				//
-
-				if (ImGui::Button("Delete Transform Component"))
-				{
-					EDITOR->InspectedGO()->RemoveComponent(C_CPTransform);
-				}
 			}
 		}
 		if (EDITOR->InspectedGO()->HasComponent<CPRender>())

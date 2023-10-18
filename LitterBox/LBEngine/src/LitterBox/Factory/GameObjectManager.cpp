@@ -93,7 +93,7 @@ namespace LB
 	*************************************************************************/
 	void GameObject::RemoveComponent(ComponentTypeID id)
 	{
-		
+		m_Components[id]->Destroy();
 		m_Components.erase(id);
 	}
 	
