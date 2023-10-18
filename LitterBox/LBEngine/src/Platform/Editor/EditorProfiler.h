@@ -22,8 +22,14 @@ namespace LB
 {
 	struct SystemFrame
 	{
+		float timing; // Actual timing
+		float offset; // Timing + y-offset
+	};
+
+	struct SystemFrameMoment
+	{
 		std::string name;
-		double currentFrameTiming;
+		float timing;
 	};
 
 	class EditorProfiler : public Layer
@@ -38,9 +44,9 @@ namespace LB
 		void SetFrameHistorySize(int newSize);
 
 	private:
-		bool m_shouldProfile;
+		bool m_shouldProfile {false};
 
-		std::map<std::string, std::vector<float>> m_systemFrames;
+		std::map<std::string, std::vector<SystemFrame>> m_systemFrames;
 		int m_framesHistorySize, m_currentFrameHistoryIndex;
 	};
 
