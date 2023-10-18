@@ -259,7 +259,7 @@ namespace LB
 			}
 		}
 	}
-
+	/*
 	void ColliderManager::Destroy()
 	{
 		for (size_t i = 0; i < m_poolSize; ++i)
@@ -267,4 +267,5 @@ namespace LB
 			m_colliderPool[i] = nullptr;
 		}
 	}
+	*/
 }

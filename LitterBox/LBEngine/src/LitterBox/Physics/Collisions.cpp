@@ -281,12 +281,12 @@ namespace LB
 		this->UpdateColliderAABB();
 
 	}
-
+	/*
 	void CPCollider::Destroy()
 	{
 		COLLIDERS->RemoveColliderFromPool(this);
 	}
-
+	*/
 
 
 	// ============================================================================= !!!!!!!!!

@@ -95,7 +95,7 @@ namespace LB {
 
 		void FixedUpdate();
 
-		void Destroy();
+		//void Destroy();
 
 		ComponentTypeID GetType() override
 		{
