@@ -28,7 +28,9 @@ namespace LB
 
 		void UpdateLayer() override;
 	private:
-		std::filesystem::path defaultDirectory;
-		std::filesystem::path currentDirectory;
+		std::filesystem::path defaultDirectory;			//default directory 
+		std::filesystem::path currentDirectory;			//keeps track of the current directory we're in
+		std::string folderPathName;
+		std::filesystem::path relativePath;			//relative pathname of the current directory
 	};
 }
