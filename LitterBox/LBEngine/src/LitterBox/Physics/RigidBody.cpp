@@ -90,7 +90,10 @@ namespace LB
     *************************************************************************/
     void CPRigidBody::addForce(LB::Vec2<float> force)
     {
-        this->mForce += force;
+        if (!this->isStatic)
+        {
+            this->mForce += force;
+        }
     }
 
     /*!***********************************************************************
@@ -99,7 +102,10 @@ namespace LB
     *************************************************************************/
     void CPRigidBody::addImpulse(LB::Vec2<float> force)
     {
-        this->mAcceleration += force;
+        if (!this->isStatic)
+        {
+            this->mVelocity += force;
+        }
     }
 
     void CPRigidBody::addRotation(float angle)

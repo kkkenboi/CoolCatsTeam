@@ -23,7 +23,7 @@ namespace LB
 
 		//void ResolveColliders(CPCollider* bodyA, CPCollider* bodyB, LB::Vec2<float> normal, float depth);
 
-		std::vector<CPCollider> OverlapCircle(Vec2<float> position, float radius);
+		std::vector<CPCollider*> OverlapCircle(Vec2<float> position, float radius);
 
 		// ================
 		// ISystem function overrides

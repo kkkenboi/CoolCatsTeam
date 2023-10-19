@@ -63,21 +63,36 @@ namespace LB
 		}
 	}
 
-	std::vector<CPCollider> ColliderManager::OverlapCircle(Vec2<float> position, float radius)
+	std::vector<CPCollider*> ColliderManager::OverlapCircle(Vec2<float> position, float radius)
 	{
 		Vec2<float> normal{ 0.f,0.f };
 		float depth{ 0.f };
 
-		std::vector<CPCollider> vec_overlapped;
+		std::vector<CPCollider*> vec_overlapped;
 
 		for (size_t i = 0; i < m_poolSize; ++i)
 		{
-			if (CollisionIntersection_CirclePolygon_SAT(position, radius,
-				m_colliderPool[i]->m_transformedVerts, normal, depth))
+			if (m_colliderPool[i] == nullptr) 
 			{
-				vec_overlapped.push_back(*m_colliderPool[i]);
+				continue;
 			}
 
+			if (m_colliderPool[i]->m_shape == COL_POLYGON) 
+			{
+				if (CollisionIntersection_CirclePolygon_SAT(position, radius,
+					m_colliderPool[i]->m_transformedVerts, normal, depth))
+				{
+					vec_overlapped.push_back(m_colliderPool[i]);
+				}
+			}
+			if (m_colliderPool[i]->m_shape == COL_CIRCLE) 
+			{
+				if (CollisionIntersection_CircleCircle(position, m_colliderPool[i]->m_pos,
+					radius, m_colliderPool[i]->m_radius, normal, depth))
+				{
+					vec_overlapped.push_back(m_colliderPool[i]);
+				}
+			}
 		}
 
 		return vec_overlapped;
