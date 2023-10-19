@@ -17,7 +17,8 @@
 
 #include "Platform/Editor/Editor.h"
 #include "Litterbox/Engine/Layer.h"
-
+#include <filesystem>
+#include <string>
 namespace LB
 {
 	class EditorAssets : public Layer
@@ -26,5 +27,8 @@ namespace LB
 		EditorAssets(std::string layerName);
 
 		void UpdateLayer() override;
+	private:
+		std::filesystem::path defaultDirectory;
+		std::filesystem::path currentDirectory;
 	};
 }
