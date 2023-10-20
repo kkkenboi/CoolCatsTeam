@@ -1,7 +1,7 @@
 project "LBMonoDLL"
     kind "SharedLib" -- Outputs a console
     staticruntime "On"
-    targetextension (".dll")
+    -- targetextension (".dll")
 
     language "C++"
     cppdialect "C++20"
@@ -15,6 +15,7 @@ project "LBMonoDLL"
     {
         "src/**.h",
         "src/**.cpp",
+        "src/**.cs",
     }
 
     -- Include the header file to be exposed
@@ -34,11 +35,15 @@ project "LBMonoDLL"
 
     }
 
-    -- Link to our engine library
-    links
+    postbuildcommands
     {
-        "LBEngine"
+        -- "{COPYFILE} \"%{wks.location}LBMonoDLL/LBMonoDLL.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBMonoDLL\"",
     }
+    -- -- Link to our engine library
+    -- links
+    -- {
+    --     "LBEngine"
+    -- }
 
     filter "system:windows"
         systemversion "latest"
