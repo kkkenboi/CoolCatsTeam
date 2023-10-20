@@ -107,53 +107,22 @@ namespace LB
 		void AddProfilerInfo(char const* name, double duration, ProfileMap map = ProfileMap::GENERAL, bool overrideInfo = true);
 		
 		/*!***********************************************************************
-		 \brief
-		 Prints all the timings stored in the general snapshot
-		*************************************************************************/
-		void DumpGeneralInfo();
-
-		/*!***********************************************************************
-		 \brief
-		 Prints all the timings in the systems (frame) snapshot
-		*************************************************************************/
-		void DumpFrameInfo();
-
-		/*!***********************************************************************
 		\brief
-		 Every frame, the buffer for times needs to swap to print accurate info
+		 Sends the timings for all systems to the editor profiler
 		*************************************************************************/
-		void SwapSystemInfoMapBuffer();
+		void SendSystemFrameTimings();
 
 	private:
-		//-----------------Key bindings to print info--------------------------
-		KeyCode dumpGeneralInfoKey = KeyCode::KEY_K;
-		KeyCode dumpFrameInfoKey = KeyCode::KEY_L;
-
 		//-----------------Map of profile timings--------------------------
-		std::map<char const*, double> generalInfoMap;
-
-		bool systemInfoMapID{};
-		std::map<char const*, double>* systemInfoMap { &systemInfoMap0 };
-		std::map<char const*, double> systemInfoMap0, systemInfoMap1; // Double buffer
+		std::map<std::string, double> m_generalInfoMap, m_systemInfoMap;
 	};
 
 	/*!***********************************************************************
 	 \brief
-	 For event subscribing, at the end of each frame, swap buffer
+	 For event subscribing, at the end of each frame, send the system timings
+	 for this frame
 	*************************************************************************/
-	void SwapSystemInfoMapBuffer(); // For event subscription
-
-	/*!***********************************************************************
-	 \brief
-	 For event subscription, print general snapshot on key press
-	*************************************************************************/
-	void DumpGeneralInfo();
-
-	/*!***********************************************************************
-	 \brief
-	 For event subscription, print systems (frame) snapshot on key press
-	*************************************************************************/
-	void DumpFrameInfo();
+	void SendSystemFrameTimings(); // For event subscription
 
 	// A pointer to the system object in the core engine made to be singleton
 	extern ProfilerManager* PROFILER;

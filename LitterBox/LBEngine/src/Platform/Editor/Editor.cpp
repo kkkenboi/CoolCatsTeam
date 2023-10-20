@@ -52,6 +52,8 @@ namespace LB
 		else
 			DebuggerLogError("Editor System already exists!");
 
+		SetSystemName("Editor System");
+
 		m_GameObjectPointer = nullptr;
 
 		// Add the different ImGui layers in here

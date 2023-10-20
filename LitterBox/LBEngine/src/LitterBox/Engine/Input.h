@@ -103,6 +103,10 @@ namespace LB {
 		*************************************************************************/
 		void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
 
+		void GLFWMousePos(GLFWwindow* window, double xpos, double ypos);
+
+		Vec2<double> const& GetMousePos();
+
 		/*!***********************************************************************
 		 \brief
 		 Subscribes the key event to register/notify when the event occurs
@@ -135,6 +139,8 @@ namespace LB {
 		*************************************************************************/
 		std::map<KeyCode, Key> inputKeys, inputKeysPausable;
 
+		Vec2<double> mousePos;
+
 		bool inputKeysLast[GLFW_KEY_LAST] { false }, inputKeysCurr[GLFW_KEY_LAST]{ false };
 	};
 
@@ -157,4 +163,6 @@ namespace LB {
 	 Invoke Key overload press to notify all subscribers for all keycode presses
 	*************************************************************************/
 	void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
+
+	void GLFWMousePos(GLFWwindow* window, double xpos, double ypos);
 }

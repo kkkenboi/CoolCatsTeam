@@ -24,9 +24,8 @@
 
 namespace LB
 {
-	// Keycode forward declaration
-	enum class KeyCode;
-
+	//-----------------------Macros for logging information----------------------------
+	// 
 	// Macro to remove full file path, leaving only the name of the file
 	#define DebuggerFileName (std::string(__FILE__).substr(std::string(__FILE__).rfind("\\") + 1))
 
@@ -42,26 +41,32 @@ namespace LB
 
 	#define DebuggerAssert(expectedCondition, message) LB::DEBUG->Assert(DebuggerFileName.c_str(), __LINE__, expectedCondition, message)
 	#define DebuggerAssertFormat(expectedCondition, format, ...) LB::DEBUG->AssertFormat(DebuggerFileName.c_str(), __LINE__, expectedCondition, format, __VA_ARGS__)
+	//-----------------------Macros for logging information----------------------------
+
+	// Forward declaration for key input
+	enum class KeyCode;
 
 	/*!***********************************************************************
-	\brief
+	 \brief
 	 Determine which type of debug object to draw.
 	*************************************************************************/
-	enum class Debug_Types {
+	enum class DebugTypes
+	{
 		CIRCLE,
 		LINE,
 		BOX
 	};
 
 	/*!***********************************************************************
-	\brief
+	 \brief
 	 This struct holds all the relevant information required for rendering
 	 and shape of object on the screen. As long as the shape is either a line,
 	 a box or a circle. So maybe not any shape but most of them.
 	*************************************************************************/
-	struct Debug_Object {
+	struct DebugObject
+	{
 		float radius, width, height;
-		Debug_Types type;
+		DebugTypes type;
 		Vec2<float>	center;
 		Vec2<float>	end;
 		Vec4<float>	color;
@@ -82,35 +87,31 @@ namespace LB
 		*************************************************************************/
 		Debugger();
 
+		//-----------------------Debug Drawing Section----------------------------
+
 		/*!***********************************************************************
-		\brief
+		 \brief
 		 Debugger class Initializer that loads all the VAO, VBO and IBO necessary
 		 to start drawing things on the screen.
 		*************************************************************************/
-		void Initialize() override;
+		void InitializeDrawer();
 
 		/*!***********************************************************************
 		\brief
 		 The system's update function which sends compiles the data and sends
 		 the information to the GPU to get drawn
 		*************************************************************************/
-		void Update() override;
+		void UpdateDrawer();
 
 		/*!***********************************************************************
-		\brief
-		 Sets the m_drawColor variable of the class
-		*************************************************************************/
-		void SetColor(Vec4<float> color);
-
-		/*!***********************************************************************
-		\brief
+		 \brief
 		 Function loads a line for the update to draw. The line is defined by a
 		 start and an end point.
 		*************************************************************************/
 		void DrawLine(Vec2<float> start, Vec2<float> end, Vec4<float> color);
 
 		/*!***********************************************************************
-		\brief
+		 \brief
 		 Function pushes a line for update to draw. This line is defined by a
 		 start point, a direction and a magnitude.
 
@@ -120,30 +121,57 @@ namespace LB
 		void DrawLine(Vec2<float> start, Vec2<float> direction, float magnitude, Vec4<float> color);
 
 		/*!***********************************************************************
-		\brief
+		 \brief
 		 Deprecated DrawBox function.
 		*************************************************************************/
 		void DrawBox(Vec2<float> center, float length, Vec4<float> color);
 
 		/*!***********************************************************************
-		\brief
+		 \brief
 		 DrawBox function loads 4 lines to be drawn to represent a box with a
 		 rotation defined in radians turning counter clockwise.
 		*************************************************************************/
 		void DrawBox(Vec2<float> center, float width, float height, Vec4<float> color, float rot);
 
 		/*!***********************************************************************
-		\brief
-		 Deprecated DrawBox function.
-		*************************************************************************/
-		void DrawBox(Vec2<float> center, float length);
-
-		/*!***********************************************************************
-		\brief
+		 \brief
 		 DrawCircle draws lines in a way that represents a circle at center with
 		 a radius of radius.
 		*************************************************************************/
 		void DrawCircle(Vec2<float> center, float radius, Vec4<float> color);
+
+		/*!***********************************************************************
+		 \brief
+		 Sends the data of a debug object to the GPU to be drawn.
+		*************************************************************************/
+		void LineUpdate(DebugObject& obj, const size_t& index);
+
+	private:
+		//--------------Box & Lines rendering information----------------
+		unsigned int vao;
+		unsigned int vbo;
+		unsigned int ibo;
+		unsigned int shader;
+		Renderer::Camera cam;
+
+		std::stack<DebugObject> drawobj;
+		std::vector<unsigned short> idx;
+		//-----------------------Debug Drawing Section----------------------------
+
+	public:
+		//-----------------------Debug Logging Section----------------------------
+		/*!***********************************************************************
+		 \brief
+		 Initializes the drawing settings
+		*************************************************************************/
+		void Initialize() override;
+
+		/*!***********************************************************************
+		\brief
+		 Decides whether the debug information should draw depending on whether
+		 debug mode is on
+		*************************************************************************/
+		void Update() override;
 
 		/*!***********************************************************************
 		\brief
@@ -179,6 +207,11 @@ namespace LB
 
 		void LogErrorFormat(const char* file, int line, const char* format, ...);
 
+		/*!***********************************************************************
+		\brief
+		 Returns the current time (when this function is called) in the format
+		 HH:MM:SS
+		*************************************************************************/
 		std::string GetCurrentTimeStamp();
 
 		/*!***********************************************************************
@@ -200,29 +233,13 @@ namespace LB
 		void StepPhysics();
 
 	private:
-		//-----------------Member variables-----------------
 		bool m_debugModeOn { false };
 		KeyCode m_debugToggleKey, m_stepPhysicsKey;
 		double m_stepped { false };
-
-		Vec4<float> m_drawColor;
-
-		//----------Box & Lines rendering information------------
-		unsigned int vao;
-		unsigned int vbo;
-		unsigned int ibo;
-		unsigned int shader;
-		Renderer::Camera cam;
-
-		std::stack<Debug_Object> drawobj;
-		std::vector<unsigned short> idx;
-
-		/*!***********************************************************************
-		\brief
-		 Sends the data of a debug object to the GPU to be drawn.
-		*************************************************************************/
-		void line_update(Debug_Object& obj, const size_t& index);
+		//-----------------------Debug Logging Section----------------------------
 	};
+
+	//----------------------Funcs for event subscription--------------------------
 
 	/*!***********************************************************************
 	\brief
@@ -253,6 +270,7 @@ namespace LB
 	 Steps the physics by 1 frame (Used for event subscription)
 	*************************************************************************/
 	void StepPhysics();
+	//----------------------Funcs for event subscription--------------------------
 
 	// A pointer to the system object in the core engine made to be singleton
 	extern Debugger* DEBUG;

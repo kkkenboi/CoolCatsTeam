@@ -27,8 +27,11 @@ namespace LB
 
 		void UpdateLayer() override;
 
+		Vec2<float> const& GetMousePos();
+
 	private:
-		// To prevent having to cast ImVec2 to our vector EVERY frame, we will use ImVec2 instead of our vector
-		ImVec2 m_winPos, m_winSize;
+		Vec2<float> mousePosInWindow;
 	};
+
+	extern EditorGameView* EDITORGAMEVIEW;
 }

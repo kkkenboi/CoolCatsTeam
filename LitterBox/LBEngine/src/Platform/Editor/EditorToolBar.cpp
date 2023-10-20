@@ -22,7 +22,22 @@ namespace LB
 
 	void EditorToolBar::UpdateLayer()
 	{
-		ImGui::Begin(GetName().c_str());
+		ImGui::Begin(GetName().c_str(), nullptr, ImGuiWindowFlags_NoTitleBar);
+
+		if (ImGui::Button("Play")) 
+		{
+
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Pause"))
+		{
+
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Step"))
+		{
+
+		}
 
 		ImGui::End();
 	}

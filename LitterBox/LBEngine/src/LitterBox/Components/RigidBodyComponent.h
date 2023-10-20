@@ -39,6 +39,8 @@ namespace LB
 		float mRotation;
 		float mRotationalVelocity;
 
+		LB::Vec2<float> mForce;
+
 	public:
 		CPTransform* transform;
 
@@ -59,27 +61,11 @@ namespace LB
 		float mWidth;
 		float mHeight;
 
-		//SHAPETYPE mShapeType;
-
 		// =====
 		// TEST STUFF
 		// =====
 		int mNumberID;
 		// ==============
-
-		// =====
-		//  WRAP THIS SECTION IN A COLLIDER CLASS, separating from RigidBody
-		// =====
-		// Vertices and AABB
-
-		// Untransformed vertices (Vertices from origin)
-		//LB::Vec2<float> mVertices[4];
-		//LB::Vec2<float> mTransformedVertices[4];
-
-		//AABB obj_aabb;
-		// =====
-		// PLS WRAP
-		// =====
 
 		bool mUpdateVerticesRequired;
 		bool mUpdateAABBRequired;
@@ -151,6 +137,8 @@ namespace LB
 		void addImpulse(LB::Vec2<float> force);
 
 		void addRotation(float angle);
+
+		void ToggleIsStatic();
 
 
 		/*!***********************************************************************

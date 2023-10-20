@@ -41,6 +41,10 @@ namespace LB {
 
 		LB::Vec2<float> m_pos;
 
+		float m_widthUnscaled;
+		float m_heightUnscaled;
+		float m_radiusUnscaled;
+
 		float m_width;
 		float m_height;
 		float m_radius;
@@ -81,11 +85,13 @@ namespace LB {
 
 		void AddVertice(float x, float y);
 
-		void DebugDraw();
-
 		void UpdateColliderBoxVertices();
 
 		void UpdateColliderAABB();
+
+		void DebugDraw();
+
+		void SetWidthHeightRadius(float width, float height, float radius);
 
 	public:
 		// ========
@@ -95,7 +101,7 @@ namespace LB {
 
 		void FixedUpdate();
 
-		void Destroy();
+		//void Destroy();
 
 		ComponentTypeID GetType() override
 		{

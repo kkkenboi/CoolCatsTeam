@@ -77,6 +77,8 @@ void Player::Initialise()
 	INPUT->SubscribeToKey(RotateClockwise, KeyCode::KEY_E, KeyEvent::PRESSED);
 	INPUT->SubscribeToKey(RotateCounterClockwise, KeyCode::KEY_Q, KeyEvent::PRESSED);
 
+	// Explosion event
+	INPUT->SubscribeToKey(ExplodeAround, KeyCode::KEY_F, KeyEvent::PRESSED);
 
 	// Anim events
 	INPUT->SubscribeToKey(AnimUp, KeyCode::KEY_W, KeyEvent::TRIGGERED);
@@ -99,6 +101,33 @@ void Player::Update()
 
 }
 
+void ExplodeAround()
+{
+	Vec2<float> current_pos = PlayerObj->GetComponent<CPTransform>()->GetPosition();
+	float effect_radius = 200.f;
+	float effect_magnitude = 1500.f;
+
+	DEBUG->DrawCircle(current_pos, effect_radius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
+
+	std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, effect_radius);
+	
+	std::cout << vec_colliders.size() << std::endl;
+	for (size_t i = 0; i < vec_colliders.size(); ++i) {
+		Vec2<float> force_to_apply = vec_colliders[i]->m_pos - current_pos;
+		force_to_apply = Normalise(force_to_apply) * effect_magnitude;
+		
+		if (vec_colliders[i]->rigidbody != nullptr)
+		{
+			if (vec_colliders[i] == PlayerObj->GetComponent<CPCollider>())
+			{
+				continue;
+			}
+			vec_colliders[i]->rigidbody->addImpulse(force_to_apply);
+		}
+
+	}
+}
+
 /*!***********************************************************************
 \brief
  up is meant to move the player to North. Meant to be passed as a
@@ -106,7 +135,7 @@ void Player::Update()
 *************************************************************************/
 void MoveUp()
 {
-	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, 3000.f * (float)TIME->GetDeltaTime()});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, 5000.f});
 }
 
 /*!***********************************************************************
@@ -116,7 +145,7 @@ void MoveUp()
 *************************************************************************/
 void MoveLeft()
 {
-	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{-3000.f * (float)TIME->GetDeltaTime(), 0.f});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{-5000.f, 0.f});
 }
 
 /*!***********************************************************************
@@ -126,7 +155,7 @@ void MoveLeft()
 *************************************************************************/
 void MoveRight()
 {
-	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{3000.f * (float)TIME->GetDeltaTime(), 0.f});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{5000.f, 0.f});
 }
 
 /*!***********************************************************************
@@ -136,7 +165,7 @@ void MoveRight()
 *************************************************************************/
 void MoveDown()
 {
-	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, -3000.f * (float)TIME->GetDeltaTime()});
+	PlayerObj->GetComponent<CPRigidBody>()->addForce(Vec2<float>{0.f, -5000.f});
 }
 
 void RotateClockwise()

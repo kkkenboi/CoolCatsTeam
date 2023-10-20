@@ -85,7 +85,8 @@ namespace LB
         glfwSetKeyCallback(m_Data.m_PtrToWindow, GLFWKeyPressed);
         glfwSetMouseButtonCallback(m_Data.m_PtrToWindow, GLFWKeyPressed);
         glfwSetInputMode(m_Data.m_PtrToWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
+        glfwSetCursorPosCallback(m_Data.m_PtrToWindow, GLFWMousePos);
+        
         // Initialize Glad
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
             std::cerr << "Failed to initialize Glad" << std::endl;

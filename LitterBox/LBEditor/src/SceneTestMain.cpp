@@ -15,6 +15,7 @@
 
 GameObject* test2, * test3, * static_wall;
 GameObject* ball1, * ball2;
+GameObject* wall_south;
 GameObject* scaleObj, * rotObj, * animObj;
 
 GameObject** test;
@@ -125,9 +126,14 @@ void SceneTestMain::Init()
 	// Prefab example
 	LB::INPUT->SubscribeToKey(SpawnPineapples, LB::KeyCode::KEY_Q, LB::KeyEvent::TRIGGERED);
 
+	// Walls
 	static_wall = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider }, Vec2<float>(200, 600));
-	static_wall->GetComponent<CPRigidBody>()->isStatic = true;
+	static_wall->GetComponent<CPRigidBody>()->ToggleIsStatic();
 	static_wall->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+
+	wall_south = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider }, Vec2<float>(800, 0));
+	wall_south->GetComponent<CPRigidBody>()->ToggleIsStatic();
+	wall_south->GetComponent<CPCollider>()->SetWidthHeightRadius(1500.f, 100.f, 50.f);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Crash logging test (Uncomment code below for a crash!!!)

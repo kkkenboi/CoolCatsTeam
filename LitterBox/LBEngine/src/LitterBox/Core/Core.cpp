@@ -61,7 +61,7 @@ namespace LB
 		{
 			TIME->LBFrameStart();
 			{
-				Profiler frameProfiler{ "Total Frame Time", ProfileResult::MANAGER, ProfileMap::SYSTEMS };
+				//Profiler frameProfiler{ "Total Frame Time", ProfileResult::MANAGER, ProfileMap::SYSTEMS };
 
 				// Update every system every fixed timestep (Usually for physics)
 				TIME->AccumulateFixedUpdate();
@@ -143,15 +143,5 @@ namespace LB
 	bool LBEngine::IsRunning() const
 	{
 		return m_running ? true : false;
-	}
-
-	std::vector<std::string> LBEngine::GetAllSystemNames()
-	{
-		std::vector<std::string> systemNames;
-		for (ISystem* system : m_systems)
-		{
-			systemNames.push_back(system->GetName());
-		}
-		return systemNames;
 	}
 }

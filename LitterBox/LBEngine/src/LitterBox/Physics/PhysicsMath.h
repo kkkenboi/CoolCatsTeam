@@ -74,4 +74,6 @@ namespace PHY_MATH {
       Returns the lowest number out of the two values
     *************************************************************************/
     float FindMin(float valA, float valB);
+
+    float Absolute(float val);
 }

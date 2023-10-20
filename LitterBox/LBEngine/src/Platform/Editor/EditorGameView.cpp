@@ -21,15 +21,29 @@ extern unsigned int textureColorbuffer;
 
 namespace LB
 {
+	EditorGameView* EDITORGAMEVIEW = nullptr;
 
 	EditorGameView::EditorGameView(std::string layerName) : Layer(layerName)
 	{
+		if (!EDITORGAMEVIEW)
+			EDITORGAMEVIEW = this;
+		else
+			DebuggerLogError("Editor Game View already exist!");
+	}
 
+	Vec2<float> const& EditorGameView::GetMousePos()
+	{
+		return mousePosInWindow;
 	}
 
 	void EditorGameView::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
+
+		ImVec2 windowPos = ImGui::GetWindowPos();
+		ImVec2 mousePos = ImGui::GetMousePos();
+		mousePosInWindow.x = mousePos.x - windowPos.x;
+		mousePosInWindow.y = mousePos.y - windowPos.y;
 
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
