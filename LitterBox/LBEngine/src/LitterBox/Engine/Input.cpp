@@ -131,6 +131,17 @@ namespace LB
 		GLFWKeyPressed(pwin, button, 0, action, mod);
 	}
 
+	void InputSystem::GLFWMousePos(GLFWwindow* window, double xpos, double ypos) 
+	{
+		mousePos.x = xpos;
+		mousePos.y = ypos;
+	}
+
+	Vec2<double> const& InputSystem::GetMousePos()
+	{
+		return mousePos;
+	}
+
 	/*!***********************************************************************
 	 \brief
 	 Subscribes the key event to register/notify when the event occurs
@@ -203,7 +214,8 @@ namespace LB
 	 \return
 	 void
 	*************************************************************************/
-	void GLFWKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
+	void GLFWKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod) 
+	{
 		INPUT->GLFWKeyPressed(pwin, key, scancode, action, mod);
 	}
 
@@ -213,9 +225,16 @@ namespace LB
 	 \return
 	 void
 	*************************************************************************/
-	void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod) {
+	void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod) 
+	{
 		INPUT->GLFWKeyPressed(pwin, button, action, mod);
 	}
+	
+	void GLFWMousePos(GLFWwindow* window, double xpos, double ypos) 
+	{
+		INPUT->GLFWMousePos(window, xpos, ypos);
+	}
+
 }
 
 

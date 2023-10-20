@@ -19,6 +19,8 @@
 #include "implot.h"			// For graphing
 #include <algorithm>		// For sorting timings
 
+#include "EditorGameView.h"
+
 namespace LB
 {
 	EditorProfiler* EDITORPROFILER = nullptr;
@@ -41,6 +43,8 @@ namespace LB
 	void EditorProfiler::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
+
+		DebuggerLogFormat("Mouse: %f %f", EDITORGAMEVIEW->GetMousePos().x, EDITORGAMEVIEW->GetMousePos().y);
 
 		// Buttons in the top bar
 		ImGui::Checkbox("Profile", &m_shouldProfile);
