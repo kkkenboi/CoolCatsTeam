@@ -93,6 +93,8 @@ namespace LB {
 
 		void SetWidthHeightRadius(float width, float height, float radius);
 
+		std::string GetShapeName();
+
 	public:
 		// ========
 		// IComponent Overrides

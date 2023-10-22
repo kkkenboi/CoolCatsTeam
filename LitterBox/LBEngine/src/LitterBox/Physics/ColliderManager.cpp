@@ -98,6 +98,21 @@ namespace LB
 		return vec_overlapped;
 	}
 
+	std::string ColliderManager::GetShapeNames(SHAPETYPE type)
+	{
+		switch (type)
+		{
+		case COL_CIRCLE:
+			return "Circle";
+			break;
+		case COL_POLYGON:
+			return "Polygon";
+			break;
+		case COL_NONE:
+			return "None";
+			break;
+		}
+	}
 
 	// ===
 	// END OF ColliderManager member functions
@@ -183,6 +198,11 @@ namespace LB
 	void ColliderManager::Initialize()
 	{
 		SetSystemName("Collider System");
+		const SHAPETYPE ShapeTypeVector[] = { COL_CIRCLE, COL_POLYGON, COL_NONE };
+		for (SHAPETYPE shape : ShapeTypeVector)
+		{
+			m_shapeTypes.emplace_back(std::make_pair(COLLIDERS->GetShapeNames(shape), shape));
+		}
 	}
 
 	void ColliderManager::FixedUpdate()

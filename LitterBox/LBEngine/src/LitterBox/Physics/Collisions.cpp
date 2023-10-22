@@ -287,6 +287,21 @@ namespace LB
 		}
 	}
 
+	std::string CPCollider::GetShapeName()
+	{
+		switch (m_shape)
+		{
+		case COL_CIRCLE:
+			return "Circle";
+			break;
+		case COL_POLYGON:
+			return "Polygon";
+			break;
+		case COL_NONE:
+			return "None";
+			break;
+		}
+	}
 
 	// Overrides !!!!!!!
 
