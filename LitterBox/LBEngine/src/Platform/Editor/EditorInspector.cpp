@@ -114,11 +114,11 @@ namespace LB
 					DebuggerLogWarning("Collider already exists.");
 					ImGui::CloseCurrentPopup();
 				}
-				else if (!EDITOR->InspectedGO()->HasComponent<CPRigidBody>())
-				{
-					DebuggerLogWarning("Game Object doesn't have RigidBody component, add RigidBody component first.");
-					ImGui::CloseCurrentPopup();
-				}
+				//else if (!EDITOR->InspectedGO()->HasComponent<CPRigidBody>())
+				//{
+				//	DebuggerLogWarning("Game Object doesn't have RigidBody component, add RigidBody component first.");
+				//	ImGui::CloseCurrentPopup();
+				//}
 				else
 				{
 					EDITOR->InspectedGO()->AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());

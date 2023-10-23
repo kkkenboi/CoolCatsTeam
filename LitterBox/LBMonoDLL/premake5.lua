@@ -39,12 +39,7 @@ project "LBMonoDLL"
     {
         -- "{COPYFILE} \"%{wks.location}LBMonoDLL/LBMonoDLL.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBMonoDLL\"",
     }
-    -- -- Link to our engine library
-    -- links
-    -- {
-    --     "LBEngine"
-    -- }
-
+    
     filter "system:windows"
         systemversion "latest"
 
