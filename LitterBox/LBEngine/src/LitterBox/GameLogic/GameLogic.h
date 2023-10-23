@@ -15,13 +15,12 @@
 **************************************************************************/
 
 #pragma once
-#include "LitterBox/Core/System.h"
-#include "mono/utils/mono-forward.h"
+#include "LitterBox/Core/System.h"		// For ISystem
+#include "mono/utils/mono-forward.h"	// For MonoDomain
+#include "../../LBMonoDLL/src/ScriptComponent.h"
 
 namespace LB
 {
-	//class MonoDomain;
-
 	/*!***********************************************************************
 	 \brief
 	 GameLogic class will contain functions that checks whether GameObjects
@@ -37,6 +36,10 @@ namespace LB
 		*************************************************************************/
 		void Initialize() override;
 
+		void Load(CPScript* newScript);
+
+		void Unload();
+
 		/*!***********************************************************************
 		 \brief
 		 This should update any variables of all of the different GameObjects
@@ -51,12 +54,12 @@ namespace LB
 
 	private:
 		MonoDomain *m_domain;
+		std::list<CPScript*> m_sceneScripts;	// List of all scripts currently active in the scene
 	};
 
 	/*!***********************************************************************
 	 \brief
 	 A global pointer to our game so that it can be accessed from anywhere.
-
 	*************************************************************************/
 	extern GameLogic* GAMELOGIC;
 }
