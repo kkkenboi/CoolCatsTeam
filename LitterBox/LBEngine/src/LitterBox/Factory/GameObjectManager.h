@@ -29,7 +29,7 @@
 namespace LB
 {
 	class IComponent; // Forward Declaration
-	enum ComponentTypeID;
+	enum ComponentTypeID : int;
 
 	/*!***********************************************************************
 	 \brief

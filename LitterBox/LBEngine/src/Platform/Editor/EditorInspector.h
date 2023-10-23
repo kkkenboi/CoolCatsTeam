@@ -19,6 +19,8 @@
 
 #include "Platform/Editor/Editor.h"
 #include "Litterbox/Engine/Layer.h"
+#include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Physics/ColliderManager.h"
 
 namespace LB
 {

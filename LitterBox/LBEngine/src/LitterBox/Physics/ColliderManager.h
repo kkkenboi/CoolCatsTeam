@@ -11,6 +11,8 @@ namespace LB
 		size_t m_poolSize;
 		CPCollider** m_colliderPool;
 	public:
+		std::vector<std::pair<std::string, SHAPETYPE>> m_shapeTypes;
+
 		ColliderManager();
 
 		~ColliderManager();
@@ -24,6 +26,8 @@ namespace LB
 		//void ResolveColliders(CPCollider* bodyA, CPCollider* bodyB, LB::Vec2<float> normal, float depth);
 
 		std::vector<CPCollider*> OverlapCircle(Vec2<float> position, float radius);
+
+		std::string GetShapeNames(SHAPETYPE type);
 
 		// ================
 		// ISystem function overrides
