@@ -57,7 +57,6 @@ project "LBEngine"
         "opengl32.lib",
         "fmod_vc",
         "mono-2.0-sgen",
-        "LBMonoDLL",
         -- "freetype"
     }
 
