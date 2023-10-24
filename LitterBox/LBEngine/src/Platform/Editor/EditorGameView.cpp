@@ -16,6 +16,7 @@
 #include "pch.h"
 #include "EditorGameView.h"
 #include "LitterBox/Renderer/Renderer.h"
+#include "LitterBox/Serialization/AssetManager.h"
 
 extern unsigned int textureColorbuffer;
 
@@ -48,6 +49,17 @@ namespace LB
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
 		ImGui::Image((ImTextureID)textureColorbuffer, wsize, ImVec2(0, 1), ImVec2(1, 0));
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("ASSET BROWSER"))
+			{
+				const char* assetPath = (const char*)assetData;
+				DebuggerLog(assetPath);
+			}
+		}
+
+
 		ImGui::EndChild();
 
 		ImGui::End();

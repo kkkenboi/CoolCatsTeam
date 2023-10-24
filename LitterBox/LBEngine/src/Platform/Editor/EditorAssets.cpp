@@ -15,7 +15,7 @@
 
 #include "pch.h"
 #include "EditorAssets.h"
-#include "LitterBox/Debugging/Debug.h"
+#include "LitterBox/Serialization/AssetManager.h"
 
 namespace LB
 {
@@ -70,18 +70,27 @@ namespace LB
 		int columnCount{ 5 };
 		int currentCount{ 0 };
 
-		//We iterate though the current directory once again but this time we show if it's NOT a file
+		//We iterate though the current directory once again but this time we show if it's NOT a folder
 		for (auto& directory : std::filesystem::directory_iterator(currentDirectory))
 		{
 			if (!directory.is_directory())
 			{
 				currentCount++;
-
 				std::string FileName = directory.path().filename().string();
-				ImGui::Button(FileName.c_str(), { 64,64 });
+				//ImGui::PushID(FileName.c_str());
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("cat"), { 64,64 }, { 0,1 }, { 1,0 });
+				ImGui::PopStyleColor();
+				//ImGui::Button(FileName.c_str(), { 64,64 });
 				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 				{
 					DebuggerLog("Clicked on " + FileName);
+					//Load the properties into the inspector
+				}
+				if (ImGui::BeginDragDropSource())
+				{
+					ImGui::SetDragDropPayload("ASSET BROWSER", FileName.c_str(), (strlen(FileName.c_str())+1)*sizeof(char));
+					ImGui::EndDragDropSource();
 				}
 				/*if (currentCount%columnCount)
 				{
