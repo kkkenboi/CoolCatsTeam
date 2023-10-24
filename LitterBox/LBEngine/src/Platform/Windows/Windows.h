@@ -120,13 +120,14 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Checks if the window is closing each frame
+		 Checks if the window is closing each frame and sets the window title
+		 every frame
 		*************************************************************************/
 		void Update();	
 
 		/*!***********************************************************************
 		 \brief
-		 Swaps framebuffer and sets the window title every frame
+		 Swaps framebuffer
 		*************************************************************************/
 		void Draw(WindowsData m_Data);				
 
