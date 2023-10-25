@@ -17,6 +17,7 @@
 #include "EditorGameView.h"
 #include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "Platform/Windows/Windows.h"
 
 extern unsigned int textureColorbuffer;
 
@@ -43,14 +44,9 @@ namespace LB
 
 		ImVec2 windowPos = ImGui::GetWindowPos();
 		ImVec2 mousePos = ImGui::GetMousePos();
-		ImVec2 windowMax = ImGui::GetWindowContentRegionMax();
 		mousePosInWindow.x = mousePos.x - windowPos.x;
 		mousePosInWindow.y = mousePos.y - windowPos.y;
-		/*mousePosInWindow.x = mousePos.x;
-		mousePosInWindow.y = mousePos.y;*/
-		//DebuggerLogFormat("Mouse pos : %f,%f", GetMousePos().x, GetMousePos().y);
-		//DebuggerLogFormat("Window pos : %f,%f", windowPos.x, windowPos.y);
-		DebuggerLogFormat("Window max : %f,%f", windowMax.x, windowMax.y);
+
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
 		ImGui::Image((ImTextureID)textureColorbuffer, wsize, ImVec2(0, 1), ImVec2(1, 0));
@@ -59,9 +55,14 @@ namespace LB
 		{
 			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("ASSET BROWSER"))
 			{
+				ImVec2 windowMax = ImGui::GetWindowContentRegionMax();
+				Vec2<float> worldPos;
+				worldPos.x = (GetMousePos().x / windowMax.x) * WINDOWSSYSTEM->GetWidth();
+				worldPos.y = (1.0f - GetMousePos().y / windowMax.y) * WINDOWSSYSTEM->GetHeight();
+
 				const char* assetPath = (const char*)assetData->Data;
 				DebuggerLog(assetPath);
-				ASSETMANAGER->SpawnGameObject(assetPath, Vec2<float>{GetMousePos().x,GetMousePos().y});
+				ASSETMANAGER->SpawnGameObject(assetPath, worldPos);
 			}
 		}
 
