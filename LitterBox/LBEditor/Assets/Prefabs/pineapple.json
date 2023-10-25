@@ -1,7 +1,7 @@
 {
     "Transform": {
         "Position": {
-            "x": 1401.48,
+            "x": 401.48,
             "y": 229.0
         },
         "Scale": {
@@ -16,7 +16,7 @@
         "Density": 10.0
     }, 
     "Render": {
-        "Texture": 0
+        "Texture": 3
 
     }
 }
