@@ -1,10 +1,9 @@
 project "LBMonoDLL"
     kind "SharedLib" -- Outputs a console
     staticruntime "On"
-    -- targetextension (".dll")
+    targetextension (".dll")
 
-    language "C++"
-    cppdialect "C++20"
+    language "C#"
     warnings "Extra" -- Set warnings level to 4 for this project
 
     -- Engine output directory
@@ -13,8 +12,6 @@ project "LBMonoDLL"
 
     files
     {
-        "src/**.h",
-        "src/**.cpp",
         "src/**.cs",
     }
 

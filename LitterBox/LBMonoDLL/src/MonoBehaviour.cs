@@ -1,12 +1,12 @@
 class MonoBehaviour
 {
-	public void Awake();
+	//public void Awake();
 
-	public void Update();
+	//public void Update();
 
-	public void FixedUpdate();
+	//public void FixedUpdate();
 
-	public void Destroy();
+	//public void Destroy();
 
 	//void OnCollisionEnter2D();
 
@@ -24,7 +24,7 @@ class MonoBehaviour
 
 	//void OnDisable();
 
-private:
+
 	//bool enabled;
 };
 

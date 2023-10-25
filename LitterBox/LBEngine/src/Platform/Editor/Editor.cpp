@@ -48,6 +48,7 @@ namespace LB
 		{
 			EDITOR = this;
 			m_EditorMode = true;
+			m_onLaunch = true;
 		}
 		else
 			DebuggerLogError("Editor System already exists!");
@@ -110,7 +111,7 @@ namespace LB
 			ImGui::SetNextWindowViewport(viewport->ID);
 
 			ImGuiWindowFlags dockingFlags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-											ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoNav;
+											ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNav;
 
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 			ImGui::Begin("Dockspace", &dockspaceOpen, dockingFlags);
@@ -140,94 +141,85 @@ namespace LB
 			}
 
 			// Dockspace
-			if (ImGui::DockBuilderGetNode(ImGui::GetID("MyDockspace")) == NULL)
+			if (m_onLaunch)
 			{
+				if (ImGui::DockBuilderGetNode(ImGui::GetID("MyDockspace")) == NULL)
+				{
+					ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
+					ImGuiViewport* viewport = ImGui::GetMainViewport();
+					ImGui::DockBuilderRemoveNode(dockspace_id); // Clear out existing layout
+					ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace); // Add empty node
+
+					ImGuiID dock_main_id = dockspace_id; // This variable will track the document node, however we are not using it here as we aren't docking anything into it.
+					ImGuiID dock_id_topbar = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Up, 0.20f, NULL, &dock_main_id);
+					ImGuiID dock_id_top = ImGui::DockBuilderSplitNode(dock_id_topbar, ImGuiDir_Up, 0.20f, NULL, &dock_id_topbar);
+					ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_id_topbar, ImGuiDir_Left, 0.20f, NULL, &dock_id_topbar);
+					ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_id_topbar, ImGuiDir_Right, 0.20f, NULL, &dock_id_topbar);
+					ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_id_topbar, ImGuiDir_Down, 0.20f, NULL, &dock_id_topbar);
+
+					ImGui::DockBuilderDockWindow("Hierarchy", dock_id_right);
+					ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
+					ImGui::DockBuilderDockWindow("ToolBar", dock_main_id);
+					ImGui::DockBuilderDockWindow("Scene View", dock_id_left);
+					ImGui::DockBuilderDockWindow("Game View", dock_id_left);
+					ImGui::DockBuilderDockWindow("Console", dock_id_bottom);
+					ImGui::DockBuilderDockWindow("Profiler", dock_id_bottom);
+					ImGui::DockBuilderDockWindow("Assets", dock_id_bottom);
+
+					ImGui::DockBuilderFinish(dockspace_id);
+				}
+
 				ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
-				ImGuiViewport* viewport = ImGui::GetMainViewport();
-				ImGui::DockBuilderRemoveNode(dockspace_id); // Clear out existing layout
-				ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace); // Add empty node
-
-				ImGuiID dock_main_id = dockspace_id; // This variable will track the document node, however we are not using it here as we aren't docking anything into it.
-				ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 200000.f, NULL, &dock_main_id);
-				//ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.20f, NULL, &dock_main_id);
-				//ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.20f, NULL, &dock_main_id);
-
-				ImGui::DockBuilderDockWindow("Hierarchy", dock_id_left);
-				ImGui::DockBuilderDockWindow("Inspector", dock_main_id);
-				ImGui::DockBuilderDockWindow("ToolBar", dock_id_left);
-				ImGui::DockBuilderDockWindow("Scene View", dock_id_left);
-				ImGui::DockBuilderDockWindow("Game View", dock_id_left);
-				ImGui::DockBuilderDockWindow("Console", dock_id_left);
-				ImGui::DockBuilderDockWindow("Profiler", dock_id_left);
-				ImGui::DockBuilderDockWindow("Assets", dock_id_left);
-
-				ImGui::DockBuilderFinish(dockspace_id);
+				ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
 			}
-
-			ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
-			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
 
 			ImGui::End();
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				  //bool open = true;
+			
+			//ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 
-				  //ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-				  //ImGuiViewport* viewport = ImGui::GetMainViewport();
-				  //ImGui::SetNextWindowPos(viewport->Pos);
-				  //ImGui::SetNextWindowSize(viewport->Size);
-				  //ImGui::SetNextWindowViewport(viewport->ID);
-				  //ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-				  //ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-				  //window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-				  //window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+			////set default docking positions, may need to use serialization to set first launch
+			//if (m_onLaunch)
+			//{
+			//	//after setting first dock positions
+			//	m_onLaunch = false;
 
-				  //ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-				  //ImGui::Begin("DockSpace Demo", &open, window_flags);
-				  //ImGui::PopStyleVar();
+			//	//start dock
+			//	ImGui::DockBuilderRemoveNode(dockspace_id);
+			//	ImGui::DockBuilderAddNode(dockspace_id, dockspace_flags | ImGuiDockNodeFlags_DockSpace);
+			//	ImGui::DockBuilderSetNodeSize(dockspace_id, viewport->Size);
 
-				  //ImGui::PopStyleVar(2);
+			//	//Imgui docks right side by default
+			//	ImGui::DockBuilderDockWindow("sceneview", dockspace_id);
 
-				  //if (ImGui::DockBuilderGetNode(ImGui::GetID("MyDockspace")) == NULL)
-				  //{
-				  //	ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
-				  //	ImGuiViewport* viewport = ImGui::GetMainViewport();
-				  //	ImGui::DockBuilderRemoveNode(dockspace_id); // Clear out existing layout
-				  //	ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace); // Add empty node
+			//	//set the other sides
+			//	ImGuiID dock_id_down = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.3f, nullptr, &dockspace_id);
+			//	ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.25f, &dockspace_id, &dockspace_id);
+			//	ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.3f, &dockspace_id, &dockspace_id);
 
-				  //	ImGuiID dock_main_id = dockspace_id; // This variable will track the document node, however we are not using it here as we aren't docking anything into it.
-				  //	ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.20f, NULL, &dock_main_id);
-				  //	ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.20f, NULL, &dock_main_id);
-				  //	ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.20f, NULL, &dock_main_id);
+			//	//setting the other dock locations
+			//	ImGui::DockBuilderDockWindow("objectlistwindow", dock_id_right);
 
-				  //	ImGui::DockBuilderDockWindow("James_1", dock_id_left);
-				  //	ImGui::DockBuilderDockWindow("James_2", dock_main_id);
-				  //	ImGui::DockBuilderDockWindow("James_3", dock_id_right);
-				  //	ImGui::DockBuilderDockWindow("James_4", dock_id_bottom);
-				  //	ImGui::DockBuilderFinish(dockspace_id);
-				  //}
+			//	//set on the save location to dock ontop of eachother
+			//	ImGui::DockBuilderDockWindow("resourcewindow", dock_id_down);
+			//	ImGui::DockBuilderDockWindow("consolewindow", dock_id_down);
 
-				  //ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, 0);
-				  //ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
-				  //ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
-				  //ImGui::PopStyleColor();
-				  //ImGui::End();
 
-				  //ImGui::Begin("James_1", &open, 0);
-				  //ImGui::Text("Text 1");
-				  //ImGui::End();
+			//	//set on the save location to dock ontop of eachother
+			//	ImGui::DockBuilderDockWindow("componentwindow", dock_id_left);
 
-				  //ImGui::Begin("James_2", &open, 0);
-				  //ImGui::Text("Text 2");
-				  //ImGui::End();
+			//	//split the bottom into 2
+			//	ImGuiID dock_id_down2 = ImGui::DockBuilderSplitNode(dock_id_down, ImGuiDir_Right, 0.5f, nullptr, &dock_id_down);
 
-				  //ImGui::Begin("James_3", &open, 0);
-				  //ImGui::Text("Text 3");
-				  //ImGui::End();
+			//	ImGui::DockBuilderDockWindow("logwindow", dock_id_down2);
 
-				  //ImGui::Begin("James_4", &open, 0);
-				  //ImGui::Text("Text 4");
-				  //ImGui::End();
-				  // Update all the ImGui layers here
+			//	//end dock
+			//	ImGui::DockBuilderFinish(dockspace_id);
+
+			//}
+
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// Update all the ImGui layers here
 			for (Layer* layer : m_ImGuiLayers)
 			{
 				layer->UpdateLayer();

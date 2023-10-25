@@ -53,7 +53,8 @@ project "LBEditor"
     -- Link to our engine library
     links
     {
-        "LBEngine"
+        "LBEngine",
+        "LBMonoDLL"
     }
 
     filter "system:windows"
