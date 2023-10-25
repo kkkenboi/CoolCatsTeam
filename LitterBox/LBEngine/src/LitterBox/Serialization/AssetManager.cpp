@@ -266,7 +266,7 @@ namespace LB
     {
         //TODO Some refactoring for creating empty game objects
         //PineappleObject = FACTORY->SpawnGameObject({ "CPRender","CPRigidBody" });
-        PineappleObject = FACTORY->CreateGameObject();
+        //PineappleObject = FACTORY->CreateGameObject();
         //AvatarObject = FACTORY->CreateGameObject();
         //std::cout <<"Pineapple component size : " << PineappleObject->GetComponents().size() << '\n';
         //* Don't touch this, it works!
@@ -278,7 +278,7 @@ namespace LB
     }
     void AssetManager::SpawnGameObject(std::string fileName, Vec2<float> pos)
     {
-        GameObject* prefab = FACTORY->CreateGameObject();
+        GameObject* prefab = FACTORY->SpawnGameObject();
         JSONSerializer::DeserializeFromFile(fileName, *prefab);
         if (!(pos == Vec2<float>{0, 0}))
         prefab->GetComponent<CPTransform>()->SetPosition(pos);

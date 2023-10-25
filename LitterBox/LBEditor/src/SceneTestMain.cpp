@@ -60,7 +60,8 @@ void SceneTestMain::Init()
 
 	rotObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(800, 600));
 	rotObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
-
+	
+	JSONSerializer::DeserializeFromFile("Scenetest.json", *this);
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Animation test
 	//---------------------------getting the uvs for the run------------------------
