@@ -41,11 +41,15 @@ namespace LB
 
 		SetSystemName("Game Logic System");
 
-		m_domain = mono_jit_init("CSharpAssembly.dll");
-		if (!m_domain)
-		{
-			DebuggerLogWarning("[Mono] CSharpAssembly.dll not found! Please compile the dll first.");
-		}
+		//mono_set_assemblies_path("mono/lib");
+
+		//m_domain = mono_jit_init("LitterBoxEngine");
+		//if (!m_domain)
+			//DebuggerLogWarning("[Mono] Cannot open LitterBoxEngine domain!");
+
+		//m_scriptAssembly = mono_domain_assembly_open(m_domain, "CSharpAssembly.dll");
+		//if (!m_domain)
+		//	DebuggerLogWarning("[Mono] CSharpAssembly.dll not found! Please compile the dll first.");
 	}
 
 	void GameLogic::Load(CPScript *newScript)
@@ -88,6 +92,12 @@ namespace LB
 	void GameLogic::Destroy()
 	{
 		Unload();
-		mono_jit_cleanup(m_domain);
+		//mono_jit_cleanup(m_domain);
 	}
+
+	MonoAssembly* GameLogic::GetScriptAssembly()
+	{
+		return m_scriptAssembly;
+	}
+
 }

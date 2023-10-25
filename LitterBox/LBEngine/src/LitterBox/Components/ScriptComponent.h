@@ -15,8 +15,8 @@
 
 #pragma once
 
-#include "LitterBox/Components/Component.h"
-#include "mono/jit/jit.h"	// For MonoDomain
+#include "Component.h"
+#include "mono/metadata/debug-helpers.h"	// For Mono_method_desc
 
 namespace LB 
 {
@@ -33,14 +33,11 @@ namespace LB
 
 		void Destroy() override;
 
-		ComponentTypeID GetType() override
-		{
-			return C_CPScript;
-		}
+		ComponentTypeID GetType() override;
 
 	private:
-		MonoClass *m_class;
 
-		//MonoMethod *m_classUpdate;
+		MonoClass *m_class;
+		MonoMethodDesc *m_classUpdate;
 	};
 }

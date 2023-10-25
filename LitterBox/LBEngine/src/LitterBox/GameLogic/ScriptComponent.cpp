@@ -13,15 +13,22 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-#include "ScriptComponent.h"
+#include "LitterBox/Components/ScriptComponent.h"
 #include "LitterBox/GameLogic/GameLogic.h"
-#include "mono/metadata/class.h"
 
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+
+	*************************************************************************/
 	void CPScript::Initialise()
 	{
 		GAMELOGIC->Load(this);
+
+		//MonoAssembly* scriptAssembly = GAMELOGIC->GetScriptAssembly();
+		//m_classUpdate = mono_method_desc_new("Test::Update", false);
+		//mono_class_from_name(scriptAssembly, "LB", "TestBehavior");
 	}
 
 	void CPScript::Update()
@@ -32,5 +39,10 @@ namespace LB
 	void CPScript::Destroy()
 	{
 
+	}
+
+	ComponentTypeID CPScript::GetType()
+	{
+		return C_CPScript;
 	}
 }

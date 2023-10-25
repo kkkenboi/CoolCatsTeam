@@ -17,10 +17,12 @@
 #pragma once
 #include "LitterBox/Core/System.h"		// For ISystem
 #include "mono/utils/mono-forward.h"	// For MonoDomain
-#include "../../LBMonoDLL/src/ScriptComponent.h"
+#include "LitterBox/Components/ScriptComponent.h"
 
 namespace LB
 {
+	class CPScript;
+
 	/*!***********************************************************************
 	 \brief
 	 GameLogic class will contain functions that checks whether GameObjects
@@ -52,8 +54,12 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override;
 
+		MonoAssembly* GetScriptAssembly();
+
 	private:
 		MonoDomain *m_domain;
+		MonoAssembly* m_engineAssembly;
+		MonoAssembly* m_scriptAssembly;
 		std::list<CPScript*> m_sceneScripts;	// List of all scripts currently active in the scene
 	};
 

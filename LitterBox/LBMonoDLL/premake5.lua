@@ -21,6 +21,7 @@ project "LBMonoDLL"
     -- Include the header file to be exposed
     includedirs
     {
+        "%{wks.location}/LBEngine/src",
         "%{wks.location}/LBMonoDLL/src/**",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
