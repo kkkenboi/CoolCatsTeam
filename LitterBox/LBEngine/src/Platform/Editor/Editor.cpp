@@ -61,8 +61,8 @@ namespace LB
 		m_ImGuiLayers.AddLayer(new EditorToolBar("ToolBar"));
 		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
 		m_ImGuiLayers.AddLayer(new EditorInspector("Inspector"));
-		m_ImGuiLayers.AddLayer(new EditorSceneView("Scene View"));
 		m_ImGuiLayers.AddLayer(new EditorGameView("Game View"));
+		m_ImGuiLayers.AddLayer(new EditorSceneView("Scene View"));
 		m_ImGuiLayers.AddLayer(new EditorConsole("Console"));
 		m_ImGuiLayers.AddLayer(new EditorProfiler("Profiler"));
 		m_ImGuiLayers.AddLayer(new EditorAssets("Assets"));
@@ -140,85 +140,63 @@ namespace LB
 				ImGui::EndMenuBar();
 			}
 
-			// Dockspace
-			if (m_onLaunch)
+			ImGuiID toolbarID{};
+			ImGuiID consoleID{};
+			ImGuiID profilerID{};
+			ImGuiID assetsID{};
+			ImGuiID sceneviewID{};
+			ImGuiID gameviewID{};
+			ImGuiID hierarchyID{};
+			ImGuiID inspectorID{};
+
+			// Docking Section
+			ImGuiID maindockspaceID = ImGui::GetID("MainDockspace");
+			if (ImGui::DockBuilderGetNode(ImGui::GetID("MainDockspace")) == NULL)
 			{
-				if (ImGui::DockBuilderGetNode(ImGui::GetID("MyDockspace")) == NULL)
-				{
-					ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
-					ImGuiViewport* viewport = ImGui::GetMainViewport();
-					ImGui::DockBuilderRemoveNode(dockspace_id); // Clear out existing layout
-					ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace); // Add empty node
+				// Set IDs for different windows
+				// Tabs are based off which layer is added first
+				ImGui::DockBuilderRemoveNode(maindockspaceID); // Clear out existing layout
+				ImGui::DockBuilderAddNode(maindockspaceID, ImGuiDockNodeFlags_DockSpace); // Add empty node
+				ImGui::DockBuilderDockWindow("MainDockspace", maindockspaceID);
 
-					ImGuiID dock_main_id = dockspace_id; // This variable will track the document node, however we are not using it here as we aren't docking anything into it.
-					ImGuiID dock_id_topbar = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Up, 0.20f, NULL, &dock_main_id);
-					ImGuiID dock_id_top = ImGui::DockBuilderSplitNode(dock_id_topbar, ImGuiDir_Up, 0.20f, NULL, &dock_id_topbar);
-					ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_id_topbar, ImGuiDir_Left, 0.20f, NULL, &dock_id_topbar);
-					ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_id_topbar, ImGuiDir_Right, 0.20f, NULL, &dock_id_topbar);
-					ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_id_topbar, ImGuiDir_Down, 0.20f, NULL, &dock_id_topbar);
+				ImGuiID topID{};
+				ImGuiID bottomID{};
 
-					ImGui::DockBuilderDockWindow("Hierarchy", dock_id_right);
-					ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
-					ImGui::DockBuilderDockWindow("ToolBar", dock_main_id);
-					ImGui::DockBuilderDockWindow("Scene View", dock_id_left);
-					ImGui::DockBuilderDockWindow("Game View", dock_id_left);
-					ImGui::DockBuilderDockWindow("Console", dock_id_bottom);
-					ImGui::DockBuilderDockWindow("Profiler", dock_id_bottom);
-					ImGui::DockBuilderDockWindow("Assets", dock_id_bottom);
+				// Set toolbar to the top of the screen
+				ImGui::DockBuilderSetNodeSize(maindockspaceID, viewport->Size);
+				topID = ImGui::DockBuilderSplitNode(maindockspaceID, ImGuiDir_Up, 0.1f, NULL, &bottomID);
 
-					ImGui::DockBuilderFinish(dockspace_id);
-				}
+				// At the bottom, split console to the top left, and the game view to the bottom left
+				toolbarID = ImGui::DockBuilderSplitNode(topID, ImGuiDir_Left, 0.5f, NULL, NULL);
+				consoleID = ImGui::DockBuilderSplitNode(bottomID, ImGuiDir_Left, 0.5f, NULL, &assetsID);
+				consoleID = ImGui::DockBuilderSplitNode(consoleID, ImGuiDir_Up, 0.5f, NULL, &gameviewID);
+				// Assets is set in the middle, hierarchy + inspector on the right
+				assetsID = ImGui::DockBuilderSplitNode(assetsID, ImGuiDir_Left, 0.5f, NULL, &hierarchyID);
 
-				ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
-				ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
+				// Set profiler at the same location as console
+				profilerID = consoleID;
+				// Set scene view at the same location as game view
+				sceneviewID = gameviewID;
+				// Set hierarchy at the same location as inspector
+				inspectorID = hierarchyID;
+
+				ImGui::DockBuilderDockWindow("ToolBar", toolbarID);
+				ImGui::DockBuilderDockWindow("Console", consoleID);
+				ImGui::DockBuilderDockWindow("Profiler", profilerID);
+				ImGui::DockBuilderDockWindow("Assets", assetsID);
+				ImGui::DockBuilderDockWindow("Game View", gameviewID);
+				ImGui::DockBuilderDockWindow("Scene View", sceneviewID);
+				ImGui::DockBuilderDockWindow("Hierarchy", hierarchyID);
+				ImGui::DockBuilderDockWindow("Inspector", inspectorID);
+
+				ImGui::DockBuilderFinish(maindockspaceID);
 			}
 
+			ImGui::DockSpace(maindockspaceID, ImVec2(0.0f, 0.0f), 0);
+
 			ImGui::End();
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-			//ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-
-			////set default docking positions, may need to use serialization to set first launch
-			//if (m_onLaunch)
-			//{
-			//	//after setting first dock positions
-			//	m_onLaunch = false;
-
-			//	//start dock
-			//	ImGui::DockBuilderRemoveNode(dockspace_id);
-			//	ImGui::DockBuilderAddNode(dockspace_id, dockspace_flags | ImGuiDockNodeFlags_DockSpace);
-			//	ImGui::DockBuilderSetNodeSize(dockspace_id, viewport->Size);
-
-			//	//Imgui docks right side by default
-			//	ImGui::DockBuilderDockWindow("sceneview", dockspace_id);
-
-			//	//set the other sides
-			//	ImGuiID dock_id_down = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.3f, nullptr, &dockspace_id);
-			//	ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.25f, &dockspace_id, &dockspace_id);
-			//	ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.3f, &dockspace_id, &dockspace_id);
-
-			//	//setting the other dock locations
-			//	ImGui::DockBuilderDockWindow("objectlistwindow", dock_id_right);
-
-			//	//set on the save location to dock ontop of eachother
-			//	ImGui::DockBuilderDockWindow("resourcewindow", dock_id_down);
-			//	ImGui::DockBuilderDockWindow("consolewindow", dock_id_down);
 
 
-			//	//set on the save location to dock ontop of eachother
-			//	ImGui::DockBuilderDockWindow("componentwindow", dock_id_left);
-
-			//	//split the bottom into 2
-			//	ImGuiID dock_id_down2 = ImGui::DockBuilderSplitNode(dock_id_down, ImGuiDir_Right, 0.5f, nullptr, &dock_id_down);
-
-			//	ImGui::DockBuilderDockWindow("logwindow", dock_id_down2);
-
-			//	//end dock
-			//	ImGui::DockBuilderFinish(dockspace_id);
-
-			//}
-
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// Update all the ImGui layers here
 			for (Layer* layer : m_ImGuiLayers)
 			{
