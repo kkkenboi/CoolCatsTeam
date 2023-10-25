@@ -44,7 +44,7 @@ namespace LB
 		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
-			std::cout << "Serialising Transform\n";
+			DebuggerLog("Serializing Transform");
 			data.SetObject();
 			Value PositionValue;
 			if (pos.Serialize(PositionValue, alloc))
@@ -74,7 +74,7 @@ namespace LB
 			bool HasPosition = data.HasMember("Position");
 			bool HasScale = data.HasMember("Scale");
 			bool HasRot = data.HasMember("Rotation");
-			std::cout << "Deserialising Transform\n";
+			DebuggerLog("Deserializing Transform");
 			if (data.IsObject())
 			{
 				if (HasPosition && HasScale && HasRot)
@@ -97,7 +97,7 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override
 		{
-			std::cout << "Destroying Transform\n";
+			DebuggerLog("Destorying Transform");
 		}
 
 		/*!***********************************************************************

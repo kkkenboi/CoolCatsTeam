@@ -77,7 +77,7 @@ namespace LB
 			{
 				currentCount++;
 				std::string FileName = directory.path().filename().string();
-				//ImGui::PushID(FileName.c_str());
+				ImGui::PushID(FileName.c_str());
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("cat"), { 64,64 }, { 0,1 }, { 1,0 });
 				ImGui::PopStyleColor();
@@ -87,10 +87,15 @@ namespace LB
 					DebuggerLog("Clicked on " + FileName);
 					//Load the properties into the inspector
 				}
-				if (ImGui::BeginDragDropSource())
+
+				if (directory.path().extension().string() == ".json")
 				{
-					ImGui::SetDragDropPayload("ASSET BROWSER", FileName.c_str(), (strlen(FileName.c_str())+1)*sizeof(char));
-					ImGui::EndDragDropSource();
+					if (ImGui::BeginDragDropSource())
+					{
+						DebuggerLog(directory.path().extension().string());
+						ImGui::SetDragDropPayload("ASSET BROWSER", FileName.c_str(), FileName.size());
+						ImGui::EndDragDropSource();
+					}
 				}
 				/*if (currentCount%columnCount)
 				{
@@ -99,7 +104,7 @@ namespace LB
 				//The name of the folder is without the file extension probably...
 				ImGui::Text(directory.path().filename().stem().string().c_str());
 
-
+				ImGui::PopID();
 				/*if (currentCount % columnCount)
 				{
 					ImGui::SameLine(64 * ((currentCount % columnCount)) + 20 * (currentCount % columnCount), 10);
