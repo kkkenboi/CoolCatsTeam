@@ -156,12 +156,14 @@ namespace LB
 	void CPCollider::AddVertice(Vec2<float> vertice)
 	{
 		m_untransformedVerts.push_back(vertice);
+		m_vertAmount = m_untransformedVerts.size();
 	}
 
 
 	void CPCollider::AddVertice(float x, float y)
 	{
 		m_untransformedVerts.push_back(Vec2<float>{x, y});
+		m_vertAmount = m_untransformedVerts.size();
 	}
 
 
@@ -173,7 +175,7 @@ namespace LB
 	{
 		// Initialize the transformed verts to be the same size as untransformed verts
 		// if it is not the same size
-		if (this->m_untransformedVerts.size() != this->m_transformedVerts.size()) {
+		if (this->m_untransformedVerts.size() > this->m_transformedVerts.size()) {
 			for (size_t i = m_transformedVerts.size(); i < m_untransformedVerts.size(); ++i) 
 			{
 				m_transformedVerts.push_back(Vec2<float> {0.f, 0.f});
