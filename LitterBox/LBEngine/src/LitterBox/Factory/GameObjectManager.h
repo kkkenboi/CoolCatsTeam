@@ -134,7 +134,13 @@ namespace LB
 		*************************************************************************/
 		void SetID(int ID);
 
+		std::string const& GetName();
+
+		void SetName(std::string const& newName);
+
 	private:
+		std::string											m_name{ "Game Object" };
+
 		std::unordered_map<ComponentTypeID, IComponent*>	m_Components;
 		int													m_ID;
 		bool												m_IsActive;
