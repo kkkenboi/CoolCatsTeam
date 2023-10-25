@@ -44,8 +44,6 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
-		DebuggerLogFormat("Mouse: %f %f", EDITORGAMEVIEW->GetMousePos().x, EDITORGAMEVIEW->GetMousePos().y);
-
 		// Buttons in the top bar
 		ImGui::Checkbox("Profile", &m_shouldProfile);
 

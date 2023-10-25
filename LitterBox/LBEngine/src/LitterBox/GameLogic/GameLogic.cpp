@@ -35,20 +35,37 @@ namespace LB
 	{
 		// Ensure singleton
 		if (!GAMELOGIC)
-		{
 			GAMELOGIC = this;
-		}
 		else
-		{
-			std::cerr << "Game Logic already exist\n";
-		}
+			DebuggerLogError("Game Logic System already exists!");
 
 		SetSystemName("Game Logic System");
 
-		m_domain = mono_jit_init("LitterBoxDomain");
+		//mono_set_assemblies_path("mono/lib");
+
+		//m_domain = mono_jit_init("LitterBoxEngine");
+		//if (!m_domain)
+			//DebuggerLogWarning("[Mono] Cannot open LitterBoxEngine domain!");
+
+		//m_scriptAssembly = mono_domain_assembly_open(m_domain, "CSharpAssembly.dll");
+		//if (!m_domain)
+		//	DebuggerLogWarning("[Mono] CSharpAssembly.dll not found! Please compile the dll first.");
 	}
 
+	void GameLogic::Load(CPScript *newScript)
+	{
+		m_sceneScripts.push_back(newScript);
+	}
 
+	void GameLogic::Unload()
+	{
+		for (CPScript* script : m_sceneScripts)
+		{
+			script->Destroy();
+		}
+
+		m_sceneScripts.clear();
+	}
 
 	/*!***********************************************************************
 	 \brief
@@ -59,7 +76,10 @@ namespace LB
 	*************************************************************************/
 	void GameLogic::Update()
 	{
-		// Empty for now
+		for (CPScript* script : m_sceneScripts)
+		{
+			script->Update();
+		}
 	}
 
 	/*!***********************************************************************
@@ -71,6 +91,13 @@ namespace LB
 	*************************************************************************/
 	void GameLogic::Destroy()
 	{
-		mono_jit_cleanup(m_domain);
+		Unload();
+		//mono_jit_cleanup(m_domain);
 	}
+
+	MonoAssembly* GameLogic::GetScriptAssembly()
+	{
+		return m_scriptAssembly;
+	}
+
 }

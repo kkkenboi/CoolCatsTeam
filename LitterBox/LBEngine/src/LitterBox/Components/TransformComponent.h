@@ -44,21 +44,21 @@ namespace LB
 		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
-			std::cout << "Serialising Transform\n";
+			DebuggerLog("Serializing Transform");
 			data.SetObject();
 			Value PositionValue;
-			if (pos.Serialize(PositionValue, alloc))
+			if (m_pos.Serialize(PositionValue, alloc))
 			{
 				data.AddMember("Position", PositionValue, alloc);
 			}
 			else return false;
 			Value ScaleValue;
-			if (scale.Serialize(ScaleValue, alloc))
+			if (m_scale.Serialize(ScaleValue, alloc))
 			{
 				data.AddMember("Scale", ScaleValue, alloc);
 			}
 			else return false;
-			data.AddMember("Rotation", angle, alloc);
+			data.AddMember("Rotation", m_angle, alloc);
 			return true;
 		}
 
@@ -74,7 +74,7 @@ namespace LB
 			bool HasPosition = data.HasMember("Position");
 			bool HasScale = data.HasMember("Scale");
 			bool HasRot = data.HasMember("Rotation");
-			std::cout << "Deserialising Transform\n";
+			DebuggerLog("Deserializing Transform");
 			if (data.IsObject())
 			{
 				if (HasPosition && HasScale && HasRot)
@@ -82,9 +82,9 @@ namespace LB
 					const Value& positionValue = data["Position"];
 					const Value& scaleValue = data["Scale"];
 					const Value& rotationValue = data["Rotation"];
-					pos.Deserialize(positionValue);
-					scale.Deserialize(scaleValue);
-					angle = rotationValue.GetFloat();
+					m_pos.Deserialize(positionValue);
+					m_scale.Deserialize(scaleValue);
+					m_angle = rotationValue.GetFloat();
 					return true;
 				}
 			}
@@ -97,7 +97,7 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override
 		{
-			std::cout << "Destroying Transform\n";
+			DebuggerLog("Destorying Transform");
 		}
 
 		/*!***********************************************************************
@@ -109,7 +109,7 @@ namespace LB
 		*************************************************************************/
 		Vec2<float> GetPosition() const
 		{
-			return pos;
+			return m_pos;
 		}
 
 		/*!***********************************************************************
@@ -118,7 +118,7 @@ namespace LB
 		*************************************************************************/
 		void SetPosition(Vec2<float> const& newPos)
 		{
-			pos = newPos;
+			m_pos = newPos;
 		}
 
 		/*!***********************************************************************
@@ -130,7 +130,7 @@ namespace LB
 		*************************************************************************/
 		Vec2<float> GetScale() const
 		{
-			return scale;
+			return m_scale;
 		}
 
 		/*!***********************************************************************
@@ -139,7 +139,7 @@ namespace LB
 		*************************************************************************/
 		void SetScale(Vec2<float> const& newScale)
 		{
-			scale = newScale;
+			m_scale = newScale;
 		}
 
 		/*!***********************************************************************
@@ -151,7 +151,7 @@ namespace LB
 		*************************************************************************/
 		float GetRotation() const
 		{
-			return angle;
+			return m_angle;
 		}
 
 		/*!***********************************************************************
@@ -161,11 +161,63 @@ namespace LB
 		*************************************************************************/
 		void SetRotation(float newRotation)
 		{
-			angle = newRotation;
+			m_angle = newRotation;
+		}
+
+		CPTransform* GetParent()
+		{
+			return m_parent;
+		}
+
+		void SetParent(CPTransform* newParent)
+		{
+			m_parent = newParent;
+		}
+
+		CPTransform* GetChild(int index = 0)
+		{
+			if (index < 0 || index >= m_children.size())
+				DebuggerLogErrorFormat("GameObject %s tried to get child at invalid index %d!", gameObj->GetName(), index);
+			return m_children[index];
+		}
+
+		int GetChildCount()
+		{
+			return (int)m_children.size();
+		}
+
+		void AddChild(CPTransform* newChild)
+		{
+			m_children.push_back(newChild);
+		}
+
+		void RemoveChild(int indexToRemove)
+		{
+			m_children.erase(m_children.begin() + indexToRemove);
+		}
+
+		void RemoveChild(CPTransform* childToRemove)
+		{
+			for (int index {0}; index < m_children.size(); ++index)
+			{
+				if (m_children[index] == childToRemove)
+				{
+					RemoveChild(index);
+					return;
+				}
+			}
 		}
 
 	private:
-		Vec2<float> pos{}, scale{ 1.0f, 1.0f };
-		float angle{};
+		CPTransform* m_parent{ nullptr };
+		std::vector<CPTransform*> m_children{ nullptr };
+
+		//---------------Global (World) Space---------------
+		Vec2<float> m_pos{}, m_scale{ 1.0f, 1.0f };
+		float m_angle{};
+
+		//---------------Global (World) Space---------------
+		Vec2<float> m_localPos{}, m_localScale{ 1.0f, 1.0f };
+		float m_localAngle{};
 	};
 }

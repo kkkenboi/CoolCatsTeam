@@ -221,6 +221,16 @@ namespace LB
 		m_ID = ID;
 	}
 
+	std::string const& GameObject::GetName()
+	{
+		return m_name;
+	}
+
+	void GameObject::SetName(std::string const& newName)
+	{
+		m_name = newName;
+	}
+
 	/***************************************************************************************************
 	*
 	* Game Object Manager

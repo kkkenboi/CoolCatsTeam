@@ -59,7 +59,7 @@ namespace LB
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
-        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         //Deserialise the config settings
         //Current file path is : \LBEditor\Editor\Jason\config settings.json"
@@ -126,7 +126,8 @@ namespace LB
 
     /*!***********************************************************************
      \brief
-     Checks if the window is closing each frame
+     Checks if the window is closing each frame and sets the window title 
+     every frame
 
      \return
      Nothing
@@ -139,30 +140,25 @@ namespace LB
             CORE->BroadcastMessage(&q);
         }
 
+        std::string title{ this->m_Data.m_Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime()) };
+
+        // Set Window Title (Name + FPS)
+        glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
+
         Draw(this->m_Data);
 
     }
 
     /*!***********************************************************************
      \brief
-     Swaps framebuffer and sets the window title every frame
+     Swaps framebuffer 
 
      \return
      Nothing
     *************************************************************************/
     void WindowsSystem::Draw(WindowsData _m_Data)
     {
-        std::string title{_m_Data.m_Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime())};
-
-        // Set Window Title (Name + FPS)
-        glfwSetWindowTitle(_m_Data.m_PtrToWindow, title.c_str());
-
-        // Rendering portion
-
-
-        // Swap buffer
         glfwSwapBuffers(_m_Data.m_PtrToWindow);
-
     }
 
     /*!***********************************************************************
@@ -277,10 +273,9 @@ namespace LB
     void WindowsSystem::FrameBufferCB(GLFWwindow* ptr_win, int width, int height)
     {
         UNREFERENCED_PARAMETER(ptr_win);
-        UNREFERENCED_PARAMETER(width);
-        UNREFERENCED_PARAMETER(height);
-        #ifdef _DEBUG
-            std::cout << "FrameBufferCB getting called!" << std::endl;
-        #endif
+
+        // This is to ensure that the window is still drawing when 
+        // resizing the window
+        WINDOWSSYSTEM->Draw(WINDOWSSYSTEM->m_Data);
     }
 }

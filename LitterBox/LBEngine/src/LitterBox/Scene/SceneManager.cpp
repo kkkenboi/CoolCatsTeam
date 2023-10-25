@@ -71,10 +71,10 @@ namespace LB
 
 	//}
 
-	//void SceneManager::LoadScene(std::string name)
-	//{
+	void SceneManager::LoadScene(std::string name)
+	{
 
-	//}
+	}
 
 	// TODO: REFACTOR TO USE JSON FILE 
 	void SceneManager::LoadScene(Scene* newScene)

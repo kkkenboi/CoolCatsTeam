@@ -54,7 +54,7 @@ namespace LB
 		void Destroy() override;
 
 		//void LoadScene(int index);
-		//void LoadScene(std::string name);
+		void LoadScene(std::string name);
 		void LoadScene(Scene* scene);
 
 	private:
@@ -65,7 +65,7 @@ namespace LB
 		 \brief
 		 Pointer the current scene (This is the main scene)
 		*************************************************************************/
-		Scene *currentScene{ nullptr }, *nextScene{ nullptr };
+		Scene *currentScene{ nullptr }, * nextScene{ nullptr };
 	};
 
 	/*!***********************************************************************

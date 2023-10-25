@@ -150,6 +150,8 @@ namespace LB
          **************************************************************************/
         void LoadPrefabs();
 
+        void SpawnGameObject(std::string fileName, Vec2<float> pos = {0,0});
+
         std::string KeyCodeToString(KeyCode keycode);
         KeyCode StringToKeyCode(std::string keycode);
         void LoadKeyBinds();
@@ -180,19 +182,19 @@ namespace LB
         GameObject* PineappleObject = nullptr;
         GameObject* AvatarObject = nullptr;
 
+
+        //Map of Prefab IDs to their instances
+        std::map<std::string, std::shared_ptr<GameObject>> Prefabs;
+        //Map of Prefab file paths to their IDs
+        std::map<std::string, std::string> PrefabFilePathsMap;
+
         private:
         /*!***********************************************************************
          * \brief Map of file names to their file paths
          * e.g "Char Sprite : /assets/charsprite.png"    
          **************************************************************************/
         std::map<std::string, std::string> nameToFilePath;
-        //Textue IDs to their texture data
-        //e.g "0 : *TextureData of character"
-        // std::unordered_map<int,TextureData*> textureDataMap;
 
-        //Texture names to their texture pair
-        //where the texture pair is
-        //TextureData* : int channel the texture uses.
 
         /*!***********************************************************************
          * \brief TextureID int used to keep track of textureIDs

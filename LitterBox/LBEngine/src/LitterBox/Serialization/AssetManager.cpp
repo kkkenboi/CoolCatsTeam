@@ -48,7 +48,7 @@ namespace LB
         //Load all assets here
         LoadSounds();
         LoadTextures();
-        LoadPrefabs();
+       // LoadPrefabs();
         LoadKeyBinds();
     }
     /*!************************************************************************
@@ -275,6 +275,13 @@ namespace LB
         JSONSerializer::DeserializeFromFile("pineapple.json", *PineappleObject);
 
         //stream.DeserializeFromFile("../Assets/Prefabs/apple",*AvatarObject);
+    }
+    void AssetManager::SpawnGameObject(std::string fileName, Vec2<float> pos)
+    {
+        GameObject* prefab = FACTORY->CreateGameObject();
+        JSONSerializer::DeserializeFromFile(fileName, *prefab);
+        if (!(pos == Vec2<float>{0, 0}))
+        prefab->GetComponent<CPTransform>()->SetPosition(pos);
     }
     std::string AssetManager::KeyCodeToString(KeyCode KeyCodeToFind) 
     {

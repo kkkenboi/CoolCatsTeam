@@ -30,16 +30,24 @@ namespace LB
 		 \brief
 		 Initialises the current scene
 		*************************************************************************/
-		void Init() override {}
+		void Init() override {
+		
+		}
+
 		/*!***********************************************************************
 		 \brief
 		 Updates the scene
 		*************************************************************************/
-		void Update() override {}
+		void Update() override {
+		
+		}
+
 		/*!***********************************************************************
 		 \brief
 		 Destroys the scene
 		*************************************************************************/
-		void Destroy() override {}
+		void Destroy() override {
+
+		}
 	};
 }
