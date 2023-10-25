@@ -23,13 +23,15 @@
 #include <filesystem>
 #include "Renderer.h"
 #include "LitterBox/Factory/Components.h"
+#include "LitterBox/Components/CameraComponent.h"
 
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Debugging/Debug.h"
 
 //---------------------------------DEFINES-------------------------------
 constexpr Renderer::index inactive_idx{ 0,0,0,0,0 };
-extern LB::CPCamera* game_cam;
+extern LB::CPCamera* game_cam{ nullptr };
+extern LB::WindowsSystem* LB::WINDOWSSYSTEM;
 //---------------------------------DEFINES-------------------------------
 
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
@@ -145,6 +147,21 @@ unsigned int create_shader(const char* vertex_shader, const char* fragment_shade
 	return program;
 }
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
+
+//--------------------------------------CPCamera----------------------------------
+void LB::CPCamera::Initialise() {
+	if (!game_cam)
+		game_cam = this;
+	else
+		DebuggerLogError("Object already exists bozo");
+}
+
+LB::Vec2<float> LB::CPCamera::getCam()
+{
+	return gameObj->GetComponent<CPTransform>()->GetPosition();
+}
+//--------------------------------------CPCamera----------------------------------
+
 
 //---------------------------------------ANIMATIONS-------------------------------------
 
@@ -581,23 +598,54 @@ bg_renderer{Renderer_Types::RT_BACKGROUND}
 		DebuggerLogError("Render System already exists");
 }
 
+//----------For ImGUI rendering---------------
+//-------for the game view-------------
 unsigned int framebuffer;
 unsigned int textureColorbuffer;
-bool imgui_ready{ false };
+//-------for the game view-------------
+
+//-------for scene view--------
+unsigned int svfb;
+unsigned int svtcb;
+//-------for scene view--------
+bool imgui_ready{ false }; // to make sure ImGui doesn't render empty
+//----------For ImGUI rendering---------------
 
 LB::CPRender* test2;
 void Renderer::RenderSystem::Initialize()
 {
+	//set the initial values for x and y for the camera
+	glfwGetCursorPos(LB::WINDOWSSYSTEM->GetWindow(), &cam.mouse_x, &cam.mouse_y);
+
 	shader_source shd_pgm{ shader_parser("Assets/Shaders/Basic.shader") };
 	shader_program = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
+	//-------------------LOAD FONT------------------------
+	//init freetype lib
+	//if (FT_Init_FreeType(&ft)) {
+	//	DebuggerLogError("ERROR On the freetype: could not init the lib");
+	//}
+	////load font
+	//if (FT_New_Face(ft, "Assets/Fonts/KernlGrotesk.otf", 0, &font)) {
+	//	DebuggerLogError("Error on the freetype: could not load font");
+	//}
+	////set default font face
+	//FT_Set_Pixel_Sizes(font, 0, 48); //the width is 0 so it is based off the height value
+
+
+	//-------------------LOAD FONT------------------------
+
+
+
 	glUseProgram(shader_program);
 	glBindVertexArray(object_renderer.get_vao());
-
+	
+	//-------------------------cam test---------------------------
 	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
 	if (uni_loc == -1)
 		DebuggerLogError("Unable to find uniform location");
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
+	//-------------------------cam test---------------------------
 
 
 	GLint uni_loc2 = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
@@ -647,6 +695,18 @@ void Renderer::RenderSystem::Initialize()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
+	
+	glGenFramebuffers(1, &svfb);
+	glBindFramebuffer(GL_FRAMEBUFFER, svfb);
+
+	glGenTextures(1, &svtcb);
+	glBindTexture(GL_TEXTURE_2D, svtcb);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, svtcb, 0);
+	
 	imgui_ready = true;
 	//----For rendering scene onto texture for ImGUI-------------
 }
@@ -671,15 +731,41 @@ Renderer::RenderSystem::~RenderSystem()
 *************************************************************************/
 void Renderer::RenderSystem::Update()
 {
+	//set the shader program before hand
+	glUseProgram(shader_program);
+	if (game_cam) 
+	{
+		cam.update_ortho_cam(game_cam->getCam());
+		GLint uni_loc = glGetUniformLocation(shader_program, "cam");
+		if (uni_loc == -1)
+			DebuggerLogError("Unable to find uniform location");
+		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
+	}
+	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
+	if (uni_loc == -1)
+		DebuggerLogError("Unable to find uniform location");
+	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
+
+	//TODO change this so it only prints to the frame buffer in editor view
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now
+	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
 	// Render the game scene window
 	bg_renderer.update_buff();
 	object_renderer.update_buff();
 
-	glUseProgram(shader_program);
+	glBindVertexArray(bg_renderer.get_vao());
+	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glBindVertexArray(object_renderer.get_vao());
+	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+
+	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.editor_world_NDC[0][0]);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, svfb);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
+
 	glBindVertexArray(bg_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
@@ -723,6 +809,8 @@ void Renderer::RenderSystem::Draw()
 	//TODO HAVE RENDERER PERFORM THE SWAP BUFFER INSTEAD OF WINDOW
 	// Draw stuff
 }
+
+//---------------------------------------DEPRECATED------------------------------------
 /*!***********************************************************************
 \brief
  create_texture acts as an API for any developer to load texture data into
@@ -741,6 +829,9 @@ void Renderer::RenderSystem::Draw()
 //{
 //	return t_Manager.add_texture(file_path, name);
 //}
+//---------------------------------------DEPRECATED------------------------------------
+
+
 /*!***********************************************************************
 \brief
  remove_texture is another API to delete texture data from the GPU.
@@ -831,6 +922,16 @@ inline void Renderer::RenderSystem::change_object_state(Renderer_Types r_type, c
 		break;
 	}
 }
+
+void Renderer::RenderSystem::update_cam(float xpos, float ypos)
+{
+	cam.free_cam_move(LB::Vec2<float>{xpos, ypos});
+}
+
+void Renderer::RenderSystem::fcam_zoom(float zoom)
+{
+	cam.free_cam_zoom(zoom);
+}
 //----------------------------------------------RENDERER-SYSTEM-------------------------------------------
 
 
@@ -845,6 +946,7 @@ Renderer::Texture::~Texture()
 	glDeleteTextures(1, &id);
 }
 
+//----------------------------------------------DEPRECATED-------------------------------------------
 /*!***********************************************************************
 \brief
  add_texture supposedly adds a texture to GPU memory and binds it to an
@@ -873,6 +975,8 @@ Renderer::Texture::~Texture()
 //
 //	return true;
 //}
+//----------------------------------------------DEPRECATED-------------------------------------------
+
 
 /*!***********************************************************************
 \brief

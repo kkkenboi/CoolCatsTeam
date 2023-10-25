@@ -14,8 +14,13 @@
 **************************************************************************/
 #pragma once
 #include <glm.hpp>
+#include "LitterBox/Utils/Math.h"
 
 namespace Renderer {
+	//------------------pre defines for the ortho graphic cam-----------------
+	constexpr static glm::vec4 o_up{ 0.f,1.f,0.f, 0.f };
+	constexpr static glm::vec4 o_right{ 1.f,0.f,0.f, 0.f };
+	constexpr static glm::vec4 o_w{ 0.f,0.f,1.f, 0.f };
 	/*!***********************************************************************
 	\brief
 	
@@ -27,17 +32,38 @@ namespace Renderer {
 	class Camera {
 		//--------premade values so it doesn't look like I'm hardcoding-----
 		glm::vec4 pos{ 0.f, 0.f, 5.f, 1.f };
-		glm::vec4 up{ 0.f,1.f,0.f, 0.f };
-		glm::vec4 right{ 1.f,0.f,0.f, 0.f };
-		glm::vec4 w{ 0.f,0.f,1.f, 0.f };
+		glm::vec4 p_up{ 0.f,1.f,0.f,0.f };
+		glm::vec4 p_right{ 1.f,0.f,0.f, 0.f };
+		glm::vec4 p_w{ 0.f,0.f,1.f, 0.f };
 		//------------------------------------------------------------------
-		//The values defined above are already the inverse values
-		glm::mat4 inv_mat{ right, up, w, pos };
-		glm::mat4 nel{ glm::inverse(inv_mat) };
-		glm::mat4 ortho{};
 
+		glm::mat4 inv_mat{ o_right, o_up, o_w, pos };
+		//for game cam inverse
+		glm::mat4 nel{ glm::inverse(inv_mat) };
+		//for free cam inverse
+		glm::mat4 free_cam_coords{nel};
+
+		//-------------Required to move a free cam-------------
+		double longitude{}, azimuth{};
+		float zoomx{}, zoomy{}, aspect{};
+
+		glm::vec3 view_vector{ 0.f, 0.f, 1.f };
+		glm::vec4 cam_pos{ 0.f, 0.f, 5.f, 1.f };
+
+		glm::vec3 basis_vec_i{};
+		glm::vec3 basis_vec_j{};
+		glm::vec3 basis_vec_k{};
+		//-------------Required to move a free cam-------------
 
 	public:
+
+		double mouse_x{}, mouse_y{}, x_disp{1.f}, y_disp{};
+		
+		//-------------The projection matrices------------
+		glm::mat4 ortho{}, editor_ortho{};
+		glm::mat4 perspective{};
+		//-------------The projection matrices------------
+
 		glm::mat4 world_NDC{};
 		glm::mat4 editor_world_NDC{};
 		/*!***********************************************************************
@@ -60,9 +86,27 @@ namespace Renderer {
 		void move_cam() {
 			pos.x = -10.f + static_cast<float>(rand()) / static_cast<float>(RAND_MAX / (20.f));
 			pos.y = -10.f + static_cast<float>(rand()) / static_cast<float>(RAND_MAX / (20.f));
-			nel = glm::inverse(glm::mat4{ right, up, w, pos });
+			nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });
 			world_NDC = ortho * nel;
 		}
+
+		/*!***********************************************************************
+		\brief
+		 Function to update the orthographic camera/game camera position. Which
+		 means the camera can be moved around the x and y axis.
+
+		\param
+		 Is a vector that contains the new x and y positions in world space
+		*************************************************************************/
+		void update_ortho_cam(LB::Vec2<float> new_pos) {
+			pos.x = new_pos.x;
+			pos.y = new_pos.y;
+			nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });
+			world_NDC = ortho * nel;
+		}
+
+		void free_cam_zoom(float zoom = 1.f);
+		void free_cam_move(LB::Vec2<float> new_pos);
 	};
 	//----------------------------------------CAMERA-----------------------------------
 }

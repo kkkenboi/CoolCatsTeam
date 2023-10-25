@@ -32,6 +32,8 @@
 #include <map>
 #include <glm.hpp>
 #include "LitterBox/Serialization/AssetManager.h"
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
 /*!***********************************************************************
@@ -351,6 +353,9 @@ namespace Renderer {
 		//how to pass in object limit for renderer
 		unsigned int shader_program;
 
+		FT_Library ft;
+		FT_Face font;
+
 		Texture_Manager t_Manager;
 		Animation_Manager a_Manager;
 
@@ -358,7 +363,6 @@ namespace Renderer {
 		Renderer object_renderer;
 
 		Camera cam;
-		Camera editor_cam;
 		LB::Vec2<GLint> m_winPos;
 		LB::Vec2<GLsizei> m_winSize;
 
@@ -532,6 +536,10 @@ namespace Renderer {
 		 Poitner to a render object that was just created
 		*************************************************************************/
 		inline void change_object_state(Renderer_Types r_type, const LB::CPRender* obj);
+	
+
+		void update_cam(float xpos, float ypos);
+		void fcam_zoom(float amount); //1.f means no zoom
 	};
 
 	//A pointer to the system object in the core engine

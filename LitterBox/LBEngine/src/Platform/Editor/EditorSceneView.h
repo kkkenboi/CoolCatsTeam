@@ -26,5 +26,10 @@ namespace LB
 		EditorSceneView(std::string layerName);
 
 		void UpdateLayer() override;
+
+	private:
+		Vec2<float> mousePosInWindow;
 	};
+
+	extern EditorSceneView* EDITORSCENEVIEW;
 }
