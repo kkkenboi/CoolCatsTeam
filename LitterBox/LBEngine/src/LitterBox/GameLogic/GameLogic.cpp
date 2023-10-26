@@ -17,8 +17,8 @@
 #include "pch.h"
 #include "GameLogic.h"
 
+#include "mono/metadata/image.h"
 #include "mono/jit/jit.h"
-#include "mono/metadata/assembly.h"
 
 namespace LB
 {
@@ -48,6 +48,9 @@ namespace LB
 
 		m_scriptAssembly = mono_domain_assembly_open(m_domain, "CSharpAssembly.dll");
 		DebuggerAssert(m_scriptAssembly, "[Mono] CSharpAssembly.dll not found! Please compile the dll first.");
+
+		CPScript* test = new CPScript();
+		test->Initialise();
 	}
 
 	void GameLogic::Load(CPScript *newScript)
@@ -91,6 +94,11 @@ namespace LB
 	{
 		Unload();
 		//mono_jit_cleanup(m_domain);
+	}
+
+	MonoDomain* GameLogic::GetDomain()
+	{
+		return m_domain;
 	}
 
 	MonoAssembly* GameLogic::GetScriptAssembly()

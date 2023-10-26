@@ -50,7 +50,7 @@ namespace LB
 		mousePosInWindow.y = mousePos.y;*/
 		//DebuggerLogFormat("Mouse pos : %f,%f", GetMousePos().x, GetMousePos().y);
 		//DebuggerLogFormat("Window pos : %f,%f", windowPos.x, windowPos.y);
-		DebuggerLogFormat("Window max : %f,%f", windowMax.x, windowMax.y);
+		//DebuggerLogFormat("Window max : %f,%f", windowMax.x, windowMax.y);
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
 		ImGui::Image((ImTextureID)textureColorbuffer, wsize, ImVec2(0, 1), ImVec2(1, 0));

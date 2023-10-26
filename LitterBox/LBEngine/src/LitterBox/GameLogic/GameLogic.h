@@ -17,6 +17,7 @@
 #pragma once
 #include "LitterBox/Core/System.h"		// For ISystem
 #include "mono/utils/mono-forward.h"	// For MonoDomain
+#include "mono/metadata/assembly.h"
 #include "LitterBox/Components/ScriptComponent.h"
 
 namespace LB
@@ -54,12 +55,14 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override;
 
+		MonoDomain* GetDomain();
+
 		MonoAssembly* GetScriptAssembly();
 
 	private:
 		MonoDomain *m_domain;
 
-		MonoAssembly* m_engineAssembly;
+		//MonoAssembly* m_engineAssembly;
 		MonoAssembly* m_scriptAssembly;
 		std::list<CPScript*> m_sceneScripts;	// List of all scripts currently active in the scene
 	};
