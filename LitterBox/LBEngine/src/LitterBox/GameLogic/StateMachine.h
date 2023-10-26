@@ -21,7 +21,7 @@ public:
 	T GetStateID();
 
 	// Virtual functions
-	virtual ~State();
+	//virtual ~State();
 
 	virtual void Enter();
 
@@ -62,3 +62,29 @@ private:
 
 	State<T>* mCurrentState;
 };
+
+
+/*
+class BaseState
+{
+public:
+	BaseState(FiniteStateMachine FSM);
+
+	// Virtual functions
+	virtual ~BaseState();
+	virtual void Enter();
+	virtual void Update();
+	virtual void Exit();
+
+private:
+	FiniteStateMachine& mFSM;
+};
+
+class FiniteStateMachine
+{
+public:
+	
+private:
+	BaseState* mCurrentState;
+};
+*/
