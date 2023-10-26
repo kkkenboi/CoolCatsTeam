@@ -58,6 +58,7 @@ namespace LB
 
 	private:
 		MonoDomain *m_domain;
+
 		MonoAssembly* m_engineAssembly;
 		MonoAssembly* m_scriptAssembly;
 		std::list<CPScript*> m_sceneScripts;	// List of all scripts currently active in the scene
