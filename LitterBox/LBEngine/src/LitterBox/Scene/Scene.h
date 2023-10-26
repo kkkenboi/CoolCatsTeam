@@ -16,8 +16,7 @@
 
 #pragma once
 
-#include <list>
-#include "LitterBox/Factory/Components.h"
+#include "LitterBox/Components/TransformComponent.h"
 
 namespace LB
 {
@@ -32,33 +31,32 @@ namespace LB
 		 \brief
 		 Initialises the Scene
 		*************************************************************************/
-		virtual void Init() {};
+		virtual void Init() {}
 
 		/*!***********************************************************************
 		 \brief
 		 Update function for the scene
 		*************************************************************************/
-		virtual void Update() {};
+		virtual void Update() {}
 
 		/*!***********************************************************************
 		 \brief
 		 Destroy function that handles the destruction of the scene
 		*************************************************************************/
-		virtual void Destroy() {};
+		virtual void Destroy() {}
 
-	private:
-		/*!***********************************************************************
-		 \brief
-		 Name of the scene
-		*************************************************************************/
+		void Serialize()
+		{
+
+		}
+
+		void Deserialize()
+		{
+
+		}
+
+	protected:
 		std::string name;
-
-		// Hierachy will be done in M2
-		// GameObject* gameObjs; // All game objects are children of this root game object
+		CPTransform* root;	// All game objects are children of this root game object
 	};
-
-	//bool operator==(Scene const& lhs, Scene const& rhs)
-	//{
-
-	//}
 }
