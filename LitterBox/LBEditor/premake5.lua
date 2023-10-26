@@ -22,6 +22,7 @@ project "LBEditor"
     includedirs
     {
         "%{wks.location}/LBEngine/src",
+        "%{wks.location}/LBEditor/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",

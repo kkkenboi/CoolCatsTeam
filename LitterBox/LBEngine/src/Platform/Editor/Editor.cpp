@@ -170,15 +170,14 @@ namespace LB
 				toolbarID = ImGui::DockBuilderSplitNode(topID, ImGuiDir_Left, 0.5f, NULL, NULL);
 				consoleID = ImGui::DockBuilderSplitNode(bottomID, ImGuiDir_Left, 0.5f, NULL, &assetsID);
 				consoleID = ImGui::DockBuilderSplitNode(consoleID, ImGuiDir_Up, 0.5f, NULL, &gameviewID);
-				// Assets is set in the middle, hierarchy + inspector on the right
-				assetsID = ImGui::DockBuilderSplitNode(assetsID, ImGuiDir_Left, 0.5f, NULL, &hierarchyID);
+				// Assets is set in the bottom middle, hierarchy on the top middle and inspector on the right
+				assetsID = ImGui::DockBuilderSplitNode(assetsID, ImGuiDir_Left, 0.5f, NULL, &inspectorID);
+				assetsID = ImGui::DockBuilderSplitNode(assetsID, ImGuiDir_Down, 0.5f, NULL, &hierarchyID);
 
 				// Set profiler at the same location as console
 				profilerID = consoleID;
 				// Set scene view at the same location as game view
 				sceneviewID = gameviewID;
-				// Set hierarchy at the same location as inspector
-				inspectorID = hierarchyID;
 
 				ImGui::DockBuilderDockWindow("ToolBar", toolbarID);
 				ImGui::DockBuilderDockWindow("Console", consoleID);
