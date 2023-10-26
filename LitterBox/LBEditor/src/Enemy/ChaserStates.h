@@ -20,11 +20,11 @@ public:
 	}
 
 	// Virtual function overrides
-	virtual void Enter();
+	virtual void Enter() override;
 
-	virtual void Update();
+	virtual void Update() override;
 
-	virtual void Exit();
+	virtual void Exit() override;
 
 	// Keep the functions virtual if we want to have
 	// a derived class from ChaserIdleState

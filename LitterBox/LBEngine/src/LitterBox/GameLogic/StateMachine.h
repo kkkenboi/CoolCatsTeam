@@ -23,11 +23,11 @@ public:
 	// Virtual functions
 	//virtual ~State();
 
-	virtual void Enter();
+	virtual void Enter() = 0;
 
-	virtual void Update();
+	virtual void Update() = 0;
 
-	virtual void Exit();
+	virtual void Exit() = 0;
 
 
 
@@ -46,7 +46,7 @@ public:
 	FiniteStateMachine();
 
 	// Add a state
-	State<T>& AddState(std::unique_ptr<State<T>> stateClass);
+	State<T>& AddState(T stateType);
 
 	// Get a state
 	State<T>& GetState(T stateID);

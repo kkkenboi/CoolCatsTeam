@@ -23,11 +23,13 @@ FiniteStateMachine<T>::FiniteStateMachine()
 	mCurrentState = nullptr;
 }
 
+
 template <typename T>
-State<T>& FiniteStateMachine<T>::AddState(std::unique_ptr<State<T>> stateClass) 
+State<T>& FiniteStateMachine<T>::AddState(T stateType) 
 {
-	mStateMap[stateClass->GetStateID()] = stateClass;
-	return mStateMap[stateClass->GetStateID()];
+	std::unique_ptr<State<stateType>> stateClass;
+	mStateMap[stateType] = stateClass;
+	return mStateMap[stateType];
 }
 
 template <typename T>
