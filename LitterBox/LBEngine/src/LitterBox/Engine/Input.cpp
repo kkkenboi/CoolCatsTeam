@@ -15,6 +15,7 @@
 #include "Platform/Windows/Windows.h"
 #include "Input.h"
 #include "LitterBox/Engine/Time.h"
+#include "LitterBox/Renderer/Renderer.h"
 
 namespace LB
 {

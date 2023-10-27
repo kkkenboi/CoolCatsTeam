@@ -20,6 +20,7 @@
 #include "Platform/Windows/Windows.h"
 
 extern unsigned int textureColorbuffer;
+extern Renderer::RenderSystem* Renderer::GRAPHICS;
 
 namespace LB
 {
@@ -66,6 +67,7 @@ namespace LB
 			}
 		}
 
+		Renderer::GRAPHICS->render_msg("HELLO", 20.f, 20.f, 2.f, { .4f, .3f, 0.7f });
 
 		ImGui::EndChild();
 

@@ -106,11 +106,12 @@ namespace LB
         //This lets us keep track of the id
         //TODO have a check for editor vs game
         //      if editor then start from 0 otherwise start from 1
-        int i{1}; //START FROM 1 BECAUSE texture unit 0 will be reserved for ImGUI texture
+        int i{1}; //START FROM 2 BECAUSE texture unit 0 will be reserved for ImGUI texture
         for(; i<32; ++i)
         {
             if(!TextureSlots[i]) break;
         }
+
         //The texture is tagged to the ID, which is then tagged to the texture name
         // e.g "cat" : "<catTextureData,ID>" where cat is the name of the texture.
         Textures.emplace(std::make_pair(textureName,std::make_pair(CreateTexture(fileName),i)));
