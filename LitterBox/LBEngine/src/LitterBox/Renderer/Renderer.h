@@ -29,6 +29,7 @@
 #include <utility>
 #include <array>
 #include <list>
+#include <queue>
 #include <map>
 #include <glm.hpp>
 #include "LitterBox/Serialization/AssetManager.h"
@@ -342,6 +343,33 @@ namespace Renderer {
 		void change_render_state(const LB::CPRender& object);
 	};
 
+	struct Character {
+		unsigned int TextureID;
+		LB::Vec2<unsigned int> Size;
+		LB::Vec2<FT_Int> Bearing;
+		unsigned int Advance;
+	};
+
+	struct message {
+		std::string text;
+		float x, y, scale;
+		LB::Vec3<float> color;
+	};
+
+	class TextureRenderer {
+	private:
+		std::map<char, Character> Characters;
+		
+		unsigned int tShader, tVao, tVbo;
+
+		FT_Library ft;
+		FT_Face font;
+	public:
+		TextureRenderer();
+		void RenderText(message msg);
+		inline const unsigned int get_text_shader() const { return tShader; }
+	};
+
 	//The actual system that will get initialized into the engine
 	/*!***********************************************************************
 	\brief
@@ -353,18 +381,18 @@ namespace Renderer {
 		//how to pass in object limit for renderer
 		unsigned int shader_program;
 
-		FT_Library ft;
-		FT_Face font;
-
 		Texture_Manager t_Manager;
 		Animation_Manager a_Manager;
 
 		Renderer bg_renderer;
 		Renderer object_renderer;
+		TextureRenderer text_renderer;
 
 		Camera cam;
 		LB::Vec2<GLint> m_winPos;
 		LB::Vec2<GLsizei> m_winSize;
+
+		std::queue<message> msgs;
 
 	public:
 
@@ -536,7 +564,8 @@ namespace Renderer {
 		 Poitner to a render object that was just created
 		*************************************************************************/
 		inline void change_object_state(Renderer_Types r_type, const LB::CPRender* obj);
-	
+
+		void render_msg(std::string text, float x, float y, float scale, LB::Vec3<float> color);
 
 		void update_cam(float xpos, float ypos);
 		void fcam_zoom(float amount); //1.f means no zoom
