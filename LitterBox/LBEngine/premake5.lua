@@ -42,10 +42,9 @@ project "LBEngine"
     libdirs
     {
         "%{wks.location}/dependencies/FMOD/core/lib/x64",
-        "%{wks.location}/dependencies/FreeType/objs",
+        "%{wks.location}/dependencies/FreeType/lib",
         "%{wks.location}/dependencies/Mono/lib",
-        "%{wks.location}/dependencies/Mono/lib/mono/4.5/*",
-        
+        "%{wks.location}/dependencies/Mono/lib/mono/4.5/*", 
     }
 
     -- Links to libraries by providing their project's name
