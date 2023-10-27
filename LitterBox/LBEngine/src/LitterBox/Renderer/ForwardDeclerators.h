@@ -130,4 +130,6 @@ namespace Renderer {
 	struct index {
 		std::array<unsigned short, 6> indexes;
 	};
+
+	class RenderSystem;
 }

@@ -59,6 +59,19 @@ namespace LB
 			}
 			else return false;
 			data.AddMember("Rotation", m_angle, alloc);
+			if (!m_children.empty())
+			{
+				Value childArray(rapidjson::kArrayType);
+				for (const auto& child : m_children)
+				{
+					Value childValue;
+					if (child->gameObj->Serialize(childValue,alloc))
+					{
+						childArray.PushBack(childValue, alloc);
+					}
+				}
+				data.AddMember("Children", childArray, alloc);
+			}
 			return true;
 		}
 
@@ -69,27 +82,7 @@ namespace LB
 		\return
 		 returns true if deserialization succeeds and false if not.
 		*************************************************************************/
-		bool Deserialize(const Value& data) override
-		{
-			bool HasPosition = data.HasMember("Position");
-			bool HasScale = data.HasMember("Scale");
-			bool HasRot = data.HasMember("Rotation");
-			DebuggerLog("Deserializing Transform");
-			if (data.IsObject())
-			{
-				if (HasPosition && HasScale && HasRot)
-				{
-					const Value& positionValue = data["Position"];
-					const Value& scaleValue = data["Scale"];
-					const Value& rotationValue = data["Rotation"];
-					m_pos.Deserialize(positionValue);
-					m_scale.Deserialize(scaleValue);
-					m_angle = rotationValue.GetFloat();
-					return true;
-				}
-			}
-			return false;
-		}
+		bool Deserialize(const Value& data) override;
 
 		/*!***********************************************************************
 		\brief
@@ -97,7 +90,7 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override
 		{
-			DebuggerLog("Destorying Transform");
+			DebuggerLog("Destroying Transform");
 		}
 
 		/*!***********************************************************************
@@ -210,7 +203,7 @@ namespace LB
 
 	private:
 		CPTransform* m_parent{ nullptr };
-		std::vector<CPTransform*> m_children{ nullptr };
+		std::vector<CPTransform*> m_children{};
 
 		//---------------Global (World) Space---------------
 		Vec2<float> m_pos{}, m_scale{ 1.0f, 1.0f };

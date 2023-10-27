@@ -89,12 +89,6 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Creates a empty GameObject with no components.
-		*************************************************************************/
-		GameObject* CreateGameObject();
-
-		/*!***********************************************************************
-		 \brief
 		 Gets all of the ComponentMakers
 		*************************************************************************/
 		std::map<ComponentTypeID, ComponentMaker*> GetCMs() const;
@@ -106,6 +100,11 @@ namespace LB
 		int GetLastObjID() const;
 
 	private:
+		/*!***********************************************************************
+		 \brief
+		 SpawnGameObject uses this to create the empty GameObject shell
+		*************************************************************************/
+		GameObject* CreateGameObject();
 
 		std::map<ComponentTypeID, ComponentMaker*>	m_ComponentMakers;
 		std::vector<GameObject*>					m_WaitingList;

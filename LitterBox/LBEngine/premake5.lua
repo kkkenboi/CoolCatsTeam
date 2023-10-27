@@ -42,7 +42,7 @@ project "LBEngine"
     libdirs
     {
         "%{wks.location}/dependencies/FMOD/core/lib/x64",
-        "%{wks.location}/dependencies/FreeType/lib",
+        "%{wks.location}/dependencies/FreeType/objs",
         "%{wks.location}/dependencies/Mono/lib",
         "%{wks.location}/dependencies/Mono/lib/mono/4.5/*",
         
@@ -57,7 +57,7 @@ project "LBEngine"
         "opengl32.lib",
         "fmod_vc",
         "mono-2.0-sgen",
-        -- "freetype"
+        "freetype"
     }
 
     filter "system:windows"
