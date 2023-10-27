@@ -22,6 +22,7 @@ project "LBEditor"
     includedirs
     {
         "%{wks.location}/LBEngine/src",
+        "%{wks.location}/LBEditor/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
@@ -54,7 +55,8 @@ project "LBEditor"
     -- Link to our engine library
     links
     {
-        "LBEngine"
+        "LBEngine",
+        "LBMonoDLL"
     }
 
     filter "system:windows"
