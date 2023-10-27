@@ -868,8 +868,8 @@ void Renderer::RenderSystem::Update()
 		msgs.pop();
 	}
 
-	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.editor_world_NDC[0][0]);
 	glUseProgram(shader_program);
+	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.editor_world_NDC[0][0]);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, svfb);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
