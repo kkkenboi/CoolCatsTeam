@@ -24,6 +24,7 @@ namespace LB
 	void EditorHierarchy::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
+
 		if (ImGui::Button("Create Game Object"))
 		{
 			std::cout << "Hello world :D\n";

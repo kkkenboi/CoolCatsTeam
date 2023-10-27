@@ -34,9 +34,9 @@ namespace LB
 		 \brief
 		 Initialises the Scene
 		*************************************************************************/
-		virtual void Init() { 
-			//Document _jsonFile = JSONSerializer::GetJSONFile("Scenetest.json");
-			//root.Deserialize(_jsonFile);
+		void Init() 
+		{ 
+			JSONSerializer::DeserializeFromFile("Scenetest.json", *this);
 		}
 
 		/*!***********************************************************************
@@ -49,17 +49,15 @@ namespace LB
 		 \brief
 		 Destroy function that handles the destruction of the scene
 		*************************************************************************/
-		virtual void Destroy() {}
+		void Destroy() 
+		{
+			// To do: Serialize on save key press and not in play mode
+
+			JSONSerializer::SerializeToFile("Scenetest.json", *this);
+		}
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc)
 		{
-			GameObject* test = FACTORY->SpawnGameObject();
-			root.AddChild(test->GetComponent<CPTransform>());
-			GameObject* test2 = FACTORY->SpawnGameObject();
-			root.AddChild(test2->GetComponent<CPTransform>());
-			GameObject* test3 = FACTORY->SpawnGameObject();
-			test2->GetComponent<CPTransform>()->AddChild(test3->GetComponent<CPTransform>());
-
 			data.SetObject();
 			Value rootObject;
 			root.Serialize(rootObject, alloc);

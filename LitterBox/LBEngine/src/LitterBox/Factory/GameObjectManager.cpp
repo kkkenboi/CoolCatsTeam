@@ -314,7 +314,6 @@ namespace LB
 	*************************************************************************/
 	void GameObjectManager::DestroyAllGOs()
 	{
-		std::cout << "Entering!!\n";
 		// Destroying components in game objects
 		for (size_t i{}; i < m_GameObjects.size(); ++i)
 		{
@@ -326,15 +325,14 @@ namespace LB
 				delete component.second;
 
 				//// --Change this to check the delete for which component--
-				std::cout << "One GO component deleted from game object " << m_GameObjects[i]->GetID() << "\n";
+				DebuggerLogFormat("One GO component deleted from game object %d.", m_GameObjects[i]->GetID());
 			}
 
-
-			std::cout << "GO " << m_GameObjects[i]->GetID() << " has been deleted\n";
+			DebuggerLogFormat("GO %d has been deleted", m_GameObjects[i]->GetID());
 
 			if (i + 1 == m_GameObjects.size())
 			{
-				std::cout << "GO's components all deleted\n";
+				DebuggerLog("GO's components all deleted");
 			}
 		}
 

@@ -70,7 +70,7 @@ namespace LB
 
 	void Editor::Initialize()
 	{
-		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		//INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();

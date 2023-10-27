@@ -27,12 +27,12 @@ namespace LB
 	*************************************************************************/
 	SceneManager::SceneManager(Scene* firstScene)
 	{
-		if (!DEBUG)
+		if (!SCENEMANAGER)
 			SCENEMANAGER = this;
 		else
 			std::cerr << "SceneManager System already exist" << std::endl;
 
-		nextScene = firstScene;
+		nextScene = new SceneEmpty;
 	}
 
 	/*!***********************************************************************
@@ -63,16 +63,9 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::Destroy()
 	{
-
-		JSONSerializer::SerializeToFile("Scenetest.json", *currentScene);
 		currentScene->Destroy();
 		delete currentScene;
 	}
-
-	//void SceneManager::LoadScene(int index)
-	//{
-
-	//}
 
 	void SceneManager::LoadScene(std::string name)
 	{
