@@ -79,7 +79,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 * \brief 
-		 *  Grabs the json file specified (user does not need to add .json to filename)
+		 *  Grabs the json file specified (User doesn't need to type the whole path, just filename)
 		 * and then deserializes it into the type.
 		 *************************************************************************/
 		template<typename T>
@@ -99,6 +99,7 @@ namespace LB
 		/*!***********************************************************************
 		 * \brief 
 		 * Helper function to grab json data from file specified.
+		 * (ONLY WORKS WITH ABSOLUTE FILE PATHS!! DOES NOT USE FILE MANAGER SYSTEM!)
 		 *************************************************************************/
 		static Document GetJSONFile(const std::string& filePath)
 		{
@@ -108,7 +109,7 @@ namespace LB
 			Document _jsonFile;
 			std::ifstream inputFile(filePath);
 			//Assert if it's NOT open
-			DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
+			//DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
 			std::string jsonString((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
 			inputFile.close();
 			if (_jsonFile.Parse(jsonString.c_str()).HasParseError()) { }
@@ -118,6 +119,7 @@ namespace LB
 		/*!***********************************************************************
 		 * \brief 
 		 * Helper function to save json data into the specified json file
+		 * (ONLY WORKS WITH ABSOLUTE FILE PATHS!! DOES NOT USE FILE MANAGER SYSTEM!)
 		 *************************************************************************/
 		static void SaveToJSON(const std::string& filePath, const Document& jsonFileToSave)
 		{

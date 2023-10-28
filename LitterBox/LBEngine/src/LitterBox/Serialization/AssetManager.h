@@ -52,11 +52,7 @@ namespace LB
     };
 
    
-    struct AudioClip
-    {
-        FMOD::Sound* _audioClip = nullptr;
-        std::string name;
-    };
+
 
     /*!***********************************************************************
      * \brief 
@@ -90,7 +86,7 @@ namespace LB
          * Create a Texture object 
          **************************************************************************/
         std::shared_ptr<TextureData> CreateTexture(const std::string& fileName);
-
+        void ImportAssets();
         /*!***********************************************************************
          * \brief 
          * Adds the texture from a file to the texture map
@@ -119,9 +115,7 @@ namespace LB
          **************************************************************************/
         std::map<std::string, std::string> TextureFilePaths;
 
-        //ID : Shared_Ptr to audio clip
-        //[0] : Shared_Ptr to audio clip
-        std::map<int, std::shared_ptr<AudioClip>> AudioClips;
+
 
         /*!***********************************************************************
          * \brief 
@@ -143,7 +137,14 @@ namespace LB
          * \brief Loads all sounds and creates an instance of them for use
          * 
          **************************************************************************/
+         //ID : name of audio clip file
+        //[0] : Shared_Ptr to audio clip
+        std::map<std::string, FMOD::Sound*> SoundMap;
+        void ImportSounds();
         void LoadSounds();
+        //Stores the meta data of all files
+        //"Filepath" : timesincecreated
+        std::map<std::string, int> metaFileMap;
 
         /*!***********************************************************************
          * \brief Loads all prefabs from their json data and creates an instance of them
