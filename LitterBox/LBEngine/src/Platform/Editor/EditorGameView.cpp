@@ -47,7 +47,7 @@ namespace LB
 
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("ASSET BROWSER"))
+			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
 			{
 				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
 				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();

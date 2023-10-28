@@ -167,7 +167,7 @@ namespace LB
 				int inspectedTextureID = EDITOR->InspectedGO()->GetComponent<CPRender>()->texture;
 				if (ImGui::BeginDragDropTarget())
 				{
-					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("ASSET BROWSER"))
+					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("TEXTURE"))
 					{
 						const char* textureName = (const char*)textureData->Data;
 						EDITOR->InspectedGO()->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[textureName].second);

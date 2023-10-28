@@ -99,7 +99,7 @@ namespace LB
 					if (ImGui::BeginDragDropSource())
 					{
 						//DebuggerLog(directory.path().extension().string());
-						ImGui::SetDragDropPayload("ASSET BROWSER", FileName.c_str(), FileName.size());
+						ImGui::SetDragDropPayload("PREFAB", FileName.c_str(), FileName.size());
 						ImGui::EndDragDropSource();
 					}
 				}
@@ -107,7 +107,7 @@ namespace LB
 				{
 					if (ImGui::BeginDragDropSource())
 					{
-						ImGui::SetDragDropPayload("ASSET BROWSER", FileName.c_str(), FileName.size());
+						ImGui::SetDragDropPayload("TEXTURE", FileName.c_str(), FileName.size());
 						ImGui::EndDragDropSource();
 					}
 				}
