@@ -9,6 +9,16 @@
  game.
 
 **************************************************************************/
+
+#ifdef _DEBUG
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+// allocations to be of _CLIENT_BLOCK type
+#else
+#define DBG_NEW new
+#endif
+
+
 #include "SceneTestMain.h"
 #include "LitterBox/Engine/Input.h"
 #include "Player/Player.h"
@@ -105,7 +115,7 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Player example
-	testPlayer = new Player;
+	testPlayer = DBG_NEW Player;
 	testPlayer->Initialise();
 	LB::INPUT->SubscribeToKey(PlayTestSound, LB::KeyCode::KEY_W, LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(PlayTestSound, LB::KeyCode::KEY_S, LB::KeyEvent::TRIGGERED);
@@ -190,4 +200,5 @@ void SceneTestMain::Destroy()
 	//This test lets us know that we can "save" the player's position
 	JSONSerializer stream;
 	stream.SerializeToFile("TestObject", *testPlayer->playerObj);
+	delete testPlayer;
 }
