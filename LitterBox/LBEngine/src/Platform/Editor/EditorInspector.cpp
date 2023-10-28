@@ -142,12 +142,12 @@ namespace LB
 				ImGui::Text("%-17s X", "Position");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::InputFloat("##PosX", &pos.x, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##PosX", &pos.x, 1.0f, 0.0f, 0.0f, "%.2f");
 				ImGui::SameLine();
 				ImGui::Text("Y");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::InputFloat("##PosY", &pos.y, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##PosY", &pos.y, 1.0f, 0.0f, 0.0f, "%.2f");
 				EDITOR->InspectedGO()->GetComponent<CPTransform>()->SetPosition(pos);
 
 				// For Testing

@@ -18,6 +18,7 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "Platform/Windows/Windows.h"
+#include "LitterBox/Physics/ColliderManager.h"
 
 extern unsigned int textureColorbuffer;
 extern Renderer::RenderSystem* Renderer::GRAPHICS;
@@ -34,40 +35,49 @@ namespace LB
 			DebuggerLogError("Editor Game View already exist!");
 	}
 
-	Vec2<float> const& EditorGameView::GetMousePos()
-	{
-		return mousePosInWindow;
-	}
-
 	void EditorGameView::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
-
-		ImVec2 windowPos = ImGui::GetWindowPos();
-		ImVec2 mousePos = ImGui::GetMousePos();
-		mousePosInWindow.x = mousePos.x - windowPos.x;
-		mousePosInWindow.y = mousePos.y - windowPos.y;
 
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
 		ImGui::Image((ImTextureID)textureColorbuffer, wsize, ImVec2(0, 1), ImVec2(1, 0));
 
+		Vec2<float> mousePos{};
+
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("ASSET BROWSER"))
 			{
-				ImVec2 windowMax = ImGui::GetWindowContentRegionMax();
-				Vec2<float> worldPos;
-				worldPos.x = (GetMousePos().x / windowMax.x) * WINDOWSSYSTEM->GetWidth();
-				worldPos.y = (1.0f - GetMousePos().y / windowMax.y) * WINDOWSSYSTEM->GetHeight();
+				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
 				const char* assetPath = (const char*)assetData->Data;
 				DebuggerLog(assetPath);
-				ASSETMANAGER->SpawnGameObject(assetPath, worldPos);
+				ASSETMANAGER->SpawnGameObject(assetPath, mousePos);
 			}
 		}
-
 		Renderer::GRAPHICS->render_msg("HELLO", 20.f, 20.f, 2.f, { .4f, .3f, 0.7f });
+
+
+		// Get the object based on the world position of the mouse
+		if (ImGui::IsItemHovered())
+		{
+			mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+			mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
+			// Set the mouse position to the world position
+			EDITOR->SetMousePos(mousePos);
+
+			// If collided, select the component and then set mouse position elsewhere and set the selected game object
+			if (EDITOR->GetMousePicker()->GetComponent<CPCollider>()->m_collided)
+			{
+				DEBUG->DrawCircle(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition(), 10.f, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
+			}
+
+		}
+
+
 
 		ImGui::EndChild();
 
