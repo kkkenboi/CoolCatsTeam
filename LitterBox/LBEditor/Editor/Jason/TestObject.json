@@ -1,4 +1,5 @@
 {
+    "Name": "Game Object",
     "Transform": {
         "Position": {
             "x": 400.0,

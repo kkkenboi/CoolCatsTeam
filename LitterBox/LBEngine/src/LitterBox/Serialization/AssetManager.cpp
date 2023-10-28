@@ -106,11 +106,12 @@ namespace LB
         //This lets us keep track of the id
         //TODO have a check for editor vs game
         //      if editor then start from 0 otherwise start from 1
-        int i{1}; //START FROM 1 BECAUSE texture unit 0 will be reserved for ImGUI texture
+        int i{1}; //START FROM 2 BECAUSE texture unit 0 will be reserved for ImGUI texture
         for(; i<32; ++i)
         {
             if(!TextureSlots[i]) break;
         }
+
         //The texture is tagged to the ID, which is then tagged to the texture name
         // e.g "cat" : "<catTextureData,ID>" where cat is the name of the texture.
         Textures.emplace(std::make_pair(textureName,std::make_pair(CreateTexture(fileName),i)));
@@ -144,7 +145,7 @@ namespace LB
         }
     }
 
-    const int AssetManager::GetTextureIndex(const std::string& name) const
+    const int AssetManager::GetTextureUnit(const std::string& name) const
     {
         if (Textures.find(name) == Textures.end())
         {
@@ -172,6 +173,20 @@ namespace LB
         }
         DebuggerLogWarning("Texture index : " + std::to_string(index) + " can't be found!");
         return "";
+    }
+
+    const unsigned int AssetManager::GetTextureIndex(const std::string& name) const 
+    {
+        if (Textures.find(name) == Textures.end())
+        {
+            DebuggerLogWarning("Texture " + name + " can't be found!");
+            return -1;  //return an invalid index for a graceful fail
+        }
+        if (name == "none")
+        {
+            return 0;
+        }
+        return Textures.find(name)->second.first->id;
     }
 
     /*!***********************************************************************
@@ -266,7 +281,7 @@ namespace LB
     {
         //TODO Some refactoring for creating empty game objects
         //PineappleObject = FACTORY->SpawnGameObject({ "CPRender","CPRigidBody" });
-        PineappleObject = FACTORY->CreateGameObject();
+        //PineappleObject = FACTORY->CreateGameObject();
         //AvatarObject = FACTORY->CreateGameObject();
         //std::cout <<"Pineapple component size : " << PineappleObject->GetComponents().size() << '\n';
         //* Don't touch this, it works!
@@ -278,7 +293,7 @@ namespace LB
     }
     void AssetManager::SpawnGameObject(std::string fileName, Vec2<float> pos)
     {
-        GameObject* prefab = FACTORY->CreateGameObject();
+        GameObject* prefab = FACTORY->SpawnGameObject();
         JSONSerializer::DeserializeFromFile(fileName, *prefab);
         if (!(pos == Vec2<float>{0, 0}))
         prefab->GetComponent<CPTransform>()->SetPosition(pos);

@@ -106,9 +106,13 @@ namespace LB
 	*************************************************************************/
 	bool GameObject::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
+		data.SetObject();
+		Value gameObjName(m_name.c_str(), alloc);
+		data.AddMember("Name", gameObjName, alloc);
+
 		if (m_Components.find(C_CPTransform) != m_Components.end())
 		{
-			data.SetObject();
+			//data.SetObject();
 			Value TransformComponent;
 			m_Components[C_CPTransform]->Serialize(TransformComponent, alloc);
 			data.AddMember("Transform", TransformComponent, alloc);
@@ -140,11 +144,17 @@ namespace LB
 	*************************************************************************/
 	bool GameObject::Deserialize(const Value& data)
 	{
+		bool HasName = data.HasMember("Name");
 		bool HasTransform = data.HasMember("Transform");
 		bool HasRigidBody = data.HasMember("RigidBody");
 		bool HasRender = data.HasMember("Render");
 		if (data.IsObject())
 		{
+			if (HasName)
+			{
+				const Value& nameValue = data["Name"];
+				m_name = data["Name"].GetString();
+			}
 			if (HasTransform)
 			{
 				if (m_Components.find(C_CPTransform) == m_Components.end())
