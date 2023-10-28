@@ -61,7 +61,7 @@ void SceneTestMain::Init()
 	rotObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(800, 600));
 	rotObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("pine"));
 	
-	JSONSerializer::DeserializeFromFile("Scenetest.json", *this);
+	JSONSerializer::DeserializeFromFile("Scenetest", *this);
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Animation test
 	//---------------------------getting the uvs for the run------------------------
@@ -189,5 +189,5 @@ void SceneTestMain::Destroy()
 	//delete testPlayer;
 	//This test lets us know that we can "save" the player's position
 	JSONSerializer stream;
-	stream.SerializeToFile("TestObject.json", *testPlayer->playerObj);
+	stream.SerializeToFile("TestObject", *testPlayer->playerObj);
 }

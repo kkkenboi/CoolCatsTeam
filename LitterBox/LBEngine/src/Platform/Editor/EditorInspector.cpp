@@ -165,7 +165,15 @@ namespace LB
 				ImGui::Text("%-19s", "Image");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);
-				int inspectedTextureID = m_inspectedGO->GetComponent<CPRender>()->texture;
+				int inspectedTextureID = EDITOR->InspectedGO()->GetComponent<CPRender>()->texture;
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("ASSET BROWSER"))
+					{
+						const char* textureName = (const char*)textureData->Data;
+						EDITOR->InspectedGO()->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[textureName].second);
+					}
+				}
 				if (ImGui::BeginCombo("##Texture", ASSETMANAGER->GetTextureName(inspectedTextureID).c_str()))
 				{
 					for (auto& [str, tex] : ASSETMANAGER->Textures)

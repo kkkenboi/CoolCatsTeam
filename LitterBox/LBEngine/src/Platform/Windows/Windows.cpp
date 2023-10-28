@@ -63,7 +63,7 @@ namespace LB
 
         //Deserialise the config settings
         //Current file path is : \LBEditor\Editor\Jason\config settings.json"
-         LB::JSONSerializer::DeserializeFromFile("config settings.json", m_Data);
+         LB::JSONSerializer::DeserializeFromFile("config settings", m_Data);
         // Update Window Title
 
         // Create GLFW window
