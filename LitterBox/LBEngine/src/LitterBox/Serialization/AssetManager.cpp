@@ -19,6 +19,7 @@
 #pragma warning(push, 0)
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include <chrono>
 #pragma warning(pop)
 
 namespace LB
@@ -45,9 +46,10 @@ namespace LB
     {
         DebuggerLog("Assetmanager is initializing");
         Textures["none"];
+        ImportAssets();
         //Load all assets here
-        LoadSounds();
-        LoadTextures();
+       // LoadSounds();
+        //LoadTextures();
        // LoadPrefabs();
         LoadKeyBinds();
     }
@@ -63,8 +65,8 @@ namespace LB
         std::shared_ptr<TextureData> cachedTexture = std::make_shared<TextureData>();
 
         stbi_set_flip_vertically_on_load(1);
-        //In the future, this will change to the a map from the asset manager
-        cachedTexture->stbBuffer = stbi_load(fileName.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
+        std::filesystem::path texturePath = FileSystemManager::GetFilePath(fileName);
+        cachedTexture->stbBuffer = stbi_load(texturePath.string().c_str(), &cachedTexture->width, &cachedTexture->height, &cachedTexture->fluff, 4);
         if(!cachedTexture->stbBuffer)
         {
             DebuggerLogErrorFormat("Texture filepath %s not found!", fileName);
@@ -88,6 +90,63 @@ namespace LB
 	    glTextureParameteri(cachedTexture->id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	    glTextureParameteri(cachedTexture->id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         return cachedTexture;
+    }
+
+    void AssetManager::ImportAssets()
+    {
+        //On engine load, we will grab all the assets and their types and put it into an assets.json
+        //so that we can loop through it later in loadtextures/loadsounds to load the data we found.
+
+        //We also need to initialise the metafilemap with the the metadata, and all of this is also
+        //generated when we import our assets. We should only ever call this function ONCE.
+
+        //Note that this will always recreate a new AssetFiles.json!!
+        Document _assetFile;
+        Document::AllocatorType& alloc = _assetFile.GetAllocator();
+        //We want to also create/update the meta file everytime we import
+        Document _metaFile;
+        Document::AllocatorType& metaAlloc = _metaFile.GetAllocator();
+        //Well technically, I can shove it all into one big array and do it in one loop
+        //where I can literally just take the extension name and store it but... 
+        //all that for super unreadable code + not much performance diff...
+        std::vector<std::filesystem::path> TextureFilePaths = FileSystemManager::GetFilesOfType(".png");
+        std::vector<std::filesystem::path> SoundFilePaths = FileSystemManager::GetFilesOfType(".wav");
+        _metaFile.SetObject();
+        _assetFile.SetObject();
+        for (const auto& t : TextureFilePaths)
+        {
+            Value key(Value(t.stem().string().c_str(), alloc), alloc);
+            Value val(".png", alloc);
+            _assetFile.AddMember(key, val, alloc);
+
+            Value metaKey(Value(t.string().c_str(), metaAlloc), metaAlloc);
+            std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(t);
+            int fileTime = std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch()).count();
+            _metaFile.AddMember(metaKey, fileTime, alloc);
+
+            metaFileMap[t.string()] = fileTime;
+            //File path : file name (ID)
+            AddTexture(t.string(), t.stem().string());
+        }
+        for (const auto& s : SoundFilePaths)
+        {
+            Value key(Value(s.stem().string().c_str(), alloc), alloc);
+            Value val(".wav", alloc);
+            _assetFile.AddMember(key, val, alloc);
+
+            Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
+            std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(s);
+            int fileTime = std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch()).count();
+            _metaFile.AddMember(metaKey, fileTime, alloc);
+
+            metaFileMap[s.string()] = fileTime;
+
+            
+           AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound(s.string().c_str(), FMOD_DEFAULT, nullptr, &SoundMap[s.stem().string()]);
+           if (AUDIOMANAGER->result != FMOD_OK) DebuggerLogWarningFormat("UNABLE TO FIND %s SOUND!", s.string().c_str());
+        }
+        JSONSerializer::SaveToJSON(FileSystemManager::GetFilePath("AssetFiles.json").string(), _assetFile);
+        JSONSerializer::SaveToJSON(FileSystemManager::GetFilePath("MetaFiles.json").string(), _metaFile);
     }
 
     /*!***********************************************************************
@@ -217,21 +276,7 @@ namespace LB
             TextureFilePaths[itr->name.GetString()] = itr->value.GetString();
         }
         //Incase there are any changes, we just regenerate the file
-        GenerateTextureFilePathsJson();
-
-
-        //AddTexture("../Assets/Textures/despair.png", "despair");
-        //TextureFilePaths["../Assets/Textures/despair.png"] = "despair";
-        //AddTexture("../Assets/Textures/walk.png", "run");
-        //TextureFilePaths["../Assets/Textures/walk.png"] = "run";
-        //AddTexture("../Assets/Textures/test3.png", "pine");
-        //TextureFilePaths["../Assets/Textures/test3.png"] = "pine";
-        //AddTexture("../Assets/Textures/cat.png", "cat");
-        //TextureFilePaths["../Assets/Textures/cat.png"] = "cat";
-        //AddTexture("../Assets/Textures/Environment_Background.png", "bg");
-        //TextureFilePaths["../Assets/Textures/Environment_Background.png"] = "bg";
         //GenerateTextureFilePathsJson();
-        
 
         //This is to test if the get texture name function works
         //std::cout << "Test GetTextName : " << GetTextureName(GetTextureIndex("bg")) << '\n';
@@ -251,6 +296,11 @@ namespace LB
         }
         
         stream.SaveToJSON("Editor/Jason/TextureFilePaths.json", _jsonFile);
+    }
+
+    void AssetManager::ImportSounds()
+    {
+
     }
 
     /*!***********************************************************************

@@ -98,6 +98,42 @@ namespace LB
 		return vec_overlapped;
 	}
 
+	std::vector<GameObject*> ColliderManager::OverlapCircleGameObj(Vec2<float> position)
+	{
+		float radius = 1.0f;
+		Vec2<float> normal{ 0.f,0.f };
+		float depth{ 0.f };
+
+		std::vector<GameObject*> vec_overlapped;
+
+		for (size_t i = 0; i < m_poolSize; ++i)
+		{
+			if (m_colliderPool[i] == nullptr)
+			{
+				continue;
+			}
+
+			if (m_colliderPool[i]->m_shape == COL_POLYGON)
+			{
+				if (CollisionIntersection_CirclePolygon_SAT(position, radius,
+					m_colliderPool[i]->m_transformedVerts, normal, depth))
+				{
+					vec_overlapped.push_back(m_colliderPool[i]->m_gameobj);
+				}
+			}
+			if (m_colliderPool[i]->m_shape == COL_CIRCLE)
+			{
+				if (CollisionIntersection_CircleCircle(position, m_colliderPool[i]->m_pos,
+					radius, m_colliderPool[i]->m_radius, normal, depth))
+				{
+					vec_overlapped.push_back(m_colliderPool[i]->m_gameobj);
+				}
+			}
+		}
+
+		return vec_overlapped;
+	}
+
 	std::string ColliderManager::GetShapeNames(SHAPETYPE type)
 	{
 		switch (type)
