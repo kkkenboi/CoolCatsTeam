@@ -766,7 +766,7 @@ void Renderer::RenderSystem::Initialize()
 	//t_Manager.add_texture("Assets/Textures/test3.png", "pine");
 	//t_Manager.add_texture("Assets/Textures/Environment_Background.png", "bg");
 
-	test2->texture = LB::ASSETMANAGER->GetTextureIndex("bg");
+	test2->texture = LB::ASSETMANAGER->GetTextureUnit("bg");
 	test2->uv[0].x = 0.f;
 	test2->uv[0].y = 0.f;
 	test2->uv[1].x = 1.f;
