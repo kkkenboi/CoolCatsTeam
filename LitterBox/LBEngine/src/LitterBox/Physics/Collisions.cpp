@@ -42,6 +42,7 @@ namespace LB
 		{
 			this->rigidbody = nullptr;
 		}
+		this->m_gameobj = gameObj;
 
 		this->m_shape = COL_POLYGON;
 		this->m_simpleCol = true;
