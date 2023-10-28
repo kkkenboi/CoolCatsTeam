@@ -54,7 +54,7 @@ namespace LB
 
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("ASSET BROWSER"))
+			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
 			{
 				ImVec2 windowMax = ImGui::GetWindowContentRegionMax();
 				Vec2<float> worldPos;
