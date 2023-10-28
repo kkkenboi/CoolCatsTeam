@@ -43,7 +43,7 @@ namespace LB
 		void Update();
 
 		// Makes all the ptrs nullptrs in the pool
-		//void Destroy();
+		void Destroy();
 	};
 
 	bool CheckColliders(CPCollider* colA, CPCollider* colB, Vec2<float>& normal_out, float& depth_out);
