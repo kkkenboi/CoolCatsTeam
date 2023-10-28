@@ -35,8 +35,10 @@ namespace LB
 
         void UpdateSceneLoaded(Scene* loadedScene);
 
-    private:
+        Event<GameObject*> onNewObjectSelected;
 
+    private:
+        CPTransform* m_clickedItem{ nullptr };
         Scene* m_loadedScene{ nullptr };
     };
 

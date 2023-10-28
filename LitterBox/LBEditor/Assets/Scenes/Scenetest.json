@@ -28,11 +28,11 @@
                 }
             },
             {
-                "Name": "Game Object",
+                "Name": "Despair!!",
                 "Transform": {
                     "Position": {
-                        "x": 600.0,
-                        "y": 450.0
+                        "x": 500.0,
+                        "y": 100.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -41,7 +41,7 @@
                     "Rotation": 0.0,
                     "Children": [
                         {
-                            "Name": "Game Object",
+                            "Name": "OOF",
                             "Transform": {
                                 "Position": {
                                     "x": 500.0,
@@ -54,277 +54,13 @@
                                 "Rotation": 0.0
                             },
                             "Render": {
-                                "Texture": 5
+                                "Texture": 2
                             }
                         }
                     ]
                 },
                 "Render": {
-                    "Texture": 5
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0,
-                    "Children": [
-                        {
-                            "Name": "Game Object",
-                            "Transform": {
-                                "Position": {
-                                    "x": 800.0,
-                                    "y": 450.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0,
-                    "Children": [
-                        {
-                            "Name": "Game Object",
-                            "Transform": {
-                                "Position": {
-                                    "x": 800.0,
-                                    "y": 450.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0,
-                    "Children": [
-                        {
-                            "Name": "Game Object",
-                            "Transform": {
-                                "Position": {
-                                    "x": 800.0,
-                                    "y": 450.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0,
-                    "Children": [
-                        {
-                            "Name": "Game Object",
-                            "Transform": {
-                                "Position": {
-                                    "x": 800.0,
-                                    "y": 450.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0,
-                    "Children": [
-                        {
-                            "Name": "Game Object",
-                            "Transform": {
-                                "Position": {
-                                    "x": 800.0,
-                                    "y": 450.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0,
-                    "Children": [
-                        {
-                            "Name": "Game Object",
-                            "Transform": {
-                                "Position": {
-                                    "x": 800.0,
-                                    "y": 450.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        }
-                    ]
+                    "Texture": 3
                 }
             }
         ]

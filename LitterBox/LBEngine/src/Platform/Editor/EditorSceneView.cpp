@@ -17,13 +17,14 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include "EditorSceneView.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Engine/Time.h"
 
 extern unsigned int svtcb;
 
 namespace LB
 {
 	EditorSceneView* EDITORSCENEVIEW = nullptr;
-	float zoomStep = 0.5f, zoomCurrent = 1.f;
+	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;
 
 	void move_cam_up() {
 		Renderer::GRAPHICS->update_cam(0.f, 20.f);
@@ -38,11 +39,12 @@ namespace LB
 		Renderer::GRAPHICS->update_cam(20.f, 0.f);
 	}
 	void zoom_cam_in() {
-		zoomCurrent += zoomStep;
+		zoomCurrent += zoomStep * TIME->GetDeltaTime();
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
 	void zoom_cam_out() {
-		zoomCurrent -= zoomStep;
+		zoomCurrent -= zoomStep * TIME->GetDeltaTime();
+		zoomCurrent = (zoomCurrent > zoomMin) ? zoomCurrent : zoomMin;
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
 
@@ -69,8 +71,8 @@ namespace LB
 			INPUT->SubscribeToKey(move_cam_down, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(move_cam_left, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(move_cam_right, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(zoom_cam_in, LB::KeyCode::KEY_X, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(zoom_cam_out, LB::KeyCode::KEY_C, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(zoom_cam_in, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(zoom_cam_out, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 		
 			set = true;
 		}

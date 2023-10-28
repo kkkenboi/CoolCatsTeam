@@ -32,6 +32,16 @@ namespace LB
         void Initialize() override;
 
         void UpdateLayer() override;
+
+        void UpdateInspectedGO(GameObject* newInspectedGO);
+
+    private:
+        GameObject* m_inspectedGO{ nullptr };
+        char m_inspectedName[256]{};
     };
+    
+    void UpdateInspectedGO(GameObject* newInspectedGO);
+
+    extern EditorInspector* EDITORINSPECTOR;
 }
 

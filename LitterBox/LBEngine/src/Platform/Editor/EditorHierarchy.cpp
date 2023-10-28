@@ -61,12 +61,35 @@ namespace LB
 	{
 		ImGui::PushID(item);
 
-		ImGuiTreeNodeFlags flags = 
-			ImGuiTreeNodeFlags_OpenOnArrow
-			| ((item->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
+		ImGuiTreeNodeFlags flags;
+		if (item != m_clickedItem)
+		{
+			flags = 
+				ImGuiTreeNodeFlags_OpenOnArrow
+				| ((item->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
+		}
+		else
+		{
+			flags =
+				ImGuiTreeNodeFlags_OpenOnArrow
+				| ImGuiTreeNodeFlags_Selected
+				| ((item->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
+		}
 
+		// If this GO is clicked on,
+		if (ImGui::IsItemClicked())
+		{
+			// Update the item clicked (for highlighting in hierachy)
+			m_clickedItem = item;
+
+			// Tell the editor know a new GO has been selected
+			onNewObjectSelected.Invoke(item->gameObj);
+		}
+
+		// If this GO has children GO,
 		if (ImGui::TreeNodeEx(item->gameObj->GetName().c_str(), flags))
 		{
+			// Recursively render each one
 			for (int index{ 0 }; index < item->GetChildCount(); ++index)
 			{
 				DrawItem(item->GetChild(index));
