@@ -52,8 +52,7 @@ namespace LB
 		*************************************************************************/
 		void Destroy() 
 		{
-			// To do: Serialize on save key press and not in play mode
-
+			// To do: Serialize on save key press and also not in play mode
 			JSONSerializer::SerializeToFile(m_name + ".json", *this);
 		}
 
@@ -85,6 +84,11 @@ namespace LB
 		std::string GetName()
 		{
 			return m_name;
+		}
+
+		CPTransform* GetRoot()
+		{
+			return &root;
 		}
 
 	protected:

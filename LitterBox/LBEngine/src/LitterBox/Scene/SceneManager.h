@@ -56,6 +56,8 @@ namespace LB
 		void LoadScene(std::string name);
 		void LoadScene(Scene* scene);
 
+		Event<Scene*> onNewSceneLoad;
+
 	private:
 		Scene *currentScene{ nullptr };
 	};

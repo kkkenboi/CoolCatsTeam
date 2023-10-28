@@ -18,6 +18,7 @@
 #pragma once
 #include "Platform/Editor/Editor.h"
 #include "Litterbox/Engine/Layer.h"
+#include "LitterBox/Scene/SceneManager.h"
 
 namespace LB
 {
@@ -26,6 +27,21 @@ namespace LB
     public:
         EditorHierarchy(std::string layerName);
 
+        void Initialize() override;
+
         void UpdateLayer() override;
+
+        void DrawItem(CPTransform* item);
+
+        void UpdateSceneLoaded(Scene* loadedScene);
+
+    private:
+
+        Scene* m_loadedScene{ nullptr };
     };
+
+    // For Event Subscription
+    void UpdateSceneLoaded(Scene* loadedScene);
+
+    extern EditorHierarchy* EDITORHIERACHY;
 }

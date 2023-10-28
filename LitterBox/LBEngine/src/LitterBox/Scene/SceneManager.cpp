@@ -80,5 +80,7 @@ namespace LB
 
 		currentScene = newScene;
 		currentScene->Init();
+
+		onNewSceneLoad.Invoke(currentScene);
 	}
 }
