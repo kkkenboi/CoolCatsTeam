@@ -27,6 +27,8 @@ namespace LB
 
 		std::vector<CPCollider*> OverlapCircle(Vec2<float> position, float radius);
 
+		std::vector<GameObject*> OverlapCircleGameObj(Vec2<float> position);
+
 		std::string GetShapeNames(SHAPETYPE type);
 
 		// ================
