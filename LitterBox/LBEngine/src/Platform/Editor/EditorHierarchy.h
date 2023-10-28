@@ -31,7 +31,8 @@ namespace LB
 
         void UpdateLayer() override;
 
-        void DrawItem(CPTransform* item);
+        void DrawRoot();
+        bool DrawItem(CPTransform* item);
 
         void UpdateSceneLoaded(Scene* loadedScene);
 

@@ -11,11 +11,11 @@
         "Rotation": 0.0,
         "Children": [
             {
-                "Name": "Game Object",
+                "Name": "Pine 2000",
                 "Transform": {
                     "Position": {
                         "x": 700.0,
-                        "y": 450.0
+                        "y": 400.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -24,15 +24,15 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 5
+                    "Texture": 4
                 }
             },
             {
-                "Name": "Despair!!",
+                "Name": "big brain",
                 "Transform": {
                     "Position": {
                         "x": 500.0,
-                        "y": 100.0
+                        "y": 400.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -41,11 +41,11 @@
                     "Rotation": 0.0,
                     "Children": [
                         {
-                            "Name": "OOF",
+                            "Name": "small sadge",
                             "Transform": {
                                 "Position": {
                                     "x": 500.0,
-                                    "y": 450.0
+                                    "y": 275.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -60,7 +60,77 @@
                     ]
                 },
                 "Render": {
-                    "Texture": 3
+                    "Texture": 4
+                }
+            },
+            {
+                "Name": "small brain",
+                "Transform": {
+                    "Position": {
+                        "x": 1000.0,
+                        "y": 300.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "big sadge",
+                            "Transform": {
+                                "Position": {
+                                    "x": 1000.0,
+                                    "y": 450.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Texture": 3
+                            }
+                        }
+                    ]
+                },
+                "Render": {
+                    "Texture": 2
+                }
+            },
+            {
+                "Name": "My man",
+                "Transform": {
+                    "Position": {
+                        "x": 100.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": 2
+                }
+            },
+            {
+                "Name": "gg man",
+                "Transform": {
+                    "Position": {
+                        "x": 400.0,
+                        "y": 200.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": 2
                 }
             }
         ]

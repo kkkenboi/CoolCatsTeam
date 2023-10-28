@@ -57,8 +57,8 @@ namespace LB
 
 		// Add the different ImGui layers in here
 		m_ImGuiLayers.AddLayer(new EditorToolBar("ToolBar"));
-		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
 		m_ImGuiLayers.AddLayer(new EditorInspector("Inspector"));
+		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
 		m_ImGuiLayers.AddLayer(new EditorGameView("Game View"));
 		m_ImGuiLayers.AddLayer(new EditorSceneView("Scene View"));
 		m_ImGuiLayers.AddLayer(new EditorConsole("Console"));

@@ -44,47 +44,61 @@ namespace LB
 			return;
 		}
 
-		CPTransform* root = m_loadedScene->GetRoot();
-		for (int index{ 0 }; index < root->GetChildCount(); ++index)
-		{
-			DrawItem(root->GetChild(index));
-		}
-
 		if (ImGui::Button("Create Game Object"))
 		{
-			std::cout << "Hello world :D\n";
+			GameObject* newGO = FACTORY->SpawnGameObject();
+
+			newGO->GetComponent<CPTransform>()->SetParent(m_loadedScene->GetRoot());
+			m_loadedScene->GetRoot()->AddChild(newGO->GetComponent<CPTransform>());
 		}
+
+		// Draw the hierarchy for this cene
+		DrawRoot();
+
 		ImGui::End();
 	}
 
-	void EditorHierarchy::DrawItem(CPTransform* item)
+	void EditorHierarchy::DrawRoot()
 	{
+		ImGui::PushID(m_loadedScene->GetRoot());
+
+		ImGuiTreeNodeFlags flags =
+			ImGuiTreeNodeFlags_DefaultOpen
+			| ((m_loadedScene->GetRoot()->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
+
+		// If this GO has children GO,
+		if (ImGui::TreeNodeEx(m_loadedScene->GetName().c_str(), flags))
+		{
+			// Recursively render each one
+			for (int index{ 0 }; index < m_loadedScene->GetRoot()->GetChildCount(); ++index)
+			{
+				DrawItem(m_loadedScene->GetRoot()->GetChild(index));
+			}
+			ImGui::TreePop();
+		}
+
+		ImGui::PopID();
+	}
+
+	bool EditorHierarchy::DrawItem(CPTransform* item)
+	{
+		// IMGui click detection is weird, but checking click in 3 places does the trick!
+		bool isChildClicked{ false }, isItemClicked{ false }, isParentClicked{ false };
+
 		ImGui::PushID(item);
 
-		ImGuiTreeNodeFlags flags;
-		if (item != m_clickedItem)
+		ImGuiTreeNodeFlags flags =
+			ImGuiTreeNodeFlags_OpenOnArrow
+			| ((item->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0)
+			| ImGuiTreeNodeFlags_DefaultOpen;
+
+		if (item == m_clickedItem)
 		{
-			flags = 
-				ImGuiTreeNodeFlags_OpenOnArrow
-				| ((item->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
-		}
-		else
-		{
-			flags =
-				ImGuiTreeNodeFlags_OpenOnArrow
-				| ImGuiTreeNodeFlags_Selected
-				| ((item->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
+			flags |= ImGuiTreeNodeFlags_Selected;
 		}
 
-		// If this GO is clicked on,
-		if (ImGui::IsItemClicked())
-		{
-			// Update the item clicked (for highlighting in hierachy)
-			m_clickedItem = item;
-
-			// Tell the editor know a new GO has been selected
-			onNewObjectSelected.Invoke(item->gameObj);
-		}
+		// First click check before going into the children
+		if (ImGui::IsItemClicked()) isParentClicked = true;
 
 		// If this GO has children GO,
 		if (ImGui::TreeNodeEx(item->gameObj->GetName().c_str(), flags))
@@ -92,12 +106,35 @@ namespace LB
 			// Recursively render each one
 			for (int index{ 0 }; index < item->GetChildCount(); ++index)
 			{
-				DrawItem(item->GetChild(index));
+				// Second click check from the children
+				isChildClicked = DrawItem(item->GetChild(index));
 			}
 			ImGui::TreePop();
 		}
 
+		// Last click check after going into the children
+		if (ImGui::IsItemClicked()) isItemClicked = true;
+
+		// If this child GO is clicked on,
+		if (isItemClicked && !isChildClicked)
+		{
+			// Update the item clicked (for highlighting in hierachy)
+			m_clickedItem = item;
+			// Tell the editor know a new GO has been selected
+			onNewObjectSelected.Invoke(item->gameObj);
+		}
+		// Else, ImGui::IsClicked selects the next item, so go back 1 item
+		else if (isParentClicked && !item->GetChildCount())
+		{
+			// Update the item clicked (for highlighting in hierachy)
+			m_clickedItem = item->GetParent();
+			// Tell the editor know a new GO has been selected
+			onNewObjectSelected.Invoke(item->GetParent()->gameObj);
+		}
+
 		ImGui::PopID();
+
+		return isItemClicked;
 	}
 
 	void EditorHierarchy::UpdateSceneLoaded(Scene* loadedScene)
