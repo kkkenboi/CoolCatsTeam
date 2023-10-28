@@ -56,6 +56,10 @@ namespace LB
 	{
 		for (size_t i = 0; i < m_poolSize; ++i)
 		{
+			if (m_colliderPool[i] == nullptr) 
+			{
+				continue;
+			}
 			if (m_colliderPool[i] == col)
 			{
 				m_colliderPool[i] = nullptr;
@@ -339,13 +343,17 @@ namespace LB
 		}
 	}
 
-	/*
+	
 	void ColliderManager::Destroy()
 	{
 		for (size_t i = 0; i < m_poolSize; ++i)
 		{
 			m_colliderPool[i] = nullptr;
 		}
+
+		delete[] m_colliderPool;
+
+		COLLIDERS = nullptr;
 	}
-	*/
+	
 }

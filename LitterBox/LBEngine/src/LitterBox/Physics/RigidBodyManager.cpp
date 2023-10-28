@@ -166,6 +166,17 @@ namespace LB
         }
     }
 
+    void RigidBodyManager::RemoveRigidBodyFromPool(CPRigidBody* rb)
+    {
+        for (size_t i = 0; i < m_poolSize; ++i)
+        {
+            if (m_rigidBodies[i] == rb)
+            {
+                m_rigidBodies[i] = nullptr;
+            }
+        }
+    }
+
     /*!***********************************************************************
       \brief
       This function returns a pointer to a CPRigidBody that has the ID of 1
@@ -237,6 +248,17 @@ namespace LB
     {
     }
 
+    void RigidBodyManager::Destroy()
+    {
+        for (size_t i = 0; i < m_poolSize; ++i)
+        {
+            m_rigidBodies[i] = nullptr;
+        }
+
+        delete[] m_rigidBodies;
+
+        PHYSICS = nullptr;
+    }
 
     // END OF RIGIDBODYMANAGER MEMBER FUNCTIONS
     // =======================================================
