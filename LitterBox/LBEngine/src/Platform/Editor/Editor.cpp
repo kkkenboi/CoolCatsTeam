@@ -56,16 +56,17 @@ namespace LB
 		SetSystemName("Editor System");
 
 		m_GameObjectPointer = nullptr;
+		m_MousePicker = nullptr;
 
 		// Add the different ImGui layers in here
-		m_ImGuiLayers.AddLayer(new EditorToolBar("ToolBar"));
-		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
-		m_ImGuiLayers.AddLayer(new EditorInspector("Inspector"));
-		m_ImGuiLayers.AddLayer(new EditorGameView("Game View"));
-		m_ImGuiLayers.AddLayer(new EditorSceneView("Scene View"));
-		m_ImGuiLayers.AddLayer(new EditorConsole("Console"));
-		m_ImGuiLayers.AddLayer(new EditorProfiler("Profiler"));
-		m_ImGuiLayers.AddLayer(new EditorAssets("Assets"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorToolBar("ToolBar"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorHierarchy("Hierarchy"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorInspector("Inspector"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorGameView("Game View"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorSceneView("Scene View"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorConsole("Console"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorProfiler("Profiler"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorAssets("Assets"));
 	}
 
 	void Editor::Initialize()
@@ -225,7 +226,7 @@ namespace LB
 	}
 
 	void Editor::Destroy()
-	{
+	{		
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImPlot::DestroyContext();
@@ -241,7 +242,6 @@ namespace LB
 	{
 		return m_MousePicker;
 	}
-
 
 	void Editor::InspectGO(GameObject* go)
 	{
