@@ -42,6 +42,7 @@ namespace LB
 
 		bool m_EditorMode = true;
 		bool m_IsPlaying = false;
+		bool m_onLaunch = false;
 
 	private:
 		LayerStack m_ImGuiLayers;

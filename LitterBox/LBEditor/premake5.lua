@@ -22,6 +22,7 @@ project "LBEditor"
     includedirs
     {
         "%{wks.location}/LBEngine/src",
+        "%{wks.location}/LBEditor/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
@@ -46,6 +47,7 @@ project "LBEditor"
         "xcopy \"%{wks.location}LBEditor\\imgui.ini\" \"$(TargetDir)\" /Y /I /E",
 
         "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBEditor\"",
+        "{COPYFILE} \"%{wks.location}dependencies/FreeType/objs/freetype.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBEditor\"",
         "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\LBEditor\" /y",
         "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\lib\\mono\\4.5\" /y /i /s",
     }
@@ -53,7 +55,8 @@ project "LBEditor"
     -- Link to our engine library
     links
     {
-        "LBEngine"
+        "LBEngine",
+        "LBMonoDLL"
     }
 
     filter "system:windows"

@@ -47,20 +47,21 @@ void SceneTestMain::Init()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// GameObject use example
 	test2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider });
-	test2->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
+	test2->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("cat"));
 	test2->GetComponent<CPCollider>()->CreatePolygonHexagon();
 
 	test3 = FACTORY->SpawnGameObject({ C_CPRender ,C_CPRigidBody, C_CPCollider }, Vec2<float>(200, 200));
-	test3->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("cat"));
+	test3->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("cat"));
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Rotate and scale test
 	scaleObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(600, 600));
-	scaleObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+	scaleObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("pine"));
 
 	rotObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(800, 600));
-	rotObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
-
+	rotObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("pine"));
+	
+	JSONSerializer::DeserializeFromFile("Scenetest.json", *this);
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Animation test
 	//---------------------------getting the uvs for the run------------------------
@@ -91,7 +92,7 @@ void SceneTestMain::Init()
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Animation test
 	animObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(700, 300));
-	animObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("run"));
+	animObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("run"));
 
 	Renderer::GRAPHICS->init_anim("up_walk", frames[0].data(), 0.5f, 12);
 	Renderer::GRAPHICS->init_anim("right_walk", frames[1].data(), 0.5f, 12);
@@ -115,11 +116,11 @@ void SceneTestMain::Init()
 	// Player example
 	ball1 = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider}, Vec2<float>(800, 400));
 	ball1->GetComponent<CPCollider>()->m_shape = COL_CIRCLE;
-	ball1->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureIndex("cat");
+	ball1->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureUnit("cat");
 
 	ball2 = FACTORY->SpawnGameObject({ C_CPRender, C_CPCollider}, Vec2<float>(1000, 400));
 	ball2->GetComponent<CPCollider>()->m_shape = COL_CIRCLE;
-	ball2->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureIndex("cat");
+	ball2->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureUnit("cat");
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +130,7 @@ void SceneTestMain::Init()
 	// Walls
 	static_wall = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider }, Vec2<float>(200, 600));
 	static_wall->GetComponent<CPRigidBody>()->ToggleIsStatic();
-	static_wall->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("pine"));
+	static_wall->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("pine"));
 
 	wall_south = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider }, Vec2<float>(800, 0));
 	wall_south->GetComponent<CPRigidBody>()->ToggleIsStatic();
@@ -170,9 +171,9 @@ void SceneTestMain::Update()
 	// Rotate and scale test
 	static float degree{ 0.f };
 	scaleObj->GetComponent<CPTransform>()->SetScale({ sinf(degree) ,sinf(degree) });
-	scaleObj->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureIndex("cat");
+	scaleObj->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureUnit("cat");
 	rotObj->GetComponent<CPTransform>()->SetRotation(degree);
-	rotObj->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureIndex("cat");
+	rotObj->GetComponent<CPRender>()->texture = ASSETMANAGER->GetTextureUnit("cat");
 
 	degree = degree > 6.28318531f ? 0.f : degree + 0.01f;
 	/////////////////////////////////////////////////////////////////////////////////////////////

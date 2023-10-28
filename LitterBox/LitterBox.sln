@@ -19,7 +19,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LBEngine", "LBEngine\LBEngi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Script", "Script", "{417DA501-2DE0-34A6-D665-6D5CC2A70029}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LBMonoDLL", "LBMonoDLL\LBMonoDLL.vcxproj", "{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LBMonoDLL", "LBMonoDLL\LBMonoDLL.csproj", "{A86D3CA2-14D8-F018-5D16-A2BEC9BFCE6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

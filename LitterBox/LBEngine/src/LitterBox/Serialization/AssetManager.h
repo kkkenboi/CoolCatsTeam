@@ -127,8 +127,9 @@ namespace LB
          * \brief 
          * Get the Texture Index object for the renderer
          **************************************************************************/
-        const int GetTextureIndex(const std::string& name) const;
+        const int GetTextureUnit(const std::string& name) const;
         const std::string GetTextureName(const int& index) const;
+        const unsigned int GetTextureIndex(const std::string& name) const;
 
         void GenerateTextureFilePathsJson();
 

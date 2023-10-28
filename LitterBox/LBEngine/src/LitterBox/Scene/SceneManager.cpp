@@ -15,6 +15,7 @@
 #include "SceneManager.h"
 #include "SceneEmpty.h"
 #include "LitterBox/Engine/Time.h"
+#include "LitterBox/Serialization/Serializer.h"
 
 namespace LB
 {
@@ -62,6 +63,8 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::Destroy()
 	{
+
+		JSONSerializer::SerializeToFile("Scenetest.json", *currentScene);
 		currentScene->Destroy();
 		delete currentScene;
 	}
