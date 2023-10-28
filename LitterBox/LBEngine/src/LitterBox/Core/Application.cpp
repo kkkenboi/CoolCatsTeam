@@ -22,7 +22,7 @@ namespace LB {
 	 \brief 
 	 Initialises the LitterBox Engine with all the systems added
 	*************************************************************************/
-	Application::Application(Scene* firstScene)
+	Application::Application()
 	{
 		// Setting up LitterBox Engine with the available systems
 		Engine = new LBEngine();
@@ -44,7 +44,7 @@ namespace LB {
 		AssetManager*			assetManager	= new AssetManager();
 		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
 		Memory*					memory			= new Memory();
-		SceneManager*			sceneManager	= new SceneManager(firstScene);
+		SceneManager*			sceneManager	= new SceneManager();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);

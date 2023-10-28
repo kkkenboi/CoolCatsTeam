@@ -3,7 +3,7 @@
 
 LB::Application* LB::CreateApplication()
 {
-	return new Application(new SceneTestMain);
+	return new Application();
 }
 
 int main(int argc, char** argv)
@@ -16,4 +16,3 @@ int main(int argc, char** argv)
 	delete app;
 
 }
-

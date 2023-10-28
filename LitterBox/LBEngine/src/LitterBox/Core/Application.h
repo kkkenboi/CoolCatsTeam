@@ -50,7 +50,7 @@ namespace LB {
 		 \brief
 		 Initialises the LitterBox Engine with all the systems added
 		*************************************************************************/
-		Application(Scene* firstScene);
+		Application();
 
 		/*!***********************************************************************
 		 \brief

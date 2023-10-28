@@ -20,7 +20,6 @@
 #include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
 
-
 namespace LB
 {
 	/*!***********************************************************************
@@ -30,13 +29,15 @@ namespace LB
 	class Scene
 	{
 	public:
+		Scene(std::string name) : m_name{ name } { }
+
 		/*!***********************************************************************
 		 \brief
 		 Initialises the Scene
 		*************************************************************************/
 		void Init() 
 		{ 
-			JSONSerializer::DeserializeFromFile("Scenetest.json", *this);
+			JSONSerializer::DeserializeFromFile(m_name + ".json", *this);
 		}
 
 		/*!***********************************************************************
@@ -53,7 +54,7 @@ namespace LB
 		{
 			// To do: Serialize on save key press and not in play mode
 
-			JSONSerializer::SerializeToFile("Scenetest.json", *this);
+			JSONSerializer::SerializeToFile(m_name + ".json", *this);
 		}
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc)
@@ -87,7 +88,7 @@ namespace LB
 		}
 
 	protected:
-		std::string m_name{ "Scene" };
+		std::string m_name;
 		CPTransform root{};	// All game objects are children of this root game object
 	};
 }
