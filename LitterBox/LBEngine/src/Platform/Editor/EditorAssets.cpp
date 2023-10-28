@@ -76,7 +76,7 @@ namespace LB
 			if (!directory.is_directory())
 			{
 				currentCount++;
-				std::string FileName = directory.path().filename().string();
+				std::string FileName = directory.path().filename().stem().string();
 				ImGui::PushID(FileName.c_str());
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 				//ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string().c_str()), { 64,64 }, { 0,1 }, { 1,0 });
@@ -99,6 +99,14 @@ namespace LB
 					if (ImGui::BeginDragDropSource())
 					{
 						//DebuggerLog(directory.path().extension().string());
+						ImGui::SetDragDropPayload("ASSET BROWSER", FileName.c_str(), FileName.size());
+						ImGui::EndDragDropSource();
+					}
+				}
+				if (directory.path().extension().string() == ".png")
+				{
+					if (ImGui::BeginDragDropSource())
+					{
 						ImGui::SetDragDropPayload("ASSET BROWSER", FileName.c_str(), FileName.size());
 						ImGui::EndDragDropSource();
 					}

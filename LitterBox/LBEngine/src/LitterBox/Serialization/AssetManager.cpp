@@ -337,7 +337,7 @@ namespace LB
         //* Don't touch this, it works!
         //JSONSerializer stream;
         //stream.DeserializeFromFile("Assets/Prefabs/pineapple", *PineappleObject);
-        JSONSerializer::DeserializeFromFile("pineapple.json", *PineappleObject);
+        JSONSerializer::DeserializeFromFile("pineapple", *PineappleObject);
 
         //stream.DeserializeFromFile("../Assets/Prefabs/apple",*AvatarObject);
     }
