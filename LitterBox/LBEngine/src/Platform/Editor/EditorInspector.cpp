@@ -143,13 +143,13 @@ namespace LB
 				ImGui::Text("%-17s X", "Position");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::InputFloat("##PosX", &pos.x, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##PosX", &pos.x, 1.0f, 0.0f, 0.0f, "%.2f");
 				ImGui::SameLine();
 				ImGui::Text("Y");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::InputFloat("##PosY", &pos.y, 0.0f, 0.0f, "%.2f");
-				m_inspectedGO->GetComponent<CPTransform>()->SetPosition(pos);
+				ImGui::DragFloat("##PosY", &pos.y, 1.0f, 0.0f, 0.0f, "%.2f");
+				EDITOR->InspectedGO()->GetComponent<CPTransform>()->SetPosition(pos);
 
 				// For Testing
 				//Vec2<float> returnval = EDITOR->InspectedGO()->GetComponent<CPTransform>()->GetPosition();
@@ -168,7 +168,7 @@ namespace LB
 				int inspectedTextureID = m_inspectedGO->GetComponent<CPRender>()->texture;
 				if (ImGui::BeginDragDropTarget())
 				{
-					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("ASSET BROWSER"))
+					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("TEXTURE"))
 					{
 						const char* textureName = (const char*)textureData->Data;
 						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[textureName].second);
