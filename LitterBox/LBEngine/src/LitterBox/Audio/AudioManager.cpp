@@ -55,7 +55,7 @@ namespace LB
 	**************************************************************************/
 	void PlayTestSound()
 	{
-		AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->playSound(ASSETMANAGER->sampleSound, nullptr, false, nullptr);
+		AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->playSound(ASSETMANAGER->SoundMap["Oof"], nullptr, false, nullptr);
 		if (AUDIOMANAGER->result != FMOD_OK)
 		{
 			//TODO TAKE THIS OUT AND USE OUR BEAUTIFUL DEBUGGER!
@@ -64,7 +64,7 @@ namespace LB
 	}
 	void PlayExplosionSound()
 	{
-		AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->playSound(ASSETMANAGER->explosionSound, nullptr, false, nullptr);
+		AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->playSound(ASSETMANAGER->SoundMap["EXPLOSION"], nullptr, false, nullptr);
 		if (AUDIOMANAGER->result != FMOD_OK)
 		{
 			//TODO TAKE THIS OUT AND USE OUR BEAUTIFUL DEBUGGER!
@@ -73,7 +73,7 @@ namespace LB
 	}
 	void PlayAHHSound()
 	{
-		AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->playSound(ASSETMANAGER->ahhSound, nullptr, false, nullptr);
+		AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->playSound(ASSETMANAGER->SoundMap["Enemy hurt"], nullptr, false, nullptr);
 		if (AUDIOMANAGER->result != FMOD_OK)
 		{
 			//TODO TAKE THIS OUT AND USE OUR BEAUTIFUL DEBUGGER!
