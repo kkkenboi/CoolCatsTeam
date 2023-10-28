@@ -64,7 +64,7 @@ void Player::Initialise()
 
 	playerObj->GetComponent<CPTransform>()->SetPosition(LB::Vec2<float>{400.f, 400.f});
 	// Test player texture
-	playerObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureIndex("run"));
+	playerObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("run"));
 	playerObj->GetComponent<CPRender>()->play_repeat("up_walk");
 
 	playerObj->GetComponent<CPRigidBody>()->mNumberID = 1;
