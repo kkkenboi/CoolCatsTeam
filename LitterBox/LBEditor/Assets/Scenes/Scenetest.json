@@ -77,11 +77,11 @@
                     "Rotation": 0.0,
                     "Children": [
                         {
-                            "Name": "big sadge",
+                            "Name": "Pine 2002",
                             "Transform": {
                                 "Position": {
-                                    "x": 1000.0,
-                                    "y": 450.0
+                                    "x": 700.0,
+                                    "y": 400.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -90,7 +90,7 @@
                                 "Rotation": 0.0
                             },
                             "Render": {
-                                "Texture": 3
+                                "Texture": 4
                             }
                         }
                     ]

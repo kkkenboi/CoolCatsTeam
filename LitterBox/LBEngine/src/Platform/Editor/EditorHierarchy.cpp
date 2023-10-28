@@ -51,6 +51,16 @@ namespace LB
 			newGO->GetComponent<CPTransform>()->SetParent(m_loadedScene->GetRoot());
 			m_loadedScene->GetRoot()->AddChild(newGO->GetComponent<CPTransform>());
 		}
+		ImGui::SameLine();
+		if (ImGui::Button("Delete Selected"))
+		{
+			/*if (m_clickedItem)
+			{
+				m_clickedItem->gameObj->Destroy();
+				m_clickedItem = nullptr;
+				onNewObjectSelected.Invoke(nullptr);
+			}*/
+		}
 
 		// Draw the hierarchy for this cene
 		DrawRoot();
@@ -126,10 +136,13 @@ namespace LB
 		// Else, ImGui::IsClicked selects the next item, so go back 1 item
 		else if (isParentClicked && !item->GetChildCount())
 		{
-			// Update the item clicked (for highlighting in hierachy)
-			m_clickedItem = item->GetParent();
-			// Tell the editor know a new GO has been selected
-			onNewObjectSelected.Invoke(item->GetParent()->gameObj);
+			if (item->GetParent()->gameObj)
+			{
+				// Update the item clicked (for highlighting in hierachy)
+				m_clickedItem = item->GetParent();
+				// Tell the editor know a new GO has been selected
+				onNewObjectSelected.Invoke(item->GetParent()->gameObj);
+			}
 		}
 
 		ImGui::PopID();

@@ -21,6 +21,8 @@
 #include "GameObjectManager.h"
 #include "Components.h"
 #include "GameObjectFactory.h"
+#include <algorithm>			// For std::find
+
 namespace LB
 {
 	/***************************************************************************************************
@@ -46,6 +48,32 @@ namespace LB
 	 Destroys a GameObject
 	*************************************************************************/
 	GameObject::~GameObject() {}
+
+	void GameObject::Destroy()
+	{
+		//std::cout << "Deleted " << m_name << " Children count " << GetComponent<CPTransform>()->GetChildCount() << "\n";
+
+		//// Delete children GO first if any
+		//for (int index{ GetComponent<CPTransform>()->GetChildCount() - 1 }; index >= 0; --index)
+		//{
+		//	GetComponent<CPTransform>()->GetChild(index)->gameObj->Destroy();
+		//}
+
+		// Every GO has a parent, remove itself from the parent
+		GetComponent<CPTransform>()->GetParent()->RemoveChild(GetComponent<CPTransform>());
+
+		// Free memory allocated for components
+		for (auto const& component : m_Components)
+		{
+			std::cout << "Deleted " << component.first << "\n";
+
+			component.second->Destroy();
+			delete component.second;
+		}
+
+		delete this;
+		//DebuggerLogFormat("GO \"%s\" Deleted", m_name.c_str());
+	}
 
 	/*!***********************************************************************
 	 \brief
@@ -258,13 +286,9 @@ namespace LB
 		SetSystemName("GameObjectManager System");
 
 		if (!GOMANAGER)
-		{
 			GOMANAGER = this;
-		}
 		else
-		{
-			std::cerr << "GameObjectManager already exist\n";
-		}
+			DebuggerLogError("GameObject Manager already exist");
 	}
 
 	/*!***********************************************************************
@@ -278,7 +302,7 @@ namespace LB
 	void GameObjectManager::Destroy()
 	{
 		DestroyAllGOs();
-		std::cout << "GOM destructed\n";
+		DebuggerLog("GameObject Manager destructed");
 	}
 
 	/*!***********************************************************************
@@ -305,6 +329,20 @@ namespace LB
 		m_GameObjects.push_back(gameObject);
 	}
 
+	void GameObjectManager::RemoveGameObject(GameObject* gameObject)
+	{
+		auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
+		if (it != m_GameObjects.end()) 
+		{
+			m_GameObjects.erase(it);
+			gameObject->Destroy();
+		}
+		else
+		{
+			DebuggerLogErrorFormat("[GO Manager] Tried to delete invalid GO \"%s\"", gameObject->GetName().c_str());
+		}
+	}
+
 	/*!***********************************************************************
 	 \brief
 	 Destroys all of the GameObjects
@@ -314,40 +352,15 @@ namespace LB
 	*************************************************************************/
 	void GameObjectManager::DestroyAllGOs()
 	{
-		// Destroying components in game objects
-		for (size_t i{}; i < m_GameObjects.size(); ++i)
-		{
-			//int componentSize = m_GameObjects[i]->GetComponents().size();
-			for (auto const& component : m_GameObjects[i]->GetComponents())
-			{
-				component.second->Destroy();
-				// Delete the memory allocated for the component
-				delete component.second;
-
-				//// --Change this to check the delete for which component--
-				DebuggerLogFormat("One GO component deleted from game object %d.", m_GameObjects[i]->GetID());
-			}
-
-			DebuggerLogFormat("GO %d has been deleted", m_GameObjects[i]->GetID());
-
-			if (i + 1 == m_GameObjects.size())
-			{
-				DebuggerLog("GO's components all deleted");
-			}
-		}
-
 		// Destroying gameobjects
-		size_t gameObjSize = m_GameObjects.size();
-		for (size_t i{}; i < gameObjSize; ++i)
+		for (int i{ (int)m_GameObjects.size()-1 }; i >= 0; --i)
 		{
-			delete m_GameObjects[i];
+			RemoveGameObject(m_GameObjects[i]);
 		}
 
 		// Set size of game objects to empty
 		m_GameObjects.clear();
 
-		std::cout << m_GameObjects.size() << std::endl;
-
-		std::cout << "All GOs deleted\n";
+		DebuggerLog("All GOs deleted");
 	}
 }
