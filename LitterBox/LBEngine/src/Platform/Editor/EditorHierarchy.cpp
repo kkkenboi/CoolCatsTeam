@@ -92,11 +92,26 @@ namespace LB
 
 	bool EditorHierarchy::DrawItem(CPTransform* item)
 	{
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+			{
+				CPTransform* droppedItem = reinterpret_cast<CPTransform*>(assetData->Data);
+
+				std::cout << "Exists: " << droppedItem->gameObj->GetName() << std::endl;
+
+				droppedItem->SetParent(item);
+			}
+		}
+
+
+		//-------------------------Click Select Detection-------------------------
 		// IMGui click detection is weird, but checking click in 3 places does the trick!
 		bool isChildClicked{ false }, isItemClicked{ false }, isParentClicked{ false };
 
 		ImGui::PushID(item);
 
+		//-------------------------Item Display Flags-------------------------
 		ImGuiTreeNodeFlags flags =
 			ImGuiTreeNodeFlags_OpenOnArrow
 			| ((item->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0)
@@ -106,10 +121,12 @@ namespace LB
 		{
 			flags |= ImGuiTreeNodeFlags_Selected;
 		}
+		//-------------------------Item Display Flags-------------------------
 
 		// First click check before going into the children
 		if (ImGui::IsItemClicked()) isParentClicked = true;
 
+		//-------------------------Tree Node Item Render-------------------------
 		// If this GO has children GO,
 		if (ImGui::TreeNodeEx(item->gameObj->GetName().c_str(), flags))
 		{
@@ -119,12 +136,22 @@ namespace LB
 				// Second click check from the children
 				isChildClicked = DrawItem(item->GetChild(index));
 			}
+
+			// Drag & Drop support
+			if (ImGui::BeginDragDropSource())
+			{
+				ImGui::SetDragDropPayload("GAMEOBJECT", item, sizeof(item));
+				ImGui::EndDragDropSource();
+			}
+
 			ImGui::TreePop();
 		}
+		//-------------------------Tree Node Item Render-------------------------
 
 		// Last click check after going into the children
 		if (ImGui::IsItemClicked()) isItemClicked = true;
 
+		//-------------------------Click Select Detection-------------------------
 		// If this child GO is clicked on,
 		if (isItemClicked && !isChildClicked)
 		{
@@ -144,6 +171,7 @@ namespace LB
 				onNewObjectSelected.Invoke(item->GetParent()->gameObj);
 			}
 		}
+		//-------------------------Click Select Detection-------------------------
 
 		ImGui::PopID();
 
