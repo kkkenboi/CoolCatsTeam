@@ -53,10 +53,10 @@ namespace LB
 		IComponent* Create() override
 		{
 			// Returns a constructor to the derived class of IComponent
-			return new ComponentType();
+			return DBG_NEW ComponentType();
 		}
 	};
 
 }
 
-#define CreateComponentMaker(ComponentType, ComponentTypeID) FACTORY->InitCM (ComponentTypeID, new ComponentMakerType<ComponentType>( ComponentTypeID ) );
+#define CreateComponentMaker(ComponentType, ComponentTypeID) FACTORY->InitCM (ComponentTypeID, DBG_NEW ComponentMakerType<ComponentType>( ComponentTypeID ) );

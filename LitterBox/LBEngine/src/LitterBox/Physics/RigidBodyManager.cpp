@@ -44,8 +44,8 @@ namespace LB
         constexpr int POOL_SIZE = 3000;
         m_poolSize = POOL_SIZE;
         m_currentIndex = 0;
-        m_rigidBodies = new CPRigidBody * [3000];
-        m_rbStates = new bool[3000];
+        m_rigidBodies = DBG_NEW CPRigidBody * [3000];
+        m_rbStates = DBG_NEW bool[3000];
 
         // Initialize all the RigidBody States to false
         for (int i = 0; i < POOL_SIZE; ++i)
@@ -64,8 +64,8 @@ namespace LB
     *************************************************************************/
     RigidBodyManager::RigidBodyManager(int size) : m_poolSize(size), m_currentIndex(0)
     {
-        m_rigidBodies = new CPRigidBody * [size];
-        m_rbStates = new bool[size];
+        m_rigidBodies = DBG_NEW CPRigidBody * [size];
+        m_rbStates = DBG_NEW bool[size];
 
         // Initialize all the RigidBody States to false;
         for (int i = 0; i < m_poolSize; ++i)

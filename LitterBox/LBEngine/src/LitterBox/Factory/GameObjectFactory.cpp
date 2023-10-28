@@ -243,7 +243,7 @@ namespace LB
 		DebuggerLog("GO" + std::to_string(m_LastObjID) + " has been created");
 
 		// Original return
-		return new GameObject(FACTORY->GetLastObjID());
+		return DBG_NEW GameObject(FACTORY->GetLastObjID());
 	}
 
 	/*!***********************************************************************

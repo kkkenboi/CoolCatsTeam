@@ -19,7 +19,7 @@ namespace LB
 		// HARDCODING NUMBER RN
 		constexpr size_t COL_POOL_SIZE = 2500;
 		this->m_poolSize = COL_POOL_SIZE;
-		this->m_colliderPool = new CPCollider * [COL_POOL_SIZE];
+		this->m_colliderPool = DBG_NEW CPCollider * [COL_POOL_SIZE];
 
 		// Initialize all the Colliders to nullptrs
 		for (size_t i = 0; i < COL_POOL_SIZE; ++i)
