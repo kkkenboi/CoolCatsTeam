@@ -60,8 +60,6 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::Destroy()
 	{
-
-		JSONSerializer::SerializeToFile("Scenetest", *currentScene);
 		currentScene->Destroy();
 		MEMORY->Deallocate(currentScene);
 	}

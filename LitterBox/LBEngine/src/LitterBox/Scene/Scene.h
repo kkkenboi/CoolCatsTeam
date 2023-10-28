@@ -37,7 +37,7 @@ namespace LB
 		*************************************************************************/
 		void Init() 
 		{ 
-			JSONSerializer::DeserializeFromFile(m_name + ".json", *this);
+			JSONSerializer::DeserializeFromFile(m_name, *this);
 		}
 
 		/*!***********************************************************************
@@ -53,7 +53,7 @@ namespace LB
 		void Destroy() 
 		{
 			// To do: Serialize on save key press and also not in play mode
-			JSONSerializer::SerializeToFile(m_name + ".json", *this);
+			JSONSerializer::SerializeToFile(m_name, *this);
 		}
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc)
