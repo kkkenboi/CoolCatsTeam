@@ -92,6 +92,13 @@ namespace LB
 
 		// Call Initialize for all layers in the layerstack
 		m_ImGuiLayers.InitializeLayers();
+
+		// Create a mouse game object with transform and collider component
+		m_MousePicker = FACTORY->SpawnGameObject({ 0.f,0.f });
+		m_MousePicker->GetComponent<CPTransform>()->SetScale({ 0.1f,0.1f });
+
+		m_MousePicker->AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
+		m_MousePicker->GetComponent<CPCollider>()->Initialise();
 	}
 
 	void Editor::Update()
@@ -230,9 +237,20 @@ namespace LB
 		return m_GameObjectPointer;
 	}
 
+	GameObject* Editor::GetMousePicker()
+	{
+		return m_MousePicker;
+	}
+
+
 	void Editor::InspectGO(GameObject* go)
 	{
 		m_GameObjectPointer = go;
+	}
+
+	void Editor::SetMousePos(Vec2<float> pos)
+	{
+		m_MousePicker->GetComponent<CPTransform>()->SetPosition(pos);
 	}
 
 }
