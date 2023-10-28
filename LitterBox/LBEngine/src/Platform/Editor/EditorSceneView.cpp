@@ -17,12 +17,14 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include "EditorSceneView.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Engine/Time.h"
 
 extern unsigned int svtcb;
 
 namespace LB
 {
 	EditorSceneView* EDITORSCENEVIEW = nullptr;
+	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;
 
 	void move_cam_up() {
 		Renderer::GRAPHICS->update_cam(0.f, 20.f);
@@ -37,10 +39,13 @@ namespace LB
 		Renderer::GRAPHICS->update_cam(20.f, 0.f);
 	}
 	void zoom_cam_in() {
-		Renderer::GRAPHICS->fcam_zoom(1.5f);
+		zoomCurrent += zoomStep * TIME->GetDeltaTime();
+		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
 	void zoom_cam_out() {
-		Renderer::GRAPHICS->fcam_zoom(0.5f);
+		zoomCurrent -= zoomStep * TIME->GetDeltaTime();
+		zoomCurrent = (zoomCurrent > zoomMin) ? zoomCurrent : zoomMin;
+		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
 
 	EditorSceneView::EditorSceneView(std::string layerName) : Layer(layerName)
@@ -82,6 +87,22 @@ namespace LB
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
 		ImGui::Image((ImTextureID)svtcb, wsize, ImVec2(0, 1), ImVec2(1, 0));
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
+			{
+				Vec2<float> mousePos{};
+
+				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
+				const char* assetPath = (const char*)assetData->Data;
+				DebuggerLog(assetPath);
+				ASSETMANAGER->SpawnGameObject(assetPath, mousePos);
+			}
+		}
+
 		ImGui::EndChild();
 
 		ImGui::End();

@@ -37,8 +37,6 @@ namespace LB
 		void FixedUpdate()	override;
 		void Destroy()		override;
 
-		GameObject* InspectedGO();
-		void InspectGO(GameObject* go);
 		GameObject* GetMousePicker();
 		void SetMousePos(Vec2<float> pos);
 
@@ -48,8 +46,7 @@ namespace LB
 
 	private:
 		LayerStack m_ImGuiLayers;
-		GameObject* m_GameObjectPointer;
-
+		
 		GameObject* m_MousePicker;
 	};
 

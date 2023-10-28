@@ -31,7 +31,7 @@ public:
 	 \brief
 	 Initialises the current scene
 	*************************************************************************/
-	void Init() override;
+	void Init();
 	/*!***********************************************************************
 	 \brief
 	 Updates the scene
@@ -41,5 +41,5 @@ public:
 	 \brief
 	 Destroys the scene
 	*************************************************************************/
-	void Destroy() override;
+	void Destroy();
 };

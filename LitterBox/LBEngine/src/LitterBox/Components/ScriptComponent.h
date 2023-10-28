@@ -16,7 +16,7 @@
 #pragma once
 
 #include "Component.h"
-#include "mono/metadata/debug-helpers.h"	// For Mono_method_desc
+#include "mono/metadata/object-forward.h"
 
 namespace LB 
 {
@@ -36,8 +36,6 @@ namespace LB
 		ComponentTypeID GetType() override;
 
 	private:
-
-		MonoClass *m_class;
-		MonoMethodDesc *m_classUpdate;
+		MonoObject *m_instance;
 	};
 }

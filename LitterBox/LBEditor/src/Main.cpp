@@ -7,7 +7,7 @@
 
 LB::Application* LB::CreateApplication()
 {
-	return DBG_NEW Application(DBG_NEW SceneTestMain);
+	return DBG_NEW Application();
 }
 
 int main(int argc, char** argv)
@@ -26,4 +26,3 @@ int main(int argc, char** argv)
 	delete app;
 
 }
-

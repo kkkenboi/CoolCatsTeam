@@ -55,13 +55,10 @@ namespace LB
 
 		SetSystemName("Editor System");
 
-		m_GameObjectPointer = nullptr;
-		m_MousePicker = nullptr;
-
 		// Add the different ImGui layers in here
 		m_ImGuiLayers.AddLayer(DBG_NEW EditorToolBar("ToolBar"));
-		m_ImGuiLayers.AddLayer(DBG_NEW EditorHierarchy("Hierarchy"));
 		m_ImGuiLayers.AddLayer(DBG_NEW EditorInspector("Inspector"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorHierarchy("Hierarchy"));
 		m_ImGuiLayers.AddLayer(DBG_NEW EditorGameView("Game View"));
 		m_ImGuiLayers.AddLayer(DBG_NEW EditorSceneView("Scene View"));
 		m_ImGuiLayers.AddLayer(DBG_NEW EditorConsole("Console"));
@@ -71,7 +68,7 @@ namespace LB
 
 	void Editor::Initialize()
 	{
-		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		//INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();
@@ -232,20 +229,10 @@ namespace LB
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 	}
-
-	GameObject* Editor::InspectedGO()
-	{
-		return m_GameObjectPointer;
-	}
-
+	
 	GameObject* Editor::GetMousePicker()
 	{
 		return m_MousePicker;
-	}
-
-	void Editor::InspectGO(GameObject* go)
-	{
-		m_GameObjectPointer = go;
 	}
 
 	void Editor::SetMousePos(Vec2<float> pos)
