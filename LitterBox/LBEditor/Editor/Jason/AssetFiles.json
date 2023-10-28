@@ -1,0 +1,14 @@
+{
+    "anim": ".png",
+    "bg": ".png",
+    "cat": ".png",
+    "despair": ".png",
+    "nugget": ".png",
+    "pine": ".png",
+    "run": ".png",
+    "test": ".png",
+    "test2": ".png",
+    "Enemy hurt": ".wav",
+    "EXPLOSION": ".wav",
+    "Oof": ".wav"
+}
