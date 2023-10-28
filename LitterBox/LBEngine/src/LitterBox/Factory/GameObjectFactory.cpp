@@ -15,6 +15,7 @@
 
 #include "GameObjectFactory.h"
 #include "Components.h"
+#include "LitterBox/Scene/SceneManager.h"
 
 namespace LB
 {
@@ -34,17 +35,18 @@ namespace LB
 		}
 		else
 		{
-			std::cerr << "Factory already exist\n";
+			DebuggerLogErrorFormat("Factory already exist");
 		}
 
 		m_LastObjID = 0;
 
 		// Deserialise the data file and initialise ComponentMakers
 		// 
-		CreateComponentMaker(CPTransform, C_CPTransform);
-		CreateComponentMaker(CPRender, C_CPRender);
-		CreateComponentMaker(CPRigidBody,C_CPRigidBody);
-		CreateComponentMaker(CPCollider, C_CPCollider);
+		CreateComponentMaker(CPTransform,	C_CPTransform);
+		CreateComponentMaker(CPRender,		C_CPRender);
+		CreateComponentMaker(CPRigidBody,	C_CPRigidBody);
+		CreateComponentMaker(CPCollider,	C_CPCollider);
+		CreateComponentMaker(CPCollider,	C_CPScript);
 
 		DebuggerLog("Factory Initialised");
 	}
@@ -59,6 +61,9 @@ namespace LB
 	void FactorySystem::Initialize()
 	{ 
 		SetSystemName("GameObject Factory System"); 
+
+		// Update scene loaded
+		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::UpdateLoadedScene);
 	}
 
 	/*!***********************************************************************
@@ -160,6 +165,17 @@ namespace LB
 		gameObj->AddComponent(C_CPTransform, FACTORY->GetCMs()[C_CPTransform]->Create());
 		gameObj->GetComponent<CPTransform>()->SetPosition(pos);
 
+		// Add GO to current loaded scene
+		if (m_loadedScene)
+		{
+			gameObj->GetComponent<CPTransform>()->SetParent(m_loadedScene->GetRoot());
+			m_loadedScene->GetRoot()->AddChild(gameObj->GetComponent<CPTransform>());
+		}
+		else
+		{
+			DebuggerLogWarning("Tried spawning Game Object onto an unloaded Scene!");
+		}
+
 		for (ComponentTypeID component : components)
 		{
 			gameObj->AddComponent(component, FACTORY->GetCMs()[component]->Create());
@@ -193,6 +209,18 @@ namespace LB
 		{	//Then we add it to our clone
 			clone->AddComponent(elem.first,FACTORY->GetCMs()[elem.first]->Create());
 		}
+
+		// Add GO to current loaded scene
+		if (m_loadedScene)
+		{
+			clone->GetComponent<CPTransform>()->SetParent(m_loadedScene->GetRoot());
+			m_loadedScene->GetRoot()->AddChild(clone->GetComponent<CPTransform>());
+		}
+		else
+		{
+			DebuggerLogWarning("Tried spawning Game Object onto an unloaded Scene!");
+		}
+
 		//This copies the data from our prefab components over to the clone
 		clone->SetComponents(prefab->GetComponents());
 		//Then we initialise the data for the clone
@@ -242,4 +270,13 @@ namespace LB
 		return m_LastObjID;
 	}
 
+	void FactorySystem::UpdateLoadedScene(Scene* loadedScene)
+	{
+		m_loadedScene = loadedScene;
+	}
+
+	void UpdateLoadedScene(Scene* loadedScene)
+	{
+		FACTORY->UpdateLoadedScene(loadedScene);
+	}
 }

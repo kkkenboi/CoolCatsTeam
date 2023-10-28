@@ -77,10 +77,10 @@ namespace LB
 			currentScene->Destroy();
 			MEMORY->Deallocate(currentScene);
 		}
-
 		currentScene = newScene;
-		currentScene->Init();
 
 		onNewSceneLoad.Invoke(currentScene);
+
+		currentScene->Init();
 	}
 }

@@ -60,7 +60,7 @@ namespace LB
 		//}
 
 		// Every GO has a parent, remove itself from the parent
-		GetComponent<CPTransform>()->GetParent()->RemoveChild(GetComponent<CPTransform>());
+		//GetComponent<CPTransform>()->GetParent()->RemoveChild(GetComponent<CPTransform>());
 
 		// Free memory allocated for components
 		for (auto const& component : m_Components)

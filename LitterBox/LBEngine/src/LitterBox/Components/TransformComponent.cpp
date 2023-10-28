@@ -27,6 +27,7 @@ namespace LB
 					{
 						GameObject* child = FACTORY->SpawnGameObject();
 						child->Deserialize(childrenValue[i]);
+
 						this->AddChild(child->GetComponent<CPTransform>());
 						child->GetComponent<CPTransform>()->SetParent(this);
 					}

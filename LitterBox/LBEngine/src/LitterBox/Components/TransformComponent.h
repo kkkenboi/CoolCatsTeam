@@ -164,6 +164,10 @@ namespace LB
 
 		void SetParent(CPTransform* newParent)
 		{
+			// If parent exists, remove this from the old parent
+			if (m_parent)
+				m_parent->RemoveChild(this);
+
 			m_parent = newParent;
 		}
 
@@ -199,6 +203,11 @@ namespace LB
 					return;
 				}
 			}
+		}
+
+		void RemoveAllChildren()
+		{
+			m_children.clear();
 		}
 
 	private:

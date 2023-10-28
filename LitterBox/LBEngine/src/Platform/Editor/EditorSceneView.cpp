@@ -87,6 +87,22 @@ namespace LB
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
 		ImGui::Image((ImTextureID)svtcb, wsize, ImVec2(0, 1), ImVec2(1, 0));
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
+			{
+				Vec2<float> mousePos{};
+
+				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
+				const char* assetPath = (const char*)assetData->Data;
+				DebuggerLog(assetPath);
+				ASSETMANAGER->SpawnGameObject(assetPath, mousePos);
+			}
+		}
+
 		ImGui::EndChild();
 
 		ImGui::End();

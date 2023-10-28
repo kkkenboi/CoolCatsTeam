@@ -45,18 +45,7 @@ namespace LB
 
 		Vec2<float> mousePos{};
 
-		if (ImGui::BeginDragDropTarget())
-		{
-			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
-			{
-				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
-
-				const char* assetPath = (const char*)assetData->Data;
-				DebuggerLog(assetPath);
-				ASSETMANAGER->SpawnGameObject(assetPath, mousePos);
-			}
-		}
+		// Render text
 		Renderer::GRAPHICS->render_msg("HELLO", 20.f, 20.f, 2.f, { .4f, .3f, 0.7f });
 
 
