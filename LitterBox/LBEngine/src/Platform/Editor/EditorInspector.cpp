@@ -149,12 +149,7 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##PosY", &pos.y, 1.0f, 0.0f, 0.0f, "%.2f");
-				EDITOR->InspectedGO()->GetComponent<CPTransform>()->SetPosition(pos);
-
-				// For Testing
-				//Vec2<float> returnval = EDITOR->InspectedGO()->GetComponent<CPTransform>()->GetPosition();
-				//DebuggerLogFormat("Position X: %f, Position Y: %f", returnval.x, returnval.y);
-				//
+				m_inspectedGO->GetComponent<CPTransform>()->SetPosition(pos);
 			}
 		}
 		if (m_inspectedGO->HasComponent<CPRender>())

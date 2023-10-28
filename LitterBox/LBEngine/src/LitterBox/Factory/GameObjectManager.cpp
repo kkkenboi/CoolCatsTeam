@@ -65,8 +65,6 @@ namespace LB
 		// Free memory allocated for components
 		for (auto const& component : m_Components)
 		{
-			std::cout << "Deleted " << component.first << "\n";
-
 			component.second->Destroy();
 			delete component.second;
 		}
