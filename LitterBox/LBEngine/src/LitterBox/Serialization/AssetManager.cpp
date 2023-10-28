@@ -145,7 +145,7 @@ namespace LB
         }
     }
 
-    const int AssetManager::GetTextureIndex(const std::string& name) const
+    const int AssetManager::GetTextureUnit(const std::string& name) const
     {
         if (Textures.find(name) == Textures.end())
         {
@@ -173,6 +173,20 @@ namespace LB
         }
         DebuggerLogWarning("Texture index : " + std::to_string(index) + " can't be found!");
         return "";
+    }
+
+    const unsigned int AssetManager::GetTextureIndex(const std::string& name) const 
+    {
+        if (Textures.find(name) == Textures.end())
+        {
+            DebuggerLogWarning("Texture " + name + " can't be found!");
+            return -1;  //return an invalid index for a graceful fail
+        }
+        if (name == "none")
+        {
+            return 0;
+        }
+        return Textures.find(name)->second.first->id;
     }
 
     /*!***********************************************************************
