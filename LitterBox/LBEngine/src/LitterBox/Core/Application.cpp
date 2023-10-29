@@ -62,6 +62,7 @@ namespace LB {
 		std::unique_ptr<FactorySystem> factory = std::make_unique<FactorySystem>();
 		std::unique_ptr<GameObjectManager> gameManager = std::make_unique<GameObjectManager>();
 		std::unique_ptr<GameLogic> logic = std::make_unique<GameLogic>();
+		std::unique_ptr<CPPGameLogic> cppLogic = std::make_unique<CPPGameLogic>();
 		std::unique_ptr<RigidBodyManager> physics = std::make_unique<RigidBodyManager>();
 		std::unique_ptr<ColliderManager> colliders = std::make_unique<ColliderManager>();
 		std::unique_ptr<AudioManager> audio = std::make_unique<AudioManager>();
@@ -97,6 +98,7 @@ namespace LB {
 		Engine->AddSystem(std::move(physics));
 		Engine->AddSystem(std::move(colliders));
 		Engine->AddSystem(std::move(logic));
+		Engine->AddSystem(std::move(cppLogic));
 		Engine->AddSystem(std::move(audio));
 		Engine->AddSystem(std::move(memory));
 		Engine->AddSystem(std::move(editor));

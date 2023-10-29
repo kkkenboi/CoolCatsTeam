@@ -132,28 +132,6 @@
                 "Render": {
                     "Texture": 2
                 }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 1272.03,
-                        "y": 440.95
-                    },
-                    "Scale": {
-                        "x": 5.0,
-                        "y": 2.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0
-                },
-                "Render": {
-                    "Texture": 3
-                }
             }
         ]
     }

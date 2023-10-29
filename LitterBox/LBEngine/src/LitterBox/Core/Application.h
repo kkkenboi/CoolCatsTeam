@@ -23,6 +23,7 @@
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Factory/Components.h"
 #include "LitterBox/GameLogic/GameLogic.h"
+#include "LitterBox/GameLogic/CPPGameLogic/CPPGameLogic.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Layer.h"
