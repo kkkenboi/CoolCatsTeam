@@ -38,6 +38,7 @@ namespace LB
 		std::queue<std::pair<const  Renderer::Animation*, bool>>	animation;
 		Renderer::index									indices;
 		bool initialized{ false };
+		bool destroyed{ false };
 
 	public:
 		float						w;
@@ -218,5 +219,7 @@ namespace LB
 		 Depending on the previous state of the object.
 		*************************************************************************/
 		void set_active();
+
+		void remove_object();
 	};
 }
