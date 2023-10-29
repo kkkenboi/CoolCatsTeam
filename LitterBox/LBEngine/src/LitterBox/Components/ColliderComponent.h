@@ -106,7 +106,7 @@ namespace LB {
 
 		void Destroy();
 
-		ComponentTypeID GetType() override
+		static ComponentTypeID GetType()
 		{
 			return C_CPCollider;
 		}

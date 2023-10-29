@@ -30,7 +30,7 @@ namespace LB
 	class CPTransform : public IComponent
 	{
 	public:
-		ComponentTypeID GetType() override
+		static ComponentTypeID GetType()
 		{
 			return C_CPTransform;
 		}

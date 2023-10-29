@@ -79,7 +79,7 @@ namespace LB
 		{
 			DebuggerAssertFormat(std::is_base_of<IComponent, T>::value, "Tried to check invalid component of type %s", typeid(T).name());
 
-			return m_Components.find(T().GetType()) != m_Components.end();
+			return m_Components.contains(T::GetType());
 		}
 
 		/*!***********************************************************************

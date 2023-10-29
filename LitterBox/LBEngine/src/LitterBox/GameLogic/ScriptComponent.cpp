@@ -52,9 +52,4 @@ namespace LB
 	{
 		delete this;
 	}
-
-	ComponentTypeID CPScript::GetType()
-	{
-		return C_CPScript;
-	}
 }

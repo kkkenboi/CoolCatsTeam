@@ -23,8 +23,14 @@ namespace LB {
 	*************************************************************************/
 	class CPCamera : public IComponent 
 	{
-		void Initialise() override;
 	public:
+		void Initialise() override;
+
 		Vec2<float> getCam();
+
+		static ComponentTypeID GetType()
+		{
+			return C_CPCamera;
+		}
 	};
 }
