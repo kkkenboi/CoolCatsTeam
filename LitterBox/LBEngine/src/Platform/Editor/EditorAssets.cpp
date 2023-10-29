@@ -82,6 +82,8 @@ namespace LB
 				//ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string().c_str()), { 64,64 }, { 0,1 }, { 1,0 });
 				if (directory.path().extension().string() == ".png")
 				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()), {64,64}, {0,1}, {1,0});
+				else if (directory.path().extension().string() == ".wav")
+				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("wav"), {64,64}, {0,1}, {1,0});
 				else 
 				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("file"), {64,64}, {0,1}, {1,0});
 				//DebuggerLogFormat("Texture ID : %d", ASSETMANAGER->GetTextureIndex("cat"));
@@ -111,23 +113,20 @@ namespace LB
 						ImGui::EndDragDropSource();
 					}
 				}
-				/*if (currentCount%columnCount)
+				if (directory.path().extension().string() == ".wav")
 				{
-					ImGui::SameLine(64 * ((currentCount % columnCount)) + 20*(currentCount%columnCount), 10);
-				}*/
+					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+					{
+						AUDIOMANAGER->PlaySound(directory.path().filename().stem().string());
+						//Load the properties into the inspector
+					}
+				}
+
 				//The name of the folder is without the file extension probably...
 				ImGui::Text(directory.path().filename().stem().string().c_str());
 
 				ImGui::PopID();
-				/*if (currentCount % columnCount)
-				{
-					ImGui::SameLine(64 * ((currentCount % columnCount)) + 20 * (currentCount % columnCount), 10);
-				}*/
-				//if (currentCount >= 5)
-				//{
-				//	currentCount = 0;
-				//}
-				//else ImGui::SameLine(64 * currentCount, 15.f);
+
 			}
 		}
 		ImGui::Columns(1);

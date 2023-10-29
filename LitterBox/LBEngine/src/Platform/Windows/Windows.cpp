@@ -29,6 +29,7 @@
 namespace LB
 {
     WindowsSystem* WINDOWSSYSTEM = nullptr;
+    bool previousState = false;
 
     /*!***********************************************************************
      \brief
@@ -139,14 +140,25 @@ namespace LB
             MessageQuit q;
             CORE->BroadcastMessage(&q);
         }
-
+        //Keeps track if the window is focused or not. On focus, it only triggers ONCE. 
+        bool isFocused = glfwGetWindowAttrib(this->m_Data.m_PtrToWindow, GLFW_FOCUSED);
+        if (isFocused && !previousState)
+        {
+            previousState = true;
+            OnApplicationFocus.Invoke();
+        }
+        if (!isFocused)
+        {
+            previousState = false;
+        }
+   
         std::string title{ this->m_Data.m_Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime()) };
 
         // Set Window Title (Name + FPS)
         glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
 
         Draw(this->m_Data);
-
+        
     }
 
     /*!***********************************************************************

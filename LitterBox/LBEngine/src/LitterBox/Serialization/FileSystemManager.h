@@ -2,7 +2,7 @@
 #include <filesystem>
 #include <string>
 #include <vector>
-
+#include <chrono>
 namespace LB
 {
 	class FileSystemManager
@@ -11,5 +11,7 @@ namespace LB
 		static std::filesystem::path GetFilePath(const std::string& fileName);
 		static std::vector<std::filesystem::path> GetFilesOfType(const std::string& fileType);
 		static bool FileExists(const std::string& fileName);
+		static int GetFileTime(const std::filesystem::path& filePath);
+		static int GetFileTime(const std::string& filePath);
 	};
 }
