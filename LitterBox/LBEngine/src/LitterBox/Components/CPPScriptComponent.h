@@ -16,6 +16,8 @@
 #pragma once
 
 #include "Component.h"
+#include "LitterBox/GameLogic/CPPGameLogic/CPPGameLogic.h"
+#include "LitterBox/GameLogic/CPPGameLogic/CPPBehaviour.h"
 
 namespace LB
 {
@@ -28,9 +30,45 @@ namespace LB
 	public:
 		void Initialise() override;
 
-		void Update() override;
+		void Start()
+		{
+			m_instance->Start();
+		}
 
-		void Destroy() override;
+		void Update() override
+		{
+			m_instance->Update();
+		}
+
+		void Destroy() override
+		{
+			m_instance->Destroy();
+		}
+
+		std::string const& GetName() const
+		{
+			return m_name;
+		}
+
+		void SetName(std::string const& newName)
+		{
+			m_name = newName;
+		}
+
+		void SetInstance(CPPBehaviour* newScript)
+		{
+			m_instance = newScript;
+		}
+
+		bool Serialize(Value & data, Document::AllocatorType & alloc) override
+		{
+			return false;
+		}
+
+		bool Deserialize(const Value& data) override
+		{
+			return false;
+		}
 
 		static ComponentTypeID GetType()
 		{
@@ -38,6 +76,7 @@ namespace LB
 		}
 
 	private:
-		void* m_instance{ nullptr };
+		std::string m_name{ "CPPScript" };
+		CPPBehaviour* m_instance{ nullptr };
 	};
 }

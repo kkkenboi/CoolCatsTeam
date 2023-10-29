@@ -15,10 +15,14 @@
 
 #include "pch.h"
 #include "CPPGameLogic.h"
+#include "LitterBox/Core/Core.h"
+#include "LitterBox/Engine/Time.h"
 
 namespace LB
 {
 	CPPGameLogic* CPPGAMELOGIC = nullptr;
+
+	//-------------------------CPP GAME LOGIC MANAGER-------------------------
 
 	/*!***********************************************************************
 	 \brief
@@ -40,6 +44,18 @@ namespace LB
 
 	void CPPGameLogic::Load(CPScriptCPP* newScript)
 	{
+		//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
+		// Very basic RTTR for now
+		if (newScript->GetName() == "Player")
+		{
+
+		}
+		else
+		{
+			DebuggerLogErrorFormat("Tried to load invalid CPP Script %s.", newScript->GetName().c_str());
+		}
+		//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
+
 		m_sceneScripts.push_back(newScript);
 	}
 
@@ -57,6 +73,8 @@ namespace LB
 	*************************************************************************/
 	void CPPGameLogic::Update()
 	{
+		if (!CORE->IsPlaying() || TIME->IsPaused()) return;
+
 		for (CPScriptCPP* script : m_sceneScripts)
 		{
 			script->Update();
@@ -73,5 +91,12 @@ namespace LB
 	void CPPGameLogic::Destroy()
 	{
 
+	}
+	//-------------------------CPP GAME LOGIC MANAGER-------------------------
+
+	//--------------------------CPP SCRIPT COMPONENT--------------------------
+	void CPScriptCPP::Initialise()
+	{
+		CPPGAMELOGIC->Load(this);
 	}
 }

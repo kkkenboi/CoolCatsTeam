@@ -19,6 +19,8 @@
 
 namespace LB
 {
+	class CPScriptCPP;
+
 	/*!***********************************************************************
 	 \brief
 	 GameLogic class will contain functions that checks whether GameObjects

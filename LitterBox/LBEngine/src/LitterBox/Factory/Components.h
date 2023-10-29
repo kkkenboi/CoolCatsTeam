@@ -27,6 +27,8 @@
 #include "LitterBox/Components/RigidBodyComponent.h"
 #include "LitterBox/Components/ColliderComponent.h"
 #include "LitterBox/Components/CameraComponent.h"
+#include "LitterBox/Components/ScriptComponent.h"
+#include "LitterBox/Components/CPPScriptComponent.h"
 
 namespace LB
 {

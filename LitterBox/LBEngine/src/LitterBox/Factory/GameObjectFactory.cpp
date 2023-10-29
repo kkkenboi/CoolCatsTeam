@@ -46,7 +46,8 @@ namespace LB
 		CreateComponentMaker(CPRender,		C_CPRender);
 		CreateComponentMaker(CPRigidBody,	C_CPRigidBody);
 		CreateComponentMaker(CPCollider,	C_CPCollider);
-		CreateComponentMaker(CPCollider,	C_CPScript);
+		CreateComponentMaker(CPScript,		C_CPScript);
+		CreateComponentMaker(CPScriptCPP,	C_CPScriptCPP);
 
 		DebuggerLog("Factory Initialised");
 	}
