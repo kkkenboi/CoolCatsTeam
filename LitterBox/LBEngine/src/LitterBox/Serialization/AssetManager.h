@@ -81,6 +81,7 @@ namespace LB
 
 
         void Initialize() override;
+        void Destroy() override;
         /*!***********************************************************************
          * \brief 
          * Create a Texture object 
@@ -113,7 +114,7 @@ namespace LB
          * Texture file path map that maps texture enum names to file paths
          * "../Assets/Textures/name.png" : "name"
          **************************************************************************/
-        std::map<std::string, std::string> TextureFilePaths;
+        //std::map<std::string, std::string> TextureFilePaths;
 
 
 
@@ -125,13 +126,13 @@ namespace LB
         const std::string GetTextureName(const int& index) const;
         const unsigned int GetTextureIndex(const std::string& name) const;
 
-        void GenerateTextureFilePathsJson();
+        //void GenerateTextureFilePathsJson();
 
         /*!***********************************************************************
          * \brief Loads all textures from file paths into the relevant maps
          * 
          **************************************************************************/
-        void LoadTextures();
+
 
         /*!***********************************************************************
          * \brief Loads all sounds and creates an instance of them for use
@@ -140,8 +141,7 @@ namespace LB
          //ID : name of audio clip file
         //[0] : Shared_Ptr to audio clip
         std::map<std::string, FMOD::Sound*> SoundMap;
-        void ImportSounds();
-        void LoadSounds();
+
         //Stores the meta data of all files
         //"Filepath" : timesincecreated
         std::map<std::string, int> metaFileMap;
@@ -150,7 +150,7 @@ namespace LB
          * \brief Loads all prefabs from their json data and creates an instance of them
          * (TODO : Load instances directly into the GOManager!)
          **************************************************************************/
-        void LoadPrefabs();
+
 
         void SpawnGameObject(std::string fileName, Vec2<float> pos = {0,0});
 
@@ -173,30 +173,16 @@ namespace LB
          * \brief Sound instances to be used throughout the engine
          * To be a map of sounds in the future
          **************************************************************************/
-        FMOD::Sound* sampleSound = nullptr;
-        FMOD::Sound* explosionSound = nullptr;
-        FMOD::Sound* ahhSound = nullptr;
+
 
         /*!***********************************************************************
          * \brief Prefab instances to be used throughout the engine
          * To be directly instantiated into the GOManager in the future 
          **************************************************************************/
-        GameObject* PineappleObject = nullptr;
-        GameObject* AvatarObject = nullptr;
 
 
-        //Map of Prefab IDs to their instances
-        std::map<std::string, std::shared_ptr<GameObject>> Prefabs;
-        //Map of Prefab file paths to their IDs
-        std::map<std::string, std::string> PrefabFilePathsMap;
 
         private:
-        /*!***********************************************************************
-         * \brief Map of file names to their file paths
-         * e.g "Char Sprite : /assets/charsprite.png"    
-         **************************************************************************/
-        std::map<std::string, std::string> nameToFilePath;
-
 
         /*!***********************************************************************
          * \brief TextureID int used to keep track of textureIDs

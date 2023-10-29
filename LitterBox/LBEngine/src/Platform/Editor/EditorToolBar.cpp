@@ -15,6 +15,9 @@
 
 #include "pch.h"
 #include "EditorToolBar.h"
+#include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Core/Core.h"
+#include "LitterBox/Engine/Time.h"
 
 namespace LB
 {
@@ -22,22 +25,37 @@ namespace LB
 
 	void EditorToolBar::UpdateLayer()
 	{
-		ImGui::Begin(GetName().c_str(), nullptr, ImGuiWindowFlags_NoTitleBar);
+		ImGui::Begin(GetName().c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);
 
-		if (ImGui::Button("Play")) 
-		{
-
-		}
+		// Offset to center buttons
+		float leftPadding{ (ImGui::GetWindowSize().x - m_buttonSpacing * 2.f - m_buttonSize.x * 3.f) * 0.5f };
+		ImGui::Dummy({ leftPadding , m_buttonSize.y });
 		ImGui::SameLine();
-		if (ImGui::Button("Pause"))
-		{
 
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Step"))
+		ImGui::PushStyleColor(ImGuiCol_Button, CORE->IsPlaying() ? m_buttonOnColor : m_buttonOffColor);
+		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("PlayIcon"), m_buttonSize))
 		{
-
+			CORE->TogglePlaying();
 		}
+		ImGui::PopStyleColor();
+
+		ImGui::SameLine(0.f, m_buttonSpacing);
+
+		ImGui::PushStyleColor(ImGuiCol_Button, TIME->IsPaused() ? m_buttonOnColor : m_buttonOffColor);
+		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("PauseIcon"), m_buttonSize))
+		{
+			TIME->Pause(!TIME->IsPaused());
+		}
+		ImGui::PopStyleColor();
+		
+		ImGui::SameLine(0.f, m_buttonSpacing);
+
+		ImGui::PushStyleColor(ImGuiCol_Button, m_buttonOffColor);
+		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("StepIcon"), m_buttonSize))
+		{
+			DEBUG->StepPhysics();
+		}
+		ImGui::PopStyleColor();
 
 		ImGui::End();
 	}

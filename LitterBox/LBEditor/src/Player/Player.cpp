@@ -40,10 +40,6 @@ void spawn2500() {
 	}
 }
 
-void SpawnGameObject()
-{
-	testObject = ASSETMANAGER->PineappleObject;
-}
 
 void hide2500() {
 	if (!test)

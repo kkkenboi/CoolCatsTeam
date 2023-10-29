@@ -229,7 +229,8 @@ LB::CPRender::CPRender(
 *************************************************************************/
 LB::CPRender::~CPRender()
 {
-	Renderer::GRAPHICS->remove_object(renderer_id, this);
+	if(!destroyed)
+		Renderer::GRAPHICS->remove_object(renderer_id, this);
 }
 
 //########################ANIMATION##############################
@@ -334,6 +335,12 @@ void LB::CPRender::set_active()
 		Renderer::GRAPHICS->change_object_state(renderer_id, this);
 	else
 		DebuggerLogError("GRAPHICS SYSTEM NOT INITIALIZED");
+}
+
+void LB::CPRender::remove_object()
+{
+	Renderer::GRAPHICS->remove_object(renderer_id, this);
+	destroyed = true;
 }
 //########################ANIMATION##############################
 //------------------------------------------RENDERER-OBJECT---------------------------------------------

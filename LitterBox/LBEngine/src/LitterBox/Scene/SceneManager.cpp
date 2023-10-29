@@ -15,6 +15,7 @@
 #include "SceneManager.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Serialization/Serializer.h"
+#include "LitterBox/Core/Core.h"
 
 namespace LB
 {
@@ -40,6 +41,9 @@ namespace LB
 	{
 		SetSystemName("SceneManager System");
 
+		// On play, serialize the scene. On !play, reload the scene
+		CORE->onPlayingModeToggle.Subscribe(LB::SceneOnPlayToggle);
+
 		// TODO: Lookup table for scene names, arranged where 0 index is loaded first!
 		LoadScene("Scenetest");
 	}
@@ -50,8 +54,8 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::Update()
 	{
-		if (TIME->IsPaused()) return;
-		currentScene->Update();
+		if (!CORE->IsPlaying() && TIME->IsPaused()) return;
+		m_currentScene->Update();
 	}
 
 	/*!***********************************************************************
@@ -60,8 +64,8 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::Destroy()
 	{
-		currentScene->Destroy();
-		MEMORY->Deallocate(currentScene);
+		m_currentScene->Destroy();
+		MEMORY->Deallocate(m_currentScene);
 	}
 
 	void SceneManager::LoadScene(std::string name)
@@ -73,14 +77,32 @@ namespace LB
 	void SceneManager::LoadScene(Scene* newScene)
 	{
 		// Free current scene first
-		if (currentScene) {
-			currentScene->Destroy();
-			MEMORY->Deallocate(currentScene);
+		if (m_currentScene) {
+			m_currentScene->Destroy();
+			MEMORY->Deallocate(m_currentScene);
 		}
-		currentScene = newScene;
+		m_currentScene = newScene;
 
-		onNewSceneLoad.Invoke(currentScene);
+		onNewSceneLoad.Invoke(m_currentScene);
 
-		currentScene->Init();
+		m_currentScene->Init();
+	}
+
+	void SceneManager::SceneOnPlayToggle(bool isPlaying)
+	{
+		if (isPlaying)
+		{
+			m_currentScene->Save();
+		}
+		else
+		{
+			LoadScene(m_currentScene->GetName());
+		}
+	}
+
+	// For event subscription
+	void SceneOnPlayToggle(bool isPlaying)
+	{
+		SCENEMANAGER->SceneOnPlayToggle(isPlaying);
 	}
 }

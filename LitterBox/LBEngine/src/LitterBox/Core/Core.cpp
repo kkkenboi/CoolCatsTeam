@@ -25,6 +25,14 @@ namespace LB
 {
 	LBEngine* CORE;
 
+	LBEngine::LBEngine()
+	{
+		if (!CORE)
+			CORE = this;
+		else
+			DebuggerLogError("LitterBox engine already exist");
+	}
+
 	/*!***********************************************************************
 	 \brief
 	 Initalises the Engine by running it and initialises all its systems too
@@ -35,14 +43,6 @@ namespace LB
 	void LBEngine::Initialise()
 	{
 		m_running = true;
-		if (!CORE)
-		{
-			CORE = this;
-		}
-		else
-		{
-			std::cerr << "LitterBox engine already exist\n";
-		}
 
 		for (unsigned i = 0; i < m_systems.size(); ++i)
 			m_systems[i]->Initialize();
@@ -133,6 +133,8 @@ namespace LB
 		}
 	}
 
+	//-----------------------------Setters and Getters for states-----------------------------
+
 	/*!***********************************************************************
 	 \brief
 	 Checks if the engine is running
@@ -142,6 +144,48 @@ namespace LB
 	*************************************************************************/
 	bool LBEngine::IsRunning() const
 	{
-		return m_running ? true : false;
+		return m_running;
+	}
+
+	bool LBEngine::IsEditorMode() const
+	{
+		return m_editorMode;
+	}
+
+	void LBEngine::ToggleEditorMode()
+	{
+		SetEditorMode(!m_editorMode);
+	}
+
+	void LBEngine::SetEditorMode(bool newState)
+	{
+		m_editorMode = newState;
+		onEditorModeToggle.Invoke(m_editorMode);
+	}
+
+	bool LBEngine::IsPlaying() const
+	{
+		return m_isPlaying;
+	}
+
+	void LBEngine::TogglePlaying()
+	{
+		SetPlayingMode(!m_isPlaying);
+	}
+
+	void LBEngine::SetPlayingMode(bool newState)
+	{
+		m_isPlaying = newState;
+		onPlayingModeToggle.Invoke(m_isPlaying);
+	}
+
+	bool LBEngine::IsEditorLaunched() const
+	{
+		return m_editorLaunch;
+	}
+
+	void LBEngine::SetEditorLaunched(bool newState)
+	{
+		m_editorLaunch = newState;
 	}
 }

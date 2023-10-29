@@ -30,6 +30,8 @@ namespace LB
 	class LBEngine
 	{
 	public:
+		LBEngine();
+
 		/*!***********************************************************************
 		 \brief
 		 Initializes all systems in the game.
@@ -38,6 +40,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
+		 The update loop for all systems
 		*************************************************************************/
 		void GameLoop();
 
@@ -65,9 +68,26 @@ namespace LB
 		*************************************************************************/
 		bool IsRunning() const;
 
+		bool IsEditorMode() const;
+		void ToggleEditorMode();
+		void SetEditorMode(bool newState);
+		Event<bool> onEditorModeToggle;
+
+		bool IsPlaying() const;
+		void TogglePlaying();
+		void SetPlayingMode(bool newState);
+		Event<bool> onPlayingModeToggle;
+
+		bool IsEditorLaunched() const;
+		void SetEditorLaunched(bool newState);
+
 	private:
 		std::vector<std::unique_ptr<ISystem>> m_systems;
-		bool								  m_running;
+		
+		bool					m_running;
+		bool					m_isPlaying{ false };
+		bool					m_editorMode{ true };
+		bool					m_editorLaunch{ false };
 	};
 
 	extern LBEngine* CORE; // Global pointer to the singleton
