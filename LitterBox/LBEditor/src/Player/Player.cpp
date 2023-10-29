@@ -26,7 +26,7 @@ void spawn2500() {
 		return;
 	}
 
-	test = new GameObject * [2500];
+	test = DBG_NEW GameObject * [2500];
 	for (int i{ 0 }; i < 2500; ++i) {
 		test[i] = FACTORY->SpawnGameObject({ C_CPRender });
 		test[i]->GetComponent<CPRender>()->texture = -1;

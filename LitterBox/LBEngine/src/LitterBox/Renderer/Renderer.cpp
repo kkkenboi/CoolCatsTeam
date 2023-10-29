@@ -229,7 +229,8 @@ LB::CPRender::CPRender(
 *************************************************************************/
 LB::CPRender::~CPRender()
 {
-	Renderer::GRAPHICS->remove_object(renderer_id, this);
+	if(!destroyed)
+		Renderer::GRAPHICS->remove_object(renderer_id, this);
 }
 
 //########################ANIMATION##############################
@@ -335,6 +336,12 @@ void LB::CPRender::set_active()
 	else
 		DebuggerLogError("GRAPHICS SYSTEM NOT INITIALIZED");
 }
+
+void LB::CPRender::remove_object()
+{
+	Renderer::GRAPHICS->remove_object(renderer_id, this);
+	destroyed = true;
+}
 //########################ANIMATION##############################
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
 
@@ -368,7 +375,7 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 		quad_buff_size = 50;
 		break;
 	}
-	quad_buff = new quad[quad_buff_size];
+	quad_buff = DBG_NEW quad[quad_buff_size];
 	index_buff.resize(quad_buff_size);
 
 	glCreateBuffers(1, &vbo);
@@ -761,7 +768,7 @@ void Renderer::RenderSystem::Initialize()
 	float w = (float)LB::WINDOWSSYSTEM->GetWidth();
 	float h = (float)LB::WINDOWSSYSTEM->GetHeight();
 
-	test2 = new LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
+	test2 = DBG_NEW LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
 
 	//t_Manager.add_texture("Assets/Textures/test3.png", "pine");
 	//t_Manager.add_texture("Assets/Textures/Environment_Background.png", "bg");

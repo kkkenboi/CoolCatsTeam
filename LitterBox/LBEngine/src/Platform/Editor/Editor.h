@@ -37,16 +37,13 @@ namespace LB
 		void FixedUpdate()	override;
 		void Destroy()		override;
 
-		GameObject* InspectedGO();
-		void InspectGO(GameObject* go);
-
-		bool m_EditorMode = true;
-		bool m_IsPlaying = false;
-		bool m_onLaunch = false;
+		GameObject* GetMousePicker();
+		void SetMousePos(Vec2<float> pos);
 
 	private:
 		LayerStack m_ImGuiLayers;
-		GameObject* m_GameObjectPointer;
+		
+		GameObject* m_MousePicker;
 	};
 
 	extern Editor* EDITOR;

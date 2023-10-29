@@ -239,7 +239,7 @@ namespace LB
 	{
 		if (this->m_shape == COL_POLYGON)
 		{
-			for (size_t i = 0; i < this->m_vertAmount; ++i)
+			for (size_t i = 0; i < this->m_transformedVerts.size(); ++i)
 			{
 				if (!this->m_collided)
 				{
@@ -325,12 +325,16 @@ namespace LB
 
 	}
 
-	/*
+	
 	void CPCollider::Destroy()
 	{
+		if (COLLIDERS == nullptr) 
+		{
+			return;
+		}
 		COLLIDERS->RemoveColliderFromPool(this);
 	}
-	*/
+	
 
 
 	// ============================================================================= !!!!!!!!!

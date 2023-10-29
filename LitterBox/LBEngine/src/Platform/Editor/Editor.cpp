@@ -39,7 +39,7 @@ namespace LB
 
 	void ToggleEditor()
 	{
-		EDITOR->m_EditorMode = !EDITOR->m_EditorMode;
+		CORE->ToggleEditorMode();
 	}
 
 	Editor::Editor() 
@@ -47,30 +47,28 @@ namespace LB
 		if (!EDITOR)
 		{
 			EDITOR = this;
-			m_EditorMode = true;
-			m_onLaunch = true;
+			CORE->SetEditorMode(true);
+			CORE->SetEditorLaunched(true);
 		}
 		else
 			DebuggerLogError("Editor System already exists!");
 
 		SetSystemName("Editor System");
 
-		m_GameObjectPointer = nullptr;
-
 		// Add the different ImGui layers in here
-		m_ImGuiLayers.AddLayer(new EditorToolBar("ToolBar"));
-		m_ImGuiLayers.AddLayer(new EditorHierarchy("Hierarchy"));
-		m_ImGuiLayers.AddLayer(new EditorInspector("Inspector"));
-		m_ImGuiLayers.AddLayer(new EditorGameView("Game View"));
-		m_ImGuiLayers.AddLayer(new EditorSceneView("Scene View"));
-		m_ImGuiLayers.AddLayer(new EditorConsole("Console"));
-		m_ImGuiLayers.AddLayer(new EditorProfiler("Profiler"));
-		m_ImGuiLayers.AddLayer(new EditorAssets("Assets"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorToolBar("ToolBar"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorInspector("Inspector"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorHierarchy("Hierarchy"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorGameView("Game View"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorSceneView("Scene View"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorConsole("Console"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorProfiler("Profiler"));
+		m_ImGuiLayers.AddLayer(DBG_NEW EditorAssets("Assets"));
 	}
 
 	void Editor::Initialize()
 	{
-		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		//INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();
@@ -92,11 +90,18 @@ namespace LB
 
 		// Call Initialize for all layers in the layerstack
 		m_ImGuiLayers.InitializeLayers();
+
+		// Create a mouse game object with transform and collider component
+		m_MousePicker = FACTORY->SpawnGameObject({ 0.f,0.f });
+		m_MousePicker->GetComponent<CPTransform>()->SetScale({ 0.1f,0.1f });
+
+		m_MousePicker->AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
+		m_MousePicker->GetComponent<CPCollider>()->Initialise();
 	}
 
 	void Editor::Update()
 	{
-		if (m_EditorMode)
+		if (CORE->IsEditorMode())
 		{
 			// To start every frame
 			ImGui_ImplOpenGL3_NewFrame();
@@ -218,21 +223,21 @@ namespace LB
 	}
 
 	void Editor::Destroy()
-	{
+	{		
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 	}
-
-	GameObject* Editor::InspectedGO()
+	
+	GameObject* Editor::GetMousePicker()
 	{
-		return m_GameObjectPointer;
+		return m_MousePicker;
 	}
 
-	void Editor::InspectGO(GameObject* go)
+	void Editor::SetMousePos(Vec2<float> pos)
 	{
-		m_GameObjectPointer = go;
+		m_MousePicker->GetComponent<CPTransform>()->SetPosition(pos);
 	}
 
 }

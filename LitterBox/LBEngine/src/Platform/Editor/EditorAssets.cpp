@@ -85,7 +85,7 @@ namespace LB
 				else if (directory.path().extension().string() == ".wav")
 				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("wav"), {64,64}, {0,1}, {1,0});
 				else 
-				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("file"), {64,64}, {0,1}, {1,0});
+				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("FileIcon"), {64,64}, {0,1}, {1,0});
 				//DebuggerLogFormat("Texture ID : %d", ASSETMANAGER->GetTextureIndex("cat"));
 				//DebuggerLogFormat("Cast Texture ID : %d", *(ImTextureID)ASSETMANAGER->GetTextureIndex("run"));
 				ImGui::PopStyleColor();

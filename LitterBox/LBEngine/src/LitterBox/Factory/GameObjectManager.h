@@ -57,6 +57,8 @@ namespace LB
 		*************************************************************************/
 		~GameObject();
 
+		void Destroy();
+
 		/*!***********************************************************************
 		 \brief
 		 Gets a specified component within the GameObject
@@ -177,6 +179,12 @@ namespace LB
 		 Adds a GameObject to the current pool of GameObjects
 		*************************************************************************/
 		void AddGameObject(GameObject* gameObject);
+
+		/*!***********************************************************************
+		 \brief
+		 Removes a GameObject from the current pool of GameObjects
+		*************************************************************************/
+		void RemoveGameObject(GameObject* gameObject);
 
 		/*!***********************************************************************
 		 \brief

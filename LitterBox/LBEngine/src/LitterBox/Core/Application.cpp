@@ -22,29 +22,29 @@ namespace LB {
 	 \brief 
 	 Initialises the LitterBox Engine with all the systems added
 	*************************************************************************/
-	Application::Application(Scene* firstScene)
+	Application::Application()
 	{
 		// Setting up LitterBox Engine with the available systems
-		Engine = new LBEngine();
+		Engine = DBG_NEW LBEngine();
 
 		// TODO: Refactor intialization order and move back to debugger system
 		InitializeLoggers();
-		Editor*					editor			= new Editor();
-		Time*					time			= new Time(100, 60);
-		InputSystem*			input			= new InputSystem();
-		ProfilerManager*		profiler		= new ProfilerManager();
-		WindowsSystem*			windows			= new WindowsSystem();
-		Debugger*				debug			= new Debugger();
-		FactorySystem*			factory			= new FactorySystem();
-		GameObjectManager*		gameManager		= new GameObjectManager();
-		GameLogic*				logic			= new GameLogic();
-		RigidBodyManager*		physics			= new RigidBodyManager();
-		ColliderManager*        colliders       = new ColliderManager();
-		AudioManager*			audio			= new AudioManager();
-		AssetManager*			assetManager	= new AssetManager();
-		Renderer::RenderSystem* graphics		= new Renderer::RenderSystem();
-		Memory*					memory			= new Memory();
-		SceneManager*			sceneManager	= new SceneManager(firstScene);
+		Editor*					editor			= DBG_NEW Editor();
+		Time*					time			= DBG_NEW Time(100, 60);
+		InputSystem*			input			= DBG_NEW InputSystem();
+		ProfilerManager*		profiler		= DBG_NEW ProfilerManager();
+		WindowsSystem*			windows			= DBG_NEW WindowsSystem();
+		Debugger*				debug			= DBG_NEW Debugger();
+		FactorySystem*			factory			= DBG_NEW FactorySystem();
+		GameObjectManager*		gameManager		= DBG_NEW GameObjectManager();
+		GameLogic*				logic			= DBG_NEW GameLogic();
+		RigidBodyManager*		physics			= DBG_NEW RigidBodyManager();
+		ColliderManager*        colliders       = DBG_NEW ColliderManager();
+		AudioManager*			audio			= DBG_NEW AudioManager();
+		AssetManager*			assetManager	= DBG_NEW AssetManager();
+		Renderer::RenderSystem* graphics		= DBG_NEW Renderer::RenderSystem();
+		Memory*					memory			= DBG_NEW Memory();
+		SceneManager*			sceneManager	= DBG_NEW SceneManager();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);

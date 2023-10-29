@@ -19,7 +19,6 @@
 #include "Platform/Editor/Editor.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Renderer/Renderer.h"
-#include "LitterBox/Renderer/Text.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Factory/Components.h"
@@ -50,7 +49,7 @@ namespace LB {
 		 \brief
 		 Initialises the LitterBox Engine with all the systems added
 		*************************************************************************/
-		Application(Scene* firstScene);
+		Application();
 
 		/*!***********************************************************************
 		 \brief

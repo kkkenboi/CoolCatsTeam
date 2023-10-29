@@ -70,7 +70,7 @@ namespace LB
 			if (typeToSerialize.Serialize(jsonFile, allocator))
 			{
 				//then we save it to file
-				SaveToJSON(FileSystemManager::GetFilePath(fileName).string(), jsonFile);
+				SaveToJSON(FileSystemManager::GetFilePath(fileName + ".json").string(), jsonFile);
 				return true;
 			}
 

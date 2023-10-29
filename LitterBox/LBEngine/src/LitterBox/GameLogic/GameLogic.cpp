@@ -17,8 +17,8 @@
 #include "pch.h"
 #include "GameLogic.h"
 
+#include "mono/metadata/image.h"
 #include "mono/jit/jit.h"
-#include "mono/metadata/assembly.h"
 
 namespace LB
 {
@@ -41,15 +41,16 @@ namespace LB
 
 		SetSystemName("Game Logic System");
 
-		//mono_set_assemblies_path("mono/lib");
+		mono_set_assemblies_path("Editor"); // Find the mscorlib.dll in the ./Editor/mono/4.5 sub folder
 
-		//m_domain = mono_jit_init("LitterBoxEngine");
-		//if (!m_domain)
-			//DebuggerLogWarning("[Mono] Cannot open LitterBoxEngine domain!");
+		m_domain = mono_jit_init("LitterBoxEngine");
+		DebuggerAssert(m_domain, "[Mono] LitterBoxEngine domain could not be created!");
 
-		//m_scriptAssembly = mono_domain_assembly_open(m_domain, "CSharpAssembly.dll");
-		//if (!m_domain)
-		//	DebuggerLogWarning("[Mono] CSharpAssembly.dll not found! Please compile the dll first.");
+		m_scriptAssembly = mono_domain_assembly_open(m_domain, "CSharpAssembly.dll");
+		DebuggerAssert(m_scriptAssembly, "[Mono] CSharpAssembly.dll not found! Please compile the dll first.");
+
+		CPScript* test = new CPScript();
+		test->Initialise();
 	}
 
 	void GameLogic::Load(CPScript *newScript)
@@ -93,6 +94,11 @@ namespace LB
 	{
 		Unload();
 		//mono_jit_cleanup(m_domain);
+	}
+
+	MonoDomain* GameLogic::GetDomain()
+	{
+		return m_domain;
 	}
 
 	MonoAssembly* GameLogic::GetScriptAssembly()
