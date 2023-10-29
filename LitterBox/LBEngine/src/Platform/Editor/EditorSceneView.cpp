@@ -128,8 +128,6 @@ namespace LB
 			}
 		}
 
-		std::cout << EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition().x << " " << EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition().y << std::endl;
-
 
 		ImGui::EndChild();
 
