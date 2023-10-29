@@ -33,7 +33,10 @@ namespace LB
 
 		void Destroy() override;
 
-		ComponentTypeID GetType() override;
+		static ComponentTypeID GetType()
+		{
+			return C_CPScript;
+		}
 
 	private:
 		MonoObject *m_instance;

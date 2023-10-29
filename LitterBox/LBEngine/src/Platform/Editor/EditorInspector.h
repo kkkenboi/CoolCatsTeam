@@ -42,7 +42,9 @@ namespace LB
         char m_inspectedName[256]{};
     };
     
+    // For event subscription
     void UpdateInspectedGO(GameObject* newInspectedGO);
+    void DeselectObject(bool isPlaying);
 
     extern EditorInspector* EDITORINSPECTOR;
 }

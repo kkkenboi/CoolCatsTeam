@@ -17,6 +17,7 @@
 #include "pch.h"
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
+#include "LitterBox/Core/Core.h"
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Components/RigidBodyComponent.h"
 #include "LitterBox/Components/TransformComponent.h"
@@ -36,6 +37,7 @@ namespace LB
 	void EditorInspector::Initialize()
 	{
 		EDITORHIERACHY->onNewObjectSelected.Subscribe(LB::UpdateInspectedGO);
+		CORE->onPlayingModeToggle.Subscribe(LB::DeselectObject);
 	}
 
 	void EditorInspector::UpdateLayer()
@@ -398,5 +400,12 @@ namespace LB
 	void UpdateInspectedGO(GameObject* newInspectedGO)
 	{
 		EDITORINSPECTOR->UpdateInspectedGO(newInspectedGO);
+	}
+
+	// For event subscription
+	void DeselectObject(bool isPlaying)
+	{
+		if (!isPlaying)
+			EDITORINSPECTOR->UpdateInspectedGO(nullptr);
 	}
 }

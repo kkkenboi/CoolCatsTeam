@@ -54,12 +54,12 @@ namespace LB
 		ImGui::SameLine();
 		if (ImGui::Button("Delete Selected"))
 		{
-			/*if (m_clickedItem)
+			if (m_clickedItem)
 			{
-				m_clickedItem->gameObj->Destroy();
+				GOMANAGER->RemoveGameObject(m_clickedItem->gameObj);
 				m_clickedItem = nullptr;
 				onNewObjectSelected.Invoke(nullptr);
-			}*/
+			}
 		}
 
 		// Draw the hierarchy for this cene
