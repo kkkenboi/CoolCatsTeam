@@ -63,14 +63,14 @@ namespace LB
 			/// @param typeToSerialize Type of object that is being serialized
 			/// @return true on success, false on fail
 			//We need to load the json data from the json file
-			Document jsonFile = GetJSONFile(FileSystemManager::GetFilePath(fileName).string());
+			Document jsonFile = GetJSONFile(FileSystemManager::GetFilePath(fileName + ".json").string());
 			//Once it has the data, it needs to allocate memory with the allocator
 			Document::AllocatorType& allocator = jsonFile.GetAllocator();
 			//then we pray to god the T has a serialize function
 			if (typeToSerialize.Serialize(jsonFile, allocator))
 			{
 				//then we save it to file
-				SaveToJSON(FileSystemManager::GetFilePath(fileName).string(), jsonFile);
+				SaveToJSON(FileSystemManager::GetFilePath(fileName + ".json").string(), jsonFile);
 				return true;
 			}
 
@@ -79,7 +79,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 * \brief 
-		 *  Grabs the json file specified (user does not need to add .json to filename)
+		 *  Grabs the json file specified (User doesn't need to type the whole path,, or .json, just filename)
 		 * and then deserializes it into the type.
 		 *************************************************************************/
 		template<typename T>
@@ -92,13 +92,14 @@ namespace LB
 			//Get the file, then deserialize! magic
 			DebuggerLog("Getting file from : " + fileName);
 			//std::cout << "Joe: " << fileDestinationMap[filePath] + fileName + ".json\n";
-			Document jsonFile = GetJSONFile(FileSystemManager::GetFilePath(fileName).string());
+			Document jsonFile = GetJSONFile(FileSystemManager::GetFilePath(fileName+".json").string());
 			typeToDeserialize.Deserialize(jsonFile);
 		}
 
 		/*!***********************************************************************
 		 * \brief 
 		 * Helper function to grab json data from file specified.
+		 * (ONLY WORKS WITH ABSOLUTE FILE PATHS!! DOES NOT USE FILE MANAGER SYSTEM!)
 		 *************************************************************************/
 		static Document GetJSONFile(const std::string& filePath)
 		{
@@ -108,7 +109,7 @@ namespace LB
 			Document _jsonFile;
 			std::ifstream inputFile(filePath);
 			//Assert if it's NOT open
-			DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
+			//DebuggerAssert(inputFile.is_open(), std::string{filePath + " not found!"});
 			std::string jsonString((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
 			inputFile.close();
 			if (_jsonFile.Parse(jsonString.c_str()).HasParseError()) { }
@@ -118,6 +119,7 @@ namespace LB
 		/*!***********************************************************************
 		 * \brief 
 		 * Helper function to save json data into the specified json file
+		 * (ONLY WORKS WITH ABSOLUTE FILE PATHS!! DOES NOT USE FILE MANAGER SYSTEM!)
 		 *************************************************************************/
 		static void SaveToJSON(const std::string& filePath, const Document& jsonFileToSave)
 		{

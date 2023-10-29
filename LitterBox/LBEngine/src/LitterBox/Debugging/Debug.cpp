@@ -161,7 +161,8 @@ namespace LB
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
 		// Print to ImGUI console
-		EDITORCONSOLE->AddLogMessage(output.str());
+		if (EDITORCONSOLE)
+			EDITORCONSOLE->AddLogMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->debug(output.str());	
@@ -192,7 +193,8 @@ namespace LB
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
 		// Print to ImGUI console
-		EDITORCONSOLE->AddWarningMessage(output.str());
+		if (EDITORCONSOLE)
+			EDITORCONSOLE->AddWarningMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->warn(output.str());
@@ -226,7 +228,8 @@ namespace LB
 		consoleLogger->error(output.str());
 
 		// Print to ImGUI console
-		EDITORCONSOLE->AddErrorMessage(output.str());
+		if (EDITORCONSOLE)
+			EDITORCONSOLE->AddErrorMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->error(output.str());

@@ -81,6 +81,8 @@ namespace LB
         *************************************************************************/
         void ReturnPooledRigidBody(CPRigidBody* rb);
 
+        void RemoveRigidBodyFromPool(CPRigidBody* rb);
+
         /*!***********************************************************************
           \brief
           This function returns a pointer to a CPRigidBody that has the ID of 1
@@ -123,6 +125,7 @@ namespace LB
         *************************************************************************/
         void Update() override;
 
+        void Destroy() override;
 
     };
 

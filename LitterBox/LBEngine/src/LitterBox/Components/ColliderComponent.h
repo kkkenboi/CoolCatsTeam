@@ -33,6 +33,7 @@ namespace LB {
 	public:
 		CPTransform* transform;
 		CPRigidBody* rigidbody;
+		GameObject* m_gameobj;
 	public:
 		SHAPETYPE m_shape;
 		bool m_simpleCol;
@@ -103,7 +104,7 @@ namespace LB {
 
 		void FixedUpdate();
 
-		//void Destroy();
+		void Destroy();
 
 		ComponentTypeID GetType() override
 		{

@@ -26,7 +26,7 @@ void spawn2500() {
 		return;
 	}
 
-	test = new GameObject * [2500];
+	test = DBG_NEW GameObject * [2500];
 	for (int i{ 0 }; i < 2500; ++i) {
 		test[i] = FACTORY->SpawnGameObject({ C_CPRender });
 		test[i]->GetComponent<CPRender>()->texture = -1;
@@ -111,7 +111,7 @@ void ExplodeAround()
 
 	std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, effect_radius);
 	
-	std::cout << vec_colliders.size() << std::endl;
+	//std::cout << vec_colliders.size() << std::endl;
 	for (size_t i = 0; i < vec_colliders.size(); ++i) {
 		Vec2<float> force_to_apply = vec_colliders[i]->m_pos - current_pos;
 		force_to_apply = Normalise(force_to_apply) * effect_magnitude;

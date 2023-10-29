@@ -27,10 +27,7 @@ namespace LB
 
 		void UpdateLayer() override;
 
-		Vec2<float> const& GetMousePos();
-
 	private:
-		Vec2<float> mousePosInWindow;
 	};
 
 	extern EditorGameView* EDITORGAMEVIEW;

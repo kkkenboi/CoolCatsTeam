@@ -15,46 +15,37 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 #include "pch.h"
+#include "EditorHierarchy.h"
 #include "EditorInspector.h"
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Components/RigidBodyComponent.h"
 #include "LitterBox/Components/TransformComponent.h"
 
-
-// For testing 
-#include "LitterBox/Factory/GameObjectFactory.h"
 namespace LB
 {
-	// For testing
-	GameObject* inspectTest;
-	//
+	EditorInspector* EDITORINSPECTOR{ nullptr };
 
 	EditorInspector::EditorInspector(std::string layerName) : Layer(layerName) 
 	{
+		if (!EDITORINSPECTOR)
+			EDITORINSPECTOR = this;
+		else
+			DebuggerLogError("Editor Inspector already exist!");
 	}
 
 	void EditorInspector::Initialize()
 	{
-		// For testing
-		inspectTest = FACTORY->SpawnGameObject();
-		//std::cout << inspectTest->GetComponents().size() << std::endl;
-		DebuggerLogFormat("Component Size: %d", inspectTest->GetComponents().size());
-		EDITOR->InspectGO(inspectTest);
-
-
-		//
+		EDITORHIERACHY->onNewObjectSelected.Subscribe(LB::UpdateInspectedGO);
 	}
 
 	void EditorInspector::UpdateLayer()
 	{
-
 		ImGui::Begin(GetName().c_str(), 0, 0);
 
-		if ((GOMANAGER->GetGameObjects().size() <= 0) || (EDITOR->InspectedGO() == nullptr))
+		// If no game object is selected, don't render the inspector (as there's nothing to inspect)
+		if (!m_inspectedGO)
 		{	
 			ImGui::End();
-			// Comment the return to interact with the rest of the function, 
-			// but currently a test GameObject is assigned to the m_GameObjectPointer
 			return; 
 		}
 
@@ -62,6 +53,7 @@ namespace LB
 		float extendedWidth = 173.f;
 		float dropdownWidth = 150.f;
 
+		//------------------------------------------ADD COMPONENT WINDOW------------------------------------------
 		if (ImGui::Button("Add Component"))
 		{
 			ImGui::OpenPopup("Add Component");
@@ -73,15 +65,15 @@ namespace LB
 
 			if (ImGui::MenuItem("Render"))
 			{
-				if (EDITOR->InspectedGO()->HasComponent<CPRender>())
+				if (m_inspectedGO->HasComponent<CPRender>())
 				{
 					DebuggerLogWarning("Render already exists.");
 					ImGui::CloseCurrentPopup();
 				}
 				else
 				{
-					EDITOR->InspectedGO()->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
-					EDITOR->InspectedGO()->GetComponent<CPRender>()->Initialise();
+					m_inspectedGO->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+					m_inspectedGO->GetComponent<CPRender>()->Initialise();
 					DebuggerLog("Render added!");
 					ImGui::CloseCurrentPopup();
 				}
@@ -91,15 +83,15 @@ namespace LB
 
 			if (ImGui::MenuItem("RigidBody"))
 			{
-				if (EDITOR->InspectedGO()->HasComponent<CPRigidBody>())
+				if (m_inspectedGO->HasComponent<CPRigidBody>())
 				{
 					DebuggerLogWarning("RigidBody already exists.");
 					ImGui::CloseCurrentPopup();
 				}
 				else
 				{
-					EDITOR->InspectedGO()->AddComponent(C_CPRigidBody, FACTORY->GetCMs()[C_CPRigidBody]->Create());
-					EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->Initialise();
+					m_inspectedGO->AddComponent(C_CPRigidBody, FACTORY->GetCMs()[C_CPRigidBody]->Create());
+					m_inspectedGO->GetComponent<CPRigidBody>()->Initialise();
 					DebuggerLog("RigidBody added!");
 					ImGui::CloseCurrentPopup();
 				}
@@ -109,7 +101,7 @@ namespace LB
 
 			if (ImGui::MenuItem("Collider"))
 			{
-				if (EDITOR->InspectedGO()->HasComponent<CPCollider>())
+				if (m_inspectedGO->HasComponent<CPCollider>())
 				{
 					DebuggerLogWarning("Collider already exists.");
 					ImGui::CloseCurrentPopup();
@@ -121,8 +113,8 @@ namespace LB
 				//}
 				else
 				{
-					EDITOR->InspectedGO()->AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
-					EDITOR->InspectedGO()->GetComponent<CPCollider>()->Initialise();
+					m_inspectedGO->AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
+					m_inspectedGO->GetComponent<CPCollider>()->Initialise();
 					DebuggerLog("Collider added!");
 					ImGui::CloseCurrentPopup();
 				}
@@ -130,48 +122,60 @@ namespace LB
 
 			ImGui::EndPopup();
 		}
+		//------------------------------------------ADD COMPONENT WINDOW------------------------------------------
 
 		ImGui::Separator();
 
+		//----------------------------------------INSPECT COMPONENTS WINDOW---------------------------------------
 		// Individual Component Sections
-		if (EDITOR->InspectedGO()->HasComponent<CPTransform>())
+		ImGui::Text("%-17s", "Name");
+		ImGui::SameLine();
+		if (ImGui::InputText("##Name", m_inspectedName, 256))
 		{
-			if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_None))
+			m_inspectedGO->SetName(m_inspectedName);
+		}
+
+		if (m_inspectedGO->HasComponent<CPTransform>())
+		{
+			if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				Vec2<float> pos = EDITOR->InspectedGO()->GetComponent<CPTransform>()->GetPosition();
+				Vec2<float> pos = m_inspectedGO->GetComponent<CPTransform>()->GetPosition();
 				ImGui::Text("%-17s X", "Position");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::InputFloat("##PosX", &pos.x, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##PosX", &pos.x, 1.0f, 0.0f, 0.0f, "%.2f");
 				ImGui::SameLine();
 				ImGui::Text("Y");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::InputFloat("##PosY", &pos.y, 0.0f, 0.0f, "%.2f");
-				EDITOR->InspectedGO()->GetComponent<CPTransform>()->SetPosition(pos);
-
-				// For Testing
-				Vec2<float> returnval = EDITOR->InspectedGO()->GetComponent<CPTransform>()->GetPosition();
-				DebuggerLogFormat("Position X: %f, Position Y: %f", returnval.x, returnval.y);
-				//
+				ImGui::DragFloat("##PosY", &pos.y, 1.0f, 0.0f, 0.0f, "%.2f");
+				m_inspectedGO->GetComponent<CPTransform>()->SetPosition(pos);
 			}
 		}
-		if (EDITOR->InspectedGO()->HasComponent<CPRender>())
+		if (m_inspectedGO->HasComponent<CPRender>())
 		{
-			if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_None))
+			if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				// Interface Buttons
 				ImGui::Text("%-19s", "Image");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);
-				int inspectedTextureID = EDITOR->InspectedGO()->GetComponent<CPRender>()->texture;
+				int inspectedTextureID = m_inspectedGO->GetComponent<CPRender>()->texture;
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("TEXTURE"))
+					{
+						const char* textureName = (const char*)textureData->Data;
+						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[textureName].second);
+					}
+				}
 				if (ImGui::BeginCombo("##Texture", ASSETMANAGER->GetTextureName(inspectedTextureID).c_str()))
 				{
 					for (auto& [str, tex] : ASSETMANAGER->Textures)
 					{
 						if (ImGui::Selectable(str.c_str()))
 						{
-							EDITOR->InspectedGO()->GetComponent<CPRender>()->UpdateTexture(tex.second);
+							m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second);
 						}
 					}
 					ImGui::EndCombo();
@@ -180,16 +184,16 @@ namespace LB
 				// Delete Component
 				if (ImGui::Button("Delete Render Component"))
 				{
-					EDITOR->InspectedGO()->RemoveComponent(C_CPRender);
+					m_inspectedGO->RemoveComponent(C_CPRender);
 				}
 			}
 		}
-		if (EDITOR->InspectedGO()->HasComponent<CPRigidBody>())
+		if (m_inspectedGO->HasComponent<CPRigidBody>())
 		{
-			if (ImGui::CollapsingHeader("RigidBody", ImGuiTreeNodeFlags_None))
+			if (ImGui::CollapsingHeader("RigidBody", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				// Interface Buttons
-				float mass = EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mMass;
+				float mass = m_inspectedGO->GetComponent<CPRigidBody>()->mMass;
 				ImGui::Text("%-19s", "Mass");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
@@ -197,14 +201,14 @@ namespace LB
 
 				if (mass <= 0.f)
 				{
-					EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mMass = 0.1f;
+					m_inspectedGO->GetComponent<CPRigidBody>()->mMass = 0.1f;
 				}
 				else
 				{
-					EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mMass = mass;
+					m_inspectedGO->GetComponent<CPRigidBody>()->mMass = mass;
 				}
 
-				float restitution = EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mRestitution;
+				float restitution = m_inspectedGO->GetComponent<CPRigidBody>()->mRestitution;
 				ImGui::Text("%-19s", "Restitution");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
@@ -212,19 +216,19 @@ namespace LB
 
 				if (restitution <= 0.f)
 				{
-					EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mRestitution = 0.f;
+					m_inspectedGO->GetComponent<CPRigidBody>()->mRestitution = 0.f;
 				}
 				else if (restitution >= 1.f)
 				{
-					EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mRestitution = 1.f;
+					m_inspectedGO->GetComponent<CPRigidBody>()->mRestitution = 1.f;
 				}
 				else
 				{
-					EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mRestitution = restitution;
+					m_inspectedGO->GetComponent<CPRigidBody>()->mRestitution = restitution;
 				}
 
 
-				float friction = EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mFriction;
+				float friction = m_inspectedGO->GetComponent<CPRigidBody>()->mFriction;
 				ImGui::Text("%-19s", "Friction");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
@@ -232,18 +236,18 @@ namespace LB
 
 				if (friction <= 0.f)
 				{
-					EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mFriction = 0.f;
+					m_inspectedGO->GetComponent<CPRigidBody>()->mFriction = 0.f;
 				}
 				else if (friction >= 1.f)
 				{
-					EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mFriction = 1.f;
+					m_inspectedGO->GetComponent<CPRigidBody>()->mFriction = 1.f;
 				}
 				else
 				{
-					EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mFriction = friction;
+					m_inspectedGO->GetComponent<CPRigidBody>()->mFriction = friction;
 				}
 
-				Vec2<float> velocity = EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mVelocity;
+				Vec2<float> velocity = m_inspectedGO->GetComponent<CPRigidBody>()->mVelocity;
 				ImGui::Text("%-17s X", "Velocity");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
@@ -254,7 +258,7 @@ namespace LB
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::InputFloat("##VelocityY", &velocity.y, 0.0f, 0.0f, "%.2f");
 
-				Vec2<float> acceleration = EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->mAcceleration;
+				Vec2<float> acceleration = m_inspectedGO->GetComponent<CPRigidBody>()->mAcceleration;
 				ImGui::Text("%-17s X", "Acceleration");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
@@ -269,21 +273,21 @@ namespace LB
 				ImGui::Text("%-10s", "Is Static");
 				ImGui::SameLine();
 				ImGui::Checkbox("##isStatic", &isStatic);
-				EDITOR->InspectedGO()->GetComponent<CPRigidBody>()->isStatic = isStatic;
+				m_inspectedGO->GetComponent<CPRigidBody>()->isStatic = isStatic;
 
 				// Delete Component
 				if (ImGui::Button("Delete RigidBody Component"))
 				{
-					EDITOR->InspectedGO()->RemoveComponent(C_CPRigidBody);
+					m_inspectedGO->RemoveComponent(C_CPRigidBody);
 				}
 			}
 		}
-		if (EDITOR->InspectedGO()->HasComponent<CPCollider>())
+		if (m_inspectedGO->HasComponent<CPCollider>())
 		{
-			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_None))
+			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				// Interface Buttons
-				float width = EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_widthUnscaled;
+				float width = m_inspectedGO->GetComponent<CPCollider>()->m_widthUnscaled;
 				ImGui::Text("%-19s", "Width");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
@@ -291,14 +295,14 @@ namespace LB
 
 				if (width < 0.f)
 				{
-					EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_widthUnscaled = 0.f;
+					m_inspectedGO->GetComponent<CPCollider>()->m_widthUnscaled = 0.f;
 				}
 				else
 				{
-					EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_widthUnscaled = width;
+					m_inspectedGO->GetComponent<CPCollider>()->m_widthUnscaled = width;
 				}
 
-				float height = EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_heightUnscaled;
+				float height = m_inspectedGO->GetComponent<CPCollider>()->m_heightUnscaled;
 				ImGui::Text("%-19s", "Height");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
@@ -306,14 +310,14 @@ namespace LB
 
 				if (height < 0.f)
 				{
-					EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_heightUnscaled = 0.f;
+					m_inspectedGO->GetComponent<CPCollider>()->m_heightUnscaled = 0.f;
 				}
 				else
 				{
-					EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_heightUnscaled = height;
+					m_inspectedGO->GetComponent<CPCollider>()->m_heightUnscaled = height;
 				}
 
-				float radius = EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_radiusUnscaled;
+				float radius = m_inspectedGO->GetComponent<CPCollider>()->m_radiusUnscaled;
 				ImGui::Text("%-19s", "Radius");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
@@ -321,24 +325,24 @@ namespace LB
 
 				if (radius < 0.f)
 				{
-					EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_radiusUnscaled = 0.f;
+					m_inspectedGO->GetComponent<CPCollider>()->m_radiusUnscaled = 0.f;
 				}
 				else
 				{
-					EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_radiusUnscaled = radius;
+					m_inspectedGO->GetComponent<CPCollider>()->m_radiusUnscaled = radius;
 				}
 
 				ImGui::Text("%-19s", "Shape Type");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);
-				if (ImGui::BeginCombo("##ShapeType", EDITOR->InspectedGO()->GetComponent<CPCollider>()->GetShapeName().c_str()))
+				if (ImGui::BeginCombo("##ShapeType", m_inspectedGO->GetComponent<CPCollider>()->GetShapeName().c_str()))
 				{
 
 					for (auto& [str, type] : COLLIDERS->m_shapeTypes)
 					{
 						if (ImGui::Selectable(str.c_str()))
 						{
-							EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_shape = type;
+							m_inspectedGO->GetComponent<CPCollider>()->m_shape = type;
 						}
 					}
 					ImGui::EndCombo();
@@ -346,12 +350,12 @@ namespace LB
 
 				if (ImGui::Button("Add Vertice"))
 				{
-					EDITOR->InspectedGO()->GetComponent<CPCollider>()->AddVertice(Vec2<float>{0.f,0.f});
+					m_inspectedGO->GetComponent<CPCollider>()->AddVertice(Vec2<float>{0.f,0.f});
 				}
 
-				for (size_t i{}; i < EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_untransformedVerts.size(); ++i)
+				for (size_t i{}; i < m_inspectedGO->GetComponent<CPCollider>()->m_untransformedVerts.size(); ++i)
 				{
-					Vec2<float> untransformedVerts = EDITOR->InspectedGO()->GetComponent<CPCollider>()->m_untransformedVerts[i];
+					Vec2<float> untransformedVerts = m_inspectedGO->GetComponent<CPCollider>()->m_untransformedVerts[i];
 					ImGui::Text("%s %-8d", "Vertice", i);
 					ImGui::SameLine();
 					
@@ -372,12 +376,27 @@ namespace LB
 				// Delete Component
 				if (ImGui::Button("Delete Collider Component"))
 				{
-					EDITOR->InspectedGO()->RemoveComponent(C_CPCollider);
+					m_inspectedGO->RemoveComponent(C_CPCollider);
 				}
 			}
 		}
+		//----------------------------------------INSPECT COMPONENTS WINDOW---------------------------------------
 
 		ImGui::End();
 	}
 
+	void EditorInspector::UpdateInspectedGO(GameObject* newInspectedGO)
+	{
+		m_inspectedGO = newInspectedGO;
+
+		// If GO was deselected, don't update name
+		if (!newInspectedGO) return;
+		strcpy_s(m_inspectedName, sizeof(m_inspectedName), newInspectedGO->GetName().c_str());
+	}
+
+	// For event subscription
+	void UpdateInspectedGO(GameObject* newInspectedGO)
+	{
+		EDITORINSPECTOR->UpdateInspectedGO(newInspectedGO);
+	}
 }

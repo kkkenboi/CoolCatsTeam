@@ -13,7 +13,6 @@
 **************************************************************************/
 
 #include "SceneManager.h"
-#include "SceneEmpty.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Serialization/Serializer.h"
 
@@ -25,14 +24,12 @@ namespace LB
 	 \brief
 	 Constructor for the SceneManager and creates a new scene
 	*************************************************************************/
-	SceneManager::SceneManager(Scene* firstScene)
+	SceneManager::SceneManager()
 	{
-		if (!DEBUG)
+		if (!SCENEMANAGER)
 			SCENEMANAGER = this;
 		else
 			std::cerr << "SceneManager System already exist" << std::endl;
-
-		nextScene = firstScene;
 	}
 
 	/*!***********************************************************************
@@ -43,8 +40,8 @@ namespace LB
 	{
 		SetSystemName("SceneManager System");
 
-		// Load an empty scene first
-		LoadScene(nextScene);
+		// TODO: Lookup table for scene names, arranged where 0 index is loaded first!
+		LoadScene("Scenetest");
 	}
 
 	/*!***********************************************************************
@@ -63,32 +60,27 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::Destroy()
 	{
-
-		JSONSerializer::SerializeToFile("Scenetest.json", *currentScene);
 		currentScene->Destroy();
-		delete currentScene;
+		MEMORY->Deallocate(currentScene);
 	}
-
-	//void SceneManager::LoadScene(int index)
-	//{
-
-	//}
 
 	void SceneManager::LoadScene(std::string name)
 	{
-
+		Scene* newScene = MEMORY->Allocate<Scene>(name);
+		LoadScene(newScene);
 	}
 
-	// TODO: REFACTOR TO USE JSON FILE 
 	void SceneManager::LoadScene(Scene* newScene)
 	{
 		// Free current scene first
 		if (currentScene) {
 			currentScene->Destroy();
-			delete currentScene;
+			MEMORY->Deallocate(currentScene);
 		}
-
 		currentScene = newScene;
+
+		onNewSceneLoad.Invoke(currentScene);
+
 		currentScene->Init();
 	}
 }

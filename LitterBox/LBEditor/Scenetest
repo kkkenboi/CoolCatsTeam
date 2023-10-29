@@ -14,7 +14,7 @@
                 "Name": "Pine 2000",
                 "Transform": {
                     "Position": {
-                        "x": 850.0,
+                        "x": 700.0,
                         "y": 400.0
                     },
                     "Scale": {
@@ -24,7 +24,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 7
+                    "Texture": 4
                 }
             },
             {
@@ -32,7 +32,7 @@
                 "Transform": {
                     "Position": {
                         "x": 500.0,
-                        "y": 150.0
+                        "y": 400.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -67,7 +67,7 @@
                 "Name": "small brain",
                 "Transform": {
                     "Position": {
-                        "x": 1009.0,
+                        "x": 1000.0,
                         "y": 300.0
                     },
                     "Scale": {
@@ -77,10 +77,10 @@
                     "Rotation": 0.0,
                     "Children": [
                         {
-                            "Name": "Digipain",
+                            "Name": "Pine 2002",
                             "Transform": {
                                 "Position": {
-                                    "x": 553.0,
+                                    "x": 700.0,
                                     "y": 400.0
                                 },
                                 "Scale": {
@@ -90,13 +90,13 @@
                                 "Rotation": 0.0
                             },
                             "Render": {
-                                "Texture": 9
+                                "Texture": 4
                             }
                         }
                     ]
                 },
                 "Render": {
-                    "Texture": 3
+                    "Texture": 2
                 }
             },
             {
@@ -131,50 +131,6 @@
                 },
                 "Render": {
                     "Texture": 2
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 1142.04,
-                        "y": 440.95
-                    },
-                    "Scale": {
-                        "x": 5.0,
-                        "y": 2.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0
-                },
-                "Render": {
-                    "Texture": 3
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 730.51,
-                        "y": 291.7
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0
-                },
-                "Render": {
-                    "Texture": 5
                 }
             }
         ]

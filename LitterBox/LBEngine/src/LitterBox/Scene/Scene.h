@@ -20,7 +20,6 @@
 #include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
 
-
 namespace LB
 {
 	/*!***********************************************************************
@@ -30,13 +29,15 @@ namespace LB
 	class Scene
 	{
 	public:
+		Scene(std::string name) : m_name{ name } { }
+
 		/*!***********************************************************************
 		 \brief
 		 Initialises the Scene
 		*************************************************************************/
-		virtual void Init() { 
-			//Document _jsonFile = JSONSerializer::GetJSONFile("Scenetest.json");
-			//root.Deserialize(_jsonFile);
+		void Init() 
+		{ 
+			JSONSerializer::DeserializeFromFile(m_name, *this);
 		}
 
 		/*!***********************************************************************
@@ -49,17 +50,14 @@ namespace LB
 		 \brief
 		 Destroy function that handles the destruction of the scene
 		*************************************************************************/
-		virtual void Destroy() {}
+		void Destroy() 
+		{
+			// To do: Serialize on save key press and also not in play mode
+			JSONSerializer::SerializeToFile(m_name, *this);
+		}
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc)
 		{
-			GameObject* test = FACTORY->SpawnGameObject();
-			root.AddChild(test->GetComponent<CPTransform>());
-			GameObject* test2 = FACTORY->SpawnGameObject();
-			root.AddChild(test2->GetComponent<CPTransform>());
-			GameObject* test3 = FACTORY->SpawnGameObject();
-			test2->GetComponent<CPTransform>()->AddChild(test3->GetComponent<CPTransform>());
-
 			data.SetObject();
 			Value rootObject;
 			root.Serialize(rootObject, alloc);
@@ -88,8 +86,13 @@ namespace LB
 			return m_name;
 		}
 
+		CPTransform* GetRoot()
+		{
+			return &root;
+		}
+
 	protected:
-		std::string m_name{ "Scene" };
+		std::string m_name;
 		CPTransform root{};	// All game objects are children of this root game object
 	};
 }

@@ -9,6 +9,7 @@
  game.
 
 **************************************************************************/
+
 #include "SceneTestMain.h"
 #include "LitterBox/Engine/Input.h"
 #include "Player/Player.h"
@@ -61,7 +62,7 @@ void SceneTestMain::Init()
 	rotObj = FACTORY->SpawnGameObject({ C_CPRender }, Vec2<float>(800, 600));
 	rotObj->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("pine"));
 	
-	JSONSerializer::DeserializeFromFile("Scenetest.json", *this);
+	JSONSerializer::DeserializeFromFile("Scenetest", *this);
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// Animation test
 	//---------------------------getting the uvs for the run------------------------
@@ -105,7 +106,7 @@ void SceneTestMain::Init()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Player example
-	testPlayer = new Player;
+	testPlayer = DBG_NEW Player;
 	testPlayer->Initialise();
 	LB::INPUT->SubscribeToKey(PlayTestSound, LB::KeyCode::KEY_W, LB::KeyEvent::TRIGGERED);
 	LB::INPUT->SubscribeToKey(PlayTestSound, LB::KeyCode::KEY_S, LB::KeyEvent::TRIGGERED);
@@ -189,5 +190,6 @@ void SceneTestMain::Destroy()
 	//delete testPlayer;
 	//This test lets us know that we can "save" the player's position
 	JSONSerializer stream;
-	stream.SerializeToFile("TestObject.json", *testPlayer->playerObj);
+	stream.SerializeToFile("TestObject", *testPlayer->playerObj);
+	delete testPlayer;
 }

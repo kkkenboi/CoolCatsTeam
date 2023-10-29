@@ -23,7 +23,7 @@ namespace LB {
 		if (!TIME)
 			TIME = this;
 		else
-			std::cerr << "Render System already exist" << std::endl;
+			DebuggerLogError("Time System already exists!");
 
 		SetMaxFrameRate(maxFrameRate);
 		SetFixedFrameRate(fixedFrameRate);

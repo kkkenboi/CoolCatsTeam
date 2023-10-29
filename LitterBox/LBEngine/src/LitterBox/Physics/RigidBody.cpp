@@ -215,6 +215,16 @@ namespace LB
         transform->SetPosition(mPosition);
     }
 
+    void CPRigidBody::Destroy()
+    {
+        if (PHYSICS == nullptr)
+        {
+            return;
+        }
+
+        PHYSICS->RemoveRigidBodyFromPool(this);
+    }
+
 
     // END OF RIGIDBODY MEMBER FUNCTIONS
     // ===========================================

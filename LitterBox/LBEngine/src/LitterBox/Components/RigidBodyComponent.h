@@ -173,5 +173,7 @@ namespace LB
 			- Also updates the Transform IComponent that is stored in CPRigidBody
 		*************************************************************************/
 		void FixedUpdate();
+
+		void Destroy();
 	};
 }

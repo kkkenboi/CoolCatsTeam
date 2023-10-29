@@ -27,6 +27,8 @@ namespace LB
 
 		std::vector<CPCollider*> OverlapCircle(Vec2<float> position, float radius);
 
+		std::vector<GameObject*> OverlapCircleGameObj(Vec2<float> position);
+
 		std::string GetShapeNames(SHAPETYPE type);
 
 		// ================
@@ -41,7 +43,7 @@ namespace LB
 		void Update();
 
 		// Makes all the ptrs nullptrs in the pool
-		//void Destroy();
+		void Destroy();
 	};
 
 	bool CheckColliders(CPCollider* colA, CPCollider* colB, Vec2<float>& normal_out, float& depth_out);

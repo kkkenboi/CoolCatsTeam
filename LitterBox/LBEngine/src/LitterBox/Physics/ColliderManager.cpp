@@ -19,7 +19,7 @@ namespace LB
 		// HARDCODING NUMBER RN
 		constexpr size_t COL_POOL_SIZE = 2500;
 		this->m_poolSize = COL_POOL_SIZE;
-		this->m_colliderPool = new CPCollider * [COL_POOL_SIZE];
+		this->m_colliderPool = DBG_NEW CPCollider * [COL_POOL_SIZE];
 
 		// Initialize all the Colliders to nullptrs
 		for (size_t i = 0; i < COL_POOL_SIZE; ++i)
@@ -56,6 +56,10 @@ namespace LB
 	{
 		for (size_t i = 0; i < m_poolSize; ++i)
 		{
+			if (m_colliderPool[i] == nullptr) 
+			{
+				continue;
+			}
 			if (m_colliderPool[i] == col)
 			{
 				m_colliderPool[i] = nullptr;
@@ -91,6 +95,42 @@ namespace LB
 					radius, m_colliderPool[i]->m_radius, normal, depth))
 				{
 					vec_overlapped.push_back(m_colliderPool[i]);
+				}
+			}
+		}
+
+		return vec_overlapped;
+	}
+
+	std::vector<GameObject*> ColliderManager::OverlapCircleGameObj(Vec2<float> position)
+	{
+		float radius = 1.0f;
+		Vec2<float> normal{ 0.f,0.f };
+		float depth{ 0.f };
+
+		std::vector<GameObject*> vec_overlapped;
+
+		for (size_t i = 0; i < m_poolSize; ++i)
+		{
+			if (m_colliderPool[i] == nullptr)
+			{
+				continue;
+			}
+
+			if (m_colliderPool[i]->m_shape == COL_POLYGON)
+			{
+				if (CollisionIntersection_CirclePolygon_SAT(position, radius,
+					m_colliderPool[i]->m_transformedVerts, normal, depth))
+				{
+					vec_overlapped.push_back(m_colliderPool[i]->m_gameobj);
+				}
+			}
+			if (m_colliderPool[i]->m_shape == COL_CIRCLE)
+			{
+				if (CollisionIntersection_CircleCircle(position, m_colliderPool[i]->m_pos,
+					radius, m_colliderPool[i]->m_radius, normal, depth))
+				{
+					vec_overlapped.push_back(m_colliderPool[i]->m_gameobj);
 				}
 			}
 		}
@@ -303,13 +343,17 @@ namespace LB
 		}
 	}
 
-	/*
+	
 	void ColliderManager::Destroy()
 	{
 		for (size_t i = 0; i < m_poolSize; ++i)
 		{
 			m_colliderPool[i] = nullptr;
 		}
+
+		delete[] m_colliderPool;
+
+		COLLIDERS = nullptr;
 	}
-	*/
+	
 }

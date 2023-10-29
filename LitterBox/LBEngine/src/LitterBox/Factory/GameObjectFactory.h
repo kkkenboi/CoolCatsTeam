@@ -23,6 +23,8 @@
 
 namespace LB
 {
+	class Scene;
+
 	/*!***********************************************************************
 	 \brief
 	 FactorySystem class allows the creation of GameObjects with components
@@ -99,6 +101,8 @@ namespace LB
 		*************************************************************************/
 		int GetLastObjID() const;
 
+		void UpdateLoadedScene(Scene* loadedScene);
+
 	private:
 		/*!***********************************************************************
 		 \brief
@@ -106,13 +110,16 @@ namespace LB
 		*************************************************************************/
 		GameObject* CreateGameObject();
 
+		Scene* m_loadedScene{ nullptr };
+
 		std::map<ComponentTypeID, ComponentMaker*>	m_ComponentMakers;
 		std::vector<GameObject*>					m_WaitingList;
 
 		int											m_LastObjID{};
 		bool										m_ToUpdate{};
-
 	};
+
+	void UpdateLoadedScene(Scene* loadedScene);
 
 	extern FactorySystem* FACTORY;
 }

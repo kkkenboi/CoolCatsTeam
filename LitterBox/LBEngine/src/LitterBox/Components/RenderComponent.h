@@ -19,6 +19,7 @@
 #pragma once
 #include "TransformComponent.h"
 #include "LitterBox/Renderer/ForwardDeclerators.h"
+//#include "LitterBox/Serialization/AssetManager.h"
 #include <queue>
 
 namespace LB
