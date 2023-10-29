@@ -14,6 +14,7 @@
 **************************************************************************/
 #include "pch.h"
 #include "AudioManager.h"
+#include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Debugging/Debug.h"
 namespace LB
 {
@@ -55,30 +56,15 @@ namespace LB
 	**************************************************************************/
 	void PlayTestSound()
 	{
-		AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->playSound(ASSETMANAGER->SoundMap["Oof"], nullptr, false, nullptr);
-		if (AUDIOMANAGER->result != FMOD_OK)
-		{
-			//TODO TAKE THIS OUT AND USE OUR BEAUTIFUL DEBUGGER!
-			std::cout << "PLAY SAMPLE SOUND IS NOT WORKING!! \n";
-		}
+		AUDIOMANAGER->PlaySound("Oof");
 	}
 	void PlayExplosionSound()
 	{
-		AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->playSound(ASSETMANAGER->SoundMap["EXPLOSION"], nullptr, false, nullptr);
-		if (AUDIOMANAGER->result != FMOD_OK)
-		{
-			//TODO TAKE THIS OUT AND USE OUR BEAUTIFUL DEBUGGER!
-			std::cout << "PLAY EXPLOSION SOUND IS NOT WORKING!! \n";
-		}
+		AUDIOMANAGER->PlaySound("EXPLOSION");
 	}
 	void PlayAHHSound()
 	{
-		AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->playSound(ASSETMANAGER->SoundMap["Enemy hurt"], nullptr, false, nullptr);
-		if (AUDIOMANAGER->result != FMOD_OK)
-		{
-			//TODO TAKE THIS OUT AND USE OUR BEAUTIFUL DEBUGGER!
-			std::cout << "PLAY AHH SOUND IS NOT WORKING!! \n";
-		}
+		AUDIOMANAGER->PlaySound("Enemy hurt");
 	}
 
 	/*!***********************************************************************
@@ -95,5 +81,17 @@ namespace LB
 	{
 		//This shuts down FMOD studio
 		audioSystem->release();
+	}
+	void AudioManager::PlaySound(std::string soundName)
+	{
+		if (ASSETMANAGER->SoundMap.find(soundName) != ASSETMANAGER->SoundMap.end())
+		{
+			result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], nullptr, false, nullptr);
+			if (result != FMOD_OK) DebuggerLogWarning("SOUND NAME " + soundName + "IS NOT WORKING!");
+		}
+	}
+	void AudioManager::StopAllSounds()
+	{
+		/*audioSystem.*/
 	}
 }

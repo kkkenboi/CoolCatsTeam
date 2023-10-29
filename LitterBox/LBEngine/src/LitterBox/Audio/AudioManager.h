@@ -54,6 +54,8 @@ namespace LB
 		 * \brief AudioSystem that provides FMOD functionality to play sounds
 		 * MUST be initialised before it can be used!
 		 **************************************************************************/
+		void PlaySound(std::string soundName);
+		void StopAllSounds();
 		FMOD::System* audioSystem;
 
 		/*!***********************************************************************
@@ -62,7 +64,7 @@ namespace LB
 		 **************************************************************************/
 		FMOD_RESULT result;
 	private:
-
+		FMOD::Channel* BGMChannel;
 	};
 
 	/*!***********************************************************************
