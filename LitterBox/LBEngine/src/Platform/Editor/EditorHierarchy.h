@@ -37,6 +37,7 @@ namespace LB
         bool DrawItem(CPTransform* item);
 
         void UpdateSceneLoaded(Scene* loadedScene);
+        void UpdateClickedItem(CPTransform* newClickedItem);
 
         Event<GameObject*> onNewObjectSelected;
 

@@ -262,6 +262,7 @@ namespace LB
 	void Editor::SetObjectPicked(GameObject* obj)
 	{
 		EDITORINSPECTOR->UpdateInspectedGO(obj);
+		EDITORHIERACHY->UpdateClickedItem(obj ? obj->GetComponent<CPTransform>() : nullptr);
 	}
 
 

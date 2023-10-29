@@ -159,6 +159,11 @@ namespace LB
 		return isItemClicked;
 	}
 
+	void EditorHierarchy::UpdateClickedItem(CPTransform* newClickedItem)
+	{
+		m_clickedItem = newClickedItem;
+	}
+
 	void EditorHierarchy::UpdateSceneLoaded(Scene* loadedScene)
 	{
 		m_loadedScene = loadedScene;
