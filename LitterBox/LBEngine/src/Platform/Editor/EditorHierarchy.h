@@ -39,6 +39,7 @@ namespace LB
         Event<GameObject*> onNewObjectSelected;
 
     private:
+        CPTransform* m_draggedItem{ nullptr };
         CPTransform* m_clickedItem{ nullptr };
         Scene* m_loadedScene{ nullptr };
     };

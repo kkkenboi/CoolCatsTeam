@@ -65,6 +65,8 @@ namespace LB
 		// Draw the hierarchy for this cene
 		DrawRoot();
 
+		ImGui::ShowDemoWindow();
+
 		ImGui::End();
 	}
 
@@ -92,19 +94,6 @@ namespace LB
 
 	bool EditorHierarchy::DrawItem(CPTransform* item)
 	{
-		if (ImGui::BeginDragDropTarget())
-		{
-			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
-			{
-				CPTransform* droppedItem = reinterpret_cast<CPTransform*>(assetData->Data);
-
-				std::cout << "Exists: " << droppedItem->gameObj->GetName() << std::endl;
-
-				droppedItem->SetParent(item);
-			}
-		}
-
-
 		//-------------------------Click Select Detection-------------------------
 		// IMGui click detection is weird, but checking click in 3 places does the trick!
 		bool isChildClicked{ false }, isItemClicked{ false }, isParentClicked{ false };
@@ -137,13 +126,6 @@ namespace LB
 				isChildClicked = DrawItem(item->GetChild(index));
 			}
 
-			// Drag & Drop support
-			if (ImGui::BeginDragDropSource())
-			{
-				ImGui::SetDragDropPayload("GAMEOBJECT", item, sizeof(item));
-				ImGui::EndDragDropSource();
-			}
-
 			ImGui::TreePop();
 		}
 		//-------------------------Tree Node Item Render-------------------------
@@ -172,7 +154,6 @@ namespace LB
 			}
 		}
 		//-------------------------Click Select Detection-------------------------
-
 		ImGui::PopID();
 
 		return isItemClicked;

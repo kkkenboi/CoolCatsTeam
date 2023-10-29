@@ -39,7 +39,7 @@ namespace LB
 
 	void ToggleEditor()
 	{
-		EDITOR->m_EditorMode = !EDITOR->m_EditorMode;
+		CORE->ToggleEditorMode();
 	}
 
 	Editor::Editor() 
@@ -47,8 +47,8 @@ namespace LB
 		if (!EDITOR)
 		{
 			EDITOR = this;
-			m_EditorMode = true;
-			m_onLaunch = true;
+			CORE->SetEditorMode(true);
+			CORE->SetEditorLaunched(true);
 		}
 		else
 			DebuggerLogError("Editor System already exists!");
@@ -101,7 +101,7 @@ namespace LB
 
 	void Editor::Update()
 	{
-		if (m_EditorMode)
+		if (CORE->IsEditorMode())
 		{
 			// To start every frame
 			ImGui_ImplOpenGL3_NewFrame();

@@ -53,14 +53,18 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override;
 
+		void SceneOnPlayToggle(bool isPlaying);
+
 		void LoadScene(std::string name);
 		void LoadScene(Scene* scene);
 
 		Event<Scene*> onNewSceneLoad;
 
 	private:
-		Scene *currentScene{ nullptr };
+		Scene *m_currentScene{ nullptr };
 	};
+
+	void SceneOnPlayToggle(bool isPlaying);
 
 	/*!***********************************************************************
 	 \brief
