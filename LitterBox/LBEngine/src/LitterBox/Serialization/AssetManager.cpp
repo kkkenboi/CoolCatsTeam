@@ -135,7 +135,7 @@ namespace LB
         //removes the sounds
         for (const auto& sound : SoundMap)
         {
-            sound.second->release();
+            //sound.second->release();
         }
         //shouldn't need to do this but just in case
         for (const auto& texture : Textures)

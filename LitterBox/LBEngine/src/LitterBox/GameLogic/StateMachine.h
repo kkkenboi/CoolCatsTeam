@@ -1,24 +1,23 @@
 #pragma once
-#include "LitterBox/Engine/Input.h"
+//#include "LitterBox/Engine/Input.h"
 #include <map>
 #include <memory>
+#include <string>
 
 // Forward declaration of FiniteStateMachine class
-template <typename T>
 class FiniteStateMachine;
 
 // T here would be like a
 // scoped enum class type such as T = CHASERENEMY
 // which would have enums like IDLE, CHASE, etc...
-template <typename T>
 class State
 {
 public:
 	// Stores the FSM that it is located in, allowing
 	// for the change of states within the FSM
-	State(FiniteStateMachine<T>& FSM, T ID);
+	State(FiniteStateMachine& FSM, std::string ID);
 
-	T GetStateID();
+	std::string GetStateID();
 
 	// Virtual functions
 	//virtual ~State();
@@ -32,13 +31,12 @@ public:
 
 
 private:
-	FiniteStateMachine<T>& mFSM;
-	T mStateID;
+	FiniteStateMachine& mFSM;
+	std::string mStateID;
 };
 
 // Consists of a set of states
 // Only can be in one state at a time
-template <typename T>
 class FiniteStateMachine 
 {
 public:
@@ -46,21 +44,21 @@ public:
 	FiniteStateMachine();
 
 	// Add a state
-	State<T>& AddState(T stateType);
+	void AddState(State* stateType);
 
 	// Get a state
-	State<T>& GetState(T stateID);
+	State& GetState(std::string stateID);
 
 	// Sets a state as the current state
 	// Returns true if successful
 	// False if unsuccessful
-	void SetCurrentState(T stateID);
+	void SetCurrentState(std::string stateID);
 
 private:
 	// Map that contains all the states within this given FiniteStateMachine
-	std::map<T, std::unique_ptr<State<T>>> mStateMap;
+	std::map<std::string, State*> mStateMap;
 
-	State<T>* mCurrentState;
+	State* mCurrentState;
 };
 
 
@@ -87,4 +85,51 @@ public:
 private:
 	BaseState* mCurrentState;
 };
+*/
+
+
+
+/*
+// State Class member functions =======================================
+
+template <typename T>
+State<T>::State(FiniteStateMachine<T>& FSM, T ID) :
+	mFSM{ FSM }, mStateID{ID}
+{
+	// Empty by default, initialized values
+}
+
+template <typename T>
+T State<T>::GetStateID()
+{
+	return mStateID;
+}
+
+// Finite State Machine Class member function
+
+template <typename T>
+FiniteStateMachine<T>::FiniteStateMachine()
+{
+	mCurrentState = nullptr;
+}
+
+
+template <typename T>
+State<T>& FiniteStateMachine<T>::AddState(State<T> stateType)
+{
+	mStateMap[stateType] = stateType;
+    return *mStateMap[stateType];
+}
+
+template <typename T>
+State<T>& FiniteStateMachine<T>::GetState(T stateID) 
+{
+	return mStateMap[stateID];
+}
+
+template <typename T>
+void FiniteStateMachine<T>::SetCurrentState(T stateID)
+{
+	mCurrentState = &GetState(stateID);
+}
 */

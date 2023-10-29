@@ -8,9 +8,11 @@ class Chaser
 public:
 	LB::GameObject* chaserObj;
 	
-	FiniteStateMachine<ChaserStateType> mChaserFSM;
+	FiniteStateMachine mChaserFSM;
 public:
 	void Initialise();
 
 	void Update();
+
+	void Destroy();
 };
