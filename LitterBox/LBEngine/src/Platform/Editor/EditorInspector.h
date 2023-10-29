@@ -39,7 +39,7 @@ namespace LB
 
     private:
         GameObject* m_inspectedGO{ nullptr };
-        char m_inspectedName[256]{};
+        char m_inspectedName[256]{}, m_nameBuffer1[64]{};
     };
     
     // For event subscription

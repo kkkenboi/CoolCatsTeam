@@ -122,6 +122,24 @@ namespace LB
 				}
 			}
 
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("CPP Script"))
+			{
+				if (m_inspectedGO->HasComponent<CPScriptCPP>())
+				{
+					DebuggerLogWarning("CPP Script already exists.");
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					m_inspectedGO->AddComponent(C_CPScriptCPP, FACTORY->GetCMs()[C_CPScriptCPP]->Create());
+					m_inspectedGO->GetComponent<CPScriptCPP>()->Initialise();
+					DebuggerLog("CPP Script added!");
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
 			ImGui::EndPopup();
 		}
 		//------------------------------------------ADD COMPONENT WINDOW------------------------------------------
@@ -391,6 +409,25 @@ namespace LB
 				if (ImGui::Button("Delete Collider Component"))
 				{
 					m_inspectedGO->RemoveComponent(C_CPCollider);
+				}
+			}
+		}
+		if (m_inspectedGO->HasComponent<CPScriptCPP>())
+		{
+			if (ImGui::CollapsingHeader("CPP Script", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				ImGui::Text("%-17s", "Script Name");
+				ImGui::SameLine();
+				strcpy_s(m_nameBuffer1, sizeof(m_nameBuffer1), m_inspectedGO->GetComponent<CPScriptCPP>()->GetName().c_str());
+				if (ImGui::InputText("##ScriptName", m_nameBuffer1, 256))
+				{
+					m_inspectedGO->GetComponent<CPScriptCPP>()->SetName(m_nameBuffer1);
+				}
+
+				// Delete Component
+				if (ImGui::Button("Delete CPP Script Component"))
+				{
+					m_inspectedGO->RemoveComponent(C_CPScriptCPP);
 				}
 			}
 		}
