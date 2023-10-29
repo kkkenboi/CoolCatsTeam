@@ -26,5 +26,12 @@ namespace LB
 		EditorToolBar(std::string layerName);
 
 		void UpdateLayer() override;
+
+	private:
+		float m_buttonSpacing { 12.f };
+		ImVec2 m_buttonSize{ 24.f, 24.f };
+
+		ImVec4 m_buttonOffColor{ 0.05f, 0.2f, 0.4f, 1.0f };
+		ImVec4 m_buttonOnColor{ 0.2f, 0.6f, 1.0f, 1.0f };
 	};
 }

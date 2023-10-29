@@ -67,7 +67,7 @@
                 "Name": "small brain",
                 "Transform": {
                     "Position": {
-                        "x": 1009.0,
+                        "x": 1023.0,
                         "y": 300.0
                     },
                     "Scale": {
@@ -90,7 +90,7 @@
                                 "Rotation": 0.0
                             },
                             "Render": {
-                                "Texture": 9
+                                "Texture": 5
                             }
                         }
                     ]
@@ -103,7 +103,7 @@
                 "Name": "My man",
                 "Transform": {
                     "Position": {
-                        "x": 100.0,
+                        "x": 313.0,
                         "y": 450.0
                     },
                     "Scale": {
@@ -137,7 +137,7 @@
                 "Name": "Game Object",
                 "Transform": {
                     "Position": {
-                        "x": 1142.04,
+                        "x": 1272.03,
                         "y": 440.95
                     },
                     "Scale": {
@@ -153,28 +153,6 @@
                 },
                 "Render": {
                     "Texture": 3
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Transform": {
-                    "Position": {
-                        "x": 730.51,
-                        "y": 291.7
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0
-                },
-                "Render": {
-                    "Texture": 5
                 }
             }
         ]

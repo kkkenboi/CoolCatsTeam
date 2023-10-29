@@ -52,7 +52,11 @@ namespace LB
 		*************************************************************************/
 		void Destroy() 
 		{
-			// To do: Serialize on save key press and also not in play mode
+			GOMANAGER->DestroyAllGOs();
+		}
+
+		void Save()
+		{
 			JSONSerializer::SerializeToFile(m_name, *this);
 		}
 
