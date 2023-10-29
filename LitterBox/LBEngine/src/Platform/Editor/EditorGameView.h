@@ -27,6 +27,8 @@ namespace LB
 
 		void UpdateLayer() override;
 
+		void Destroy() {}
+
 	private:
 	};
 

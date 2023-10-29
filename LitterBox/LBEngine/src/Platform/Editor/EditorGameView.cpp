@@ -66,10 +66,9 @@ namespace LB
 
 		}
 
-
-
 		ImGui::EndChild();
 
 		ImGui::End();
 	}
+
 }

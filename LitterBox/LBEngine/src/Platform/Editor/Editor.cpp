@@ -33,6 +33,10 @@
 
 #include "implot.h"
 
+
+#include "windows.h"
+#include <crtdbg.h> 
+
 namespace LB
 {
 	Editor* EDITOR = nullptr;
@@ -54,21 +58,35 @@ namespace LB
 			DebuggerLogError("Editor System already exists!");
 
 		SetSystemName("Editor System");
+		m_MousePicker = nullptr;
+
+		//_CrtMemCheckpoint(&sOld); //take a snapshot
 
 		// Add the different ImGui layers in here
-		m_ImGuiLayers.AddLayer(DBG_NEW EditorToolBar("ToolBar"));
-		m_ImGuiLayers.AddLayer(DBG_NEW EditorInspector("Inspector"));
-		m_ImGuiLayers.AddLayer(DBG_NEW EditorHierarchy("Hierarchy"));
-		m_ImGuiLayers.AddLayer(DBG_NEW EditorGameView("Game View"));
-		m_ImGuiLayers.AddLayer(DBG_NEW EditorSceneView("Scene View"));
-		m_ImGuiLayers.AddLayer(DBG_NEW EditorConsole("Console"));
-		m_ImGuiLayers.AddLayer(DBG_NEW EditorProfiler("Profiler"));
-		m_ImGuiLayers.AddLayer(DBG_NEW EditorAssets("Assets"));
+		//_CrtMemCheckpoint(&sNew); //take a snapshot 
+		//if (_CrtMemDifference(&sDiff, &sOld, &sNew)) // if there is a difference
+		//{
+		//	OutputDebugString(L"-----------_CrtMemDumpStatistics ---------");
+		//	_CrtMemDumpStatistics(&sDiff);
+		//	OutputDebugString(L"-----------_CrtMemDumpAllObjectsSince ---------");
+		//	_CrtMemDumpAllObjectsSince(&sOld);
+		//	OutputDebugString(L"-----------_CrtDumpMemoryLeaks ---------");
+		//	_CrtDumpMemoryLeaks();
+		//}
+
+		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorToolBar>("ToolBar")));
+		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorInspector>("Inspector")));
+		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorHierarchy>("Hierarchy")));
+		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorGameView>("Game View")));
+		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorSceneView>("Scene View")));
+		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorConsole>("Console")));
+		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorProfiler>("Profiler")));
+		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorAssets>("Assets")));
 	}
 
 	void Editor::Initialize()
 	{
-		//INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();
@@ -202,7 +220,7 @@ namespace LB
 
 
 			// Update all the ImGui layers here
-			for (Layer* layer : m_ImGuiLayers)
+			for (std::unique_ptr<Layer>& layer : m_ImGuiLayers)
 			{
 				layer->UpdateLayer();
 			}
@@ -228,6 +246,12 @@ namespace LB
 		ImGui_ImplGlfw_Shutdown();
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
+
+		//for (auto it = m_ImGuiLayers.m_Layers.rbegin(); it != m_ImGuiLayers.m_Layers.rend(); ++it) {
+		//	delete* it;
+		//}
+
+		m_ImGuiLayers.Destroy();
 	}
 	
 	GameObject* Editor::GetMousePicker()

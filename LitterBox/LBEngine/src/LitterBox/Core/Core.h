@@ -51,7 +51,7 @@ namespace LB
 		 \brief
 		 Adds a new system to the game.
 		*************************************************************************/
-		void AddSystem(ISystem* system);
+		void AddSystem(std::unique_ptr<ISystem> system);
 
 		/*!***********************************************************************
 		 \brief
@@ -65,21 +65,9 @@ namespace LB
 		*************************************************************************/
 		bool IsRunning() const;
 
-		/*!***********************************************************************
-		 \brief
-		 Adds a layer from the layerStack
-		*************************************************************************/
-		void AddLayer(Layer* layer);
-
-		/*!***********************************************************************
-		 \brief
-		 Removes a layer from the layerStack
-		*************************************************************************/
-		void RemoveLayer(Layer* layer);
-
 	private:
-		std::vector<ISystem*>	m_systems;
-		bool					m_running;
+		std::vector<std::unique_ptr<ISystem>> m_systems;
+		bool								  m_running;
 	};
 
 	extern LBEngine* CORE; // Global pointer to the singleton

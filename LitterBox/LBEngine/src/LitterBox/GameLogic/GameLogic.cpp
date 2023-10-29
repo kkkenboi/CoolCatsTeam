@@ -49,7 +49,7 @@ namespace LB
 		m_scriptAssembly = mono_domain_assembly_open(m_domain, "CSharpAssembly.dll");
 		DebuggerAssert(m_scriptAssembly, "[Mono] CSharpAssembly.dll not found! Please compile the dll first.");
 
-		CPScript* test = new CPScript();
+		CPScript* test = DBG_NEW CPScript();
 		test->Initialise();
 	}
 

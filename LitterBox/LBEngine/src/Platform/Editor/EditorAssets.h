@@ -27,6 +27,9 @@ namespace LB
 		EditorAssets(std::string layerName);
 
 		void UpdateLayer() override;
+
+		void Destroy() {}
+
 	private:
 		std::filesystem::path defaultDirectory;			//default directory 
 		std::filesystem::path currentDirectory;			//keeps track of the current directory we're in

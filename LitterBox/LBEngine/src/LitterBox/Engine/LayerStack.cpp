@@ -35,10 +35,7 @@ namespace LB
 	*************************************************************************/
 	LayerStack::~LayerStack()
 	{
-		for (Layer* layer : m_Layers)
-		{
-			delete layer;
-		}
+
 	}
 
 	/*!***********************************************************************
@@ -47,7 +44,7 @@ namespace LB
 	*************************************************************************/
 	void LayerStack::InitializeLayers()
 	{
-		for (Layer* layer : m_Layers)
+		for (std::unique_ptr<Layer>& layer : m_Layers)
 		{
 			layer->Initialize();
 		}
@@ -60,9 +57,9 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void LayerStack::AddLayer(Layer* layer)
+	void LayerStack::AddLayer(std::unique_ptr<Layer> layer)
 	{
-		m_Layers.emplace(m_Layers.begin() + m_LayerIndex++, layer);
+		m_Layers.emplace(m_Layers.begin() + m_LayerIndex++, std::move(layer));
 	}
 
 	/*!***********************************************************************
@@ -72,9 +69,9 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void LayerStack::MakeLayerOverlay(Layer* layer)
+	void LayerStack::MakeLayerOverlay(std::unique_ptr<Layer> layer)
 	{
-		std::vector<Layer*>::iterator it = m_Layers.begin();
+		std::vector<std::unique_ptr<Layer>>::iterator it = m_Layers.begin();
 
 		// Checks if there is duplicate layers
 		while (it != m_Layers.end())
@@ -85,7 +82,7 @@ namespace LB
 			}
 		}
 		// Else set layer as overlay layer
-		m_Layers.emplace_back(layer);
+		m_Layers.emplace_back(std::move(layer));
 	}
 
 	/*!***********************************************************************
@@ -95,9 +92,9 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void LayerStack::RemoveLayer(Layer* layer)
+	void LayerStack::RemoveLayer(std::unique_ptr<Layer> layer)
 	{
-		std::vector<Layer*>::iterator it = m_Layers.begin();
+		std::vector<std::unique_ptr<Layer>>::iterator it = m_Layers.begin();
 
 		while (it != m_Layers.end())
 		{
@@ -109,6 +106,15 @@ namespace LB
 		}
 	}
 
+	void LayerStack::Destroy()
+	{
+		for (std::unique_ptr<Layer>& layer : m_Layers)
+		{
+			std::cout << layer->GetName() << std::endl;
+			layer->Destroy();
+		}
+	}
+
 
 	/*!***********************************************************************
 	 \brief
@@ -117,7 +123,7 @@ namespace LB
 	 \return
 	 Iterator to the start of the LayerStack
 	*************************************************************************/
-	std::vector<Layer*>::iterator LayerStack::begin()
+	std::vector<std::unique_ptr<Layer>>::iterator LayerStack::begin()
 	{
 		return m_Layers.begin();
 	}
@@ -129,7 +135,7 @@ namespace LB
 	 \return
 	 Iterator to the end of the LayerStack
 	*************************************************************************/
-	std::vector<Layer*>::iterator LayerStack::end()
+	std::vector<std::unique_ptr<Layer>>::iterator LayerStack::end()
 	{
 		return m_Layers.end();
 	}

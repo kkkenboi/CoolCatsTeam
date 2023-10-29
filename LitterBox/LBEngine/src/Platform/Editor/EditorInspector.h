@@ -33,6 +33,8 @@ namespace LB
 
         void UpdateLayer() override;
 
+        void Destroy() {}
+
         void UpdateInspectedGO(GameObject* newInspectedGO);
 
     private:

@@ -27,6 +27,8 @@ namespace LB
 		else
 			DebuggerLogError("Editor Console already exist!");
 
+		m_pauseOnError = false;
+
 		// Add the colors into the lookup table (Serialize this in the future)
 		m_messageColors[EditorConsoleMsgType::DEBUG]		= ImVec4(0.25f, 0.56f, 0.4f, 1.0f);
 		m_messageColors[EditorConsoleMsgType::WARNING]	= ImVec4(0.8f, 0.8f, 0.28f, 1.0f);
@@ -71,6 +73,12 @@ namespace LB
 
 		ImGui::End();
 	}
+
+	void EditorConsole::Destroy()
+	{
+		EDITORCONSOLE = nullptr;
+	}
+
 
 	void EditorConsole::AddLogMessage(std::string const& log)
 	{

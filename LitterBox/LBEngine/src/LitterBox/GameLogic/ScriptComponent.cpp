@@ -50,7 +50,7 @@ namespace LB
 
 	void CPScript::Destroy()
 	{
-
+		delete this;
 	}
 
 	ComponentTypeID CPScript::GetType()

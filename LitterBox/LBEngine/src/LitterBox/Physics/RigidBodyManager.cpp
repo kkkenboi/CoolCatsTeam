@@ -256,6 +256,7 @@ namespace LB
         }
 
         delete[] m_rigidBodies;
+        delete[] m_rbStates;
 
         PHYSICS = nullptr;
     }

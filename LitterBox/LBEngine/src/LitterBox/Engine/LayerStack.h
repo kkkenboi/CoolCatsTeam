@@ -17,6 +17,7 @@
 
 #pragma once
 #include "LitterBox/Engine/Layer.h"
+#include <memory>
 
 namespace LB 
 {
@@ -51,33 +52,35 @@ namespace LB
 		 \brief
 		 Adds a layer to the LayerStack
 		*************************************************************************/
-		void AddLayer(Layer* layer);
+		void AddLayer(std::unique_ptr<Layer> layer);
 
 		/*!***********************************************************************
 		 \brief
 		 Ensures that the layer is the last layer of the LayerStack
 		*************************************************************************/
-		void MakeLayerOverlay(Layer* layer);
+		void MakeLayerOverlay(std::unique_ptr<Layer> layer);
 
 		/*!***********************************************************************
 		 \brief
 		 Removes a layer to the LayerStack
 		*************************************************************************/
-		void RemoveLayer(Layer* layer);
+		void RemoveLayer(std::unique_ptr<Layer> layer);
+
+		void Destroy();
 
 		/*!***********************************************************************
 		 \brief
 		 Provides the start of the LayerStack
 		*************************************************************************/
-		std::vector<Layer*>::iterator begin();
+		std::vector<std::unique_ptr<Layer>>::iterator begin();
 		/*!***********************************************************************
 		 \brief
 		 Provides the end of the LayerStack
 		*************************************************************************/
-		std::vector<Layer*>::iterator end();
+		std::vector<std::unique_ptr<Layer>>::iterator end();
 
+		std::vector<std::unique_ptr<Layer>> m_Layers{};
 	private:
-		std::vector<Layer*> m_Layers{};
 		unsigned int		m_LayerIndex{};
 	};
 }

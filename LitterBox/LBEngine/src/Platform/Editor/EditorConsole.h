@@ -39,6 +39,7 @@ namespace LB
 		EditorConsole(std::string layerName);
 
 		void UpdateLayer() override;
+		void Destroy() override;
 
 		void AddLogMessage(std::string const& log);
 		void AddWarningMessage(std::string const& warning);

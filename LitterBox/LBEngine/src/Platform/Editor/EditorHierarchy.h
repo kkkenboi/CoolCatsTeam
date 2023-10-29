@@ -31,6 +31,8 @@ namespace LB
 
         void UpdateLayer() override;
 
+        void Destroy() {}
+
         void DrawRoot();
         bool DrawItem(CPTransform* item);
 

@@ -39,6 +39,8 @@ namespace LB
 
 		void UpdateLayer() override;
 
+		void Destroy() {}
+
 		void UpdateSystemFrames(std::map<std::string, double> const& timings);
 
 		void SetFrameHistorySize(int newSize);

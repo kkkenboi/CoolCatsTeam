@@ -26,5 +26,8 @@ namespace LB
 		EditorToolBar(std::string layerName);
 
 		void UpdateLayer() override;
+
+		void Destroy() {}
+
 	};
 }
