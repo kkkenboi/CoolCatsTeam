@@ -45,6 +45,7 @@ namespace LB
 		ImGui::Begin(GetName().c_str(), 0, 0);
 
 		// If no game object is selected, don't render the inspector (as there's nothing to inspect)
+
 		if (!m_inspectedGO)
 		{	
 			ImGui::End();

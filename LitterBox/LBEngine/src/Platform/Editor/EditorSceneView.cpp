@@ -19,6 +19,7 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Physics/ColliderManager.h"
+#include "LitterBox/Utils/GameObjClicker.h"
 
 extern unsigned int svtcb;
 
@@ -49,6 +50,12 @@ namespace LB
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
 
+	void onClick()
+	{
+		EDITOR->m_Clicking = true;
+		EDITOR->SetObjectPicked(CheckMousePosGameObj(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition()));
+	}
+
 	EditorSceneView::EditorSceneView(std::string layerName) : Layer(layerName)
 	{
 		if (!EDITORSCENEVIEW)
@@ -61,6 +68,8 @@ namespace LB
 			INPUT->SubscribeToKey(move_cam_down, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(move_cam_left, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(move_cam_right, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+
+			INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 		}
 	}
 
@@ -74,7 +83,8 @@ namespace LB
 			INPUT->SubscribeToKey(move_cam_right, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(zoom_cam_in, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(zoom_cam_out, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-		
+			
+			INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 			set = true;
 		}
 
@@ -100,41 +110,26 @@ namespace LB
 		}
 
 		// Get the object based on the world position of the mouse
-		if (ImGui::IsItemHovered())
+		if (EDITOR->m_Clicking)
 		{
-			mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-			mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
-
-			// Set the mouse position to the world position
-			EDITOR->SetMousePos(mousePos);
-
-			// If collided, select the component and then set mouse position elsewhere and set the selected game object
-			if (EDITOR->GetMousePicker()->GetComponent<CPCollider>()->m_collided)
+			if (ImGui::IsItemHovered())
 			{
-				// Indicate that it collided
-				//DEBUG->DrawCircle(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition(), 10.f, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
+				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
-				// Based on the number of objects that are collided with the mouse, pick the nearest object
-				std::vector<GameObject*> objectsCollided = COLLIDERS->OverlapCircleGameObj(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition());
-				// Distance checks
-				float finalDist{100000.f};
-				int index{};
+				// Set the mouse position to the world position
+				EDITOR->SetMousePos(mousePos);
+				EDITOR->m_Clicking = false;
 
-				for (int i{}; i < objectsCollided.size(); ++i)
-				{
-					float objDistFromMouse = (EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition() - objectsCollided[i]->GetComponent<CPTransform>()->GetPosition()).Length();
-					if (objDistFromMouse < finalDist)
-					{
-						index = i;
-					}
-				}
-
-				EDITOR->SetObjectPicked(objectsCollided[index]);
-				// For future, do an additional check if that both object has a render component
-				// 2 Scenarios - 1 has and 1 doesn't -> Take the one with the render component
-				//			   - Both has -> Take the one that is rendered later
+			}
+			else
+			{
+				EDITOR->m_Clicking = false;
 			}
 		}
+
+		std::cout << EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition().x << " " << EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition().y << std::endl;
+
 
 		ImGui::EndChild();
 

@@ -259,14 +259,9 @@ namespace LB
 		return m_MousePicker;
 	}
 
-	GameObject* Editor::GetObjectPicked()
-	{
-		return m_ObjectPicked;
-	}
-
 	void Editor::SetObjectPicked(GameObject* obj)
 	{
-		m_ObjectPicked = obj;
+		EDITORINSPECTOR->UpdateInspectedGO(obj);
 	}
 
 

@@ -38,15 +38,13 @@ namespace LB
 		void Destroy()		override;
 
 		GameObject* GetMousePicker();
-		GameObject* GetObjectPicked();
 		void SetObjectPicked(GameObject* obj);
 		void SetMousePos(Vec2<float> pos);
-
+		bool m_Clicking{};
 	private:
 		LayerStack m_ImGuiLayers;
 		
 		GameObject* m_MousePicker;
-		GameObject* m_ObjectPicked;
 	};
 
 	extern Editor* EDITOR;
