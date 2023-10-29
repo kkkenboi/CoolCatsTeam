@@ -18,6 +18,8 @@
 #include "EditorSceneView.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
+#include "LitterBox/Physics/ColliderManager.h"
+#include "LitterBox/Utils/GameObjClicker.h"
 
 extern unsigned int svtcb;
 
@@ -48,6 +50,12 @@ namespace LB
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
 
+	void onClick()
+	{
+		EDITOR->m_Clicking = true;
+		EDITOR->SetObjectPicked(CheckMousePosGameObj(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition()));
+	}
+
 	EditorSceneView::EditorSceneView(std::string layerName) : Layer(layerName)
 	{
 		if (!EDITORSCENEVIEW)
@@ -60,6 +68,8 @@ namespace LB
 			INPUT->SubscribeToKey(move_cam_down, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(move_cam_left, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(move_cam_right, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+
+			INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 		}
 	}
 
@@ -73,16 +83,14 @@ namespace LB
 			INPUT->SubscribeToKey(move_cam_right, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(zoom_cam_in, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(zoom_cam_out, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-		
+			
+			INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 			set = true;
 		}
 
 		ImGui::Begin(GetName().c_str());
 
-		ImVec2 windowPos = ImGui::GetWindowPos();
-		ImVec2 mousePos = ImGui::GetMousePos();
-		mousePosInWindow.x = mousePos.x - windowPos.x;
-		mousePosInWindow.y = mousePos.y - windowPos.y;
+		Vec2<float> mousePos{};
 
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
@@ -92,8 +100,6 @@ namespace LB
 		{
 			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
 			{
-				Vec2<float> mousePos{};
-
 				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
 				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
@@ -102,6 +108,28 @@ namespace LB
 				ASSETMANAGER->SpawnGameObject(assetPath, mousePos);
 			}
 		}
+
+		// Get the object based on the world position of the mouse
+		if (EDITOR->m_Clicking)
+		{
+			if (ImGui::IsItemHovered())
+			{
+				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
+				// Set the mouse position to the world position
+				EDITOR->SetMousePos(mousePos);
+				EDITOR->m_Clicking = false;
+
+			}
+			else
+			{
+				EDITOR->m_Clicking = false;
+			}
+		}
+
+		std::cout << EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition().x << " " << EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition().y << std::endl;
+
 
 		ImGui::EndChild();
 

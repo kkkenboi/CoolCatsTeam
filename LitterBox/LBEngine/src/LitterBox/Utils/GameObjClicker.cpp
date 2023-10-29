@@ -60,6 +60,12 @@ namespace LB
 			}
 		}
 
+		// No objects determined
+		if (!temp_gameobj_vec.size())
+		{
+			return nullptr;
+		}
+
 
 		float close_distance{ 1000000.f };
 		int gameobj_num{ 0 };

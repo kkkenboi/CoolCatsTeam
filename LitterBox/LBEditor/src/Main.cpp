@@ -21,9 +21,17 @@ int main(int argc, char** argv)
 	_CrtDumpMemoryLeaks();
 #endif
 
-	//_crtBreakAlloc = 384;
-	//_crtBreakAlloc = 71137;
-	//_crtBreakAlloc = 118965;
+	//_crtBreakAlloc = 384; // Systems
+	//_crtBreakAlloc = 630; // Serialiser calling DebuggerLog
+	//_crtBreakAlloc = 890; // Serialiser allocation	
+	//_crtBreakAlloc = 1306; // Debugger constructor
+	//_crtBreakAlloc = 6975; // Profiler
+	//_crtBreakAlloc = 9196; // Profiler
+	//_crtBreakAlloc = 9221; // Profiler destructor
+	//_crtBreakAlloc = 10499; // ImGui Allocator
+	//_crtBreakAlloc = 10549; // Input ?????
+	//_crtBreakAlloc = 10982; // Profiler
+	//_crtBreakAlloc = 30360; // Assets
 
 	auto app = LB::CreateApplication();
 	app->Run();
