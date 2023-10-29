@@ -21,9 +21,9 @@ int main(int argc, char** argv)
 	_CrtDumpMemoryLeaks();
 #endif
 
-	_crtBreakAlloc = 384;
-	_crtBreakAlloc = 71137;
-	_crtBreakAlloc = 118965;
+	//_crtBreakAlloc = 384;
+	//_crtBreakAlloc = 71137;
+	//_crtBreakAlloc = 118965;
 
 	auto app = LB::CreateApplication();
 	app->Run();
