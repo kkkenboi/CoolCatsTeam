@@ -223,16 +223,6 @@ LB::CPRender::CPRender(
 	indices = Renderer::index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
 			(unsigned short)(idx + 2), (unsigned short)(idx + 3), idx} };
 }
-/*!***********************************************************************
-\brief
- Destructor of CPRender object
-*************************************************************************/
-LB::CPRender::~CPRender()
-{
-	if(!destroyed)
-		Renderer::GRAPHICS->remove_object(renderer_id, this);
-}
-
 //########################ANIMATION##############################
 
 /*!***********************************************************************
@@ -337,7 +327,7 @@ void LB::CPRender::set_active()
 		DebuggerLogError("GRAPHICS SYSTEM NOT INITIALIZED");
 }
 
-void LB::CPRender::remove_object()
+void LB::CPRender::Destroy()
 {
 	Renderer::GRAPHICS->remove_object(renderer_id, this);
 	destroyed = true;

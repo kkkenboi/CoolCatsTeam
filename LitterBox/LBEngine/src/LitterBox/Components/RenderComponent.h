@@ -70,11 +70,6 @@ namespace LB
 			int texture = 0,
 			bool active = true,
 			Renderer::Renderer_Types rend_type = Renderer::Renderer_Types::RT_OBJECT);
-		/*!***********************************************************************
-		\brief
-		 Component object destructor
-		*************************************************************************/
-		~CPRender();
 
 		ComponentTypeID GetType() override
 		{
@@ -221,6 +216,6 @@ namespace LB
 		*************************************************************************/
 		void set_active();
 
-		void remove_object();
+		inline void Destroy() override;
 	};
 }
