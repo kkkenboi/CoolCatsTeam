@@ -18,6 +18,7 @@
 #include "EditorSceneView.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
+#include "LitterBox/Physics/ColliderManager.h"
 
 extern unsigned int svtcb;
 
@@ -79,10 +80,7 @@ namespace LB
 
 		ImGui::Begin(GetName().c_str());
 
-		ImVec2 windowPos = ImGui::GetWindowPos();
-		ImVec2 mousePos = ImGui::GetMousePos();
-		mousePosInWindow.x = mousePos.x - windowPos.x;
-		mousePosInWindow.y = mousePos.y - windowPos.y;
+		Vec2<float> mousePos{};
 
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
@@ -92,14 +90,49 @@ namespace LB
 		{
 			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
 			{
-				Vec2<float> mousePos{};
-
 				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
 				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
 				const char* assetPath = (const char*)assetData->Data;
 				DebuggerLog(assetPath);
 				ASSETMANAGER->SpawnGameObject(assetPath, mousePos);
+			}
+		}
+
+		// Get the object based on the world position of the mouse
+		if (ImGui::IsItemHovered())
+		{
+			mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+			mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
+			// Set the mouse position to the world position
+			EDITOR->SetMousePos(mousePos);
+
+			// If collided, select the component and then set mouse position elsewhere and set the selected game object
+			if (EDITOR->GetMousePicker()->GetComponent<CPCollider>()->m_collided)
+			{
+				// Indicate that it collided
+				//DEBUG->DrawCircle(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition(), 10.f, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
+
+				// Based on the number of objects that are collided with the mouse, pick the nearest object
+				std::vector<GameObject*> objectsCollided = COLLIDERS->OverlapCircleGameObj(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition());
+				// Distance checks
+				float finalDist{100000.f};
+				int index{};
+
+				for (int i{}; i < objectsCollided.size(); ++i)
+				{
+					float objDistFromMouse = (EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition() - objectsCollided[i]->GetComponent<CPTransform>()->GetPosition()).Length();
+					if (objDistFromMouse < finalDist)
+					{
+						index = i;
+					}
+				}
+
+				EDITOR->SetObjectPicked(objectsCollided[index]);
+				// For future, do an additional check if that both object has a render component
+				// 2 Scenarios - 1 has and 1 doesn't -> Take the one with the render component
+				//			   - Both has -> Take the one that is rendered later
 			}
 		}
 

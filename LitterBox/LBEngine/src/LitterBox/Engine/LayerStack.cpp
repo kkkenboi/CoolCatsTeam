@@ -110,7 +110,6 @@ namespace LB
 	{
 		for (std::unique_ptr<Layer>& layer : m_Layers)
 		{
-			std::cout << layer->GetName() << std::endl;
 			layer->Destroy();
 		}
 	}
