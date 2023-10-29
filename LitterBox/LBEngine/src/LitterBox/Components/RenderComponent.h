@@ -71,7 +71,9 @@ namespace LB
 			bool active = true,
 			Renderer::Renderer_Types rend_type = Renderer::Renderer_Types::RT_OBJECT);
 
-		ComponentTypeID GetType() override
+		~CPRender();
+
+		static ComponentTypeID GetType()
 		{
 			return C_CPRender;
 		}

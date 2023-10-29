@@ -78,7 +78,7 @@ namespace LB
 			CreateRigidBody();
 		}
 
-		ComponentTypeID GetType() override
+		static ComponentTypeID GetType()
 		{
 			return C_CPRigidBody;
 		}

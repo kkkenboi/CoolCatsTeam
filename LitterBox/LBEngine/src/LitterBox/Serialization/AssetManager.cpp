@@ -133,10 +133,10 @@ namespace LB
     void AssetManager::Destroy()
     {
         //removes the sounds
-        for (const auto& sound : SoundMap)
+        /*for (const auto& sound : SoundMap)
         {
-            //sound.second->release();
-        }
+            sound.second->release();
+        }*/
         //shouldn't need to do this but just in case
         for (const auto& texture : Textures)
         {

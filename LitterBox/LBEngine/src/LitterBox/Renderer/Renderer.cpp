@@ -329,9 +329,16 @@ void LB::CPRender::set_active()
 
 void LB::CPRender::Destroy()
 {
-	Renderer::GRAPHICS->remove_object(renderer_id, this);
-	destroyed = true;
+	if (!destroyed) {
+		Renderer::GRAPHICS->remove_object(renderer_id, this);
+		destroyed = true;
+	}
 }
+
+LB::CPRender::~CPRender() {
+	this->Destroy();
+}
+
 //########################ANIMATION##############################
 //------------------------------------------RENDERER-OBJECT---------------------------------------------
 
