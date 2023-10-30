@@ -746,12 +746,12 @@ void Renderer::RenderSystem::Initialize()
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 	//-------------------------cam test---------------------------
 
-	//--------------------update texture shader------------------
+	//--------------------update text shader------------------
 	uni_loc = glGetUniformLocation(text_renderer.get_text_shader(), "projection");
 	if (uni_loc == -1)
 		DebuggerLogError("Unable to find uniform location");
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
-	//--------------------update texture shader------------------
+	//--------------------update text shader------------------
 
 
 	GLint uni_loc2 = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
