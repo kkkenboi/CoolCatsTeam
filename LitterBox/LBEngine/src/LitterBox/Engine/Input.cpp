@@ -97,6 +97,16 @@ namespace LB
 		return inputKeysCurr[(int)key];
 	}
 
+	bool InputSystem::IsKeyTriggered(KeyCode key)
+	{
+		return inputKeysCurr[(int)key] && !inputKeysLast[(int)key];
+	}
+
+	bool InputSystem::IsKeyReleased(KeyCode key)
+	{
+		return !inputKeysCurr[(int)key] && inputKeysLast[(int)key];
+	}
+
 	/*!***********************************************************************
 	 \brief
 	 Invoke Key overload press to notify all subscribers for all keycode presses

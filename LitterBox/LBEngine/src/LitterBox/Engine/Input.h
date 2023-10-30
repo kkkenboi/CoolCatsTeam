@@ -120,6 +120,8 @@ namespace LB {
 		void UnsubscribeFromKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent, KeyTriggerType triggerType = KeyTriggerType::PAUSABLE);
 
 		bool IsKeyPressed(KeyCode key);
+		bool IsKeyTriggered(KeyCode key);
+		bool IsKeyReleased(KeyCode key);
 
 	private:
 		/*!***********************************************************************

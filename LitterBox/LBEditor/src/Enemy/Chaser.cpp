@@ -7,12 +7,21 @@ void Chaser::Initialise()
 	this->chaserObj->GetComponent<LB::CPTransform>()->SetPosition(LB::Vec2<float>{1200.f, 800.f});
 
 
-	// Add States to the FSM of Chaser
-	//mChaserFSM.AddState(ChaserStateType::IDLE);
+	ChaserIdleState* CHASERIDLE = DBG_NEW ChaserIdleState(mChaserFSM, "IDLE");
+	ChaserChaseState* CHASERCHASE = DBG_NEW ChaserChaseState(mChaserFSM, "CHASE");
+
+	mChaserFSM.AddState(CHASERIDLE);
+	mChaserFSM.AddState(CHASERCHASE);
+
 	
 }
 
 void Chaser::Update() 
+{
+
+}
+
+void Chaser::Destroy()
 {
 
 }

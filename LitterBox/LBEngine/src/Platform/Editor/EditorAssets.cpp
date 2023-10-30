@@ -16,6 +16,7 @@
 #include "pch.h"
 #include "EditorAssets.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Scene/SceneManager.h"
 
 namespace LB
 {
@@ -103,6 +104,14 @@ namespace LB
 						//DebuggerLog(directory.path().extension().string());
 						ImGui::SetDragDropPayload("PREFAB", FileName.c_str(), FileName.size());
 						ImGui::EndDragDropSource();
+					}
+					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+					{
+						// To be changed to a better identifier for scene files
+						if (directory.path().filename().string().find("Scene") != std::string::npos)
+						{
+							SCENEMANAGER->LoadScene(directory.path().filename().stem().string());
+						}
 					}
 				}
 				if (directory.path().extension().string() == ".png")

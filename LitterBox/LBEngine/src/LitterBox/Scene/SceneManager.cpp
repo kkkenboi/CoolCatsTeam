@@ -64,6 +64,11 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::Destroy()
 	{
+		if (!CORE->IsPlaying())
+		{
+			m_currentScene->Save();
+		}
+
 		m_currentScene->Destroy();
 		MEMORY->Deallocate(m_currentScene);
 	}

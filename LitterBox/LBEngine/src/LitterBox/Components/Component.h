@@ -30,7 +30,9 @@ namespace LB
 		C_CPTransform,
 		C_CPRender,
 		C_CPScript,
-		C_CPCollider
+		C_CPScriptCPP,
+		C_CPCollider,
+		C_CPCamera
 	};
 
 	/*!***********************************************************************
@@ -71,13 +73,6 @@ namespace LB
 		*************************************************************************/
 		virtual void Destroy() {}
 
-		/*!***********************************************************************
-		 \brief
-		 Gets the type of the component
-		*************************************************************************/
-		virtual ComponentTypeID GetType() = 0;
-
-		//ComponentTypeID TypeID	{ C_CPNone };
 		GameObject* gameObj{ nullptr };
 	};
 }

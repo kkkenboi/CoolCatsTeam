@@ -59,8 +59,9 @@ namespace LB
 		//	GetComponent<CPTransform>()->GetChild(index)->gameObj->Destroy();
 		//}
 
-		// Every GO has a parent, remove itself from the parent
-		//GetComponent<CPTransform>()->GetParent()->RemoveChild(GetComponent<CPTransform>());
+		// Remove itself from the parent
+		if (GetComponent<CPTransform>()->GetParent())
+			GetComponent<CPTransform>()->GetParent()->RemoveChild(GetComponent<CPTransform>());
 
 		// Free memory allocated for components
 		for (auto const& component : m_Components)
@@ -158,6 +159,12 @@ namespace LB
 			m_Components[C_CPRender]->Serialize(RenderComponent, alloc);
 			data.AddMember("Render", RenderComponent, alloc);
 		}
+		if (m_Components.find(C_CPScriptCPP) != m_Components.end())
+		{
+			Value CPPScriptComponent;
+			m_Components[C_CPScriptCPP]->Serialize(CPPScriptComponent, alloc);
+			data.AddMember("CPPScript", CPPScriptComponent, alloc);
+		}
 		return true;
 	}
 
@@ -174,6 +181,7 @@ namespace LB
 		bool HasTransform = data.HasMember("Transform");
 		bool HasRigidBody = data.HasMember("RigidBody");
 		bool HasRender = data.HasMember("Render");
+		bool HasCPPScript = data.HasMember("CPPScript");
 		if (data.IsObject())
 		{
 			if (HasName)
@@ -212,6 +220,16 @@ namespace LB
 				}
 				const Value& renderValue = data["Render"];
 				m_Components[C_CPRender]->Deserialize(renderValue);
+			}
+			if (HasCPPScript)
+			{
+				if (m_Components.find(C_CPScriptCPP) == m_Components.end())
+				{
+					DebuggerLog("Deserialize: GO doesn't have a CPP Script :C so we make one");
+					AddComponent(C_CPScriptCPP, FACTORY->GetCMs()[C_CPScriptCPP]->Create());
+				}
+				const Value& cppScriptValue = data["CPPScript"];
+				m_Components[C_CPScriptCPP]->Deserialize(cppScriptValue);
 			}
 		}
 		this->StartComponents();

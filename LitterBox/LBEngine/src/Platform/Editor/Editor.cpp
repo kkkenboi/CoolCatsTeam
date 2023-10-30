@@ -259,6 +259,13 @@ namespace LB
 		return m_MousePicker;
 	}
 
+	void Editor::SetObjectPicked(GameObject* obj)
+	{
+		EDITORINSPECTOR->UpdateInspectedGO(obj);
+		EDITORHIERACHY->UpdateClickedItem(obj ? obj->GetComponent<CPTransform>() : nullptr);
+	}
+
+
 	void Editor::SetMousePos(Vec2<float> pos)
 	{
 		m_MousePicker->GetComponent<CPTransform>()->SetPosition(pos);

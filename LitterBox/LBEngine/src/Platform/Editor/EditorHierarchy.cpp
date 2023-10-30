@@ -54,18 +54,16 @@ namespace LB
 		ImGui::SameLine();
 		if (ImGui::Button("Delete Selected"))
 		{
-			/*if (m_clickedItem)
+			if (m_clickedItem)
 			{
-				m_clickedItem->gameObj->Destroy();
+				GOMANAGER->RemoveGameObject(m_clickedItem->gameObj);
 				m_clickedItem = nullptr;
 				onNewObjectSelected.Invoke(nullptr);
-			}*/
+			}
 		}
 
 		// Draw the hierarchy for this cene
 		DrawRoot();
-
-		ImGui::ShowDemoWindow();
 
 		ImGui::End();
 	}
@@ -157,6 +155,11 @@ namespace LB
 		ImGui::PopID();
 
 		return isItemClicked;
+	}
+
+	void EditorHierarchy::UpdateClickedItem(CPTransform* newClickedItem)
+	{
+		m_clickedItem = newClickedItem;
 	}
 
 	void EditorHierarchy::UpdateSceneLoaded(Scene* loadedScene)

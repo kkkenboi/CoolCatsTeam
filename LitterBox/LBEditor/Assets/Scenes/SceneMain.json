@@ -1,0 +1,40 @@
+{
+    "Root": {
+        "Position": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "Player",
+                "Transform": {
+                    "Position": {
+                        "x": 850.0,
+                        "y": 400.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0
+                },
+                "Render": {
+                    "Texture": 7
+                },
+                "CPPScript": {
+                    "Script": "Player"
+                }
+            }
+        ]
+    }
+}

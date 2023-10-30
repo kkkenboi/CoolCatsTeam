@@ -35,7 +35,7 @@ project "LBMonoDLL"
 
     postbuildcommands
     {
-        -- "{COPYFILE} \"%{wks.location}LBMonoDLL/LBMonoDLL.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBMonoDLL\"",
+        -- "{COPYFILE} \"%{wks.location}LBMonoDLL/CSharpAssembly.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBMonoDLL\"",
     }
     
     filter "system:windows"

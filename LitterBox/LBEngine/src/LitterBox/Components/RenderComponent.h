@@ -73,7 +73,7 @@ namespace LB
 
 		~CPRender();
 
-		ComponentTypeID GetType() override
+		static ComponentTypeID GetType()
 		{
 			return C_CPRender;
 		}

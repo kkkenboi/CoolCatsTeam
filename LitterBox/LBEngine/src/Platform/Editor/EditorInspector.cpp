@@ -17,6 +17,7 @@
 #include "pch.h"
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
+#include "LitterBox/Core/Core.h"
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Components/RigidBodyComponent.h"
 #include "LitterBox/Components/TransformComponent.h"
@@ -36,6 +37,8 @@ namespace LB
 	void EditorInspector::Initialize()
 	{
 		EDITORHIERACHY->onNewObjectSelected.Subscribe(LB::UpdateInspectedGO);
+		CORE->onPlayingModeToggle.Subscribe(LB::DeselectObject);
+		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::DeselectObject);
 	}
 
 	void EditorInspector::UpdateLayer()
@@ -120,6 +123,24 @@ namespace LB
 				}
 			}
 
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("CPP Script"))
+			{
+				if (m_inspectedGO->HasComponent<CPScriptCPP>())
+				{
+					DebuggerLogWarning("CPP Script already exists.");
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					m_inspectedGO->AddComponent(C_CPScriptCPP, FACTORY->GetCMs()[C_CPScriptCPP]->Create());
+					m_inspectedGO->GetComponent<CPScriptCPP>()->Initialise();
+					DebuggerLog("CPP Script added!");
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
 			ImGui::EndPopup();
 		}
 		//------------------------------------------ADD COMPONENT WINDOW------------------------------------------
@@ -150,6 +171,18 @@ namespace LB
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##PosY", &pos.y, 1.0f, 0.0f, 0.0f, "%.2f");
 				m_inspectedGO->GetComponent<CPTransform>()->SetPosition(pos);
+
+				Vec2<float> scale = m_inspectedGO->GetComponent<CPTransform>()->GetScale();
+				ImGui::Text("%-17s X", "Scale");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##ScaleX", &scale.x, 0.1f, 0.0f, 0.0f, "%.2f");
+				ImGui::SameLine();
+				ImGui::Text("Y");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##ScaleY", &scale.y, 0.1f, 0.0f, 0.0f, "%.2f");
+				m_inspectedGO->GetComponent<CPTransform>()->SetScale(scale);
 			}
 		}
 		if (m_inspectedGO->HasComponent<CPRender>())
@@ -380,6 +413,25 @@ namespace LB
 				}
 			}
 		}
+		if (m_inspectedGO->HasComponent<CPScriptCPP>())
+		{
+			if (ImGui::CollapsingHeader("CPP Script", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				ImGui::Text("%-17s", "Script Name");
+				ImGui::SameLine();
+				strcpy_s(m_nameBuffer1, sizeof(m_nameBuffer1), m_inspectedGO->GetComponent<CPScriptCPP>()->GetName().c_str());
+				if (ImGui::InputText("##ScriptName", m_nameBuffer1, 256))
+				{
+					m_inspectedGO->GetComponent<CPScriptCPP>()->SetName(m_nameBuffer1);
+				}
+
+				// Delete Component
+				if (ImGui::Button("Delete CPP Script Component"))
+				{
+					m_inspectedGO->RemoveComponent(C_CPScriptCPP);
+				}
+			}
+		}
 		//----------------------------------------INSPECT COMPONENTS WINDOW---------------------------------------
 
 		ImGui::End();
@@ -398,5 +450,17 @@ namespace LB
 	void UpdateInspectedGO(GameObject* newInspectedGO)
 	{
 		EDITORINSPECTOR->UpdateInspectedGO(newInspectedGO);
+	}
+
+	// For event subscription
+	void DeselectObject(bool isPlaying)
+	{
+		if (!isPlaying)
+			EDITORINSPECTOR->UpdateInspectedGO(nullptr);
+	}
+	void DeselectObject(Scene* newScene)
+	{
+		UNREFERENCED_PARAMETER(newScene);
+		EDITORINSPECTOR->UpdateInspectedGO(nullptr);
 	}
 }
