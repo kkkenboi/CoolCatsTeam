@@ -65,8 +65,6 @@ namespace LB
 		// Draw the hierarchy for this cene
 		DrawRoot();
 
-		ImGui::ShowDemoWindow();
-
 		ImGui::End();
 	}
 

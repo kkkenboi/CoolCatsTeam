@@ -27,10 +27,12 @@ namespace LB
 
 		rend = GameObj->GetComponent<CPRender>();
 
+		DebuggerLogWarningFormat("Found run! %d", LB::ASSETMANAGER->Textures.find("anim") != LB::ASSETMANAGER->Textures.end());
+
 		//---------------------------getting the uvs for the run------------------------
-		if (LB::ASSETMANAGER->Textures.find("run") != LB::ASSETMANAGER->Textures.end()) {
-			int img_width{ LB::ASSETMANAGER->Textures.find("run")->second.first->width };
-			int img_height{ LB::ASSETMANAGER->Textures.find("run")->second.first->height };
+		if (LB::ASSETMANAGER->Textures.find("anim") != LB::ASSETMANAGER->Textures.end()) {
+			int img_width{ LB::ASSETMANAGER->Textures.find("anim")->second.first->width };
+			int img_height{ LB::ASSETMANAGER->Textures.find("anim")->second.first->height };
 
 			float x_inc{ (float)img_width / (12.f * (float)img_width) };
 			float y_inc{ (float)img_height / (4.f * (float)img_height) };
@@ -48,7 +50,7 @@ namespace LB
 		Renderer::GRAPHICS->init_anim("left_walk", frames[2].data(), 0.5f, 12);
 		Renderer::GRAPHICS->init_anim("down_walk", frames[3].data(), 0.5f, 12);
 
-		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("run"));
+		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("anim"));
 		rend->play_repeat("up_walk");
 	}
 
