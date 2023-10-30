@@ -75,22 +75,22 @@ namespace LB
 			rend->play_repeat("down_walk");
 		}
 
-		//if (INPUT->IsKeyPressed(KeyCode::KEY_W))
-		//{
-		//	rb->addForce(Vec2<float>{0.f, 5000.f});
-		//}
-		//else if (INPUT->IsKeyPressed(KeyCode::KEY_S))
-		//{
-		//	rb->addForce(Vec2<float>{-5000.f, 0.f});
-		//}
-		//else if (INPUT->IsKeyPressed(KeyCode::KEY_A))
-		//{
-		//	rb->addForce(Vec2<float>{-5000.f, 0.f});
-		//}
-		//else if (INPUT->IsKeyPressed(KeyCode::KEY_D))
-		//{
-		//	rb->addForce(Vec2<float>{5000.f, 0.f});
-		//}
+		if (INPUT->IsKeyPressed(KeyCode::KEY_W))
+		{
+			rb->addForce(Vec2<float>{0.f, 5000.f});
+		}
+		else if (INPUT->IsKeyPressed(KeyCode::KEY_S))
+		{
+			rb->addForce(Vec2<float>{0.f, -5000.f});
+		}
+		else if (INPUT->IsKeyPressed(KeyCode::KEY_A))
+		{
+			rb->addForce(Vec2<float>{-5000.f, 0.f});
+		}
+		else if (INPUT->IsKeyPressed(KeyCode::KEY_D))
+		{
+			rb->addForce(Vec2<float>{5000.f, 0.f});
+		}
 	}
 
 	void CPPSPlayer::Destroy()

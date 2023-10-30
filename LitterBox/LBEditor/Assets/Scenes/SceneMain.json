@@ -11,7 +11,7 @@
         "Rotation": 0.0,
         "Children": [
             {
-                "Name": "Pine 2000",
+                "Name": "Player",
                 "Transform": {
                     "Position": {
                         "x": 850.0,
@@ -23,8 +23,16 @@
                     },
                     "Rotation": 0.0
                 },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0
+                },
                 "Render": {
                     "Texture": 7
+                },
+                "CPPScript": {
+                    "Script": "Player"
                 }
             }
         ]
