@@ -866,15 +866,13 @@ void Renderer::RenderSystem::Update()
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 
-	// Render text
-	render_msg("HELLO", 20.f, 20.f, 1.f, { 1.f, 1.f, 0.7f });
-
 	//print all messages here
 	while (msgs.size() != 0) {
 		text_renderer.RenderText(msgs.front());
 		msgs.pop();
 	}
 
+	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 	glUseProgram(shader_program);
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.editor_world_NDC[0][0]);
 
