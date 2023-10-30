@@ -32,7 +32,8 @@ namespace LB
 
 		void Start()
 		{
-			m_instance->Start();
+			if (m_instance)
+				m_instance->Start();
 		}
 
 		void Update() override
@@ -40,10 +41,7 @@ namespace LB
 			m_instance->Update();
 		}
 
-		void Destroy() override
-		{
-			m_instance->Destroy();
-		}
+		void Destroy() override;
 
 		std::string const& GetName() const
 		{
@@ -58,15 +56,30 @@ namespace LB
 		void SetInstance(CPPBehaviour* newScript)
 		{
 			m_instance = newScript;
+			m_instance->GameObj = gameObj;
 		}
 
-		bool Serialize(Value & data, Document::AllocatorType & alloc) override
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
-			return false;
+
+			data.SetObject();
+			Value scriptName(m_name.c_str(), alloc);
+			data.AddMember("Script", scriptName, alloc);
+			return true;
 		}
 
 		bool Deserialize(const Value& data) override
 		{
+			bool HasScript = data.HasMember("Script");
+			if (data.IsObject())
+			{
+				if (HasScript)
+				{
+					const Value& nameValue = data["Script"];
+					m_name = data["Script"].GetString();
+					return true;
+				}
+			}
 			return false;
 		}
 

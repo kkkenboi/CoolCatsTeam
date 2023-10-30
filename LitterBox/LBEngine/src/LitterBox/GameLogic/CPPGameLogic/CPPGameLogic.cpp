@@ -18,6 +18,9 @@
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Time.h"
 
+// Include scripts here
+#include "CPPSPlayer.h"
+
 namespace LB
 {
 	CPPGameLogic* CPPGAMELOGIC = nullptr;
@@ -40,21 +43,19 @@ namespace LB
 			DebuggerLogError("CPP Game Logic System already exists!");
 
 		SetSystemName("CPP Game Logic System");
+
+		CORE->onPlayingModeToggle.Subscribe(StartScripts);
 	}
 
 	void CPPGameLogic::Load(CPScriptCPP* newScript)
 	{
-		//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
-		// Very basic RTTR for now
-		if (newScript->GetName() == "Player")
-		{
+		DebuggerLogWarning("Added script");
 
-		}
-		else
+		if (newScript->GetName() != "Player")
 		{
-			DebuggerLogErrorFormat("Tried to load invalid CPP Script %s.", newScript->GetName().c_str());
+			DebuggerLogWarningFormat("Tried to load invalid CPP Script %s.", newScript->GetName().c_str());
+			return;
 		}
-		//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 
 		m_sceneScripts.push_back(newScript);
 	}
@@ -62,6 +63,29 @@ namespace LB
 	void CPPGameLogic::Unload(CPScriptCPP* scriptToRemove)
 	{
 		m_sceneScripts.remove(scriptToRemove);
+	}
+
+	void CPPGameLogic::Start()
+	{
+		for (CPScriptCPP* script : m_sceneScripts)
+		{
+			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
+			// Very basic RTTR for now
+			if (script->GetName() == "Player")
+			{
+				script->SetInstance(new CPPSPlayer);
+			}
+			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
+
+			script->Start();
+		}
+	}
+
+	// For event subscription
+	void StartScripts(bool isPlaying)
+	{
+		if (isPlaying)
+			CPPGAMELOGIC->Start();
 	}
 
 	/*!***********************************************************************
@@ -90,7 +114,7 @@ namespace LB
 	*************************************************************************/
 	void CPPGameLogic::Destroy()
 	{
-
+		m_sceneScripts.clear();
 	}
 	//-------------------------CPP GAME LOGIC MANAGER-------------------------
 
@@ -98,5 +122,16 @@ namespace LB
 	void CPScriptCPP::Initialise()
 	{
 		CPPGAMELOGIC->Load(this);
+	}
+
+	void CPScriptCPP::Destroy()
+	{
+		if (m_instance)
+		{
+			m_instance->Destroy();
+			delete m_instance;
+			m_instance = nullptr;
+		}
+		CPPGAMELOGIC->Unload(this);
 	}
 }

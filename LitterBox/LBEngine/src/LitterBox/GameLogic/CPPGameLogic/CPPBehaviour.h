@@ -14,16 +14,19 @@
 **************************************************************************/
 
 #pragma once
+#include "LitterBox/Factory/GameObjectManager.h"
 
 namespace LB
 {
 	class CPPBehaviour
 	{
 	public:
-		virtual void Start();
+		virtual void Start() = 0;
 
-		virtual void Update();
+		virtual void Update() = 0;
 
-		virtual void Destroy();
+		virtual void Destroy() = 0;
+
+		GameObject* GameObj;
 	};
 }

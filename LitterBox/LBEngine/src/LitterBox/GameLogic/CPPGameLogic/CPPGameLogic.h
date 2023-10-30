@@ -36,6 +36,8 @@ namespace LB
 		*************************************************************************/
 		void Initialize() override;
 
+		void Start();
+
 		void Load(CPScriptCPP* newScript);
 
 		void Unload(CPScriptCPP* scriptToRemove);
@@ -53,8 +55,10 @@ namespace LB
 		void Destroy() override;
 
 	private:
-		std::list<CPScriptCPP*> m_sceneScripts;	// List of all scripts currently active in the scene
+		std::list<CPScriptCPP*> m_sceneScripts{};	// List of all scripts currently active in the scene
 	};
+
+	void StartScripts(bool isPlaying);
 
 	/*!***********************************************************************
 	 \brief

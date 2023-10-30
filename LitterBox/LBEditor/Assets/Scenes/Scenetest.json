@@ -129,8 +129,16 @@
                     },
                     "Rotation": 0.0
                 },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0
+                },
                 "Render": {
-                    "Texture": 2
+                    "Texture": 10
+                },
+                "CPPScript": {
+                    "Script": "Player"
                 }
             }
         ]
