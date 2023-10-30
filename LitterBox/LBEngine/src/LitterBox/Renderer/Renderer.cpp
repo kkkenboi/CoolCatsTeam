@@ -582,7 +582,7 @@ void Renderer::Renderer::change_render_state(const LB::CPRender& object)
 
 
 //---------------------------------------------TEXTRENDERER------------------------------------------------
-Renderer::TextureRenderer::TextureRenderer() {
+Renderer::TextRenderer::TextRenderer() {
 	//-------------------LOAD FONT------------------------
 	//init freetype lib
 	if (FT_Init_FreeType(&ft)) {
@@ -593,7 +593,7 @@ Renderer::TextureRenderer::TextureRenderer() {
 		DebuggerLogError("ERROR on the freetype: could not load font");
 	}
 	//set default font face
-	FT_Set_Pixel_Sizes(font, 0, 48); //the width is 0 so it is based off the height value
+	FT_Set_Pixel_Sizes(font, 0, 100); //the width is 0 so it is based off the height value
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -649,7 +649,7 @@ Renderer::TextureRenderer::TextureRenderer() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void Renderer::TextureRenderer::RenderText(message msg) {
+void Renderer::TextRenderer::RenderText(message msg) {
 	glUseProgram(tShader);
 	glUniform3f(glGetUniformLocation(tShader, "textColor"), msg.color.x, msg.color.y, msg.color.z);
 	//glActiveTexture(GL_TEXTURE0);
@@ -865,7 +865,10 @@ void Renderer::RenderSystem::Update()
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
-	
+
+	// Render text
+	render_msg("HELLO", 20.f, 20.f, 1.f, { 1.f, 1.f, 0.7f });
+
 	//print all messages here
 	while (msgs.size() != 0) {
 		text_renderer.RenderText(msgs.front());

@@ -356,7 +356,7 @@ namespace Renderer {
 		LB::Vec3<float> color;
 	};
 
-	class TextureRenderer {
+	class TextRenderer {
 	private:
 		std::map<char, Character> Characters;
 		
@@ -365,7 +365,7 @@ namespace Renderer {
 		FT_Library ft;
 		FT_Face font;
 	public:
-		TextureRenderer();
+		TextRenderer();
 		void RenderText(message msg);
 		inline const unsigned int get_text_shader() const { return tShader; }
 	};
@@ -386,7 +386,7 @@ namespace Renderer {
 
 		Renderer bg_renderer;
 		Renderer object_renderer;
-		TextureRenderer text_renderer;
+		TextRenderer text_renderer;
 
 		Camera cam;
 		LB::Vec2<GLint> m_winPos;
