@@ -96,6 +96,9 @@ namespace LB {
 
 		std::string GetShapeName();
 
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override;
+		bool Deserialize(const Value& data) override;
+
 	public:
 		// ========
 		// IComponent Overrides

@@ -35,17 +35,17 @@ namespace LB
 		}
 		return temp;
 	}
-	bool FileSystemManager::FileExists(const std::string& fileName)
-	{
-		for (const auto& directory : std::filesystem::recursive_directory_iterator(std::filesystem::current_path()))
-		{
-			if (directory.path().filename().string() == fileName)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+	//bool FileSystemManager::FileExists(const std::string& fileName)
+	//{
+	//	for (const auto& directory : std::filesystem::recursive_directory_iterator(std::filesystem::current_path()))
+	//	{
+	//		if (directory.path().filename().string() == fileName)
+	//		{
+	//			return true;
+	//		}
+	//	}
+	//	return false;
+	//}
 	int FileSystemManager::GetFileTime(const std::filesystem::path& filePath)
 	{
 		std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(filePath);

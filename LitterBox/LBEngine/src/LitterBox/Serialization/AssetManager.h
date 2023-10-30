@@ -17,6 +17,7 @@
 //FOR SERIALIZATION
 #include "Serializer.h"
 #include "LitterBox/Core/System.h" //AssetManager is a system
+#include "FileSystemManager.h"
 #pragma warning(push, 0)
 //FOR AUDIO FILES
 #include "../../dependencies/FMOD/core/inc/fmod.hpp"
