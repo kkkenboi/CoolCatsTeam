@@ -28,19 +28,19 @@ namespace LB
 	{
 		GAMELOGIC->Load(this);
 
-		MonoImage* image = mono_assembly_get_image(GAMELOGIC->GetScriptAssembly());
-		DebuggerLogWarningFormat("Image Exists! %d", image != nullptr);
+		//MonoImage* image = mono_assembly_get_image(GAMELOGIC->GetScriptAssembly());
+		//DebuggerLogWarningFormat("Image Exists! %d", image != nullptr);
 
-		MonoClass* klass = mono_class_from_name(image, "", "Player");
-		DebuggerLogWarningFormat("Class Exists! %d", klass != nullptr);
+		//MonoClass* klass = mono_class_from_name(image, "", "Player");
+		//DebuggerLogWarningFormat("Class Exists! %d", klass != nullptr);
 
-		m_instance = mono_object_new(GAMELOGIC->GetDomain(), klass);
-		DebuggerLogWarningFormat("Instance Exists! %d", m_instance != nullptr);
+		//m_instance = mono_object_new(GAMELOGIC->GetDomain(), klass);
+		//DebuggerLogWarningFormat("Instance Exists! %d", m_instance != nullptr);
 
-		MonoMethod* method = mono_class_get_method_from_name(klass, "Update", 0);
-		DebuggerLogWarningFormat("Method Exists! %d", method != nullptr);
+		//MonoMethod* method = mono_class_get_method_from_name(klass, "Update", 0);
+		//DebuggerLogWarningFormat("Method Exists! %d", method != nullptr);
 
-		mono_runtime_invoke(method, m_instance, nullptr, nullptr);
+		//mono_runtime_invoke(method, m_instance, nullptr, nullptr);
 	}
 
 	void CPScript::Update()

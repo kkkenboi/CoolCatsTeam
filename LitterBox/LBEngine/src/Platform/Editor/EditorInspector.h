@@ -45,6 +45,7 @@ namespace LB
     // For event subscription
     void UpdateInspectedGO(GameObject* newInspectedGO);
     void DeselectObject(bool isPlaying);
+    void DeselectObject(Scene* newScene);
 
     extern EditorInspector* EDITORINSPECTOR;
 }

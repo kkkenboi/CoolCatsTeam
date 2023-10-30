@@ -38,6 +38,7 @@ namespace LB
 	{
 		EDITORHIERACHY->onNewObjectSelected.Subscribe(LB::UpdateInspectedGO);
 		CORE->onPlayingModeToggle.Subscribe(LB::DeselectObject);
+		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::DeselectObject);
 	}
 
 	void EditorInspector::UpdateLayer()
@@ -45,7 +46,6 @@ namespace LB
 		ImGui::Begin(GetName().c_str(), 0, 0);
 
 		// If no game object is selected, don't render the inspector (as there's nothing to inspect)
-
 		if (!m_inspectedGO)
 		{	
 			ImGui::End();
@@ -176,12 +176,12 @@ namespace LB
 				ImGui::Text("%-17s X", "Scale");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##ScaleX", &scale.x, 0.5f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##ScaleX", &scale.x, 0.1f, 0.0f, 0.0f, "%.2f");
 				ImGui::SameLine();
 				ImGui::Text("Y");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##ScaleY", &scale.y, 0.5f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##ScaleY", &scale.y, 0.1f, 0.0f, 0.0f, "%.2f");
 				m_inspectedGO->GetComponent<CPTransform>()->SetScale(scale);
 			}
 		}
@@ -457,5 +457,10 @@ namespace LB
 	{
 		if (!isPlaying)
 			EDITORINSPECTOR->UpdateInspectedGO(nullptr);
+	}
+	void DeselectObject(Scene* newScene)
+	{
+		UNREFERENCED_PARAMETER(newScene);
+		EDITORINSPECTOR->UpdateInspectedGO(nullptr);
 	}
 }
