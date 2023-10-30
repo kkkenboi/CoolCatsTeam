@@ -53,7 +53,10 @@ namespace LB
 	void onClick()
 	{
 		EDITOR->m_Clicking = true;
-		EDITOR->SetObjectPicked(CheckMousePosGameObj(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition()));
+		if (EDITOR->m_InSceneView)
+		{
+			EDITOR->SetObjectPicked(CheckMousePosGameObj(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition()));
+		}
 	}
 
 	EditorSceneView::EditorSceneView(std::string layerName) : Layer(layerName)
@@ -109,24 +112,28 @@ namespace LB
 			}
 		}
 
+		if (ImGui::IsItemHovered())
+		{
+			EDITOR->m_InSceneView = true;
+		}
+		else
+		{
+			EDITOR->m_InSceneView = false;
+		}
+
 		// Get the object based on the world position of the mouse
 		if (EDITOR->m_Clicking)
 		{
-			if (ImGui::IsItemHovered())
+			if (EDITOR->m_InSceneView)
 			{
 				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
 				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
 				// Set the mouse position to the world position
 				EDITOR->SetMousePos(mousePos);
-				EDITOR->m_Clicking = false;
-
-			}
-			else
-			{
-				EDITOR->m_Clicking = false;
 			}
 		}
+		EDITOR->m_Clicking = false;
 
 
 		ImGui::EndChild();
