@@ -117,11 +117,6 @@ namespace LB
 		glUseProgram(shader);
 		glBindVertexArray(vao);
 
-		GLint uni_loc = glGetUniformLocation(shader, "cam");
-		if (uni_loc == -1)
-			DebuggerLogError("Unable to find uniform location");
-		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, Renderer::GRAPHICS->get_cam_mat());
-
 		glDrawElements(GL_LINES, (GLsizei)index, GL_UNSIGNED_SHORT, nullptr);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -239,14 +234,14 @@ namespace LB
 		//-----------------Matrix projection of start point--------------
 
 		glm::vec4 start_point{ obj.center.x, obj.center.y, 0.f, 1.f };
-		start_point = cam.world_NDC * start_point;
+		start_point = Renderer::GRAPHICS->get_cam_mat() * start_point;
 		obj.center.x = start_point.x;
 		obj.center.y = start_point.y;
 		//-----------------Matrix projection of start point--------------
 
 		//-----------------Matrix projection of end point--------------
 		start_point = { obj.end.x, obj.end.y, 0.f, 1.f };
-		start_point = cam.world_NDC * start_point;
+		start_point = Renderer::GRAPHICS->get_cam_mat() * start_point;
 		obj.end.x = start_point.x;
 		obj.end.y = start_point.y;
 		//-----------------Matrix projection of end point--------------

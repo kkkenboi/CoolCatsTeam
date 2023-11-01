@@ -573,7 +573,7 @@ namespace Renderer {
 		void update_cam(float xpos, float ypos);
 		void fcam_zoom(float amount); //1.f means no zoom
 
-		inline auto get_cam_mat() { return &cam.editor_world_NDC[0][0]; }
+		inline auto get_cam_mat() { return cam.editor_world_NDC; }
 
 		void Destroy() override;
 	};
