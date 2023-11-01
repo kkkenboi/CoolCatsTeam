@@ -56,7 +56,7 @@ namespace LB {
 		 \brief
 		 Destroys the systems and the LitterBox Engine itself
 		*************************************************************************/
-		virtual ~Application();
+		~Application();
 
 		/*!***********************************************************************
 		 \brief

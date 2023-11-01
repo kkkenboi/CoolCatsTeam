@@ -17,7 +17,7 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include "Debug.h"
 
-extern unsigned int framebuffer;
+extern unsigned int svfb;
 extern bool imgui_ready;
 
 namespace LB
@@ -112,10 +112,16 @@ namespace LB
 		//draw lines to the imgui renderered box
 		//Bind the frame buffer to the texture image
 		if (imgui_ready)
-			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+			glBindFramebuffer(GL_FRAMEBUFFER, svfb);
 
 		glUseProgram(shader);
 		glBindVertexArray(vao);
+
+		GLint uni_loc = glGetUniformLocation(shader, "cam");
+		if (uni_loc == -1)
+			DebuggerLogError("Unable to find uniform location");
+		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, Renderer::GRAPHICS->get_cam_mat());
+
 		glDrawElements(GL_LINES, (GLsizei)index, GL_UNSIGNED_SHORT, nullptr);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);

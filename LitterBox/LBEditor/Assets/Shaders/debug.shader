@@ -7,9 +7,12 @@ layout(location = 2) in vec3 aCol;
 
 layout(location = 7) out vec3 vCol;
 
+uniform mat4 cam;
+
 void main()
 {
-	gl_Position = vec4(position, 0.0, 1.0);
+	vec4 world_pos = cam * vec4(position, 0.0, 1.0);
+	gl_Position = vec4(world_pos.x, world_pos.y, 1.0, 1.0);
 	vCol = aCol;
 };
 
