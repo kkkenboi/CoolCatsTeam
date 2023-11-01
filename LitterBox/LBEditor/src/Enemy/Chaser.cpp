@@ -23,5 +23,6 @@ void Chaser::Update()
 
 void Chaser::Destroy()
 {
-
+	delete mChaserFSM.GetState("IDLE");
+	delete mChaserFSM.GetState("CHASE");
 }

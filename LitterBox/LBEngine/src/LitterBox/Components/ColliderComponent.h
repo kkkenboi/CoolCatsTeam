@@ -46,6 +46,10 @@ namespace LB {
 		float m_heightUnscaled;
 		float m_radiusUnscaled;
 
+		float m_widthUnscaledOG;
+		float m_heightUnscaledOG;
+		float m_radiusUnscaledOG;
+
 		float m_width;
 		float m_height;
 		float m_radius;
@@ -85,6 +89,8 @@ namespace LB {
 		void AddVertice(Vec2<float> vertice);
 
 		void AddVertice(float x, float y);
+
+		void UpdateScaledData();
 
 		void UpdateColliderBoxVertices();
 
