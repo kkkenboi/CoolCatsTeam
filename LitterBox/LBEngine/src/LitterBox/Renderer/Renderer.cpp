@@ -429,6 +429,8 @@ Renderer::Renderer::~Renderer()
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ibo);
 	glDeleteVertexArrays(1, &vao);
+	if(quad_buff)
+		delete[] quad_buff;
 }
 /*!***********************************************************************
 \brief
@@ -826,6 +828,10 @@ Renderer::RenderSystem::~RenderSystem()
 {
 	if (GRAPHICS)
 		GRAPHICS = nullptr;
+
+	//delete background
+	if (test2)
+		delete test2;
 
 	glDeleteProgram(shader_program);
 }
