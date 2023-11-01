@@ -25,6 +25,8 @@ namespace LB
 	public:
 		EditorSceneView(std::string layerName);
 
+		void Initialize() override;
+
 		void UpdateLayer() override;
 
 		void Destroy() {}

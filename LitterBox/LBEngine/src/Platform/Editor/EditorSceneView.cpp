@@ -41,11 +41,11 @@ namespace LB
 		Renderer::GRAPHICS->update_cam(20.f, 0.f);
 	}
 	void zoom_cam_in() {
-		zoomCurrent += zoomStep * TIME->GetDeltaTime();
+		zoomCurrent += zoomStep * TIME->GetUnscaledDeltaTime();
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
 	void zoom_cam_out() {
-		zoomCurrent -= zoomStep * TIME->GetDeltaTime();
+		zoomCurrent -= zoomStep * TIME->GetUnscaledDeltaTime();
 		zoomCurrent = (zoomCurrent > zoomMin) ? zoomCurrent : zoomMin;
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
@@ -65,32 +65,24 @@ namespace LB
 			EDITORSCENEVIEW = this;
 		else
 			DebuggerLogError("Editor Game View already exist!");
+	}
 
-		if (INPUT) {
+	void EditorSceneView::Initialize()
+	{
 			INPUT->SubscribeToKey(move_cam_up, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(move_cam_down, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(move_cam_left, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(move_cam_right, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 
+			INPUT->SubscribeToKey(zoom_cam_in, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(zoom_cam_out, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+
 			INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
-		}
 	}
+
 
 	void EditorSceneView::UpdateLayer()
 	{
-		static bool set{ false };
-		if (INPUT && !set) {
-			INPUT->SubscribeToKey(move_cam_up, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_down, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_left, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_right, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(zoom_cam_in, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(zoom_cam_out, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			
-			INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
-			set = true;
-		}
-
 		ImGui::Begin(GetName().c_str());
 
 		Vec2<float> mousePos{};

@@ -183,6 +183,13 @@ namespace LB
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##ScaleY", &scale.y, 0.1f, 0.0f, 0.0f, "%.2f");
 				m_inspectedGO->GetComponent<CPTransform>()->SetScale(scale);
+
+				float rotation = m_inspectedGO->GetComponent<CPTransform>()->GetRotation();
+				ImGui::Text("%-19s", "Angle");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##Angle", &rotation, 0.1f, 0.0f, 0.0f, "%.1f");
+				m_inspectedGO->GetComponent<CPTransform>()->SetRotation(rotation);
 			}
 		}
 		if (m_inspectedGO->HasComponent<CPRender>())
