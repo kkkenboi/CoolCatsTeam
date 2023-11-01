@@ -47,16 +47,25 @@ namespace LB
 		 **************************************************************************/
 		void Update() override;
 
-
+		/*!***********************************************************************
+		 * \brief Frees the audio engine and the sounds
+		 * 
+		 **************************************************************************/
 		void Destroy() override;
 
 		/*!***********************************************************************
 		 * \brief AudioSystem that provides FMOD functionality to play sounds
 		 * MUST be initialised before it can be used!
 		 **************************************************************************/
+		FMOD::System* audioSystem;
+
+		/*!***********************************************************************
+	 	* \brief Function to play sound using the Sound File name 
+	 	* 
+	 	* \param soundName Name of the sound e.g "Explosion" without file extension
+		**************************************************************************/
 		void PlaySound(std::string soundName);
 		void StopAllSounds();
-		FMOD::System* audioSystem;
 
 		/*!***********************************************************************
 		 * \brief Stores the result of any FMOD related function

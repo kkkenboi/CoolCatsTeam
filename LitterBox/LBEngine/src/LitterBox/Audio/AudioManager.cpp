@@ -3,7 +3,7 @@
  \author(s)			Amadeus Chia Jinhan, 
  \par DP email(s):	amadeusjinhan.chia@digipen.edu,
  \par Course:       CSD2401A
- \date				29/09/2023
+ \date				02/11/2023
  \brief				This file contains the definitions of AudioManager 
 					functions (This will be more detailed as more 
 					features get added)
@@ -25,7 +25,6 @@ namespace LB
 	**************************************************************************/
 	AudioManager::AudioManager()
 	{
-		//TODO Pull this out to the initialiser next time...
 		//Singleton stuff
 		if (!AUDIOMANAGER)
 			AUDIOMANAGER = this;
@@ -52,7 +51,7 @@ namespace LB
 
 	/*!***********************************************************************
 	* \brief Functions to play specific sounds
-	* 
+	* Currently they're global, but in the future they will be C#
 	**************************************************************************/
 	void PlayTestSound()
 	{
@@ -77,11 +76,26 @@ namespace LB
 		audioSystem->update();
 	}
 
+	/*!***********************************************************************
+	 * \brief Frees all the audio engine and all the sounds that were loaded
+	 * 
+	**************************************************************************/
 	void AudioManager::Destroy()
 	{
+		//We loop through all the sounds and release them
+		for (const auto& sound : ASSETMANAGER->SoundMap)
+		{
+			sound.second->release();
+		}
 		//This shuts down FMOD studio
 		audioSystem->release();
 	}
+
+	/*!***********************************************************************
+	 * \brief Function to play sound using the Sound File name 
+	 * 
+	 * \param soundName Name of the sound e.g "Explosion" without file extension
+	**************************************************************************/
 	void AudioManager::PlaySound(std::string soundName)
 	{
 		if (ASSETMANAGER->SoundMap.find(soundName) != ASSETMANAGER->SoundMap.end())
@@ -90,6 +104,8 @@ namespace LB
 			if (result != FMOD_OK) DebuggerLogWarning("SOUND NAME " + soundName + "IS NOT WORKING!");
 		}
 	}
+
+	//TODO :pensive:
 	void AudioManager::StopAllSounds()
 	{
 		/*audioSystem.*/
