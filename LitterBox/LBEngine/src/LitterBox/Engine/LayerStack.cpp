@@ -44,7 +44,7 @@ namespace LB
 	*************************************************************************/
 	void LayerStack::InitializeLayers()
 	{
-		for (std::unique_ptr<Layer>& layer : m_Layers)
+		for (std::shared_ptr<Layer>& layer : m_Layers)
 		{
 			layer->Initialize();
 		}
@@ -57,9 +57,9 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void LayerStack::AddLayer(std::unique_ptr<Layer> layer)
+	void LayerStack::AddLayer(std::shared_ptr<Layer> layer)
 	{
-		m_Layers.emplace(m_Layers.begin() + m_LayerIndex++, std::move(layer));
+		m_Layers.emplace(m_Layers.begin() + m_LayerIndex++, layer);
 	}
 
 	/*!***********************************************************************
@@ -69,9 +69,9 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void LayerStack::MakeLayerOverlay(std::unique_ptr<Layer> layer)
+	void LayerStack::MakeLayerOverlay(std::shared_ptr<Layer> layer)
 	{
-		std::vector<std::unique_ptr<Layer>>::iterator it = m_Layers.begin();
+		std::vector<std::shared_ptr<Layer>>::iterator it = m_Layers.begin();
 
 		// Checks if there is duplicate layers
 		while (it != m_Layers.end())
@@ -92,9 +92,9 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void LayerStack::RemoveLayer(std::unique_ptr<Layer> layer)
+	void LayerStack::RemoveLayer(std::shared_ptr<Layer> layer)
 	{
-		std::vector<std::unique_ptr<Layer>>::iterator it = m_Layers.begin();
+		std::vector<std::shared_ptr<Layer>>::iterator it = m_Layers.begin();
 
 		while (it != m_Layers.end())
 		{
@@ -108,7 +108,7 @@ namespace LB
 
 	void LayerStack::Destroy()
 	{
-		for (std::unique_ptr<Layer>& layer : m_Layers)
+		for (std::shared_ptr<Layer>& layer : m_Layers)
 		{
 			layer->Destroy();
 		}
@@ -122,7 +122,7 @@ namespace LB
 	 \return
 	 Iterator to the start of the LayerStack
 	*************************************************************************/
-	std::vector<std::unique_ptr<Layer>>::iterator LayerStack::begin()
+	std::vector<std::shared_ptr<Layer>>::iterator LayerStack::begin()
 	{
 		return m_Layers.begin();
 	}
@@ -134,7 +134,7 @@ namespace LB
 	 \return
 	 Iterator to the end of the LayerStack
 	*************************************************************************/
-	std::vector<std::unique_ptr<Layer>>::iterator LayerStack::end()
+	std::vector<std::shared_ptr<Layer>>::iterator LayerStack::end()
 	{
 		return m_Layers.end();
 	}

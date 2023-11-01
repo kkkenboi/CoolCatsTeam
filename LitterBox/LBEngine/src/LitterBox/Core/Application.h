@@ -23,7 +23,6 @@
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Factory/Components.h"
 #include "LitterBox/GameLogic/GameLogic.h"
-#include "LitterBox/GameLogic/CPPGameLogic/CPPGameLogic.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Layer.h"
@@ -56,7 +55,7 @@ namespace LB {
 		 \brief
 		 Destroys the systems and the LitterBox Engine itself
 		*************************************************************************/
-		~Application();
+		virtual ~Application();
 
 		/*!***********************************************************************
 		 \brief
@@ -64,7 +63,7 @@ namespace LB {
 		*************************************************************************/
 		void Run();
 	private:
-		std::unique_ptr<LBEngine> Engine;
+		std::shared_ptr<LBEngine> Engine;
 	};
 
 	/*!***********************************************************************

@@ -45,13 +45,6 @@ namespace LB
 
         /*!***********************************************************************
           \brief
-          RigidBodyManager destructor, frees the memory allocated for the pool
-          and states
-        *************************************************************************/
-        ~RigidBodyManager();
-
-        /*!***********************************************************************
-          \brief
           This function allows you to add a RigidBody to the pool
         *************************************************************************/
         void AddRigidBodyToPool(CPRigidBody* rb);
@@ -125,6 +118,11 @@ namespace LB
         *************************************************************************/
         void Update() override;
 
+        /*!***********************************************************************
+          \brief
+          RigidBodyManager Destroy, frees the memory allocated for the pool
+          and states
+        *************************************************************************/
         void Destroy() override;
 
     };

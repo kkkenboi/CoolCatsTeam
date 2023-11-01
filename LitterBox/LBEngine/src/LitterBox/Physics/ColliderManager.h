@@ -15,8 +15,6 @@ namespace LB
 
 		ColliderManager();
 
-		~ColliderManager();
-
 		void AddColliderToPool(CPCollider* col);
 
 		void RemoveColliderFromPool(CPCollider* col);

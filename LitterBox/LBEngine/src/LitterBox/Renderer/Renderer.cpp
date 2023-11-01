@@ -419,21 +419,7 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 		nullptr, GL_DYNAMIC_STORAGE_BIT);
 	glVertexArrayElementBuffer(vao, ibo);
 }
-/*!***********************************************************************
-\brief
- Renderer destructor
-*************************************************************************/
-Renderer::Renderer::~Renderer()
-{
-	//cleanup on server side
-	glDeleteBuffers(1, &vbo);
-	glDeleteBuffers(1, &ibo);
-	glDeleteVertexArrays(1, &vao);
-	if (quad_buff) {
-		delete[] quad_buff;
-		quad_buff = nullptr;
-	}
-}
+
 /*!***********************************************************************
 \brief
  create_render_object stores a pointer to render object
@@ -836,25 +822,6 @@ void Renderer::RenderSystem::Initialize()
 	
 	imgui_ready = true;
 	//----For rendering scene onto texture for ImGUI-------------
-}
-
-
-/*!***********************************************************************
-\brief
- RenderSystem destructor
-*************************************************************************/
-Renderer::RenderSystem::~RenderSystem()
-{
-	if (GRAPHICS)
-		GRAPHICS = nullptr;
-
-	//delete background
-	if (test2) {
-		delete test2;
-		test2 = nullptr;
-	}
-
-	glDeleteProgram(shader_program);
 }
 
 /*!***********************************************************************
