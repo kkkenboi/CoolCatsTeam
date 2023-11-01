@@ -17,7 +17,7 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include "Debug.h"
 
-extern unsigned int framebuffer;
+extern unsigned int svfb;
 extern bool imgui_ready;
 
 namespace LB
@@ -112,10 +112,11 @@ namespace LB
 		//draw lines to the imgui renderered box
 		//Bind the frame buffer to the texture image
 		if (imgui_ready)
-			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+			glBindFramebuffer(GL_FRAMEBUFFER, svfb);
 
 		glUseProgram(shader);
 		glBindVertexArray(vao);
+
 		glDrawElements(GL_LINES, (GLsizei)index, GL_UNSIGNED_SHORT, nullptr);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -233,14 +234,14 @@ namespace LB
 		//-----------------Matrix projection of start point--------------
 
 		glm::vec4 start_point{ obj.center.x, obj.center.y, 0.f, 1.f };
-		start_point = cam.world_NDC * start_point;
+		start_point = Renderer::GRAPHICS->get_cam_mat() * start_point;
 		obj.center.x = start_point.x;
 		obj.center.y = start_point.y;
 		//-----------------Matrix projection of start point--------------
 
 		//-----------------Matrix projection of end point--------------
 		start_point = { obj.end.x, obj.end.y, 0.f, 1.f };
-		start_point = cam.world_NDC * start_point;
+		start_point = Renderer::GRAPHICS->get_cam_mat() * start_point;
 		obj.end.x = start_point.x;
 		obj.end.y = start_point.y;
 		//-----------------Matrix projection of end point--------------

@@ -341,6 +341,8 @@ namespace Renderer {
 		 The CPRender object which you want to either show or hide.
 		*************************************************************************/
 		void change_render_state(const LB::CPRender& object);
+
+		void Destroy_Renderer();
 	};
 
 	struct Character {
@@ -367,6 +369,7 @@ namespace Renderer {
 	public:
 		TextRenderer();
 		void RenderText(message msg);
+		void Destroy_TextRend();
 		inline const unsigned int get_text_shader() const { return tShader; }
 	};
 
@@ -569,6 +572,10 @@ namespace Renderer {
 
 		void update_cam(float xpos, float ypos);
 		void fcam_zoom(float amount); //1.f means no zoom
+
+		inline auto get_cam_mat() { return cam.editor_world_NDC; }
+
+		void Destroy() override;
 	};
 
 	//A pointer to the system object in the core engine

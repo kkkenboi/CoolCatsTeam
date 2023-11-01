@@ -15,12 +15,6 @@ int main(int argc, char** argv)
 	UNREFERENCED_PARAMETER(argc);
 	UNREFERENCED_PARAMETER(argv);
 
-#if (_DEBUG)
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
-	_CrtDumpMemoryLeaks();
-#endif
-
 	//_crtBreakAlloc = 384; // Systems
 	//_crtBreakAlloc = 630; // Serialiser calling DebuggerLog
 	//_crtBreakAlloc = 890; // Serialiser allocation	
@@ -38,4 +32,9 @@ int main(int argc, char** argv)
 	delete app;
 
 
+#if (_DEBUG)
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+	_CrtDumpMemoryLeaks();
+#endif
 }

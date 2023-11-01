@@ -429,8 +429,10 @@ Renderer::Renderer::~Renderer()
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ibo);
 	glDeleteVertexArrays(1, &vao);
-	if(quad_buff)
+	if (quad_buff) {
 		delete[] quad_buff;
+		quad_buff = nullptr;
+	}
 }
 /*!***********************************************************************
 \brief
@@ -580,6 +582,17 @@ void Renderer::Renderer::change_render_state(const LB::CPRender& object)
 {
 	index_buff.at(object.get_index()) = object.activated ? object.get_indices() : inactive_idx;
 }
+void Renderer::Renderer::Destroy_Renderer()
+{
+	//cleanup on server side
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ibo);
+	glDeleteVertexArrays(1, &vao);
+	if (quad_buff) {
+		delete[] quad_buff;
+		quad_buff = nullptr;
+	}
+}
 //----------------------------------------------RENDERER---------------------------------------------------
 
 
@@ -689,6 +702,12 @@ void Renderer::TextRenderer::RenderText(message msg) {
 	}
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+void Renderer::TextRenderer::Destroy_TextRend()
+{
+	glDeleteProgram(tShader);
+	glDeleteVertexArrays(1, &tVao);
+	glDeleteBuffers(1, &tVbo);
 }
 //---------------------------------------------TEXTRENDERER------------------------------------------------
 
@@ -830,8 +849,10 @@ Renderer::RenderSystem::~RenderSystem()
 		GRAPHICS = nullptr;
 
 	//delete background
-	if (test2)
+	if (test2) {
 		delete test2;
+		test2 = nullptr;
+	}
 
 	glDeleteProgram(shader_program);
 }
@@ -1056,6 +1077,22 @@ void Renderer::RenderSystem::update_cam(float xpos, float ypos)
 void Renderer::RenderSystem::fcam_zoom(float zoom)
 {
 	cam.free_cam_zoom(zoom);
+}
+void Renderer::RenderSystem::Destroy()
+{
+	if(test2)
+		delete test2;
+
+	object_renderer.Destroy_Renderer();
+	bg_renderer.Destroy_Renderer();
+	text_renderer.Destroy_TextRend();
+
+	glDeleteFramebuffers(1, &framebuffer);
+	glDeleteFramebuffers(1, &svfb);
+	glDeleteTextures(1, &textureColorbuffer);
+	glDeleteTextures(1, &svtcb);
+
+	glDeleteProgram(shader_program);
 }
 //----------------------------------------------RENDERER-SYSTEM-------------------------------------------
 
