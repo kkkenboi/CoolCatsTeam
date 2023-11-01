@@ -309,11 +309,9 @@ namespace LB
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::InputFloat("##AccelerationY", &acceleration.y, 0.0f, 0.0f, "%.2f");
 
-				static bool isStatic = false;
 				ImGui::Text("%-10s", "Is Static");
 				ImGui::SameLine();
-				ImGui::Checkbox("##isStatic", &isStatic);
-				m_inspectedGO->GetComponent<CPRigidBody>()->isStatic = isStatic;
+				ImGui::Checkbox("##isStatic", &m_inspectedGO->GetComponent<CPRigidBody>()->isStatic);
 
 				// Delete Component
 				if (ImGui::Button("Delete RigidBody Component"))

@@ -75,6 +75,9 @@ namespace LB
 			{
 				script->SetInstance(new CPPSPlayer);
 			}
+			else if (script->GetName() == "Enemy") {
+
+			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 
 			script->Start();

@@ -45,9 +45,16 @@ namespace LB
 		// Render text
 		Renderer::GRAPHICS->render_msg("HELLO", 20.f, 20.f, 2.f, { .4f, .3f, 0.7f });
 
+		m_MousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+		m_MousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
 		ImGui::EndChild();
 
 		ImGui::End();
+	}
+
+	Vec2<float>& EditorGameView::GetMousePos() {
+		return m_MousePos;
 	}
 
 }

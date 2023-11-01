@@ -13,6 +13,8 @@
 **************************************************************************/
 
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Physics/ColliderManager.h"
+#include "Platform/Editor/EditorGameView.h"
 #include "CPPSPlayer.h"
 #include "LitterBox/Engine/Input.h"
 #include <array>
@@ -81,18 +83,48 @@ namespace LB
 		{
 			rb->addForce(Vec2<float>{0.f, 5000.f});
 		}
-		else if (INPUT->IsKeyPressed(KeyCode::KEY_S))
+		if (INPUT->IsKeyPressed(KeyCode::KEY_S))
 		{
 			rb->addForce(Vec2<float>{0.f, -5000.f});
 		}
-		else if (INPUT->IsKeyPressed(KeyCode::KEY_A))
+		if (INPUT->IsKeyPressed(KeyCode::KEY_A))
 		{
 			rb->addForce(Vec2<float>{-5000.f, 0.f});
 		}
-		else if (INPUT->IsKeyPressed(KeyCode::KEY_D))
+		if (INPUT->IsKeyPressed(KeyCode::KEY_D))
 		{
 			rb->addForce(Vec2<float>{5000.f, 0.f});
 		}
+		
+		if (INPUT->IsKeyPressed(KeyCode::KEY_F))
+		{
+			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
+			float effect_radius = 200.f;
+			float effect_magnitude = 1000.f;
+
+			DEBUG->DrawCircle(current_pos, effect_radius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
+
+			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, effect_radius);
+
+			Vec2<float> mouse_pos = EDITORGAMEVIEW->GetMousePos();
+
+			//std::cout << vec_colliders.size() << std::endl;
+			for (size_t i = 0; i < vec_colliders.size(); ++i) {
+				Vec2<float> force_to_apply = mouse_pos - vec_colliders[i]->m_pos;
+				force_to_apply = Normalise(force_to_apply) * effect_magnitude;
+
+				if (vec_colliders[i]->rigidbody != nullptr)
+				{
+					if (vec_colliders[i] == GameObj->GetComponent<CPCollider>())
+					{
+						continue;
+					}
+					vec_colliders[i]->rigidbody->addImpulse(force_to_apply);
+				}
+
+			}
+		}
+		
 	}
 
 	void CPPSPlayer::Destroy()
