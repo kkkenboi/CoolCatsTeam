@@ -8,10 +8,15 @@ namespace LB
 	class FileSystemManager
 	{
 	public:
-		static std::filesystem::path GetFilePath(const std::string& fileName);
-		static std::vector<std::filesystem::path> GetFilesOfType(const std::string& fileType);
+		FileSystemManager();
+		std::filesystem::path GetFilePath(const std::string& fileName);
+		std::vector<std::filesystem::path> GetFilesOfType(const std::string& fileType);
 		//static bool FileExists(const std::string& fileName);
-		static int GetFileTime(const std::filesystem::path& filePath);
-		static int GetFileTime(const std::string& filePath);
+		int GetFileTime(const std::filesystem::path& filePath);
+		int GetFileTime(const std::string& filePath);
+
+		std::string GetStemmedName(const std::filesystem::path& filePath);
+		std::string GetExtension(const std::filesystem::path& filePath);
 	};
+	extern FileSystemManager* FILESYSTEM;
 }

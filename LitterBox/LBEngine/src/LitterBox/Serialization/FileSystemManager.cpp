@@ -3,6 +3,18 @@
 
 namespace LB
 {
+	FileSystemManager* FILESYSTEM = nullptr;
+	FileSystemManager::FileSystemManager()
+	{
+		if (!FILESYSTEM) FILESYSTEM = this;
+		else std::cerr << "File System Manager already exists" << std::endl;
+	}
+
+	/*!************************************************************************
+	 * \brief This function gets the file path of the file provided
+	 * example input "joe.png" -> C://Users//joe.png
+	* \return std::filesystem::path of the filepath for the file
+	**************************************************************************/
 	std::filesystem::path FileSystemManager::GetFilePath(const std::string& fileName)
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
@@ -21,6 +33,12 @@ namespace LB
 	}
 
 	////Function to get all filepaths of a certain filetype and return it as a vector
+
+	/*!************************************************************************
+	 * \brief Function that gets ALL files of the provided EXTENSION NAME
+	 *	e.g ".png" -> vector of all filepaths containing pngs
+	 * \return std::vector<std::filesystem::path> of the filepath for the file
+	 **************************************************************************/
 	std::vector<std::filesystem::path> FileSystemManager::GetFilesOfType(const std::string& fileType)
 	{
 		std::vector<std::filesystem::path> temp;
@@ -35,7 +53,7 @@ namespace LB
 		}
 		return temp;
 	}
-	//bool FileSystemManager::FileExists(const std::string& fileName)
+	//bool FILESYSTEM->FileExists(const std::string& fileName)
 	//{
 	//	for (const auto& directory : std::filesystem::recursive_directory_iterator(std::filesystem::current_path()))
 	//	{
@@ -55,5 +73,13 @@ namespace LB
 	{
 		std::filesystem::path fp{ filePath };
 		return GetFileTime(fp);
+	}
+	std::string FileSystemManager::GetStemmedName(const std::filesystem::path& filePath)
+	{
+		return filePath.filename().stem().string();
+	}
+	std::string FileSystemManager::GetExtension(const std::filesystem::path& filePath)
+	{
+		return filePath.extension().string();
 	}
 }
