@@ -15,6 +15,7 @@
  disclosure of this file or its contents without the prior written consent
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
+
 #pragma once
 
 #include <imgui.h>
@@ -40,8 +41,7 @@ namespace LB
 		GameObject* GetMousePicker();
 		void SetObjectPicked(GameObject* obj);
 		void SetMousePos(Vec2<float> pos);
-		bool m_Clicking{};
-		bool m_InSceneView{};
+
 	private:
 		LayerStack m_ImGuiLayers;
 		

@@ -32,6 +32,8 @@ namespace LB
 		void Destroy() {}
 
 	private:
+		// Cache the window size and mouse position in scene view
+		ImVec2 windowSize;
 		Vec2<float> mousePosInWindow;
 	};
 

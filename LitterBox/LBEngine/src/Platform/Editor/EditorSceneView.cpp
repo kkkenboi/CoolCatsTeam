@@ -28,35 +28,26 @@ namespace LB
 	EditorSceneView* EDITORSCENEVIEW = nullptr;
 	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;
 
-	void move_cam_up() {
+	void MoveCamUp() {
 		Renderer::GRAPHICS->update_cam(0.f, 20.f);
 	}
-	void move_cam_down() {
+	void MoveCamDown() {
 		Renderer::GRAPHICS->update_cam(0.f, -20.f);
 	}
-	void move_cam_left() {
+	void MoveCamLeft() {
 		Renderer::GRAPHICS->update_cam(-20.f, 0.f);
 	}
-	void move_cam_right() {
+	void MoveCamRight() {
 		Renderer::GRAPHICS->update_cam(20.f, 0.f);
 	}
-	void zoom_cam_in() {
+	void ZoomCamIn() {
 		zoomCurrent += zoomStep * TIME->GetUnscaledDeltaTime();
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
-	void zoom_cam_out() {
+	void ZoomCamOut() {
 		zoomCurrent -= zoomStep * TIME->GetUnscaledDeltaTime();
 		zoomCurrent = (zoomCurrent > zoomMin) ? zoomCurrent : zoomMin;
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
-	}
-
-	void onClick()
-	{
-		EDITOR->m_Clicking = true;
-		if (EDITOR->m_InSceneView)
-		{
-			EDITOR->SetObjectPicked(CheckMousePosGameObj(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition()));
-		}
 	}
 
 	EditorSceneView::EditorSceneView(std::string layerName) : Layer(layerName)
@@ -69,65 +60,47 @@ namespace LB
 
 	void EditorSceneView::Initialize()
 	{
-			INPUT->SubscribeToKey(move_cam_up, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_down, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_left, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_right, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(MoveCamUp, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(MoveCamDown, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(MoveCamLeft, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(MoveCamRight, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 
-			INPUT->SubscribeToKey(zoom_cam_in, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(zoom_cam_out, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(ZoomCamIn, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(ZoomCamOut, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 
-			INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
+			//INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 	}
-
 
 	void EditorSceneView::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
 
-		Vec2<float> mousePos{};
-
+		// Renders the scene view as an image from the opengl buffer
 		ImGui::BeginChild("GameRender");
-		ImVec2 wsize = ImGui::GetWindowSize();
-		ImGui::Image((ImTextureID)svtcb, wsize, ImVec2(0, 1), ImVec2(1, 0));
+		windowSize = ImGui::GetWindowSize();
+		ImGui::Image((ImTextureID)svtcb, windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
+		// If a prefab json file has been dropped onto the scene view
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
 			{
-				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+				mousePosInWindow.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+				mousePosInWindow.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
 				const char* assetPath = (const char*)assetData->Data;
-				DebuggerLog(assetPath);
-				ASSETMANAGER->SpawnGameObject(assetPath, mousePos);
+				ASSETMANAGER->SpawnGameObject(assetPath, mousePosInWindow);
 			}
 		}
 
-		if (ImGui::IsItemHovered())
+		// If the user has clicked on the scene view, check if they clicked on a GameObject
+		if (ImGui::IsItemClicked())
 		{
-			EDITOR->m_InSceneView = true;
+			mousePosInWindow.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+			mousePosInWindow.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
+			EDITOR->SetObjectPicked(CheckMousePosGameObj(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition()));
 		}
-		else
-		{
-			EDITOR->m_InSceneView = false;
-		}
-
-		// Get the object based on the world position of the mouse
-		if (EDITOR->m_Clicking)
-		{
-			if (EDITOR->m_InSceneView)
-			{
-				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
-
-				// Set the mouse position to the world position
-				EDITOR->SetMousePos(mousePos);
-			}
-		}
-		EDITOR->m_Clicking = false;
-
-
 		ImGui::EndChild();
 
 		ImGui::End();

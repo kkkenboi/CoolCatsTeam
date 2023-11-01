@@ -1,9 +1,23 @@
-#include "LitterBox/Physics/Collisions.h"
+/*!************************************************************************
+ \file				GameObjClicker.cpp
+ \author(s)			
+ \par DP email(s):	
+ \par Course:       CSD2401A
+ \date				28/10/2023
+ \brief
+
+ This file 
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Factory/GameObjectManager.h"
-#include "Math.h"
 #include "LitterBox/Physics/PhysicsMath.h"
-#include "GameObjClicker.h"
+#include "LitterBox/Physics/Collisions.h"
+#include "Math.h"
 
 namespace LB 
 {
@@ -65,7 +79,6 @@ namespace LB
 		{
 			return nullptr;
 		}
-
 
 		float close_distance{ 1000000.f };
 		int gameobj_num{ 0 };
