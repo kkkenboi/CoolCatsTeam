@@ -29,7 +29,10 @@ namespace LB
 
 		void Destroy() {}
 
+		Vec2<float>& GetMousePos();
+
 	private:
+		Vec2<float> m_MousePos;
 	};
 
 	extern EditorGameView* EDITORGAMEVIEW;

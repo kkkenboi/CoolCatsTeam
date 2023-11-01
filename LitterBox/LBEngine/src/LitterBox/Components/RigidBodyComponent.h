@@ -96,6 +96,7 @@ namespace LB
 			data.AddMember("Width", mWidth, alloc);
 			data.AddMember("Height", mHeight, alloc);
 			data.AddMember("Density", mDensity, alloc);
+			data.AddMember("IsStatic", isStatic, alloc);
 			return true;
 		}
 		bool Deserialize(const Value& data) override
@@ -104,13 +105,15 @@ namespace LB
 			bool HasWidth = data.HasMember("Width");
 			bool HasHeight = data.HasMember("Height");
 			bool HasDensity = data.HasMember("Density");
+			bool HasStatic = data.HasMember("IsStatic");
 			if (data.IsObject())
 			{
-				if (HasWidth && HasHeight && HasDensity)
+				if (HasWidth && HasHeight && HasDensity && HasStatic)
 				{
 					mWidth = data["Width"].GetFloat();
 					mHeight = data["Height"].GetFloat();
 					mDensity = data["Density"].GetFloat();
+					isStatic = data["IsStatic"].GetBool();
 					return true;
 				}
 			}

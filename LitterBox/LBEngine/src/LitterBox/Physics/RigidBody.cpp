@@ -49,7 +49,7 @@ namespace LB
         this->mRestitution = 0.75f;
 
         this->mFriction = 0.95f;
-        this->isStatic = false;
+        //this->isStatic = false;
         this->isActive = true;
 
         this->mRadius = 50.f;
@@ -120,7 +120,7 @@ namespace LB
             isStatic = false;
             mInvMass = 1.f/ mMass;
         }
-        if (isStatic == false)
+        else if (isStatic == false)
         {
             isStatic = true;
             mInvMass = 0.f;
@@ -201,9 +201,14 @@ namespace LB
         float time = static_cast<float>(TIME->GetFixedDeltaTime());
 
         // If body is static do not update velocities or pos
-        if (this->isStatic) {
-            //this->mInvMass = 0.f;
+        if (this->isStatic) 
+        {
+            this->mInvMass = 0.f;
             return;
+        }
+        else if (this->isStatic == false)
+        {
+            this->mInvMass = 1.f / mMass;
         }
 
         mPosition = transform->GetPosition();
