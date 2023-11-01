@@ -31,10 +31,15 @@ namespace LB
 
 		void Destroy() {}
 
+		// Updates the rest of the editor of the object selected
+		void SetObjectPicked(GameObject* obj);
+
 	private:
-		// Cache the window size and mouse position in scene view
-		ImVec2 windowSize;
-		Vec2<float> mousePosInWindow;
+		ImVec2 m_windowSize;
+
+		// Mouse picker to select GameObjects
+		GameObject* m_mousePicker;
+		Vec2<float> m_mousePosInWorld;
 	};
 
 	extern EditorSceneView* EDITORSCENEVIEW;

@@ -17,5 +17,5 @@
 
 namespace LB 
 {
-	GameObject* CheckMousePosGameObj(Vec2<float> position);
+	GameObject* CheckMousePosGameObj(Vec2<float> const& position);
 }

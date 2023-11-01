@@ -33,7 +33,6 @@
 
 #include "implot.h"
 
-
 #include "windows.h"
 #include <crtdbg.h> 
 
@@ -58,7 +57,6 @@ namespace LB
 			DebuggerLogError("Editor System already exists!");
 
 		SetSystemName("Editor System");
-		m_MousePicker = nullptr;
 
 		//_CrtMemCheckpoint(&sOld); //take a snapshot
 
@@ -86,7 +84,8 @@ namespace LB
 
 	void Editor::Initialize()
 	{
-		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		// Do not re-enable until M3!
+		//INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();
@@ -108,13 +107,6 @@ namespace LB
 
 		// Call Initialize for all layers in the layerstack
 		m_ImGuiLayers.InitializeLayers();
-
-		// Create a mouse game object with transform and collider component
-		m_MousePicker = FACTORY->SpawnGameObject({ 0.f,0.f });
-		m_MousePicker->GetComponent<CPTransform>()->SetScale({ 0.1f,0.1f });
-
-		m_MousePicker->AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
-		m_MousePicker->GetComponent<CPCollider>()->Initialise();
 	}
 
 	void Editor::Update()
@@ -235,11 +227,6 @@ namespace LB
 		}
 	}
 
-	void Editor::FixedUpdate()
-	{
-
-	}
-
 	void Editor::Destroy()
 	{		
 		ImGui_ImplOpenGL3_Shutdown();
@@ -253,22 +240,4 @@ namespace LB
 
 		m_ImGuiLayers.Destroy();
 	}
-	
-	GameObject* Editor::GetMousePicker()
-	{
-		return m_MousePicker;
-	}
-
-	void Editor::SetObjectPicked(GameObject* obj)
-	{
-		EDITORINSPECTOR->UpdateInspectedGO(obj);
-		EDITORHIERACHY->UpdateClickedItem(obj ? obj->GetComponent<CPTransform>() : nullptr);
-	}
-
-
-	void Editor::SetMousePos(Vec2<float> pos)
-	{
-		m_MousePicker->GetComponent<CPTransform>()->SetPosition(pos);
-	}
-
 }

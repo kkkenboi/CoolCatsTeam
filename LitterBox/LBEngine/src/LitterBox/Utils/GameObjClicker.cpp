@@ -21,7 +21,7 @@
 
 namespace LB 
 {
-	GameObject* CheckMousePosGameObj(Vec2<float> position)
+	GameObject* CheckMousePosGameObj(Vec2<float> const& position)
 	{
 		float length = 1.0f;
 		Vec2<float> temp_normal{ 0.f, 0.f };

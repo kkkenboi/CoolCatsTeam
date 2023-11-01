@@ -15,19 +15,22 @@
 
 #include "pch.h"
 #include "LitterBox/Renderer/Renderer.h"
-#include "EditorSceneView.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Utils/GameObjClicker.h"
+
+#include "EditorSceneView.h"
+#include "EditorHierarchy.h"
+#include "EditorInspector.h"
 
 extern unsigned int svtcb;
 
 namespace LB
 {
 	EditorSceneView* EDITORSCENEVIEW = nullptr;
-	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;
 
+	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;
 	void MoveCamUp() {
 		Renderer::GRAPHICS->update_cam(0.f, 20.f);
 	}
@@ -68,6 +71,10 @@ namespace LB
 			INPUT->SubscribeToKey(ZoomCamIn, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(ZoomCamOut, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 
+			// Add the mouse picker object and point to its position (for easy updating)
+			m_mousePicker = FACTORY->SpawnGameObject({C_CPCollider});
+			m_mousePicker->GetComponent<CPTransform>()->SetScale({ 0.1f,0.1f });
+
 			//INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 	}
 
@@ -77,32 +84,38 @@ namespace LB
 
 		// Renders the scene view as an image from the opengl buffer
 		ImGui::BeginChild("GameRender");
-		windowSize = ImGui::GetWindowSize();
-		ImGui::Image((ImTextureID)svtcb, windowSize, ImVec2(0, 1), ImVec2(1, 0));
+		m_windowSize = ImGui::GetWindowSize();
+		ImGui::Image((ImTextureID)svtcb, m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
 		// If a prefab json file has been dropped onto the scene view
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
 			{
-				mousePosInWindow.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-				mousePosInWindow.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+				m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+				m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
 				const char* assetPath = (const char*)assetData->Data;
-				ASSETMANAGER->SpawnGameObject(assetPath, mousePosInWindow);
+				ASSETMANAGER->SpawnGameObject(assetPath, m_mousePosInWorld);
 			}
 		}
 
 		// If the user has clicked on the scene view, check if they clicked on a GameObject
 		if (ImGui::IsItemClicked())
 		{
-			mousePosInWindow.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-			mousePosInWindow.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+			m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+			m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
-			EDITOR->SetObjectPicked(CheckMousePosGameObj(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition()));
+			SetObjectPicked(CheckMousePosGameObj(m_mousePosInWorld));
 		}
 		ImGui::EndChild();
 
 		ImGui::End();
+	}
+
+	void EditorSceneView::SetObjectPicked(GameObject* obj)
+	{
+		EDITORINSPECTOR->UpdateInspectedGO(obj);
+		EDITORHIERACHY->UpdateClickedItem(obj ? obj->GetComponent<CPTransform>() : nullptr);
 	}
 }
