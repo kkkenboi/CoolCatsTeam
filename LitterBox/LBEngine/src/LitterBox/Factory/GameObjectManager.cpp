@@ -159,6 +159,12 @@ namespace LB
 			m_Components[C_CPRender]->Serialize(RenderComponent, alloc);
 			data.AddMember("Render", RenderComponent, alloc);
 		}
+		if (m_Components.find(C_CPCollider) != m_Components.end())
+		{
+			Value ColliderComponent;
+			m_Components[C_CPCollider]->Serialize(ColliderComponent, alloc);
+			data.AddMember("Collider", ColliderComponent, alloc);
+		}
 		if (m_Components.find(C_CPScriptCPP) != m_Components.end())
 		{
 			Value CPPScriptComponent;
@@ -181,6 +187,7 @@ namespace LB
 		bool HasTransform = data.HasMember("Transform");
 		bool HasRigidBody = data.HasMember("RigidBody");
 		bool HasRender = data.HasMember("Render");
+		bool HasCollider = data.HasMember("Collider");
 		bool HasCPPScript = data.HasMember("CPPScript");
 		if (data.IsObject())
 		{
@@ -230,6 +237,17 @@ namespace LB
 				}
 				const Value& cppScriptValue = data["CPPScript"];
 				m_Components[C_CPScriptCPP]->Deserialize(cppScriptValue);
+			}
+			if (HasCollider)
+			{
+				if (m_Components.find(C_CPCollider) == m_Components.end())
+				{
+					DebuggerLog("Deserialize: GO doesn't have a Collider :C so we make one");
+					AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
+				}
+				const Value& colliderValue = data["Collider"];
+				m_Components[C_CPCollider]->Deserialize(colliderValue);
+				DebuggerLogFormat("coll size %d", this->GetComponent<CPCollider>()->m_widthUnscaled);
 			}
 		}
 		this->StartComponents();

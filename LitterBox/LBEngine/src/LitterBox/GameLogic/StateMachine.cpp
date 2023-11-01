@@ -28,12 +28,12 @@ void FiniteStateMachine::AddState(State* stateType)
 	mStateMap[stateType->GetStateID()] = stateType;
 }
 
-State& FiniteStateMachine::GetState(std::string stateID)
+State* FiniteStateMachine::GetState(std::string stateID)
 {
-	return *mCurrentState;
+	return mCurrentState;
 }
 
 void FiniteStateMachine::SetCurrentState(std::string stateID)
 {
-	mCurrentState = &GetState(stateID);
+	mCurrentState = GetState(stateID);
 }

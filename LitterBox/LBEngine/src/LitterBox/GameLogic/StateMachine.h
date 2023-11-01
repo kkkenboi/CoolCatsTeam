@@ -47,7 +47,7 @@ public:
 	void AddState(State* stateType);
 
 	// Get a state
-	State& GetState(std::string stateID);
+	State* GetState(std::string stateID);
 
 	// Sets a state as the current state
 	// Returns true if successful
