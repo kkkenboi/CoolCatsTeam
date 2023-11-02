@@ -1,4 +1,5 @@
 #include "StateMachine.h"
+#include "LitterBox/Debugging/Debug.h"
 
 State::State(FiniteStateMachine& FSM, std::string ID) :
 	mFSM{ FSM }, mStateID{ ID }
@@ -35,7 +36,7 @@ void FiniteStateMachine::AddState(State* stateType)
 
 State* FiniteStateMachine::GetState(std::string stateID)
 {
-	return mCurrentState;
+	return mStateMap[stateID];
 }
 
 void FiniteStateMachine::SetCurrentState(std::string stateID)
