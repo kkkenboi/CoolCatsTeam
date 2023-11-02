@@ -90,7 +90,10 @@ namespace LB
 
 		// TODO: Confirm first before saving
 		if (m_currentScene) {
-			m_currentScene->Save();
+			if (m_isReloading)
+				m_isReloading = false;
+			else
+				m_currentScene->Save();
 		}
 
 		// Free current scene first
@@ -105,16 +108,18 @@ namespace LB
 		m_currentScene->Init();
 	}
 
+	void SceneManager::ReloadScene()
+	{
+		m_isReloading = true;
+		LoadScene(m_currentScene->GetName());
+	}
+
 	void SceneManager::SceneOnPlayToggle(bool isPlaying)
 	{
 		if (isPlaying)
-		{
 			m_currentScene->Save();
-		}
 		else
-		{
-			LoadScene(m_currentScene->GetName());
-		}
+			ReloadScene();
 	}
 
 	// For event subscription
