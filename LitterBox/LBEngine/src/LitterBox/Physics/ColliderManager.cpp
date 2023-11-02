@@ -28,18 +28,6 @@ namespace LB
 		}
 	}
 
-	ColliderManager::~ColliderManager()
-	{
-		for (size_t i = 0; i < m_poolSize; ++i)
-		{
-			if (m_colliderPool[i] != nullptr)
-			{
-				delete m_colliderPool[i];
-			}
-		}
-		delete[] m_colliderPool;
-	}
-
 	void ColliderManager::AddColliderToPool(CPCollider* col)
 	{
 		for (size_t i = 0; i < m_poolSize; ++i)
