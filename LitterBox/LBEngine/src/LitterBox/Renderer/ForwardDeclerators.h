@@ -142,5 +142,6 @@ namespace Renderer {
 		std::string text;
 		float x, y, scale;
 		LB::Vec3<float> color;
+		std::string font_file_name_wo_ext;
 	};
 }
