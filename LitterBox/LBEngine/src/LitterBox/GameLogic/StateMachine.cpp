@@ -11,6 +11,11 @@ std::string State::GetStateID()
 	return mStateID;
 }
 
+FiniteStateMachine& State::GetFSM()
+{
+	return mFSM;
+}
+
 // =====
 
 FiniteStateMachine::FiniteStateMachine()
@@ -36,4 +41,21 @@ State* FiniteStateMachine::GetState(std::string stateID)
 void FiniteStateMachine::SetCurrentState(std::string stateID)
 {
 	mCurrentState = GetState(stateID);
+}
+
+void FiniteStateMachine::ChangeState(std::string stateID)
+{
+	mCurrentState->Exit();
+
+	mCurrentState = GetState(stateID);
+
+	mCurrentState->Enter();
+}
+
+void FiniteStateMachine::Update()
+{
+	if (mCurrentState != nullptr)
+	{
+		mCurrentState->Update();
+	}
 }

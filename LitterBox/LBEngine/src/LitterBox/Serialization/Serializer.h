@@ -63,17 +63,17 @@ namespace LB
 			/// @param typeToSerialize Type of object that is being serialized
 			/// @return true on success, false on fail
 			//We need to load the json data from the json file
-			Document jsonFile = GetJSONFile(FileSystemManager::GetFilePath(fileName + ".json").string());
+			Document jsonFile = GetJSONFile(FILESYSTEM->GetFilePath(fileName + ".json").string());
 			//Once it has the data, it needs to allocate memory with the allocator
 			Document::AllocatorType& allocator = jsonFile.GetAllocator();
 			//then we pray to god the T has a serialize function
 			if (typeToSerialize.Serialize(jsonFile, allocator))
 			{
 				//then we save it to file
-				SaveToJSON(FileSystemManager::GetFilePath(fileName + ".json").string(), jsonFile);
+				SaveToJSON(FILESYSTEM->GetFilePath(fileName + ".json").string(), jsonFile);
 				return true;
 			}
-
+			
 			return false;
 		}
 
@@ -92,7 +92,7 @@ namespace LB
 			//Get the file, then deserialize! magic
 			DebuggerLog("Getting file from : " + fileName);
 			//std::cout << "Joe: " << fileDestinationMap[filePath] + fileName + ".json\n";
-			Document jsonFile = GetJSONFile(FileSystemManager::GetFilePath(fileName+".json").string());
+			Document jsonFile = GetJSONFile(FILESYSTEM->GetFilePath(fileName+".json").string());
 			typeToDeserialize.Deserialize(jsonFile);
 		}
 
@@ -113,7 +113,7 @@ namespace LB
 			std::string jsonString((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
 			inputFile.close();
 			if (_jsonFile.Parse(jsonString.c_str()).HasParseError()) { }
-			return _jsonFile;	//this should contain the parsed information
+			return std::move(_jsonFile);	//this should contain the parsed information
 		}
 
 		/*!***********************************************************************

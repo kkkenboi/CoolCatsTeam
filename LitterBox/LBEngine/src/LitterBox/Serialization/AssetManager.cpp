@@ -45,31 +45,27 @@ namespace LB
 
     void ReimportAssets()
     {
-        Document _assetJson = JSONSerializer::GetJSONFile(FileSystemManager::GetFilePath("AssetFiles.json").string());
-        Document _metaJson = JSONSerializer::GetJSONFile(FileSystemManager::GetFilePath("MetaFiles.json").string());
-        Document::AllocatorType& assetAlloc = _assetJson.GetAllocator();
+        //Document _assetJson = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("AssetFiles.json").string());
+        Document _metaJson = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("MetaFiles.json").string());
         Document::AllocatorType& metaAlloc = _metaJson.GetAllocator();
 
         //First we get all the file types 
-        std::vector<std::filesystem::path> TextureFilePaths = FileSystemManager::GetFilesOfType(".png");
-        std::vector<std::filesystem::path> SoundFilePaths = FileSystemManager::GetFilesOfType(".wav");
+        std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
+        std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
         //then we check if it's new, and import if so
         for (const auto& textureFP : TextureFilePaths)
         {
             if (ASSETMANAGER->metaFileMap.find(textureFP.string()) == ASSETMANAGER->metaFileMap.end())
             {
                 DebuggerLogFormat("FOUND NEW TEXTURE : %s, IMPORTING NOW!", textureFP.stem().string().c_str());
-                ASSETMANAGER->metaFileMap[textureFP.string()] = FileSystemManager::GetFileTime(textureFP);
+                ASSETMANAGER->metaFileMap[textureFP.string()] = FILESYSTEM->GetFileTime(textureFP);
+                ASSETMANAGER->assetMap[textureFP.filename().stem().string()] = textureFP.string();
                 //File path : file name (ID)
-                ASSETMANAGER->AddTexture(textureFP.string(), textureFP.stem().string());
+                ASSETMANAGER->AddTexture(textureFP.string(), textureFP.string());
 
                 //then we also need to update our json
-                Value key(Value(textureFP.stem().string().c_str(), assetAlloc), assetAlloc);
-                Value val(".png", assetAlloc);
                 Value metaKey(Value(textureFP.string().c_str(), metaAlloc), metaAlloc);
-                _assetJson.AddMember(key, val, metaAlloc);
-                _metaJson.AddMember(metaKey, FileSystemManager::GetFileTime(textureFP), metaAlloc);
-
+                _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(textureFP), metaAlloc);
             }
         }
         //Same thing as above but for audio
@@ -78,15 +74,12 @@ namespace LB
             if (ASSETMANAGER->metaFileMap.find(soundFP.string()) == ASSETMANAGER->metaFileMap.end())
             {
                 DebuggerLogFormat("FOUND NEW SOUND : %s, IMPORTING NOW!", soundFP.stem().string().c_str());
-                ASSETMANAGER->metaFileMap[soundFP.string()] = FileSystemManager::GetFileTime(soundFP);
+                ASSETMANAGER->metaFileMap[soundFP.string()] = FILESYSTEM->GetFileTime(soundFP);
                 //I don't check for result here because well, the filepath 100% exists
                 AUDIOMANAGER->audioSystem->createSound(soundFP.string().c_str(), FMOD_DEFAULT, nullptr, &ASSETMANAGER->SoundMap[soundFP.stem().string()]);
                 //write to json
-                Value key(Value(soundFP.stem().string().c_str(), assetAlloc), assetAlloc);
-                Value val(".wav", assetAlloc);
                 Value metaKey(Value(soundFP.string().c_str(), metaAlloc), metaAlloc);
-                _assetJson.AddMember(key, val, assetAlloc);
-                _metaJson.AddMember(metaKey, FileSystemManager::GetFileTime(soundFP), metaAlloc);
+                _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(soundFP), metaAlloc);
             }
         }
         //Assuming it's not new, we check against our current files and see if it's been updated
@@ -94,7 +87,23 @@ namespace LB
         for (const auto& metaData : ASSETMANAGER->metaFileMap)
         {
             //And we recalculate the file times for all the files in our meta map
-            int fileTime = FileSystemManager::GetFileTime(metaData.first);
+            if (!std::filesystem::exists(metaData.first))
+            {
+                std::filesystem::path deletedFile{ metaData.first };
+                if (deletedFile.filename().extension().string() == ".png")
+                {
+                    ASSETMANAGER->RemoveTexture(deletedFile.filename().stem().string());
+
+                }
+                if (deletedFile.filename().extension().string() == ".wav")
+                {
+
+                }
+                std::cout << metaData.first << "was deleted!\n";
+                ASSETMANAGER->metaFileMap[metaData.first] = -1;
+                continue;
+            }
+            int fileTime = FILESYSTEM->GetFileTime(metaData.first);
             //if there's any difference, we know it's been changed
             if (ASSETMANAGER->metaFileMap[metaData.first] != fileTime)
             {
@@ -104,7 +113,8 @@ namespace LB
                 {
                     DebuggerLogFormat("PNG file name : %s", metaFP.string().c_str());
                     ASSETMANAGER->RemoveTexture(metaFP.filename().stem().string());
-                    ASSETMANAGER->AddTexture(metaFP.filename().string(), metaFP.filename().stem().string());
+
+                    ASSETMANAGER->AddTexture(metaFP.string(), metaFP.string());
                 }
                 if (metaFP.filename().extension().string() == ".wav")
                 {
@@ -117,8 +127,8 @@ namespace LB
                 ASSETMANAGER->metaFileMap[metaData.first] = fileTime;
             }
         }
-        JSONSerializer::SaveToJSON(FileSystemManager::GetFilePath("AssetFiles.json").string(), _assetJson);
-        JSONSerializer::SaveToJSON(FileSystemManager::GetFilePath("MetaFiles.json").string(), _metaJson);
+        //JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("AssetFiles.json").string(), _assetJson);
+        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("MetaFiles.json").string(), _metaJson);
     }
     void AssetManager::Initialize()
     {
@@ -154,10 +164,9 @@ namespace LB
         //This might be dangerous, research sharedpointers 
         //TextureData* cachedTexture = new TextureData();
         std::shared_ptr<TextureData> cachedTexture = std::make_shared<TextureData>();
-
         stbi_set_flip_vertically_on_load(1);
-        std::filesystem::path texturePath = FileSystemManager::GetFilePath(fileName);
-        cachedTexture->stbBuffer = stbi_load(texturePath.string().c_str(), &cachedTexture->width, &cachedTexture->height, &cachedTexture->fluff, 4);
+        /*std::filesystem::path texturePath = FILESYSTEM->GetFilePath(fileName)*/;
+        cachedTexture->stbBuffer = stbi_load(fileName.c_str(), &cachedTexture->width, &cachedTexture->height, &cachedTexture->fluff, 4);
         if(!cachedTexture->stbBuffer)
         {
             DebuggerLogErrorFormat("Texture filepath %s not found!", fileName);
@@ -191,53 +200,47 @@ namespace LB
         //We also need to initialise the metafilemap with the the metadata, and all of this is also
         //generated when we import our assets. We should only ever call this function ONCE.
 
-        //Note that this will always recreate a new AssetFiles.json!!
-        Document _assetFile;
-        Document::AllocatorType& alloc = _assetFile.GetAllocator();
         //We want to also create/update the meta file everytime we import
         Document _metaFile;
         Document::AllocatorType& metaAlloc = _metaFile.GetAllocator();
         //Well technically, I can shove it all into one big array and do it in one loop
         //where I can literally just take the extension name and store it but... 
         //all that for super unreadable code + not much performance diff...
-        std::vector<std::filesystem::path> TextureFilePaths = FileSystemManager::GetFilesOfType(".png");
-        std::vector<std::filesystem::path> SoundFilePaths = FileSystemManager::GetFilesOfType(".wav");
+        std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
+        std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
         _metaFile.SetObject();
-        _assetFile.SetObject();
         for (const auto& t : TextureFilePaths)
         {
-            Value key(Value(t.stem().string().c_str(), alloc), alloc);
-            Value val(".png", alloc);
-            _assetFile.AddMember(key, val, alloc);
-
             Value metaKey(Value(t.string().c_str(), metaAlloc), metaAlloc);
-            std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(t);
-            int fileTime = std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch()).count();
-            _metaFile.AddMember(metaKey, fileTime, alloc);
+      /*      std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(t);
+            int fileTime = std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch()).count();*/
+            int fileTime = FILESYSTEM->GetFileTime(t);
+            _metaFile.AddMember(metaKey, fileTime, metaAlloc);
 
+            assetMap[t.filename().stem().string()] = t.string();
             metaFileMap[t.string()] = fileTime;
             //File path : file name (ID)
-            AddTexture(t.string(), t.stem().string());
+            AddTexture(t.string(), t.string());
         }
         for (const auto& s : SoundFilePaths)
         {
-            Value key(Value(s.stem().string().c_str(), alloc), alloc);
-            Value val(".wav", alloc);
-            _assetFile.AddMember(key, val, alloc);
-
             Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
-            std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(s);
-            int fileTime = std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch()).count();
-            _metaFile.AddMember(metaKey, fileTime, alloc);
+  /*          std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(s);
+            int fileTime = std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch()).count();*/
 
+            int fileTime = FILESYSTEM->GetFileTime(s);
+
+            _metaFile.AddMember(metaKey, fileTime, metaAlloc);
+
+            assetMap[s.filename().stem().string()] = s.string();
             metaFileMap[s.string()] = fileTime;
 
             //This also adds it into the sound map, all the way at the right side lol...
             AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound(s.string().c_str(), FMOD_DEFAULT, nullptr, &SoundMap[s.stem().string()]);
             if (AUDIOMANAGER->result != FMOD_OK) DebuggerLogWarningFormat("UNABLE TO FIND %s SOUND!", s.string().c_str());
         }
-        JSONSerializer::SaveToJSON(FileSystemManager::GetFilePath("AssetFiles.json").string(), _assetFile);
-        JSONSerializer::SaveToJSON(FileSystemManager::GetFilePath("MetaFiles.json").string(), _metaFile);
+       // JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("AssetFiles.json").string(), _assetFile);
+        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("MetaFiles.json").string(), _metaFile);
     }
 
 
@@ -277,13 +280,13 @@ namespace LB
 
     bool AssetManager::RemoveTexture(const std::string& name)
     {
-        if (Textures.find(name) == Textures.end())
+        if (Textures.find(assetMap[name]) == Textures.end())
         {
             DebuggerLogErrorFormat("Unable to find %s in Textures!", name);
             return false;
         }
-        TextureSlots[Textures.find(name)->second.second] = false;
-        Textures.erase(name);   //since it's a shared pointer it shoulddddd deallocate properly right???
+        TextureSlots[Textures.find(assetMap[name])->second.second] = false;
+        Textures.erase(assetMap[name]);   //since it's a shared pointer it shoulddddd deallocate properly right???
         return true;
     }
 
@@ -296,9 +299,12 @@ namespace LB
         }
     }
 
-    const int AssetManager::GetTextureUnit(const std::string& name) const
+
+
+    const int AssetManager::GetTextureUnit(const std::string& name)
     {
-        if (Textures.find(name) == Textures.end())
+        
+        if (Textures.find(assetMap[name]) == Textures.end())
         {
             DebuggerLogWarning("Texture " + name + " can't be found!");
             return -1;  //return an invalid index for a graceful fail
@@ -307,9 +313,9 @@ namespace LB
         {
             return 0;
         }
-        return Textures.find(name)->second.second;
+        return Textures.find(assetMap[name])->second.second;
     }
-    const std::string AssetManager::GetTextureName(const int& index) const
+    const std::string AssetManager::GetTextureName(const int& index)
     {
         if (index == 0)
         {
@@ -319,16 +325,17 @@ namespace LB
         {
             if (elem.second.second == index)
             {
-                return elem.first;
+                std::filesystem::path tempPath{ elem.first };
+                return tempPath.filename().stem().string();
             }
         }
         DebuggerLogWarning("Texture index : " + std::to_string(index) + " can't be found!");
         return "";
     }
 
-    const unsigned int AssetManager::GetTextureIndex(const std::string& name) const 
+    const unsigned int AssetManager::GetTextureIndex(const std::string& name) 
     {
-        if (Textures.find(name) == Textures.end())
+        if (Textures.find(assetMap[name]) == Textures.end())
         {
             DebuggerLogWarning("Texture " + name + " can't be found!");
             return -1;  //return an invalid index for a graceful fail
@@ -337,7 +344,7 @@ namespace LB
         {
             return 0;
         }
-        return Textures.find(name)->second.first->id;
+        return Textures.find(assetMap[name])->second.first->id;
     }
 
     ///*!***********************************************************************
