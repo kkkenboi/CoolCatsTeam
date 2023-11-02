@@ -149,6 +149,15 @@ unsigned int create_shader(const char* vertex_shader, const char* fragment_shade
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
 
 //--------------------------------------CPCamera----------------------------------
+
+/*!***********************************************************************
+\brief
+ Function initialises the game camera object in the scene to a single
+ camera.
+
+ NOTE: you can have multiple camera components in multiple game objects
+ but only one will affect the actual game camera
+*************************************************************************/
 void LB::CPCamera::Initialise() {
 	if (!game_cam)
 		game_cam = this;
@@ -156,6 +165,14 @@ void LB::CPCamera::Initialise() {
 		DebuggerLogError("Object already exists bozo");
 }
 
+/*!***********************************************************************
+\brief
+ Function to get the position coordinates of the transform component of
+ the game object that the game camera is attached to.
+
+\return
+ The x and y coordinates of the game object
+*************************************************************************/
 LB::Vec2<float> LB::CPCamera::getCam()
 {
 	return gameObj->GetComponent<CPTransform>()->GetPosition();
@@ -318,6 +335,11 @@ void LB::CPRender::animate()
 	uv = *animation.front().first->get_uv(frame);
 }
 
+/*!***********************************************************************
+\brief
+ set_active is an API that will toggle whether a render component will be 
+ rendered on the screen or not.
+*************************************************************************/
 void LB::CPRender::set_active()
 {
 	activated = !activated;
@@ -327,6 +349,12 @@ void LB::CPRender::set_active()
 		DebuggerLogError("GRAPHICS SYSTEM NOT INITIALIZED");
 }
 
+/*!***********************************************************************
+\brief
+ Destroy acts as the destructor for the CPRender object and is the API for
+ deallocating the resources given to the component from the RenderSystem
+ side.
+*************************************************************************/
 void LB::CPRender::Destroy()
 {
 	if (!destroyed) {
@@ -334,7 +362,10 @@ void LB::CPRender::Destroy()
 		destroyed = true;
 	}
 }
-
+/*!**********************************************************************
+\brief
+Destructor of the CPRender component.
+*************************************************************************/
 LB::CPRender::~CPRender() {
 	this->Destroy();
 }
@@ -582,6 +613,14 @@ void Renderer::Renderer::change_render_state(const LB::CPRender& object)
 {
 	index_buff.at(object.get_index()) = object.activated ? object.get_indices() : inactive_idx;
 }
+
+/*!***********************************************************************
+\brief
+ Destroy_Renderer is the function that should be called when RenderSystem
+ is going out of scope.
+
+ NOTE: Anything you want done in the destructor should be done here instead.
+*************************************************************************/
 void Renderer::Renderer::Destroy_Renderer()
 {
 	//cleanup on server side
@@ -592,12 +631,21 @@ void Renderer::Renderer::Destroy_Renderer()
 		delete[] quad_buff;
 		quad_buff = nullptr;
 	}
+	GRAPHICS = nullptr;
 }
 //----------------------------------------------RENDERER---------------------------------------------------
 
 
 //---------------------------------------------TEXTRENDERER------------------------------------------------
-Renderer::TextRenderer::TextRenderer() {
+/*!***********************************************************************
+\brief
+ Constructor will load the freetype library and font then store all the
+ character glpyh information the in the map member followed by freeing
+ of the freetype library.
+*************************************************************************/
+Renderer::TextRenderer::TextRenderer() : Characters{}, 
+tShader{}, tVao{}, tVbo{}, ft{}, font{}, active_msgs{} 
+{
 	//-------------------LOAD FONT------------------------
 	//init freetype lib
 	if (FT_Init_FreeType(&ft)) {
@@ -663,18 +711,32 @@ Renderer::TextRenderer::TextRenderer() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
+/*!***********************************************************************
+\brief
+ RenderText loads a message, loops through each character in the message and
+ renders the appropriate character in openGL using the character glyph
+ information.
 
-void Renderer::TextRenderer::RenderText(message msg) {
+\param msg
+ The message with the string and text you want to render in openGL
+*************************************************************************/
+void Renderer::TextRenderer::RenderText(message& msg) {
 	glUseProgram(tShader);
 	glUniform3f(glGetUniformLocation(tShader, "textColor"), msg.color.x, msg.color.y, msg.color.z);
 	//glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(tVao);
 
+	GLuint uni_loc = glGetUniformLocation(tShader, "projection");
+	if (uni_loc == -1)
+		DebuggerLogError("Unable to find uniform location");
+	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &GRAPHICS->get_game_cam_mat()[0][0]);
+
+	float x = msg.x;
 	//iterate through all chars
 	for (auto const& cha : msg.text) {
 		Character ch = Characters[cha];
 
-		float xpos = msg.x + ch.Bearing.x * msg.scale;
+		float xpos = x + ch.Bearing.x * msg.scale;
 		float ypos = msg.y - (ch.Size.y - ch.Bearing.y) * msg.scale;
 
 		float w = ch.Size.x * msg.scale;
@@ -698,16 +760,30 @@ void Renderer::TextRenderer::RenderText(message msg) {
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		//move to the left by the glyph advance value
-		msg.x += (ch.Advance >> 6) * msg.scale;
+		x += (ch.Advance >> 6) * msg.scale;
 	}
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+/*!***********************************************************************
+\brief
+ Destroy_TextRend will free all the data on the OpenGL side back to the
+ GPU.
+*************************************************************************/
 void Renderer::TextRenderer::Destroy_TextRend()
 {
 	glDeleteProgram(tShader);
 	glDeleteVertexArrays(1, &tVao);
 	glDeleteBuffers(1, &tVbo);
+}
+
+void Renderer::TextRenderer::update_text()
+{
+	for (auto& text : active_msgs) {
+		text->Update();
+
+		RenderText(text->get_msg());
+	}
 }
 //---------------------------------------------TEXTRENDERER------------------------------------------------
 
@@ -749,6 +825,12 @@ bool imgui_ready{ false }; // to make sure ImGui doesn't render empty
 //----------For ImGUI rendering---------------
 
 LB::CPRender* test2;
+LB::CPText* text;
+/*!***********************************************************************
+\brief
+ Initialize function from base class ISystem.
+ Does cool whacky stuff. Or not.
+*************************************************************************/
 void Renderer::RenderSystem::Initialize()
 {
 	//set the initial values for x and y for the camera
@@ -767,14 +849,6 @@ void Renderer::RenderSystem::Initialize()
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 	//-------------------------cam test---------------------------
 
-	//--------------------update text shader------------------
-	uni_loc = glGetUniformLocation(text_renderer.get_text_shader(), "projection");
-	if (uni_loc == -1)
-		DebuggerLogError("Unable to find uniform location");
-	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
-	//--------------------update text shader------------------
-
-
 	GLint uni_loc2 = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
 	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 	glUniform1iv(uni_loc2, 13, test);
@@ -787,6 +861,12 @@ void Renderer::RenderSystem::Initialize()
 	float h = (float)LB::WINDOWSSYSTEM->GetHeight();
 
 	test2 = DBG_NEW LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
+	text = DBG_NEW LB::CPText{};
+	text->Initialise();
+	text->update_msg_text("GONE FK ALR");
+	text->update_msg_color({ 0.5f, 0.4f, 0.3f });
+	text->update_msg_size(2.f);
+	text->update_msg_pos({ 20.f, 20.f });
 
 	//t_Manager.add_texture("Assets/Textures/test3.png", "pine");
 	//t_Manager.add_texture("Assets/Textures/Environment_Background.png", "bg");
@@ -836,6 +916,7 @@ void Renderer::RenderSystem::Initialize()
 	
 	imgui_ready = true;
 	//----For rendering scene onto texture for ImGUI-------------
+	delete text;
 }
 
 
@@ -894,12 +975,9 @@ void Renderer::RenderSystem::Update()
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 
 	//print all messages here
-	while (msgs.size() != 0) {
-		text_renderer.RenderText(msgs.front());
-		msgs.pop();
-	}
+	text_renderer.update_text();
+	//print all messages here
 
-	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 	glUseProgram(shader_program);
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.editor_world_NDC[0][0]);
 
@@ -914,9 +992,16 @@ void Renderer::RenderSystem::Update()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Renderer::RenderSystem::render_msg(std::string text, float x, float y, float scale, LB::Vec3<float> color) {
-	message tmp{ text, x, y, scale, color };
-	msgs.push(tmp);
+/*!***********************************************************************
+\brief
+ render_msg adds a pointer to a new text component into text renderer.
+
+\param obj
+ The text component to be rendered
+*************************************************************************/
+void Renderer::RenderSystem::render_msg(LB::CPText* obj) {
+	std::cout << "render_msg\n";
+	text_renderer.add_text_component(obj);
 }
 
 /*!***********************************************************************
@@ -1069,15 +1154,42 @@ inline void Renderer::RenderSystem::change_object_state(Renderer_Types r_type, c
 	}
 }
 
+/*!***********************************************************************
+\brief
+ update_cam will update the editor free cam for the scene view.
+
+\param xpos
+ The amount to move the camera by on the x-axis. +ve for right -ve for left
+\param ypos
+ The amount to move the camera by on the y-axis. +ve for up -ve for down
+*************************************************************************/
 void Renderer::RenderSystem::update_cam(float xpos, float ypos)
 {
 	cam.free_cam_move(LB::Vec2<float>{xpos, ypos});
 }
 
+/*!***********************************************************************
+\brief
+ fcam_zoom will change the size of the projection matrix that the free cam
+ uses. This will give the effect of zooming in and out of a location.
+
+\param amount
+ The change in zoom in percentage. 1.f means no zoom and 0.5f means zoom in
+ by half
+*************************************************************************/
 void Renderer::RenderSystem::fcam_zoom(float zoom)
 {
 	cam.free_cam_zoom(zoom);
 }
+
+/*!***********************************************************************
+\brief
+ Destroy will act as the destructor for render system and deallocate
+ The shader and call the individual renderers destroy functions.
+
+ NOTE: Anything you want to use in the destructor should be used here
+ instead.
+*************************************************************************/
 void Renderer::RenderSystem::Destroy()
 {
 	if(test2)
@@ -1177,3 +1289,66 @@ void Renderer::Texture_Manager::flush_textures()
 		free[i] = false;
 }
 //----------------------------------------------TEXTURES--------------------------------------------
+
+void LB::CPText::Initialise()
+{
+	std::cout << "Init\n";
+	Renderer::GRAPHICS->render_msg(this);
+}
+
+void LB::CPText::Destroy()
+{
+	Renderer::GRAPHICS->remove_msg(this);
+}
+
+void LB::CPText::Update()
+{
+	/*LB::Vec2<float> pos = gameObj->GetComponent<CPTransform>()->GetPosition();
+	msg.x = pos.x;
+	msg.y = pos.y;*/
+}
+
+void LB::CPText::update_msg_text(const std::string& str)
+{
+	msg.text = str;
+}
+
+void LB::CPText::update_msg_color(const LB::Vec3<float>& col)
+{
+	msg.color = col;
+}
+
+void LB::CPText::update_msg_size(float font_size)
+{
+	msg.scale = font_size;
+}
+
+void LB::CPText::update_msg_pos(const LB::Vec2<float>& pos)
+{
+	msg.x = pos.x;
+	msg.y = pos.y;
+}
+
+const std::string& LB::CPText::get_msg_text() const
+{
+	// TODO: insert return statement here
+	return msg.text;
+}
+
+const LB::Vec3<float>& LB::CPText::get_msg_color() const
+{
+	// TODO: insert return statement here
+	return msg.color;
+}
+
+const float& LB::CPText::get_msg_size() const
+{
+	// TODO: insert return statement here
+	return msg.scale;
+}
+
+Renderer::message& LB::CPText::get_msg()
+{
+	// TODO: insert return statement here
+	return msg;
+}
