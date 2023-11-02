@@ -97,6 +97,7 @@ namespace LB
         bool AddTexture(const std::string& fileName, const std::string& textureName);
         bool RemoveTexture(const std::string& name);
         void FlushTextures();
+
         //The map then maps the name to said pair like so:
         //"SpriteName" : texturePair
 
@@ -123,9 +124,9 @@ namespace LB
          * \brief 
          * Get the Texture Index object for the renderer
          **************************************************************************/
-        const int GetTextureUnit(const std::string& name) const;
-        const std::string GetTextureName(const int& index) const;
-        const unsigned int GetTextureIndex(const std::string& name) const;
+        const int GetTextureUnit(const std::string& name);
+        const std::string GetTextureName(const int& index);
+        const unsigned int GetTextureIndex(const std::string& name);
 
         //void GenerateTextureFilePathsJson();
 
@@ -146,7 +147,9 @@ namespace LB
         //Stores the meta data of all files
         //"Filepath" : timesincecreated
         std::map<std::string, int> metaFileMap;
-
+        //Stores the filepath to ID for ALL files
+        // "path : stemmed name" This is so we don't have to keep searching all the time
+        std::map<std::string, std::string> assetMap;
         /*!***********************************************************************
          * \brief Loads all prefabs from their json data and creates an instance of them
          * (TODO : Load instances directly into the GOManager!)
@@ -198,7 +201,7 @@ namespace LB
         bool TextureSlots[32]{false};
 
     };
-
+    void ReimportAssets();
     extern AssetManager* ASSETMANAGER;
 
 }

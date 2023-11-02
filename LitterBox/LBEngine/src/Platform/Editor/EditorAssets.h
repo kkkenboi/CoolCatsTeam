@@ -25,15 +25,19 @@ namespace LB
 	{
 	public:
 		EditorAssets(std::string layerName);
-
+		void Initialize() override;
 		void UpdateLayer() override;
 
 		void Destroy() {}
 
-	private:
-		std::filesystem::path defaultDirectory;			//default directory 
 		std::filesystem::path currentDirectory;			//keeps track of the current directory we're in
+		std::filesystem::path defaultDirectory;			//default directory 
+	private:
 		std::string folderPathName;
 		std::filesystem::path relativePath;			//relative pathname of the current directory
 	};
+	extern EditorAssets* EDITORASSETS;
+	void drop_callback(GLFWwindow* window, int count, const char** paths);
+
+
 }

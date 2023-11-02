@@ -20,14 +20,51 @@
 
 namespace LB
 {
+	EditorAssets* EDITORASSETS{ nullptr };
+	//forward declaration
+
+
+	void drop_callback(GLFWwindow* window, int count, const char** paths)
+	{
+		int i;
+		for (i = 0; i < count; i++)
+		{
+			std::cout << std::filesystem::path{ paths[i] } << '\n';
+			std::cout << EDITORASSETS->currentDirectory << '\n';
+			try
+			{
+				//fs::copy_file("sandbox/abc", "sandbox/def");
+				std::filesystem::path fileToCopy{ paths[i] };
+				std::filesystem::copy_file(fileToCopy, EDITORASSETS->currentDirectory/fileToCopy.filename());
+				ReimportAssets();
+				//WINDOWSSYSTEM->OnApplicationFocus.Invoke();
+			}
+			catch (std::filesystem::filesystem_error& e)
+			{
+				std::cout << "Could not copy " << paths[i] << " " << e.what() << '\n';
+			}
+		}
+	}
+
 	EditorAssets::EditorAssets(std::string layerName) : Layer(layerName) 
 	{
+		if (!EDITORASSETS)
+			EDITORASSETS = this;
+		else
+			DebuggerLogError("Editor Asset already exist!");
+
+
 		std::filesystem::path assetPath{ "Assets" };
 		currentDirectory = std::filesystem::current_path() / assetPath;
 		defaultDirectory = currentDirectory;
 		folderPathName = currentDirectory.filename().string();
-	}
 
+	}
+	void EditorAssets::Initialize()
+	{
+		glfwSetDropCallback(WINDOWSSYSTEM->GetWindow(), drop_callback);
+
+	}
 	void EditorAssets::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
@@ -126,7 +163,7 @@ namespace LB
 				{
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
-						AUDIOMANAGER->PlaySound(directory.path().filename().stem().string());
+						AUDIOMANAGER->PlaySound(FileName);
 						//Load the properties into the inspector
 					}
 				}
