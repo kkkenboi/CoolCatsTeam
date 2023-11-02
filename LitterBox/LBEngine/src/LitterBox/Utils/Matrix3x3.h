@@ -13,6 +13,7 @@
 **************************************************************************/
 
 #include "Math.h"	// For PI, sin, cos
+#include "tuple"
 
 namespace LB
 {
@@ -24,16 +25,10 @@ namespace LB
 	class Matrix3x3
 	{
 	public:
-		// Shortform alphabets for different elements
-		#define a m[0][0]
-		#define b m[0][1]
-		#define c m[0][2]
-		#define d m[1][0]
-		#define e m[1][1]
-		#define f m[1][2]
-		#define g m[2][0]
-		#define h m[2][1]
-		#define i m[2][2]
+			// Shortform alphabets for different elements
+		T	& a{ m[0][0] }, & b{ m[0][1] }, & c{ m[0][2] },
+			& d{ m[1][0] }, & e{ m[1][1] }, & f{ m[1][2] },
+			& g{ m[2][0] }, & h{ m[2][1] }, & i{ m[2][2] };
 
 		// 2D array, rows, col
 		T m[3][3];
@@ -43,6 +38,15 @@ namespace LB
 		 Default constructor, sets all elements to 0
 		*************************************************************************/
 		Matrix3x3();
+
+		/*!***********************************************************************
+		 \brief
+		 Default constructor, sets all elements to 0
+		*************************************************************************/
+		Matrix3x3(const T& am, const T& bm, const T& cm,
+				  const T& dm, const T& em, const T& fm,
+				  const T& gm, const T& hm, const T& im); //default constructor
+
 
 		/*!***********************************************************************
 		 \brief
@@ -64,7 +68,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Giving the determinant for the matrix, will use this to calculate 
+		 Giving the determinant for the matrix, will use this to calculate
 		 the inverse
 		*************************************************************************/
 		double Determinant();
@@ -83,14 +87,6 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Function to set your matrix individually
-		*************************************************************************/
-		void	  Set(const T& am, const T& bm, const T& cm,
-					  const T& dm, const T& em, const T& fm,
-					  const T& gm, const T& hm, const T& im);
-
-		/*!***********************************************************************
-		 \brief
 		 Displaying of the Matrix - usually for checking of matrix calculation
 		*************************************************************************/
 		void	  Display();
@@ -102,7 +98,7 @@ namespace LB
 		 0 y 0
 		 0 0 1
 		*************************************************************************/
-		void	  SetScale(T x, T y);							
+		void	  SetScale(T x, T y);
 
 		/*!***********************************************************************
 		 \brief
@@ -136,9 +132,9 @@ namespace LB
 		 Takes in 3 parameters for translation, rotation and scale. They will multiply to get the Transformation
 		 In order of S*R*T
 		*************************************************************************/
-		void	  SetTransform(Matrix3x3<T> const& trans, 
-							   Matrix3x3<T> const& rot, 
-							   Matrix3x3<T> const& scale);			 //Transforming the Matrix = T*R*S
+		void	  SetTransform(Matrix3x3<T> const& trans,
+			Matrix3x3<T> const& rot,
+			Matrix3x3<T> const& scale);			 //Transforming the Matrix = T*R*S
 
 		/*!***********************************************************************
 		 \brief
@@ -147,9 +143,9 @@ namespace LB
 		Matrix3x3 operator*	(Matrix3x3<T> rhs) const; //MATRIX(itself) * MATRIX
 
 		//additional operators that may need in the future
-		//Matrix3x3 operator=	 (Matrix3x3<T> rhs) const; //EQUAL TO MATRIX
-		//Vec2<T> operator*	 (Vec2<T> rhs); //MATRIX * VECTOR2
-		//Vec3<T> operator*	 (Vec3<T> rhs); //MATRIX * VECTOR3
+		Matrix3x3& operator= (Matrix3x3<T> rhs); //EQUAL TO MATRIX
+		Vec2<T> operator*	 (Vec2<T> rhs); //MATRIX * VECTOR2
+		Vec3<T> operator*	 (Vec3<T> rhs); //MATRIX * VECTOR3
 	};
 
 	/****************************************NON-MEMBER*****************************************/
@@ -179,7 +175,7 @@ namespace LB
 	 0 0 1
 	*************************************************************************/
 	template<typename T>
-	Matrix3x3<T> SetScale	 (T x, T y); //scaling of matrix
+	Matrix3x3<T> SetScale(T x, T y); //scaling of matrix
 
 	/*!***********************************************************************
 	 \brief
@@ -237,7 +233,7 @@ namespace LB
 
 	/*!***********************************************************************
 	  \brief
-	 Default Constructor that constructs all elements in the Matrix to be set to 0.
+	 Default Constructor that initialise elements in the Matrix to be set to 0.
 	 0 0 0
 	 0 0 0
 	 0 0 0
@@ -247,7 +243,27 @@ namespace LB
 	template<typename T>
 	Matrix3x3<T>::Matrix3x3()
 	{
-		Zero();
+		a = b = c = d = e = f = g = h = i = (T)0;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	 Constructor that sets elements in the Matrix.
+	 a b c
+	 d e f
+	 g h i
+	 \return
+	 Matrix3x3
+	*************************************************************************/
+	template<typename T>
+	Matrix3x3<T>::Matrix3x3(const T& am, const T& bm, const T& cm,
+		const T& dm, const T& em, const T& fm,
+		const T& gm, const T& hm, const T& im)
+	{
+		//Zero();
+		a = am; b = bm; c = cm;
+		d = dm; e = em; f = fm;
+		g = gm; h = hm; i = im;
 	}
 
 	/*!***********************************************************************
@@ -257,49 +273,79 @@ namespace LB
 	 \return
 	 Matrix3x3
 	*************************************************************************/
-	template<typename T> //MATRIX * MATRIX
+	template<typename T>
 	Matrix3x3<T> Matrix3x3<T>::operator*(Matrix3x3<T> rhs) const
 	{
-		Matrix3x3 result;
-		for (int row = 0; row < 3; ++row)
+		Matrix3x3<T> result;
+		for (int i = 0; i < 3; ++i)
 		{
-			for (int col = 0; col < 3; ++col)
+			for (int j = 0; j < 3; ++j)
 			{
-				result.m[row][col] = m[row][col] * rhs.m[row][col];
+				result.m[i][j] = 0;
+				for (int k = 0; k < 3; ++k)
+				{
+					result.m[i][j] += m[i][k] * rhs.m[k][j];
+				}
 			}
 		}
 		return result;
 	}
 
-	// template<typename T>
-	// Matrix3x3<T> Matrix3x3<T>::operator=(Matrix3x3<T> rhs) const //EQUAL TO MATRIX
-	// {
-	// 	Matrix3x3 result;
-	// 	for (int row = 0; row < 3; ++row)
-	// 	{
-	// 		for (int col = 0; col < 3; ++col)
-	// 		{
-	// 			result.m[row][col] = rhs.m[row][col];
-	// 		}
-	// 	}
-	// 	return result;
-	// }
+	/*!***********************************************************************
+	 \brief
+	 Member Basic operator =
+	 Where it sets a matrix to itself
+	 \return
+	 Matrix3x3
+	*************************************************************************/
+	template<typename T> //MATRIX * MATRIX
+	Matrix3x3<T>& Matrix3x3<T>::operator=(Matrix3x3<T> rhs) //EQUAL TO MATRIX
+	{
+		for (int row = 0; row < 3; ++row)
+		{
+			for (int col = 0; col < 3; ++col)
+			{
+				m[row][col] = rhs.m[row][col];
+			}
+		}
+		return *this;
+	}
 
 	/*!***********************************************************************
 	 \brief
-	 Member Set function
-	 that takes in each element from the parameter to the matrix and set individually.
+	 Member Basic operator *
+	 Where it multiplies Matrix and a Vec2
 	 \return
-	 void
+	 Matrix3x3
 	*************************************************************************/
 	template<typename T>
-	void Matrix3x3<T>::Set(const T& am, const T& bm, const T& cm,
-		const T& dm, const T& em, const T& fm,
-		const T& gm, const T& hm, const T& im)
+	Vec2<T> Matrix3x3<T>::operator*(Vec2<T> rhs) //MATRIX * VECTOR2
 	{
-		a = am; b = bm; c = cm;
-		d = dm; e = em; f = fm;
-		g = gm; h = hm; i = im;
+		Vec2<T> result;
+
+		result.x = this->a * rhs.x + this->b * rhs.y + this->c; // x = (a*x) + (b*y) + (c*z)
+		result.y = this->d * rhs.x + this->e * rhs.y + this->f; // y = (d*x) + (e*y) + (f*z)
+
+		return result;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Member Basic operator *
+	 Where it multiplies Matrix and a Vec3
+	 \return
+	 Matrix3x3
+	*************************************************************************/
+	template<typename T>
+	Vec3<T> Matrix3x3<T>::operator*(Vec3<T> rhs) //MATRIX * VECTOR3
+	{
+		Vec3<T> result;
+
+		result.x = this->a * rhs.x + this->b * rhs.y + this->c * rhs.z;
+		result.y = this->d * rhs.x + this->e * rhs.y + this->f * rhs.z;
+		result.z = 1;
+
+		return result;
 	}
 
 	/*!***********************************************************************
@@ -310,7 +356,7 @@ namespace LB
 	 Matrix3x3
 	*************************************************************************/
 	template<typename T>
-	Matrix3x3<T> Matrix3x3<T>::Zero()
+	Matrix3x3<T> Matrix3x3<T>::Zero() //WORK
 	{
 		for (int x = 0; x < 3; ++x)
 		{
@@ -333,7 +379,7 @@ namespace LB
 	 Matrix3x3
 	*************************************************************************/
 	template<typename T>
-	Matrix3x3<T> Matrix3x3<T>::Identity()
+	Matrix3x3<T> Matrix3x3<T>::Identity() //OK
 	{
 		Zero();
 		a = 1;
@@ -370,22 +416,22 @@ namespace LB
 		T det = Determinant();
 		if (det == 0)
 		{
-			DebuggerLogError("Trying to inverse a matrix with det <= 0!");
 			return *this;
 		}
+
 		Matrix3x3<T> inverseMatrix;
 
-		inverseMatrix.a =	(e * i - h * f) / det;
-		inverseMatrix.b = -	(b * i - c * h) / det;
-		inverseMatrix.c =	(b * f - c * e) / det;
+		inverseMatrix.a = (e * i - h * f) / det;
+		inverseMatrix.b = -(b * i - c * h) / det;
+		inverseMatrix.c = (b * f - c * e) / det;
 
-		inverseMatrix.d = -	(d * i - f * g) / det;
-		inverseMatrix.e =	(a * i - c * g) / det;
-		inverseMatrix.f = -	(a * f - c * d) / det;
+		inverseMatrix.d = -(d * i - f * g) / det;
+		inverseMatrix.e = (a * i - c * g) / det;
+		inverseMatrix.f = -(a * f - c * d) / det;
 
-		inverseMatrix.g =	(d * h - e * g) / det;
-		inverseMatrix.h = -	(a * h - b * g) / det;
-		inverseMatrix.i =	(a * e - d * b) / det;
+		inverseMatrix.g = (d * h - e * g) / det;
+		inverseMatrix.h = -(a * h - b * g) / det;
+		inverseMatrix.i = (a * e - d * b) / det;
 
 		*this = inverseMatrix;
 		return *this;
@@ -500,7 +546,7 @@ namespace LB
 	}
 
 	/*!***********************************************************************
-	 \brief 
+	 \brief
 	 Member SetTransform function
 	 Transforming of the Matrix, where you multiply S*R*T
 
@@ -524,7 +570,7 @@ namespace LB
 	*************************************************************************/
 	//This is for printing of Matrix
 	template <typename T>
-	void Matrix3x3<T>::Display() 
+	void Matrix3x3<T>::Display()
 	{
 		for (int row = 0; row < 3; ++row)
 		{
@@ -551,12 +597,16 @@ namespace LB
 	template<typename T>
 	Matrix3x3<T> operator*(Matrix3x3<T> lhs, Matrix3x3<T> rhs)
 	{
-		Matrix3x3 result;
-		for (int row = 0; row < 3; ++row)
+		Matrix3x3<T> result;
+		for (int i = 0; i < 3; ++i)
 		{
-			for (int col = 0; col < 3; ++col)
+			for (int j = 0; j < 3; ++j)
 			{
-				result = lhs.m[row][col] * rhs.m[row][col];
+				result.m[i][j] = 0;
+				for (int k = 0; k < 3; ++k)
+				{
+					result.m[i][j] += lhs.m[i][k] * rhs.m[k][j];
+				}
 			}
 		}
 		return result;
@@ -572,7 +622,7 @@ namespace LB
 	template<typename T> //MATRIX * VECTOR2
 	Vec2<T> operator*(Matrix3x3<T> lhs, Vec2<T> rhs)
 	{
-		Vec2 result;
+		Vec2<T> result;
 
 		result.x = lhs.a * rhs.x + lhs.b * rhs.y + lhs.c; // x = (a*x) + (b*y) + (c*z)
 		result.y = lhs.d * rhs.x + lhs.e * rhs.y + lhs.f; // y = (d*x) + (e*y) + (f*z)
@@ -590,7 +640,7 @@ namespace LB
 	template<typename T> //MATRIX * VECTOR3
 	Vec3<T> operator*(Matrix3x3<T> lhs, Vec3<T> rhs)
 	{
-		Vec3 result;
+		Vec3<T> result;
 
 		result.x = lhs.a * rhs.x + lhs.b * rhs.y + lhs.c * rhs.z;
 		result.y = lhs.d * rhs.x + lhs.e * rhs.y + lhs.f * rhs.z;
