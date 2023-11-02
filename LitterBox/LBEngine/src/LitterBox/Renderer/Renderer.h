@@ -337,9 +337,23 @@ namespace Renderer {
 		*************************************************************************/
 		void change_render_state(const LB::CPRender& object);
 
+		/*!***********************************************************************
+		\brief
+		 Destroy_Renderer deallocates all memory on the freestore that the
+		 Renderer uses. The function also releases the vertex array, index buffer
+		 and vertex buffer back to the GPU.
+
+		 NOTE: done here instead of destructor because destructor is not getting
+		 invoked.
+		*************************************************************************/
 		void Destroy_Renderer();
 	};
 
+	/*!***********************************************************************
+	\brief
+	 Character is a structure containing information of each character glyph
+	 in a font include how far to the right the next character will be.
+	*************************************************************************/
 	struct Character {
 		unsigned int TextureID;
 		LB::Vec2<unsigned int> Size;
@@ -347,25 +361,80 @@ namespace Renderer {
 		unsigned int Advance;
 	};
 
-	struct message {
-		std::string text;
-		float x, y, scale;
-		LB::Vec3<float> color;
-	};
+	/*!***********************************************************************
+	\brief
+	 TextRenderer class handles the loading of fonts, character glyph informations
+	 and text printing on the screen.
 
+	 NOTE: the text only prints on the game view and not the scene view
+	*************************************************************************/
 	class TextRenderer {
 	private:
+		//map of character glyph information with the key being the character
 		std::map<char, Character> Characters;
 		
+		//openGL handles
 		unsigned int tShader, tVao, tVbo;
 
+		//Necessary freetype variables to load font
 		FT_Library ft;
 		FT_Face font;
+
+		//list to store all text components
+		std::list<LB::CPText*> active_msgs;
 	public:
+
+		/*!***********************************************************************
+		\brief
+		 Constructor will load the freetype library and font then store all the
+		 character glpyh information the in the map member followed by freeing
+		 of the freetype library.
+		*************************************************************************/
 		TextRenderer();
-		void RenderText(message msg);
+
+		/*!***********************************************************************
+		\brief
+		 RenderText loads a message, loops through each character in the message and
+		 renders the appropriate character in openGL using the character glyph
+		 information.
+
+		\param msg
+		 The message with the string and text you want to render in openGL
+		*************************************************************************/
+		void RenderText(message& msg);
+
+		/*!***********************************************************************
+		\brief
+		 Destroy_TextRend will free all the data on the OpenGL side back to the
+		 GPU.
+		*************************************************************************/
 		void Destroy_TextRend();
+
+		/*!***********************************************************************
+		\brief
+		 Getter method to get the handle to the shader program for the text renderer.
+		*************************************************************************/
 		inline const unsigned int get_text_shader() const { return tShader; }
+
+		/*!***********************************************************************
+		\brief
+		 Adds pointer to a text component into the active object list.
+
+		\param obj
+		 Pointer to the text object component
+		*************************************************************************/
+		inline void add_text_component(LB::CPText* obj) { if (obj) active_msgs.emplace_back(obj); std::cout << active_msgs.size() << '\n'; }
+
+		/*!***********************************************************************
+		\brief
+		 Removes pointer to a text component from the active object list.
+
+		\param obj
+		 Pointer to the text object component
+		*************************************************************************/
+		inline void remove_text_component(LB::CPText* obj) { if(obj) active_msgs.remove(obj); }
+	
+		void update_text();
 	};
 
 	//The actual system that will get initialized into the engine
@@ -558,13 +627,74 @@ namespace Renderer {
 		*************************************************************************/
 		inline void change_object_state(Renderer_Types r_type, const LB::CPRender* obj);
 
-		void render_msg(std::string text, float x, float y, float scale, LB::Vec3<float> color);
+		/*!***********************************************************************
+		\brief
+		 render_msg adds a pointer to a new text component into text renderer.
 
+		\param obj
+		 The text component to be rendered
+		*************************************************************************/
+		void render_msg(LB::CPText* obj);
+
+		/*!***********************************************************************
+		\brief
+		 remove_msg removes a pointer to a text component from the text renderer.
+
+		\param obj
+		 The text component to be removed
+		*************************************************************************/
+		inline void remove_msg(LB::CPText* obj) { text_renderer.remove_text_component(obj); }
+
+		/*!***********************************************************************
+		\brief
+		 update_cam will update the editor free cam for the scene view.
+
+		\param xpos
+		 The amount to move the camera by on the x-axis. +ve for right -ve for left
+		\param ypos
+		 The amount to move the camera by on the y-axis. +ve for up -ve for down
+		*************************************************************************/
 		void update_cam(float xpos, float ypos);
+
+		/*!***********************************************************************
+		\brief
+		 fcam_zoom will change the size of the projection matrix that the free cam
+		 uses. This will give the effect of zooming in and out of a location.
+
+		\param amount
+		 The change in zoom in percentage. 1.f means no zoom and 0.5f means zoom in
+		 by half
+		*************************************************************************/
 		void fcam_zoom(float amount); //1.f means no zoom
 
+		/*!***********************************************************************
+		\brief
+		 get_cam_mat is a getter function that will return the matrix of the free
+		 cam of the scene view
+
+		\return
+		 returns the 4x4 matrix of the freecam editor
+		*************************************************************************/
 		inline auto get_cam_mat() { return cam.editor_world_NDC; }
 
+		/*!***********************************************************************
+		\brief
+		 get_game_cam_mat is a getter function that will return the matrix of the free
+		 cam of the scene view
+
+		\return
+		 returns the 4x4 matrix of the freecam editor
+		*************************************************************************/
+		inline auto get_game_cam_mat() { return cam.world_NDC; }
+
+		/*!***********************************************************************
+		\brief 
+		 Destroy will act as the destructor for render system and deallocate
+		 The shader and call the individual renderers destroy functions.
+
+		 NOTE: Anything you want to use in the destructor should be used here
+		 instead.
+		*************************************************************************/
 		void Destroy() override;
 	};
 

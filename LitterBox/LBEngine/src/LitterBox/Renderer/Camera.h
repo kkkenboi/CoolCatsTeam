@@ -104,8 +104,23 @@ namespace Renderer {
 			nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });
 			world_NDC = ortho * nel;
 		}
+		/*!***********************************************************************
+		\brief
+		 Function to update the free cam projection matrix to either zoom further
+		 into the scene view or further away.
 
+		\param zoom
+		 The zoom in percentage. 1.f = normal, 0.5f = zoomed in, 1.5f = zoomed out
+		*************************************************************************/
 		void free_cam_zoom(float zoom = 1.f);
+		/*!***********************************************************************
+		\brief
+		 free_cam_move moves the free cam in the scene view
+
+		\param new_pos
+		 The direction and movement vector that adds to the camera's current
+		 position
+		*************************************************************************/
 		void free_cam_move(LB::Vec2<float> new_pos);
 	};
 	//----------------------------------------CAMERA-----------------------------------

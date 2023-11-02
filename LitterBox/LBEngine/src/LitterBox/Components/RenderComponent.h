@@ -218,6 +218,12 @@ namespace LB
 		*************************************************************************/
 		void set_active();
 
+		/*!***********************************************************************
+		\brief
+		 Destroy acts as the destructor for the CPRender object and is the API for
+		 deallocating the resources given to the component from the RenderSystem
+		 side.
+		*************************************************************************/
 		inline void Destroy() override;
 	};
 }
