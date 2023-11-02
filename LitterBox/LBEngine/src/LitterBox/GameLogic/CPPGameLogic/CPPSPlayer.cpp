@@ -60,25 +60,30 @@ namespace LB
 	{
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
 		{
+			AUDIOMANAGER->PlaySound("Enemy hurt");
 			rend->stop_anim();
 			rend->play_repeat("up_walk");
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A))
 		{
+			AUDIOMANAGER->PlaySound("Oof");
 			rend->stop_anim();
 			rend->play_repeat("left_walk");
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D))
 		{
+			AUDIOMANAGER->PlaySound("Oof");
 			rend->stop_anim();
 			rend->play_repeat("right_walk");
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S))
 		{
+			AUDIOMANAGER->PlaySound("EXPLOSION");
 			rend->stop_anim();
 			rend->play_repeat("down_walk");
 		}
 
+		// Movement WASD
 		if (INPUT->IsKeyPressed(KeyCode::KEY_W))
 		{
 			rb->addForce(Vec2<float>{0.f, 5000.f});
@@ -96,6 +101,13 @@ namespace LB
 			rb->addForce(Vec2<float>{5000.f, 0.f});
 		}
 		
+		// Click check
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
+		{
+			DebuggerLogWarning("Mouse 1 is pressed!");
+		}
+
+		// Pushes everything away from the player in a circle
 		if (INPUT->IsKeyPressed(KeyCode::KEY_F))
 		{
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();

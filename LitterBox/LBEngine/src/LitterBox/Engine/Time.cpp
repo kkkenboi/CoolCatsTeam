@@ -9,6 +9,7 @@
 **************************************************************************/
 
 #include "Time.h"
+#include "LitterBox/Core/Core.h"
 
 namespace LB {
 	Time* TIME = nullptr;
@@ -125,10 +126,9 @@ namespace LB {
 	*************************************************************************/
 	void Time::AccumulateFixedUpdate()
 	{
-		if (!IsPaused())
-		{
-			m_accumulatedTime += m_unscaledDeltaTime;
-		}
+		if (IsPaused() || !CORE->IsPlaying()) return;
+
+		m_accumulatedTime += m_unscaledDeltaTime;
 	}
 
 	/*!***********************************************************************

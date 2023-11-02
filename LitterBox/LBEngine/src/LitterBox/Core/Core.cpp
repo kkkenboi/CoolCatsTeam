@@ -61,8 +61,6 @@ namespace LB
 		{
 			TIME->LBFrameStart();
 			{
-				//Profiler frameProfiler{ "Total Frame Time", ProfileResult::MANAGER, ProfileMap::SYSTEMS };
-
 				// Update every system every fixed timestep (Usually for physics)
 				TIME->AccumulateFixedUpdate();
 				while (TIME->ShouldFixedUpdate()) 

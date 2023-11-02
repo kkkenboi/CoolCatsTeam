@@ -212,12 +212,11 @@ namespace LB
         }
 
         mPosition = transform->GetPosition();
+        mRotation = transform->GetRotation();
 
         // Semi-implicit euler system
         this->UpdateRigidBodyVel(time);
         this->UpdateRigidBodyPos(time);
-
-        transform->SetPosition(mPosition);
     }
 
     void CPRigidBody::Destroy()

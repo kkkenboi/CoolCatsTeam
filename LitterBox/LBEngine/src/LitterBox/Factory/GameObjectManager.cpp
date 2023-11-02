@@ -52,7 +52,6 @@ namespace LB
 	void GameObject::Destroy()
 	{
 		//std::cout << "Deleted " << m_name << " Children count " << GetComponent<CPTransform>()->GetChildCount() << "\n";
-
 		//// Delete children GO first if any
 		//for (int index{ GetComponent<CPTransform>()->GetChildCount() - 1 }; index >= 0; --index)
 		//{
@@ -335,6 +334,7 @@ namespace LB
 	*************************************************************************/
 	void GameObjectManager::Destroy()
 	{
+		DestroyAllDDOLGOs();
 		DestroyAllGOs();
 		DebuggerLog("GameObject Manager destructed");
 	}
@@ -346,11 +346,10 @@ namespace LB
 	 \return
 	 All current GameObjects
 	*************************************************************************/
-	std::vector<GameObject*> GameObjectManager::GetGameObjects() const
+	std::vector<GameObject*> const& GameObjectManager::GetGameObjects() const
 	{
 		return m_GameObjects;
 	}
-
 	/*!***********************************************************************
 	 \brief
 	 Adds a GameObject to the current pool of GameObjects
@@ -395,6 +394,44 @@ namespace LB
 		// Set size of game objects to empty
 		m_GameObjects.clear();
 
-		DebuggerLog("All GOs deleted");
+		DebuggerLog("[GOManager] All GOs deleted");
+	}
+
+	std::vector<GameObject*> const& GameObjectManager::GetDDOLGameObjects() const
+	{
+		return m_DDOLGameObjects;
+	}
+
+	void GameObjectManager::AddDDOLGameObject(GameObject* gameObject)
+	{
+		m_DDOLGameObjects.push_back(gameObject);
+	}
+
+	void GameObjectManager::RemoveDDOLGameObject(GameObject* gameObject)
+	{
+		auto it = std::find(m_DDOLGameObjects.begin(), m_DDOLGameObjects.end(), gameObject);
+		if (it != m_DDOLGameObjects.end())
+		{
+			m_DDOLGameObjects.erase(it);
+			gameObject->Destroy();
+		}
+		else
+		{
+			DebuggerLogErrorFormat("[GO Manager] Tried to delete invalid DDOL GO \"%s\"", gameObject->GetName().c_str());
+		}
+	}
+
+	void GameObjectManager::DestroyAllDDOLGOs()
+	{
+		// Destroying gameobjects
+		for (int i{ (int)m_DDOLGameObjects.size() - 1 }; i >= 0; --i)
+		{
+			RemoveDDOLGameObject(m_DDOLGameObjects[i]);
+		}
+
+		// Set size of game objects to empty
+		m_DDOLGameObjects.clear();
+
+		DebuggerLog("[GOManager] All DDOL GOs deleted");
 	}
 }
