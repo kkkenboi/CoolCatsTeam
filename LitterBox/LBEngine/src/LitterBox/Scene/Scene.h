@@ -57,6 +57,7 @@ namespace LB
 
 		void Save()
 		{
+			DebuggerLogFormat("Saving scene %s", m_name.c_str());
 			JSONSerializer::SerializeToFile(m_name, *this);
 		}
 

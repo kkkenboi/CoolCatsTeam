@@ -26,7 +26,8 @@
                 "RigidBody": {
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Density": 10.0
+                    "Density": 10.0,
+                    "IsStatic": false
                 },
                 "Render": {
                     "Texture": 7
