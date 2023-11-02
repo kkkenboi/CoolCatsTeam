@@ -17,6 +17,7 @@
 #include "EditorAssets.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Scene/SceneManager.h"
+#include "EditorInspector.h"
 
 namespace LB
 {
@@ -26,6 +27,7 @@ namespace LB
 
 	void drop_callback(GLFWwindow* window, int count, const char** paths)
 	{
+		UNREFERENCED_PARAMETER(window);
 		int i;
 		for (i = 0; i < count; i++)
 		{
@@ -68,7 +70,7 @@ namespace LB
 	void EditorAssets::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
-		float panelWidth = ImGui::GetContentRegionAvail().x;
+		//float panelWidth = ImGui::GetContentRegionAvail().x;
 		ImGui::Text(folderPathName.c_str());	//this puts the text for the filepath "Assets/Textures/fhksjfh"
 		ImGui::SameLine(0,69.f);
 		ImGui::Text("Files");
@@ -105,19 +107,19 @@ namespace LB
 		//Now we deal with the files in the next column
 		ImGui::NextColumn();
 		//Might need to make like a new column count thing??? hmm...
-		int columnCount{ 5 };
-		int currentCount{ 0 };
+		//int columnCount{ 5 };
+		//int currentCount{ 0 };
 
 		//We iterate though the current directory once again but this time we show if it's NOT a folder
 		for (auto& directory : std::filesystem::directory_iterator(currentDirectory))
 		{
 			if (!directory.is_directory())
 			{
-				currentCount++;
+				//currentCount++;
 				std::string FileName = directory.path().filename().stem().string();
 				ImGui::PushID(FileName.c_str());
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-				//ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string().c_str()), { 64,64 }, { 0,1 }, { 1,0 });
+				
 				if (directory.path().extension().string() == ".png")
 				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()), {64,64}, {0,1}, {1,0});
 				else if (directory.path().extension().string() == ".wav")
@@ -151,7 +153,13 @@ namespace LB
 						}
 						else //that means it's a prefab instead
 						{
+							EDITORINSPECTOR->isPrefab = true;
 							DebuggerLog(directory.path().filename().string());
+							
+							GameObject* prefab = FACTORY->SpawnGameObject({}, GOSpawnType::FREE_FLOATING);
+							JSONSerializer::DeserializeFromFile(FileName.c_str(), *prefab);
+							prefab->SetName(FileName.c_str());
+							EDITORINSPECTOR->UpdateInspectedGO(prefab);
 						}
 					}
 				}

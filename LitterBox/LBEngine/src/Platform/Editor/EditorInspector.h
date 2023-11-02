@@ -40,7 +40,7 @@ namespace LB
         GameObject* GetInspectedGO();
 
         bool IsGOInspected();
-
+        bool isPrefab = false;
     private:
         GameObject* m_inspectedGO{ nullptr };
         char m_inspectedName[256]{}, m_nameBuffer1[64]{};
