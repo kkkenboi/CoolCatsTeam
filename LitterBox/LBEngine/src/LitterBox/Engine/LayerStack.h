@@ -52,19 +52,19 @@ namespace LB
 		 \brief
 		 Adds a layer to the LayerStack
 		*************************************************************************/
-		void AddLayer(std::unique_ptr<Layer> layer);
+		void AddLayer(std::shared_ptr<Layer> layer);
 
 		/*!***********************************************************************
 		 \brief
 		 Ensures that the layer is the last layer of the LayerStack
 		*************************************************************************/
-		void MakeLayerOverlay(std::unique_ptr<Layer> layer);
+		void MakeLayerOverlay(std::shared_ptr<Layer> layer);
 
 		/*!***********************************************************************
 		 \brief
 		 Removes a layer to the LayerStack
 		*************************************************************************/
-		void RemoveLayer(std::unique_ptr<Layer> layer);
+		void RemoveLayer(std::shared_ptr<Layer> layer);
 
 		void Destroy();
 
@@ -72,14 +72,14 @@ namespace LB
 		 \brief
 		 Provides the start of the LayerStack
 		*************************************************************************/
-		std::vector<std::unique_ptr<Layer>>::iterator begin();
+		std::vector<std::shared_ptr<Layer>>::iterator begin();
 		/*!***********************************************************************
 		 \brief
 		 Provides the end of the LayerStack
 		*************************************************************************/
-		std::vector<std::unique_ptr<Layer>>::iterator end();
+		std::vector<std::shared_ptr<Layer>>::iterator end();
 
-		std::vector<std::unique_ptr<Layer>> m_Layers{};
+		std::vector<std::shared_ptr<Layer>> m_Layers{};
 	private:
 		unsigned int		m_LayerIndex{};
 	};

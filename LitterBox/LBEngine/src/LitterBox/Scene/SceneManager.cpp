@@ -81,6 +81,21 @@ namespace LB
 
 	void SceneManager::LoadScene(Scene* newScene)
 	{
+		if (CORE->IsPlaying())
+		{
+			DebuggerLogWarningFormat("Tried to load new scene %s while scene %s is running.", newScene->GetName().c_str(), m_currentScene->GetName().c_str());
+			MEMORY->Deallocate(newScene);
+			return;
+		}
+
+		// TODO: Confirm first before saving
+		if (m_currentScene) {
+			if (m_isReloading)
+				m_isReloading = false;
+			else
+				m_currentScene->Save();
+		}
+
 		// Free current scene first
 		if (m_currentScene) {
 			m_currentScene->Destroy();
@@ -93,16 +108,18 @@ namespace LB
 		m_currentScene->Init();
 	}
 
+	void SceneManager::ReloadScene()
+	{
+		m_isReloading = true;
+		LoadScene(m_currentScene->GetName());
+	}
+
 	void SceneManager::SceneOnPlayToggle(bool isPlaying)
 	{
 		if (isPlaying)
-		{
 			m_currentScene->Save();
-		}
 		else
-		{
-			LoadScene(m_currentScene->GetName());
-		}
+			ReloadScene();
 	}
 
 	// For event subscription

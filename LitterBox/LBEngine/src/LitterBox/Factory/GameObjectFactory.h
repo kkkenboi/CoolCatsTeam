@@ -25,6 +25,12 @@ namespace LB
 {
 	class Scene;
 
+	enum class GOSpawnType
+	{
+		SCENE_BOUNDED,	// GO is destroyed when scene is destroyed
+		FREE_FLOATING	// GO is not tied to any scene
+	};
+
 	/*!***********************************************************************
 	 \brief
 	 FactorySystem class allows the creation of GameObjects with components
@@ -68,32 +74,39 @@ namespace LB
 		 \brief
 		 Delete all ComponentMakers from all GameObjects 
 		*************************************************************************/
-		void DeleteAllCMs(std::map<ComponentTypeID, ComponentMaker*> ComponentMakers);
+		void DeleteAllCMs();
 
 		/*!***********************************************************************
 		 \brief
 		 Spawns a GameObject with no components but specified position
 		*************************************************************************/
-		GameObject* SpawnGameObject(Vec2<float> pos = { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f });
+		GameObject* SpawnGameObject(Vec2<float> pos = { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f }, GOSpawnType spawnType = GOSpawnType::SCENE_BOUNDED);
+
+		/*!***********************************************************************
+		 \brief
+		 Spawns a GameObject with components but no specified position, and specified
+		 spawn type
+		*************************************************************************/
+		GameObject* SpawnGameObject(std::initializer_list<ComponentTypeID> components, GOSpawnType spawnType);
 
 		/*!***********************************************************************
 		 \brief
 		 Spawns a GameObject with specified components and position
 		*************************************************************************/
 		GameObject* SpawnGameObject(std::initializer_list<ComponentTypeID> components,
-									Vec2<float> pos = { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f });
+									Vec2<float> pos = { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f }, GOSpawnType spawnType = GOSpawnType::SCENE_BOUNDED);
 
 		/*!***********************************************************************
 		 \brief
 		 Spawns a GameObject with the exact same components as the provided GameObject
 		*************************************************************************/
-		GameObject* SpawnGameObject(GameObject* prefab);
+		GameObject* SpawnGameObject(GameObject* prefab, GOSpawnType spawnType = GOSpawnType::SCENE_BOUNDED);
 
 		/*!***********************************************************************
 		 \brief
 		 Gets all of the ComponentMakers
 		*************************************************************************/
-		std::map<ComponentTypeID, ComponentMaker*> GetCMs() const;
+		std::map<ComponentTypeID, ComponentMaker*>& GetCMs();
 
 		/*!***********************************************************************
 		 \brief

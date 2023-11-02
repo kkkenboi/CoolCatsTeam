@@ -15,6 +15,7 @@
  disclosure of this file or its contents without the prior written consent
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
+
 #pragma once
 
 #include <imgui.h>
@@ -34,18 +35,10 @@ namespace LB
 
 		void Initialize()	override;
 		void Update()		override;
-		void FixedUpdate()	override;
 		void Destroy()		override;
 
-		GameObject* GetMousePicker();
-		void SetObjectPicked(GameObject* obj);
-		void SetMousePos(Vec2<float> pos);
-		bool m_Clicking{};
-		bool m_InSceneView{};
 	private:
 		LayerStack m_ImGuiLayers;
-		
-		GameObject* m_MousePicker;
 	};
 
 	extern Editor* EDITOR;

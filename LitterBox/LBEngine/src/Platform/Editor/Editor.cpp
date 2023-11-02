@@ -33,7 +33,6 @@
 
 #include "implot.h"
 
-
 #include "windows.h"
 #include <crtdbg.h> 
 
@@ -58,7 +57,6 @@ namespace LB
 			DebuggerLogError("Editor System already exists!");
 
 		SetSystemName("Editor System");
-		m_MousePicker = nullptr;
 
 		//_CrtMemCheckpoint(&sOld); //take a snapshot
 
@@ -74,19 +72,20 @@ namespace LB
 		//	_CrtDumpMemoryLeaks();
 		//}
 
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorToolBar>("ToolBar")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorInspector>("Inspector")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorHierarchy>("Hierarchy")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorGameView>("Game View")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorSceneView>("Scene View")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorConsole>("Console")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorProfiler>("Profiler")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorAssets>("Assets")));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorToolBar>("ToolBar"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorInspector>("Inspector"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorHierarchy>("Hierarchy"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorGameView>("Game View"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorSceneView>("Scene View"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorConsole>("Console"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorProfiler>("Profiler"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorAssets>("Assets"));
 	}
 
 	void Editor::Initialize()
 	{
-		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		// Do not re-enable until M3!
+		//INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();
@@ -108,13 +107,6 @@ namespace LB
 
 		// Call Initialize for all layers in the layerstack
 		m_ImGuiLayers.InitializeLayers();
-
-		// Create a mouse game object with transform and collider component
-		m_MousePicker = FACTORY->SpawnGameObject({ 0.f,0.f });
-		m_MousePicker->GetComponent<CPTransform>()->SetScale({ 0.1f,0.1f });
-
-		m_MousePicker->AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
-		m_MousePicker->GetComponent<CPCollider>()->Initialise();
 	}
 
 	void Editor::Update()
@@ -220,7 +212,7 @@ namespace LB
 
 
 			// Update all the ImGui layers here
-			for (std::unique_ptr<Layer>& layer : m_ImGuiLayers)
+			for (std::shared_ptr<Layer>& layer : m_ImGuiLayers)
 			{
 				layer->UpdateLayer();
 			}
@@ -233,11 +225,6 @@ namespace LB
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(WINDOWSSYSTEM->GetWindow());
 		}
-	}
-
-	void Editor::FixedUpdate()
-	{
-
 	}
 
 	void Editor::Destroy()
@@ -253,22 +240,4 @@ namespace LB
 
 		m_ImGuiLayers.Destroy();
 	}
-	
-	GameObject* Editor::GetMousePicker()
-	{
-		return m_MousePicker;
-	}
-
-	void Editor::SetObjectPicked(GameObject* obj)
-	{
-		EDITORINSPECTOR->UpdateInspectedGO(obj);
-		EDITORHIERACHY->UpdateClickedItem(obj ? obj->GetComponent<CPTransform>() : nullptr);
-	}
-
-
-	void Editor::SetMousePos(Vec2<float> pos)
-	{
-		m_MousePicker->GetComponent<CPTransform>()->SetPosition(pos);
-	}
-
 }

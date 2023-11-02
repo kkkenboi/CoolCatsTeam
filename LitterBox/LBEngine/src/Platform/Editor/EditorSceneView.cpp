@@ -15,48 +15,42 @@
 
 #include "pch.h"
 #include "LitterBox/Renderer/Renderer.h"
-#include "EditorSceneView.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Utils/GameObjClicker.h"
+
+#include "EditorSceneView.h"
+#include "EditorHierarchy.h"
+#include "EditorInspector.h"
 
 extern unsigned int svtcb;
 
 namespace LB
 {
 	EditorSceneView* EDITORSCENEVIEW = nullptr;
-	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;
 
-	void move_cam_up() {
+	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;
+	void MoveCamUp() {
 		Renderer::GRAPHICS->update_cam(0.f, 20.f);
 	}
-	void move_cam_down() {
+	void MoveCamDown() {
 		Renderer::GRAPHICS->update_cam(0.f, -20.f);
 	}
-	void move_cam_left() {
+	void MoveCamLeft() {
 		Renderer::GRAPHICS->update_cam(-20.f, 0.f);
 	}
-	void move_cam_right() {
+	void MoveCamRight() {
 		Renderer::GRAPHICS->update_cam(20.f, 0.f);
 	}
-	void zoom_cam_in() {
-		zoomCurrent += zoomStep * TIME->GetDeltaTime();
+	void ZoomCamIn() {
+		zoomCurrent += zoomStep * TIME->GetUnscaledDeltaTime();
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
-	void zoom_cam_out() {
-		zoomCurrent -= zoomStep * TIME->GetDeltaTime();
+	void ZoomCamOut() {
+		zoomCurrent -= zoomStep * TIME->GetUnscaledDeltaTime();
 		zoomCurrent = (zoomCurrent > zoomMin) ? zoomCurrent : zoomMin;
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
-	}
-
-	void onClick()
-	{
-		EDITOR->m_Clicking = true;
-		if (EDITOR->m_InSceneView)
-		{
-			EDITOR->SetObjectPicked(CheckMousePosGameObj(EDITOR->GetMousePicker()->GetComponent<CPTransform>()->GetPosition()));
-		}
 	}
 
 	EditorSceneView::EditorSceneView(std::string layerName) : Layer(layerName)
@@ -65,79 +59,72 @@ namespace LB
 			EDITORSCENEVIEW = this;
 		else
 			DebuggerLogError("Editor Game View already exist!");
+	}
 
-		if (INPUT) {
-			INPUT->SubscribeToKey(move_cam_up, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_down, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_left, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_right, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+	void EditorSceneView::Initialize()
+	{
+			INPUT->SubscribeToKey(MoveCamUp, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(MoveCamDown, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(MoveCamLeft, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(MoveCamRight, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 
-			INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
-		}
+			INPUT->SubscribeToKey(ZoomCamIn, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(ZoomCamOut, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+
+			// Add the mouse picker object and point to its position (for easy updating)
+			m_mousePicker = FACTORY->SpawnGameObject({C_CPCollider}, GOSpawnType::FREE_FLOATING);
+			m_mousePicker->GetComponent<CPTransform>()->SetScale({ 0.1f,0.1f });
+
+			//INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 	}
 
 	void EditorSceneView::UpdateLayer()
 	{
-		static bool set{ false };
-		if (INPUT && !set) {
-			INPUT->SubscribeToKey(move_cam_up, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_down, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_left, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(move_cam_right, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(zoom_cam_in, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(zoom_cam_out, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			
-			INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
-			set = true;
-		}
-
 		ImGui::Begin(GetName().c_str());
 
-		Vec2<float> mousePos{};
-
+		// Renders the scene view as an image from the opengl buffer
 		ImGui::BeginChild("GameRender");
-		ImVec2 wsize = ImGui::GetWindowSize();
-		ImGui::Image((ImTextureID)svtcb, wsize, ImVec2(0, 1), ImVec2(1, 0));
+		m_windowSize = ImGui::GetWindowSize();
+		ImGui::Image((ImTextureID)svtcb, m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
+		// If a prefab json file has been dropped onto the scene view
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
 			{
-				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+				m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+				m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
 				const char* assetPath = (const char*)assetData->Data;
-				DebuggerLog(assetPath);
-				ASSETMANAGER->SpawnGameObject(assetPath, mousePos);
+				ASSETMANAGER->SpawnGameObject(assetPath, m_mousePosInWorld);
 			}
 		}
 
-		if (ImGui::IsItemHovered())
+		// If the user has clicked on the scene view, check if they clicked on a GameObject
+		if (ImGui::IsItemClicked())
 		{
-			EDITOR->m_InSceneView = true;
+			m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+			m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
+			SetObjectPicked(CheckMousePosGameObj(m_mousePosInWorld));
 		}
-		else
+		// If the user is dragging the mouse while a GameObject is selected, have the GameObject follow the cursor
+		if (ImGui::IsItemHovered() && ImGui::IsMouseDragging(0) && EDITORINSPECTOR->IsGOInspected())
 		{
-			EDITOR->m_InSceneView = false;
+			m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+			m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
+			EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(m_mousePosInWorld);
 		}
-
-		// Get the object based on the world position of the mouse
-		if (EDITOR->m_Clicking)
-		{
-			if (EDITOR->m_InSceneView)
-			{
-				mousePos.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-				mousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
-
-				// Set the mouse position to the world position
-				EDITOR->SetMousePos(mousePos);
-			}
-		}
-		EDITOR->m_Clicking = false;
-
 
 		ImGui::EndChild();
 
 		ImGui::End();
+	}
+
+	void EditorSceneView::SetObjectPicked(GameObject* obj)
+	{
+		EDITORINSPECTOR->UpdateInspectedGO(obj);
+		EDITORHIERACHY->UpdateClickedItem(obj ? obj->GetComponent<CPTransform>() : nullptr);
 	}
 }

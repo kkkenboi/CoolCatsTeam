@@ -77,24 +77,6 @@ namespace LB
 
     /*!***********************************************************************
       \brief
-      RigidBodyManager destructor, frees the memory allocated for the pool
-      and states
-    *************************************************************************/
-    RigidBodyManager::~RigidBodyManager()
-    {
-        for (int i = 0; i < m_poolSize; ++i)
-        {
-            if (m_rigidBodies[i] != nullptr)
-            {
-                delete m_rigidBodies[i];
-            }
-        }
-        delete[] m_rigidBodies;
-        delete[] m_rbStates;
-    }
-
-    /*!***********************************************************************
-      \brief
       This function allows you to add a RigidBody to the pool
     *************************************************************************/
     void RigidBodyManager::AddRigidBodyToPool(CPRigidBody* rb)
@@ -248,6 +230,12 @@ namespace LB
     {
     }
 
+
+    /*!***********************************************************************
+      \brief
+      RigidBodyManager destroy, frees the memory allocated for the pool
+      and states
+    *************************************************************************/
     void RigidBodyManager::Destroy()
     {
         for (size_t i = 0; i < m_poolSize; ++i)

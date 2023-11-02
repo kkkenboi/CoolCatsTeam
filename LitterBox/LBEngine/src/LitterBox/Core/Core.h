@@ -54,7 +54,7 @@ namespace LB
 		 \brief
 		 Adds a new system to the game.
 		*************************************************************************/
-		void AddSystem(std::unique_ptr<ISystem> system);
+		void AddSystem(std::shared_ptr<ISystem> system);
 
 		/*!***********************************************************************
 		 \brief
@@ -82,7 +82,7 @@ namespace LB
 		void SetEditorLaunched(bool newState);
 
 	private:
-		std::vector<std::unique_ptr<ISystem>> m_systems;
+		std::vector<std::shared_ptr<ISystem>> m_systems;
 		
 		bool					m_running;
 		bool					m_isPlaying{ false };

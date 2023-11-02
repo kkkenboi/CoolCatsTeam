@@ -102,7 +102,7 @@ namespace LB
 	*************************************************************************/
 	void FactorySystem::Destroy()
 	{
-		DeleteAllCMs(m_ComponentMakers);
+		DeleteAllCMs();
 	}
 
 	/*!***********************************************************************
@@ -124,9 +124,9 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void FactorySystem::DeleteAllCMs(std::map<ComponentTypeID, ComponentMaker*> ComponentMakers)
+	void FactorySystem::DeleteAllCMs()
 	{
-		for (std::map<ComponentTypeID, ComponentMaker*>::iterator it = ComponentMakers.begin(); it != ComponentMakers.end(); ++it)
+		for (std::map<ComponentTypeID, ComponentMaker*>::iterator it = m_ComponentMakers.begin(); it != m_ComponentMakers.end(); ++it)
 		{
 			delete it->second;
 		}
@@ -141,9 +141,21 @@ namespace LB
 	 \return
 	 A pointer to the GameObject
 	*************************************************************************/
-	GameObject* FactorySystem::SpawnGameObject(Vec2<float> pos)
+	GameObject* FactorySystem::SpawnGameObject(Vec2<float> pos, GOSpawnType spawnType)
 	{
-		return SpawnGameObject({}, pos);
+		return SpawnGameObject({}, pos, spawnType);
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Spawns a GameObject with components but no specified position
+
+	 \return
+	 A pointer to the GameObject
+	*************************************************************************/
+	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<ComponentTypeID> components, GOSpawnType spawnType)
+	{
+		return SpawnGameObject(components, { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f }, spawnType);
 	}
 
 	/*!***********************************************************************
@@ -153,7 +165,7 @@ namespace LB
 	 \return
 	 A pointer to the GameObject
 	*************************************************************************/
-	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<ComponentTypeID> components, Vec2<float> pos)
+	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<ComponentTypeID> components, Vec2<float> pos, GOSpawnType spawnType)
 	{
 		// Creating the game object
 		GameObject* gameObj = FACTORY->CreateGameObject();
@@ -166,15 +178,28 @@ namespace LB
 		gameObj->AddComponent(C_CPTransform, FACTORY->GetCMs()[C_CPTransform]->Create());
 		gameObj->GetComponent<CPTransform>()->SetPosition(pos);
 
-		// Add GO to current loaded scene
-		if (m_loadedScene)
+		if (spawnType == GOSpawnType::SCENE_BOUNDED)
 		{
-			gameObj->GetComponent<CPTransform>()->SetParent(m_loadedScene->GetRoot());
-			m_loadedScene->GetRoot()->AddChild(gameObj->GetComponent<CPTransform>());
+			// Add GO to current loaded scene
+			if (m_loadedScene)
+			{
+				gameObj->GetComponent<CPTransform>()->SetParent(m_loadedScene->GetRoot());
+				m_loadedScene->GetRoot()->AddChild(gameObj->GetComponent<CPTransform>());
+			}
+			else
+			{
+				DebuggerLogWarning("Tried spawning Game Object onto an unloaded Scene!");
+			}
+			// Sends game object to the Game Object Manager
+			// For now, push back in the function to go manager,
+			// However, in the future we might need to change when we need to render a lot in one go
+			// or send a equal amount of game objects at one go
+			// Might be redundant too because we should initialize a pool at the start
+			GOMANAGER->AddGameObject(gameObj);
 		}
-		else
+		else if (spawnType == GOSpawnType::FREE_FLOATING)
 		{
-			DebuggerLogWarning("Tried spawning Game Object onto an unloaded Scene!");
+			GOMANAGER->AddDDOLGameObject(gameObj);
 		}
 
 		for (ComponentTypeID component : components)
@@ -183,12 +208,6 @@ namespace LB
 		}
 		gameObj->StartComponents();
 
-		// Sends game object to the Game Object Manager
-		// For now, push back in the function to go manager,
-		// However, in the future we might need to change when we need to render a lot in one go
-		// or send a equal amount of game objects at one go
-		// Might be redundant too because we should initialize a pool at the start
-		GOMANAGER->AddGameObject(gameObj);
 		return gameObj;
 	}
 	/*!***********************************************************************
@@ -198,7 +217,7 @@ namespace LB
 	 \return
 	 A pointer to the GameObject
 	*************************************************************************/
-	GameObject* FactorySystem::SpawnGameObject(GameObject* prefab)
+	GameObject* FactorySystem::SpawnGameObject(GameObject* prefab, GOSpawnType spawnType)
 	{
 		GameObject* clone = FACTORY->CreateGameObject();
 		if (clone->GetID() == 0) 		// ID only starts at 1
@@ -211,24 +230,33 @@ namespace LB
 			clone->AddComponent(elem.first,FACTORY->GetCMs()[elem.first]->Create());
 		}
 
-		// Add GO to current loaded scene
-		if (m_loadedScene)
+		if (spawnType == GOSpawnType::SCENE_BOUNDED) 
 		{
-			clone->GetComponent<CPTransform>()->SetParent(m_loadedScene->GetRoot());
-			m_loadedScene->GetRoot()->AddChild(clone->GetComponent<CPTransform>());
+			// Add GO to current loaded scene
+			if (m_loadedScene)
+			{
+				clone->GetComponent<CPTransform>()->SetParent(m_loadedScene->GetRoot());
+				m_loadedScene->GetRoot()->AddChild(clone->GetComponent<CPTransform>());
+			}
+			else
+			{
+				DebuggerLogWarning("Tried spawning Game Object onto an unloaded Scene!");
+			}
+			GOMANAGER->AddGameObject(clone);
 		}
-		else
+		else if (spawnType == GOSpawnType::FREE_FLOATING)
 		{
-			DebuggerLogWarning("Tried spawning Game Object onto an unloaded Scene!");
+			GOMANAGER->AddDDOLGameObject(clone);
 		}
 
 		//This copies the data from our prefab components over to the clone
 		clone->SetComponents(prefab->GetComponents());
 		//Then we initialise the data for the clone
 		clone->StartComponents();
-		GOMANAGER->AddGameObject(clone);
 		return clone;
 	}
+
+
 
 	/*!***********************************************************************
 	 \brief
@@ -254,7 +282,7 @@ namespace LB
 	 \return
 	 Map of names of ComponentMakers and ComponentMakers
 	*************************************************************************/
-	std::map<ComponentTypeID, ComponentMaker*> FactorySystem::GetCMs() const
+	std::map<ComponentTypeID, ComponentMaker*>& FactorySystem::GetCMs()
 	{
 		return m_ComponentMakers;
 	}

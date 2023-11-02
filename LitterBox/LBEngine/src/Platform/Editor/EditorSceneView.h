@@ -25,12 +25,21 @@ namespace LB
 	public:
 		EditorSceneView(std::string layerName);
 
+		void Initialize() override;
+
 		void UpdateLayer() override;
 
-		void Destroy() {}
+		//void Destroy() override;
+
+		// Updates the rest of the editor of the object selected
+		void SetObjectPicked(GameObject* obj);
 
 	private:
-		Vec2<float> mousePosInWindow;
+		ImVec2 m_windowSize;
+
+		// Mouse picker to select GameObjects
+		GameObject* m_mousePicker{ nullptr };
+		Vec2<float> m_mousePosInWorld;
 	};
 
 	extern EditorSceneView* EDITORSCENEVIEW;
