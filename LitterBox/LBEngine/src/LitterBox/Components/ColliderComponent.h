@@ -100,6 +100,8 @@ namespace LB {
 
 		void SetWidthHeightRadius(float width, float height, float radius);
 
+		bool HasRB();
+
 		std::string GetShapeName();
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override;

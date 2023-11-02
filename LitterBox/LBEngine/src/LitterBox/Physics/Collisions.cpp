@@ -287,17 +287,17 @@ namespace LB
 			{
 				if (!this->m_collided)
 				{
-					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % m_vertAmount]
+					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
 						, Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
 				}
 				else
 				{
-					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % m_vertAmount]
+					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
 						, Vec4<float> { 0.5f, 0.f, 0.f, 1.0f });
 				}
 			}
 		}
-		if (this->m_shape == COL_CIRCLE)
+		else if (this->m_shape == COL_CIRCLE)
 		{
 			if (!this->m_collided)
 			{
@@ -331,6 +331,18 @@ namespace LB
 		if (this->m_shape == COL_POLYGON) 
 		{
 			CreatePolygonBox();
+		}
+	}
+
+	bool CPCollider::HasRB()
+	{
+		if (this->gameObj->HasComponent<CPRigidBody>()) 
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
 		}
 	}
 

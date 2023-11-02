@@ -19,6 +19,8 @@ public:
 
 	std::string GetStateID();
 
+	FiniteStateMachine& GetFSM();
+
 	// Virtual functions
 	//virtual ~State();
 
@@ -53,6 +55,10 @@ public:
 	// Returns true if successful
 	// False if unsuccessful
 	void SetCurrentState(std::string stateID);
+
+	void ChangeState(std::string stateID);
+	
+	void Update();
 
 private:
 	// Map that contains all the states within this given FiniteStateMachine
