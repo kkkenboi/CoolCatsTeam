@@ -20,6 +20,7 @@
 
 // Include scripts here
 #include "CPPSPlayer.h"
+#include "CPPSChaser.h"
 
 namespace LB
 {
@@ -51,13 +52,13 @@ namespace LB
 	{
 		DebuggerLogWarning("Added script");
 
-		if (newScript->GetName() != "Player")
+		if (newScript->GetName() == "Player" || newScript->GetName() == "Enemy")
 		{
-			DebuggerLogWarningFormat("Tried to load invalid CPP Script %s.", newScript->GetName().c_str());
+			m_sceneScripts.push_back(newScript);
 			return;
 		}
 
-		m_sceneScripts.push_back(newScript);
+		DebuggerLogWarningFormat("Tried to load invalid CPP Script %s.", newScript->GetName().c_str());
 	}
 
 	void CPPGameLogic::Unload(CPScriptCPP* scriptToRemove)
@@ -76,7 +77,7 @@ namespace LB
 				script->SetInstance(new CPPSPlayer);
 			}
 			else if (script->GetName() == "Enemy") {
-
+				script->SetInstance(new CPPSChaser);
 			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 

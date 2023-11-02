@@ -16,26 +16,38 @@ namespace LB
 
 		void Destroy() override;
 
+		CPRender* GetRender();
 
+		CPRigidBody* GetRigidBody();
+
+		CPCollider* GetCollider();
+
+		GameObject* GetHero();
+
+		float GetSpeedMag();
 
 	private:
 		CPRender* mRender;
 		CPRigidBody* mRigidBody;
 		CPCollider* mCollider;
 
+		GameObject* mPlayer;
+
 		// Holds the different state and the current state
 		// that the Chaser enemy is in
 		FiniteStateMachine mFSM;
 
 		int mHealth;
-		int mSpeed;
+		float mSpeedMagnitude;
+
+		bool mInitialised;
 	};
 
 	// States
 	class IdleState : public State
 	{
 	public:
-		IdleState(FiniteStateMachine& fsm, std::string name);
+		IdleState(CPPSChaser* enemy_ptr ,FiniteStateMachine& fsm, std::string name);
 
 		void Enter() override;
 
@@ -43,12 +55,13 @@ namespace LB
 
 		void Exit() override;
 	private:
+		CPPSChaser* mEnemy;
 	};
 
 	class ChaseState : public State
 	{
 	public:
-		ChaseState(FiniteStateMachine& fsm, std::string name);
+		ChaseState(CPPSChaser* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 
 		void Enter() override;
 
@@ -56,12 +69,13 @@ namespace LB
 
 		void Exit() override;
 	private:
+		CPPSChaser* mEnemy;
 	};
 
 	class HurtState : public State
 	{
 	public:
-		HurtState(FiniteStateMachine& fsm, std::string name);
+		HurtState(CPPSChaser* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 
 		void Enter() override;
 
@@ -69,6 +83,7 @@ namespace LB
 
 		void Exit() override;
 	private:
+		CPPSChaser* mEnemy;
 	};
 
 }
