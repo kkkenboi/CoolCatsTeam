@@ -33,7 +33,7 @@ namespace LB
 		ImGui::SameLine();
 
 		ImGui::PushStyleColor(ImGuiCol_Button, CORE->IsPlaying() ? m_buttonOnColor : m_buttonOffColor);
-		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("PlayIcon"), m_buttonSize))
+		if (ImGui::ImageButton((ImTextureID)(uintptr_t)ASSETMANAGER->GetTextureIndex("PlayIcon"), m_buttonSize))
 		{
 			CORE->TogglePlaying();
 		}
@@ -42,7 +42,7 @@ namespace LB
 		ImGui::SameLine(0.f, m_buttonSpacing);
 
 		ImGui::PushStyleColor(ImGuiCol_Button, TIME->IsPaused() ? m_buttonOnColor : m_buttonOffColor);
-		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("PauseIcon"), m_buttonSize))
+		if (ImGui::ImageButton((ImTextureID)(uintptr_t)ASSETMANAGER->GetTextureIndex("PauseIcon"), m_buttonSize))
 		{
 			TIME->Pause(!TIME->IsPaused());
 		}
@@ -51,7 +51,7 @@ namespace LB
 		ImGui::SameLine(0.f, m_buttonSpacing);
 
 		ImGui::PushStyleColor(ImGuiCol_Button, m_buttonOffColor);
-		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("StepIcon"), m_buttonSize))
+		if (ImGui::ImageButton((ImTextureID)(uintptr_t)ASSETMANAGER->GetTextureIndex("StepIcon"), m_buttonSize))
 		{
 			DEBUG->StepPhysics();
 		}
