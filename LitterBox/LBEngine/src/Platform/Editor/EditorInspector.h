@@ -37,6 +37,10 @@ namespace LB
 
         void UpdateInspectedGO(GameObject* newInspectedGO);
 
+        GameObject* GetInspectedGO();
+
+        bool IsGOInspected();
+
     private:
         GameObject* m_inspectedGO{ nullptr };
         char m_inspectedName[256]{}, m_nameBuffer1[64]{};

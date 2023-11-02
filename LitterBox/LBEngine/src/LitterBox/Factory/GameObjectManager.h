@@ -22,8 +22,8 @@
 #pragma once
 #include "pch.h"
 #include "LitterBox/Core/System.h"
-#include <initializer_list>
 #include "LitterBox/Serialization/Serializer.h"
+#include <initializer_list>
 #include <type_traits>
 
 namespace LB
@@ -172,7 +172,7 @@ namespace LB
 		 \brief
 		 Gets all of the current GameObjects the GameObjectManager is managing
 		*************************************************************************/
-		std::vector<GameObject*> GetGameObjects() const;
+		std::vector<GameObject*> const& GetGameObjects() const;
 
 		/*!***********************************************************************
 		 \brief
@@ -192,8 +192,19 @@ namespace LB
 		*************************************************************************/
 		void DestroyAllGOs();
 
+		std::vector<GameObject*> const& GetDDOLGameObjects() const;
+
+		void AddDDOLGameObject(GameObject* gameObject);
+		
+		void RemoveDDOLGameObject(GameObject* gameObject);
+
+		void DestroyAllDDOLGOs();
+
 	private:
+		// All game objects in the current loaded scene are added to this vector
 		std::vector<GameObject*> m_GameObjects;
+		// All free-floating game objects (not bounded to a scene) are added to this vector
+		std::vector<GameObject*> m_DDOLGameObjects; 
 	};
 
 	extern GameObjectManager* GOMANAGER;

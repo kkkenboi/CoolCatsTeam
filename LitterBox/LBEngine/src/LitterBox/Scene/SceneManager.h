@@ -58,10 +58,13 @@ namespace LB
 		void LoadScene(std::string name);
 		void LoadScene(Scene* scene);
 
+		void ReloadScene();
+
 		Event<Scene*> onNewSceneLoad;
 
 	private:
 		Scene *m_currentScene{ nullptr };
+		bool m_isReloading{ false };
 	};
 
 	void SceneOnPlayToggle(bool isPlaying);
