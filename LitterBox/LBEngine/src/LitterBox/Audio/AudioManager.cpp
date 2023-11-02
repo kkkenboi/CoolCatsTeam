@@ -131,6 +131,11 @@ namespace LB
 		return _channelID;
 	}
 
+	/*!***********************************************************************
+	 * \brief Function to play sound. Stops currently playing sound if there's one
+	 * 
+	 * \param soundName Name of the sound e.g "Explosion" without file extension
+	**************************************************************************/
 	void AudioManager::ToggleSoundPlaying(std::string soundName)
 	{
 		if (Channels.empty()) PlaySound(soundName);
@@ -141,6 +146,11 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 * \brief Function to check if the specified channel is playing
+	 *
+	 * (Technically... 1 sound 1 channel so...)
+	**************************************************************************/
 	bool AudioManager::IsPlaying(int channelID)
 	{
 		return (Channels.find(channelID) != Channels.end());
@@ -158,6 +168,12 @@ namespace LB
 	//	return (Channels.find(channelID) != Channels.end());
 	//}
 
+
+	/*!***********************************************************************
+	 * \brief Function to stop all channels from playing
+	 *
+	 * 
+	**************************************************************************/
 	void AudioManager::StopAllChannels()
 	{
 		if (Channels.empty()) return;

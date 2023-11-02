@@ -65,13 +65,33 @@ namespace LB
 	 	* \param soundName Name of the sound e.g "Explosion" without file extension
 		**************************************************************************/
 		int PlaySound(std::string soundName);
+
+		/*!***********************************************************************
+		 * \brief Function to play sound. Stops currently playing sound if there's one
+		 *
+		 * \param soundName Name of the sound e.g "Explosion" without file extension
+		**************************************************************************/
 		void ToggleSoundPlaying(std::string soundName);
-		//void StopChannel(int channelID);
+
+		/*!***********************************************************************
+		 * \brief Function to check if the specified channel is playing
+		 *
+		 * (Technically... 1 sound 1 channel so...)
+		**************************************************************************/
 		bool IsPlaying(int channelID);
-		//bool IsPlaying(std::string soundName);
-		//void StopAllSounds();
+
+
+		/*!***********************************************************************
+		* \brief Function to stop all channels from playing
+		*
+		*
+		**************************************************************************/
 		void StopAllChannels();
 
+		//TODO
+		//void StopChannel(int channelID);
+		//bool IsPlaying(std::string soundName);
+		//void StopAllSounds();
 
 		/*!***********************************************************************
 		 * \brief Stores the result of any FMOD related function

@@ -384,7 +384,7 @@ namespace LB
     * \brief Gets the texture ID from name
     * Usage : GetTextureIndex("amongus") where amongus is a png
     **************************************************************************/  
-    const unsigned int AssetManager::GetTextureIndex(const std::string& name) 
+    const int AssetManager::GetTextureIndex(const std::string& name) 
     {
         if (Textures.find(assetMap[name]) == Textures.end())
         {

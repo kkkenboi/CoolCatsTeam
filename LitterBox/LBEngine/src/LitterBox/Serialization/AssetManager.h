@@ -169,7 +169,7 @@ namespace LB
         * \brief Gets the texture ID from name
         * Usage : GetTextureIndex("amongus") where amongus is a png
         **************************************************************************/ 
-        const unsigned int GetTextureIndex(const std::string& name);
+        const int GetTextureIndex(const std::string& name);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                      KEYCODE STUFF

@@ -24,7 +24,10 @@ namespace LB
 	EditorAssets* EDITORASSETS{ nullptr };
 	//forward declaration
 
-
+	/*!***********************************************************************
+	* \brief Callback function for application refocus
+	* (Global function)
+	**************************************************************************/
 	void drop_callback(GLFWwindow* window, int count, const char** paths)
 	{
 		UNREFERENCED_PARAMETER(window);
@@ -35,7 +38,6 @@ namespace LB
 			std::cout << EDITORASSETS->currentDirectory << '\n';
 			try
 			{
-				//fs::copy_file("sandbox/abc", "sandbox/def");
 				std::filesystem::path fileToCopy{ paths[i] };
 				std::filesystem::copy_file(fileToCopy, EDITORASSETS->currentDirectory/fileToCopy.filename());
 				ReimportAssets();
@@ -43,7 +45,8 @@ namespace LB
 			}
 			catch (std::filesystem::filesystem_error& e)
 			{
-				std::cout << "Could not copy " << paths[i] << " " << e.what() << '\n';
+				DebuggerLogFormat("Could not copy %s %s", paths[i], e.what());
+				//std::cout << "Could not copy " << paths[i] << " " << e.what() << '\n';
 			}
 		}
 	}
@@ -65,8 +68,9 @@ namespace LB
 	void EditorAssets::Initialize()
 	{
 		glfwSetDropCallback(WINDOWSSYSTEM->GetWindow(), drop_callback);
-
 	}
+
+
 	void EditorAssets::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
