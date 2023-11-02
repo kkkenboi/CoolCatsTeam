@@ -149,6 +149,10 @@ namespace LB
 						{
 							SCENEMANAGER->LoadScene(directory.path().filename().stem().string());
 						}
+						else //that means it's a prefab instead
+						{
+							DebuggerLog(directory.path().filename().string());
+						}
 					}
 				}
 				if (directory.path().extension().string() == ".png")
@@ -163,7 +167,9 @@ namespace LB
 				{
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
-						AUDIOMANAGER->PlaySound(FileName);
+						AUDIOMANAGER->ToggleSoundPlaying(FileName);
+						/*AUDIOMANAGER->StopAllChannels();
+						AUDIOMANAGER->PlaySound(FileName);*/
 						//Load the properties into the inspector
 					}
 				}

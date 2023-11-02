@@ -61,11 +61,17 @@ namespace LB
 
 		/*!***********************************************************************
 	 	* \brief Function to play sound using the Sound File name 
-	 	* 
+	 	* Returns the channel ID that the sound is playing in
 	 	* \param soundName Name of the sound e.g "Explosion" without file extension
 		**************************************************************************/
-		void PlaySound(std::string soundName);
-		void StopAllSounds();
+		int PlaySound(std::string soundName);
+		void ToggleSoundPlaying(std::string soundName);
+		//void StopChannel(int channelID);
+		bool IsPlaying(int channelID);
+		//bool IsPlaying(std::string soundName);
+		//void StopAllSounds();
+		void StopAllChannels();
+
 
 		/*!***********************************************************************
 		 * \brief Stores the result of any FMOD related function
@@ -73,7 +79,8 @@ namespace LB
 		 **************************************************************************/
 		FMOD_RESULT result;
 	private:
-		FMOD::Channel* BGMChannel;
+		int channelID{ 0 };
+		std::map<int, FMOD::Channel*> Channels;
 	};
 
 	/*!***********************************************************************

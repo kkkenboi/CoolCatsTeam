@@ -72,7 +72,24 @@ namespace LB
 	**************************************************************************/
 	void AudioManager::Update()
 	{
-		//In the future we can check for 
+		//Store a vector of channels you wanna remove from the map
+		std::vector<std::map<int, FMOD::Channel*>::iterator> stoppedChannels;
+		//We loop through all our channels and see which is stopped
+		for (auto iter = Channels.begin(); iter != Channels.end(); ++iter)
+		{	
+			//Fmod always does this weird address thing...
+			bool isPlaying = false;
+			iter->second->isPlaying(&isPlaying);
+			if (!isPlaying)
+			{
+				stoppedChannels.push_back(iter);
+			}
+		}
+		//Now we remove all the channels we don't need
+		for (auto& channel : stoppedChannels)
+		{
+			Channels.erase(channel);
+		}
 		audioSystem->update();
 	}
 
@@ -82,7 +99,8 @@ namespace LB
 	**************************************************************************/
 	void AudioManager::Destroy()
 	{
-		//We loop through all the sounds and release them
+		StopAllChannels();
+		////We loop through all the sounds and release them
 		for (const auto& sound : ASSETMANAGER->SoundMap)
 		{
 			sound.second->release();
@@ -93,21 +111,59 @@ namespace LB
 
 	/*!***********************************************************************
 	 * \brief Function to play sound using the Sound File name 
-	 * 
+	 * Returns the channel ID that the sound is playing in
 	 * \param soundName Name of the sound e.g "Explosion" without file extension
 	**************************************************************************/
-	void AudioManager::PlaySound(std::string soundName)
+	int AudioManager::PlaySound(std::string soundName)
 	{
+		int _channelID = channelID++;
+		//Check to see if the sound is loaded
 		if (ASSETMANAGER->SoundMap.find(soundName) != ASSETMANAGER->SoundMap.end())
 		{
-			result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], nullptr, false, nullptr);
+			FMOD::Channel* _channel = nullptr;
+			result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], nullptr, false, &_channel);
+			if (_channel)
+			{
+				Channels[_channelID] = _channel;
+			}
 			if (result != FMOD_OK) DebuggerLogWarning("SOUND NAME " + soundName + "IS NOT WORKING!");
+		}
+		return _channelID;
+	}
+
+	void AudioManager::ToggleSoundPlaying(std::string soundName)
+	{
+		if (Channels.empty()) PlaySound(soundName);
+		else
+		{
+			DebuggerLogFormat("%s is still playing! Stopping..", soundName.c_str());
+			StopAllChannels();
 		}
 	}
 
-	//TODO :pensive:
-	void AudioManager::StopAllSounds()
+	bool AudioManager::IsPlaying(int channelID)
 	{
-		/*audioSystem.*/
+		return (Channels.find(channelID) != Channels.end());
+	}
+	//bool AudioManager::IsPlaying(std::string soundName)
+	//{
+	//	for (const auto& channel : Channels)
+	//	{
+	//		FMOD::Sound* currentSound = nullptr;
+	//		if (channel.second->getCurrentSound(&currentSound))
+	//		{
+	//		}
+	//	}
+
+	//	return (Channels.find(channelID) != Channels.end());
+	//}
+
+	void AudioManager::StopAllChannels()
+	{
+		if (Channels.empty()) return;
+		for (auto& channel : Channels)
+		{
+			channel.second->stop();
+		}
 	}
 }
