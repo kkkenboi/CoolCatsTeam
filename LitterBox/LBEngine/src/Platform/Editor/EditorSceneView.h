@@ -29,7 +29,7 @@ namespace LB
 
 		void UpdateLayer() override;
 
-		void Destroy() {}
+		//void Destroy() override;
 
 		// Updates the rest of the editor of the object selected
 		void SetObjectPicked(GameObject* obj);
@@ -38,7 +38,7 @@ namespace LB
 		ImVec2 m_windowSize;
 
 		// Mouse picker to select GameObjects
-		GameObject* m_mousePicker;
+		GameObject* m_mousePicker{ nullptr };
 		Vec2<float> m_mousePosInWorld;
 	};
 

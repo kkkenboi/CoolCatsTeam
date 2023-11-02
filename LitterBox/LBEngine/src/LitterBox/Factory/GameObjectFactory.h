@@ -84,6 +84,13 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
+		 Spawns a GameObject with components but no specified position, and specified
+		 spawn type
+		*************************************************************************/
+		GameObject* SpawnGameObject(std::initializer_list<ComponentTypeID> components, GOSpawnType spawnType);
+
+		/*!***********************************************************************
+		 \brief
 		 Spawns a GameObject with specified components and position
 		*************************************************************************/
 		GameObject* SpawnGameObject(std::initializer_list<ComponentTypeID> components,

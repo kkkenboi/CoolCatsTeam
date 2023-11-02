@@ -72,7 +72,7 @@ namespace LB
 			INPUT->SubscribeToKey(ZoomCamOut, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 
 			// Add the mouse picker object and point to its position (for easy updating)
-			m_mousePicker = FACTORY->SpawnGameObject({C_CPCollider});
+			m_mousePicker = FACTORY->SpawnGameObject({C_CPCollider}, GOSpawnType::FREE_FLOATING);
 			m_mousePicker->GetComponent<CPTransform>()->SetScale({ 0.1f,0.1f });
 
 			//INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
@@ -108,6 +108,15 @@ namespace LB
 
 			SetObjectPicked(CheckMousePosGameObj(m_mousePosInWorld));
 		}
+		// If the user is dragging the mouse while a GameObject is selected, have the GameObject follow the cursor
+		if (ImGui::IsMouseDragging(0) && EDITORINSPECTOR->IsGOInspected())
+		{
+			m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+			m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
+			EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(m_mousePosInWorld);
+		}
+
 		ImGui::EndChild();
 
 		ImGui::End();

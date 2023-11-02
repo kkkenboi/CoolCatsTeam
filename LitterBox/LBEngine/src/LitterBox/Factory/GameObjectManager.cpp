@@ -426,7 +426,7 @@ namespace LB
 		// Destroying gameobjects
 		for (int i{ (int)m_DDOLGameObjects.size() - 1 }; i >= 0; --i)
 		{
-			RemoveGameObject(m_DDOLGameObjects[i]);
+			RemoveDDOLGameObject(m_DDOLGameObjects[i]);
 		}
 
 		// Set size of game objects to empty

@@ -148,6 +148,18 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
+	 Spawns a GameObject with components but no specified position
+
+	 \return
+	 A pointer to the GameObject
+	*************************************************************************/
+	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<ComponentTypeID> components, GOSpawnType spawnType)
+	{
+		return SpawnGameObject(components, { WINDOWSSYSTEM->GetWidth() * 0.5f , WINDOWSSYSTEM->GetHeight() * 0.5f }, spawnType);
+	}
+
+	/*!***********************************************************************
+	 \brief
 	 Spawns a GameObject with specified components and position
 
 	 \return

@@ -457,6 +457,16 @@ namespace LB
 		EDITORINSPECTOR->UpdateInspectedGO(newInspectedGO);
 	}
 
+	bool EditorInspector::IsGOInspected()
+	{
+		return m_inspectedGO != nullptr;
+	}
+
+	GameObject* EditorInspector::GetInspectedGO()
+	{
+		return m_inspectedGO;
+	}
+
 	// For event subscription
 	void DeselectObject(bool isPlaying)
 	{
