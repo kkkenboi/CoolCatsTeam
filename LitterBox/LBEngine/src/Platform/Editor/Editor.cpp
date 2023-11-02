@@ -27,6 +27,7 @@
 #include "EditorAssets.h"
 #include "EditorConsole.h"
 #include "EditorProfiler.h"
+#include "EditorPrefabWindow.h"
 
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
@@ -82,6 +83,7 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorConsole>("Console"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorProfiler>("Profiler"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAssets>("Assets"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorPrefabWindow>("Prefabs"));
 	}
 
 	void Editor::Initialize()
@@ -171,6 +173,7 @@ namespace LB
 			ImGuiID gameviewID{};
 			ImGuiID hierarchyID{};
 			ImGuiID inspectorID{};
+			ImGuiID prefabID{};
 
 			// Docking Section
 			ImGuiID maindockspaceID = ImGui::GetID("MainDockspace");
@@ -196,6 +199,7 @@ namespace LB
 				// Assets is set in the bottom middle, hierarchy on the top middle and inspector on the right
 				assetsID = ImGui::DockBuilderSplitNode(assetsID, ImGuiDir_Left, 0.5f, NULL, &inspectorID);
 				assetsID = ImGui::DockBuilderSplitNode(assetsID, ImGuiDir_Down, 0.5f, NULL, &hierarchyID);
+				inspectorID = ImGui::DockBuilderSplitNode(inspectorID, ImGuiDir_Down, 0.5f, NULL, &prefabID);
 
 				// Set profiler at the same location as console
 				profilerID = consoleID;
@@ -210,6 +214,7 @@ namespace LB
 				ImGui::DockBuilderDockWindow("Scene View", sceneviewID);
 				ImGui::DockBuilderDockWindow("Hierarchy", hierarchyID);
 				ImGui::DockBuilderDockWindow("Inspector", inspectorID);
+				ImGui::DockBuilderDockWindow("Prefab", prefabID);
 
 				ImGui::DockBuilderFinish(maindockspaceID);
 			}
