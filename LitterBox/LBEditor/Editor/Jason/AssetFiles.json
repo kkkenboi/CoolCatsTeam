@@ -8,11 +8,11 @@
     "PauseIcon": ".png",
     "PlayIcon": ".png",
     "StepIcon": ".png",
+    "wav": ".png",
     "nugget": ".png",
     "pine": ".png",
     "run": ".png",
     "test2": ".png",
-    "wav": ".png",
     "Enemy hurt": ".wav",
     "EXPLOSION": ".wav",
     "Oof": ".wav"

@@ -43,16 +43,35 @@ namespace LB
 			this->rigidbody = nullptr;
 		}
 		this->m_gameobj = gameObj;
-
-		this->m_shape = COL_POLYGON;
+		if (this->m_shape == COL_CIRCLE) 
+		{
+			this->m_shape = COL_CIRCLE;
+		}
+		else
+		{
+			this->m_shape = COL_POLYGON;
+		}
 		this->m_simpleCol = true;
 		this->m_collided = false;
 
 		this->m_pos = transform->GetPosition();
 
-		this->m_widthUnscaled = 100.f;
-		this->m_heightUnscaled = 100.f;
-		this->m_radiusUnscaled = 50.f;
+		if (this->m_widthUnscaled <= 0.f)
+		{
+			this->m_widthUnscaled = 100.f;
+		}
+		if (this->m_heightUnscaled <= 0.f)
+		{
+			this->m_heightUnscaled = 100.f;
+		}
+		if (this->m_radiusUnscaled <= 0.f)
+		{
+			this->m_radiusUnscaled = 50.f;
+		}
+
+		this->m_widthUnscaledOG = m_widthUnscaled;
+		this->m_heightUnscaledOG = m_heightUnscaled;
+		this->m_radiusUnscaledOG = m_radiusUnscaled;
 
 		this->m_width = this->m_widthUnscaled * transform->GetScale().x;
 		this->m_height = this->m_heightUnscaled * transform->GetScale().y;
@@ -167,6 +186,31 @@ namespace LB
 		m_vertAmount = m_untransformedVerts.size();
 	}
 
+	void CPCollider::UpdateScaledData()
+	{
+		this->m_width = this->m_widthUnscaled * transform->GetScale().x;
+		this->m_height = this->m_heightUnscaled * transform->GetScale().y;
+		this->m_radius = this->m_radiusUnscaled * transform->GetScale().x;
+
+		float old_width = this->m_widthUnscaledOG * transform->GetScale().x;
+		float old_height = this->m_heightUnscaledOG * transform->GetScale().y;
+		float old_radius = this->m_radiusUnscaledOG * transform->GetScale().x;
+
+		float ratio_width = m_width / old_width;
+		float ratio_height = m_height / old_height;
+		float ratio_radius = m_radius / old_radius;
+
+		for (int i = 0; i < this->m_untransformedVerts.size(); ++i)
+		{
+			this->m_untransformedVerts[i].x *= ratio_width;
+			this->m_untransformedVerts[i].y *= ratio_height;
+		}
+
+		this->m_widthUnscaledOG = this->m_widthUnscaled;
+		this->m_heightUnscaledOG = this->m_heightUnscaled;
+		this->m_radiusUnscaledOG = this->m_radiusUnscaled;
+	}
+
 
 	/*!***********************************************************************
 		\brief
@@ -243,17 +287,17 @@ namespace LB
 			{
 				if (!this->m_collided)
 				{
-					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % m_vertAmount]
+					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
 						, Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
 				}
 				else
 				{
-					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % m_vertAmount]
+					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
 						, Vec4<float> { 0.5f, 0.f, 0.f, 1.0f });
 				}
 			}
 		}
-		if (this->m_shape == COL_CIRCLE)
+		else if (this->m_shape == COL_CIRCLE)
 		{
 			if (!this->m_collided)
 			{
@@ -287,6 +331,18 @@ namespace LB
 		if (this->m_shape == COL_POLYGON) 
 		{
 			CreatePolygonBox();
+		}
+	}
+
+	bool CPCollider::HasRB()
+	{
+		if (this->gameObj->HasComponent<CPRigidBody>()) 
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
 		}
 	}
 
@@ -352,7 +408,7 @@ namespace LB
 		this->m_rotation = transform->GetRotation();
 		this->m_vertAmount = this->m_untransformedVerts.size();
 
-
+		this->UpdateScaledData();
 		this->UpdateColliderBoxVertices();
 		this->UpdateColliderAABB();
 

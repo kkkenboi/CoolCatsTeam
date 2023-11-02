@@ -199,14 +199,15 @@ namespace LB
 					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("TEXTURE"))
 					{
 						const char* textureName = (const char*)textureData->Data;
-						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[textureName].second);
+						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second);
 					}
 				}
 				if (ImGui::BeginCombo("##Texture", ASSETMANAGER->GetTextureName(inspectedTextureID).c_str()))
 				{
 					for (auto& [str, tex] : ASSETMANAGER->Textures)
 					{
-						if (ImGui::Selectable(str.c_str()))
+						std::filesystem::path tempPath{ str };
+						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 						{
 							m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second);
 						}
@@ -302,11 +303,9 @@ namespace LB
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::InputFloat("##AccelerationY", &acceleration.y, 0.0f, 0.0f, "%.2f");
 
-				static bool isStatic = false;
 				ImGui::Text("%-10s", "Is Static");
 				ImGui::SameLine();
-				ImGui::Checkbox("##isStatic", &isStatic);
-				m_inspectedGO->GetComponent<CPRigidBody>()->isStatic = isStatic;
+				ImGui::Checkbox("##isStatic", &m_inspectedGO->GetComponent<CPRigidBody>()->isStatic);
 
 				// Delete Component
 				if (ImGui::Button("Delete RigidBody Component"))

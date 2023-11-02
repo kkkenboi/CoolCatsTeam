@@ -46,6 +46,10 @@ namespace LB {
 		float m_heightUnscaled;
 		float m_radiusUnscaled;
 
+		float m_widthUnscaledOG;
+		float m_heightUnscaledOG;
+		float m_radiusUnscaledOG;
+
 		float m_width;
 		float m_height;
 		float m_radius;
@@ -86,6 +90,8 @@ namespace LB {
 
 		void AddVertice(float x, float y);
 
+		void UpdateScaledData();
+
 		void UpdateColliderBoxVertices();
 
 		void UpdateColliderAABB();
@@ -93,6 +99,8 @@ namespace LB {
 		void DebugDraw();
 
 		void SetWidthHeightRadius(float width, float height, float radius);
+
+		bool HasRB();
 
 		std::string GetShapeName();
 
