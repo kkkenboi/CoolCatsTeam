@@ -74,7 +74,7 @@ namespace LB
 		 \brief
 		 Delete all ComponentMakers from all GameObjects 
 		*************************************************************************/
-		void DeleteAllCMs(std::map<ComponentTypeID, ComponentMaker*> ComponentMakers);
+		void DeleteAllCMs();
 
 		/*!***********************************************************************
 		 \brief
@@ -106,7 +106,7 @@ namespace LB
 		 \brief
 		 Gets all of the ComponentMakers
 		*************************************************************************/
-		std::map<ComponentTypeID, ComponentMaker*> GetCMs() const;
+		std::map<ComponentTypeID, ComponentMaker*>& GetCMs();
 
 		/*!***********************************************************************
 		 \brief

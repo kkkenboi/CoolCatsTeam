@@ -109,10 +109,10 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void LBEngine::AddSystem(std::unique_ptr<ISystem> system)
+	void LBEngine::AddSystem(std::shared_ptr<ISystem> system)
 	{
 		//Add a system to the core to be updated every frame
-		m_systems.push_back(std::move(system));
+		m_systems.push_back(system);
 	}
 
 	/*!***********************************************************************
@@ -127,6 +127,7 @@ namespace LB
 		for (unsigned i = 0; i < m_systems.size(); ++i)
 		{
 			m_systems[m_systems.size() - i - 1]->Destroy();
+			//m_systems[m_systems.size() - i - 1].reset();
 			//delete m_systems[m_systems.size() - i - 1];
 		}
 	}

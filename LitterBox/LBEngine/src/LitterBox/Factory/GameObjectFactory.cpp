@@ -102,7 +102,7 @@ namespace LB
 	*************************************************************************/
 	void FactorySystem::Destroy()
 	{
-		DeleteAllCMs(m_ComponentMakers);
+		DeleteAllCMs();
 	}
 
 	/*!***********************************************************************
@@ -124,9 +124,9 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void FactorySystem::DeleteAllCMs(std::map<ComponentTypeID, ComponentMaker*> ComponentMakers)
+	void FactorySystem::DeleteAllCMs()
 	{
-		for (std::map<ComponentTypeID, ComponentMaker*>::iterator it = ComponentMakers.begin(); it != ComponentMakers.end(); ++it)
+		for (std::map<ComponentTypeID, ComponentMaker*>::iterator it = m_ComponentMakers.begin(); it != m_ComponentMakers.end(); ++it)
 		{
 			delete it->second;
 		}
@@ -282,7 +282,7 @@ namespace LB
 	 \return
 	 Map of names of ComponentMakers and ComponentMakers
 	*************************************************************************/
-	std::map<ComponentTypeID, ComponentMaker*> FactorySystem::GetCMs() const
+	std::map<ComponentTypeID, ComponentMaker*>& FactorySystem::GetCMs()
 	{
 		return m_ComponentMakers;
 	}

@@ -132,4 +132,15 @@ namespace Renderer {
 	};
 
 	class RenderSystem;
+
+	/*!***********************************************************************
+	\brief
+	 message is a structure that contains the data necessary to print custom
+	 text at specified locations on the screen with changeable color.
+	*************************************************************************/
+	struct message {
+		std::string text;
+		float x, y, scale;
+		LB::Vec3<float> color;
+	};
 }

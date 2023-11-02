@@ -72,14 +72,14 @@ namespace LB
 		//	_CrtDumpMemoryLeaks();
 		//}
 
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorToolBar>("ToolBar")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorInspector>("Inspector")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorHierarchy>("Hierarchy")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorGameView>("Game View")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorSceneView>("Scene View")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorConsole>("Console")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorProfiler>("Profiler")));
-		m_ImGuiLayers.AddLayer(std::move(std::make_unique<EditorAssets>("Assets")));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorToolBar>("ToolBar"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorInspector>("Inspector"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorHierarchy>("Hierarchy"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorGameView>("Game View"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorSceneView>("Scene View"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorConsole>("Console"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorProfiler>("Profiler"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorAssets>("Assets"));
 	}
 
 	void Editor::Initialize()
@@ -212,7 +212,7 @@ namespace LB
 
 
 			// Update all the ImGui layers here
-			for (std::unique_ptr<Layer>& layer : m_ImGuiLayers)
+			for (std::shared_ptr<Layer>& layer : m_ImGuiLayers)
 			{
 				layer->UpdateLayer();
 			}
