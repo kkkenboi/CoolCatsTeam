@@ -22,6 +22,10 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	  \brief
+	  Types of messages
+	*************************************************************************/
 	enum class EditorConsoleMsgType
 	{
 		DEBUG,
@@ -29,6 +33,10 @@ namespace LB
 		ERROR
 	};
 
+	/*!***********************************************************************
+	  \brief
+	  Contains a message and its type (warning, deug, error)
+	*************************************************************************/
 	struct ConsoleMessage
 	{
 		std::string msg;
@@ -41,57 +49,45 @@ namespace LB
 		/*!***********************************************************************
 		  \brief
 		  Constructor for the EditorConsole class.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		EditorConsole(std::string layerName);
 
 		/*!***********************************************************************
 		  \brief
-		  Updates the EditorConsole layer.
-		  \return
-		  Nothing.
+		  Updates the EditorConsole layer, renders the various messages
 		*************************************************************************/
 		void UpdateLayer() override;
 
 		/*!***********************************************************************
 		  \brief
 		  Destroys the EditorConsole layer.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		void Destroy() override;
 
 		/*!***********************************************************************
 		  \brief
 		  Add a log message to the console.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		void AddLogMessage(std::string const& log);
 
 		/*!***********************************************************************
 		  \brief
 		  Add a warning message to the console.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		void AddWarningMessage(std::string const& warning);
 
 		/*!***********************************************************************
 		  \brief
 		  Add an error message to the console.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		void AddErrorMessage(std::string const& error);
 
 	private:
-		std::map<EditorConsoleMsgType, ImVec4> m_messageColors;
-		std::vector<ConsoleMessage> m_messages{};
-		ImGuiTextFilter m_messageFilter;
+		std::map<EditorConsoleMsgType, ImVec4> m_messageColors; // Colors for each message type
+		std::vector<ConsoleMessage> m_messages{};				// All the messages logged
+		ImGuiTextFilter m_messageFilter;						// Filter for all log messages
 
-		bool m_pauseOnError;
+		bool m_pauseOnError;									// Should pause the game when error is logged?
 	};
 
 	extern EditorConsole* EDITORCONSOLE;

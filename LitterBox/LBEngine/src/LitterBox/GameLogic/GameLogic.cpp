@@ -1,13 +1,12 @@
 /*!************************************************************************
  \file				GameLogic.cpp
- \author(s)			Kenji Brannon Chong
- \par DP email(s):	kenjibrannon.c@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin
+ \par DP email(s):	vanessasiewjin.chua@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
  \brief		
-
- This file contains functions definitions of the GameLogic class which is to 
- handle all of the game logic in the system, eg. Health, Damage etc.
+ This file handles the initialization of C# Mono which all script components
+ will use.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -26,10 +25,7 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-	 Initalises the Game Logic system
-
-	 \return
-	 Nothing
+	 Initalises the GameLogic system
 	*************************************************************************/
 	void GameLogic::Initialize()
 	{
@@ -53,11 +49,19 @@ namespace LB
 		test->Initialise();
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Adds a new script into the GameLogic system
+	*************************************************************************/
 	void GameLogic::Load(CPScript *newScript)
 	{
 		m_sceneScripts.push_back(newScript);
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Removes all scripts from the GameLogic system
+	*************************************************************************/
 	void GameLogic::Unload()
 	{
 		for (CPScript* script : m_sceneScripts)
@@ -70,10 +74,7 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-	 This should update any variables of all of the different GameObjects
-
-	 \return
-	 Nothing
+	 Updates the script components for all GameObjects
 	*************************************************************************/
 	void GameLogic::Update()
 	{
@@ -93,14 +94,22 @@ namespace LB
 	void GameLogic::Destroy()
 	{
 		Unload();
-		//mono_jit_cleanup(m_domain);
+		mono_jit_cleanup(m_domain);
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Returns the Mono domain which contains the assembly for the CS classes
+	*************************************************************************/
 	MonoDomain* GameLogic::GetDomain()
 	{
 		return m_domain;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Returns the Assembly which contains all the CS classes
+	*************************************************************************/
 	MonoAssembly* GameLogic::GetScriptAssembly()
 	{
 		return m_scriptAssembly;

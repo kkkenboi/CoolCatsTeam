@@ -5,8 +5,8 @@
  \par Course:       CSD2401A
  \date				29/10/2023
  \brief
-
- This file contains 
+ This file handles the initialization of all CPP scripts loaded by
+ GameObjects. Scripts only function when the game is playing
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -36,21 +36,33 @@ namespace LB
 		*************************************************************************/
 		void Initialize() override;
 
+		/*!***********************************************************************
+		 \brief
+		 Creates and loads the instances of each script when the scene starts
+		*************************************************************************/
 		void Start();
 
+		/*!***********************************************************************
+		 \brief
+		 Adds a new script to the list of scripts to load when scene plays
+		*************************************************************************/
 		void Load(CPScriptCPP* newScript);
 
+		/*!***********************************************************************
+		 \brief
+		 Removes the given script from the list of scripts
+		*************************************************************************/
 		void Unload(CPScriptCPP* scriptToRemove);
 
 		/*!***********************************************************************
 		 \brief
-		 This should update any variables of all of the different GameObjects
+		 Updates the script components for all GameObjects
 		*************************************************************************/
 		void Update() override;
 
 		/*!***********************************************************************
 		 \brief
-		 Destroys the GameLogic system
+		 Destroys the GameLogic system and clears all scripts attached
 		*************************************************************************/
 		void Destroy() override;
 
@@ -58,6 +70,10 @@ namespace LB
 		std::list<CPScriptCPP*> m_sceneScripts{};	// List of all scripts currently active in the scene
 	};
 
+	/*!***********************************************************************
+	 \brief
+	 For event subscription for when the scene starts
+	*************************************************************************/
 	void StartScripts(bool isPlaying);
 
 	/*!***********************************************************************

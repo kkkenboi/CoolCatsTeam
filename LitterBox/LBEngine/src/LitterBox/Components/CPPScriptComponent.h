@@ -25,7 +25,7 @@ namespace LB
 {
 	/*!***********************************************************************
 	\brief
-	 CPScriptCPP is a component to that holds a "script" class that holds the
+	 CPScriptCPP is a component to that holds a CPP "script" class that holds the
 	 game logic for this GameObject.
 	*************************************************************************/
 	class CPScriptCPP : public IComponent

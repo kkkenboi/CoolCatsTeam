@@ -5,10 +5,8 @@
  \par Course:       CSD2401A
  \date				03/11/2023
  \brief
-
  This header file contains functions declarations for the profiler layer of the
  Editor. This is to print out the usage of each system per frame.
-
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -22,12 +20,20 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	  \brief
+	  Used for setting up the graph for system timings
+	*************************************************************************/
 	struct SystemFrame
 	{
 		float timing; // Actual timing
 		float offset; // Timing + y-offset
 	};
 
+	/*!***********************************************************************
+	  \brief
+	  For this frame, holds the system's name and time spent.
+	*************************************************************************/
 	struct SystemFrameMoment
 	{
 		std::string name;
@@ -40,48 +46,38 @@ namespace LB
 		/*!***********************************************************************
 		  \brief
 		  Constructor for the EditorProfiler class.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		EditorProfiler(std::string layerName);
 
 		/*!***********************************************************************
 		  \brief
 		  Updates the EditorProfiler layer.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		void UpdateLayer() override;
 
 		/*!***********************************************************************
 		  \brief
 		  Destroys the EditorProfiler layer.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		void Destroy() {}
 
 		/*!***********************************************************************
 		  \brief
 		  Update the system frames with timing data.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		void UpdateSystemFrames(std::map<std::string, double> const& timings);
 
 		/*!***********************************************************************
 		  \brief
 		  Set the size of the frame history.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		void SetFrameHistorySize(int newSize);
 
 	private:
-		bool m_shouldProfile {false};
+		bool m_shouldProfile {false};									// Should the profiler graph the timings?
 
-		std::map<std::string, std::vector<SystemFrame>> m_systemFrames;
-		int m_framesHistorySize, m_currentFrameHistoryIndex;
+		std::map<std::string, std::vector<SystemFrame>> m_systemFrames;	// Timings for each system
+		int m_framesHistorySize, m_currentFrameHistoryIndex;			// How many frames data to hold
 	};
 
 	extern EditorProfiler* EDITORPROFILER;

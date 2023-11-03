@@ -1,13 +1,12 @@
 /*!************************************************************************
  \file				GameLogic.h
- \author(s)			Kenji Brannon Chong
- \par DP email(s):	kenjibrannon.c@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin
+ \par DP email(s):	vanessasiewjin.chua@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
  \brief
-
- This file contains functions declarations of the GameLogic class which is to
- handle all of the game logic in the system, eg. Health, Damage etc.
+ This file handles the initialization of C# Mono which all script components
+ will use.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -35,17 +34,25 @@ namespace LB
 	public:
 		/*!***********************************************************************
 		 \brief
-		 Initalises the Game Logic system
+		 Initalises the GameLogic system
 		*************************************************************************/
 		void Initialize() override;
 
+		/*!***********************************************************************
+		 \brief
+		 Adds a new script into the GameLogic system
+		*************************************************************************/
 		void Load(CPScript* newScript);
 
+		/*!***********************************************************************
+		 \brief
+		 Removes all scripts from the GameLogic system
+		*************************************************************************/
 		void Unload();
 
 		/*!***********************************************************************
 		 \brief
-		 This should update any variables of all of the different GameObjects
+		 Updates the script components for all GameObjects
 		*************************************************************************/
 		void Update() override;
 
@@ -55,8 +62,16 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override;
 
+		/*!***********************************************************************
+		 \brief
+		 Returns the Mono domain which contains the assembly for the CS classes
+		*************************************************************************/
 		MonoDomain* GetDomain();
 
+		/*!***********************************************************************
+		 \brief
+		 Returns the Assembly which contains all the CS classes
+		*************************************************************************/
 		MonoAssembly* GetScriptAssembly();
 
 	private:
