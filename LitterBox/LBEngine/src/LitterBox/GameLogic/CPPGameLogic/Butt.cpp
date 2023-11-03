@@ -10,11 +10,14 @@ namespace LB {
 	}
 	void Butt::Update()
 	{
-		auto test = COLLIDERS->OverlapCircle(EDITORGAMEVIEW->GetMousePos(), 1.f);
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
+		{
+			auto test = COLLIDERS->OverlapCircle(EDITORGAMEVIEW->GetMousePos(), 1.f);
 
-		for (const auto& collider : test) {
-			if (coll == collider)
-				DebuggerLog("UI BUTTON CLICKED");
+			for (const auto& collider : test) {
+				if (coll == collider)
+					DebuggerLog("UI BUTTON CLICKED");
+			}
 		}
 	}
 	void Butt::Destroy()

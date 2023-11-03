@@ -53,7 +53,7 @@ namespace LB
 	{
 		DebuggerLogWarning("Added script");
 
-		if (newScript->GetName() == "Player" || newScript->GetName() == "Enemy")
+		if (newScript->GetName() == "Player" || newScript->GetName() == "Enemy" || newScript->GetName() == "Butt")
 		{
 			m_sceneScripts.push_back(newScript);
 			return;
