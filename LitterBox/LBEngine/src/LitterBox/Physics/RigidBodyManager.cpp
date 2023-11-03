@@ -148,6 +148,10 @@ namespace LB
         }
     }
 
+    /*!***********************************************************************
+      \brief
+      This function removes a CPRigidBody* from the RigidBodyPool
+    *************************************************************************/
     void RigidBodyManager::RemoveRigidBodyFromPool(CPRigidBody* rb)
     {
         for (size_t i = 0; i < m_poolSize; ++i)
