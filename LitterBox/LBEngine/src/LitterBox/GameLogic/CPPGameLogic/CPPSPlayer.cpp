@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				CPPSPlayer.cpp
- \author(s)			Justine Carlo Villa Ilao
- \par DP email(s):	justine.c@digipen.edu
+ \author(s)			Justine Carlo Villa Ilao, Vanessa Chua Siew Jin
+ \par DP email(s):	justine.c@digipen.edu, vanessasiewjin@digipen.edu
  \par Course:		CSD2401A
  \date				03-11-2023
  \brief
@@ -109,6 +109,16 @@ namespace LB
 		if (INPUT->IsKeyPressed(KeyCode::KEY_D))
 		{
 			rb->addForce(Vec2<float>{5000.f, 0.f});
+		}
+
+		// Rotation QE
+		if (INPUT->IsKeyPressed(KeyCode::KEY_Q))
+		{
+			rb->addRotation(0.15f);
+		}
+		if (INPUT->IsKeyPressed(KeyCode::KEY_E))
+		{
+			rb->addRotation(-0.15f);
 		}
 		
 		// Click check
