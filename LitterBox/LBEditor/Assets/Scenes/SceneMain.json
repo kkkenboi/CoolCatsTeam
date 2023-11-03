@@ -274,6 +274,29 @@
                 "Render": {
                     "Texture": 16
                 }
+            },
+            {
+                "Name": "ButtObject",
+                "Transform": {
+                    "Position": {
+                        "x": 200.0,
+                        "y": 700.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 190.0,
+                    "Height": 80.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Butt"
+                }
             }
         ]
     }
