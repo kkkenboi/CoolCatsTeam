@@ -975,17 +975,17 @@ void Renderer::RenderSystem::Initialize()
 
 	text = DBG_NEW LB::CPText{};
 	text->Initialise();
-	text->update_msg_text("GONE HOME ALR");
-	text->update_msg_color({ 0.5f, 0.4f, 0.3f });
+	text->update_msg_text("Font Type 1");
+	text->update_msg_color({ 1.f, 0.f, 1.f });
 	text->update_msg_size(2.f);
 	text->update_msg_pos({ 20.f, 20.f });
 	text->update_msg_font("KernlGrotesk");
 
 	text2 = DBG_NEW LB::CPText{};
 	text2->Initialise();
-	text2->update_msg_text("I Don't understand the rubrics sometimes");
+	text2->update_msg_text("Font Type 2");
 	text2->update_msg_color({ 1.f, 1.f, 1.f });
-	text2->update_msg_size(1.f);
+	text2->update_msg_size(2.f);
 	text2->update_msg_pos({ 20.f, 120.f });
 	text2->update_msg_font("TiltNeon-Regular");
 
