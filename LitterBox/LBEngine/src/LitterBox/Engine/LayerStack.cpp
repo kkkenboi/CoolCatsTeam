@@ -24,19 +24,13 @@ namespace LB
 	 \brief
 	 Creates a LayerStack
 	*************************************************************************/
-	LayerStack::LayerStack()
-	{
-		// Empty by design
-	}
+	LayerStack::LayerStack() { } // Empty by design
 
 	/*!***********************************************************************
 	 \brief
 	 Destroys a LayerStack
 	*************************************************************************/
-	LayerStack::~LayerStack()
-	{
-
-	}
+	LayerStack::~LayerStack() { } // Empty by design
 
 	/*!***********************************************************************
 	 \brief
@@ -106,6 +100,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Removes all layers inside this LayerStack
+	*************************************************************************/
 	void LayerStack::Destroy()
 	{
 		for (std::shared_ptr<Layer>& layer : m_Layers)

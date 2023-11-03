@@ -73,12 +73,20 @@ namespace LB
 		MEMORY->Deallocate(m_currentScene);
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Loads a scene based on the given name
+	*************************************************************************/
 	void SceneManager::LoadScene(std::string name)
 	{
 		Scene* newScene = MEMORY->Allocate<Scene>(name);
 		LoadScene(newScene);
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Loads a scene based on the pointer given
+	*************************************************************************/
 	void SceneManager::LoadScene(Scene* newScene)
 	{
 		if (CORE->IsPlaying())
@@ -108,12 +116,20 @@ namespace LB
 		m_currentScene->Init();
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Loads the same scene again without saving
+	*************************************************************************/
 	void SceneManager::ReloadScene()
 	{
 		m_isReloading = true;
 		LoadScene(m_currentScene->GetName());
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Loads or saves the scene when the play button is pressed
+	*************************************************************************/
 	void SceneManager::SceneOnPlayToggle(bool isPlaying)
 	{
 		if (isPlaying)

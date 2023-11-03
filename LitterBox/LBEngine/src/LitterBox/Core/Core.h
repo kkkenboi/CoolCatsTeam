@@ -68,26 +68,72 @@ namespace LB
 		*************************************************************************/
 		bool IsRunning() const;
 
-		bool IsEditorMode() const;
-		void ToggleEditorMode();
-		void SetEditorMode(bool newState);
-		Event<bool> onEditorModeToggle;
+		/*!***********************************************************************
+		 \brief
+		 Returns true if the game is in editor mode, m_editorMode is a bool
+		 to check if the game is in the editor view
+		*************************************************************************/
 
+		bool IsEditorMode() const;
+		/*!***********************************************************************
+		 \brief
+		 Flips the state of m_editorMode which is a bool to check if the game
+		 is in the editor view
+		*************************************************************************/
+		void ToggleEditorMode();
+
+		/*!***********************************************************************
+		 \brief
+		 Sets the state of m_editorMode to the given state, m_editorMode is a bool
+		 to check if the game is in the editor view
+		*************************************************************************/
+		void SetEditorMode(bool newState);
+
+		// Event to let any subscribers know the editor mode has been toggled
+		Event<bool> onEditorModeToggle; 
+
+		/*!***********************************************************************
+		 \brief
+		 Returns true if the actual game is playing
+		*************************************************************************/
 		bool IsPlaying() const;
+
+		/*!***********************************************************************
+		 \brief
+		 Flips the m_isPlaying state
+		*************************************************************************/
 		void TogglePlaying();
+
+		/*!***********************************************************************
+		 \brief
+		 Sets the m_isPlaying state to the given one, m_isPlaying checks if the
+		 game is actually running (not editor)
+		*************************************************************************/
 		void SetPlayingMode(bool newState);
+		
+		// Event to let any subscribers know the game has started/stopped
 		Event<bool> onPlayingModeToggle;
 
+		/*!***********************************************************************
+		 \brief
+		 Returns true if the editor ImGUI has initialized and launched
+		*************************************************************************/
 		bool IsEditorLaunched() const;
+
+		/*!***********************************************************************
+		 \brief
+		 Sets the m_editorLaunch flag to the given state, this checks if the
+		 editor ImGUI has initialized and launched
+		*************************************************************************/
 		void SetEditorLaunched(bool newState);
 
 	private:
-		std::vector<std::shared_ptr<ISystem>> m_systems;
+		std::vector<std::shared_ptr<ISystem>> m_systems; // Pointers to all systems currently loaded
 		
-		bool					m_running;
-		bool					m_isPlaying{ false };
-		bool					m_editorMode{ true };
-		bool					m_editorLaunch{ false };
+		bool					m_running;				// Is the editor running?
+		bool					m_isPlaying{ false };	// Is the game running?
+		bool					m_editorMode{ true };	// Is the ImGUI editor interface open?
+		bool					m_editorLaunch{ false }; // Has the editor ImGUI initialized?
 	};
 
 	extern LBEngine* CORE; // Global pointer to the singleton

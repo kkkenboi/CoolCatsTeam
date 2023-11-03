@@ -30,13 +30,9 @@ namespace LB
 	{
 		// Ensure singleton
 		if (!FACTORY)
-		{
 			FACTORY = this;
-		}
 		else
-		{
 			DebuggerLogErrorFormat("Factory already exist");
-		}
 
 		m_LastObjID = 0;
 
@@ -55,9 +51,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Initialise the factory and sets the system's name
-
-	 \return
-	 Nothing
 	*************************************************************************/
 	void FactorySystem::Initialize()
 	{ 
@@ -70,9 +63,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Updates the factory
-
-	 \return
-	 Nothing
 	*************************************************************************/
 	void FactorySystem::Update()
 	{
@@ -96,9 +86,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Destroys the factory
-
-	 \return
-	 Nothing
 	*************************************************************************/
 	void FactorySystem::Destroy()
 	{
@@ -108,9 +95,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Initialise this ComponentMaker of their type, eg. Physics / Graphics
-
-	 \return
-	 Nothing
 	*************************************************************************/
 	void FactorySystem::InitCM(const ComponentTypeID& name, ComponentMaker* newComponent)
 	{
@@ -120,9 +104,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Delete all ComponentMakers from all GameObjects
-
-	 \return
-	 Nothing
 	*************************************************************************/
 	void FactorySystem::DeleteAllCMs()
 	{
@@ -137,9 +118,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Spawns a GameObject with no components but specified position
-
-	 \return
-	 A pointer to the GameObject
 	*************************************************************************/
 	GameObject* FactorySystem::SpawnGameObject(Vec2<float> pos, GOSpawnType spawnType)
 	{
@@ -149,9 +127,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Spawns a GameObject with components but no specified position
-
-	 \return
-	 A pointer to the GameObject
 	*************************************************************************/
 	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<ComponentTypeID> components, GOSpawnType spawnType)
 	{
@@ -161,9 +136,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Spawns a GameObject with specified components and position
-
-	 \return
-	 A pointer to the GameObject
 	*************************************************************************/
 	GameObject* FactorySystem::SpawnGameObject(std::initializer_list<ComponentTypeID> components, Vec2<float> pos, GOSpawnType spawnType)
 	{
@@ -213,9 +185,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Spawns a GameObject with the exact same components as the provided GameObject
-
-	 \return
-	 A pointer to the GameObject
 	*************************************************************************/
 	GameObject* FactorySystem::SpawnGameObject(GameObject* prefab, GOSpawnType spawnType)
 	{
@@ -261,9 +230,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Creates a empty GameObject with no components
-
-	 \return
-	 A pointer to an empty GameObject pointer
 	*************************************************************************/
 	GameObject* FactorySystem::CreateGameObject()
 	{
@@ -278,9 +244,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Gets all of the ComponentMakers
-
-	 \return
-	 Map of names of ComponentMakers and ComponentMakers
 	*************************************************************************/
 	std::map<ComponentTypeID, ComponentMaker*>& FactorySystem::GetCMs()
 	{
@@ -290,20 +253,22 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Gets the last created GameObject's ID.
-
-	 \return
-	 Last created GameObject's ID
 	*************************************************************************/
 	int FactorySystem::GetLastObjID() const
 	{
 		return m_LastObjID;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Updates the current scene loaded to add the GameObjects to
+	*************************************************************************/
 	void FactorySystem::UpdateLoadedScene(Scene* loadedScene)
 	{
 		m_loadedScene = loadedScene;
 	}
 
+	// Same function but for Event Subscription
 	void UpdateLoadedScene(Scene* loadedScene)
 	{
 		FACTORY->UpdateLoadedScene(loadedScene);

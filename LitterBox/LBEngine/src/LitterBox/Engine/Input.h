@@ -49,6 +49,11 @@ namespace LB {
 		KEY_Z,
 	};
 
+	/*!***********************************************************************
+	 \brief
+	 enum class for whether the key press broadcast should pause when it's
+	 paused.
+	*************************************************************************/
 	enum class KeyTriggerType 
 	{
 		PAUSABLE,
@@ -103,8 +108,16 @@ namespace LB {
 		*************************************************************************/
 		void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
 
+		/*!***********************************************************************
+		 \brief
+		 Updates the mouse position based on GLFW
+		*************************************************************************/
 		void GLFWMousePos(GLFWwindow* window, double xpos, double ypos);
 
+		/*!***********************************************************************
+		 \brief
+		 Returns the mouse position based on the whole main window
+		*************************************************************************/
 		Vec2<double> const& GetMousePos();
 
 		/*!***********************************************************************
@@ -119,8 +132,22 @@ namespace LB {
 		*************************************************************************/
 		void UnsubscribeFromKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent, KeyTriggerType triggerType = KeyTriggerType::PAUSABLE);
 
+		/*!***********************************************************************
+		 \brief
+		 Was the key given pressed (held) this frame
+		*************************************************************************/
 		bool IsKeyPressed(KeyCode key);
+
+		/*!***********************************************************************
+		 \brief
+		 Was the key given just pressed (triggered) this frame
+		*************************************************************************/
 		bool IsKeyTriggered(KeyCode key);
+
+		/*!***********************************************************************
+		 \brief
+		 Was the key released this frame
+		*************************************************************************/
 		bool IsKeyReleased(KeyCode key);
 
 	private:
@@ -156,15 +183,19 @@ namespace LB {
 	// For GLFW
 	/*!***********************************************************************
 	\brief
-	 Invoke Key overload press to notify all subscribers for all keycode presses
+	 Sets the state of the key given from GLFW
 	*************************************************************************/
 	void GLFWKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod);
 
 	/*!***********************************************************************
 	 \brief
-	 Invoke Key overload press to notify all subscribers for all keycode presses
+	 Sets the state of the key given from GLFW
 	*************************************************************************/
 	void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod);
 
+	/*!***********************************************************************
+	 \brief
+	 Sets the mouse position given from GLFW
+	*************************************************************************/
 	void GLFWMousePos(GLFWwindow* window, double xpos, double ypos);
 }

@@ -157,11 +157,20 @@ namespace LB
 			m_angle = newRotation;
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Returns the Transform of the parent of this GameObject
+		*************************************************************************/
 		CPTransform* GetParent()
 		{
 			return m_parent;
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Sets a new parent for thsi GameObject, if this GameObject already has a 
+		 parent, it removes itself from the parent
+		*************************************************************************/
 		void SetParent(CPTransform* newParent)
 		{
 			// If parent exists, remove this from the old parent
@@ -171,6 +180,11 @@ namespace LB
 			m_parent = newParent;
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Returns the child GameObject at the given index (A GameObject can have
+		 many children) if the index is out of range an error will be thrown.
+		*************************************************************************/
 		CPTransform* GetChild(int index = 0)
 		{
 			if (index < 0 || index >= m_children.size())
@@ -178,21 +192,39 @@ namespace LB
 			return m_children[index];
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Returns the number of children this GameObject has
+		*************************************************************************/
 		int GetChildCount()
 		{
 			return (int)m_children.size();
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Adds the GameObject to this GameObject's list of children
+		*************************************************************************/
 		void AddChild(CPTransform* newChild)
 		{
 			m_children.push_back(newChild);
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Removes the GameObject to this GameObject's list of children at the
+		 given index
+		*************************************************************************/
 		void RemoveChild(int indexToRemove)
 		{
 			m_children.erase(m_children.begin() + indexToRemove);
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Removes the GameObject to this GameObject's list of children by finding
+		 if the pointer is the same as the one given
+		*************************************************************************/
 		void RemoveChild(CPTransform* childToRemove)
 		{
 			for (int index {0}; index < m_children.size(); ++index)
@@ -205,20 +237,25 @@ namespace LB
 			}
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Removes all GameObjects from the list of children
+		*************************************************************************/
 		void RemoveAllChildren()
 		{
 			m_children.clear();
 		}
 
 	private:
-		CPTransform* m_parent{ nullptr };
-		std::vector<CPTransform*> m_children{};
+		CPTransform* m_parent{ nullptr };		// Pointer to parent GameObject
+		std::vector<CPTransform*> m_children{};	// Pointers to all children GameObjects 
 
 		//---------------Global (World) Space---------------
 		Vec2<float> m_pos{}, m_scale{ 1.0f, 1.0f };
 		float m_angle{};
 
-		//---------------Global (World) Space---------------
+		// TODO: Children gameobjects in the future will have their position relative to their parent
+		//---------------Local (World) Space---------------
 		Vec2<float> m_localPos{}, m_localScale{ 1.0f, 1.0f };
 		float m_localAngle{};
 	};

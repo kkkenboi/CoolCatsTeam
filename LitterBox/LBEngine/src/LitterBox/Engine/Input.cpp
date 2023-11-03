@@ -142,6 +142,10 @@ namespace LB
 		GLFWKeyPressed(pwin, button, 0, action, mod);
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Updates the mouse position based on GLFW
+	*************************************************************************/
 	void InputSystem::GLFWMousePos(GLFWwindow* window, double xpos, double ypos) 
 	{
 		UNREFERENCED_PARAMETER(window);
@@ -149,6 +153,10 @@ namespace LB
 		mousePos.y = ypos;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Returns the mouse position based on the whole main window
+	*************************************************************************/
 	Vec2<double> const& InputSystem::GetMousePos()
 	{
 		return mousePos;
@@ -223,9 +231,7 @@ namespace LB
 	// For GLFW
 	/*!***********************************************************************
 	 \brief
-	 Invoke Key overload press to notify all subscribers for all keycode presses
-	 \return
-	 void
+	 Sets the state of the key given from GLFW
 	*************************************************************************/
 	void GLFWKeyPressed(GLFWwindow* pwin, int key, int scancode, int action, int mod) 
 	{
@@ -234,15 +240,17 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-	 Invoke Key overload press to notify all subscribers for all keycode presses
-	 \return
-	 void
+	 Sets the state of the key given from GLFW
 	*************************************************************************/
 	void GLFWKeyPressed(GLFWwindow* pwin, int button, int action, int mod) 
 	{
 		INPUT->GLFWKeyPressed(pwin, button, action, mod);
 	}
 	
+	/*!***********************************************************************
+	 \brief
+	 Sets the mouse position given from GLFW
+	*************************************************************************/
 	void GLFWMousePos(GLFWwindow* window, double xpos, double ypos) 
 	{
 		INPUT->GLFWMousePos(window, xpos, ypos);

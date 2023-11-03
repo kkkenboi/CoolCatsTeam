@@ -169,6 +169,7 @@ namespace LB
 		FlushDebugLog();
 	}
 
+	// Overload of the previous log function
 	void Debugger::LogFormat(const char* file, int line, const char* format, ...)
 	{
 		va_list args;
@@ -201,6 +202,7 @@ namespace LB
 		FlushDebugLog();
 	}
 
+	// Overload of the previous log function
 	void Debugger::LogWarningFormat(const char* file, int line, const char* format, ...)
 	{
 		va_list args;
@@ -237,6 +239,7 @@ namespace LB
 		FlushDebugLog();
 	}
 
+	// Overload of the previous log function
 	void Debugger::LogErrorFormat(const char* file, int line, const char* format, ...)
 	{
 		va_list args;
@@ -275,6 +278,7 @@ namespace LB
 		}
 	}
 
+	// Overload of the previous log function
 	void Debugger::AssertFormat(const char* file, int line, bool expectedCondition, const char* format, ...)
 	{
 		va_list args;

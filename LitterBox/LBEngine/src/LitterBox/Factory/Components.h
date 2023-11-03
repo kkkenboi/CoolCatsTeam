@@ -33,7 +33,10 @@
 
 namespace LB
 {
-	// Interface to make components and tag IDs
+	/*!***********************************************************************
+	 \brief
+	 Interface to make components and tag IDs
+	*************************************************************************/
 	class ComponentMaker
 	{
 	public:
@@ -45,8 +48,11 @@ namespace LB
 		virtual ~ComponentMaker() {};
 	};
 
-	// Class Template to create different types of ComponentMaker
-	// ComponentType here refers to the derived classes of IComponent
+	/*!***********************************************************************
+	 \brief
+	 Class Template to create different types of ComponentMaker
+	 ComponentType here refers to the derived classes of IComponent
+	*************************************************************************/
 	template<typename ComponentType>
 	class ComponentMakerType : public ComponentMaker
 	{

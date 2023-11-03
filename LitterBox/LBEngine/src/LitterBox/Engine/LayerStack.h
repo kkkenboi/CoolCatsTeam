@@ -66,6 +66,10 @@ namespace LB
 		*************************************************************************/
 		void RemoveLayer(std::shared_ptr<Layer> layer);
 
+		/*!***********************************************************************
+		 \brief
+		 Removes all layers inside this LayerStack
+		*************************************************************************/
 		void Destroy();
 
 		/*!***********************************************************************
@@ -73,12 +77,14 @@ namespace LB
 		 Provides the start of the LayerStack
 		*************************************************************************/
 		std::vector<std::shared_ptr<Layer>>::iterator begin();
+
 		/*!***********************************************************************
 		 \brief
 		 Provides the end of the LayerStack
 		*************************************************************************/
 		std::vector<std::shared_ptr<Layer>>::iterator end();
 
+		// Contains pointers to all the layers in this LayerStack
 		std::vector<std::shared_ptr<Layer>> m_Layers{};
 	private:
 		unsigned int		m_LayerIndex{};

@@ -139,9 +139,9 @@ namespace Renderer {
 	 text at specified locations on the screen with changeable color.
 	*************************************************************************/
 	struct message {
-		std::string text;
-		float x, y, scale;
-		LB::Vec3<float> color;
-		std::string font_file_name_wo_ext;
+		std::string text{};
+		float x{}, y{}, scale{};
+		LB::Vec3<float> color{};
+		std::string font_file_name_wo_ext{};
 	};
 }

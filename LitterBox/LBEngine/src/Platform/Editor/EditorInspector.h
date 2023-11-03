@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				EditorHierarchy.h
- \author(s)			Kenji Brannon Chong
- \par DP email(s):	kenjibrannon.c@digipen.edu
+ \author(s)			Kenji Brannon Chong, Vanessa Chua Siew Jin
+ \par DP email(s):	kenjibrannon.c@digipen.edu, vanessasiewjin.chua@digipen.edu
  \par Course:       CSD2401A
  \date				11/10/2023
  \brief
