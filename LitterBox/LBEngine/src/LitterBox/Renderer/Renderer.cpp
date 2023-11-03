@@ -870,15 +870,29 @@ bool imgui_ready{ false }; // to make sure ImGui doesn't render empty
 
 
 //----------text button v1------------
+
+/*!***********************************************************************
+\brief
+ textbutt is an early implementation to render an In Game textbox GUI
+ button.
+*************************************************************************/
 struct textbutt {
 	LB::CPRender background{ {0.f ,0.f}, 50.f, 50.f, {1.f,1.f}, {1.f,1.f,1.f}, {}, -1, true, Renderer::Renderer_Types::RT_UI };
 	LB::CPText text;
 
+
+	/*!***********************************************************************
+	\brief
+	 update_text will render the text in middle left aligned with the render
+	 box of the object.
+	*************************************************************************/
 	void update_text() {
 		LB::Vec2<float> textposition{};
+		//number based on initial font size when loading freetype font
 		textposition.y = background.position.y - 25.f;
 		textposition.x = background.position.x - background.w * 0.5f;
 
+		//number based on initial font size when loading freetype font
 		float nscale = background.h < 50.f ? background.h / 50.f : 1.f;
 
 		std::cout << nscale << " is the scale\n";
@@ -887,6 +901,11 @@ struct textbutt {
 		text.update_msg_size(nscale);
 	}
 
+	/*!***********************************************************************
+	\brief
+	 textbutt is the contstructor that make sure all the member variables are
+	 properly initialized so that it can be seen in the game view
+	*************************************************************************/
 	textbutt() {
 		text.Initialise();
 		text.update_msg_font("KernlGrotesk");
@@ -1023,6 +1042,9 @@ void Renderer::RenderSystem::Initialize()
 \brief
  The update function that gets called every loop also in charge of
  drawing everything. Counterintuitive, I know.
+
+ NOTE: UI and Text are only rendered in game view because it renders directly
+ to camera so the movement will be a little weirder.
 *************************************************************************/
 void Renderer::RenderSystem::Update()
 {
@@ -1391,16 +1413,34 @@ void Renderer::Texture_Manager::flush_textures()
 }
 //----------------------------------------------TEXTURES--------------------------------------------
 
+
+//----------------------------------------------TEXT--------------------------------------------
+/*!***********************************************************************
+\brief
+ Initialises the text object component by adding it to the active list of
+ text objects to render.
+*************************************************************************/
 void LB::CPText::Initialise()
 {
 	Renderer::GRAPHICS->render_msg(this);
 }
 
+/*!***********************************************************************
+\brief
+ Removes the text object comopnent from active list in text object renderer
+*************************************************************************/
 void LB::CPText::Destroy()
 {
 	Renderer::GRAPHICS->remove_msg(this);
 }
 
+/*!***********************************************************************
+\brief
+ Update will move the text object component based on the game objects
+ transform.
+
+ NOTE: currently using self-defined positions for UI right now
+*************************************************************************/
 void LB::CPText::Update()
 {
 	/*LB::Vec2<float> pos = gameObj->GetComponent<CPTransform>()->GetPosition();
@@ -1408,58 +1448,127 @@ void LB::CPText::Update()
 	msg.y = pos.y;*/
 }
 
+/*!***********************************************************************
+\brief
+ Updates the text to be printed on the screen
+
+\param str
+ The text to be rendered
+*************************************************************************/
 inline void LB::CPText::update_msg_text(const std::string& str)
 {
 	msg.text = str;
 }
 
+/*!***********************************************************************
+\brief
+ Updates the font color of the text
+
+ NOTE: format is RGB and values go from 0 - 1.f
+
+\param col
+ The values of the new color in vector format
+*************************************************************************/
 inline void LB::CPText::update_msg_color(const LB::Vec3<float>& col)
 {
 	msg.color = col;
 }
 
+/*!***********************************************************************
+\brief
+ Updates the scale of the text
+
+ NOTE: font_size means scale for font size to be multiplied by. 2.f is double
+ of 1.f and so on.
+
+\param font_size
+ The new scaling value for the text
+*************************************************************************/
 inline void LB::CPText::update_msg_size(float font_size)
 {
 	msg.scale = font_size;
 }
 
+/*!***********************************************************************
+\brief
+ Updates the position of the text on the screen
+
+ NOTE: position is the bottom left of the text.
+
+\param pos
+ The new position in vector format
+*************************************************************************/
 inline void LB::CPText::update_msg_pos(const LB::Vec2<float>& pos)
 {
 	msg.x = pos.x;
 	msg.y = pos.y;
 }
 
+/*!***********************************************************************
+\brief
+ Updates the font that will be used to print the text object message
+
+ NOTE: The font will be loaded as the file name of the font without the
+ extension. E.g. "Ariel.ttf" file, the font name will be "Ariel"
+
+\param file_name_wo_ext
+ Font file name without the extension
+*************************************************************************/
 inline void LB::CPText::update_msg_font(const std::string& file_name_wo_ext)
 {
 	msg.font_file_name_wo_ext = file_name_wo_ext;
 }
 
+/*!***********************************************************************
+\brief
+ Getter method to get the string text of the message/CPText object
+*************************************************************************/
 inline const std::string& LB::CPText::get_msg_text() const
 {
 	// TODO: insert return statement here
 	return msg.text;
 }
 
+/*!***********************************************************************
+\brief
+ Getter method to get the font color of the CPText object in Vec3 format
+ RGB from 0 - 1.f
+*************************************************************************/
 inline const LB::Vec3<float>& LB::CPText::get_msg_color() const
 {
 	// TODO: insert return statement here
 	return msg.color;
 }
 
+/*!***********************************************************************
+\brief
+ Getter method to get the scaling value of the CPText object
+*************************************************************************/
 inline const float& LB::CPText::get_msg_size() const
 {
 	// TODO: insert return statement here
 	return msg.scale;
 }
 
+/*!***********************************************************************
+\brief
+ Getter method to get the string text of the font used by the CPText object
+*************************************************************************/
 inline const std::string& LB::CPText::get_msg_font() const
 {
 	// TODO: insert return statement here
 	return msg.font_file_name_wo_ext;
 }
 
+/*!***********************************************************************
+\brief
+ Getter method to get the entire message object in CPText object that
+ contains all necessary information for the text to be printed
+*************************************************************************/
 inline Renderer::message& LB::CPText::get_msg()
 {
 	// TODO: insert return statement here
 	return msg;
 }
+
+//----------------------------------------------TEXTURES--------------------------------------------
