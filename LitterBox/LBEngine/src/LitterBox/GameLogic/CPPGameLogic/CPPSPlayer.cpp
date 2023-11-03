@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				CPPSPlayer.cpp
- \author(s)			Vanessa Chua Siew Jin
- \par DP email(s):	vanessasiewjin.chua@digipen.edu
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
  \par Course:		CSD2401A
  \date				03-11-2023
  \brief
