@@ -45,11 +45,11 @@ namespace LB
         }
         else
         {
-            std::cerr << "Windows System already exist\n";
+            DebuggerLogError("Windows System already exist");
         }
 
         if (!glfwInit()) {
-            std::cout << "GLFW init has failed - abort program!!!" << std::endl;
+            DebuggerLogError("GLFW init has failed - abort program!!!");
         }
 
         // Set GLFW error callback
@@ -70,7 +70,7 @@ namespace LB
         // Create GLFW window
         m_Data.m_PtrToWindow = glfwCreateWindow(m_Data.m_Width, m_Data.m_Height, m_Data.m_Title.c_str(), NULL, NULL);
         if (!m_Data.m_PtrToWindow) {
-            std::cerr << "GLFW unable to create OpenGL context - abort program\n";
+            DebuggerLogError("GLFW unable to create OpenGL context - abort program");
             glfwTerminate();
             //return false;
         }
@@ -90,7 +90,7 @@ namespace LB
         
         // Initialize Glad
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-            std::cerr << "Failed to initialize Glad" << std::endl;
+            DebuggerLogError("Failed to initialize Glad");
             //return false;
         }
 
@@ -99,11 +99,12 @@ namespace LB
         glGetIntegerv(GL_MINOR_VERSION, &minorVersion);
 
         if (majorVersion >= 4 && minorVersion >= 5) {
-            std::cout << "Using OpenGL version: " << majorVersion << "." << minorVersion << std::endl;
-            std::cout << "Driver supports at least OpenGL 4.5\n" << std::endl;
+            DebuggerLogFormat("Using OpenGL version: %d.%d", majorVersion, minorVersion);
+            DebuggerLog("Driver supports at least OpenGL 4.5");
+
         }
         else {
-            std::cerr << "Driver doesn't support at least OpenGL 4.5 - abort program" << std::endl;
+            DebuggerLogError("Driver doesn't support at least OpenGL 4.5 - abort program");
         }
 
         // Get the framebuffer size and set the viewport
@@ -285,6 +286,8 @@ namespace LB
     void WindowsSystem::FrameBufferCB(GLFWwindow* ptr_win, int width, int height)
     {
         UNREFERENCED_PARAMETER(ptr_win);
+        UNREFERENCED_PARAMETER(width);
+        UNREFERENCED_PARAMETER(height);
 
         // This is to ensure that the window is still drawing when 
         // resizing the window

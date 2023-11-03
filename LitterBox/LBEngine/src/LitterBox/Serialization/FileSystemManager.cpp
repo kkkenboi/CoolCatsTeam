@@ -1,3 +1,17 @@
+/*!************************************************************************
+ \file				FileSystemManager.cpp
+ \author(s)			Amadeus Chia Jinhan, 
+ \par DP email(s):	amadeusjinhan.chia@digipen.edu,
+ \par Course:       CSD2401A
+ \date				02/11/2023
+ \brief				The FileSystem Manager contains the implementations of
+					the FileSystem Manager functions 
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "LitterBox/Serialization/FileSystemManager.h"
 #include "LitterBox/Debugging/Debug.h"
 
@@ -32,7 +46,6 @@ namespace LB
 		return currentPath/filePath;
 	}
 
-	////Function to get all filepaths of a certain filetype and return it as a vector
 
 	/*!************************************************************************
 	 * \brief Function that gets ALL files of the provided EXTENSION NAME
@@ -53,33 +66,47 @@ namespace LB
 		}
 		return temp;
 	}
-	//bool FILESYSTEM->FileExists(const std::string& fileName)
-	//{
-	//	for (const auto& directory : std::filesystem::recursive_directory_iterator(std::filesystem::current_path()))
-	//	{
-	//		if (directory.path().filename().string() == fileName)
-	//		{
-	//			return true;
-	//		}
-	//	}
-	//	return false;
-	//}
+
+	/*!************************************************************************
+	 * \brief Function that the file time of the specified file
+	 *	example input "joe.png" -> 48568494
+	 * \return int File's last time since modified
+	 **************************************************************************/
 	int FileSystemManager::GetFileTime(const std::filesystem::path& filePath)
 	{
 		std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(filePath);
 		return std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch()).count();
 	}
+
+	/*!************************************************************************
+	 * \brief Function overload for filetime for strings
+	 *	example input "joe.png" -> 48568494
+	 * \return int File's last time since modified
+	 **************************************************************************/
 	int FileSystemManager::GetFileTime(const std::string& filePath)
 	{
 		std::filesystem::path fp{ filePath };
 		return GetFileTime(fp);
 	}
-	std::string FileSystemManager::GetStemmedName(const std::filesystem::path& filePath)
-	{
-		return filePath.filename().stem().string();
-	}
-	std::string FileSystemManager::GetExtension(const std::filesystem::path& filePath)
-	{
-		return filePath.extension().string();
-	}
+
+
+	// /*!************************************************************************
+	//  * \brief Function to get the stemmed name of a filepath
+	//  *	example input "joe.png" -> 48568494
+	//  * \return int File's last time since modified
+	//  **************************************************************************/
+	// std::string FileSystemManager::GetStemmedName(const std::filesystem::path& filePath)
+	// {
+	// 	return filePath.filename().stem().string();
+	// }
+
+	// /*!************************************************************************
+	//  * \brief Function overload for filetime for strings
+	//  *	example input "joe.png" -> 48568494
+	//  * \return int File's last time since modified
+	//  **************************************************************************/
+	// std::string FileSystemManager::GetExtension(const std::filesystem::path& filePath)
+	// {
+	// 	return filePath.extension().string();
+	// }
 }

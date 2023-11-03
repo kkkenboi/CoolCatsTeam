@@ -142,7 +142,7 @@ namespace LB
 		
 		m_untransformedVerts.push_back(Vec2<float>{left, bottom});
 
-		m_vertAmount = m_untransformedVerts.size();
+		m_vertAmount = static_cast<int>(m_untransformedVerts.size());
 	}
 
 	void CPCollider::CreatePolygonHexagon()
@@ -170,20 +170,20 @@ namespace LB
 
 		m_untransformedVerts.push_back(Vec2<float>{left, middle});
 
-		m_vertAmount = m_untransformedVerts.size();
+		m_vertAmount = static_cast<int>(m_untransformedVerts.size());
 	}
 
 	void CPCollider::AddVertice(Vec2<float> vertice)
 	{
 		m_untransformedVerts.push_back(vertice);
-		m_vertAmount = m_untransformedVerts.size();
+		m_vertAmount = static_cast<int>(m_untransformedVerts.size());
 	}
 
 
 	void CPCollider::AddVertice(float x, float y)
 	{
 		m_untransformedVerts.push_back(Vec2<float>{x, y});
-		m_vertAmount = m_untransformedVerts.size();
+		m_vertAmount = static_cast<int>(m_untransformedVerts.size());
 	}
 
 	void CPCollider::UpdateScaledData()
@@ -194,11 +194,11 @@ namespace LB
 
 		float old_width = this->m_widthUnscaledOG * transform->GetScale().x;
 		float old_height = this->m_heightUnscaledOG * transform->GetScale().y;
-		float old_radius = this->m_radiusUnscaledOG * transform->GetScale().x;
+		//float old_radius = this->m_radiusUnscaledOG * transform->GetScale().x;
 
 		float ratio_width = m_width / old_width;
 		float ratio_height = m_height / old_height;
-		float ratio_radius = m_radius / old_radius;
+		//float ratio_radius = m_radius / old_radius;
 
 		for (int i = 0; i < this->m_untransformedVerts.size(); ++i)
 		{
@@ -359,6 +359,9 @@ namespace LB
 		case COL_NONE:
 			return "None";
 			break;
+		default:
+			return "Error!";
+			break;
 		}
 	}
 
@@ -406,7 +409,7 @@ namespace LB
 	{
 		this->m_pos = transform->GetPosition();
 		this->m_rotation = transform->GetRotation();
-		this->m_vertAmount = this->m_untransformedVerts.size();
+		this->m_vertAmount = static_cast<int>(this->m_untransformedVerts.size());
 
 		this->UpdateScaledData();
 		this->UpdateColliderBoxVertices();

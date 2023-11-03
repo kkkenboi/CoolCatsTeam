@@ -75,13 +75,13 @@ namespace LB
 			// Very basic RTTR for now
 			if (script->GetName() == "Player")
 			{
-				script->SetInstance(new CPPSPlayer);
+				script->SetInstance(DBG_NEW CPPSPlayer);
 			}
 			else if (script->GetName() == "Enemy") {
-				script->SetInstance(new CPPSChaser);
+				script->SetInstance(DBG_NEW CPPSChaser);
 			}
 			else if (script->GetName() == "Butt") {
-				script->SetInstance(new Butt);
+				script->SetInstance(DBG_NEW Butt);
 			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 

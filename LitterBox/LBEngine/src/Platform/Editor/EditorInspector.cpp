@@ -79,6 +79,15 @@ namespace LB
 		{
 			ImGui::OpenPopup("Add Component");
 		}
+		if (isPrefab)
+		{
+			ImGui::SameLine();
+			if (ImGui::Button("Save"))
+			{
+				DebuggerLogFormat("Saving Prefab %s ",GetInspectedGO()->GetName().c_str());
+				JSONSerializer::SerializeToFile(GetInspectedGO()->GetName(), *GetInspectedGO());
+			}
+		}
 
 		// Upon clicking to add a component to the Inspected Game Object
 		if (ImGui::BeginPopup("Add Component"))
@@ -469,6 +478,12 @@ namespace LB
 	*************************************************************************/
 	void EditorInspector::UpdateInspectedGO(GameObject* newInspectedGO)
 	{
+		if (isPrefab && m_inspectedGO)
+		{
+			GOMANAGER->RemoveDDOLGameObject(m_inspectedGO);
+			isPrefab = false;
+		}
+
 		m_inspectedGO = newInspectedGO;
 
 		// If GO was deselected, don't update name

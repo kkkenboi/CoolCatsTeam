@@ -27,20 +27,20 @@ namespace LB
 		float GetSpeedMag();
 
 	private:
-		CPRender* mRender;
-		CPRigidBody* mRigidBody;
-		CPCollider* mCollider;
+		CPRender* mRender{ nullptr };
+		CPRigidBody* mRigidBody{ nullptr };
+		CPCollider* mCollider{ nullptr };
 
-		GameObject* mPlayer;
+		GameObject* mPlayer{ nullptr };
 
 		// Holds the different state and the current state
 		// that the Chaser enemy is in
-		FiniteStateMachine mFSM;
+		FiniteStateMachine mFSM{};
 
-		int mHealth;
-		float mSpeedMagnitude;
+		int mHealth{};
+		float mSpeedMagnitude{};
 
-		bool mInitialised;
+		bool mInitialised{false};
 	};
 
 	// States

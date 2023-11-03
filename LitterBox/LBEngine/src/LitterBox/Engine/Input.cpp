@@ -144,6 +144,7 @@ namespace LB
 
 	void InputSystem::GLFWMousePos(GLFWwindow* window, double xpos, double ypos) 
 	{
+		UNREFERENCED_PARAMETER(window);
 		mousePos.x = xpos;
 		mousePos.y = ypos;
 	}
@@ -204,6 +205,7 @@ namespace LB
 	*************************************************************************/
 	void InputSystem::UnsubscribeFromKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent, KeyTriggerType triggerType)
 	{
+		UNREFERENCED_PARAMETER(triggerType);
 		if (keyEvent == KeyEvent::TRIGGERED)
 		{
 			inputKeys[key].onTrigger.Unsubscribe(function);

@@ -76,7 +76,7 @@ namespace LB
 				if (HasScript)
 				{
 					const Value& nameValue = data["Script"];
-					m_name = data["Script"].GetString();
+					m_name = nameValue.GetString();
 					return true;
 				}
 			}

@@ -429,7 +429,7 @@ namespace Renderer {
 		\param obj
 		 Pointer to the text object component
 		*************************************************************************/
-		inline void add_text_component(LB::CPText* obj) { if (obj) active_msgs.emplace_back(obj); std::cout << active_msgs.size() << '\n'; }
+		inline void add_text_component(LB::CPText* obj) { if (obj) active_msgs.emplace_back(obj); }
 
 		/*!***********************************************************************
 		\brief

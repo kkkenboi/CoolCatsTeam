@@ -47,16 +47,51 @@ namespace LB
 		 **************************************************************************/
 		void Update() override;
 
-
+		/*!***********************************************************************
+		 * \brief Frees the audio engine and the sounds
+		 * 
+		 **************************************************************************/
 		void Destroy() override;
 
 		/*!***********************************************************************
 		 * \brief AudioSystem that provides FMOD functionality to play sounds
 		 * MUST be initialised before it can be used!
 		 **************************************************************************/
-		void PlaySound(std::string soundName);
-		void StopAllSounds();
 		FMOD::System* audioSystem;
+
+		/*!***********************************************************************
+	 	* \brief Function to play sound using the Sound File name 
+	 	* Returns the channel ID that the sound is playing in
+	 	* \param soundName Name of the sound e.g "Explosion" without file extension
+		**************************************************************************/
+		int PlaySound(std::string soundName);
+
+		/*!***********************************************************************
+		 * \brief Function to play sound. Stops currently playing sound if there's one
+		 *
+		 * \param soundName Name of the sound e.g "Explosion" without file extension
+		**************************************************************************/
+		void ToggleSoundPlaying(std::string soundName);
+
+		/*!***********************************************************************
+		 * \brief Function to check if the specified channel is playing
+		 *
+		 * (Technically... 1 sound 1 channel so...)
+		**************************************************************************/
+		bool IsPlaying(int ChannelID);
+
+
+		/*!***********************************************************************
+		* \brief Function to stop all channels from playing
+		*
+		*
+		**************************************************************************/
+		void StopAllChannels();
+
+		//TODO
+		//void StopChannel(int channelID);
+		//bool IsPlaying(std::string soundName);
+		//void StopAllSounds();
 
 		/*!***********************************************************************
 		 * \brief Stores the result of any FMOD related function
@@ -64,7 +99,8 @@ namespace LB
 		 **************************************************************************/
 		FMOD_RESULT result;
 	private:
-		FMOD::Channel* BGMChannel;
+		int channelID{ 0 };
+		std::map<int, FMOD::Channel*> Channels;
 	};
 
 	/*!***********************************************************************

@@ -3,7 +3,7 @@
  \author(s)			Amadeus Chia Jinhan, 
  \par DP email(s):	amadeusjinhan.chia@digipen.edu,
  \par Course:       CSD2401A
- \date				29/09/2023
+ \date				02/11/2023
  \brief				This file contains the implementation of AssetManager 
                     functions. 
 
@@ -29,8 +29,7 @@ namespace LB
     
     /*!************************************************************************
      * \brief Construct a new Asset Manager:: Asset Manager object
-     * On initialise, AssetManager will load all the data!
-     * (TODO : Maybe queue it to load AFTER all other systems have loaded...)
+     * 
      **************************************************************************/
     AssetManager::AssetManager()
     {
@@ -43,27 +42,36 @@ namespace LB
 
     }
 
+    
+    /*!************************************************************************
+     * \brief Global function to reimport assets (called on application refocus)
+     * Global function because it's called by OnApplicationFocus Event which 
+     * only takes in non-member functions.
+     **************************************************************************/
     void ReimportAssets()
     {
-        //Document _assetJson = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("AssetFiles.json").string());
+        //First we have to grab our meta file so that we can compare 
         Document _metaJson = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("MetaFiles.json").string());
         Document::AllocatorType& metaAlloc = _metaJson.GetAllocator();
 
-        //First we get all the file types 
+        //Then we get all the file types 
         std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
-        //then we check if it's new, and import if so
+        //then we check if there's any NEW assets
         for (const auto& textureFP : TextureFilePaths)
         {
             if (ASSETMANAGER->metaFileMap.find(textureFP.string()) == ASSETMANAGER->metaFileMap.end())
             {
                 DebuggerLogFormat("FOUND NEW TEXTURE : %s, IMPORTING NOW!", textureFP.stem().string().c_str());
+                //Meta map tracks the filepath : filetime e.g C://Users//joe.png : 4849584
                 ASSETMANAGER->metaFileMap[textureFP.string()] = FILESYSTEM->GetFileTime(textureFP);
+                //Asset map tracks filename : filepath e.g joe : C://Users//joe.png
                 ASSETMANAGER->assetMap[textureFP.filename().stem().string()] = textureFP.string();
-                //File path : file name (ID)
+                //We use the filepath for both the key and value for convenience...
+                //This is so that we can also have 2 files of the same name but different IDs
                 ASSETMANAGER->AddTexture(textureFP.string(), textureFP.string());
 
-                //then we also need to update our json
+                //then we also need to update our json by adding the new member
                 Value metaKey(Value(textureFP.string().c_str(), metaAlloc), metaAlloc);
                 _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(textureFP), metaAlloc);
             }
@@ -82,27 +90,38 @@ namespace LB
                 _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(soundFP), metaAlloc);
             }
         }
-        //Assuming it's not new, we check against our current files and see if it's been updated
-        //First we loop through the map
+        //Now that we finish checking for NEW assets, we check if any assets were deleted
+        //or moved or updated. 
+        //To check for deleted/moved, we can reference our metamap vs the metajson for the 
+        //missing filepaths
+        //To check for updated, we compare the file times in metamap vs metajson
+        //First we loop through the map (filepath : filetime)
         for (const auto& metaData : ASSETMANAGER->metaFileMap)
         {
             //And we recalculate the file times for all the files in our meta map
-            if (!std::filesystem::exists(metaData.first))
-            {
-                std::filesystem::path deletedFile{ metaData.first };
+            //We convert the string back to a std::filesystem::filepath so we can stem it and whatnot
+
+            //We check if the file is still there. If it isn't then...
+            std::filesystem::path deletedFile{ metaData.first };
+            if (!std::filesystem::exists(deletedFile))
+            {   
+                //We check the extension so we can remove the texture
                 if (deletedFile.filename().extension().string() == ".png")
                 {
                     ASSETMANAGER->RemoveTexture(deletedFile.filename().stem().string());
-
-                }
+                } //checking if it's a sound file
                 if (deletedFile.filename().extension().string() == ".wav")
                 {
-
+                    ASSETMANAGER->SoundMap[deletedFile.string()]->release();
                 }
-                std::cout << metaData.first << "was deleted!\n";
+                DebuggerLogFormat("%s can't be found anymore! Removing...", deletedFile.filename().string().c_str());
+                //Then we set the time to some impossible time and continue the loop
                 ASSETMANAGER->metaFileMap[metaData.first] = -1;
+                //The entries don't get deleted because well... there's no point and it feels risky. 
+                
                 continue;
             }
+            //If the file exists, we check the time if it's been updated
             int fileTime = FILESYSTEM->GetFileTime(metaData.first);
             //if there's any difference, we know it's been changed
             if (ASSETMANAGER->metaFileMap[metaData.first] != fileTime)
@@ -127,9 +146,16 @@ namespace LB
                 ASSETMANAGER->metaFileMap[metaData.first] = fileTime;
             }
         }
-        //JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("AssetFiles.json").string(), _assetJson);
+        //We save to json once we're done
         JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("MetaFiles.json").string(), _metaJson);
     }
+
+
+    /*!************************************************************************
+     * \brief Initializes the Asset Manager
+     * Subscribes to the application focus event and imports the assets
+     * 
+     **************************************************************************/
     void AssetManager::Initialize()
     {
         WINDOWSSYSTEM->OnApplicationFocus.Subscribe(ReimportAssets);
@@ -140,13 +166,13 @@ namespace LB
         LoadKeyBinds();
     }
 
+        
+    /*!************************************************************************
+     * \brief Destructs the Asset manager
+     * 
+     **************************************************************************/
     void AssetManager::Destroy()
     {
-        //removes the sounds
-        /*for (const auto& sound : SoundMap)
-        {
-            sound.second->release();
-        }*/
         //shouldn't need to do this but just in case
         for (const auto& texture : Textures)
         {
@@ -162,7 +188,6 @@ namespace LB
     std::shared_ptr<TextureData> AssetManager::CreateTexture(const std::string &fileName)
     {
         //This might be dangerous, research sharedpointers 
-        //TextureData* cachedTexture = new TextureData();
         std::shared_ptr<TextureData> cachedTexture = std::make_shared<TextureData>();
         stbi_set_flip_vertically_on_load(1);
         /*std::filesystem::path texturePath = FILESYSTEM->GetFilePath(fileName)*/;
@@ -175,9 +200,7 @@ namespace LB
             cachedTexture->id = -1;
             return cachedTexture;
         } 
-         //else //if it doesn't exist, we set some funny png so we know
-         //{
-         //}
+      
         glCreateTextures(GL_TEXTURE_2D, 1, &cachedTexture->id);
 	    glTextureStorage2D(cachedTexture->id, 1, GL_RGBA8, cachedTexture->width, cachedTexture->height);
 	    glTextureSubImage2D(cachedTexture->id, 0, 0, 0, cachedTexture->width, cachedTexture->height,
@@ -192,54 +215,61 @@ namespace LB
         return cachedTexture;
     }
 
+
+
+    /*!************************************************************************
+     * \brief Imports ALL assets.
+     * 
+     **************************************************************************/
     void AssetManager::ImportAssets()
     {
-        //On engine load, we will grab all the assets and their types and put it into an assets.json
-        //so that we can loop through it later in loadtextures/loadsounds to load the data we found.
-
+        //On engine load, we will grab all the assets and their types
+        //We also make a map of the AssetName : File path e.g joe : C://User//joe.png
         //We also need to initialise the metafilemap with the the metadata, and all of this is also
         //generated when we import our assets. We should only ever call this function ONCE.
 
         //We want to also create/update the meta file everytime we import
         Document _metaFile;
         Document::AllocatorType& metaAlloc = _metaFile.GetAllocator();
-        //Well technically, I can shove it all into one big array and do it in one loop
-        //where I can literally just take the extension name and store it but... 
-        //all that for super unreadable code + not much performance diff...
+
+        //We grab all the files and put them into a vector (I don't concate them because I need them separate)
         std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
+        //Now we start making the meta file
         _metaFile.SetObject();
         for (const auto& t : TextureFilePaths)
         {
             Value metaKey(Value(t.string().c_str(), metaAlloc), metaAlloc);
-      /*      std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(t);
-            int fileTime = std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch()).count();*/
             int fileTime = FILESYSTEM->GetFileTime(t);
             _metaFile.AddMember(metaKey, fileTime, metaAlloc);
 
+            //AssetMap => "joe" : "C://User//joe.png"
             assetMap[t.filename().stem().string()] = t.string();
+            //MetaFileMap => "C://User//joe.png" : 5748394
             metaFileMap[t.string()] = fileTime;
-            //File path : file name (ID)
+
+            //Texture ID is a bit fucked, but it's 
+            //"C://User//joe.png" : "C://User//joe.png"
             AddTexture(t.string(), t.string());
         }
+        //Then we do the same for sounds
         for (const auto& s : SoundFilePaths)
         {
             Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
-  /*          std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(s);
-            int fileTime = std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch()).count();*/
-
             int fileTime = FILESYSTEM->GetFileTime(s);
 
             _metaFile.AddMember(metaKey, fileTime, metaAlloc);
-
+            //AssetMap => "BOOM" : "C://Users//BOOM.wav"
             assetMap[s.filename().stem().string()] = s.string();
+            //MetaFileMap => "C://Users//BOOM.wav" : 567858498
             metaFileMap[s.string()] = fileTime;
 
             //This also adds it into the sound map, all the way at the right side lol...
+            //I would make it a shared pointer but I'm really not sure how to wrap it...
+            //SoundMap => "BOOM" : FMOD::Sound*
             AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound(s.string().c_str(), FMOD_DEFAULT, nullptr, &SoundMap[s.stem().string()]);
             if (AUDIOMANAGER->result != FMOD_OK) DebuggerLogWarningFormat("UNABLE TO FIND %s SOUND!", s.string().c_str());
         }
-       // JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("AssetFiles.json").string(), _assetFile);
         JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("MetaFiles.json").string(), _metaFile);
     }
 
@@ -250,7 +280,8 @@ namespace LB
     * The texture map consists of TEXTUREDATA : ID
     **************************************************************************/  
     bool AssetManager::AddTexture(const std::string &fileName, const std::string &textureName)
-    {
+    {   //!Note that the filename received here is the full file path
+        //Texture name is the same. Could probably refactor in the future...
         //We need to check if we have too many textures
         if(Textures.size() >= 32)
         {
@@ -267,7 +298,7 @@ namespace LB
         }
 
         //The texture is tagged to the ID, which is then tagged to the texture name
-        // e.g "cat" : "<catTextureData,ID>" where cat is the name of the texture.
+        // e.g "C://Users//cat.png" : "<catTextureData,ID>" where cat is the name of the texture.
         Textures.emplace(std::make_pair(textureName,std::make_pair(CreateTexture(fileName),i)));
         //textures.emplace(std::make_pair(name, std::make_pair(LB::ASSETMANAGER->CreateTexture(file_path), i)));
 
@@ -278,8 +309,13 @@ namespace LB
 	    return true;
     }
 
+    /*!***********************************************************************
+    * \brief Removes the specified texture from the map and from the 
+    * buffer thing e.g RemoveTexture("joe"); 
+    * The function assumes you're removing .pngs that have been stemmed
+    **************************************************************************/  
     bool AssetManager::RemoveTexture(const std::string& name)
-    {
+    {   //Since we have the name mapped to a value we can just use our map
         if (Textures.find(assetMap[name]) == Textures.end())
         {
             DebuggerLogErrorFormat("Unable to find %s in Textures!", name.c_str());
@@ -290,6 +326,9 @@ namespace LB
         return true;
     }
 
+    /*!***********************************************************************
+    * \brief Clears and removes all textures
+    **************************************************************************/  
     void AssetManager::FlushTextures()
     {
         Textures.clear();
@@ -300,7 +339,10 @@ namespace LB
     }
 
 
-
+    /*!***********************************************************************
+    * \brief Gets the texture unit ID
+    * Usage : GetTextureUnit("joe"); where joe is assumed to be a png
+    **************************************************************************/  
     const int AssetManager::GetTextureUnit(const std::string& name)
     {
         
@@ -315,6 +357,11 @@ namespace LB
         }
         return Textures.find(assetMap[name])->second.second;
     }
+
+    /*!***********************************************************************
+    * \brief Gets the texture name from ID
+    * 
+    **************************************************************************/  
     const std::string AssetManager::GetTextureName(const int& index)
     {
         if (index == 0)
@@ -333,7 +380,11 @@ namespace LB
         return "";
     }
 
-    const unsigned int AssetManager::GetTextureIndex(const std::string& name) 
+    /*!***********************************************************************
+    * \brief Gets the texture ID from name
+    * Usage : GetTextureIndex("amongus") where amongus is a png
+    **************************************************************************/  
+    const int AssetManager::GetTextureIndex(const std::string& name) 
     {
         if (Textures.find(assetMap[name]) == Textures.end())
         {
@@ -347,94 +398,11 @@ namespace LB
         return Textures.find(assetMap[name])->second.first->id;
     }
 
-    ///*!***********************************************************************
-    //* \brief Loads all textures from file paths into the relevant maps
-    //* 
-    //**************************************************************************/
-    //void AssetManager::LoadTextures()
-    //{
-    //    //First we get the json file containing all the texture paths : texture names
-    //    Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/TextureFilePaths.json");
-    //    //then we loop through the json file and add each texture with its corresponding name
-    //    for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
-    //        itr != _jsonFile.MemberEnd(); ++itr)
-    //    {
-    //        if (!itr->name.IsString())
-    //        {
-    //            DebuggerLogError("Invalid Texture file path! Needs to be std::string!");
-    //            return;
-    //        }
-    //        if (!itr->value.IsString())
-    //        {
-    //            DebuggerLogError("Invalid Texture name! Needs to be std::string!");
-    //            return;
-    //        }
-
-    //        AddTexture(itr->name.GetString(), itr->value.GetString());
-    //        //The texture filepaths map is for us to keep track in our json
-    //        TextureFilePaths[itr->name.GetString()] = itr->value.GetString();
-    //    }
-    //    //Incase there are any changes, we just regenerate the file
-    //    //GenerateTextureFilePathsJson();
-
-    //    //This is to test if the get texture name function works
-    //    //std::cout << "Test GetTextName : " << GetTextureName(GetTextureIndex("bg")) << '\n';
-    //}
-
-    //void AssetManager::GenerateTextureFilePathsJson()
-    //{
-    //    JSONSerializer stream;
-    //    Document _jsonFile;
-    //    Document::AllocatorType& alloc = _jsonFile.GetAllocator();
-    //    _jsonFile.SetObject();
-    //    for (const auto& elem : TextureFilePaths)
-    //    {
-    //        Value key(elem.first.c_str(), alloc);
-    //        Value val(elem.second.c_str(), alloc);
-    //        _jsonFile.AddMember(key, val, alloc);
-    //    }
-    //    
-    //    stream.SaveToJSON("Editor/Jason/TextureFilePaths.json", _jsonFile);
-    //}
-
     /*!***********************************************************************
-    * \brief Loads all sounds and creates an instance of them for use
+    * \brief Spawns a gameobject at specified location (defaulted to 0,0)
+    * Usage : SpawnGameObject("joe") where joe is the name of the prefab.
     * 
-    **************************************************************************/
-    //void AssetManager::LoadSounds()
-    //{
-    //    //! NOTE!!! LOADING AUDIO IS AN EXTREMLY EXPENSIVE PROCESS!!!
-    //    //* In the future, We might want to put this into another thread to load it async
-    //    //TODO File path prefix to be set by enum
-    //    //TODO Audio names to be tagged to enum
-    //    //TODO Audio IDs to be stored in json
-    //    AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("Assets/Audio/Enemy hurt.wav", FMOD_DEFAULT, nullptr, &sampleSound);
-    //    if (AUDIOMANAGER->result != FMOD_OK) std::cout << "UNABLE TO LOAD AHH SOUND!!\n";
-    //    AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("Assets/Audio/EXPLOSION.wav", FMOD_DEFAULT, nullptr, &explosionSound);
-    //    if (AUDIOMANAGER->result != FMOD_OK) std::cout << "UNABLE TO LOAD EXPLODE SOUND!!\n";
-    //    AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound("Assets/Audio/Oof.wav", FMOD_DEFAULT, nullptr, &ahhSound);
-    //    if (AUDIOMANAGER->result != FMOD_OK) std::cout << "UNABLE TO LOAD OOF SOUND!!\n";
-
-    //}
-
-    /*!***********************************************************************
-    * \brief Loads all prefabs from their json data and creates an instance of them
-    * (TODO : Load instances directly into the GOManager!)
-    **************************************************************************/
-    //void AssetManager::LoadPrefabs()
-    //{
-    //    //TODO Some refactoring for creating empty game objects
-    //    //PineappleObject = FACTORY->SpawnGameObject({ "CPRender","CPRigidBody" });
-    //    //PineappleObject = FACTORY->CreateGameObject();
-    //    //AvatarObject = FACTORY->CreateGameObject();
-    //    //std::cout <<"Pineapple component size : " << PineappleObject->GetComponents().size() << '\n';
-    //    //* Don't touch this, it works!
-    //    //JSONSerializer stream;
-    //    //stream.DeserializeFromFile("Assets/Prefabs/pineapple", *PineappleObject);
-    //    JSONSerializer::DeserializeFromFile("pineapple", *PineappleObject);
-
-    //    //stream.DeserializeFromFile("../Assets/Prefabs/apple",*AvatarObject);
-    //}
+    **************************************************************************/  
     void AssetManager::SpawnGameObject(std::string fileName, Vec2<float> pos)
     {
         GameObject* prefab = FACTORY->SpawnGameObject();
@@ -442,6 +410,11 @@ namespace LB
         if (!(pos == Vec2<float>{0, 0}))
         prefab->GetComponent<CPTransform>()->SetPosition(pos);
     }
+
+    /*!***********************************************************************
+    * \brief Searches the map to return the stringified keycode from keycode
+    * 
+    **************************************************************************/  
     std::string AssetManager::KeyCodeToString(KeyCode KeyCodeToFind) 
     {
         for (const auto& elem : KeyCodeTable)
@@ -454,6 +427,12 @@ namespace LB
         DebuggerLogError("Unable to find Keycode " + std::to_string(static_cast<int>(KeyCodeToFind)) + " in KeyCodeTable!");
         return "";
     }
+
+
+    /*!***********************************************************************
+    * \brief Searches the map to return the keycode from the string
+    * 
+    **************************************************************************/  
     KeyCode AssetManager::StringToKeyCode(std::string keycode)
     {
         std::map<std::string, int>::iterator iter = KeyCodeTable.find(keycode);
@@ -464,10 +443,16 @@ namespace LB
         }
         return static_cast<KeyCode>(iter->second);
     }
+
+    /*!***********************************************************************
+    * \brief Loads all the keybinds from the keybinds json
+    * 
+    **************************************************************************/  
     void AssetManager::LoadKeyBinds()
     {
         //We need to load the keycode table from json first
         LoadKeyCodeTable();
+        //Can probablyyyyy use the filesystem for this in the future
         Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyBinds.json");
         //Then we get the keybinds json and go through each member
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
@@ -488,6 +473,11 @@ namespace LB
         //We regenerate the file again just incase the user made any changes
         GenerateKeyBindsJson();
     }
+
+    /*!***********************************************************************
+    * \brief Loads the keycode table (keycode to string)
+    * 
+    **************************************************************************/    
     void AssetManager::LoadKeyCodeTable()
     {
         Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyCodeTable.json");
@@ -507,6 +497,12 @@ namespace LB
             KeyCodeTable[itr->name.GetString()] = itr->value.GetInt();
         }
     }
+
+
+    /*!***********************************************************************
+    * \brief Helper function to generate keybinds json if it's ever lost
+    * 
+    **************************************************************************/    
     void AssetManager::GenerateKeyBindsJson()
     {
         Document _jsonFile;
@@ -523,7 +519,12 @@ namespace LB
         //std::cout << KeyCodeToString(StringToKeyCode("KEY_J")) << '\n';
     }
 
-    //Helper function to generate the keycode table
+    
+
+    /*!***********************************************************************
+    * \brief Helper function to generate keycode table if it's ever lost
+    * 
+    **************************************************************************/    
     void AssetManager::GenerateKeyCodeTable()
     {
         //This generates the keycode mapping 

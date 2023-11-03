@@ -91,7 +91,7 @@ namespace LB
 		void CreateRigidBody();
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
-			std::cout << "Serialising RB\n";
+			DebuggerLog("Serialising RB");
 			data.SetObject();
 			data.AddMember("Width", mWidth, alloc);
 			data.AddMember("Height", mHeight, alloc);
@@ -101,7 +101,7 @@ namespace LB
 		}
 		bool Deserialize(const Value& data) override
 		{
-			std::cout << "Deserialising RB\n";
+			DebuggerLog("Deserialising RB");
 			bool HasWidth = data.HasMember("Width");
 			bool HasHeight = data.HasMember("Height");
 			bool HasDensity = data.HasMember("Density");

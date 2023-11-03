@@ -38,7 +38,7 @@ namespace LB {
 			return;
 		}
 
-		mRender->UpdateTexture(ASSETMANAGER->GetTextureIndex("chaser"));
+		//mRender->UpdateTexture(ASSETMANAGER->GetTextureIndex("chaser"));
 
 
 		IdleState* IDLESTATE = DBG_NEW IdleState(this, mFSM, "Idle");

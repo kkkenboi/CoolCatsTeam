@@ -77,7 +77,7 @@ namespace LB
 	  Nothing.
 	*************************************************************************/
 	void ZoomCamIn() {
-		zoomCurrent += zoomStep * TIME->GetUnscaledDeltaTime();
+		zoomCurrent += zoomStep * static_cast<float>(TIME->GetUnscaledDeltaTime());
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
 	/*!***********************************************************************
@@ -87,7 +87,7 @@ namespace LB
 	  Nothing.
 	*************************************************************************/
 	void ZoomCamOut() {
-		zoomCurrent -= zoomStep * TIME->GetUnscaledDeltaTime();
+		zoomCurrent -= zoomStep * static_cast<float>(TIME->GetUnscaledDeltaTime());
 		zoomCurrent = (zoomCurrent > zoomMin) ? zoomCurrent : zoomMin;
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}

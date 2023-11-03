@@ -83,7 +83,7 @@ namespace LB
           True if a game object is being inspected, false otherwise.
         *************************************************************************/
         bool IsGOInspected();
-
+        bool isPrefab = false;
     private:
         GameObject* m_inspectedGO{ nullptr };
         char m_inspectedName[256]{}, m_nameBuffer1[64]{};

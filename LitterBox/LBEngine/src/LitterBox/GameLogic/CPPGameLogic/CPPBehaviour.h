@@ -27,6 +27,6 @@ namespace LB
 
 		virtual void Destroy() = 0;
 
-		GameObject* GameObj;
+		GameObject* GameObj{nullptr};
 	};
 }

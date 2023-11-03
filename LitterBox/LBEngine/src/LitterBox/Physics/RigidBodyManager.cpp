@@ -36,7 +36,7 @@ namespace LB
         }
         else
         {
-            std::cerr << "Physics already exists\n";
+            DebuggerLogError("Physics already exists");
         }
 
         // NEED TO DEFINE A POOL SIZE ANOTHER TIME INSTEAD
@@ -54,7 +54,7 @@ namespace LB
             m_rbStates[i] = false; // Everything is not in use
         }
 
-        std::cout << "Physics initialized\n";
+        DebuggerLog("Physics initialized");
     }
 
     /*!***********************************************************************

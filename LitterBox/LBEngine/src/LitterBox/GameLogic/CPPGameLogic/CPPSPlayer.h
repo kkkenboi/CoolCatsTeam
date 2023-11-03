@@ -25,7 +25,7 @@ namespace LB
 
 		void Destroy() override;
 
-		CPRigidBody* rb;
-		CPRender* rend;
+		CPRigidBody* rb{ nullptr };
+		CPRender* rend{ nullptr };
 	};
 }

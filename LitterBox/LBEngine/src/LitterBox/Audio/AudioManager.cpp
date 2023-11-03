@@ -3,7 +3,7 @@
  \author(s)			Amadeus Chia Jinhan, 
  \par DP email(s):	amadeusjinhan.chia@digipen.edu,
  \par Course:       CSD2401A
- \date				29/09/2023
+ \date				02/11/2023
  \brief				This file contains the definitions of AudioManager 
 					functions (This will be more detailed as more 
 					features get added)
@@ -25,7 +25,6 @@ namespace LB
 	**************************************************************************/
 	AudioManager::AudioManager()
 	{
-		//TODO Pull this out to the initialiser next time...
 		//Singleton stuff
 		if (!AUDIOMANAGER)
 			AUDIOMANAGER = this;
@@ -52,7 +51,7 @@ namespace LB
 
 	/*!***********************************************************************
 	* \brief Functions to play specific sounds
-	* 
+	* Currently they're global, but in the future they will be C#
 	**************************************************************************/
 	void PlayTestSound()
 	{
@@ -73,25 +72,114 @@ namespace LB
 	**************************************************************************/
 	void AudioManager::Update()
 	{
-		//In the future we can check for 
+		//Store a vector of channels you wanna remove from the map
+		std::vector<std::map<int, FMOD::Channel*>::iterator> stoppedChannels;
+		//We loop through all our channels and see which is stopped
+		for (auto iter = Channels.begin(); iter != Channels.end(); ++iter)
+		{	
+			//Fmod always does this weird address thing...
+			bool isPlaying = false;
+			iter->second->isPlaying(&isPlaying);
+			if (!isPlaying)
+			{
+				stoppedChannels.push_back(iter);
+			}
+		}
+		//Now we remove all the channels we don't need
+		for (auto& channel : stoppedChannels)
+		{
+			Channels.erase(channel);
+		}
 		audioSystem->update();
 	}
 
+	/*!***********************************************************************
+	 * \brief Frees all the audio engine and all the sounds that were loaded
+	 * 
+	**************************************************************************/
 	void AudioManager::Destroy()
 	{
+		StopAllChannels();
+		////We loop through all the sounds and release them
+		for (const auto& sound : ASSETMANAGER->SoundMap)
+		{
+			sound.second->release();
+		}
 		//This shuts down FMOD studio
 		audioSystem->release();
 	}
-	void AudioManager::PlaySound(std::string soundName)
+
+	/*!***********************************************************************
+	 * \brief Function to play sound using the Sound File name 
+	 * Returns the channel ID that the sound is playing in
+	 * \param soundName Name of the sound e.g "Explosion" without file extension
+	**************************************************************************/
+	int AudioManager::PlaySound(std::string soundName)
 	{
+		int _channelID = channelID++;
+		//Check to see if the sound is loaded
 		if (ASSETMANAGER->SoundMap.find(soundName) != ASSETMANAGER->SoundMap.end())
 		{
-			result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], nullptr, false, nullptr);
+			FMOD::Channel* _channel = nullptr;
+			result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], nullptr, false, &_channel);
+			if (_channel)
+			{
+				Channels[_channelID] = _channel;
+			}
 			if (result != FMOD_OK) DebuggerLogWarning("SOUND NAME " + soundName + "IS NOT WORKING!");
 		}
+		return _channelID;
 	}
-	void AudioManager::StopAllSounds()
+
+	/*!***********************************************************************
+	 * \brief Function to play sound. Stops currently playing sound if there's one
+	 * 
+	 * \param soundName Name of the sound e.g "Explosion" without file extension
+	**************************************************************************/
+	void AudioManager::ToggleSoundPlaying(std::string soundName)
 	{
-		/*audioSystem.*/
+		if (Channels.empty()) PlaySound(soundName);
+		else
+		{
+			DebuggerLogFormat("%s is still playing! Stopping..", soundName.c_str());
+			StopAllChannels();
+		}
+	}
+
+	/*!***********************************************************************
+	 * \brief Function to check if the specified channel is playing
+	 *
+	 * (Technically... 1 sound 1 channel so...)
+	**************************************************************************/
+	bool AudioManager::IsPlaying(int ChannelID)
+	{
+		return (Channels.find(ChannelID) != Channels.end());
+	}
+	//bool AudioManager::IsPlaying(std::string soundName)
+	//{
+	//	for (const auto& channel : Channels)
+	//	{
+	//		FMOD::Sound* currentSound = nullptr;
+	//		if (channel.second->getCurrentSound(&currentSound))
+	//		{
+	//		}
+	//	}
+
+	//	return (Channels.find(channelID) != Channels.end());
+	//}
+
+
+	/*!***********************************************************************
+	 * \brief Function to stop all channels from playing
+	 *
+	 * 
+	**************************************************************************/
+	void AudioManager::StopAllChannels()
+	{
+		if (Channels.empty()) return;
+		for (auto& channel : Channels)
+		{
+			channel.second->stop();
+		}
 	}
 }

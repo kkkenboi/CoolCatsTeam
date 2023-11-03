@@ -3,7 +3,7 @@
  \author(s)			Amadeus Chia Jinhan, 
  \par DP email(s):	amadeusjinhan.chia@digipen.edu,
  \par Course:       CSD2401A
- \date				29/09/2023
+ \date				02/11/2023
  \brief				The AssetManager handles the loading of data from file
                     and stores them in maps of instances for use througout
                     the engine. This allows users to only have to load 
@@ -80,26 +80,71 @@ namespace LB
          **************************************************************************/
         AssetManager();        
 
-
+        /*!************************************************************************
+        * \brief Initializes the Asset Manager
+        * Subscribes to the application focus event and imports the assets
+        * 
+        **************************************************************************/
         void Initialize() override;
+
+        /*!************************************************************************
+        * \brief Destructs the Asset manager
+        * 
+        **************************************************************************/
         void Destroy() override;
+
+        /*!************************************************************************
+        * \brief Imports ALL assets.
+        * Is only ever called once on asset manager initialise!
+        **************************************************************************/
+        void ImportAssets();
+
+        
+        //e.g "Boom" : Shared_Ptr to audio clip
+        std::map<std::string, FMOD::Sound*> SoundMap;
+
+        //Stores the meta data of all files
+        //"Filepath" : timesincecreated
+        std::map<std::string, int> metaFileMap;
+
+        //Stores the filepath to ID for ALL files
+        // "stemmedName : path" This is so we don't have to keep searching all the time
+        // e.g "joe" : "C://Users//joe.png"
+        std::map<std::string, std::string> assetMap;
+    
+        /*!***********************************************************************
+        * \brief Spawns a gameobject at specified location (defaulted to 0,0)
+        * Usage : SpawnGameObject("joe") where joe is the name of the prefab.
+        * 
+        **************************************************************************/  
+        void SpawnGameObject(std::string fileName, Vec2<float> pos = {0,0});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                      TEXTURE STUFF
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /*!***********************************************************************
          * \brief 
          * Create a Texture object 
          **************************************************************************/
         std::shared_ptr<TextureData> CreateTexture(const std::string& fileName);
-        void ImportAssets();
+
         /*!***********************************************************************
          * \brief 
          * Adds the texture from a file to the texture map
          * The texture map consists of TEXTUREDATA : ID
          **************************************************************************/
         bool AddTexture(const std::string& fileName, const std::string& textureName);
-        bool RemoveTexture(const std::string& name);
-        void FlushTextures();
 
-        //The map then maps the name to said pair like so:
-        //"SpriteName" : texturePair
+        /*!***********************************************************************
+        * \brief Removes the specified texture from the map and from the 
+        * buffer thing e.g RemoveTexture("joe"); 
+        * The function assumes you're removing .pngs that have been stemmed
+        **************************************************************************/  
+        bool RemoveTexture(const std::string& name);
+
+        /*!***********************************************************************
+        * \brief Clears and removes all textures
+        **************************************************************************/ 
+        void FlushTextures();
 
         /*!***********************************************************************
          * \brief 
@@ -108,62 +153,60 @@ namespace LB
          **************************************************************************/
         std::map<std::string, std::pair<std::shared_ptr<TextureData>,int>> Textures;
 
-        //Maps enums to the file paths
-        // 0 (NONE) : "../Assets/cat.png"
-
         /*!***********************************************************************
-         * \brief 
-         * Texture file path map that maps texture enum names to file paths
-         * "../Assets/Textures/name.png" : "name"
-         **************************************************************************/
-        //std::map<std::string, std::string> TextureFilePaths;
-
-
-
-        /*!***********************************************************************
-         * \brief 
-         * Get the Texture Index object for the renderer
-         **************************************************************************/
+        * \brief Gets the texture unit ID
+        * Usage : GetTextureUnit("joe"); where joe is assumed to be a png
+        **************************************************************************/  
         const int GetTextureUnit(const std::string& name);
+
+        /*!***********************************************************************
+        * \brief Gets the texture name from ID
+        * 
+        **************************************************************************/  
         const std::string GetTextureName(const int& index);
-        const unsigned int GetTextureIndex(const std::string& name);
-
-        //void GenerateTextureFilePathsJson();
 
         /*!***********************************************************************
-         * \brief Loads all textures from file paths into the relevant maps
-         * 
-         **************************************************************************/
+        * \brief Gets the texture ID from name
+        * Usage : GetTextureIndex("amongus") where amongus is a png
+        **************************************************************************/ 
+        const int GetTextureIndex(const std::string& name);
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                      KEYCODE STUFF
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /*!***********************************************************************
-         * \brief Loads all sounds and creates an instance of them for use
-         * 
-         **************************************************************************/
-         //ID : name of audio clip file
-        //[0] : Shared_Ptr to audio clip
-        std::map<std::string, FMOD::Sound*> SoundMap;
-
-        //Stores the meta data of all files
-        //"Filepath" : timesincecreated
-        std::map<std::string, int> metaFileMap;
-        //Stores the filepath to ID for ALL files
-        // "path : stemmed name" This is so we don't have to keep searching all the time
-        std::map<std::string, std::string> assetMap;
-        /*!***********************************************************************
-         * \brief Loads all prefabs from their json data and creates an instance of them
-         * (TODO : Load instances directly into the GOManager!)
-         **************************************************************************/
-
-
-        void SpawnGameObject(std::string fileName, Vec2<float> pos = {0,0});
-
+        * \brief Searches the map to return the stringified keycode from keycode
+        * 
+        **************************************************************************/ 
         std::string KeyCodeToString(KeyCode keycode);
+
+        /*!***********************************************************************
+        * \brief Searches the map to return the keycode from the string
+        * 
+        **************************************************************************/  
         KeyCode StringToKeyCode(std::string keycode);
+
+        /*!***********************************************************************
+        * \brief Loads all the keybinds from the keybinds json
+        * 
+        **************************************************************************/ 
         void LoadKeyBinds();
+        /*!***********************************************************************
+        * \brief Loads the keycode table (keycode to string)
+        * 
+        **************************************************************************/          
         void LoadKeyCodeTable();
+        /*!***********************************************************************
+        * \brief Helper function to generate keybinds json if it's ever lost
+        * 
+        **************************************************************************/         
         void GenerateKeyBindsJson();
-        void GenerateKeyCodeTable();
+
+        /*!***********************************************************************
+        * \brief Helper function to generate keycode table if it's ever lost
+        * 
+        **************************************************************************/        
+       void GenerateKeyCodeTable();
         //Map of keybind names to their respective ints
         // "PrintDebug" : 0
         std::map <std::string, std::string> KeyBindNameMap;
@@ -172,17 +215,6 @@ namespace LB
         //"KEY_J" : 74
         std::map <std::string,int> KeyCodeTable;
 
-
-        /*!***********************************************************************
-         * \brief Sound instances to be used throughout the engine
-         * To be a map of sounds in the future
-         **************************************************************************/
-
-
-        /*!***********************************************************************
-         * \brief Prefab instances to be used throughout the engine
-         * To be directly instantiated into the GOManager in the future 
-         **************************************************************************/
 
 
 
@@ -201,6 +233,11 @@ namespace LB
         bool TextureSlots[32]{false};
 
     };
+    /*!************************************************************************
+     * \brief Global function to reimport assets (called on application refocus)
+     * Global function because it's called by OnApplicationFocus Event which 
+     * only takes in non-member functions.
+     **************************************************************************/
     void ReimportAssets();
     extern AssetManager* ASSETMANAGER;
 

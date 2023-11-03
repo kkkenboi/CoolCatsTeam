@@ -28,7 +28,7 @@ namespace LB
 	enum class GOSpawnType
 	{
 		SCENE_BOUNDED,	// GO is destroyed when scene is destroyed
-		FREE_FLOATING	// GO is not tied to any scene
+		FREE_FLOATING	// GO is not tied to any scene, you will need to delete it yourself
 	};
 
 	/*!***********************************************************************
