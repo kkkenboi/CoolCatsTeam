@@ -113,7 +113,7 @@
                     "IsStatic": false
                 },
                 "Render": {
-                    "Texture": 16
+                    "Texture": 17
                 },
                 "Collider": {
                     "Shape": 0,
@@ -256,6 +256,23 @@
                 },
                 "CPPScript": {
                     "Script": "Enemy"
+                }
+            },
+            {
+                "Name": "Flag",
+                "Transform": {
+                    "Position": {
+                        "x": 303.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": 16
                 }
             }
         ]
