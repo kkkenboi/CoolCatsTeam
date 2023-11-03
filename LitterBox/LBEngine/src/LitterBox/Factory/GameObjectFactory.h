@@ -114,6 +114,10 @@ namespace LB
 		*************************************************************************/
 		int GetLastObjID() const;
 
+		/*!***********************************************************************
+		 \brief
+		 Updates the current scene loaded to add the GameObjects to
+		*************************************************************************/
 		void UpdateLoadedScene(Scene* loadedScene);
 
 	private:
@@ -132,6 +136,7 @@ namespace LB
 		bool										m_ToUpdate{};
 	};
 
+	// For event subscription
 	void UpdateLoadedScene(Scene* loadedScene);
 
 	extern FactorySystem* FACTORY;

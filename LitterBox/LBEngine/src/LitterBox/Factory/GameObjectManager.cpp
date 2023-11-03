@@ -292,11 +292,19 @@ namespace LB
 		m_ID = ID;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Returns the name of this GameObject
+	*************************************************************************/
 	std::string const& GameObject::GetName()
 	{
 		return m_name;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Sets the name of this GameObject
+	*************************************************************************/
 	void GameObject::SetName(std::string const& newName)
 	{
 		m_name = newName;
@@ -397,16 +405,28 @@ namespace LB
 		DebuggerLog("[GOManager] All GOs deleted");
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Gets all of the free-floating GameObjects not bounded to any scene
+	*************************************************************************/
 	std::vector<GameObject*> const& GameObjectManager::GetDDOLGameObjects() const
 	{
 		return m_DDOLGameObjects;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Adds a GameObject to the free-floating pool
+	*************************************************************************/
 	void GameObjectManager::AddDDOLGameObject(GameObject* gameObject)
 	{
 		m_DDOLGameObjects.push_back(gameObject);
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Removes a GameObject from the free-floating pool
+	*************************************************************************/
 	void GameObjectManager::RemoveDDOLGameObject(GameObject* gameObject)
 	{
 		auto it = std::find(m_DDOLGameObjects.begin(), m_DDOLGameObjects.end(), gameObject);
@@ -421,6 +441,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Destroys all the free-floating GameObjects not bounded to by any scene
+	*************************************************************************/
 	void GameObjectManager::DestroyAllDDOLGOs()
 	{
 		// Destroying gameobjects

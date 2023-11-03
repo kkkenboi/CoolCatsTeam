@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				GameObjectManager.h
- \author(s)			Kenji Brannon Chong | Ang Jiawei Jarrett
- \par DP email(s):	kenjibrannon.c@digipen.edu | a.jiaweijarrett@digipen.edu
+ \author(s)			Kenji Brannon Chong, Ang Jiawei Jarrett
+ \par DP email(s):	kenjibrannon.c@digipen.edu, a.jiaweijarrett@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
  \brief		
@@ -53,19 +53,20 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Destroys a GameObject
+		 Empty by design
 		*************************************************************************/
 		~GameObject();
 
+		/*!***********************************************************************
+		 \brief
+		 Destroys a GameObject and all of its components
+		*************************************************************************/
 		void Destroy();
 
 		/*!***********************************************************************
 		 \brief
 		 Gets a specified component within the GameObject
 		*************************************************************************/
-		/*template <typename T>
-		T* GetComponent(std::string name) { return static_cast<T*>(m_Components[name]); }*/
-
 		template <typename T>
 		T* GetComponent() 
 		{ 
@@ -74,6 +75,10 @@ namespace LB
 			return static_cast<T*>(m_Components[T::GetType()]);
 		}
 
+		/*!***********************************************************************
+		 \brief
+		 Returns true if the GameObject contains the component T
+		*************************************************************************/
 		template <typename T>
 		bool HasComponent()
 		{
@@ -136,8 +141,16 @@ namespace LB
 		*************************************************************************/
 		void SetID(int ID);
 
+		/*!***********************************************************************
+		 \brief
+		 Returns the name of this GameObject
+		*************************************************************************/
 		std::string const& GetName();
 
+		/*!***********************************************************************
+		 \brief
+		 Sets the name of this GameObject
+		*************************************************************************/
 		void SetName(std::string const& newName);
 
 	private:
@@ -170,19 +183,19 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Gets all of the current GameObjects the GameObjectManager is managing
+		 Gets all of the current GameObjects in the loaded Scene
 		*************************************************************************/
 		std::vector<GameObject*> const& GetGameObjects() const;
 
 		/*!***********************************************************************
 		 \brief
-		 Adds a GameObject to the current pool of GameObjects
+		 Adds a GameObject to the current pool of GameObjects for loaded scene
 		*************************************************************************/
 		void AddGameObject(GameObject* gameObject);
 
 		/*!***********************************************************************
 		 \brief
-		 Removes a GameObject from the current pool of GameObjects
+		 Removes a GameObject from the current pool of GameObjects for loaded scene
 		*************************************************************************/
 		void RemoveGameObject(GameObject* gameObject);
 
@@ -192,12 +205,28 @@ namespace LB
 		*************************************************************************/
 		void DestroyAllGOs();
 
+		/*!***********************************************************************
+		 \brief	 
+		 Gets all of the free-floating GameObjects not bounded to any scene
+		*************************************************************************/
 		std::vector<GameObject*> const& GetDDOLGameObjects() const;
 
+		/*!***********************************************************************
+		 \brief
+		 Adds a GameObject to the free-floating pool
+		*************************************************************************/
 		void AddDDOLGameObject(GameObject* gameObject);
-		
+
+		/*!***********************************************************************
+		 \brief
+		 Removes a GameObject from the free-floating pool
+		*************************************************************************/
 		void RemoveDDOLGameObject(GameObject* gameObject);
 
+		/*!***********************************************************************
+		 \brief
+		 Destroys all the free-floating GameObjects not bounded to by any scene
+		*************************************************************************/
 		void DestroyAllDDOLGOs();
 
 	private:
