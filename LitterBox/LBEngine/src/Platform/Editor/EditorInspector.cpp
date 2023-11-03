@@ -26,7 +26,13 @@ namespace LB
 {
 	EditorInspector* EDITORINSPECTOR{ nullptr };
 
-	EditorInspector::EditorInspector(std::string layerName) : Layer(layerName) 
+	/*!***********************************************************************
+	  \brief
+	  Constructor for the EditorInspector class.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	EditorInspector::EditorInspector(std::string layerName) : Layer(layerName)
 	{
 		if (!EDITORINSPECTOR)
 			EDITORINSPECTOR = this;
@@ -34,6 +40,12 @@ namespace LB
 			DebuggerLogError("Editor Inspector already exist!");
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Initializes the EditorInspector layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorInspector::Initialize()
 	{
 		EDITORHIERACHY->onNewObjectSelected.Subscribe(LB::UpdateInspectedGO);
@@ -41,6 +53,12 @@ namespace LB
 		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::DeselectObject);
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the EditorInspector layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorInspector::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str(), 0, 0);
@@ -443,6 +461,12 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Update the currently inspected game object.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorInspector::UpdateInspectedGO(GameObject* newInspectedGO)
 	{
 		m_inspectedGO = newInspectedGO;
@@ -452,28 +476,58 @@ namespace LB
 		strcpy_s(m_inspectedName, sizeof(m_inspectedName), newInspectedGO->GetName().c_str());
 	}
 
-	// For event subscription
-	void UpdateInspectedGO(GameObject* newInspectedGO)
-	{
-		EDITORINSPECTOR->UpdateInspectedGO(newInspectedGO);
-	}
-
-	bool EditorInspector::IsGOInspected()
-	{
-		return m_inspectedGO != nullptr;
-	}
-
+	/*!***********************************************************************
+	  \brief
+	  Get the currently inspected game object.
+	  \return
+	  A pointer to the currently inspected GameObject.
+	*************************************************************************/
 	GameObject* EditorInspector::GetInspectedGO()
 	{
 		return m_inspectedGO;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Check if a game object is currently being inspected.
+	  \return
+	  True if a game object is being inspected, false otherwise.
+	*************************************************************************/
+	bool EditorInspector::IsGOInspected()
+	{
+		return m_inspectedGO != nullptr;
+	}
+
 	// For event subscription
+	/*!***********************************************************************
+	  \brief
+	  To get the original function, UpdateInspectedGO called as an event.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void UpdateInspectedGO(GameObject* newInspectedGO)
+	{
+		EDITORINSPECTOR->UpdateInspectedGO(newInspectedGO);
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  To get the original function, DeselectObject called as an event.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void DeselectObject(bool isPlaying)
 	{
 		if (!isPlaying)
 			EDITORINSPECTOR->UpdateInspectedGO(nullptr);
 	}
+
+	/*!***********************************************************************
+	  \brief
+	  To get the original function, DeselectObject called as an event, overloaded.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void DeselectObject(Scene* newScene)
 	{
 		UNREFERENCED_PARAMETER(newScene);

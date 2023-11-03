@@ -1,9 +1,9 @@
 /*!************************************************************************
  \file				EditorHierarchy.cpp
- \author(s)			Kenji Brannon Chong
- \par DP email(s):	kenjibrannon.c@digipen.edu
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
  \par Course:       CSD2401A
- \date				11/10/2023
+ \date				03/11/2023
  \brief
 
  This file contains functions defintions for the hierarchy layer of the
@@ -21,7 +21,13 @@ namespace LB
 {
 	EditorHierarchy* EDITORHIERACHY = nullptr;
 
-	EditorHierarchy::EditorHierarchy(std::string layerName) : Layer(layerName) 
+	/*!***********************************************************************
+	  \brief
+	  Default Constructor for EditorHierarchy
+	  \return
+	  Nothing.
+	*************************************************************************/
+	EditorHierarchy::EditorHierarchy(std::string layerName) : Layer(layerName)
 	{
 		if (!EDITORHIERACHY)
 			EDITORHIERACHY = this;
@@ -29,11 +35,23 @@ namespace LB
 			DebuggerLogError("Editor Hierachy already exist!");
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Initializes the EditorHierarchy layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorHierarchy::Initialize()
 	{
 		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::UpdateSceneLoaded);
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the EditorHierarchy layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorHierarchy::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
@@ -68,6 +86,12 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Draws the root of the hierarchy.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorHierarchy::DrawRoot()
 	{
 		ImGui::PushID(m_loadedScene->GetRoot());
@@ -90,6 +114,12 @@ namespace LB
 		ImGui::PopID();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Draws an item in the hierarchy.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	bool EditorHierarchy::DrawItem(CPTransform* item)
 	{
 		//-------------------------Click Select Detection-------------------------
@@ -157,16 +187,34 @@ namespace LB
 		return isItemClicked;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the currently clicked item in the hierarchy.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorHierarchy::UpdateClickedItem(CPTransform* newClickedItem)
 	{
 		m_clickedItem = newClickedItem;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the loaded scene in the hierarchy
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorHierarchy::UpdateSceneLoaded(Scene* loadedScene)
 	{
 		m_loadedScene = loadedScene;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the loaded scene.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void UpdateSceneLoaded(Scene* loadedScene)
 	{
 		EDITORHIERACHY->UpdateSceneLoaded(loadedScene);

@@ -6,7 +6,8 @@
  \date				16/10/23
  \brief
 
- This header file
+ This header file contains functions declarations for the toolbar layer of the
+ Editor. This is to allow the programmer to play, stop and step in frame by frame.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -23,10 +24,28 @@ namespace LB
 	class EditorToolBar : public Layer
 	{
 	public:
+		/*!***********************************************************************
+		  \brief
+		  Constructor for the EditorToolBar class.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		EditorToolBar(std::string layerName);
 
+		/*!***********************************************************************
+		  \brief
+		  Updates the EditorToolBar layer.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		void UpdateLayer() override;
 
+		/*!***********************************************************************
+		  \brief
+		  Destroys the EditorToolBar layer.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		void Destroy() {}
 
 	private:

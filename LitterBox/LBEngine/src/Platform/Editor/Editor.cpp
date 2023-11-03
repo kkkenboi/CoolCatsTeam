@@ -3,7 +3,7 @@
  \author(s)			Kenji Brannon Chong
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
- \date				11/10/2023
+ \date				03/11/2023
  \brief
 
  This file contains functions defintions for the Editor where it manages
@@ -40,12 +40,24 @@ namespace LB
 {
 	Editor* EDITOR = nullptr;
 
+	/*!***********************************************************************
+	  \brief
+	  Switches from editor mode to game mode.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void ToggleEditor()
 	{
 		CORE->ToggleEditorMode();
 	}
 
-	Editor::Editor() 
+	/*!***********************************************************************
+	  \brief
+	  Constructor for the Editor class.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	Editor::Editor()
 	{
 		if (!EDITOR)
 		{
@@ -58,20 +70,6 @@ namespace LB
 
 		SetSystemName("Editor System");
 
-		//_CrtMemCheckpoint(&sOld); //take a snapshot
-
-		// Add the different ImGui layers in here
-		//_CrtMemCheckpoint(&sNew); //take a snapshot 
-		//if (_CrtMemDifference(&sDiff, &sOld, &sNew)) // if there is a difference
-		//{
-		//	OutputDebugString(L"-----------_CrtMemDumpStatistics ---------");
-		//	_CrtMemDumpStatistics(&sDiff);
-		//	OutputDebugString(L"-----------_CrtMemDumpAllObjectsSince ---------");
-		//	_CrtMemDumpAllObjectsSince(&sOld);
-		//	OutputDebugString(L"-----------_CrtDumpMemoryLeaks ---------");
-		//	_CrtDumpMemoryLeaks();
-		//}
-
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorToolBar>("ToolBar"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorInspector>("Inspector"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorHierarchy>("Hierarchy"));
@@ -82,10 +80,16 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAssets>("Assets"));
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Initializes the Editor system.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void Editor::Initialize()
 	{
 		// Do not re-enable until M3!
-		//INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();
@@ -109,6 +113,12 @@ namespace LB
 		m_ImGuiLayers.InitializeLayers();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the Editor system.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void Editor::Update()
 	{
 		if (CORE->IsEditorMode())
@@ -227,6 +237,12 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Destroys the Editor system.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void Editor::Destroy()
 	{		
 		ImGui_ImplOpenGL3_Shutdown();
