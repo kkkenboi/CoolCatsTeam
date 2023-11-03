@@ -197,7 +197,7 @@ namespace LB
             DebuggerLogErrorFormat("Texture filepath %s not found!", fileName.c_str());
             //std::string funnyPng{"Assets/Textures/despair.png"};
             //cachedTexture->stbBuffer = stbi_load(funnyPng.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
-            cachedTexture->id = -1;
+            cachedTexture->id = 0;
             return cachedTexture;
         } 
       
