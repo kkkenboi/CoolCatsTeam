@@ -3,10 +3,10 @@
  \author(s)			Kenji Brannon Chong
  \par DP email(s):	kenjibrannon.c@digipen.edu
  \par Course:       CSD2401A
- \date				11/10/2023
+ \date				03/11/2023
  \brief
 
- This file contains functions declartions for the Editor where it manages
+ This file contains functions declarations for the Editor where it manages
  all of the different layers of the editor, eg. the Hierarchy layer, the
  Inspector, and more. It ensures that all the layers are updated and
  rendered in order.
@@ -31,10 +31,37 @@ namespace LB
 	class Editor : public ISystem
 	{
 	public:
+
+		/*!***********************************************************************
+		  \brief
+		  Constructor for the Editor class.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		Editor();
 
+		/*!***********************************************************************
+		  \brief
+		  Initializes the Editor system.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		void Initialize()	override;
+
+		/*!***********************************************************************
+		  \brief
+		  Updates the Editor system.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		void Update()		override;
+
+		/*!***********************************************************************
+		  \brief
+		  Destroys the Editor system.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		void Destroy()		override;
 
 	private:

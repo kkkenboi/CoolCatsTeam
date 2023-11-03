@@ -1,12 +1,15 @@
 /*!************************************************************************
  \file				EditorSceneView.cpp
- \author(s)			Ang Jiawei Jarrett
- \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \author(s)			Ang Jiawei Jarrett, Kenji Brannon Chong
+ \par DP email(s):	a.jiaweijarrett@digipen.edu, kenjibrannon.c@digipen.edu
  \par Course:		CSD2401A
  \date				16/10/23
  \brief
 
- This source file
+ This source file contains functions definitions for the scene view layer of the
+ Editor. This is to showcase the scene view, apart from the game view where it
+ can be interacted with and moved around.
+
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -31,28 +34,70 @@ namespace LB
 	EditorSceneView* EDITORSCENEVIEW = nullptr;
 
 	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;
+	/*!***********************************************************************
+	  \brief
+	  Moves the scene view camera upwards. Function is passed as an event.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void MoveCamUp() {
 		Renderer::GRAPHICS->update_cam(0.f, 20.f);
 	}
+	/*!***********************************************************************
+	  \brief
+	  Moves the scene view camera downwards. Function is passed as an event.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void MoveCamDown() {
 		Renderer::GRAPHICS->update_cam(0.f, -20.f);
 	}
+	/*!***********************************************************************
+	  \brief
+	  Moves the scene view camera leftwards. Function is passed as an event.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void MoveCamLeft() {
 		Renderer::GRAPHICS->update_cam(-20.f, 0.f);
 	}
+	/*!***********************************************************************
+	  \brief
+	  Moves the scene view camera rightwards. Function is passed as an event.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void MoveCamRight() {
 		Renderer::GRAPHICS->update_cam(20.f, 0.f);
 	}
+	/*!***********************************************************************
+	  \brief
+	  Zooms the scene view camera inwards. Function is passed as an event.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void ZoomCamIn() {
 		zoomCurrent += zoomStep * TIME->GetUnscaledDeltaTime();
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
+	/*!***********************************************************************
+	  \brief
+	  Zooms the scene view camera outwards. Function is passed as an event.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void ZoomCamOut() {
 		zoomCurrent -= zoomStep * TIME->GetUnscaledDeltaTime();
 		zoomCurrent = (zoomCurrent > zoomMin) ? zoomCurrent : zoomMin;
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Constructor for the EditorSceneView class.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	EditorSceneView::EditorSceneView(std::string layerName) : Layer(layerName)
 	{
 		if (!EDITORSCENEVIEW)
@@ -61,6 +106,12 @@ namespace LB
 			DebuggerLogError("Editor Game View already exist!");
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Initializes the EditorSceneView layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorSceneView::Initialize()
 	{
 			INPUT->SubscribeToKey(MoveCamUp, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
@@ -78,6 +129,12 @@ namespace LB
 			//INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the EditorSceneView layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorSceneView::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
@@ -122,6 +179,12 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Set the selected object in the scene.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorSceneView::SetObjectPicked(GameObject* obj)
 	{
 		EDITORINSPECTOR->UpdateInspectedGO(obj);

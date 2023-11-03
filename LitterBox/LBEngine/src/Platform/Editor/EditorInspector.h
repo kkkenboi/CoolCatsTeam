@@ -27,18 +27,61 @@ namespace LB
     class EditorInspector : public Layer
     {
     public:
+
+        /*!***********************************************************************
+          \brief
+          Constructor for the EditorInspector class.
+          \return
+          Nothing.
+        *************************************************************************/
         EditorInspector(std::string layerName);
 
+        /*!***********************************************************************
+          \brief
+          Initializes the EditorInspector layer.
+          \return
+          Nothing.
+        *************************************************************************/
         void Initialize() override;
 
+        /*!***********************************************************************
+          \brief
+          Updates the EditorInspector layer.
+          \return
+          Nothing.
+        *************************************************************************/
         void UpdateLayer() override;
 
+        /*!***********************************************************************
+          \brief
+          Destroys the EditorInspector layer.
+          \return
+          Nothing.
+        *************************************************************************/
         void Destroy() {}
 
+        /*!***********************************************************************
+          \brief
+          Update the currently inspected game object.
+          \return
+          Nothing.
+        *************************************************************************/
         void UpdateInspectedGO(GameObject* newInspectedGO);
 
+        /*!***********************************************************************
+          \brief
+          Get the currently inspected game object.
+          \return
+          A pointer to the currently inspected GameObject.
+        *************************************************************************/
         GameObject* GetInspectedGO();
 
+        /*!***********************************************************************
+          \brief
+          Check if a game object is currently being inspected.
+          \return
+          True if a game object is being inspected, false otherwise.
+        *************************************************************************/
         bool IsGOInspected();
         bool isPrefab = false;
     private:
@@ -47,8 +90,28 @@ namespace LB
     };
     
     // For event subscription
+    /*!***********************************************************************
+      \brief
+      To get the original function, UpdateInspectedGO called as an event.
+      \return
+      Nothing.
+    *************************************************************************/
     void UpdateInspectedGO(GameObject* newInspectedGO);
+
+    /*!***********************************************************************
+      \brief
+      To get the original function, DeselectObject called as an event.
+      \return
+      Nothing.
+    *************************************************************************/
     void DeselectObject(bool isPlaying);
+
+    /*!***********************************************************************
+      \brief
+      To get the original function, DeselectObject called as an event, overloaded.
+      \return
+      Nothing.
+    *************************************************************************/
     void DeselectObject(Scene* newScene);
 
     extern EditorInspector* EDITORINSPECTOR;

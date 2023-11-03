@@ -1,12 +1,14 @@
 /*!************************************************************************
  \file				EditorGameView.cpp
- \author(s)			
- \par DP email(s):	
- \par Course:		CSD2401A
- \date				16/10/23
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \par Course:       CSD2401A
+ \date				03/11/2023
  \brief
 
- This source file
+ This source file contains functions definitions for the game view layer of the
+ Editor. This is to show how the game will look like during game mode, based on
+ the player's perspective.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -26,6 +28,12 @@ namespace LB
 {
 	EditorGameView* EDITORGAMEVIEW = nullptr;
 
+	/*!***********************************************************************
+	  \brief
+	  Constructor for the EditorGameView class.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	EditorGameView::EditorGameView(std::string layerName) : Layer(layerName)
 	{
 		if (!EDITORGAMEVIEW)
@@ -34,6 +42,12 @@ namespace LB
 			DebuggerLogError("Editor Game View already exist!");
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the EditorGameView layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorGameView::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
@@ -53,6 +67,12 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Get the current mouse position in the game view.
+	  \return
+	  The mouse position.
+	*************************************************************************/
 	Vec2<float>& EditorGameView::GetMousePos() {
 		return m_MousePos;
 	}

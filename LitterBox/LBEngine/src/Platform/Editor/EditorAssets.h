@@ -6,7 +6,9 @@
  \date				16/10/23
  \brief
 
- This header file
+ This header file contains functions declarations for the assets layer of the
+ Editor. This is to allow the programmer to browse through the assets to be used
+ within the game/scene view.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -24,10 +26,37 @@ namespace LB
 	class EditorAssets : public Layer
 	{
 	public:
+
+		/*!***********************************************************************
+		  \brief
+		  Constructor for the EditorAssets class.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		EditorAssets(std::string layerName);
+
+		/*!***********************************************************************
+		  \brief
+		  Initializes the EditorAssets layer.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		void Initialize() override;
+
+		/*!***********************************************************************
+		  \brief
+		  Updates the EditorAssets layer.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		void UpdateLayer() override;
 
+		/*!***********************************************************************
+		  \brief
+		  Destroys the EditorAssets layer.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		void Destroy() {}
 
 		std::filesystem::path currentDirectory;			//keeps track of the current directory we're in
@@ -37,6 +66,14 @@ namespace LB
 		std::filesystem::path relativePath;			//relative pathname of the current directory
 	};
 	extern EditorAssets* EDITORASSETS;
+
+	/*!***********************************************************************
+	  \brief
+	  Callback function for handling dropped files when files are dropped 
+	  onto the application window.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void drop_callback(GLFWwindow* window, int count, const char** paths);
 
 

@@ -1,12 +1,14 @@
 /*!************************************************************************
  \file				EditorAssets.cpp
- \author(s)			
- \par DP email(s):	
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
  \par Course:		CSD2401A
  \date				16/10/23
  \brief
 
- This source file
+ This source file contains functions definitions for the assets layer of the
+ Editor. This is to allow the programmer to browse through the assets to be used
+ within the game/scene view.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -25,9 +27,12 @@ namespace LB
 	//forward declaration
 
 	/*!***********************************************************************
-	* \brief Callback function for application refocus
-	* (Global function)
-	**************************************************************************/
+	  \brief
+	  Callback function for handling dropped files when files are dropped
+	  onto the application window.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void drop_callback(GLFWwindow* window, int count, const char** paths)
 	{
 		UNREFERENCED_PARAMETER(window);
@@ -51,7 +56,13 @@ namespace LB
 		}
 	}
 
-	EditorAssets::EditorAssets(std::string layerName) : Layer(layerName) 
+	/*!***********************************************************************
+	  \brief
+	  Constructor for the EditorAssets class.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	EditorAssets::EditorAssets(std::string layerName) : Layer(layerName)
 	{
 		if (!EDITORASSETS)
 			EDITORASSETS = this;
@@ -65,12 +76,24 @@ namespace LB
 		folderPathName = currentDirectory.filename().string();
 
 	}
+
+	/*!***********************************************************************
+	  \brief
+	  Initializes the EditorAssets layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorAssets::Initialize()
 	{
 		glfwSetDropCallback(WINDOWSSYSTEM->GetWindow(), drop_callback);
 	}
 
-
+	/*!***********************************************************************
+	  \brief
+	  Updates the EditorAssets layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorAssets::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());

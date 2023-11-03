@@ -6,7 +6,9 @@
  \date				16/10/23
  \brief
 
- This source file
+ This source file contains functions definitions for the console layer of the
+ Editor. This is to show the logs and any errors that may arise during the runtime
+ of the Editor.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -20,7 +22,13 @@ namespace LB
 {
 	EditorConsole* EDITORCONSOLE = nullptr;
 
-	EditorConsole::EditorConsole(std::string layerName) : Layer(layerName) 
+	/*!***********************************************************************
+	  \brief
+	  Constructor for the EditorConsole class.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	EditorConsole::EditorConsole(std::string layerName) : Layer(layerName)
 	{
 		if (!EDITORCONSOLE)
 			EDITORCONSOLE = this;
@@ -35,6 +43,12 @@ namespace LB
 		m_messageColors[EditorConsoleMsgType::ERROR]		= ImVec4(0.8f, 0.27f, 0.25f, 1.0f);
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the EditorConsole layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorConsole::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
@@ -74,22 +88,45 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Destroys the EditorConsole layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorConsole::Destroy()
 	{
 		EDITORCONSOLE = nullptr;
 	}
 
-
+	/*!***********************************************************************
+	  \brief
+	  Add a log message to the console.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorConsole::AddLogMessage(std::string const& log)
 	{
 		m_messages.emplace_back(log, EditorConsoleMsgType::DEBUG);
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Add a warning message to the console.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorConsole::AddWarningMessage(std::string const& warning)
 	{
 		m_messages.emplace_back(warning, EditorConsoleMsgType::WARNING);
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Add an error message to the console.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorConsole::AddErrorMessage(std::string const& error)
 	{
 		m_messages.emplace_back(error, EditorConsoleMsgType::ERROR);
