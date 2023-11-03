@@ -74,6 +74,10 @@ namespace LB
         *************************************************************************/
         void ReturnPooledRigidBody(CPRigidBody* rb);
 
+        /*!***********************************************************************
+          \brief
+          This function removes a CPRigidBody* from the RigidBodyPool
+        *************************************************************************/
         void RemoveRigidBodyFromPool(CPRigidBody* rb);
 
         /*!***********************************************************************
