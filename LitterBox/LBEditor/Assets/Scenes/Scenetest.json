@@ -148,7 +148,7 @@
                     "IsStatic": false
                 },
                 "Render": {
-                    "Texture": 16
+                    "Texture": 9
                 },
                 "Collider": {
                     "Shape": 1,
@@ -268,7 +268,7 @@
                 "Name": "EnemyChaser1",
                 "Transform": {
                     "Position": {
-                        "x": 800.0,
+                        "x": 747.0,
                         "y": 450.0
                     },
                     "Scale": {
@@ -300,7 +300,7 @@
                 "Name": "ButtObject",
                 "Transform": {
                     "Position": {
-                        "x": 200.0,
+                        "x": 59.0,
                         "y": 700.0
                     },
                     "Scale": {
