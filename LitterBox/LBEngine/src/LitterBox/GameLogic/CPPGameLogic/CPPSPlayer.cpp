@@ -122,7 +122,7 @@ namespace LB
 		{
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
 			float effect_radius = 200.f;
-			float effect_magnitude = 1000.f;
+			float effect_magnitude = 500.f;
 
 			DEBUG->DrawCircle(current_pos, effect_radius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
 

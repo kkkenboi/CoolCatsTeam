@@ -108,11 +108,19 @@ namespace LB
         }
     }
 
+    /*!***********************************************************************
+        \brief
+        Adds a rotation to the CPRigidBody
+    *************************************************************************/
     void CPRigidBody::addRotation(float angle)
     {
         this->mRotation += angle;
     }
 
+    /*!***********************************************************************
+        \brief
+        Toggles the IsStatic data member of the CPRigidBody
+    *************************************************************************/
     void CPRigidBody::ToggleIsStatic()
     {
         if (isStatic == true)

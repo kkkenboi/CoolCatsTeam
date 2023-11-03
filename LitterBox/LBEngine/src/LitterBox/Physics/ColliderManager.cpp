@@ -297,13 +297,13 @@ namespace LB
 			return;
 		}
 
-		float e = PHY_MATH::FindMin(bodyA->rigidbody->mRestitution, bodyB->rigidbody->mRestitution);
+		float minRestitution = PHY_MATH::FindMin(bodyA->rigidbody->mRestitution, bodyB->rigidbody->mRestitution);
 
-		float j = -(1.f + e) * PHY_MATH::DotProduct(relativeVelocity, normal);
-		j /= bodyA->rigidbody->mInvMass + bodyB->rigidbody->mInvMass;
+		float magnitude = -(1.f + minRestitution) * PHY_MATH::DotProduct(relativeVelocity, normal);
+		magnitude /= bodyA->rigidbody->mInvMass + bodyB->rigidbody->mInvMass;
 
 		// Magnitude * Normal to get the impulse given to the objects
-		LB::Vec2<float> impulse = normal * j;
+		LB::Vec2<float> impulse = normal * magnitude;
 
 
 		if (!bodyA->rigidbody->isStatic)

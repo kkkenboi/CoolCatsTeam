@@ -73,11 +73,19 @@ namespace LB
 		// =================
 		// Constructor
 		// =================
+		/*!***********************************************************************
+		  \brief
+		  This function initializes the CPRigidBody
+		*************************************************************************/
 		void Initialise() override
 		{
 			CreateRigidBody();
 		}
 
+		/*!***********************************************************************
+		  \brief
+		  This function allows the user to get the Type of the CPRigidBody
+		*************************************************************************/
 		static ComponentTypeID GetType()
 		{
 			return C_CPRigidBody;
@@ -89,6 +97,11 @@ namespace LB
 			definition
 		*************************************************************************/
 		void CreateRigidBody();
+
+		/*!***********************************************************************
+		  \brief
+		  This function serializes some of the data members of CPRigidBody
+		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
 			DebuggerLog("Serialising RB");
@@ -99,6 +112,11 @@ namespace LB
 			data.AddMember("IsStatic", isStatic, alloc);
 			return true;
 		}
+
+		/*!***********************************************************************
+		  \brief
+		  This function deserializes some of the data members of CPRigidBody
+		*************************************************************************/
 		bool Deserialize(const Value& data) override
 		{
 			DebuggerLog("Deserialising RB");
@@ -139,8 +157,16 @@ namespace LB
 		*************************************************************************/
 		void addImpulse(LB::Vec2<float> force);
 
+		/*!***********************************************************************
+			\brief
+			Adds a rotation to the CPRigidBody
+		*************************************************************************/
 		void addRotation(float angle);
 
+		/*!***********************************************************************
+			\brief
+			Toggles the IsStatic data member of the CPRigidBody
+		*************************************************************************/
 		void ToggleIsStatic();
 
 
@@ -177,6 +203,10 @@ namespace LB
 		*************************************************************************/
 		void FixedUpdate();
 
+		/*!***********************************************************************
+			\brief
+			Destroys the current CPRigidBody
+		*************************************************************************/
 		void Destroy();
 	};
 }
