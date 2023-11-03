@@ -194,11 +194,15 @@ namespace LB
 	*************************************************************************/
 	void Debugger::DrawLine(Vec2<float> start, Vec2<float> end, Vec4<float> color)
 	{
+		//std::cout << drawobj.size() << '\n';
+		//std::cout << '\n';
+		//drawobj.size();
 		drawobj.push(DebugObject{ 0.f,0.f,0.f,
 			DebugTypes::LINE,
 			start,
 			end,
-			color });
+			color }); 
+
 	}
 
 	/*!***********************************************************************

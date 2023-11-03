@@ -478,6 +478,12 @@ namespace LB
 	*************************************************************************/
 	void EditorInspector::UpdateInspectedGO(GameObject* newInspectedGO)
 	{
+		if (isPrefab && m_inspectedGO)
+		{
+			GOMANAGER->RemoveDDOLGameObject(m_inspectedGO);
+			isPrefab = false;
+		}
+
 		m_inspectedGO = newInspectedGO;
 
 		// If GO was deselected, don't update name

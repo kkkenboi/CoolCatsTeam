@@ -180,13 +180,13 @@ namespace LB
 						}
 						else //that means it's a prefab instead
 						{
-							EDITORINSPECTOR->isPrefab = true;
 							DebuggerLog(directory.path().filename().string());
 							
 							GameObject* prefab = FACTORY->SpawnGameObject({}, GOSpawnType::FREE_FLOATING);
 							JSONSerializer::DeserializeFromFile(FileName.c_str(), *prefab);
 							prefab->SetName(FileName.c_str());
 							EDITORINSPECTOR->UpdateInspectedGO(prefab);
+							EDITORINSPECTOR->isPrefab = true;
 						}
 					}
 				}
