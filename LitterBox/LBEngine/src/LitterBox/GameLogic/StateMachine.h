@@ -22,7 +22,7 @@ public:
 	FiniteStateMachine& GetFSM();
 
 	// Virtual functions
-	//virtual ~State();
+	virtual ~State() = default;
 	
 	virtual void Enter() = 0;
 
