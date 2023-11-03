@@ -75,7 +75,7 @@ namespace LB
 			ImPlot::SetNextAxesToFit();
 		}
 		// Draw the profile graph
-		if (ImPlot::BeginPlot("Profile Graph", ImGui::GetContentRegionAvail(), ImPlotAxisFlags_RangeFit | ImPlotFlags_NoLegend))
+		if (ImPlot::BeginPlot("Profile Graph", ImGui::GetContentRegionAvail(), ImPlotAxisFlags_RangeFit | static_cast<ImPlotAxisFlags_>(ImPlotFlags_NoLegend)))
 		{
 			// Graph out the time taken for each system in this frame	
 			for (auto& frame : m_systemFrames)

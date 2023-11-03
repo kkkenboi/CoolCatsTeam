@@ -122,7 +122,7 @@ namespace LB
                 continue;
             }
             //If the file exists, we check the time if it's been updated
-            int fileTime = FILESYSTEM->GetFileTime(metaData.first);
+            long long fileTime = FILESYSTEM->GetFileTime(metaData.first);
             //if there's any difference, we know it's been changed
             if (ASSETMANAGER->metaFileMap[metaData.first] != fileTime)
             {
@@ -240,7 +240,7 @@ namespace LB
         for (const auto& t : TextureFilePaths)
         {
             Value metaKey(Value(t.string().c_str(), metaAlloc), metaAlloc);
-            int fileTime = FILESYSTEM->GetFileTime(t);
+            long long fileTime = FILESYSTEM->GetFileTime(t);
             _metaFile.AddMember(metaKey, fileTime, metaAlloc);
 
             //AssetMap => "joe" : "C://User//joe.png"
@@ -256,7 +256,7 @@ namespace LB
         for (const auto& s : SoundFilePaths)
         {
             Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
-            int fileTime = FILESYSTEM->GetFileTime(s);
+            long long fileTime = FILESYSTEM->GetFileTime(s);
 
             _metaFile.AddMember(metaKey, fileTime, metaAlloc);
             //AssetMap => "BOOM" : "C://Users//BOOM.wav"

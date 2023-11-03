@@ -72,10 +72,10 @@ namespace LB
 	 *	example input "joe.png" -> 48568494
 	 * \return int File's last time since modified
 	 **************************************************************************/
-	int FileSystemManager::GetFileTime(const std::filesystem::path& filePath)
+	long long FileSystemManager::GetFileTime(const std::filesystem::path& filePath)
 	{
 		std::filesystem::file_time_type lastWriteTime = std::filesystem::last_write_time(filePath);
-		return std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch()).count();
+		return (std::chrono::duration_cast<std::chrono::seconds>(lastWriteTime.time_since_epoch())).count();
 	}
 
 	/*!************************************************************************
@@ -83,7 +83,7 @@ namespace LB
 	 *	example input "joe.png" -> 48568494
 	 * \return int File's last time since modified
 	 **************************************************************************/
-	int FileSystemManager::GetFileTime(const std::string& filePath)
+	long long FileSystemManager::GetFileTime(const std::string& filePath)
 	{
 		std::filesystem::path fp{ filePath };
 		return GetFileTime(fp);

@@ -144,11 +144,16 @@ namespace LB
 	std::string Debugger::GetCurrentTimeStamp()
 	{
 		std::time_t now = std::time(nullptr);
-		std::tm timeStamp = *std::localtime(&now);
+		std::tm timeStamp;
 
-		std::ostringstream timeStampString;
-		timeStampString << std::put_time(&timeStamp, "%H:%M:%S");
-		return timeStampString.str();
+		if (localtime_s(&timeStamp, &now) == 0)
+		{
+			std::ostringstream timeStampString;
+			timeStampString << std::put_time(&timeStamp, "%H:%M:%S");
+			return timeStampString.str();
+		}
+		// Handle error
+		return "Error!";
 	}
 
 	/*!***********************************************************************
