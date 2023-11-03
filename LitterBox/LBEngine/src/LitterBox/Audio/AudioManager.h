@@ -78,7 +78,7 @@ namespace LB
 		 *
 		 * (Technically... 1 sound 1 channel so...)
 		**************************************************************************/
-		bool IsPlaying(int channelID);
+		bool IsPlaying(int ChannelID);
 
 
 		/*!***********************************************************************

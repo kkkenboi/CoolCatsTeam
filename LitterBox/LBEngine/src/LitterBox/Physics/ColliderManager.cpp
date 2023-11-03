@@ -203,6 +203,9 @@ namespace LB
 		case COL_NONE:
 			return "None";
 			break;
+		default:
+			return "Error!";
+			break;
 		}
 	}
 

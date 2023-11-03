@@ -255,7 +255,7 @@ void LB::CPRender::play_repeat(const std::string& name)
 		animation.push(std::make_pair(anim, true));
 	}
 	else {
-		DebuggerLogErrorFormat("There is no animation: %s loaded.", name);
+		DebuggerLogErrorFormat("There is no animation: %s loaded.", name.c_str());
 	}
 }
 
@@ -271,7 +271,7 @@ void LB::CPRender::play_next(const std::string& name)
 		animation.push(std::make_pair(anim, false));
 	}
 	else {
-		DebuggerLogErrorFormat("There is no animation: %s loaded.", name);
+		DebuggerLogErrorFormat("There is no animation: %s loaded.", name.c_str());
 	}
 }
 
@@ -290,7 +290,7 @@ void LB::CPRender::play_now(const std::string& name)
 		animation.push(std::make_pair(anim, false));
 	}
 	else {
-		DebuggerLogErrorFormat("There is no animation: %s loaded.", name);
+		DebuggerLogErrorFormat("There is no animation: %s loaded.", name.c_str());
 	}
 }
 

@@ -44,6 +44,6 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override;
 
-		CPCollider* coll;
+		CPCollider* coll{ nullptr };
 	};
 }

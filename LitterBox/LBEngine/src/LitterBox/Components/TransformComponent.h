@@ -174,7 +174,7 @@ namespace LB
 		CPTransform* GetChild(int index = 0)
 		{
 			if (index < 0 || index >= m_children.size())
-				DebuggerLogErrorFormat("GameObject %s tried to get child at invalid index %d!", gameObj->GetName(), index);
+				DebuggerLogErrorFormat("GameObject %s tried to get child at invalid index %d!", gameObj->GetName().c_str(), index);
 			return m_children[index];
 		}
 

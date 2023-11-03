@@ -286,6 +286,8 @@ namespace LB
     void WindowsSystem::FrameBufferCB(GLFWwindow* ptr_win, int width, int height)
     {
         UNREFERENCED_PARAMETER(ptr_win);
+        UNREFERENCED_PARAMETER(width);
+        UNREFERENCED_PARAMETER(height);
 
         // This is to ensure that the window is still drawing when 
         // resizing the window
