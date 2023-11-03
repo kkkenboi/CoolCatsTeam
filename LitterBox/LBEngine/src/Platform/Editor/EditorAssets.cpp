@@ -147,11 +147,11 @@ namespace LB
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 				//ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string().c_str()), { 64,64 }, { 0,1 }, { 1,0 });
 				if (directory.path().extension().string() == ".png")
-				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()), {64,64}, {0,1}, {1,0});
+				ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()))), {64,64}, {0,1}, {1,0});
 				else if (directory.path().extension().string() == ".wav")
-				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("wav"), {64,64}, {0,1}, {1,0});
+				ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("wav"))), {64,64}, {0,1}, {1,0});
 				else 
-				ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex("FileIcon"), {64,64}, {0,1}, {1,0});
+				ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("FileIcon"))), {64,64}, {0,1}, {1,0});
 				//DebuggerLogFormat("Texture ID : %d", ASSETMANAGER->GetTextureIndex("cat"));
 				//DebuggerLogFormat("Cast Texture ID : %d", *(ImTextureID)ASSETMANAGER->GetTextureIndex("run"));
 				ImGui::PopStyleColor();

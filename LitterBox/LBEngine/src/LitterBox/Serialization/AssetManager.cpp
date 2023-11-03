@@ -169,7 +169,7 @@ namespace LB
         cachedTexture->stbBuffer = stbi_load(fileName.c_str(), &cachedTexture->width, &cachedTexture->height, &cachedTexture->fluff, 4);
         if(!cachedTexture->stbBuffer)
         {
-            DebuggerLogErrorFormat("Texture filepath %s not found!", fileName);
+            DebuggerLogErrorFormat("Texture filepath %s not found!", fileName.c_str());
             //std::string funnyPng{"Assets/Textures/despair.png"};
             //cachedTexture->stbBuffer = stbi_load(funnyPng.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
             cachedTexture->id = -1;
@@ -282,7 +282,7 @@ namespace LB
     {
         if (Textures.find(assetMap[name]) == Textures.end())
         {
-            DebuggerLogErrorFormat("Unable to find %s in Textures!", name);
+            DebuggerLogErrorFormat("Unable to find %s in Textures!", name.c_str());
             return false;
         }
         TextureSlots[Textures.find(assetMap[name])->second.second] = false;
