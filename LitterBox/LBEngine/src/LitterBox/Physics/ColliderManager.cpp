@@ -1,3 +1,19 @@
+/*!************************************************************************
+ \file				ColliderManager.cpp
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:		CSD2401A
+ \date				03-11-2023
+ \brief
+ This file contains the ColliderManager class and all its functionalities,
+ this class handles all the Colliders and keeps them in a pool, handling
+ all the updates
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "ColliderManager.h"
 #include "PhysicsMath.h"
 
@@ -5,6 +21,12 @@ namespace LB
 {
 	ColliderManager* COLLIDERS = nullptr;
 
+	/*!***********************************************************************
+		\brief
+		Constructor of the ColliderManager singleton class, handles
+		all the updates of the CPColliders and resolves resolution
+		of collisions
+	*************************************************************************/
 	ColliderManager::ColliderManager()
 	{
 		if (!COLLIDERS)
@@ -28,6 +50,12 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+		\brief
+		Adds a CPCollider* to the collide pool in the ColliderManager
+		\param CPCollider* col
+		The collider to add to the pool
+	*************************************************************************/
 	void ColliderManager::AddColliderToPool(CPCollider* col)
 	{
 		for (size_t i = 0; i < m_poolSize; ++i)
@@ -40,6 +68,12 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+		\brief
+		Removes a CPCollider* from the collider pool in the ColliderManager
+		\param CPCollider* col
+		The collider to remove from the pool
+	*************************************************************************/
 	void ColliderManager::RemoveColliderFromPool(CPCollider* col)
 	{
 		for (size_t i = 0; i < m_poolSize; ++i)
@@ -55,6 +89,19 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+		This function allows you to use a position, and radius and checks
+		the ColliderManager and returns a vector of all the CPColliders that were
+		found within the circle made
+	\param Vec2<float> position
+		The position of the circle to make
+	\param float radius
+		The size of the radius to make
+	\return std::vector<CPCollider*>
+		The vector of CPColliders* to return that are within the created circle
+		overlap
+	*************************************************************************/
 	std::vector<CPCollider*> ColliderManager::OverlapCircle(Vec2<float> position, float radius)
 	{
 		Vec2<float> normal{ 0.f,0.f };
@@ -90,6 +137,19 @@ namespace LB
 		return vec_overlapped;
 	}
 
+	/*!***********************************************************************
+	\brief
+		This function allows you to use a position, and radius and checks
+		the ColliderManager and returns a vector of all the GameObject that were
+		found within the circle made
+	\param Vec2<float> position
+		The position of the circle to make
+	\param float radius
+		The size of the radius to make
+	\return std::vector<GameObject*>
+		The vector of GameObject* to return that are within the created circle
+		overlap
+	*************************************************************************/
 	std::vector<GameObject*> ColliderManager::OverlapCircleGameObj(Vec2<float> position)
 	{
 		float radius = 1.0f;
@@ -126,6 +186,10 @@ namespace LB
 		return vec_overlapped;
 	}
 
+/*!***********************************************************************
+\brief
+	Gets the ShapeName of the Collider in the ColliderManager
+*************************************************************************/
 	std::string ColliderManager::GetShapeNames(SHAPETYPE type)
 	{
 		switch (type)
@@ -146,6 +210,20 @@ namespace LB
 	// END OF ColliderManager member functions
 	// ===
 
+	/*!***********************************************************************
+	\brief
+		This function allows you to check collisions between two CPColliders
+		and gets the result of normal_out and depth_out from the collision if
+		made
+	\param CPCollider* colA
+		ColliderA to check collisions with
+	\param CPCollider* colB
+		ColliderB to check collisions with
+	\param Vec2<float>& normal_out
+		The normal for collision resolution
+	\param float& depth_out
+		The depth for collision resolution
+	*************************************************************************/
 	bool CheckColliders(CPCollider* colA, CPCollider* colB, Vec2<float>& normal_out, float& depth_out)
 	{
 		normal_out.x = 0.f;
@@ -191,6 +269,19 @@ namespace LB
 		return false;
 	}
 
+/*!***********************************************************************
+\brief
+	This function resolves collisions between two CPCollider* objects using
+	normal_out and depth_out
+\param CPCollider* bodyA
+	The first CPCollider Obj
+\param CPCollider* bodyB
+	The second CPCollider Obj
+\param Vec2<float> normal_out
+	The normal used for collision resolution
+\param Vec2<float> depth_out
+	The depth used for collision resolution
+*************************************************************************/
 	void ResolveColliders(CPCollider* bodyA, CPCollider* bodyB, LB::Vec2<float> normal, float depth) 
 	{
 
@@ -223,6 +314,11 @@ namespace LB
 
 	}
 
+/*!***********************************************************************
+\brief
+	Initializes the ColliderManager system
+*************************************************************************/
+
 	void ColliderManager::Initialize()
 	{
 		SetSystemName("Collider System");
@@ -233,10 +329,12 @@ namespace LB
 		}
 	}
 
+/*!***********************************************************************
+\brief
+	The FixedUpdate for all the Colliders will be called in here
+*************************************************************************/
 	void ColliderManager::FixedUpdate()
 	{
-		// Does all the collision Checks here
-		// Does all the collision Checks here
 		
 		// ==================
 		// Update Collider Positions
@@ -315,6 +413,11 @@ namespace LB
 
 	}	// End of FixedUpdate
 
+/*!***********************************************************************
+\brief
+	ColliderManager's update step, will update the Debug drawing of all
+	the colliders within the pool
+*************************************************************************/
 	void ColliderManager::Update() 
 	{
 		// Draw Debug here
@@ -331,7 +434,10 @@ namespace LB
 		}
 	}
 
-	
+	/*!***********************************************************************
+	\brief
+		Initializes the ColliderManager system
+	*************************************************************************/
 	void ColliderManager::Destroy()
 	{
 		for (size_t i = 0; i < m_poolSize; ++i)
