@@ -89,7 +89,7 @@ namespace LB
 	void Editor::Initialize()
 	{
 		// Do not re-enable until M3!
-		INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		//INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();
