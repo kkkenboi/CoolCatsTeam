@@ -60,25 +60,25 @@ namespace LB
 	{
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
 		{
-			AUDIOMANAGER->PlaySound("Enemy hurt");
+			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_1");
 			rend->stop_anim();
 			rend->play_repeat("up_walk");
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A))
 		{
-			AUDIOMANAGER->PlaySound("Oof");
+			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_2");
 			rend->stop_anim();
 			rend->play_repeat("left_walk");
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D))
 		{
-			AUDIOMANAGER->PlaySound("Oof");
+			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_3");
 			rend->stop_anim();
 			rend->play_repeat("right_walk");
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S))
 		{
-			AUDIOMANAGER->PlaySound("EXPLOSION");
+			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_4");
 			rend->stop_anim();
 			rend->play_repeat("down_walk");
 		}

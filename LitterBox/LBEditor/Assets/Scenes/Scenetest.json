@@ -265,11 +265,11 @@
                 }
             },
             {
-                "Name": "ButtObject",
+                "Name": "EnemyChaser1",
                 "Transform": {
                     "Position": {
-                        "x": 200.0,
-                        "y": 700.0
+                        "x": 800.0,
+                        "y": 450.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -277,14 +277,23 @@
                     },
                     "Rotation": 0.0
                 },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": false
+                },
+                "Render": {
+                    "Texture": 4
+                },
                 "Collider": {
                     "Shape": 1,
-                    "Width": 190.0,
-                    "Height": 80.0,
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Radius": 50.0
                 },
                 "CPPScript": {
-                    "Script": "Butt"
+                    "Script": "Enemy"
                 }
             }
         ]

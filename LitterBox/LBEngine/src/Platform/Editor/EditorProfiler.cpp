@@ -1,12 +1,13 @@
 /*!************************************************************************
  \file				EditorProfiler.cpp
- \author(s)			
- \par DP email(s):	
- \par Course:		CSD2401A
- \date				16/10/23
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \par Course:       CSD2401A
+ \date				03/11/2023
  \brief
 
- This source file
+ This source file contains functions defintions for the profiler layer of the
+ Editor. This is to print out the usage of each system per frame.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -25,6 +26,12 @@ namespace LB
 {
 	EditorProfiler* EDITORPROFILER = nullptr;
 
+	/*!***********************************************************************
+	  \brief
+	  Constructor for the EditorProfiler class.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	EditorProfiler::EditorProfiler(std::string layerName) : Layer(layerName), m_currentFrameHistoryIndex(0)
 	{
 		if (!EDITORPROFILER)
@@ -36,10 +43,23 @@ namespace LB
 		SetFrameHistorySize(80);
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Compares the timing between two frames
+	  \return
+	  True if frame timing of the left parameter is lower than that of the right,
+	  else false.
+	*************************************************************************/
 	bool CompareFrameMoments(SystemFrameMoment const& lhs, SystemFrameMoment const& rhs) {
 		return lhs.timing < rhs.timing;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the EditorProfiler layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorProfiler::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
@@ -109,6 +129,12 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Update the system frames with timing data.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorProfiler::UpdateSystemFrames(std::map<std::string, double> const& timings)
 	{
 		// TO DO: Pause profiler on key press pause as well
@@ -138,6 +164,12 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Set the size of the frame history.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorProfiler::SetFrameHistorySize(int newSize)
 	{
 		m_framesHistorySize = newSize;

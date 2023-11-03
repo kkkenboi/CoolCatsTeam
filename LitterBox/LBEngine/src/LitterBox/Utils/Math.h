@@ -1,10 +1,10 @@
 /*!************************************************************************
  \file				Math.h
- \author(s)			Vanessa Chua Siew Jin, 
-					Carlo Villa Ilao Justine, 
+ \author(s)			Vanessa Chua Siew Jin,
+					Carlo Villa Ilao Justine,
 					CHIA Amadeus Jinhan
- \par DP email(s):	vanessasiewjin.chua@digipen.edu, 
-					justine.c@digipen.edu, 
+ \par DP email(s):	vanessasiewjin.chua@digipen.edu,
+					justine.c@digipen.edu,
 					amadeusjinhan.chia@digipen.edu
  \par Course:		CSD2401A
  \date				24-09-2023
@@ -25,10 +25,10 @@
 #include "../../dependencies/RapidJSON/include/document.h"
 #pragma warning(pop)
 
-namespace LB 
+namespace LB
 {
-	#define PI 3.14159265358979323846 // Used for rotation
-	
+#define PI 3.14159265358979323846 // Used for rotation
+
 	/*!***********************************************************************
 	 \brief
 	 A Clamp function that limits the value to its min or max
@@ -41,7 +41,7 @@ namespace LB
 	* Vec 2
 	*	|x|
 	*	|y|
-	* 
+	*
 	***************************************************************************************************/
 
 	/*!***********************************************************************
@@ -49,7 +49,7 @@ namespace LB
 	 A Vec2 class that holds any type T
 	*************************************************************************/
 	template<typename T>
-	class Vec2 
+	class Vec2
 	{
 	public:
 		/*!***********************************************************************
@@ -58,24 +58,24 @@ namespace LB
 		*************************************************************************/
 		T x;
 		T y;
-		
+
 		/*!***********************************************************************
 		 \brief
 		  Default constructor set x and y values to 0
 		*************************************************************************/
-		Vec2();		
+		Vec2();
 
 		/*!***********************************************************************
 		 \brief
 		  Parameterized Constructor with x and y values
 		*************************************************************************/
-		Vec2(T x, T y);	
+		Vec2(T x, T y);
 
 		/*!***********************************************************************
 		 \brief
 		  Copy constructor to another Vec2
 		*************************************************************************/
-		Vec2(const Vec2<T>& rhs);			 
+		Vec2(const Vec2<T>& rhs);
 
 		/*!***********************************************************************
 		 \brief
@@ -112,14 +112,14 @@ namespace LB
 		 \brief
 		  [] operator to access element, a copy
 		*************************************************************************/
-		T    operator[](size_t index) const;		
+		T    operator[](size_t index) const;
 
 		/*!***********************************************************************
 		 \brief
 		  [] operator to access element, can modify itself
 		*************************************************************************/
 
-		T&   operator[](size_t index);		 // can edit the actual thing
+		T& operator[](size_t index);		 // can edit the actual thing
 
 		// Compound assignment operators -= +=
 		/*!***********************************************************************
@@ -226,7 +226,7 @@ namespace LB
 		  A function that sets x and y values from another vector to itself
 		*************************************************************************/
 		Vec2<T>& Set(Vec2<T> const& rhs);
-		
+
 		//Serializing & Deserializing
 		/*!***********************************************************************
 		 \brief
@@ -255,7 +255,7 @@ namespace LB
 	 *= operator to multiply and assign lhs Vec2 after multiplying with rhs variable
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec2<T1> operator*=(Vec2<T1> lhs, T2 rhs);
+	Vec2<T1>& operator*=(Vec2<T1>& lhs, T2 rhs);
 
 	/*!***********************************************************************
 	\brief
@@ -269,7 +269,7 @@ namespace LB
 	 /= operator to divide and assign lhs Vec2 after division with rhs variable
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec2<T1> operator/=(Vec2<T1> lhs, T2 rhs);
+	Vec2<T1>& operator/=(Vec2<T1>& lhs, T2 rhs);
 
 	// Vec2 Non-member functions 
 	/*!***********************************************************************
@@ -299,7 +299,7 @@ namespace LB
 	*************************************************************************/
 	template<typename T>
 	T DotProduct(Vec2<T> const& lhs, Vec2<T> const& rhs);
-	
+
 
 	/***************************************************************************************************
 	*
@@ -326,13 +326,13 @@ namespace LB
 		  Default constructor set x, y and z values to 0
 		*************************************************************************/
 		Vec3();								 // Default constructor
-		
+
 		/*!***********************************************************************
 		 \brief
 		  Parameterized Constructor with x, y and z values
 		*************************************************************************/
 		Vec3(T x, T y, T z);				 // Parameterized Constructor
-		
+
 		/*!***********************************************************************
 		 \brief
 		Copy constructor to another Vec3
@@ -375,7 +375,7 @@ namespace LB
 		  [] operator to access element, a copy
 		*************************************************************************/
 		T    operator[](size_t index) const;
-		
+
 		/*!***********************************************************************
 		 \brief
 		  [] operator to access element, can modify itself
@@ -516,7 +516,7 @@ namespace LB
 	 *= operator to multiply and assign lhs Vec3 after multiply with rhs variable
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec3<T1> operator*=(Vec3<T1> lhs, T2 rhs);
+	Vec3<T1>& operator*=(Vec3<T1>& lhs, T2 rhs);
 
 	/*!***********************************************************************
 	\brief
@@ -530,7 +530,7 @@ namespace LB
 	 /= operator to divide and assign lhs Vec3 after division with rhs variable
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec3<T1> operator/=(Vec3<T1> lhs, T2 rhs);
+	Vec3<T1>& operator/=(Vec3<T1>& lhs, T2 rhs);
 
 	// Vec3 Non-member functions 
 	/*!***********************************************************************
@@ -597,13 +597,13 @@ namespace LB
 		  Default constructor set x, y, z and w values to 0
 		*************************************************************************/
 		Vec4();								 // Default constructor
-		
+
 		/*!***********************************************************************
 		 \brief
 		  Parameterized Constructor with x, y, z and w values
 		*************************************************************************/
 		Vec4(T x, T y, T z, T w);				 // Parameterized Constructor
-		
+
 		/*!***********************************************************************
 		 \brief
 		  Copy constructor to another Vec4
@@ -763,7 +763,7 @@ namespace LB
 		//Serializing & Deserializing
 		/*!***********************************************************************
 		 \brief
-		  A function that serializes the vector to json data	
+		  A function that serializes the vector to json data
 		*************************************************************************/
 		bool Serialize(rapidjson::Value&, rapidjson::Document::AllocatorType&);
 
@@ -787,7 +787,7 @@ namespace LB
 	 *= operator to multiply and assign lhs Vec4 after multiplying with rhs variable
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec4<T1> operator*=(Vec4<T1> lhs, T2 rhs);
+	Vec4<T1>& operator*=(Vec4<T1>& lhs, T2 rhs);
 
 	/*!***********************************************************************
 	\brief
@@ -801,7 +801,7 @@ namespace LB
 	 /= operator to divide and assign lhs Vec4 after division with rhs variable
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec4<T1> operator/=(Vec4<T1> lhs, T2 rhs);
+	Vec4<T1>& operator/=(Vec4<T1>& lhs, T2 rhs);
 
 	// Vec4 Non-member functions 
 	/*!***********************************************************************
@@ -838,7 +838,7 @@ namespace LB
 	* Vec casting
 	*
 	***************************************************************************************************/
-	
+
 	/*!***********************************************************************
 	 \brief
 	  A function that convert Vec3 to Vec2
@@ -1223,7 +1223,7 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	 This function calculates the squared length of the vector 
+	 This function calculates the squared length of the vector
 	\return
 	 T
 	*************************************************************************/
@@ -1336,7 +1336,7 @@ namespace LB
 	 Vec2<T1>
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec2<T1> operator*=(Vec2<T1> lhs, T2 rhs)
+	Vec2<T1>& operator*=(Vec2<T1>& lhs, T2 rhs)
 	{
 		lhs.x *= (T1)rhs;
 		lhs.y *= (T1)rhs;
@@ -1355,7 +1355,7 @@ namespace LB
 	{
 		return Vec2<T1>(lhs.x / (T1)rhs, lhs.y / (T1)rhs);
 	}
-	
+
 	/*!***********************************************************************
 	\brief
 	 /= operator, division and assign back with a vector and a variable
@@ -1363,7 +1363,7 @@ namespace LB
 	 Vec2<T1>
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec2<T1> operator/=(Vec2<T1> lhs, T2 rhs)
+	Vec2<T1>& operator/=(Vec2<T1>& lhs, T2 rhs)
 	{
 		lhs.x /= (T1)rhs;
 		lhs.y /= (T1)rhs;
@@ -1462,7 +1462,7 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	 + operator to add from another Vec3 x, y, z to itself x, y, z 
+	 + operator to add from another Vec3 x, y, z to itself x, y, z
 	\return
 	 Vec3<T>
 	*************************************************************************/
@@ -1915,11 +1915,11 @@ namespace LB
 	 Vec3<T1>
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec3<T1> operator*=(Vec3<T1> lhs, T2 rhs)
+	Vec3<T1>& operator*=(Vec3<T1>& lhs, T2 rhs)
 	{
-		lhs.x *= (T1)rhs;
-		lhs.y *= (T1)rhs;
-		lhs.z *= (T1)rhs;
+		lhs.x *= (T1)(rhs);
+		lhs.y *= (T1)(rhs);
+		lhs.z *= (T1)(rhs);
 
 		return lhs;
 	}
@@ -1943,7 +1943,7 @@ namespace LB
 	 Vec3<T1>
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec3<T1> operator/=(Vec3<T1> lhs, T2 rhs)
+	Vec3<T1>& operator/=(Vec3<T1>& lhs, T2 rhs)
 	{
 		lhs.x /= (T1)rhs;
 		lhs.y /= (T1)rhs;
@@ -2261,7 +2261,7 @@ namespace LB
 	template<typename T>
 	std::string Vec4<T>::ToString()
 	{
-		return '(' + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z) + "," + std::to_string(w) + ')'; 
+		return '(' + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z) + "," + std::to_string(w) + ')';
 	}
 
 	/*!***********************************************************************
@@ -2462,7 +2462,7 @@ namespace LB
 	 Vec4<T1>
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec4<T1> operator*=(Vec4<T1> lhs, T2 rhs)
+	Vec4<T1>& operator*=(Vec4<T1>& lhs, T2 rhs)
 	{
 		lhs.x *= (T1)rhs;
 		lhs.y *= (T1)rhs;
@@ -2491,7 +2491,7 @@ namespace LB
 	 Vec4<T1>
 	*************************************************************************/
 	template<typename T1, typename T2>
-	Vec4<T1> operator/=(Vec4<T1> lhs, T2 rhs)
+	Vec4<T1>& operator/=(Vec4<T1>& lhs, T2 rhs)
 	{
 		lhs.x /= (T1)rhs;
 		lhs.y /= (T1)rhs;

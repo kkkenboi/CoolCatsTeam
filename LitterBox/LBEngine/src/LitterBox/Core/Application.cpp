@@ -34,25 +34,6 @@ namespace LB {
 		// TODO: Refactor intialization order and move back to debugger system
 		InitializeLoggers();
 
-
-		//_CrtMemState sOld;
-		//_CrtMemState sNew;
-		//_CrtMemState sDiff;
-
-		//_CrtMemCheckpoint(&sOld); //take a snapshot
-
-
-		//_CrtMemCheckpoint(&sNew); //take a snapshot 
-		//if (_CrtMemDifference(&sDiff, &sOld, &sNew)) // if there is a difference
-		//{
-		//	OutputDebugString(L"-----------_CrtMemDumpStatistics ---------");
-		//	_CrtMemDumpStatistics(&sDiff);
-		//	OutputDebugString(L"-----------_CrtMemDumpAllObjectsSince ---------");
-		//	_CrtMemDumpAllObjectsSince(&sOld);
-		//	OutputDebugString(L"-----------_CrtDumpMemoryLeaks ---------");
-		//	_CrtDumpMemoryLeaks();
-		//}
-
 		std::shared_ptr<Editor>	editor = std::make_shared<Editor>();
 		std::shared_ptr<Time> time = std::make_shared<Time>(100, 60);
 		std::shared_ptr<InputSystem> input = std::make_shared<InputSystem>();
@@ -70,23 +51,6 @@ namespace LB {
 		std::shared_ptr<Renderer::RenderSystem> graphics = std::make_shared<Renderer::RenderSystem>();
 		std::shared_ptr<Memory> memory = std::make_shared<Memory>();
 		std::shared_ptr<SceneManager> sceneManager = std::make_shared<SceneManager>();
-
-
-		//Time*					time			= DBG_NEW Time(100, 60);
-		//InputSystem*			input			= DBG_NEW InputSystem();
-		//ProfilerManager*		profiler		= DBG_NEW ProfilerManager();
-		//WindowsSystem*			windows			= DBG_NEW WindowsSystem();
-		//Debugger*				debug			= DBG_NEW Debugger();
-		//FactorySystem*			factory			= DBG_NEW FactorySystem();
-		//GameObjectManager*		gameManager		= DBG_NEW GameObjectManager();
-		//GameLogic*				logic			= DBG_NEW GameLogic();
-		//RigidBodyManager*		physics			= DBG_NEW RigidBodyManager();
-		//ColliderManager*        colliders       = DBG_NEW ColliderManager();
-		//AudioManager*			audio			= DBG_NEW AudioManager();
-		//AssetManager*			assetManager	= DBG_NEW AssetManager();
-		//Renderer::RenderSystem* graphics		= DBG_NEW Renderer::RenderSystem();
-		//Memory*					memory			= DBG_NEW Memory();
-		//SceneManager*			sceneManager	= DBG_NEW SceneManager();
 
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);

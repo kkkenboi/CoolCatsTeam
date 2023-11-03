@@ -1,12 +1,13 @@
 /*!************************************************************************
  \file				EditorToolBar.cpp
- \author(s)			
- \par DP email(s):	
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
  \par Course:		CSD2401A
  \date				16/10/23
  \brief
 
- This source file
+ This source file contains functions definitions for the toolbar layer of the
+ Editor. This is to allow the programmer to play, stop and step in frame by frame.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -21,8 +22,20 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	  \brief
+	  Constructor for the EditorToolBar class.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	EditorToolBar::EditorToolBar(std::string layerName) : Layer(layerName) {}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the EditorToolBar layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorToolBar::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);

@@ -23,7 +23,7 @@ public:
 
 	// Virtual functions
 	//virtual ~State();
-
+	
 	virtual void Enter() = 0;
 
 	virtual void Update() = 0;
