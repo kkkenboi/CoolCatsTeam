@@ -115,6 +115,7 @@ namespace LB
     void CPRigidBody::addRotation(float angle)
     {
         this->mRotation += angle;
+        this->transform->SetRotation(this->mRotation);
     }
 
     /*!***********************************************************************

@@ -105,7 +105,7 @@ namespace LB
 
         //Stores the meta data of all files
         //"Filepath" : timesincecreated
-        std::map<std::string, int> metaFileMap;
+        std::map<std::string, long long> metaFileMap;
 
         //Stores the filepath to ID for ALL files
         // "stemmedName : path" This is so we don't have to keep searching all the time

@@ -48,14 +48,14 @@ namespace LB
 		*	example input "joe.png" -> 48568494
 		* \return int File's last time since modified
 		**************************************************************************/		
-		int GetFileTime(const std::filesystem::path& filePath);
+		long long GetFileTime(const std::filesystem::path& filePath);
 
 		/*!************************************************************************
 		* \brief Function overload for filetime for strings
 		*	example input "joe.png" -> 48568494
 		* \return int File's last time since modified
 		**************************************************************************/
-		int GetFileTime(const std::string& filePath);
+		long long GetFileTime(const std::string& filePath);
 
 		// std::string GetStemmedName(const std::filesystem::path& filePath);
 		// std::string GetExtension(const std::filesystem::path& filePath);

@@ -15,19 +15,52 @@ class State
 public:
 	// Stores the FSM that it is located in, allowing
 	// for the change of states within the FSM
+
+	/*!***********************************************************************
+	\brief
+	The constructor of the base State class
+	*************************************************************************/
 	State(FiniteStateMachine& FSM, std::string ID);
 
+	/*!***********************************************************************
+	\brief
+	Returns the StateID which is an std::string of the name of the State
+	*************************************************************************/
 	std::string GetStateID();
 
+	/*!***********************************************************************
+	\brief
+	Returns the FiniteStateMachine stored within the State
+	*************************************************************************/
 	FiniteStateMachine& GetFSM();
 
 	// Virtual functions
-	//virtual ~State();
+	/*!***********************************************************************
+	\brief
+	Defaults the destructor of the virtual destructor of the State class
+	*************************************************************************/
+	virtual ~State() = default;
 	
+	/*!***********************************************************************
+	\brief
+	The Enter() state is a pure virtual function that must be overridden
+	by the child class inheriting the base
+	*************************************************************************/
 	virtual void Enter() = 0;
 
+
+	/*!***********************************************************************
+	\brief
+	The Update() state is a pure virtual function that must be overridden
+	by the child class inheriting the base
+	*************************************************************************/
 	virtual void Update() = 0;
 
+	/*!***********************************************************************
+	\brief
+	The Exit() state is a pure virtual function that must be overridden
+	by the child class inheriting the base
+	*************************************************************************/
 	virtual void Exit() = 0;
 
 
@@ -42,22 +75,44 @@ private:
 class FiniteStateMachine 
 {
 public:
-
+	/*!***********************************************************************
+	\brief
+	FiniteStateMachine's default constructor
+	*************************************************************************/
 	FiniteStateMachine();
 
 	// Add a state
+	/*!***********************************************************************
+	\brief
+	This function allows the user to add a State to the FiniteStateMachine
+	*************************************************************************/
 	void AddState(State* stateType);
 
-	// Get a state
+	/*!***********************************************************************
+	\brief
+	This function allows the user to get a State from the FiniteStateMachine
+	through a name
+	*************************************************************************/
 	State* GetState(std::string stateID);
 
-	// Sets a state as the current state
-	// Returns true if successful
-	// False if unsuccessful
+	/*!***********************************************************************
+	\brief
+	This function sets the current State of the FiniteStateMachine
+	*************************************************************************/
 	void SetCurrentState(std::string stateID);
 
+	/*!***********************************************************************
+	\brief
+	This function handles the transitioning of States from one State to another
+	State by passing a stateID that has the name of the State
+	*************************************************************************/
 	void ChangeState(std::string stateID);
 	
+	/*!***********************************************************************
+	\brief
+	This function is the Update function that runs through the mCurrentState
+	of the FiniteStateMachine
+	*************************************************************************/
 	void Update();
 
 private:
@@ -66,76 +121,3 @@ private:
 
 	State* mCurrentState;
 };
-
-
-/*
-class BaseState
-{
-public:
-	BaseState(FiniteStateMachine FSM);
-
-	// Virtual functions
-	virtual ~BaseState();
-	virtual void Enter();
-	virtual void Update();
-	virtual void Exit();
-
-private:
-	FiniteStateMachine& mFSM;
-};
-
-class FiniteStateMachine
-{
-public:
-	
-private:
-	BaseState* mCurrentState;
-};
-*/
-
-
-
-/*
-// State Class member functions =======================================
-
-template <typename T>
-State<T>::State(FiniteStateMachine<T>& FSM, T ID) :
-	mFSM{ FSM }, mStateID{ID}
-{
-	// Empty by default, initialized values
-}
-
-template <typename T>
-T State<T>::GetStateID()
-{
-	return mStateID;
-}
-
-// Finite State Machine Class member function
-
-template <typename T>
-FiniteStateMachine<T>::FiniteStateMachine()
-{
-	mCurrentState = nullptr;
-}
-
-
-template <typename T>
-State<T>& FiniteStateMachine<T>::AddState(State<T> stateType)
-{
-	mStateMap[stateType] = stateType;
-    return *mStateMap[stateType];
-}
-
-template <typename T>
-State<T>& FiniteStateMachine<T>::GetState(T stateID) 
-{
-	return mStateMap[stateID];
-}
-
-template <typename T>
-void FiniteStateMachine<T>::SetCurrentState(T stateID)
-{
-	mCurrentState = &GetState(stateID);
-}
-*/

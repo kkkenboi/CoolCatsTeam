@@ -122,7 +122,7 @@ namespace LB
                 continue;
             }
             //If the file exists, we check the time if it's been updated
-            int fileTime = FILESYSTEM->GetFileTime(metaData.first);
+            long long fileTime = FILESYSTEM->GetFileTime(metaData.first);
             //if there's any difference, we know it's been changed
             if (ASSETMANAGER->metaFileMap[metaData.first] != fileTime)
             {
@@ -197,7 +197,7 @@ namespace LB
             DebuggerLogErrorFormat("Texture filepath %s not found!", fileName.c_str());
             //std::string funnyPng{"Assets/Textures/despair.png"};
             //cachedTexture->stbBuffer = stbi_load(funnyPng.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
-            cachedTexture->id = -1;
+            cachedTexture->id = 0;
             return cachedTexture;
         } 
       
@@ -240,7 +240,7 @@ namespace LB
         for (const auto& t : TextureFilePaths)
         {
             Value metaKey(Value(t.string().c_str(), metaAlloc), metaAlloc);
-            int fileTime = FILESYSTEM->GetFileTime(t);
+            long long fileTime = FILESYSTEM->GetFileTime(t);
             _metaFile.AddMember(metaKey, fileTime, metaAlloc);
 
             //AssetMap => "joe" : "C://User//joe.png"
@@ -256,7 +256,7 @@ namespace LB
         for (const auto& s : SoundFilePaths)
         {
             Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
-            int fileTime = FILESYSTEM->GetFileTime(s);
+            long long fileTime = FILESYSTEM->GetFileTime(s);
 
             _metaFile.AddMember(metaKey, fileTime, metaAlloc);
             //AssetMap => "BOOM" : "C://Users//BOOM.wav"
