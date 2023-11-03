@@ -355,11 +355,11 @@ namespace Renderer {
 	 in a font include how far to the right the next character will be.
 	*************************************************************************/
 	struct Character {
-		unsigned int TextureID;
-		LB::Vec2<unsigned int> Size;
-		LB::Vec2<FT_Int> Bearing;
-		unsigned int Advance;
-		unsigned int font;
+		unsigned int TextureID{};
+		LB::Vec2<unsigned int> Size{};
+		LB::Vec2<FT_Int> Bearing{};
+		unsigned int Advance{};
+		unsigned int font{};
 	};
 
 	/*!***********************************************************************

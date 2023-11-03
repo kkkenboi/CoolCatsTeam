@@ -48,7 +48,6 @@ namespace Renderer {
 		//complete the rest of the perspective matrix
 		aspect = (float)LB::WINDOWSSYSTEM->GetWidth() / (float)LB::WINDOWSSYSTEM->GetHeight();
 		float const fov{ 90.f };
-		float const tn{ tanf(fov / 2.f) };
 
 		//perspective =
 		//{
