@@ -27,6 +27,7 @@
 
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Debugging/Debug.h"
+#include "LitterBox/Physics/ColliderManager.h"
 
 //---------------------------------DEFINES-------------------------------
 constexpr Renderer::index inactive_idx{ 0,0,0,0,0 };
@@ -632,51 +633,107 @@ void Renderer::Renderer::Destroy_Renderer()
 Renderer::TextRenderer::TextRenderer() : Characters{}, 
 tShader{}, tVao{}, tVbo{}, ft{}, font{}, active_msgs{} 
 {
+	//Get fonts
+	auto fonts{ LB::FILESYSTEM->GetFilesOfType(".otf") };
+	auto fonts2{ LB::FILESYSTEM->GetFilesOfType(".ttf") };
+
 	//-------------------LOAD FONT------------------------
 	//init freetype lib
 	if (FT_Init_FreeType(&ft)) {
 		DebuggerLogError("ERROR On the freetype: could not init the lib");
 	}
-	//load font
-	if (FT_New_Face(ft, "Assets/Fonts/TiltNeon-Regular.ttf", 0, &font)) {
-		DebuggerLogError("ERROR on the freetype: could not load font");
-	}
-	//set default font face
-	FT_Set_Pixel_Sizes(font, 0, 100); //the width is 0 so it is based off the height value
 
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-	for (unsigned char c{}; c < 128; ++c) {
-		//load glyph
-		if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
-			DebuggerLogErrorFormat("ERROR on the freetype: could not load glyph %c", c);
-			continue;
+	//load all fonts both otf and ttf
+	for (auto const& e : fonts) {
+		//load font
+		if (FT_New_Face(ft, e.string().c_str(), 0, &font)) {
+			DebuggerLogError("ERROR on the freetype: could not load font");
 		}
-		//generate texture
-		unsigned int character_glyph;
-		glGenTextures(1, &character_glyph);
-		glBindTexture(GL_TEXTURE_2D, character_glyph);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-			font->glyph->bitmap.width, font->glyph->bitmap.rows,
-			0, GL_RED, GL_UNSIGNED_BYTE, font->glyph->bitmap.buffer);
-		//set texture options
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		//store that shit
-		Character sc = {
-			character_glyph,
-			LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
-			LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
-			font->glyph->advance.x
-		};
-		Characters.emplace(std::pair<char, Character>(c, sc));
-	}
-	//-------------------LOAD FONT------------------------
+		//set default font face
+		FT_Set_Pixel_Sizes(font, 0, 50); //the width is 0 so it is based off the height value
 
-	//free up all the used resources from FT
-	FT_Done_Face(font);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+		for (unsigned char c{}; c < 128; ++c) {
+			//load glyph
+			if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
+				DebuggerLogErrorFormat("ERROR on the freetype: could not load glyph %c", c);
+				continue;
+			}
+			//generate texture
+			unsigned int character_glyph;
+			glGenTextures(1, &character_glyph);
+			glBindTexture(GL_TEXTURE_2D, character_glyph);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+				font->glyph->bitmap.width, font->glyph->bitmap.rows,
+				0, GL_RED, GL_UNSIGNED_BYTE, font->glyph->bitmap.buffer);
+			//set texture options
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			//store that shit
+			Character sc = {
+				character_glyph,
+				LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
+				LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
+				font->glyph->advance.x
+			};
+			Characters.emplace(std::pair<char, Character>(c, sc));
+		}
+		//-------------------LOAD FONT------------------------
+		font_glyphs.emplace(std::make_pair(e.stem().string(), Characters));
+		Characters.clear();
+		//free up all the used resources from FT
+		FT_Done_Face(font);
+	}
+
+	for (auto const& e : fonts2) {
+		//load font
+		if (FT_New_Face(ft, e.string().c_str(), 0, &font)) {
+			DebuggerLogError("ERROR on the freetype: could not load font");
+		}
+		//set default font face
+		FT_Set_Pixel_Sizes(font, 0, 50); //the width is 0 so it is based off the height value
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+		for (unsigned char c{}; c < 128; ++c) {
+			//load glyph
+			if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
+				DebuggerLogErrorFormat("ERROR on the freetype: could not load glyph %c", c);
+				continue;
+			}
+			//generate texture
+			unsigned int character_glyph;
+			glGenTextures(1, &character_glyph);
+			glBindTexture(GL_TEXTURE_2D, character_glyph);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+				font->glyph->bitmap.width, font->glyph->bitmap.rows,
+				0, GL_RED, GL_UNSIGNED_BYTE, font->glyph->bitmap.buffer);
+			//set texture options
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			//store that shit
+			Character sc = {
+				character_glyph,
+				LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
+				LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
+				font->glyph->advance.x
+			};
+			Characters.emplace(std::pair<char, Character>(c, sc));
+		}
+		//-------------------LOAD FONT------------------------
+
+		//-------------------LOAD FONT------------------------
+		font_glyphs.emplace(std::make_pair(e.stem().string(), Characters));
+		Characters.clear();
+		//free up all the used resources from FT
+		FT_Done_Face(font);
+	}
+	//free ft lib
 	FT_Done_FreeType(ft);
 
 	//create the vertex array and buffer
@@ -720,7 +777,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 	float x = msg.x;
 	//iterate through all chars
 	for (auto const& cha : msg.text) {
-		Character ch = Characters[cha];
+		Character ch = font_glyphs[msg.font_file_name_wo_ext][cha];//Characters[cha];
 
 		float xpos = x + ch.Bearing.x * msg.scale;
 		float ypos = msg.y - (ch.Size.y - ch.Bearing.y) * msg.scale;
@@ -787,6 +844,7 @@ Renderer::RenderSystem* Renderer::GRAPHICS = nullptr;
 Renderer::RenderSystem::RenderSystem() : shader_program{0},
 object_renderer{Renderer_Types::RT_OBJECT},
 bg_renderer{Renderer_Types::RT_BACKGROUND},
+ui_renderer{Renderer_Types::RT_UI},
 text_renderer{}
 {
 	SetSystemName("Renderer System"); 
@@ -810,8 +868,42 @@ unsigned int svtcb;
 bool imgui_ready{ false }; // to make sure ImGui doesn't render empty
 //----------For ImGUI rendering---------------
 
+
+//----------text button v1------------
+struct textbutt {
+	LB::CPRender background{ {0.f ,0.f}, 50.f, 50.f, {1.f,1.f}, {1.f,1.f,1.f}, {}, -1, true, Renderer::Renderer_Types::RT_UI };
+	LB::CPText text;
+
+	void update_text() {
+		LB::Vec2<float> textposition{};
+		textposition.y = background.position.y - 25.f;
+		textposition.x = background.position.x - background.w * 0.5f;
+
+		float nscale = background.h < 50.f ? background.h / 50.f : 1.f;
+
+		std::cout << nscale << " is the scale\n";
+
+		text.update_msg_pos(textposition);
+		text.update_msg_size(nscale);
+	}
+
+	textbutt() {
+		text.Initialise();
+		text.update_msg_font("KernlGrotesk");
+		update_text();
+	}
+};
+//----------text button v1------------
+
+
 LB::CPRender* test2;
+LB::CPRender* buttonbg_1;
+LB::CPRender* buttonbg_2;
+
 LB::CPText* text;
+LB::CPText* text2;
+textbutt* button;
+
 /*!***********************************************************************
 \brief
  Initialize function from base class ISystem.
@@ -836,10 +928,15 @@ void Renderer::RenderSystem::Initialize()
 	//-------------------------cam test---------------------------
 
 	GLint uni_loc2 = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
-	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-	glUniform1iv(uni_loc2, 13, test);
+	int test[32];
+	for (int i{ 0 }; i < 32; ++i) {
+		test[i] = i;
+	}
+	glUniform1iv(uni_loc2, 32, test);
 	
 	//-################FOR BACKGROUND##########################
+	
+	//----------------------------------------------------FONTS AS WELL-----------------------------------------------
 	//cache some values
 	float midx = (float)LB::WINDOWSSYSTEM->GetWidth() * 0.5f;
 	float midy = (float)LB::WINDOWSSYSTEM->GetHeight() * 0.5f;
@@ -847,15 +944,31 @@ void Renderer::RenderSystem::Initialize()
 	float h = (float)LB::WINDOWSSYSTEM->GetHeight();
 
 	test2 = DBG_NEW LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
+
+
+	button = DBG_NEW textbutt{};
+	button->text.update_msg_text("BUTTON");
+
+	button->background.position = { 200.f, 700.f };
+	button->background.w = 190.f;
+	button->background.h = 80.f;
+	button->update_text();
+
 	text = DBG_NEW LB::CPText{};
 	text->Initialise();
-	text->update_msg_text("GONE FK ALR");
+	text->update_msg_text("GONE HOME ALR");
 	text->update_msg_color({ 0.5f, 0.4f, 0.3f });
 	text->update_msg_size(2.f);
 	text->update_msg_pos({ 20.f, 20.f });
+	text->update_msg_font("KernlGrotesk");
 
-	//t_Manager.add_texture("Assets/Textures/test3.png", "pine");
-	//t_Manager.add_texture("Assets/Textures/Environment_Background.png", "bg");
+	text2 = DBG_NEW LB::CPText{};
+	text2->Initialise();
+	text2->update_msg_text("I Don't understand the rubrics sometimes");
+	text2->update_msg_color({ 1.f, 1.f, 1.f });
+	text2->update_msg_size(1.f);
+	text2->update_msg_pos({ 20.f, 120.f });
+	text2->update_msg_font("TiltNeon-Regular");
 
 	test2->texture = LB::ASSETMANAGER->GetTextureUnit("bg");
 	test2->uv[0].x = 0.f;
@@ -866,6 +979,7 @@ void Renderer::RenderSystem::Initialize()
 	test2->uv[2].y = 1.f;
 	test2->uv[3].x = 0.f;
 	test2->uv[3].y = 1.f;
+	//----------------------------------------------------FONTS AS WELL-----------------------------------------------
 	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -902,7 +1016,7 @@ void Renderer::RenderSystem::Initialize()
 	
 	imgui_ready = true;
 	//----For rendering scene onto texture for ImGUI-------------
-	delete text;
+	//delete text;
 }
 
 /*!***********************************************************************
@@ -935,11 +1049,14 @@ void Renderer::RenderSystem::Update()
 	// Render the game scene window
 	bg_renderer.update_buff();
 	object_renderer.update_buff();
+	ui_renderer.update_buff();
 
 	glBindVertexArray(bg_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glBindVertexArray(ui_renderer.get_vao());
+	glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 
 	//print all messages here
 	text_renderer.update_text();
@@ -956,6 +1073,7 @@ void Renderer::RenderSystem::Update()
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	//UI and TEXT don't get rendered in scene view
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -967,7 +1085,6 @@ void Renderer::RenderSystem::Update()
  The text component to be rendered
 *************************************************************************/
 void Renderer::RenderSystem::render_msg(LB::CPText* obj) {
-	std::cout << "render_msg\n";
 	text_renderer.add_text_component(obj);
 }
 
@@ -1071,6 +1188,8 @@ unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const 
 	case Renderer_Types::RT_BACKGROUND:
 		return bg_renderer.create_render_object(obj);
 	//TODO for UI and DEBUG
+	case Renderer_Types::RT_UI:
+		return ui_renderer.create_render_object(obj);
 	}
 	return 0;
 }
@@ -1093,6 +1212,9 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 		break;
 	case Renderer_Types::RT_BACKGROUND:
 		bg_renderer.remove_render_object(obj);
+		break;
+	case Renderer_Types::RT_UI:
+		ui_renderer.remove_render_object(obj);
 		break;
 	}
 }
@@ -1117,6 +1239,9 @@ inline void Renderer::RenderSystem::change_object_state(Renderer_Types r_type, c
 		break;
 	case Renderer_Types::RT_BACKGROUND:
 		bg_renderer.change_render_state(*obj);
+		break;
+	case Renderer_Types::RT_UI:
+		ui_renderer.change_render_state(*obj);
 		break;
 	}
 }
@@ -1259,7 +1384,6 @@ void Renderer::Texture_Manager::flush_textures()
 
 void LB::CPText::Initialise()
 {
-	std::cout << "Init\n";
 	Renderer::GRAPHICS->render_msg(this);
 }
 
@@ -1275,46 +1399,57 @@ void LB::CPText::Update()
 	msg.y = pos.y;*/
 }
 
-void LB::CPText::update_msg_text(const std::string& str)
+inline void LB::CPText::update_msg_text(const std::string& str)
 {
 	msg.text = str;
 }
 
-void LB::CPText::update_msg_color(const LB::Vec3<float>& col)
+inline void LB::CPText::update_msg_color(const LB::Vec3<float>& col)
 {
 	msg.color = col;
 }
 
-void LB::CPText::update_msg_size(float font_size)
+inline void LB::CPText::update_msg_size(float font_size)
 {
 	msg.scale = font_size;
 }
 
-void LB::CPText::update_msg_pos(const LB::Vec2<float>& pos)
+inline void LB::CPText::update_msg_pos(const LB::Vec2<float>& pos)
 {
 	msg.x = pos.x;
 	msg.y = pos.y;
 }
 
-const std::string& LB::CPText::get_msg_text() const
+inline void LB::CPText::update_msg_font(const std::string& file_name_wo_ext)
+{
+	msg.font_file_name_wo_ext = file_name_wo_ext;
+}
+
+inline const std::string& LB::CPText::get_msg_text() const
 {
 	// TODO: insert return statement here
 	return msg.text;
 }
 
-const LB::Vec3<float>& LB::CPText::get_msg_color() const
+inline const LB::Vec3<float>& LB::CPText::get_msg_color() const
 {
 	// TODO: insert return statement here
 	return msg.color;
 }
 
-const float& LB::CPText::get_msg_size() const
+inline const float& LB::CPText::get_msg_size() const
 {
 	// TODO: insert return statement here
 	return msg.scale;
 }
 
-Renderer::message& LB::CPText::get_msg()
+inline const std::string& LB::CPText::get_msg_font() const
+{
+	// TODO: insert return statement here
+	return msg.font_file_name_wo_ext;
+}
+
+inline Renderer::message& LB::CPText::get_msg()
 {
 	// TODO: insert return statement here
 	return msg;

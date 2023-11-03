@@ -359,6 +359,7 @@ namespace Renderer {
 		LB::Vec2<unsigned int> Size;
 		LB::Vec2<FT_Int> Bearing;
 		unsigned int Advance;
+		unsigned int font;
 	};
 
 	/*!***********************************************************************
@@ -372,6 +373,8 @@ namespace Renderer {
 	private:
 		//map of character glyph information with the key being the character
 		std::map<char, Character> Characters;
+		//map of character glyphs for different fonts
+		std::map<std::string, std::map<char, Character>> font_glyphs;
 		
 		//openGL handles
 		unsigned int tShader, tVao, tVbo;
@@ -382,6 +385,9 @@ namespace Renderer {
 
 		//list to store all text components
 		std::list<LB::CPText*> active_msgs;
+		
+		//list of fonts to load
+		std::vector<std::string> font_files;
 	public:
 
 		/*!***********************************************************************
@@ -453,6 +459,7 @@ namespace Renderer {
 
 		Renderer bg_renderer;
 		Renderer object_renderer;
+		Renderer ui_renderer;
 		TextRenderer text_renderer;
 
 		Camera cam;
