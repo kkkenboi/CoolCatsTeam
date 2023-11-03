@@ -39,8 +39,8 @@ namespace LB
 		int i;
 		for (i = 0; i < count; i++)
 		{
-			std::cout << std::filesystem::path{ paths[i] } << '\n';
-			std::cout << EDITORASSETS->currentDirectory << '\n';
+			//std::cout << std::filesystem::path{ paths[i] } << '\n';
+			//std::cout << EDITORASSETS->currentDirectory << '\n';
 			try
 			{
 				std::filesystem::path fileToCopy{ paths[i] };

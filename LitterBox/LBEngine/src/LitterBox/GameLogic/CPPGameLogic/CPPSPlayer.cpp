@@ -47,7 +47,7 @@ namespace LB
 					frames[y][x].at(3) = { x * x_inc, (y + 1) * y_inc };//top left
 				}
 		}
-		else std::cout << " can't find !\n";
+		else DebuggerLogWarning("Can't find!");
 		Renderer::GRAPHICS->init_anim("up_walk", frames[0].data(), 0.5f, 12);
 		Renderer::GRAPHICS->init_anim("right_walk", frames[1].data(), 0.5f, 12);
 		Renderer::GRAPHICS->init_anim("left_walk", frames[2].data(), 0.5f, 12);

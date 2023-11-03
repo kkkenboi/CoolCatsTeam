@@ -91,7 +91,6 @@ namespace LB
 		void Destroy() override
 		{
 			DebuggerLog("Destroying Transform");
-			std::cout << "destroying transform\n";
 		}
 
 		/*!***********************************************************************
