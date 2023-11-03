@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				GameObjectManager.h
- \author(s)			Kenji Brannon Chong | Amadeus Chia Jinhan
- \par DP email(s):	kenjibrannon.c@digipen.edu | amadeusjinhan.chia@digipen.edu
+ \author(s)			Kenji Brannon Chong | Ang Jiawei Jarrett
+ \par DP email(s):	kenjibrannon.c@digipen.edu | a.jiaweijarrett@digipen.edu
  \par Course:       CSD2401A
  \date				29/09/2023
  \brief		
