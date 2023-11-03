@@ -3,7 +3,7 @@
  \author(s)			Amadeus Chia Jinhan, 
  \par DP email(s):	amadeusjinhan.chia@digipen.edu,
  \par Course:       CSD2401A
- \date				29/09/2023
+ \date				02/11/2023
  \brief				This file contains the implementation of AudioManager 
                     functions. (This will be more detailed as more 
 					features get added)
@@ -78,7 +78,7 @@ namespace LB
 		 *
 		 * (Technically... 1 sound 1 channel so...)
 		**************************************************************************/
-		bool IsPlaying(int channelID);
+		bool IsPlaying(int ChannelID);
 
 
 		/*!***********************************************************************

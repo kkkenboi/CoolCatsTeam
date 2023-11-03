@@ -355,11 +355,11 @@ namespace Renderer {
 	 in a font include how far to the right the next character will be.
 	*************************************************************************/
 	struct Character {
-		unsigned int TextureID;
-		LB::Vec2<unsigned int> Size;
-		LB::Vec2<FT_Int> Bearing;
-		unsigned int Advance;
-		unsigned int font;
+		unsigned int TextureID{};
+		LB::Vec2<unsigned int> Size{};
+		LB::Vec2<FT_Int> Bearing{};
+		unsigned int Advance{};
+		unsigned int font{};
 	};
 
 	/*!***********************************************************************
@@ -429,7 +429,7 @@ namespace Renderer {
 		\param obj
 		 Pointer to the text object component
 		*************************************************************************/
-		inline void add_text_component(LB::CPText* obj) { if (obj) active_msgs.emplace_back(obj); std::cout << active_msgs.size() << '\n'; }
+		inline void add_text_component(LB::CPText* obj) { if (obj) active_msgs.emplace_back(obj); }
 
 		/*!***********************************************************************
 		\brief

@@ -142,9 +142,14 @@ namespace LB
 		
 		m_untransformedVerts.push_back(Vec2<float>{left, bottom});
 
-		m_vertAmount = m_untransformedVerts.size();
+		m_vertAmount = static_cast<int>(m_untransformedVerts.size());
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function instantiates the Polygon Array the known values in the
+	  Collider class
+	*************************************************************************/
 	void CPCollider::CreatePolygonHexagon()
 	{
 		m_untransformedVerts.clear();
@@ -170,22 +175,33 @@ namespace LB
 
 		m_untransformedVerts.push_back(Vec2<float>{left, middle});
 
-		m_vertAmount = m_untransformedVerts.size();
+		m_vertAmount = static_cast<int>(m_untransformedVerts.size());
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function allows you to add vertices to the Collider's unTransformedVerts
+	*************************************************************************/
 	void CPCollider::AddVertice(Vec2<float> vertice)
 	{
 		m_untransformedVerts.push_back(vertice);
-		m_vertAmount = m_untransformedVerts.size();
+		m_vertAmount = static_cast<int>(m_untransformedVerts.size());
 	}
 
-
+	/*!***********************************************************************
+	  \brief
+	  This function allows you to add vertices to the Collider's unTransformedVerts
+	*************************************************************************/
 	void CPCollider::AddVertice(float x, float y)
 	{
 		m_untransformedVerts.push_back(Vec2<float>{x, y});
-		m_vertAmount = m_untransformedVerts.size();
+		m_vertAmount = static_cast<int>(m_untransformedVerts.size());
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the Scaled data members of CPCollider
+	*************************************************************************/
 	void CPCollider::UpdateScaledData()
 	{
 		this->m_width = this->m_widthUnscaled * transform->GetScale().x;
@@ -194,11 +210,11 @@ namespace LB
 
 		float old_width = this->m_widthUnscaledOG * transform->GetScale().x;
 		float old_height = this->m_heightUnscaledOG * transform->GetScale().y;
-		float old_radius = this->m_radiusUnscaledOG * transform->GetScale().x;
+		//float old_radius = this->m_radiusUnscaledOG * transform->GetScale().x;
 
 		float ratio_width = m_width / old_width;
 		float ratio_height = m_height / old_height;
-		float ratio_radius = m_radius / old_radius;
+		//float ratio_radius = m_radius / old_radius;
 
 		for (int i = 0; i < this->m_untransformedVerts.size(); ++i)
 		{
@@ -279,6 +295,10 @@ namespace LB
 		this->m_aabb.m_min = LB::Vec2<float>{ minX, minY };
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function allows the Debugger draws for the Collider vertices and lines
+	*************************************************************************/
 	void CPCollider::DebugDraw()
 	{
 		if (this->m_shape == COL_POLYGON)
@@ -317,6 +337,11 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function allows the user to change the data members of,
+	  mWidth, mHeight and mRadius
+	*************************************************************************/
 	void CPCollider::SetWidthHeightRadius(float width, float height, float radius)
 	{
 		this->m_widthUnscaled = width;
@@ -334,6 +359,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function allows you to check whether or not
+	*************************************************************************/
 	bool CPCollider::HasRB()
 	{
 		if (this->gameObj->HasComponent<CPRigidBody>()) 
@@ -346,6 +375,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function gets the ShapeName of the CPCollider
+	*************************************************************************/
 	std::string CPCollider::GetShapeName()
 	{
 		switch (m_shape)
@@ -359,9 +392,16 @@ namespace LB
 		case COL_NONE:
 			return "None";
 			break;
+		default:
+			return "Error!";
+			break;
 		}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This serializes some of the data members of CPCollider
+	*************************************************************************/
 	bool CPCollider::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		DebuggerLog("Serializing Collider");
@@ -373,6 +413,10 @@ namespace LB
 		return true;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This deserializes some of the data members of CPColliders
+	*************************************************************************/
 	bool CPCollider::Deserialize(const Value& data)
 	{
 		DebuggerLog("Deserializing Collider");
@@ -396,17 +440,24 @@ namespace LB
 	}
 
 	// Overrides !!!!!!!
-
+	/*!***********************************************************************
+		\brief
+		This function allows you to check whether or not
+	*************************************************************************/
 	void CPCollider::Initialise() 
 	{
 		this->CreateCPCollider();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This is the FixedUpdate of the Collider class
+	*************************************************************************/
 	void CPCollider::FixedUpdate()
 	{
 		this->m_pos = transform->GetPosition();
 		this->m_rotation = transform->GetRotation();
-		this->m_vertAmount = this->m_untransformedVerts.size();
+		this->m_vertAmount = static_cast<int>(this->m_untransformedVerts.size());
 
 		this->UpdateScaledData();
 		this->UpdateColliderBoxVertices();
@@ -414,7 +465,10 @@ namespace LB
 
 	}
 
-	
+	/*!***********************************************************************
+	\brief
+	This is the destructor of the Collider class
+	*************************************************************************/
 	void CPCollider::Destroy()
 	{
 		if (COLLIDERS == nullptr) 

@@ -105,7 +105,12 @@ namespace PHY_MATH {
         return valB;
     }
 
-
+    /*!***********************************************************************
+      \brief
+      Returns the absolute value of val
+      \returns
+      Returns absolute value of val
+    *************************************************************************/
     float Absolute(float val) 
     {
         if (val < 0)

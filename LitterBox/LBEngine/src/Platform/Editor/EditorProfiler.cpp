@@ -77,10 +77,10 @@ namespace LB
 		// Draw the profile graph
 		if (ImPlot::BeginPlot("Profile Graph", ImGui::GetContentRegionAvail(), ImPlotAxisFlags_RangeFit | ImPlotFlags_NoLegend))
 		{
-			// Graph out the time taken for each system in this frame
+			// Graph out the time taken for each system in this frame	
 			for (auto& frame : m_systemFrames)
 			{
-				ImPlot::PlotLine(frame.first.c_str(), &frame.second[0].offset, frame.second.size(), 1.0, 0.0, 0, m_currentFrameHistoryIndex, sizeof(SystemFrame));
+				ImPlot::PlotLine(frame.first.c_str(), &frame.second[0].offset, static_cast<int>(frame.second.size()), 1.0, 0.0, 0, m_currentFrameHistoryIndex, sizeof(SystemFrame));
 			}
 
 			// If current frame is hovered over

@@ -77,7 +77,7 @@ namespace LB
 	  Nothing.
 	*************************************************************************/
 	void ZoomCamIn() {
-		zoomCurrent += zoomStep * TIME->GetUnscaledDeltaTime();
+		zoomCurrent += zoomStep * static_cast<float>(TIME->GetUnscaledDeltaTime());
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
 	/*!***********************************************************************
@@ -87,7 +87,7 @@ namespace LB
 	  Nothing.
 	*************************************************************************/
 	void ZoomCamOut() {
-		zoomCurrent -= zoomStep * TIME->GetUnscaledDeltaTime();
+		zoomCurrent -= zoomStep * static_cast<float>(TIME->GetUnscaledDeltaTime());
 		zoomCurrent = (zoomCurrent > zoomMin) ? zoomCurrent : zoomMin;
 		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
 	}
@@ -142,7 +142,7 @@ namespace LB
 		// Renders the scene view as an image from the opengl buffer
 		ImGui::BeginChild("GameRender");
 		m_windowSize = ImGui::GetWindowSize();
-		ImGui::Image((ImTextureID)(uintptr_t)svtcb, m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(svtcb)), m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
 		// If a prefab json file has been dropped onto the scene view
 		if (ImGui::BeginDragDropTarget())

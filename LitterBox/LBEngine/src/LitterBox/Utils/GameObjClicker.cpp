@@ -92,7 +92,7 @@ namespace LB
 		for (size_t i = 0; i < temp_gameobj_vec.size(); ++i)
 		{
 			if (PHY_MATH::Distance(position, temp_gameobj_vec[i]->GetComponent<CPTransform>()->GetPosition()) < close_distance ) {
-				gameobj_num = i;
+				gameobj_num = static_cast<int>(i);
 			}
 		}
 

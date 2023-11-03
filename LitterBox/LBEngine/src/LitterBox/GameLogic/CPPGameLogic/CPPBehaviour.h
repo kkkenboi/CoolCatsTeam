@@ -44,7 +44,6 @@ namespace LB
 		*************************************************************************/
 		virtual void Destroy() = 0;
 
-		// Pointer to the GameObject this script is attached to
-		GameObject* GameObj;
+		GameObject* GameObj{nullptr};
 	};
 }

@@ -11,7 +11,7 @@
         "Rotation": 0.0,
         "Children": [
             {
-                "Name": "Player",
+                "Name": "MainChar",
                 "Transform": {
                     "Position": {
                         "x": 850.0,
@@ -113,7 +113,7 @@
                     "IsStatic": false
                 },
                 "Render": {
-                    "Texture": 16
+                    "Texture": 17
                 },
                 "Collider": {
                     "Shape": 0,
@@ -127,6 +127,58 @@
                 "Transform": {
                     "Position": {
                         "x": 800.0,
+                        "y": 835.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 1500.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "South Wall",
+                "Transform": {
+                    "Position": {
+                        "x": 800.0,
+                        "y": 68.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 1500.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "WestWall",
+                "Transform": {
+                    "Position": {
+                        "x": 75.0,
                         "y": 450.0
                     },
                     "Scale": {
@@ -135,11 +187,92 @@
                     },
                     "Rotation": 0.0
                 },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 800.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "EastWall",
+                "Transform": {
+                    "Position": {
+                        "x": 1530.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 800.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "EnemyChaser1",
+                "Transform": {
+                    "Position": {
+                        "x": 747.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.25,
+                        "y": 1.25
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": false
+                },
+                "Render": {
+                    "Texture": 7
+                },
                 "Collider": {
                     "Shape": 1,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Enemy"
+                }
+            },
+            {
+                "Name": "Flag",
+                "Transform": {
+                    "Position": {
+                        "x": 303.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": 16
                 }
             }
         ]

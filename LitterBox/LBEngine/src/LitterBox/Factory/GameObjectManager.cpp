@@ -193,7 +193,7 @@ namespace LB
 			if (HasName)
 			{
 				const Value& nameValue = data["Name"];
-				m_name = data["Name"].GetString();
+				m_name = nameValue.GetString();
 			}
 			if (HasTransform)
 			{

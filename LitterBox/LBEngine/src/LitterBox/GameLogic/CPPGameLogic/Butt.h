@@ -22,6 +22,7 @@ namespace LB
 {
 	class Butt : public CPPBehaviour
 	{
+		CPCollider* coll{ nullptr };
 		/*!***********************************************************************
 		\brief
 		 State function gets the collider component of the game object
@@ -43,7 +44,5 @@ namespace LB
 		 Empty Destroy function. No purpose
 		*************************************************************************/
 		void Destroy() override;
-
-		CPCollider* coll;
 	};
 }

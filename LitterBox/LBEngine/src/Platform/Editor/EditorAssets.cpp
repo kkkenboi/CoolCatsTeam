@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				EditorAssets.cpp
- \author(s)			Ang Jiawei Jarrett
- \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \author(s)			Ang Jiawei Jarrett,Amadeus Chia Jinhan
+ \par DP email(s):	a.jiaweijarrett@digipen.edu, amadeusjinhan.chia@digipen.edu
  \par Course:		CSD2401A
  \date				16/10/23
  \brief
@@ -39,8 +39,8 @@ namespace LB
 		int i;
 		for (i = 0; i < count; i++)
 		{
-			std::cout << std::filesystem::path{ paths[i] } << '\n';
-			std::cout << EDITORASSETS->currentDirectory << '\n';
+			//std::cout << std::filesystem::path{ paths[i] } << '\n';
+			//std::cout << EDITORASSETS->currentDirectory << '\n';
 			try
 			{
 				std::filesystem::path fileToCopy{ paths[i] };
@@ -58,7 +58,7 @@ namespace LB
 
 	/*!***********************************************************************
 	  \brief
-	  Constructor for the EditorAssets class.
+	  Constructor for the EditorAssets class. Also sets the default file dir
 	  \return
 	  Nothing.
 	*************************************************************************/
@@ -79,7 +79,7 @@ namespace LB
 
 	/*!***********************************************************************
 	  \brief
-	  Initializes the EditorAssets layer.
+	  Initializes the EditorAssets layer. (Subscribes the callback function)
 	  \return
 	  Nothing.
 	*************************************************************************/
@@ -90,7 +90,7 @@ namespace LB
 
 	/*!***********************************************************************
 	  \brief
-	  Updates the EditorAssets layer.
+	  Updates the EditorAssets layer. Handles the bulk of the content browser 
 	  \return
 	  Nothing.
 	*************************************************************************/
@@ -148,11 +148,11 @@ namespace LB
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 				
 				if (directory.path().extension().string() == ".png")
-				ImGui::ImageButton((ImTextureID)(uintptr_t)ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()), {64,64}, {0,1}, {1,0});
+				ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()))), {64,64}, {0,1}, {1,0});
 				else if (directory.path().extension().string() == ".wav")
-				ImGui::ImageButton((ImTextureID)(uintptr_t)ASSETMANAGER->GetTextureIndex("wav"), {64,64}, {0,1}, {1,0});
+				ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("wav"))), {64,64}, {0,1}, {1,0});
 				else 
-				ImGui::ImageButton((ImTextureID)(uintptr_t)ASSETMANAGER->GetTextureIndex("FileIcon"), {64,64}, {0,1}, {1,0});
+				ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("FileIcon"))), {64,64}, {0,1}, {1,0});
 				//DebuggerLogFormat("Texture ID : %d", ASSETMANAGER->GetTextureIndex("cat"));
 				//DebuggerLogFormat("Cast Texture ID : %d", *(ImTextureID)ASSETMANAGER->GetTextureIndex("run"));
 				ImGui::PopStyleColor();

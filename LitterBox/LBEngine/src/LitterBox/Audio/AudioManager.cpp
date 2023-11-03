@@ -151,9 +151,9 @@ namespace LB
 	 *
 	 * (Technically... 1 sound 1 channel so...)
 	**************************************************************************/
-	bool AudioManager::IsPlaying(int channelID)
+	bool AudioManager::IsPlaying(int ChannelID)
 	{
-		return (Channels.find(channelID) != Channels.end());
+		return (Channels.find(ChannelID) != Channels.end());
 	}
 	//bool AudioManager::IsPlaying(std::string soundName)
 	//{
