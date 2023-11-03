@@ -68,6 +68,7 @@ namespace Renderer {
 			0.f, 0.f, -((2.f*near * far) / (far - near)), 0.f
 		};
 
+		/////////////////////////////////DEPRECATED//////////////////////////////////
 		//-------------for calculating the looking angles for the freecam-----------
 		{
 			azimuth = asinf(view_vector.y);
@@ -84,11 +85,20 @@ namespace Renderer {
 					longitude = 3.1415926535897931f * 1.5f;
 		}
 		//-------------for calculating the looking angles for the freecam-----------
+		/////////////////////////////////DEPRECATED//////////////////////////////////
 
 		editor_world_NDC = editor_ortho * free_cam_coords;
 		world_NDC = ortho * nel;
 	}
 
+	/*!***********************************************************************
+	\brief
+	 free_cam_move moves the free cam in the scene view
+
+	\param new_pos
+	 The direction and movement vector that adds to the camera's current
+	 position
+	*************************************************************************/
 	void Camera::free_cam_move(LB::Vec2<float> new_pos)
 	{
 		cam_pos.x += new_pos.x;
@@ -97,6 +107,14 @@ namespace Renderer {
 		editor_world_NDC = editor_ortho * free_cam_coords;
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Function to update the free cam projection matrix to either zoom further
+	 into the scene view or further away.
+
+	\param zoom
+	 The zoom in percentage. 1.f = normal, 0.5f = zoomed in, 1.5f = zoomed out
+	*************************************************************************/
 	void Camera::free_cam_zoom(float zoom) {
 		editor_ortho[0][0] = zoomx * zoom;
 		editor_ortho[1][1] = zoomy * zoom;

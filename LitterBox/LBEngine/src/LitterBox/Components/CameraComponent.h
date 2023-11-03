@@ -8,8 +8,8 @@
  This file id the header file containing the declerations for the in-game
  camera component.
 
- NOTE: It is important to have a camera component in the scene. If there is
- none, then the RenderSystem will not run.
+ NOTE: Currently not used as the game view is still only one map.
+	   The implementation is defined in Renderer.cpp
 **************************************************************************/
 
 #pragma once
@@ -24,10 +24,34 @@ namespace LB {
 	class CPCamera : public IComponent 
 	{
 	public:
+		/*!***********************************************************************
+		\brief
+		 Function initialises the game camera object in the scene to a single
+		 camera.
+
+		 NOTE: you can have multiple camera components in multiple game objects
+		 but only one will affect the actual game camera
+		*************************************************************************/
 		void Initialise() override;
 
+		/*!***********************************************************************
+		\brief
+		 Function to get the position coordinates of the transform component of
+		 the game object that the game camera is attached to.
+
+		\return
+		 The x and y coordinates of the game object
+		*************************************************************************/
 		Vec2<float> getCam();
 
+
+		/*!***********************************************************************
+		\brief
+		 Allows one to get the type of the camera component
+
+		\return
+		 The Camera component
+		*************************************************************************/
 		static ComponentTypeID GetType()
 		{
 			return C_CPCamera;
