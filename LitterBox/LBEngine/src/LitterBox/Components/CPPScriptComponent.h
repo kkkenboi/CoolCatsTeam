@@ -33,6 +33,12 @@ namespace LB
 	public:
 		/*!***********************************************************************
 		\brief
+		 Defaults the destructor of the CPScriptCPP class
+		*************************************************************************/
+		virtual ~CPScriptCPP() = default;
+
+		/*!***********************************************************************
+		\brief
 		 Gets and stores the object instance from CPPScriptManager 
 		*************************************************************************/
 		void Initialise() override;

@@ -28,6 +28,12 @@ namespace LB
 	public:
 		/*!***********************************************************************
 		\brief
+		 Defaults the destructor of CPPBehaviour
+		*************************************************************************/
+		virtual ~CPPBehaviour() = default;
+
+		/*!***********************************************************************
+		\brief
 		 Called when the GameObject is created or when the scene starts
 		*************************************************************************/
 		virtual void Start() = 0;
