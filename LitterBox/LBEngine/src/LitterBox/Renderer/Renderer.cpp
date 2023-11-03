@@ -1287,6 +1287,15 @@ void Renderer::RenderSystem::Destroy()
 	if(test2)
 		delete test2;
 
+	if (button)
+		delete button;
+
+	if (text)
+		delete text;
+
+	if (text2)
+		delete text2;
+
 	object_renderer.Destroy_Renderer();
 	bg_renderer.Destroy_Renderer();
 	text_renderer.Destroy_TextRend();
