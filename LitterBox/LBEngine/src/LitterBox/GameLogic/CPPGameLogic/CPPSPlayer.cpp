@@ -1,11 +1,11 @@
 /*!************************************************************************
  \file				CPPSPlayer.cpp
- \author(s)			
- \par DP email(s):	
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
  \par Course:		CSD2401A
- \date				28-09-2023
+ \date				03-11-2023
  \brief
- This file contains 
+ This file contains the CPPSPlayer class and all its functionalities,
 
   Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
   disclosure of this file or its contents without the prior written consent
@@ -21,8 +21,13 @@
 
 namespace LB
 {
+	//This array is for the animation frames
 	std::array<std::array<LB::Vec2<float>, 4>, 12> frames[4];
 
+	/*!***********************************************************************
+	\brief
+	Start function (Basically initializes everything)
+	*************************************************************************/
 	void CPPSPlayer::Start()
 	{
 		rb = GameObj->GetComponent<CPRigidBody>();
@@ -57,6 +62,10 @@ namespace LB
 		rend->play_repeat("up_walk");
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update function (Updates the keypresses and checks keypresses)
+	*************************************************************************/
 	void CPPSPlayer::Update()
 	{
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
@@ -140,6 +149,10 @@ namespace LB
 		
 	}
 
+	/*!***********************************************************************
+	\brief
+	Destroy function (will delete the states)
+	*************************************************************************/
 	void CPPSPlayer::Destroy()
 	{
 

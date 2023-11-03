@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				EditorAssets.cpp
- \author(s)			Ang Jiawei Jarrett
- \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \author(s)			Ang Jiawei Jarrett,Amadeus Chia Jinhan
+ \par DP email(s):	a.jiaweijarrett@digipen.edu, amadeusjinhan.chia@digipen.edu
  \par Course:		CSD2401A
  \date				16/10/23
  \brief
@@ -58,7 +58,7 @@ namespace LB
 
 	/*!***********************************************************************
 	  \brief
-	  Constructor for the EditorAssets class.
+	  Constructor for the EditorAssets class. Also sets the default file dir
 	  \return
 	  Nothing.
 	*************************************************************************/
@@ -79,7 +79,7 @@ namespace LB
 
 	/*!***********************************************************************
 	  \brief
-	  Initializes the EditorAssets layer.
+	  Initializes the EditorAssets layer. (Subscribes the callback function)
 	  \return
 	  Nothing.
 	*************************************************************************/
@@ -90,7 +90,7 @@ namespace LB
 
 	/*!***********************************************************************
 	  \brief
-	  Updates the EditorAssets layer.
+	  Updates the EditorAssets layer. Handles the bulk of the content browser 
 	  \return
 	  Nothing.
 	*************************************************************************/
