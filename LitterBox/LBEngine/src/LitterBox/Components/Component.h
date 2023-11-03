@@ -73,6 +73,8 @@ namespace LB
 		*************************************************************************/
 		virtual void Destroy() {}
 
+		virtual ~IComponent() {}
+
 		GameObject* gameObj{ nullptr };
 	};
 }
