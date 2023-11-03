@@ -459,6 +459,7 @@ namespace Renderer {
 
 		Renderer bg_renderer;
 		Renderer object_renderer;
+		Renderer ui_renderer;
 		TextRenderer text_renderer;
 
 		Camera cam;

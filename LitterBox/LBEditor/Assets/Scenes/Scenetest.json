@@ -31,8 +31,8 @@
                 "Name": "big brain",
                 "Transform": {
                     "Position": {
-                        "x": 500.0,
-                        "y": 150.0
+                        "x": 1105.93,
+                        "y": 603.03
                     },
                     "Scale": {
                         "x": 1.0,
@@ -80,8 +80,8 @@
                             "Name": "Digipain",
                             "Transform": {
                                 "Position": {
-                                    "x": 553.0,
-                                    "y": 400.0
+                                    "x": 630.84,
+                                    "y": 469.54
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -148,7 +148,7 @@
                     "IsStatic": false
                 },
                 "Render": {
-                    "Texture": 10
+                    "Texture": 16
                 },
                 "Collider": {
                     "Shape": 1,
@@ -262,6 +262,29 @@
                     "Width": 100.0,
                     "Height": 800.0,
                     "Radius": 50.0
+                }
+            },
+            {
+                "Name": "ButtObject",
+                "Transform": {
+                    "Position": {
+                        "x": 200.0,
+                        "y": 700.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 190.0,
+                    "Height": 80.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Butt"
                 }
             }
         ]

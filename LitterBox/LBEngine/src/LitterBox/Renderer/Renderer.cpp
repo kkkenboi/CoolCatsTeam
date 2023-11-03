@@ -27,6 +27,7 @@
 
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Debugging/Debug.h"
+#include "LitterBox/Physics/ColliderManager.h"
 
 //---------------------------------DEFINES-------------------------------
 constexpr Renderer::index inactive_idx{ 0,0,0,0,0 };
@@ -843,6 +844,7 @@ Renderer::RenderSystem* Renderer::GRAPHICS = nullptr;
 Renderer::RenderSystem::RenderSystem() : shader_program{0},
 object_renderer{Renderer_Types::RT_OBJECT},
 bg_renderer{Renderer_Types::RT_BACKGROUND},
+ui_renderer{Renderer_Types::RT_UI},
 text_renderer{}
 {
 	SetSystemName("Renderer System"); 
@@ -866,9 +868,42 @@ unsigned int svtcb;
 bool imgui_ready{ false }; // to make sure ImGui doesn't render empty
 //----------For ImGUI rendering---------------
 
+
+//----------text button v1------------
+struct textbutt {
+	LB::CPRender background{ {0.f ,0.f}, 50.f, 50.f, {1.f,1.f}, {1.f,1.f,1.f}, {}, -1, true, Renderer::Renderer_Types::RT_UI };
+	LB::CPText text;
+
+	void update_text() {
+		LB::Vec2<float> textposition{};
+		textposition.y = background.position.y - 25.f;
+		textposition.x = background.position.x - background.w * 0.5f;
+
+		float nscale = background.h < 50.f ? background.h / 50.f : 1.f;
+
+		std::cout << nscale << " is the scale\n";
+
+		text.update_msg_pos(textposition);
+		text.update_msg_size(nscale);
+	}
+
+	textbutt() {
+		text.Initialise();
+		text.update_msg_font("KernlGrotesk");
+		update_text();
+	}
+};
+//----------text button v1------------
+
+
 LB::CPRender* test2;
+LB::CPRender* buttonbg_1;
+LB::CPRender* buttonbg_2;
+
 LB::CPText* text;
 LB::CPText* text2;
+textbutt* button;
+
 /*!***********************************************************************
 \brief
  Initialize function from base class ISystem.
@@ -893,10 +928,15 @@ void Renderer::RenderSystem::Initialize()
 	//-------------------------cam test---------------------------
 
 	GLint uni_loc2 = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
-	int test[13] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-	glUniform1iv(uni_loc2, 13, test);
+	int test[32];
+	for (int i{ 0 }; i < 32; ++i) {
+		test[i] = i;
+	}
+	glUniform1iv(uni_loc2, 32, test);
 	
 	//-################FOR BACKGROUND##########################
+	
+	//----------------------------------------------------FONTS AS WELL-----------------------------------------------
 	//cache some values
 	float midx = (float)LB::WINDOWSSYSTEM->GetWidth() * 0.5f;
 	float midy = (float)LB::WINDOWSSYSTEM->GetHeight() * 0.5f;
@@ -904,6 +944,16 @@ void Renderer::RenderSystem::Initialize()
 	float h = (float)LB::WINDOWSSYSTEM->GetHeight();
 
 	test2 = DBG_NEW LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
+
+
+	button = DBG_NEW textbutt{};
+	button->text.update_msg_text("BUTTON");
+
+	button->background.position = { 200.f, 700.f };
+	button->background.w = 190.f;
+	button->background.h = 80.f;
+	button->update_text();
+
 	text = DBG_NEW LB::CPText{};
 	text->Initialise();
 	text->update_msg_text("GONE HOME ALR");
@@ -920,9 +970,6 @@ void Renderer::RenderSystem::Initialize()
 	text2->update_msg_pos({ 20.f, 120.f });
 	text2->update_msg_font("TiltNeon-Regular");
 
-	//t_Manager.add_texture("Assets/Textures/test3.png", "pine");
-	//t_Manager.add_texture("Assets/Textures/Environment_Background.png", "bg");
-
 	test2->texture = LB::ASSETMANAGER->GetTextureUnit("bg");
 	test2->uv[0].x = 0.f;
 	test2->uv[0].y = 0.f;
@@ -932,6 +979,7 @@ void Renderer::RenderSystem::Initialize()
 	test2->uv[2].y = 1.f;
 	test2->uv[3].x = 0.f;
 	test2->uv[3].y = 1.f;
+	//----------------------------------------------------FONTS AS WELL-----------------------------------------------
 	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -1001,11 +1049,14 @@ void Renderer::RenderSystem::Update()
 	// Render the game scene window
 	bg_renderer.update_buff();
 	object_renderer.update_buff();
+	ui_renderer.update_buff();
 
 	glBindVertexArray(bg_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glBindVertexArray(ui_renderer.get_vao());
+	glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 
 	//print all messages here
 	text_renderer.update_text();
@@ -1022,6 +1073,7 @@ void Renderer::RenderSystem::Update()
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	//UI and TEXT don't get rendered in scene view
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -1136,6 +1188,8 @@ unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const 
 	case Renderer_Types::RT_BACKGROUND:
 		return bg_renderer.create_render_object(obj);
 	//TODO for UI and DEBUG
+	case Renderer_Types::RT_UI:
+		return ui_renderer.create_render_object(obj);
 	}
 	return 0;
 }
@@ -1158,6 +1212,9 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 		break;
 	case Renderer_Types::RT_BACKGROUND:
 		bg_renderer.remove_render_object(obj);
+		break;
+	case Renderer_Types::RT_UI:
+		ui_renderer.remove_render_object(obj);
 		break;
 	}
 }
@@ -1182,6 +1239,9 @@ inline void Renderer::RenderSystem::change_object_state(Renderer_Types r_type, c
 		break;
 	case Renderer_Types::RT_BACKGROUND:
 		bg_renderer.change_render_state(*obj);
+		break;
+	case Renderer_Types::RT_UI:
+		ui_renderer.change_render_state(*obj);
 		break;
 	}
 }

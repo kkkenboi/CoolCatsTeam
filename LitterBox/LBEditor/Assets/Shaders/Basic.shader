@@ -77,7 +77,7 @@ layout(location = 0) out vec4 color;
 
 in float tIO;
 
-uniform sampler2D u_SamplerID[13];
+uniform sampler2D u_SamplerID[32];
 
 void main()
 {
@@ -122,6 +122,64 @@ void main()
 			break;
 			case 12:
 			color = texture(u_SamplerID[12], v_TexCoord);
+			break;
+			case 13:
+			color = texture(u_SamplerID[13], v_TexCoord);
+			break;
+			case 14:
+			color = texture(u_SamplerID[14], v_TexCoord);
+			break;
+			case 15:
+			color = texture(u_SamplerID[15], v_TexCoord);
+			break;
+			case 16:
+			color = texture(u_SamplerID[16], v_TexCoord);
+			break;
+			case 17:
+			color = texture(u_SamplerID[17], v_TexCoord);
+			break;
+			
+			case 18:
+			color = texture(u_SamplerID[18], v_TexCoord);
+			break;
+			case 19:
+			color = texture(u_SamplerID[19], v_TexCoord);
+			break;
+			case 20:
+			color = texture(u_SamplerID[20], v_TexCoord);
+			break;
+			case 21:
+			color = texture(u_SamplerID[21], v_TexCoord);
+			break;
+			case 22:
+			color = texture(u_SamplerID[22], v_TexCoord);
+			break;
+			case 23:
+			color = texture(u_SamplerID[23], v_TexCoord);
+			break;
+			case 24:
+			color = texture(u_SamplerID[24], v_TexCoord);
+			break;
+			case 25:
+			color = texture(u_SamplerID[25], v_TexCoord);
+			break;
+			case 26:
+			color = texture(u_SamplerID[26], v_TexCoord);
+			break;
+			case 27:
+			color = texture(u_SamplerID[27], v_TexCoord);
+			break;
+			case 28:
+			color = texture(u_SamplerID[28], v_TexCoord);
+			break;
+			case 29:
+			color = texture(u_SamplerID[29], v_TexCoord);
+			break;
+			case 30:
+			color = texture(u_SamplerID[30], v_TexCoord);
+			break;
+			case 31:
+			color = texture(u_SamplerID[31], v_TexCoord);
 			break;
 		} 
 		//color = texture(u_SamplerID[int(tIO)], v_TexCoord);

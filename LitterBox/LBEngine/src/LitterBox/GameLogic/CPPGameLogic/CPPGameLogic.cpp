@@ -20,6 +20,7 @@
 
 // Include scripts here
 #include "CPPSPlayer.h"
+#include "Butt.h"
 
 namespace LB
 {
@@ -77,6 +78,9 @@ namespace LB
 			}
 			else if (script->GetName() == "Enemy") {
 
+			}
+			else if (script->GetName() == "Butt") {
+				script->SetInstance(new Butt);
 			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 
