@@ -677,7 +677,7 @@ tShader{}, tVao{}, tVbo{}, ft{}, font{}, active_msgs{}
 				character_glyph,
 				LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
 				LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
-				font->glyph->advance.x
+				static_cast<unsigned int>(font->glyph->advance.x)
 			};
 			Characters.emplace(std::pair<char, Character>(c, sc));
 		}
@@ -721,7 +721,7 @@ tShader{}, tVao{}, tVbo{}, ft{}, font{}, active_msgs{}
 				character_glyph,
 				LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
 				LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
-				font->glyph->advance.x
+				static_cast<unsigned int>(font->glyph->advance.x)
 			};
 			Characters.emplace(std::pair<char, Character>(c, sc));
 		}
@@ -947,7 +947,7 @@ void Renderer::RenderSystem::Initialize()
 	//-------------------------cam test---------------------------
 
 	GLint uni_loc2 = glGetUniformLocation(GRAPHICS->get_shader(), "u_SamplerID");
-	int test[32];
+	int test[32]{};
 	for (int i{ 0 }; i < 32; ++i) {
 		test[i] = i;
 	}
