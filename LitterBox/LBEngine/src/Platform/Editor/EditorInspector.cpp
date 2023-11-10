@@ -265,7 +265,7 @@ namespace LB
 				ImGui::Text("%-19s", "Mass");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
-				ImGui::InputFloat("##Mass", &mass, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##Mass", &mass, 1.0f, 0.0f, 0.0f, "%.2f");
 
 				if (mass <= 0.f)
 				{
@@ -280,7 +280,7 @@ namespace LB
 				ImGui::Text("%-19s", "Restitution");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
-				ImGui::InputFloat("##Restitution", &restitution, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##Restitution", &restitution, 1.0f, 0.0f, 0.0f, "%.2f");
 
 				if (restitution <= 0.f)
 				{
@@ -300,7 +300,7 @@ namespace LB
 				ImGui::Text("%-19s", "Friction");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
-				ImGui::InputFloat("##Friction", &friction, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##Friction", &friction, 1.0f, 0.0f, 0.0f, "%.2f");
 
 				if (friction <= 0.f)
 				{
@@ -319,23 +319,23 @@ namespace LB
 				ImGui::Text("%-17s X", "Velocity");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::InputFloat("##VelocityX", &velocity.x, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##VelocityX", &velocity.x, 1.0f, 0.0f, 0.0f, "%.2f");
 				ImGui::SameLine();
 				ImGui::Text("Y");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::InputFloat("##VelocityY", &velocity.y, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##VelocityY", &velocity.y, 1.0f, 0.0f, 0.0f, "%.2f");
 
 				Vec2<float> acceleration = m_inspectedGO->GetComponent<CPRigidBody>()->mAcceleration;
 				ImGui::Text("%-17s X", "Acceleration");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::InputFloat("##AccelerationX", &acceleration.x, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##AccelerationX", &acceleration.x, 1.0f, 0.0f, 0.0f, "%.2f");
 				ImGui::SameLine();
 				ImGui::Text("Y");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::InputFloat("##AccelerationY", &acceleration.y, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##AccelerationY", &acceleration.y, 1.0f, 0.0f, 0.0f, "%.2f");
 
 				ImGui::Text("%-10s", "Is Static");
 				ImGui::SameLine();
@@ -357,7 +357,7 @@ namespace LB
 				ImGui::Text("%-19s", "Width");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
-				ImGui::InputFloat("##Width", &width, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##Width", &width, 1.0f, 0.0f, 0.0f, "%.2f");
 
 				if (width < 0.f)
 				{
@@ -372,7 +372,7 @@ namespace LB
 				ImGui::Text("%-19s", "Height");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
-				ImGui::InputFloat("##Height", &height, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##Height", &height, 1.0f, 0.0f, 0.0f, "%.2f");
 
 				if (height < 0.f)
 				{
@@ -387,7 +387,7 @@ namespace LB
 				ImGui::Text("%-19s", "Radius");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
-				ImGui::InputFloat("##Radius", &radius, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##Radius", &radius, 1.0f, 0.0f, 0.0f, "%.2f");
 
 				if (radius < 0.f)
 				{
@@ -419,23 +419,30 @@ namespace LB
 					m_inspectedGO->GetComponent<CPCollider>()->AddVertice(Vec2<float>{0.f,0.f});
 				}
 
+				char labelX[50]{};
+				char labelY[50]{};
 				for (size_t i{}; i < m_inspectedGO->GetComponent<CPCollider>()->m_untransformedVerts.size(); ++i)
 				{
 					Vec2<float> untransformedVerts = m_inspectedGO->GetComponent<CPCollider>()->m_untransformedVerts[i];
 					ImGui::Text("%s %-8d", "Vertice", i);
 					ImGui::SameLine();
 					
-
 					ImGui::Text("X");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(normalWidth);
-					ImGui::InputFloat("##untransformedVerts", &untransformedVerts.x, 0.0f, 0.0f, "%.2f");
+					sprintf_s(labelX, "##untransformedVertsX%d", static_cast<int>(i));
+					ImGui::DragFloat(labelX, &untransformedVerts.x, 1.0f, 0.0f, 0.0f, "%.2f");
 					ImGui::SameLine();
+
+					m_inspectedGO->GetComponent<CPCollider>()->m_untransformedVerts[i].x = untransformedVerts.x;
 
 					ImGui::Text("Y");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(normalWidth);
-					ImGui::InputFloat("##untransformedVerts", &untransformedVerts.y, 0.0f, 0.0f, "%.2f");
+					sprintf_s(labelY, "##untransformedVertsY%d", static_cast<int>(i));
+					ImGui::DragFloat(labelY, &untransformedVerts.y, 1.0f, 0.0f, 0.0f, "%.2f");
+
+					m_inspectedGO->GetComponent<CPCollider>()->m_untransformedVerts[i].y = untransformedVerts.y;
 
 				}
 
