@@ -70,12 +70,16 @@ namespace LB {
 		float m_height;
 		float m_radius;
 
+		float m_ratio_width;
+		float m_ratio_height;
+
 		AABB m_aabb;
 
 		// For SAT
 		float m_rotation;
 		int m_vertAmount;
 		std::vector<Vec2<float>> m_untransformedVerts;
+		std::vector<Vec2<float>> m_ratioUntransformedVerts;
 		std::vector<Vec2<float>> m_transformedVerts;
 
 		// For physics

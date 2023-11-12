@@ -212,14 +212,24 @@ namespace LB
 		float old_height = this->m_heightUnscaledOG * transform->GetScale().y;
 		//float old_radius = this->m_radiusUnscaledOG * transform->GetScale().x;
 
-		float ratio_width = m_width / old_width;
-		float ratio_height = m_height / old_height;
+		this->m_ratio_width = m_width / old_width;
+		this->m_ratio_height = m_height / old_height;
 		//float ratio_radius = m_radius / old_radius;
+
+		//DebuggerLogFormat("%f, %f", m_ratio_width, m_ratio_height);
+		if (this->m_ratioUntransformedVerts.size() < this->m_untransformedVerts.size()) 
+		{
+			for (size_t i = m_ratioUntransformedVerts.size(); i < m_untransformedVerts.size(); ++i) 
+			{
+				this->m_ratioUntransformedVerts.push_back(this->m_untransformedVerts[i]);
+			}
+		}
+
 
 		for (int i = 0; i < this->m_untransformedVerts.size(); ++i)
 		{
-			this->m_untransformedVerts[i].x *= ratio_width;
-			this->m_untransformedVerts[i].y *= ratio_height;
+			this->m_ratioUntransformedVerts[i].x *= this->m_ratio_width;
+			this->m_ratioUntransformedVerts[i].y *= m_ratio_height;
 		}
 
 		this->m_widthUnscaledOG = this->m_widthUnscaled;
@@ -236,17 +246,21 @@ namespace LB
 	{
 		// Initialize the transformed verts to be the same size as untransformed verts
 		// if it is not the same size
-		if (this->m_untransformedVerts.size() > this->m_transformedVerts.size()) {
-			for (size_t i = m_transformedVerts.size(); i < m_untransformedVerts.size(); ++i) 
+		if (this->m_ratioUntransformedVerts.size() > this->m_transformedVerts.size()) {
+			for (size_t i = m_transformedVerts.size(); i < m_ratioUntransformedVerts.size(); ++i) 
 			{
 				m_transformedVerts.push_back(Vec2<float> {0.f, 0.f});
 			}
 		}
 		PhysicsTransform xtransform{ this->m_pos, this->m_rotation };
 
-		for (int i = 0; i < this->m_untransformedVerts.size(); ++i) {
+		for (int i = 0; i < this->m_ratioUntransformedVerts.size(); ++i) {
 			// Uses the untransformed vertices as the basis for tranasformation
-			LB::Vec2<float> og_vec = this->m_untransformedVerts[i];
+			LB::Vec2<float> og_vec = this->m_ratioUntransformedVerts[i];
+			//og_vec.x *= m_ratio_width;
+			//og_vec.y *= m_ratio_height;
+
+			//DebuggerLogFormat("%f, %f", m_ratio_width, m_ratio_height);
 			// Transforming the vertices using trigo formulas
 			this->m_transformedVerts[i] = LB::Vec2<float>{
 				xtransform.m_cos * og_vec.x - xtransform.m_sin * og_vec.y + xtransform.m_posX,
