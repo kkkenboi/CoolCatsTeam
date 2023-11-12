@@ -28,6 +28,7 @@
 #include "EditorConsole.h"
 #include "EditorProfiler.h"
 #include "EditorPrefabWindow.h"
+#include "EditorAnimationEditor.h"
 
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
@@ -79,6 +80,7 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorConsole>("Console"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorProfiler>("Profiler"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAssets>("Assets"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorAnimationEditor>("Animation Editor"));
 		//m_ImGuiLayers.AddLayer(std::make_shared<EditorPrefabWindow>("Prefabs"));
 	}
 

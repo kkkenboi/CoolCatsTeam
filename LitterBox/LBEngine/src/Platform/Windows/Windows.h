@@ -189,7 +189,10 @@ namespace LB
 		*************************************************************************/
 		static void FrameBufferCB(GLFWwindow* ptr_win, int width, int height);
 
+		static void FocusCB(GLFWwindow* window, int focused);
+
 		Event<> OnApplicationFocus;
+		Event<> onApplicationUnFocus;
 
 	private:
 		WindowsData m_Data;
