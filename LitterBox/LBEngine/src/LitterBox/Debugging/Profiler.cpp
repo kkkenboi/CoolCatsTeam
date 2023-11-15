@@ -13,7 +13,7 @@
 
 #include "Platform/Windows/Windows.h"
 #include "Profiler.h"
-#include "Platform/Editor/EditorProfiler.h" // Send the info to visualize
+//#include "EditorProfiler.h" // Send the info to visualize
 
 namespace LB 
 {

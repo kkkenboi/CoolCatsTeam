@@ -1,12 +1,14 @@
 /*!************************************************************************
- \file				EditorProfiler.h
+ \file				EditorConsole.h
  \author(s)			Ang Jiawei Jarrett
  \par DP email(s):	a.jiaweijarrett@digipen.edu
- \par Course:       CSD2401A
- \date				03/11/2023
+ \par Course:		CSD2401A
+ \date				16/10/23
  \brief
- This header file contains functions declarations for the profiler layer of the
- Editor. This is to print out the usage of each system per frame.
+
+ This header file contains functions declarations for the console layer of the
+ Editor. This is to show the logs and any errors that may arise during the runtime
+ of the Editor.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -15,70 +17,78 @@
 
 #pragma once
 
-#include "Platform/Editor/Editor.h"
+#include "Editor.h"
 #include "Litterbox/Engine/Layer.h"
 
 namespace LB
 {
 	/*!***********************************************************************
 	  \brief
-	  Used for setting up the graph for system timings
+	  Types of messages
 	*************************************************************************/
-	struct SystemFrame
+	enum class EditorConsoleMsgType
 	{
-		float timing; // Actual timing
-		float offset; // Timing + y-offset
+		DEBUG,
+		WARNING,
+		ERROR
 	};
 
 	/*!***********************************************************************
 	  \brief
-	  For this frame, holds the system's name and time spent.
+	  Contains a message and its type (warning, deug, error)
 	*************************************************************************/
-	struct SystemFrameMoment
+	struct ConsoleMessage
 	{
-		std::string name;
-		float timing;
+		std::string msg;
+		EditorConsoleMsgType type;
 	};
 
-	class EditorProfiler : public Layer
+	class EditorConsole : public Layer
 	{
 	public:
 		/*!***********************************************************************
 		  \brief
-		  Constructor for the EditorProfiler class.
+		  Constructor for the EditorConsole class.
 		*************************************************************************/
-		EditorProfiler(std::string layerName);
+		EditorConsole(std::string layerName);
 
 		/*!***********************************************************************
 		  \brief
-		  Updates the EditorProfiler layer.
+		  Updates the EditorConsole layer, renders the various messages
 		*************************************************************************/
 		void UpdateLayer() override;
 
 		/*!***********************************************************************
 		  \brief
-		  Destroys the EditorProfiler layer.
+		  Destroys the EditorConsole layer.
 		*************************************************************************/
-		void Destroy() {}
+		void Destroy() override;
 
 		/*!***********************************************************************
 		  \brief
-		  Update the system frames with timing data.
+		  Add a log message to the console.
 		*************************************************************************/
-		void UpdateSystemFrames(std::map<std::string, double> const& timings);
+		void AddLogMessage(std::string const& log);
 
 		/*!***********************************************************************
 		  \brief
-		  Set the size of the frame history.
+		  Add a warning message to the console.
 		*************************************************************************/
-		void SetFrameHistorySize(int newSize);
+		void AddWarningMessage(std::string const& warning);
+
+		/*!***********************************************************************
+		  \brief
+		  Add an error message to the console.
+		*************************************************************************/
+		void AddErrorMessage(std::string const& error);
 
 	private:
-		bool m_shouldProfile {false};									// Should the profiler graph the timings?
+		std::map<EditorConsoleMsgType, ImVec4> m_messageColors; // Colors for each message type
+		std::vector<ConsoleMessage> m_messages{};				// All the messages logged
+		ImGuiTextFilter m_messageFilter;						// Filter for all log messages
 
-		std::map<std::string, std::vector<SystemFrame>> m_systemFrames;	// Timings for each system
-		int m_framesHistorySize, m_currentFrameHistoryIndex;			// How many frames data to hold
+		bool m_pauseOnError;									// Should pause the game when error is logged?
 	};
 
-	extern EditorProfiler* EDITORPROFILER;
+	extern EditorConsole* EDITORCONSOLE;
 }

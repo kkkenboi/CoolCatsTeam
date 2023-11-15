@@ -1,4 +1,4 @@
-project "LBMonoDLL"
+project "LBMono"
     kind "SharedLib" -- Outputs a console
     staticruntime "On"
     targetextension (".dll")
@@ -20,16 +20,16 @@ project "LBMonoDLL"
     {
         "%{wks.location}/LBEngine/src",
         "%{wks.location}/LBMonoDLL/src/**",
-        "%{IncludeDir.GLFW}",
-        "%{IncludeDir.Glad}",
-        "%{IncludeDir.glm}",
-        "%{IncludeDir.ImGui}",
-        "%{IncludeDir.spdlog}",
-        "%{IncludeDir.stb}",
-        "%{IncludeDir.FreeType}",
-        "%{IncludeDir.FMOD}",
-        "%{IncludeDir.RapidJSON}",
-        "%{IncludeDir.Mono}"
+        -- "%{IncludeDir.GLFW}",
+        -- "%{IncludeDir.Glad}",
+        -- "%{IncludeDir.glm}",
+        -- "%{IncludeDir.ImGui}",
+        -- "%{IncludeDir.spdlog}",
+        -- "%{IncludeDir.stb}",
+        -- "%{IncludeDir.FreeType}",
+        -- "%{IncludeDir.FMOD}",
+        -- "%{IncludeDir.RapidJSON}",
+        -- "%{IncludeDir.Mono}"
 
     }
 
@@ -41,12 +41,22 @@ project "LBMonoDLL"
     filter "system:windows"
         systemversion "latest"
 
-    filter "configurations:Debug"
+    filter "configurations:Release"
+        runtime "Release" -- uses the release Runtime Library
+        optimize "On"
+        architecture "x86_64"
+
+    filter "configurations:Editor"
         runtime "Debug" -- uses the debug Runtime Library
         symbols "On"
         architecture "x86_64"
 
-    filter "configurations:Release"
+    filter "configurations:Engine"
+        runtime "Release" -- uses the release Runtime Library
+        optimize "On"
+        architecture "x86_64"
+
+    filter "configurations:Mono"
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"

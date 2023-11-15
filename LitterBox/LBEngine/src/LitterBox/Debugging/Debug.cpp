@@ -17,7 +17,7 @@
 #include "LitterBox/Engine/Time.h"
 #include "Debug.h"
 
-#include "Platform/Editor/EditorConsole.h"		// For logging to ImGUI console
+//#include "Platform/Editor/EditorConsole.h"		// For logging to ImGUI console
 #include <sstream>								// For formatting the message string
 
 #include <csignal>								// For getting crash signals

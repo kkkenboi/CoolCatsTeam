@@ -14,7 +14,7 @@
 
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Physics/ColliderManager.h"
-#include "Platform/Editor/EditorGameView.h"
+//#include "EditorGameView.h"
 #include "CPPSPlayer.h"
 #include "LitterBox/Engine/Input.h"
 #include <array>

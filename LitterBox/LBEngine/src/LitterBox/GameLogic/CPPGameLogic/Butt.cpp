@@ -16,7 +16,7 @@
 #include "Butt.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Engine/Input.h"
-#include "Platform/Editor/EditorGameView.h"
+//#include "EditorGameView.h"
 
 namespace LB {
 

@@ -1,15 +1,14 @@
 /*!************************************************************************
- \file				Editor.h
- \author(s)			Kenji Brannon Chong
- \par DP email(s):	kenjibrannon.c@digipen.edu
- \par Course:       CSD2401A
- \date				03/11/2023
+ \file				EditorSceneView.h
+ \author(s)			Ang Jiawei Jarrett, Kenji Brannon Chong
+ \par DP email(s):	a.jiaweijarrett@digipen.edu, kenjibrannon.c@digipen.edu
+ \par Course:		CSD2401A
+ \date				16/10/23
  \brief
 
- This file contains functions declarations for the Editor where it manages
- all of the different layers of the editor, eg. the Hierarchy layer, the
- Inspector, and more. It ensures that all the layers are updated and
- rendered in order.
+ This header file contains functions declarations for the scene view layer of the
+ Editor. This is to showcase the scene view, apart from the game view where it
+ can be interacted with and moved around.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -18,55 +17,55 @@
 
 #pragma once
 
-#include <imgui.h>
-#include <imgui_internal.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
-#include "LitterBox/Core/System.h"
-#include "LitterBox/Engine/LayerStack.h"
-#include "LitterBox/Factory/GameObjectManager.h"
+#include "Editor.h"
+#include "Litterbox/Engine/Layer.h"
 
 namespace LB
 {
-	class Editor : public ISystem
+	class EditorSceneView : public Layer
 	{
 	public:
-
 		/*!***********************************************************************
 		  \brief
-		  Constructor for the Editor class.
+		  Constructor for the EditorSceneView class.
 		  \return
 		  Nothing.
 		*************************************************************************/
-		Editor();
+		EditorSceneView(std::string layerName);
 
 		/*!***********************************************************************
 		  \brief
-		  Initializes the Editor system.
+		  Initializes the EditorSceneView layer.
 		  \return
 		  Nothing.
 		*************************************************************************/
-		void Initialize()	override;
+		void Initialize() override;
 
 		/*!***********************************************************************
 		  \brief
-		  Updates the Editor system.
+		  Updates the EditorSceneView layer.
 		  \return
 		  Nothing.
 		*************************************************************************/
-		void Update()		override;
+		void UpdateLayer() override;
+
+		//void Destroy() override;
 
 		/*!***********************************************************************
 		  \brief
-		  Destroys the Editor system.
+		  Set the selected object in the scene.
 		  \return
 		  Nothing.
 		*************************************************************************/
-		void Destroy()		override;
+		void SetObjectPicked(GameObject* obj);
 
 	private:
-		LayerStack m_ImGuiLayers;
+		ImVec2 m_windowSize;
+
+		// Mouse picker to select GameObjects
+		GameObject* m_mousePicker{ nullptr };
+		Vec2<float> m_mousePosInWorld;
 	};
 
-	extern Editor* EDITOR;
+	extern EditorSceneView* EDITORSCENEVIEW;
 }

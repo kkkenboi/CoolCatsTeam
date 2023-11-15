@@ -1,9 +1,9 @@
 /*!************************************************************************
  \file				EditorHierarchy.h
- \author(s)			Ang Jiawei Jarrett
- \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \author(s)			Kenji Brannon Chong, Vanessa Chua Siew Jin
+ \par DP email(s):	kenjibrannon.c@digipen.edu, vanessasiewjin.chua@digipen.edu
  \par Course:       CSD2401A
- \date				03/11/2023
+ \date				11/10/2023
  \brief
 
  This file contains functions declarations for the hierarchy layer of the
@@ -16,27 +16,29 @@
 **************************************************************************/
 
 #pragma once
-#include "Platform/Editor/Editor.h"
+
+#include "Editor.h"
 #include "Litterbox/Engine/Layer.h"
-#include "LitterBox/Scene/SceneManager.h"
+#include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Physics/ColliderManager.h"
 
 namespace LB
 {
-    class EditorHierarchy : public Layer
+    class EditorInspector : public Layer
     {
     public:
 
         /*!***********************************************************************
           \brief
-          Default Constructor for EditorHierarchy
+          Constructor for the EditorInspector class.
           \return
           Nothing.
         *************************************************************************/
-        EditorHierarchy(std::string layerName);
+        EditorInspector(std::string layerName);
 
         /*!***********************************************************************
           \brief
-          Initializes the EditorHierarchy layer.
+          Initializes the EditorInspector layer.
           \return
           Nothing.
         *************************************************************************/
@@ -44,7 +46,7 @@ namespace LB
 
         /*!***********************************************************************
           \brief
-          Updates the EditorHierarchy layer.
+          Updates the EditorInspector layer.
           \return
           Nothing.
         *************************************************************************/
@@ -52,7 +54,7 @@ namespace LB
 
         /*!***********************************************************************
           \brief
-          Destroys the EditorHierarchy layer.
+          Destroys the EditorInspector layer.
           \return
           Nothing.
         *************************************************************************/
@@ -60,52 +62,58 @@ namespace LB
 
         /*!***********************************************************************
           \brief
-          Draws the root of the hierarchy.
+          Update the currently inspected game object.
           \return
           Nothing.
         *************************************************************************/
-        void DrawRoot();
+        void UpdateInspectedGO(GameObject* newInspectedGO);
 
         /*!***********************************************************************
           \brief
-          Draws an item in the hierarchy.
+          Get the currently inspected game object.
           \return
-          Nothing.
+          A pointer to the currently inspected GameObject.
         *************************************************************************/
-        bool DrawItem(CPTransform* item);
+        GameObject* GetInspectedGO();
 
         /*!***********************************************************************
           \brief
-          Updates the loaded scene in the hierarchy 
+          Check if a game object is currently being inspected.
           \return
-          Nothing.
+          True if a game object is being inspected, false otherwise.
         *************************************************************************/
-        void UpdateSceneLoaded(Scene* loadedScene);
-
-        /*!***********************************************************************
-          \brief
-          Updates the currently clicked item in the hierarchy.
-          \return
-          Nothing.
-        *************************************************************************/
-        void UpdateClickedItem(CPTransform* newClickedItem);
-
-        Event<GameObject*> onNewObjectSelected;
-
+        bool IsGOInspected();
+        bool isPrefab = false;
     private:
-        CPTransform* m_draggedItem{ nullptr };
-        CPTransform* m_clickedItem{ nullptr };
-        Scene* m_loadedScene{ nullptr };
+        GameObject* m_inspectedGO{ nullptr };
+        char m_inspectedName[256]{}, m_nameBuffer1[64]{};
     };
-
-    // For Event Subscription
+    
+    // For event subscription
     /*!***********************************************************************
       \brief
-      Updates the loaded scene.
+      To get the original function, UpdateInspectedGO called as an event.
       \return
       Nothing.
     *************************************************************************/
-    void UpdateSceneLoaded(Scene* loadedScene);
+    void UpdateInspectedGO(GameObject* newInspectedGO);
 
-    extern EditorHierarchy* EDITORHIERACHY;
+    /*!***********************************************************************
+      \brief
+      To get the original function, DeselectObject called as an event.
+      \return
+      Nothing.
+    *************************************************************************/
+    void DeselectObject(bool isPlaying);
+
+    /*!***********************************************************************
+      \brief
+      To get the original function, DeselectObject called as an event, overloaded.
+      \return
+      Nothing.
+    *************************************************************************/
+    void DeselectObject(Scene* newScene);
+
+    extern EditorInspector* EDITORINSPECTOR;
 }
+

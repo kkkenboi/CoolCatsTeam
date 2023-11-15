@@ -30,7 +30,7 @@ project "LBEngine"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
-        "%{IncludeDir.ImGui}",
+        --"%{IncludeDir.ImGui}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.FreeType}",
@@ -62,12 +62,22 @@ project "LBEngine"
     filter "system:windows"
         systemversion "latest"
 
-    filter "configurations:Debug"
+    filter "configurations:Release"
+        runtime "Release" -- uses the release Runtime Library
+        optimize "On"
+        architecture "x86_64"
+
+    filter "configurations:Editor"
         runtime "Debug" -- uses the debug Runtime Library
         symbols "On"
         architecture "x86_64"
 
-    filter "configurations:Release"
+    filter "configurations:Engine"
+        runtime "Release" -- uses the release Runtime Library
+        optimize "On"
+        architecture "x86_64"
+
+    filter "configurations:Mono"
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"

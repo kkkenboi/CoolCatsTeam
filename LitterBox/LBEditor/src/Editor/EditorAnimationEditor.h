@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Platform/Editor/Editor.h"
+#include "Editor.h"
 #include "Litterbox/Engine/Layer.h"
 
 namespace LB {
