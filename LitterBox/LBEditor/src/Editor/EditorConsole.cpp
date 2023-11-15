@@ -39,8 +39,13 @@ namespace LB
 
 		// Add the colors into the lookup table (Serialize this in the future)
 		m_messageColors[EditorConsoleMsgType::DEBUG]		= ImVec4(0.25f, 0.56f, 0.4f, 1.0f);
-		m_messageColors[EditorConsoleMsgType::WARNING]	= ImVec4(0.8f, 0.8f, 0.28f, 1.0f);
+		m_messageColors[EditorConsoleMsgType::WARNING]		= ImVec4(0.8f, 0.8f, 0.28f, 1.0f);
 		m_messageColors[EditorConsoleMsgType::ERROR]		= ImVec4(0.8f, 0.27f, 0.25f, 1.0f);
+
+		// Add debug log message events
+		DEBUG->onDebugLog.Subscribe(LB::AddLogMessage);
+		DEBUG->onDebugWarning.Subscribe(LB::AddWarningMessage);
+		DEBUG->onDebugError.Subscribe(LB::AddErrorMessage);
 	}
 
 	/*!***********************************************************************
@@ -130,5 +135,20 @@ namespace LB
 	void EditorConsole::AddErrorMessage(std::string const& error)
 	{
 		m_messages.emplace_back(error, EditorConsoleMsgType::ERROR);
+	}
+
+	void AddLogMessage(std::string const& log)
+	{
+		EDITORCONSOLE->AddLogMessage(log);
+	}
+
+	void AddWarningMessage(std::string const& warning)
+	{
+		EDITORCONSOLE->AddWarningMessage(warning);
+	}
+
+	void AddErrorMessage(std::string const& error)
+	{
+		EDITORCONSOLE->AddErrorMessage(error);
 	}
 }

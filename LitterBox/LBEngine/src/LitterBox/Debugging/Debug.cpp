@@ -17,8 +17,8 @@
 #include "LitterBox/Engine/Time.h"
 #include "Debug.h"
 
-//#include "Platform/Editor/EditorConsole.h"		// For logging to ImGUI console
 #include <sstream>								// For formatting the message string
+#include <fstream>								// For file writing
 
 #include <csignal>								// For getting crash signals
 #include "spdlog/spdlog.h"						// For logging information to files
@@ -62,6 +62,8 @@ namespace LB
 	*************************************************************************/
 	void Debugger::Initialize() {
 		SetSystemName("Debug System");
+
+		cam = std::make_shared<Renderer::Camera>();
 
 		InitializeDrawer();
 	}
@@ -164,10 +166,9 @@ namespace LB
 	{
 		std::ostringstream output;
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
-
-		// Print to ImGUI console
-		if (EDITORCONSOLE)
-			EDITORCONSOLE->AddLogMessage(output.str());
+		
+		// Let any subscribers know a message has been logged
+		onDebugLog.Invoke(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->debug(output.str());	
@@ -198,9 +199,8 @@ namespace LB
 		std::ostringstream output;
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
-		// Print to ImGUI console
-		if (EDITORCONSOLE)
-			EDITORCONSOLE->AddWarningMessage(output.str());
+		// Let any subscribers know a warning has been logged
+		onDebugWarning.Invoke(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->warn(output.str());
@@ -231,12 +231,11 @@ namespace LB
 		std::ostringstream output;
 		output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
 
+		// Let any subscribers know a message has been logged
+		onDebugError.Invoke(output.str());
+
 		// Print errors to console
 		consoleLogger->error(output.str());
-
-		// Print to ImGUI console
-		if (EDITORCONSOLE)
-			EDITORCONSOLE->AddErrorMessage(output.str());
 
 		// Save to debug file and flush it
 		debugInfoLogger->error(output.str());
@@ -270,6 +269,9 @@ namespace LB
 		{
 			std::ostringstream output;
 			output << "[" << GetCurrentTimeStamp() << "] " << "[" << file << ":" << line << "] " << message;
+
+			// Let any subscribers know a message has been logged
+			onDebugAssert.Invoke(output.str());
 
 			// Print errors to console
 			consoleLogger->error(output.str());

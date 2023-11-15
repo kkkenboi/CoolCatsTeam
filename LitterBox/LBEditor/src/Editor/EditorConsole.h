@@ -90,5 +90,11 @@ namespace LB
 		bool m_pauseOnError;									// Should pause the game when error is logged?
 	};
 
+	void AddLogMessage(std::string const& log);
+
+	void AddWarningMessage(std::string const& warning);
+
+	void AddErrorMessage(std::string const& error);
+
 	extern EditorConsole* EDITORCONSOLE;
 }

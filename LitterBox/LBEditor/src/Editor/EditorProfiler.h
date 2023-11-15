@@ -65,7 +65,7 @@ namespace LB
 		  \brief
 		  Update the system frames with timing data.
 		*************************************************************************/
-		void UpdateSystemFrames(std::map<std::string, double> const& timings);
+		void UpdateSystemFrames();
 
 		/*!***********************************************************************
 		  \brief
@@ -79,6 +79,8 @@ namespace LB
 		std::map<std::string, std::vector<SystemFrame>> m_systemFrames;	// Timings for each system
 		int m_framesHistorySize, m_currentFrameHistoryIndex;			// How many frames data to hold
 	};
+
+	void UpdateSystemFrames();
 
 	extern EditorProfiler* EDITORPROFILER;
 }

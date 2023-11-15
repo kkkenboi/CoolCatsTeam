@@ -37,8 +37,8 @@ namespace LB {
 		std::shared_ptr<Time> time = std::make_shared<Time>(100, 60);
 		std::shared_ptr<InputSystem> input = std::make_shared<InputSystem>();
 		std::shared_ptr<ProfilerManager> profiler = std::make_shared<ProfilerManager>();
-		std::shared_ptr<WindowsSystem> windows = std::make_shared<WindowsSystem>();
 		std::shared_ptr<Debugger> debug = std::make_shared<Debugger>();
+		std::shared_ptr<WindowsSystem> windows = std::make_shared<WindowsSystem>();
 		std::shared_ptr<FactorySystem> factory = std::make_shared<FactorySystem>();
 		std::shared_ptr<GameObjectManager> gameManager = std::make_shared<GameObjectManager>();
 		std::shared_ptr<GameLogic> logic = std::make_shared<GameLogic>();

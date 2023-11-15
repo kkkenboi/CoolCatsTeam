@@ -138,7 +138,7 @@ namespace LB
 
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, effect_radius);
 
-			Vec2<float> mouse_pos = EDITORGAMEVIEW->GetMousePos();
+			Vec2<float> mouse_pos = INPUT->GetMousePos();
 
 			//std::cout << vec_colliders.size() << std::endl;
 			for (size_t i = 0; i < vec_colliders.size(); ++i) {

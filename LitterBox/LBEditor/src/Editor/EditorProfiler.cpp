@@ -17,6 +17,7 @@
 #include "pch.h"
 
 #include "EditorProfiler.h"
+#include "LitterBox/Debugging/Profiler.h" // For system timings
 #include "implot.h"			// For graphing
 #include <algorithm>		// For sorting timings
 
@@ -41,6 +42,8 @@ namespace LB
 
 		// Serialize this in the future
 		SetFrameHistorySize(80);
+
+		TIME->onFrameEnd.Subscribe(LB::UpdateSystemFrames);
 	}
 
 	/*!***********************************************************************
@@ -135,10 +138,12 @@ namespace LB
 	  \return
 	  Nothing.
 	*************************************************************************/
-	void EditorProfiler::UpdateSystemFrames(std::map<std::string, double> const& timings)
+	void EditorProfiler::UpdateSystemFrames()
 	{
 		// TO DO: Pause profiler on key press pause as well
 		if (!m_shouldProfile) return;
+
+		auto const& timings = PROFILER->GetSystemFrameTimings();
 
 		// Ring buffer, move the index by 1 to store current frame information
 		m_currentFrameHistoryIndex = (m_currentFrameHistoryIndex + 1) % m_framesHistorySize;
@@ -162,6 +167,11 @@ namespace LB
 			frame.second[m_currentFrameHistoryIndex].offset = offset + frame.second[m_currentFrameHistoryIndex].timing;
 			offset += frame.second[m_currentFrameHistoryIndex].timing;
 		}
+	}
+
+	void UpdateSystemFrames() 
+	{
+		EDITORPROFILER->UpdateSystemFrames();
 	}
 
 	/*!***********************************************************************
