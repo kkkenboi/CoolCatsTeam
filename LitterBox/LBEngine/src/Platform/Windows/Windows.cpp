@@ -28,6 +28,11 @@
 
 namespace LB
 {
+    void exit() {
+        static int test{ 0 };
+        std::cout << "OUT OF FOCUS " << test++ << '\n';
+    }
+
     WindowsSystem* WINDOWSSYSTEM = nullptr;
     bool previousState = false;
 
@@ -87,7 +92,8 @@ namespace LB
         glfwSetMouseButtonCallback(m_Data.m_PtrToWindow, GLFWKeyPressed);
         glfwSetInputMode(m_Data.m_PtrToWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         glfwSetCursorPosCallback(m_Data.m_PtrToWindow, GLFWMousePos);
-        
+        glfwSetWindowFocusCallback(m_Data.m_PtrToWindow, FocusCB);
+
         // Initialize Glad
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
             DebuggerLogError("Failed to initialize Glad");
@@ -160,6 +166,7 @@ namespace LB
 
         Draw(this->m_Data);
         
+        onApplicationUnFocus.Subscribe(exit);
     }
 
     /*!***********************************************************************
@@ -292,5 +299,13 @@ namespace LB
         // This is to ensure that the window is still drawing when 
         // resizing the window
         WINDOWSSYSTEM->Draw(WINDOWSSYSTEM->m_Data);
+    }
+
+    void WindowsSystem::FocusCB(GLFWwindow* window, int focused)
+    {
+        if (focused)
+            WINDOWSSYSTEM->OnApplicationFocus.Invoke();
+        else
+            WINDOWSSYSTEM->onApplicationUnFocus.Invoke();
     }
 }
