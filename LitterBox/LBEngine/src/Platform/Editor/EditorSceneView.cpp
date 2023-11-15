@@ -27,11 +27,46 @@
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
 
+#include <ImGuizmo.h>
+#include <glm.hpp>
+#include <gtc/type_ptr.hpp>
+
+
 extern unsigned int svtcb;
 
 namespace LB
 {
 	EditorSceneView* EDITORSCENEVIEW = nullptr;
+
+	// Manipulate Variables
+	static const float identityMatrix[16] =
+	{
+		1.f, 0.f, 0.f, 0.f,
+		0.f, 1.f, 0.f, 0.f,
+		0.f, 0.f, 1.f, 0.f,
+		0.f, 0.f, 0.f, 1.f
+	};
+
+	float cameraView[16] =
+	{
+		1.f, 0.f, 0.f, 0.f,
+		0.f, 1.f, 0.f, 0.f,
+		0.f, 0.f, 1.f, 0.f,
+		0.f, 0.f, 0.f, 1.f
+	};
+
+	glm::mat4 transform{ 1.0f };
+
+	static float snapAmount[3] = { 1.f, 1.f, 1.f };
+	static float bounds[] = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f };
+	static float boundsSnap[] = { 0.1f, 0.1f, 0.1f };
+	static bool boundSize = false;
+	static bool boundSizingSnap = false;
+	static ImGuizmo::MODE currentGizmoMode{ ImGuizmo::LOCAL };
+	static ImGuizmo::OPERATION currentGizmoOperation{ ImGuizmo::TRANSLATE };
+	ImVec2 mViewportBounds[2];
+	static bool firstTime = true;
+
 
 	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;
 	/*!***********************************************************************
@@ -127,6 +162,15 @@ namespace LB
 			m_mousePicker->GetComponent<CPTransform>()->SetScale({ 0.1f,0.1f });
 
 			//INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
+
+			//for (int i{}; i < 4; ++i)
+			//{
+			//	for (int j{}; j < 4; ++j)
+			//	{
+			//		std::cout << Renderer::GRAPHICS->get_cam().ortho[i][j] << " ";
+			//	}
+			//	std::cout << std::endl;
+			//}
 	}
 
 	/*!***********************************************************************
@@ -137,6 +181,21 @@ namespace LB
 	*************************************************************************/
 	void EditorSceneView::UpdateLayer()
 	{
+		//if (firstTime)
+		//{
+		//	ImGuizmo::SetOrthographic(true);
+
+		//	auto vpMinRegion = ImGui::GetWindowContentRegionMin();
+		//	auto vpMaxRegion = ImGui::GetWindowContentRegionMin();
+		//	auto vpOffset = ImGui::GetWindowPos();
+		//	mViewportBounds[0] = { vpMinRegion.x + vpOffset.x, vpMinRegion.y + vpOffset.y };
+		//	mViewportBounds[1] = { vpMaxRegion.x + vpOffset.x, vpMaxRegion.y + vpOffset.y };
+
+		//	ImGuizmo::SetRect(mViewportBounds[0].x, mViewportBounds[0].y, mViewportBounds[1].x - mViewportBounds[0].x, mViewportBounds[1].y - mViewportBounds[0].y);
+		//	firstTime = false;
+		//}
+
+
 		ImGui::Begin(GetName().c_str());
 
 		// Renders the scene view as an image from the opengl buffer
@@ -172,6 +231,25 @@ namespace LB
 			m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
 			EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(m_mousePosInWorld);
+		}
+		// Set the different ImGuizmo operation modes here
+		
+		//
+		if (EDITORINSPECTOR->GetInspectedGO())
+		{
+			auto trans = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetPosition();
+			auto scale = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetScale();
+			auto rot = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetRotation();
+
+			transform = glm::translate(glm::mat4{ 1.0f }, glm::vec3(trans.x, trans.y, 0.f))
+				* glm::rotate(glm::mat4(1.0f), rot, glm::vec3(0.f, 0.f, 1.f)) * glm::scale(glm::mat4(1.f), { scale.x,scale.y,1.0f });
+
+			currentGizmoOperation = ImGuizmo::TRANSLATE;
+
+			//EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPRender>()->
+			ImGuizmo::SetDrawlist();
+			ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam_mat()), glm::value_ptr(Renderer::GRAPHICS->get_cam_proj_mat()), currentGizmoOperation, currentGizmoMode, glm::value_ptr(transform));
+			//ImGuizmo::Manipulate(glm::value_ptr(glm::mat4{ 1.f }), glm::value_ptr(glm::mat4{ 1.f }), currentGizmoOperation, currentGizmoMode, glm::value_ptr(transform));
 		}
 
 		ImGui::EndChild();

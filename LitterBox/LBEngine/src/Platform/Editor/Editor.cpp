@@ -34,6 +34,7 @@
 #include "LitterBox/Engine/Input.h"
 
 #include "implot.h"
+#include "ImGuizmo.h"
 
 #include "windows.h"
 #include <crtdbg.h> 
@@ -81,7 +82,7 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorProfiler>("Profiler"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAssets>("Assets"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAnimationEditor>("Animation Editor"));
-		//m_ImGuiLayers.AddLayer(std::make_shared<EditorPrefabWindow>("Prefabs"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorPrefabWindow>("Prefab"));
 	}
 
 	/*!***********************************************************************
@@ -131,6 +132,7 @@ namespace LB
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
+			ImGuizmo::BeginFrame();
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// Docking Section
 			static bool dockspaceOpen = true;
@@ -177,6 +179,7 @@ namespace LB
 			ImGuiID gameviewID{};
 			ImGuiID hierarchyID{};
 			ImGuiID inspectorID{};
+			ImGuiID animationID{};
 			ImGuiID prefabID{};
 
 			// Docking Section
@@ -203,12 +206,14 @@ namespace LB
 				// Assets is set in the bottom middle, hierarchy on the top middle and inspector on the right
 				assetsID = ImGui::DockBuilderSplitNode(assetsID, ImGuiDir_Left, 0.5f, NULL, &inspectorID);
 				assetsID = ImGui::DockBuilderSplitNode(assetsID, ImGuiDir_Down, 0.5f, NULL, &hierarchyID);
-				//inspectorID = ImGui::DockBuilderSplitNode(inspectorID, ImGuiDir_Up, 0.5f, NULL, &prefabID);
+				inspectorID = ImGui::DockBuilderSplitNode(inspectorID, ImGuiDir_Up, 0.5f, NULL, &prefabID);
 
 				// Set profiler at the same location as console
 				profilerID = consoleID;
 				// Set scene view at the same location as game view
 				sceneviewID = gameviewID;
+				// Set the animation at the same location as the prefab
+				animationID = prefabID;
 
 				ImGui::DockBuilderDockWindow("ToolBar", toolbarID);
 				ImGui::DockBuilderDockWindow("Console", consoleID);
@@ -218,6 +223,7 @@ namespace LB
 				ImGui::DockBuilderDockWindow("Scene View", sceneviewID);
 				ImGui::DockBuilderDockWindow("Hierarchy", hierarchyID);
 				ImGui::DockBuilderDockWindow("Inspector", inspectorID);
+				ImGui::DockBuilderDockWindow("Animation Editor", animationID);
 				ImGui::DockBuilderDockWindow("Prefab", prefabID);
 
 				ImGui::DockBuilderFinish(maindockspaceID);
