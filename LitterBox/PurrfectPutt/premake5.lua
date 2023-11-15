@@ -1,5 +1,4 @@
 project "PurrfectPutt"
-    kind "WindowedApp" 
     staticruntime "On"
 
     language "C++"
@@ -22,16 +21,16 @@ project "PurrfectPutt"
     {
         "%{wks.location}/LBEngine/src",
         "%{wks.location}/PurrfectPutt/src",
-        -- "%{IncludeDir.GLFW}",
-        -- "%{IncludeDir.Glad}",
-        -- "%{IncludeDir.glm}",
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.glm}",
         -- "%{IncludeDir.ImGui}",
-        -- "%{IncludeDir.spdlog}",
-        -- "%{IncludeDir.stb}",
-        -- "%{IncludeDir.FreeType}",
-        -- "%{IncludeDir.FMOD}",
-        -- "%{IncludeDir.RapidJSON}",
-        -- "%{IncludeDir.Mono}"
+        "%{IncludeDir.spdlog}",
+        "%{IncludeDir.stb}",
+        "%{IncludeDir.FreeType}",
+        "%{IncludeDir.FMOD}",
+        "%{IncludeDir.RapidJSON}",
+        "%{IncludeDir.Mono}"
     }
 
     postbuildcommands
@@ -54,28 +53,31 @@ project "PurrfectPutt"
     links
     {
         "LBEngine",
-        "LBMonoDLL"
     }
 
     filter "system:windows"
         systemversion "latest"
 
     filter "configurations:Release"
+        kind "WindowedApp" 
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"
 
     filter "configurations:Editor"
+        kind "None"
         runtime "Debug" -- uses the debug Runtime Library
         symbols "On"
         architecture "x86_64"
 
     filter "configurations:Engine"
+        kind "None"
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"
 
     filter "configurations:Mono"
+        kind "None"
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"

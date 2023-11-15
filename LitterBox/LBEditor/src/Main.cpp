@@ -12,7 +12,6 @@ LB::Application* LB::CreateApplication()
 LB::Editor* LB::CreateEditor()
 {
 	Renderer::GRAPHICS->turnOnEditorMode();
-
 	return DBG_NEW Editor();
 }
 

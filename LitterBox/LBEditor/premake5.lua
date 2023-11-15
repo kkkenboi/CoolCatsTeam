@@ -1,5 +1,4 @@
 project "LBEditor"
-    kind "ConsoleApp" -- Outputs a console
     staticruntime "On"
 
     language "C++"
@@ -63,21 +62,25 @@ project "LBEditor"
         systemversion "latest"
 
     filter "configurations:Release"
+        kind "None" 
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"
 
     filter "configurations:Editor"
+        kind "ConsoleApp" -- Outputs a console
         runtime "Debug" -- uses the debug Runtime Library
         symbols "On"
         architecture "x86_64"
 
     filter "configurations:Engine"
+        kind "None" 
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"
 
     filter "configurations:Mono"
+        kind "None" 
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"

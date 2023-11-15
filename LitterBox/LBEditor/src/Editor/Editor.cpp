@@ -83,20 +83,13 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAssets>("Assets"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAnimationEditor>("Animation Editor"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorPrefabWindow>("Prefab"));
+
+		Initialize();
 	}
 
 	void Editor::Run()
 	{
-		Initialize();
-		while (IsRunning())
-		{
-			Update();
-		}
-	}
-
-	bool Editor::IsRunning()
-	{
-		return m_Running;
+		Update();
 	}
 
 	/*!***********************************************************************
@@ -109,8 +102,6 @@ namespace LB
 	{
 		// Do not re-enable until M3!
 		//INPUT->SubscribeToKey(ToggleEditor, KeyCode::KEY_M, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
-
-		m_Running = true;
 
 		// Setting up ImGui context
 		IMGUI_CHECKVERSION();

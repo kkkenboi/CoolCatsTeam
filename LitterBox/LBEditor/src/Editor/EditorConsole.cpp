@@ -101,6 +101,9 @@ namespace LB
 	*************************************************************************/
 	void EditorConsole::Destroy()
 	{
+		DEBUG->onDebugLog.Unsubscribe(LB::AddLogMessage);
+		DEBUG->onDebugWarning.Unsubscribe(LB::AddWarningMessage);
+		DEBUG->onDebugError.Unsubscribe(LB::AddErrorMessage);
 		EDITORCONSOLE = nullptr;
 	}
 

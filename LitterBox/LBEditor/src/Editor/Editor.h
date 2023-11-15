@@ -41,7 +41,6 @@ namespace LB
 		Editor();
 		~Editor();
 
-		bool IsRunning();
 		void Run();
 
 		/*!***********************************************************************
@@ -70,7 +69,6 @@ namespace LB
 
 	private:
 		LayerStack m_ImGuiLayers;
-		bool m_Running;
 	};
 
 	Editor* CreateEditor();
