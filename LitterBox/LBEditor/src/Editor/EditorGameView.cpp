@@ -21,7 +21,6 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "Platform/Windows/Windows.h"
 
-extern unsigned int textureColorbuffer;
 extern Renderer::RenderSystem* Renderer::GRAPHICS;
 
 namespace LB
@@ -54,7 +53,7 @@ namespace LB
 
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
-		uint64_t warning_remover = (uint64_t)textureColorbuffer;
+		uint64_t warning_remover = (uint64_t)Renderer::GRAPHICS->get_game_view();
 		ImGui::Image(reinterpret_cast<ImTextureID>(warning_remover), wsize, ImVec2(0, 1), ImVec2(1, 0));
 
 		// Render text

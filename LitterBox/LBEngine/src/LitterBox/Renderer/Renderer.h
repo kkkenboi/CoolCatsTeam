@@ -454,6 +454,16 @@ namespace Renderer {
 		//how to pass in object limit for renderer
 		unsigned int shader_program;
 
+		//-------for the game view-------------
+		unsigned int framebuffer;
+		unsigned int textureColorbuffer;
+		//-------for the game view-------------
+
+		//-------for scene view--------
+		unsigned int svfb;
+		unsigned int svtcb;
+		//-------for scene view--------
+
 		Texture_Manager t_Manager;
 		Animation_Manager a_Manager;
 
@@ -467,6 +477,8 @@ namespace Renderer {
 		LB::Vec2<GLsizei> m_winSize;
 
 		std::queue<message> msgs;
+
+		bool editor_mode{ false };
 
 	public:
 
@@ -706,6 +718,12 @@ namespace Renderer {
 		 instead.
 		*************************************************************************/
 		void Destroy() override;
+
+		void turnOnEditorMode();
+
+		inline unsigned int get_game_view() { return editor_mode ? textureColorbuffer : -1; }
+		inline unsigned int get_scene_view() { return editor_mode ? svtcb : -1; }
+		inline unsigned int get_sv_framebuff() { return editor_mode ? svfb : -1; }
 	};
 
 	//A pointer to the system object in the core engine
