@@ -17,7 +17,7 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include "Debug.h"
 
-extern unsigned int svfb;
+extern Renderer::RenderSystem* Renderer::GRAPHICS;
 extern bool imgui_ready;
 
 namespace LB
@@ -112,7 +112,7 @@ namespace LB
 		//draw lines to the imgui renderered box
 		//Bind the frame buffer to the texture image
 		if (imgui_ready)
-			glBindFramebuffer(GL_FRAMEBUFFER, svfb);
+			glBindFramebuffer(GL_FRAMEBUFFER, Renderer::GRAPHICS->get_sv_framebuff());
 
 		glUseProgram(shader);
 		glBindVertexArray(vao);
