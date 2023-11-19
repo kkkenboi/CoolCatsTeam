@@ -30,7 +30,7 @@
                     "IsStatic": false
                 },
                 "Render": {
-                    "Texture": 15
+                    "Texture": "Felix"
                 },
                 "Collider": {
                     "Shape": 0,
@@ -56,7 +56,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 3
+                    "Texture": "Bush_1"
                 }
             },
             {
@@ -73,7 +73,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 3
+                    "Texture": "Bush_1"
                 }
             },
             {
@@ -90,7 +90,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 3
+                    "Texture": "Bush_1"
                 }
             },
             {
@@ -113,7 +113,7 @@
                     "IsStatic": false
                 },
                 "Render": {
-                    "Texture": 17
+                    "Texture": "GolfBall"
                 },
                 "Collider": {
                     "Shape": 0,
@@ -246,7 +246,7 @@
                     "IsStatic": false
                 },
                 "Render": {
-                    "Texture": 7
+                    "Texture": "Chaser"
                 },
                 "Collider": {
                     "Shape": 1,
@@ -272,7 +272,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 16
+                    "Texture": "Flag"
                 }
             },
             {
