@@ -61,6 +61,12 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
+		 Loads a scene based on index in scene order
+		*************************************************************************/
+		void LoadScene(int index);
+
+		/*!***********************************************************************
+		 \brief
 		 Loads a scene based on the given name
 		*************************************************************************/
 		void LoadScene(std::string name);
@@ -83,10 +89,24 @@ namespace LB
 		*************************************************************************/
 		Scene* GetCurrentScene();
 
+		/*!***********************************************************************
+		\brief
+		Serializes the scene order to the JSON file
+		*************************************************************************/
+		bool Serialize(Value& data, Document::AllocatorType& alloc);
+
+		/*!***********************************************************************
+		 \brief
+		 Loads the scene order from the JSON file
+		*************************************************************************/
+		bool Deserialize(const Value& data);
+
 		// Lets any subscribers know when a new scene is loaded
 		Event<Scene*> onNewSceneLoad;
 
 	private:
+		std::vector<std::string> m_sceneOrder; // Names of all scenes loaded
+
 		Scene *m_currentScene{ nullptr };	// Which scene is currently loaded?
 		bool m_isReloading{ false };		// Is the scene reloading?
 	};

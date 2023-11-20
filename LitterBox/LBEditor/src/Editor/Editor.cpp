@@ -237,7 +237,6 @@ namespace LB
 
 		ImGui::End();
 
-
 		// Update all the ImGui layers here
 		for (std::shared_ptr<Layer>& layer : m_ImGuiLayers)
 		{
