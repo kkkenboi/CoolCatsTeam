@@ -994,7 +994,6 @@ void Renderer::RenderSystem::Initialize()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
 	//turnOnEditorMode();
 	//delete text;
 }
@@ -1068,7 +1067,7 @@ void Renderer::RenderSystem::Update()
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
-	// Render the game scene window
+	//Render the game scene window
 	bg_renderer.update_buff();
 	object_renderer.update_buff();
 	ui_renderer.update_buff();

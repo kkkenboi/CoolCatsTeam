@@ -54,7 +54,8 @@ namespace LB
 		ImGui::BeginChild("GameRender");
 		ImVec2 wsize = ImGui::GetWindowSize();
 		uint64_t warning_remover = (uint64_t)Renderer::GRAPHICS->get_game_view();
-		ImGui::Image(reinterpret_cast<ImTextureID>(warning_remover), wsize, ImVec2(0, 1), ImVec2(1, 0));
+		if(warning_remover != static_cast<unsigned int>(-1))
+			ImGui::Image(reinterpret_cast<ImTextureID>(warning_remover), wsize, ImVec2(0, 1), ImVec2(1, 0));
 
 		// Render text
 		//Renderer::GRAPHICS->render_msg("HELLO", 20.f, 20.f, 2.f, { .4f, .3f, 0.7f });
