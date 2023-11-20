@@ -170,6 +170,10 @@ namespace LB
 			m_Components[C_CPScriptCPP]->Serialize(CPPScriptComponent, alloc);
 			data.AddMember("CPPScript", CPPScriptComponent, alloc);
 		}
+		/*if (m_Components.find(C_CPAudioSource) != m_Components.end())
+		{
+			DebuggerLogWarning("C_CPAudioSource Serialization not implemented!");
+		}*/
 		return true;
 	}
 
@@ -188,6 +192,7 @@ namespace LB
 		bool HasRender = data.HasMember("Render");
 		bool HasCollider = data.HasMember("Collider");
 		bool HasCPPScript = data.HasMember("CPPScript");
+		bool HasAudio = data.HasMember("AudioSource");
 		if (data.IsObject())
 		{
 			if (HasName)
@@ -248,6 +253,14 @@ namespace LB
 				m_Components[C_CPCollider]->Deserialize(colliderValue);
 				DebuggerLogFormat("coll size %d", this->GetComponent<CPCollider>()->m_widthUnscaled);
 			}
+			/*if (HasAudio)
+			{
+				if (m_Components.find(C_CPAudioSource) == m_Components.end())
+				{
+					DebuggerLogWarning("C_CPAudioSource Deserialise not implemeted yet!");
+					AddComponent(C_CPAudioSource, FACTORY->GetCMs()[C_CPAudioSource]->Create());
+				}
+			}*/
 		}
 		this->StartComponents();
 		return true;
