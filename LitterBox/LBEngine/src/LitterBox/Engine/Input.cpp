@@ -149,15 +149,15 @@ namespace LB
 	void InputSystem::GLFWMousePos(GLFWwindow* window, double xpos, double ypos) 
 	{
 		UNREFERENCED_PARAMETER(window);
-		mousePos.x = xpos;
-		mousePos.y = ypos;
+		mousePos.x = (float)xpos;
+		mousePos.y = (float)ypos;
 	}
 
 	/*!***********************************************************************
 	 \brief
 	 Returns the mouse position based on the whole main window
 	*************************************************************************/
-	Vec2<double> const& InputSystem::GetMousePos()
+	Vec2<float> const& InputSystem::GetMousePos()
 	{
 		return mousePos;
 	}

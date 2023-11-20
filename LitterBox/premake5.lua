@@ -7,14 +7,15 @@ workspace "LitterBox"
 
     configurations
     {
-        "Debug",
         "Release",
+        "Editor",
+        "Engine",
+        "Mono",
     }
 
     platforms
     {
-        "Editor",
-        "Executable",
+        "x64",
     }
 
     flags
@@ -47,7 +48,7 @@ group "Dependencies"
 group ""
 
 group "Script"
-    include "LBMonoDLL"
+    include "LBMono"
 group ""
 
 group "Engine"
@@ -56,4 +57,8 @@ group ""
 
 group "Editor" 
     include "LBEditor"
+group ""
+
+group "Game"
+    include "PurrfectPutt"
 group ""

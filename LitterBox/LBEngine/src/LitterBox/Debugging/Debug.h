@@ -152,7 +152,7 @@ namespace LB
 		unsigned int vbo;
 		unsigned int ibo;
 		unsigned int shader;
-		Renderer::Camera cam;
+		std::shared_ptr<Renderer::Camera> cam;
 
 		std::stack<DebugObject> drawobj;
 		std::vector<unsigned short> idx;
@@ -231,6 +231,9 @@ namespace LB
 		 If game is currently paused, runs the simulation for 1 frame then pauses
 		*************************************************************************/
 		void StepPhysics();
+
+		// Broadcast any of the following logs
+		Event<std::string const&> onDebugLog, onDebugWarning, onDebugError, onDebugAssert;
 
 	private:
 		bool m_debugModeOn { false };

@@ -34,12 +34,11 @@ namespace LB {
 		// TODO: Refactor intialization order and move back to debugger system
 		InitializeLoggers();
 
-		std::shared_ptr<Editor>	editor = std::make_shared<Editor>();
 		std::shared_ptr<Time> time = std::make_shared<Time>(100, 60);
 		std::shared_ptr<InputSystem> input = std::make_shared<InputSystem>();
 		std::shared_ptr<ProfilerManager> profiler = std::make_shared<ProfilerManager>();
-		std::shared_ptr<WindowsSystem> windows = std::make_shared<WindowsSystem>();
 		std::shared_ptr<Debugger> debug = std::make_shared<Debugger>();
+		std::shared_ptr<WindowsSystem> windows = std::make_shared<WindowsSystem>();
 		std::shared_ptr<FactorySystem> factory = std::make_shared<FactorySystem>();
 		std::shared_ptr<GameObjectManager> gameManager = std::make_shared<GameObjectManager>();
 		std::shared_ptr<GameLogic> logic = std::make_shared<GameLogic>();
@@ -65,7 +64,6 @@ namespace LB {
 		Engine->AddSystem(cppLogic);
 		Engine->AddSystem(audio);
 		Engine->AddSystem(memory);
-		Engine->AddSystem(editor);
 		Engine->AddSystem(graphics);
 		Engine->AddSystem(debug);
 		Engine->AddSystem(sceneManager);
@@ -96,9 +94,16 @@ namespace LB {
 	*************************************************************************/
 	void Application::Run()
 	{
-		while (Engine->IsRunning())
+		Engine->GameLoop();
+
+		/*while (Engine->IsRunning())
 		{
 			Engine->GameLoop();
-		}
+		}*/
+	}
+
+	bool Application::IsRunning()
+	{
+		return Engine->IsRunning();
 	}
 }
