@@ -66,7 +66,6 @@ namespace LB
 		{
 			EDITOR = this;
 			CORE->SetEditorMode(true);
-			CORE->SetEditorLaunched(true);
 		}
 		else
 			DebuggerLogError("Editor System already exists!");

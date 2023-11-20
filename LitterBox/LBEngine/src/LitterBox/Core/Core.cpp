@@ -187,23 +187,4 @@ namespace LB
 		m_isPlaying = newState;
 		onPlayingModeToggle.Invoke(m_isPlaying);
 	}
-
-	/*!***********************************************************************
-	 \brief
-	 Returns true if the editor ImGUI has initialized and launched
-	*************************************************************************/
-	bool LBEngine::IsEditorLaunched() const
-	{
-		return m_editorLaunch;
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Sets the m_editorLaunch flag to the given state, this checks if the
-	 editor ImGUI has initialized and launched
-	*************************************************************************/
-	void LBEngine::SetEditorLaunched(bool newState)
-	{
-		m_editorLaunch = newState;
-	}
 }
