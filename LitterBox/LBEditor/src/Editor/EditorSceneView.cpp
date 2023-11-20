@@ -202,7 +202,9 @@ namespace LB
 		// Renders the scene view as an image from the opengl buffer
 		ImGui::BeginChild("GameRender");
 		m_windowSize = ImGui::GetWindowSize();
-		ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(Renderer::GRAPHICS->get_scene_view())), m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
+		uint64_t warning_remover = (uint64_t)Renderer::GRAPHICS->get_scene_view();
+		if(warning_remover != static_cast<unsigned int>(-1))
+			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(Renderer::GRAPHICS->get_scene_view())), m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
 		// If a prefab json file has been dropped onto the scene view
 		if (ImGui::BeginDragDropTarget())
