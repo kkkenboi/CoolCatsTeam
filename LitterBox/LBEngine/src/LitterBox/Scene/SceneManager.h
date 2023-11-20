@@ -77,6 +77,12 @@ namespace LB
 		*************************************************************************/
 		void ReloadScene();
 
+		/*!***********************************************************************
+		 \brief
+		 Gets the current scene loaded in SceneManager
+		*************************************************************************/
+		Scene* GetCurrentScene();
+
 		// Lets any subscribers know when a new scene is loaded
 		Event<Scene*> onNewSceneLoad;
 

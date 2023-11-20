@@ -128,6 +128,15 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
+	 Gets the current scene loaded in SceneManager
+	*************************************************************************/
+	Scene* SceneManager::GetCurrentScene()
+	{
+		return m_currentScene;
+	}
+
+	/*!***********************************************************************
+	 \brief
 	 Loads or saves the scene when the play button is pressed
 	*************************************************************************/
 	void SceneManager::SceneOnPlayToggle(bool isPlaying)
