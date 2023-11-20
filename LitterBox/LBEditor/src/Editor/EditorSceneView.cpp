@@ -56,7 +56,6 @@ namespace LB
 		0.f, 0.f, 0.f, 1.f
 	};
 
-	glm::mat4 transform{ 1.0f };
 
 	static float snapAmount[3] = { 1.f, 1.f, 1.f };
 	static float bounds[] = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f };
@@ -64,8 +63,8 @@ namespace LB
 	static bool boundSize = false;
 	static bool boundSizingSnap = false;
 	static ImGuizmo::MODE currentGizmoMode{ ImGuizmo::LOCAL };
-	static ImGuizmo::OPERATION currentGizmoOperation{ ImGuizmo::TRANSLATE };
-	ImVec2 mViewportBounds[2];
+	static ImGuizmo::OPERATION currentGizmoOperation{ ImGuizmo::TRANSLATE | /*ImGuizmo::ROTATE | */ImGuizmo::SCALE };
+	ImVec2 vpMinMax[2];
 	static bool firstTime = true;
 
 
@@ -182,22 +181,17 @@ namespace LB
 	*************************************************************************/
 	void EditorSceneView::UpdateLayer()
 	{
-		//if (firstTime)
-		//{
-		//	ImGuizmo::SetOrthographic(true);
-
-		//	auto vpMinRegion = ImGui::GetWindowContentRegionMin();
-		//	auto vpMaxRegion = ImGui::GetWindowContentRegionMin();
-		//	auto vpOffset = ImGui::GetWindowPos();
-		//	mViewportBounds[0] = { vpMinRegion.x + vpOffset.x, vpMinRegion.y + vpOffset.y };
-		//	mViewportBounds[1] = { vpMaxRegion.x + vpOffset.x, vpMaxRegion.y + vpOffset.y };
-
-		//	ImGuizmo::SetRect(mViewportBounds[0].x, mViewportBounds[0].y, mViewportBounds[1].x - mViewportBounds[0].x, mViewportBounds[1].y - mViewportBounds[0].y);
-		//	firstTime = false;
-		//}
-
-
 		ImGui::Begin(GetName().c_str());
+		ImGuizmo::BeginFrame();
+
+		ImGuizmo::SetOrthographic(true);
+
+		auto vpMin = ImGui::GetWindowContentRegionMin();
+		auto vpMax= ImGui::GetWindowContentRegionMax();
+		auto vpOffset = ImGui::GetWindowPos();
+
+		vpMinMax[0] = { vpMin.x + vpOffset.x, vpMin.y + vpOffset.y };
+		vpMinMax[1] = { vpMax.x + vpOffset.x, vpMax.y + vpOffset.y };
 
 		// Renders the scene view as an image from the opengl buffer
 		ImGui::BeginChild("GameRender");
@@ -220,7 +214,7 @@ namespace LB
 		}
 
 		// If the user has clicked on the scene view, check if they clicked on a GameObject
-		if (ImGui::IsItemClicked())
+		if (ImGui::IsItemClicked() && !ImGuizmo::IsOver())
 		{
 			m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
 			m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
@@ -228,31 +222,51 @@ namespace LB
 			SetObjectPicked(CheckMousePosGameObj(m_mousePosInWorld));
 		}
 		// If the user is dragging the mouse while a GameObject is selected, have the GameObject follow the cursor
-		if (ImGui::IsItemHovered() && ImGui::IsMouseDragging(0) && EDITORINSPECTOR->IsGOInspected())
-		{
-			m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-			m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+		//if (ImGui::IsItemHovered() && ImGui::IsMouseDragging(0) && EDITORINSPECTOR->IsGOInspected() && !ImGuizmo::IsOver())
+		//{
+		//	m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
+		//	m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
-			EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(m_mousePosInWorld);
-		}
+		//	EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(m_mousePosInWorld);
+		//}
 		// Set the different ImGuizmo operation modes here
-		
-		//
+
+		// ----------------------------------------------
 		if (EDITORINSPECTOR->GetInspectedGO())
 		{
 			auto trans = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetPosition();
 			auto scale = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetScale();
-			auto rot = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetRotation();
+			auto rot = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetRotation() * 180.f / static_cast<float>(PI);
+			
+			glm::mat4 transform{ 1.0f };
 
-			transform = glm::translate(glm::mat4{ 1.0f }, glm::vec3(trans.x, trans.y, 0.f))
-				* glm::rotate(glm::mat4(1.0f), rot, glm::vec3(0.f, 0.f, 1.f)) * glm::scale(glm::mat4(1.f), { scale.x,scale.y,1.0f });
+			transform = glm::translate(glm::mat4{ 1.0f }, glm::vec3(trans.x, trans.y, 0.0f))
+						* glm::rotate(glm::mat4{ 1.0f }, glm::degrees(rot), glm::vec3(0.0f, 0.0f, 1.0f))
+						* glm::scale(glm::mat4{ 1.0f }, { scale.x, scale.y, 1.0f });
 
-			currentGizmoOperation = ImGuizmo::TRANSLATE;
-
+			ImGuizmo::SetRect(vpMinMax[0].x, vpMinMax[0].y, vpMinMax[1].x - vpMinMax[0].x, vpMinMax[1].y - vpMinMax[0].y);
 			//EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPRender>()->
 			ImGuizmo::SetDrawlist();
-			ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam_mat()), glm::value_ptr(Renderer::GRAPHICS->get_cam_proj_mat()), currentGizmoOperation, currentGizmoMode, glm::value_ptr(transform));
-			//ImGuizmo::Manipulate(glm::value_ptr(glm::mat4{ 1.f }), glm::value_ptr(glm::mat4{ 1.f }), currentGizmoOperation, currentGizmoMode, glm::value_ptr(transform));
+			ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho), currentGizmoOperation, currentGizmoMode, glm::value_ptr(transform));
+			// if using, turn off picking
+			if (ImGuizmo::IsUsing())
+			{
+				glm::vec3 decompTrans, decompRot, decompScale;
+
+				ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(transform),
+					glm::value_ptr(decompTrans),
+					glm::value_ptr(decompRot),
+					glm::value_ptr(decompScale));
+
+				Vec2<float> finalTrans = { decompTrans.x, decompTrans.y };
+				//std::cout << 
+				float finalRot = { decompRot.z };
+				Vec2<float> finalScale = { decompScale.x, decompScale.y };
+				// change size 
+				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(finalTrans);
+				//EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetRotation(finalRot);
+				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetScale(finalScale);
+			}
 		}
 
 		ImGui::EndChild();
