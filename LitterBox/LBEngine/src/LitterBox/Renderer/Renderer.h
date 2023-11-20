@@ -706,6 +706,9 @@ namespace Renderer {
 		*************************************************************************/
 		inline auto get_game_cam_mat() { return cam.world_NDC; }
 
+		inline auto get_cam_proj_mat() { return cam.ortho; }
+		inline auto get_cam() { return cam; }
+
 		/*!***********************************************************************
 		\brief 
 		 Destroy will act as the destructor for render system and deallocate

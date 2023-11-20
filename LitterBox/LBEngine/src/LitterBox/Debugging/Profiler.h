@@ -95,12 +95,6 @@ namespace LB
 		void Initialize() override { SetSystemName("Profiler System"); }
 
 		/*!***********************************************************************
-		\brief
-		Sets up the name for profiling
-		*************************************************************************/
-		void Destroy() override;
-
-		/*!***********************************************************************
 		 \brief
 		 Adds the information from a finished profiler to the map to print
 		*************************************************************************/
@@ -110,19 +104,12 @@ namespace LB
 		\brief
 		 Sends the timings for all systems to the editor profiler
 		*************************************************************************/
-		void SendSystemFrameTimings();
+		std::map<std::string, double> const& GetSystemFrameTimings();
 
 	private:
 		//-----------------Map of profile timings--------------------------
 		std::map<std::string, double> m_generalInfoMap, m_systemInfoMap;
 	};
-
-	/*!***********************************************************************
-	 \brief
-	 For event subscribing, at the end of each frame, send the system timings
-	 for this frame
-	*************************************************************************/
-	void SendSystemFrameTimings(); // For event subscription
 
 	// A pointer to the system object in the core engine made to be singleton
 	extern ProfilerManager* PROFILER;

@@ -13,7 +13,7 @@
 
 #include "Platform/Windows/Windows.h"
 #include "Profiler.h"
-#include "Platform/Editor/EditorProfiler.h" // Send the info to visualize
+//#include "EditorProfiler.h" // Send the info to visualize
 
 namespace LB 
 {
@@ -32,17 +32,6 @@ namespace LB
 			PROFILER = this;
 		else
 			DebuggerLogError("Profiling System already exist");
-
-		TIME->onFrameEnd.Subscribe(LB::SendSystemFrameTimings);
-	}
-
-	/*!***********************************************************************
-	\brief
-	Removes key events subscriptions
-	*************************************************************************/
-	void ProfilerManager::Destroy()
-	{
-		TIME->onFrameEnd.Unsubscribe(LB::SendSystemFrameTimings);
 	}
 
 	/*!***********************************************************************
@@ -64,21 +53,11 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-	 For event subscribing, at the end of each frame, send the system timings
-	 for this frame
-	*************************************************************************/
-	void SendSystemFrameTimings()
-	{
-		PROFILER->SendSystemFrameTimings();
-	}
-
-	/*!***********************************************************************
-	 \brief
 	 Sends the timings for all systems to the editor profiler
 	*************************************************************************/
-	void ProfilerManager::SendSystemFrameTimings()
+	std::map<std::string, double> const& ProfilerManager::GetSystemFrameTimings()
 	{
-		EDITORPROFILER->UpdateSystemFrames(m_systemInfoMap);
+		return m_systemInfoMap;
 	}
 	
 	//---------------------------Profiler object-----------------------------

@@ -1,0 +1,11 @@
+{
+    "EDITOR": "/editor",
+    "PREFABS": "/prefabs",
+    "SCRIPTS": "/scripts",
+    "ART": "/art",
+    "AUDIO": "/audio",
+    "FONT": "/font",
+    "LOGS": "/logs",
+    "APPDATA": "%APPDATA%/",
+    "SCENES": "/scenes"
+}

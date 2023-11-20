@@ -16,7 +16,7 @@
 #include "Butt.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Engine/Input.h"
-#include "Platform/Editor/EditorGameView.h"
+//#include "EditorGameView.h"
 
 namespace LB {
 
@@ -41,7 +41,7 @@ namespace LB {
 	{
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
-			auto test = COLLIDERS->OverlapCircle(EDITORGAMEVIEW->GetMousePos(), 1.f);
+			auto test = COLLIDERS->OverlapCircle(INPUT->GetMousePos(), 1.f);
 
 			for (const auto& collider : test) {
 				if (coll == collider)

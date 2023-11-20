@@ -54,31 +54,28 @@ namespace LB
 	*************************************************************************/
 	void LBEngine::GameLoop()
 	{
-		while (m_running)
+		TIME->LBFrameStart();
 		{
-			TIME->LBFrameStart();
+			// Update every system every fixed timestep (Usually for physics)
+			TIME->AccumulateFixedUpdate();
+			while (TIME->ShouldFixedUpdate())
 			{
-				// Update every system every fixed timestep (Usually for physics)
-				TIME->AccumulateFixedUpdate();
-				while (TIME->ShouldFixedUpdate()) 
+				for (unsigned i = 0; i < m_systems.size(); ++i)
 				{
-					for (unsigned i = 0; i < m_systems.size(); ++i) 
-					{
-						Profiler systemProfiler{ m_systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS, false };
-						m_systems[i]->FixedUpdate();
-					}
-				}
-
-				// Update every system every frame
-				for (unsigned i = 0; i < m_systems.size(); ++i) 
-				{
-					Profiler systemProfiler{ m_systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS };
-					m_systems[i]->Update();
+					Profiler systemProfiler{ m_systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS, false };
+					m_systems[i]->FixedUpdate();
 				}
 			}
 
-			TIME->LBFrameEnd();
+			// Update every system every frame
+			for (unsigned i = 0; i < m_systems.size(); ++i)
+			{
+				Profiler systemProfiler{ m_systems[i]->GetName().c_str(), ProfileResult::MANAGER, ProfileMap::SYSTEMS };
+				m_systems[i]->Update();
+			}
 		}
+
+		TIME->LBFrameEnd();
 	}
 
 	/*!***********************************************************************

@@ -16,7 +16,7 @@
 **************************************************************************/
 
 #include "Platform/Windows/Windows.h"
-#include "Platform/Editor/Editor.h"
+//#include "Platform/Editor/Editor.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
@@ -50,6 +50,8 @@ namespace LB {
 		 Initialises the LitterBox Engine with all the systems added
 		*************************************************************************/
 		Application();
+
+		bool IsRunning();
 
 		/*!***********************************************************************
 		 \brief
