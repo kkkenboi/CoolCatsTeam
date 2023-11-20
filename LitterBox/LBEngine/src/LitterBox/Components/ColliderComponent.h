@@ -18,6 +18,7 @@
 #include "LitterBox/Utils/Math.h"
 #include "TransformComponent.h"
 #include "RigidBodyComponent.h"
+//#include "LitterBox/Physics/ColliderLayers.h"
 
 namespace LB {
 
@@ -85,6 +86,9 @@ namespace LB {
 		// For physics
 		Vec2<float> normal_out;
 		float depth_out;
+
+		// Layer
+		//ColliderLayer m_layer;
 
 		/*!***********************************************************************
 		  \brief

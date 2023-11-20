@@ -83,6 +83,8 @@ namespace LB
 		this->CreateAABB();
 		this->CreatePolygonBox();
 
+		//this->m_layer = COLLIDERS->GetLayerSystem().GetDefaultLayer();
+
 		// Update the length and width of the RigidBody depending
 		// on the Collider
 

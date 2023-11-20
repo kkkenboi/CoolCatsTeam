@@ -1,6 +1,7 @@
 #pragma once
 #include "Collisions.h"
 #include "LitterBox/Core/System.h"
+#include "ColliderLayers.h"
 
 namespace LB 
 {
@@ -10,6 +11,7 @@ namespace LB
 	private:
 		size_t m_poolSize;
 		CPCollider** m_colliderPool;
+		//ColliderLayerSystem  m_layerSystem;
 	public:
 		std::vector<std::pair<std::string, SHAPETYPE>> m_shapeTypes;
 
@@ -72,6 +74,8 @@ namespace LB
 			Gets the ShapeName of the Collider in the ColliderManager
 		*************************************************************************/
 		std::string GetShapeNames(SHAPETYPE type);
+
+		//ColliderLayerSystem& GetLayerSystem();
 
 		// ================
 		// ISystem function overrides
