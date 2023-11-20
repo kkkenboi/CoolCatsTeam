@@ -19,6 +19,7 @@
 #include "../../dependencies/FMOD/core/inc/fmod_errors.h"
 #pragma warning(pop)
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Components/AudioSourceComponent.h"
 
 namespace LB
 {
@@ -79,6 +80,7 @@ namespace LB
 		 * (Technically... 1 sound 1 channel so...)
 		**************************************************************************/
 		bool IsPlaying(int ChannelID);
+		bool IsPaused(int channelID);
 
 
 		/*!***********************************************************************
@@ -89,7 +91,11 @@ namespace LB
 		void StopAllChannels();
 
 		//TODO
-		//void StopChannel(int channelID);
+		void StopChannel(int channelID);
+		void PauseChannel(int channelID);
+		void UnPauseChannel(int channelID);
+		void SetChannelPitch(int channelID, float _pitch);
+		void SetChannelVolume(int ChannelID, float _vol);
 		//bool IsPlaying(std::string soundName);
 		//void StopAllSounds();
 
@@ -98,6 +104,7 @@ namespace LB
 		 * Allows for error checking and error logging
 		 **************************************************************************/
 		FMOD_RESULT result;
+		std::vector<CPAudioSource*> AudioSources;
 	private:
 		int channelID{ 0 };
 		std::map<int, FMOD::Channel*> Channels;

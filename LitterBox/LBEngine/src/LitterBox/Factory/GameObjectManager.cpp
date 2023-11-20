@@ -170,10 +170,12 @@ namespace LB
 			m_Components[C_CPScriptCPP]->Serialize(CPPScriptComponent, alloc);
 			data.AddMember("CPPScript", CPPScriptComponent, alloc);
 		}
-		/*if (m_Components.find(C_CPAudioSource) != m_Components.end())
+		if (m_Components.find(C_CPAudioSource) != m_Components.end())
 		{
-			DebuggerLogWarning("C_CPAudioSource Serialization not implemented!");
-		}*/
+			Value AudioSourceComponent;
+			m_Components[C_CPAudioSource]->Serialize(AudioSourceComponent, alloc);
+			data.AddMember("AudioSource", AudioSourceComponent, alloc);
+		}
 		return true;
 	}
 
@@ -253,14 +255,16 @@ namespace LB
 				m_Components[C_CPCollider]->Deserialize(colliderValue);
 				DebuggerLogFormat("coll size %d", this->GetComponent<CPCollider>()->m_widthUnscaled);
 			}
-			/*if (HasAudio)
+			if (HasAudio)
 			{
 				if (m_Components.find(C_CPAudioSource) == m_Components.end())
 				{
-					DebuggerLogWarning("C_CPAudioSource Deserialise not implemeted yet!");
+					DebuggerLog("Deserialize: GO doesn't have a Audio Source :C so we make one");
 					AddComponent(C_CPAudioSource, FACTORY->GetCMs()[C_CPAudioSource]->Create());
 				}
-			}*/
+				const Value& audioSourceValue = data["AudioSource"];
+				m_Components[C_CPAudioSource]->Deserialize(audioSourceValue);
+			}
 		}
 		this->StartComponents();
 		return true;

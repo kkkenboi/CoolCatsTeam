@@ -1,6 +1,5 @@
 #pragma once
 #include "TransformComponent.h"
-#include "LitterBox/Audio/AudioManager.h"
 namespace LB
 {
 	class CPAudioSource : public IComponent
@@ -13,18 +12,20 @@ namespace LB
 		void UnPause();
 		void Stop();
 		bool isPlaying();
+		void SetPitch(float _pitch);
+		void SetVolume(float _vol);
 
 
 
 		/*!***********************************************************************
 		* PUBLIC VARIABLES
 		*************************************************************************/
-		bool mute{false};		//Sets volume to 0 if true
-		bool playOnAwake{false};//Determines if the audio source should play on awake
-		bool loop{false};		//Determines if the audio source should loop
-		float volume{ 1.0f };	//Clamped at 0.0f - 1.0f
-		float pitch{ 1.0f };	//Clamped at 0.0f - 1.0f (idk if clamping this is normal)
-		FMOD::Sound* AudioClip{nullptr}; //Audio clip for the audio source
+		bool mute{false};				//Sets volume to 0 if true
+		bool playOnAwake{false};		//Determines if the audio source should play on awake
+		bool loop{false};				//Determines if the audio source should loop
+		float volume{ 1.0f };			//Clamped at 0.0f - 1.0f
+		float pitch{ 1.0f };			//Clamped at 0.0f - 1.0f (idk if clamping this is normal)
+		std::string AudioClipName;		//Name of the audioclip 
 
 		/*!***********************************************************************
 		* ICOMPONENT OVERRIDES
@@ -34,10 +35,12 @@ namespace LB
 		void Initialise() override;
 		void Update() override;
 		void Destroy() override;
-		/*static ComponentTypeID GetType()
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override;
+		bool Deserialize(const Value& data) override;
+		static ComponentTypeID GetType()
 		{
 			return C_CPAudioSource;
-		}*/
+		}
 	};
 
 }

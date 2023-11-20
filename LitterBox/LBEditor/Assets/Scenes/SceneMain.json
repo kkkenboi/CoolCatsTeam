@@ -120,6 +120,13 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Radius": 50.0
+                },
+                "AudioSource": {
+                    "AudioClipName": "Clown-Horn_SFX",
+                    "Play On Awake": true,
+                    "Loop": true,
+                    "Volume": 1.0,
+                    "Pitch": 1.0
                 }
             },
             {

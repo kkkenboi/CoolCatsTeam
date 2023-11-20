@@ -91,6 +91,13 @@ namespace LB
 			Channels.erase(channel);
 		}
 		audioSystem->update();
+		if (!AudioSources.empty())
+		{
+			for (const auto& audioSrc : AudioSources)
+			{
+				audioSrc->Update();
+			}
+		}
 	}
 
 	/*!***********************************************************************
@@ -155,20 +162,58 @@ namespace LB
 	{
 		return (Channels.find(ChannelID) != Channels.end());
 	}
-	//bool AudioManager::IsPlaying(std::string soundName)
-	//{
-	//	for (const auto& channel : Channels)
-	//	{
-	//		FMOD::Sound* currentSound = nullptr;
-	//		if (channel.second->getCurrentSound(&currentSound))
-	//		{
-	//		}
-	//	}
 
-	//	return (Channels.find(channelID) != Channels.end());
-	//}
+	bool AudioManager::IsPaused(int channelID)
+	{
+		bool isPaused{ false };
+		if (Channels.find(channelID) != Channels.end())
+		{
+			Channels[channelID]->getPaused(&isPaused);
+		}
+		else
+		{
+			DebuggerLogWarningFormat("Unable to find channel %d!",channelID);
+		}
+		return isPaused;
+	}
 
+	void AudioManager::StopChannel(int channelID)
+	{
+		if (Channels.find(channelID) != Channels.end())
+		{
+			Channels[channelID]->stop();
+		} else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
+	}
 
+	void AudioManager::PauseChannel(int channelID)
+	{
+		if (!IsPaused(channelID))
+		{
+			Channels[channelID]->setPaused(true);
+		}
+	}
+	void AudioManager::UnPauseChannel(int channelID)
+	{
+		if (IsPaused(channelID))
+		{
+			Channels[channelID]->setPaused(false);
+		}
+	}
+	void AudioManager::SetChannelPitch(int channelID,float _pitch)
+	{
+		if (Channels.find(channelID) != Channels.end())
+		{
+			Channels[channelID]->setPitch(_pitch);
+		} else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
+
+	}
+	void AudioManager::SetChannelVolume(int channelID, float _vol)
+	{
+		if (Channels.find(channelID) != Channels.end())
+		{
+			Channels[channelID]->setVolume(_vol);
+		} else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
+	}
 	/*!***********************************************************************
 	 * \brief Function to stop all channels from playing
 	 *
