@@ -22,6 +22,7 @@
 #include "CPPSPlayer.h"
 #include "Butt.h"
 #include "CPPSChaser.h"
+#include "QuitScript.h"
 
 namespace LB
 {
@@ -51,7 +52,10 @@ namespace LB
 	*************************************************************************/
 	void CPPGameLogic::Load(CPScriptCPP* newScript)
 	{
-		if (newScript->GetName() == "Player" || newScript->GetName() == "Enemy" || newScript->GetName() == "Butt")
+		if (newScript->GetName() == "Player" || 
+			newScript->GetName() == "Enemy" || 
+			newScript->GetName() == "Butt" ||
+			newScript->GetName() == "Quit")
 		{
 			m_sceneScripts.push_back(newScript);
 			return;
@@ -88,6 +92,9 @@ namespace LB
 			}
 			else if (script->GetName() == "Butt") {
 				script->SetInstance(DBG_NEW Butt);
+			}
+			else if (script->GetName() == "Quit") {
+				script->SetInstance(DBG_NEW QuitScript);
 			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 
