@@ -91,6 +91,20 @@
                 },
                 "Render": {
                     "Texture": "Bush_1"
+                },
+                "Text": {
+                    "Message": {
+                        "text": "joebiden",
+                        "x": 0.0,
+                        "y": 0.0,
+                        "scale": 0.0,
+                        "Color": {
+                            "x": 0.81,
+                            "y": 0.28,
+                            "z": 0.28
+                        },
+                        "Font name": "KernlGrotesk"
+                    }
                 }
             },
             {

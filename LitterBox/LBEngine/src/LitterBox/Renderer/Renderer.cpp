@@ -637,6 +637,7 @@ tShader{}, tVao{}, tVbo{}, ft{}, font{}, active_msgs{}
 	auto fonts{ LB::FILESYSTEM->GetFilesOfType(".otf") };
 	auto fonts2{ LB::FILESYSTEM->GetFilesOfType(".ttf") };
 
+
 	//-------------------LOAD FONT------------------------
 	//init freetype lib
 	if (FT_Init_FreeType(&ft)) {
@@ -1448,6 +1449,30 @@ void LB::CPText::Update()
 	/*LB::Vec2<float> pos = gameObj->GetComponent<CPTransform>()->GetPosition();
 	msg.x = pos.x;
 	msg.y = pos.y;*/
+}
+
+bool LB::CPText::Serialize(Value& data, Document::AllocatorType& alloc)
+{
+	DebuggerLog("Serializing Text");
+	data.SetObject();
+	Value messageValue;
+	if (msg.Serialize(messageValue, alloc))
+	{
+		data.AddMember("Message", messageValue, alloc);
+		return true;
+	}
+	else return false;
+}
+
+bool LB::CPText::Deserialize(const Value& data)
+{
+	bool HasMessage = data.HasMember("Message");
+	if (HasMessage)
+	{
+		const Value& messageValue = data["Message"];
+		msg.Deserialize(messageValue);
+	}
+	return true;
 }
 
 /*!***********************************************************************
