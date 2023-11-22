@@ -21,6 +21,7 @@
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Components/RigidBodyComponent.h"
 #include "LitterBox/Components/TransformComponent.h"
+#include "LitterBox/Components/AudioSourceComponent.h"
 
 namespace LB
 {
@@ -168,6 +169,40 @@ namespace LB
 				}
 			}
 
+			ImGui::Separator();
+			if (ImGui::MenuItem("Audio Source"))
+			{
+				if (m_inspectedGO->HasComponent<CPAudioSource>())
+				{
+					DebuggerLogWarning("Audio Source already exists.");
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					m_inspectedGO->AddComponent(C_CPAudioSource, FACTORY->GetCMs()[C_CPAudioSource]->Create());
+					m_inspectedGO->GetComponent<CPAudioSource>()->Initialise();
+					DebuggerLog("Audio Source component Added!");
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::Separator();
+			if (ImGui::MenuItem("Text Component"))
+			{
+				if (m_inspectedGO->HasComponent<CPText>())
+				{
+					DebuggerLogWarning("Text Component already exists.");
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					m_inspectedGO->AddComponent(C_CPText, FACTORY->GetCMs()[C_CPText]->Create());
+					m_inspectedGO->GetComponent<CPText>()->Initialise();
+					DebuggerLog("Text component Added!");
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
 			ImGui::EndPopup();
 		}
 		//------------------------------------------ADD COMPONENT WINDOW------------------------------------------
@@ -215,7 +250,7 @@ namespace LB
 				ImGui::Text("%-19s", "Angle");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##Angle", &rotation, 0.1f, 0.0f, 0.0f, "%.1f");
+				ImGui::DragFloat("##Angle", &rotation, 0.1f, 0.0f, 0.0f, "%.3f");
 				m_inspectedGO->GetComponent<CPTransform>()->SetRotation(rotation);
 			}
 		}
@@ -353,6 +388,23 @@ namespace LB
 			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				// Interface Buttons
+				ImGui::Text("%-19s", "Layer");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				if (ImGui::BeginCombo("##Layer", m_inspectedGO->GetComponent<CPCollider>()->GetLayerName().c_str()))
+				{
+
+					for (auto& [str, type] : COLLIDERS->GetLayerSystem().GetLayerVector())
+					{
+						if (ImGui::Selectable(str.c_str()))
+						{
+							m_inspectedGO->GetComponent<CPCollider>()->m_collisionlayer = type;
+						}
+					}
+					ImGui::EndCombo();
+				}
+
+
 				float width = m_inspectedGO->GetComponent<CPCollider>()->m_widthUnscaled;
 				ImGui::Text("%-19s", "Width");
 				ImGui::SameLine();
@@ -471,6 +523,164 @@ namespace LB
 					m_inspectedGO->RemoveComponent(C_CPScriptCPP);
 				}
 			}
+		}
+		if (m_inspectedGO->HasComponent<CPAudioSource>())
+		{
+			if (ImGui::CollapsingHeader("Audio Source Component", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				// Interface Buttons
+				ImGui::Text("%-19s", "Audio Clip Name");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				std::string inspectedAudioClipName = m_inspectedGO->GetComponent<CPAudioSource>()->AudioClipName;
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* audioData = ImGui::AcceptDragDropPayload("AUDIO"))
+					{
+						const char* audioClipName = (const char*)audioData->Data;
+						m_inspectedGO->GetComponent<CPAudioSource>()->AudioClipName = audioClipName;
+					}
+				}
+				if (ImGui::BeginCombo("##AudioClips", inspectedAudioClipName.c_str()))
+				{
+					for (auto& [str, clip] : ASSETMANAGER->SoundMap)
+					{
+						if (ImGui::Selectable(str.c_str()))
+						{
+							m_inspectedGO->GetComponent<CPAudioSource>()->AudioClipName = str;
+						}
+					}
+					ImGui::EndCombo();
+				}
+				ImGui::Text("%-19s", "Play On Awake");
+				ImGui::SameLine();
+				ImGui::Checkbox("##PlayOnAwake", &m_inspectedGO->GetComponent<CPAudioSource>()->playOnAwake);
+
+				ImGui::Text("%-19s", "Loop");
+				ImGui::SameLine();
+				ImGui::Checkbox("##Loop", &m_inspectedGO->GetComponent<CPAudioSource>()->loop);
+
+				float vol = m_inspectedGO->GetComponent<CPAudioSource>()->volume;
+				ImGui::Text("%-19s", "Volume");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(extendedWidth);
+				ImGui::DragFloat("##Volume", &vol, 0.01f, 0.0f, 1.0f, "%.2f");
+				if (vol < 0.f)
+				{
+					m_inspectedGO->GetComponent<CPAudioSource>()->SetVolume(0.0f);
+				}
+				else
+				{
+					m_inspectedGO->GetComponent<CPAudioSource>()->SetVolume(vol);
+				}
+
+				float pitch = m_inspectedGO->GetComponent<CPAudioSource>()->pitch;
+				ImGui::Text("%-19s", "Pitch");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(extendedWidth);
+				ImGui::DragFloat("##Pitch", &pitch, 0.01f, -10.0f, 10.0f, "%.2f");
+
+				if (pitch < -10.f)
+				{
+					m_inspectedGO->GetComponent<CPAudioSource>()->SetPitch(-10.f);
+				}
+				else
+				{
+					m_inspectedGO->GetComponent<CPAudioSource>()->SetPitch(pitch);
+				}
+
+
+				// Delete Component
+				if (ImGui::Button("Delete Audio Source Component"))
+				{
+					m_inspectedGO->RemoveComponent(C_CPAudioSource);
+				}
+			}
+		}
+		if (m_inspectedGO->HasComponent<CPText>())
+		{
+			if (ImGui::CollapsingHeader("Text Component", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				float textXPos = m_inspectedGO->GetComponent<CPText>()->get_msg().x;
+				float textYPos = m_inspectedGO->GetComponent<CPText>()->get_msg().y;
+				float textSize = m_inspectedGO->GetComponent<CPText>()->get_msg().scale;
+				ImGui::Text("%-17s X", "Position");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##TextPosX", &textXPos, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::SameLine();
+				ImGui::Text("Y");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##TextPosY", &textYPos, 1.0f, 0.0f, 0.0f, "%.2f");
+
+				ImGui::Text("%-17s", "Scale");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##TextSize", &textSize, 1.0f, 0.0f, 0.0f, "%.2f");
+				//m_inspectedGO->GetComponent<CPText>()->update_msg_pos(Vec2<float>(textXPos, textYPos));
+				//m_inspectedGO->GetComponent<CPText>()->update_msg_size(textSize);
+
+				m_inspectedGO->GetComponent<CPText>()->get_msg().x = textXPos;
+				m_inspectedGO->GetComponent<CPText>()->get_msg().y = textYPos;
+				m_inspectedGO->GetComponent<CPText>()->get_msg().scale = textSize;
+
+				ImGui::Text("%-19s", "Text");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				if (m_inspectedGO) 
+				strcpy_s(m_textBuffer, sizeof(m_textBuffer), m_inspectedGO->GetComponent<CPText>()->get_msg().text.c_str());
+				if (ImGui::InputText("##TextMessage", m_textBuffer, 256))
+				{
+					m_inspectedGO->GetComponent<CPText>()->set_msg(m_textBuffer);
+				}
+				Vec3<float> col = m_inspectedGO->GetComponent<CPText>()->get_msg().color;
+				static ImVec4 color = ImVec4(col.x, col .y,col.z, 1.f);
+				ImGui::Text("Text Color:");
+				ImGui::SameLine();
+				ImGui::ColorEdit3("##TextColor", (float*)&color);
+				col = Vec3<float>(color.x, color.y, color.z);
+				//m_inspectedGO->GetComponent<CPText>()->update_msg_color(col);
+				m_inspectedGO->GetComponent<CPText>()->get_msg().color = col;
+				ImGui::Text("%-19s", "Font Name");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				std::string inspectedFontName = m_inspectedGO->GetComponent<CPText>()->get_msg().font_file_name_wo_ext;
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* fontData = ImGui::AcceptDragDropPayload("FONT"))
+					{
+						const char* fontName = (const char*)fontData->Data;
+						m_inspectedGO->GetComponent<CPText>()->get_msg().font_file_name_wo_ext = fontName;
+						//m_inspectedGO->GetComponent<CPText>()->update_msg_font(fontName);
+					}
+				}
+				if (ImGui::BeginCombo("##FontName", inspectedFontName.c_str()))
+				{
+					for (auto& [str, fp] : ASSETMANAGER->assetMap)
+					{
+						std::filesystem::path p{ fp };
+						if (p.extension() == ".otf" || p.extension() == ".ttf")
+						{
+							if (ImGui::Selectable(str.c_str()))
+							{
+								//m_inspectedGO->GetComponent<CPText>()->update_msg_font(str);
+								m_inspectedGO->GetComponent<CPText>()->get_msg().font_file_name_wo_ext = str;
+
+							}
+						}
+					}
+					ImGui::EndCombo();
+				}
+				// Delete Component
+				if (ImGui::Button("Delete Text Component"))
+				{
+					m_inspectedGO->RemoveComponent(C_CPText);
+				}
+
+
+			}
+			
 		}
 		//----------------------------------------INSPECT COMPONENTS WINDOW---------------------------------------
 

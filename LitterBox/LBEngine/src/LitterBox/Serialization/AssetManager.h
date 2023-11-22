@@ -99,6 +99,8 @@ namespace LB
         **************************************************************************/
         void ImportAssets();
 
+        std::vector<std::filesystem::path> GetNewFiles();
+
         
         //e.g "Boom" : Shared_Ptr to audio clip
         std::map<std::string, FMOD::Sound*> SoundMap;
@@ -170,6 +172,8 @@ namespace LB
         * Usage : GetTextureIndex("amongus") where amongus is a png
         **************************************************************************/ 
         const int GetTextureIndex(const std::string& name);
+
+        //std::vector<std::string> fontNames;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                      KEYCODE STUFF

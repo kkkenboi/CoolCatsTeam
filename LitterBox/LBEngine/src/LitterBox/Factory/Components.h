@@ -30,6 +30,8 @@
 #include "LitterBox/Components/ScriptComponent.h"
 #include "LitterBox/Components/CPPScriptComponent.h"
 #include "LitterBox/Components/TextComponent.h"
+#include "LitterBox/Components/AudioSourceComponent.h"
+#include "LitterBox/Components/TextComponent.h"
 
 namespace LB
 {

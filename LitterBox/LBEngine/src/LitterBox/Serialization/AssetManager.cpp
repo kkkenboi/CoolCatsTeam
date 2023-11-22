@@ -194,7 +194,7 @@ namespace LB
         cachedTexture->stbBuffer = stbi_load(fileName.c_str(), &cachedTexture->width, &cachedTexture->height, &cachedTexture->fluff, 4);
         if(!cachedTexture->stbBuffer)
         {
-            DebuggerLogErrorFormat("Texture filepath %s not found!", fileName.c_str());
+            DebuggerLogWarningFormat("Texture filepath %s not found!", fileName.c_str());
             //std::string funnyPng{"Assets/Textures/despair.png"};
             //cachedTexture->stbBuffer = stbi_load(funnyPng.c_str(),&cachedTexture->width,&cachedTexture->height,&cachedTexture->fluff,4);
             cachedTexture->id = 0;
@@ -228,13 +228,26 @@ namespace LB
         //We also need to initialise the metafilemap with the the metadata, and all of this is also
         //generated when we import our assets. We should only ever call this function ONCE.
 
-        //We want to also create/update the meta file everytime we import
-        Document _metaFile;
+        //First we get the meta file data and put it into a vector
+        Document _metaFile;// = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("MetaFiles.json").string());
         Document::AllocatorType& metaAlloc = _metaFile.GetAllocator();
 
-        //We grab all the files and put them into a vector (I don't concate them because I need them separate)
         std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
+        std::vector<std::filesystem::path> ttfFontPaths = FILESYSTEM->GetFilesOfType(".ttf");
+        std::vector<std::filesystem::path> otfFontPaths = FILESYSTEM->GetFilesOfType(".otf");
+
+        //Adding the fonts to the asset map first, probably add it to the meta file in the future
+        for (const auto& f : ttfFontPaths)
+        {
+            assetMap[f.filename().stem().string()] = f.string();
+        }
+        for (const auto& f : otfFontPaths)
+        {
+            assetMap[f.filename().stem().string()] = f.string();
+        }
+
+        //We grab all the files and put them into a vector (I don't concate them because I need them separate)
         //Now we start making the meta file
         _metaFile.SetObject();
         for (const auto& t : TextureFilePaths)
@@ -273,6 +286,55 @@ namespace LB
         JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("MetaFiles.json").string(), _metaFile);
     }
 
+    std::vector<std::filesystem::path> AssetManager::GetNewFiles()
+    {
+        //This will contain the paths to new files
+        std::vector<std::filesystem::path> NewFiles;
+
+        //We want to also create/update the meta file everytime we import
+        Document _metaFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("MetaFiles.json").string());
+        Document::AllocatorType& metaAlloc = _metaFile.GetAllocator();
+
+        //This vector will contain the OLD meta file paths
+        std::vector<std::filesystem::path> metaPaths;
+        //We load up the metapath with the OLD ones from file
+        for (Value::ConstMemberIterator itr = _metaFile.MemberBegin();
+            itr != _metaFile.MemberEnd(); ++itr)
+        {
+            //We make a filepath from it first and check if it exists
+            std::filesystem::path metaFilePath{ itr->name.GetString() };
+            if (std::filesystem::exists(metaFilePath))
+            {
+                metaPaths.push_back(std::filesystem::path{ itr->name.GetString() });
+            } //if it doesn't exist then we just don't add it
+            //I think this should be okay since we haven't created any textures yet
+        }
+        //We need to sort this because we're going to compare the set differences...
+        std::sort(metaPaths.begin(), metaPaths.end());
+
+
+        //Now we make a vector that will contain ALL the files
+        std::vector<std::filesystem::path> AllFiles;
+        //Grab ALL sounds and ALL textures
+        std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
+        std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
+        //Sort them so we can merge the two vectors 
+        std::sort(TextureFilePaths.begin(), TextureFilePaths.end());
+        std::sort(SoundFilePaths.begin(), SoundFilePaths.end());
+        //We merge it into the vector of AllNewFiles so we can cross compare with the OLD metapaths
+        std::merge(TextureFilePaths.begin(), TextureFilePaths.end(), SoundFilePaths.begin(), SoundFilePaths.end(),
+            std::back_inserter(AllFiles));
+
+
+        //We take ALLFiles - OLDFiles = NEWFiles
+        std::set_difference(AllFiles.begin(), AllFiles.end(),
+            metaPaths.begin(), metaPaths.end(),
+            std::inserter(NewFiles, NewFiles.begin()));
+
+        //Uncomment to check for the files
+        //for (const auto& path : NewFiles) {std::cout << "new paths : " << path.stem().string() << '\n';}
+        return NewFiles;
+    }
 
     /*!***********************************************************************
     * \brief 
@@ -453,7 +515,8 @@ namespace LB
         //We need to load the keycode table from json first
         LoadKeyCodeTable();
         //Can probablyyyyy use the filesystem for this in the future
-        Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyBinds.json");
+        //Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyBinds.json");
+        Document _jsonFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("KeyBinds.json").string());
         //Then we get the keybinds json and go through each member
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
@@ -480,7 +543,8 @@ namespace LB
     **************************************************************************/    
     void AssetManager::LoadKeyCodeTable()
     {
-        Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyCodeTable.json");
+        //Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyCodeTable.json");
+        Document _jsonFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("KeyCodeTable.json").string());
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
         {
@@ -514,7 +578,7 @@ namespace LB
             Value val(elem.second.c_str(), alloc);
             _jsonFile.AddMember(key, val, alloc);
         }
-        JSONSerializer::SaveToJSON("Editor/Jason/KeyBinds.json", _jsonFile);
+        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyBinds.json").string(), _jsonFile);
         //To test if the keycode and string to keycode function works
         //std::cout << KeyCodeToString(StringToKeyCode("KEY_J")) << '\n';
     }
@@ -561,6 +625,6 @@ namespace LB
             Value key(elem.first.c_str(), alloc);
             _jsonFile.AddMember(key, elem.second, alloc);
         }
-        JSONSerializer::SaveToJSON("Editor/Jason/KeyCodeTable.json", _jsonFile);
+        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyCodeTable.json").string(), _jsonFile);
     }
 }

@@ -170,6 +170,18 @@ namespace LB
 			m_Components[C_CPScriptCPP]->Serialize(CPPScriptComponent, alloc);
 			data.AddMember("CPPScript", CPPScriptComponent, alloc);
 		}
+		if (m_Components.find(C_CPAudioSource) != m_Components.end())
+		{
+			Value AudioSourceComponent;
+			m_Components[C_CPAudioSource]->Serialize(AudioSourceComponent, alloc);
+			data.AddMember("AudioSource", AudioSourceComponent, alloc);
+		}
+		if (m_Components.find(C_CPText) != m_Components.end())
+		{
+			Value TextComponent;
+			m_Components[C_CPText]->Serialize(TextComponent, alloc);
+			data.AddMember("Text", TextComponent, alloc);
+		}
 		return true;
 	}
 
@@ -188,6 +200,8 @@ namespace LB
 		bool HasRender = data.HasMember("Render");
 		bool HasCollider = data.HasMember("Collider");
 		bool HasCPPScript = data.HasMember("CPPScript");
+		bool HasAudio = data.HasMember("AudioSource");
+		bool HasText = data.HasMember("Text");
 		if (data.IsObject())
 		{
 			if (HasName)
@@ -247,6 +261,26 @@ namespace LB
 				const Value& colliderValue = data["Collider"];
 				m_Components[C_CPCollider]->Deserialize(colliderValue);
 				DebuggerLogFormat("coll size %d", this->GetComponent<CPCollider>()->m_widthUnscaled);
+			}
+			if (HasAudio)
+			{
+				if (m_Components.find(C_CPAudioSource) == m_Components.end())
+				{
+					DebuggerLog("Deserialize: GO doesn't have a Audio Source :C so we make one");
+					AddComponent(C_CPAudioSource, FACTORY->GetCMs()[C_CPAudioSource]->Create());
+				}
+				const Value& audioSourceValue = data["AudioSource"];
+				m_Components[C_CPAudioSource]->Deserialize(audioSourceValue);
+			}
+			if (HasText)
+			{
+				if (m_Components.find(C_CPText) == m_Components.end())
+				{
+					DebuggerLog("Deserialize: GO doesn't have a Text Component :C so we make one");
+					AddComponent(C_CPText, FACTORY->GetCMs()[C_CPText]->Create());
+				}
+				const Value& textValue = data["Text"];
+				m_Components[C_CPText]->Deserialize(textValue);
 			}
 		}
 		this->StartComponents();
