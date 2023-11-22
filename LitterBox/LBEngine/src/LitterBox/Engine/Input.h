@@ -30,7 +30,8 @@ namespace LB {
 	{
 		//1 to 1 mapping to GLFW enums
 		KEY_MOUSE_1 = GLFW_MOUSE_BUTTON_1,
-		KEY_MOUSE_2,
+		KEY_MOUSE_2, KEY_MOUSE_3, KEY_MOUSE_4,
+		KEY_MOUSE_5,
 
 		KEY_0 = GLFW_KEY_0,
 		KEY_1, KEY_2, KEY_3,
@@ -39,14 +40,28 @@ namespace LB {
 
 		KEY_A = GLFW_KEY_A,
 		KEY_B, KEY_C, KEY_D,
-		KEY_E, KEY_F, KEY_G, 
-		KEY_H, KEY_I, KEY_J, 
-		KEY_K, KEY_L, KEY_M, 
-		KEY_N, KEY_O, KEY_P, 
-		KEY_Q, KEY_R, KEY_S, 
-		KEY_T, KEY_U, KEY_V, 
-		KEY_W, KEY_X, KEY_Y, 
+		KEY_E, KEY_F, KEY_G,
+		KEY_H, KEY_I, KEY_J,
+		KEY_K, KEY_L, KEY_M,
+		KEY_N, KEY_O, KEY_P,
+		KEY_Q, KEY_R, KEY_S,
+		KEY_T, KEY_U, KEY_V,
+		KEY_W, KEY_X, KEY_Y,
 		KEY_Z,
+
+		KEY_ESCAPE = GLFW_KEY_ESCAPE,
+		KEY_ENTER, KEY_TAB, KEY_BACKSPACE,
+		KEY_INSERT, KEY_DELETE, KEY_RIGHT,
+		KEY_LEFT, KEY_DOWN, KEY_UP,
+
+		KEY_F1 = GLFW_KEY_F1, 
+		KEY_F2, KEY_F3, KEY_F4, 
+		KEY_F5, KEY_F6, KEY_F7, 
+		KEY_F8, KEY_F9, KEY_F10, 
+		KEY_F11, KEY_F12,
+
+		KEY_LEFTSHIFT = GLFW_KEY_LEFT_SHIFT,
+		KEY_LEFTCONTROL, KEY_LEFTALT
 	};
 
 	/*!***********************************************************************
