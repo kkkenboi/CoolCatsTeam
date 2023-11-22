@@ -1,0 +1,303 @@
+{
+    "Root": {
+        "Position": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "MainChar",
+                "Transform": {
+                    "Position": {
+                        "x": 1056.53,
+                        "y": 421.22
+                    },
+                    "Scale": {
+                        "x": 1.25,
+                        "y": 1.25
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": false
+                },
+                "Render": {
+                    "Texture": 15
+                },
+                "Collider": {
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Player"
+                }
+            },
+            {
+                "Name": "Bush_1",
+                "Transform": {
+                    "Position": {
+                        "x": 337.0,
+                        "y": 613.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": 3
+                }
+            },
+            {
+                "Name": "Bush_2",
+                "Transform": {
+                    "Position": {
+                        "x": 1147.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": 3
+                }
+            },
+            {
+                "Name": "Bush_3",
+                "Transform": {
+                    "Position": {
+                        "x": 896.0,
+                        "y": 221.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": 3
+                }
+            },
+            {
+                "Name": "ball",
+                "Transform": {
+                    "Position": {
+                        "x": 800.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 0.3,
+                        "y": 0.3
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": false
+                },
+                "Render": {
+                    "Texture": 17
+                },
+                "Collider": {
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "NorthWall",
+                "Transform": {
+                    "Position": {
+                        "x": 800.0,
+                        "y": 835.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 1500.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "South Wall",
+                "Transform": {
+                    "Position": {
+                        "x": 800.0,
+                        "y": 68.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 1500.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "WestWall",
+                "Transform": {
+                    "Position": {
+                        "x": 75.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 800.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "EastWall",
+                "Transform": {
+                    "Position": {
+                        "x": 1530.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 800.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "EnemyChaser1",
+                "Transform": {
+                    "Position": {
+                        "x": 747.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.25,
+                        "y": 1.25
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": false
+                },
+                "Render": {
+                    "Texture": 7
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Enemy"
+                }
+            },
+            {
+                "Name": "Flag",
+                "Transform": {
+                    "Position": {
+                        "x": 303.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": 16
+                }
+            },
+            {
+                "Name": "ButtObject",
+                "Transform": {
+                    "Position": {
+                        "x": 200.0,
+                        "y": 700.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 190.0,
+                    "Height": 80.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Butt"
+                }
+            }
+        ]
+    }
+}

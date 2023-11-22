@@ -1,5 +1,4 @@
 project "LBEditor"
-    kind "ConsoleApp" -- Outputs a console
     staticruntime "On"
 
     language "C++"
@@ -33,7 +32,6 @@ project "LBEditor"
         "%{IncludeDir.FMOD}",
         "%{IncludeDir.RapidJSON}",
         "%{IncludeDir.Mono}"
-
     }
 
     postbuildcommands
@@ -45,29 +43,44 @@ project "LBEditor"
         "xcopy \"%{wks.location}LBEditor\\Editor\" \"$(TargetDir)Editor\" /Y /I /E",
         "xcopy \"%{wks.location}LBEditor\\Logs\" \"$(TargetDir)Logs\" /Y /I /E",
         "xcopy \"%{wks.location}LBEditor\\imgui.ini\" \"$(TargetDir)\" /Y /I /E",
+        "xcopy \"%{wks.location}LBEditor\\CSharpAssembly.dll\" \"$(TargetDir)\" /Y /I /E",
 
         "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBEditor\"",
         "{COPYFILE} \"%{wks.location}dependencies/FreeType/objs/freetype.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBEditor\"",
         "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\LBEditor\" /y",
-        "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\LBEditor\\Editor\\mono\\4.5\" /y /i /s",
+        "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\LBEditor\\Library\\mono\\4.5\" /y /i /s",
     }
 
     -- Link to our engine library
     links
     {
         "LBEngine",
-        "LBMonoDLL"
+        "LBMono"
     }
 
     filter "system:windows"
         systemversion "latest"
 
-    filter "configurations:Debug"
+    filter "configurations:Release"
+        kind "None" 
+        runtime "Release" -- uses the release Runtime Library
+        optimize "On"
+        architecture "x86_64"
+
+    filter "configurations:Editor"
+        kind "ConsoleApp" -- Outputs a console
         runtime "Debug" -- uses the debug Runtime Library
         symbols "On"
         architecture "x86_64"
 
-    filter "configurations:Release"
+    filter "configurations:Engine"
+        kind "None" 
+        runtime "Release" -- uses the release Runtime Library
+        optimize "On"
+        architecture "x86_64"
+
+    filter "configurations:Mono"
+        kind "None" 
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"

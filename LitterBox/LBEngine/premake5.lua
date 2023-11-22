@@ -1,5 +1,4 @@
 project "LBEngine"
-    kind "StaticLib" -- Engine Library
     staticruntime "On"
 
     language "C++"
@@ -30,7 +29,7 @@ project "LBEngine"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
-        "%{IncludeDir.ImGui}",
+        --"%{IncludeDir.ImGui}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.FreeType}",
@@ -62,12 +61,26 @@ project "LBEngine"
     filter "system:windows"
         systemversion "latest"
 
-    filter "configurations:Debug"
+    filter "configurations:Release"
+        kind "StaticLib" 
+        runtime "Release" -- uses the release Runtime Library
+        optimize "On"
+        architecture "x86_64"
+
+    filter "configurations:Editor"
+        kind "StaticLib"
         runtime "Debug" -- uses the debug Runtime Library
         symbols "On"
         architecture "x86_64"
 
-    filter "configurations:Release"
+    filter "configurations:Engine"
+        kind "StaticLib" -- Engine Library
+        runtime "Release" -- uses the release Runtime Library
+        optimize "On"
+        architecture "x86_64"
+
+    filter "configurations:Mono"
+        kind "None" -- Outputs a console
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"

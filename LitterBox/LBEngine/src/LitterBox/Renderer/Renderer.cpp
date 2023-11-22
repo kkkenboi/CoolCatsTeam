@@ -856,15 +856,6 @@ text_renderer{}
 }
 
 //----------For ImGUI rendering---------------
-//-------for the game view-------------
-unsigned int framebuffer;
-unsigned int textureColorbuffer;
-//-------for the game view-------------
-
-//-------for scene view--------
-unsigned int svfb;
-unsigned int svtcb;
-//-------for scene view--------
 bool imgui_ready{ false }; // to make sure ImGui doesn't render empty
 //----------For ImGUI rendering---------------
 
@@ -1003,39 +994,45 @@ void Renderer::RenderSystem::Initialize()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	//turnOnEditorMode();
+	//delete text;
+}
 
+void Renderer::RenderSystem::turnOnEditorMode() {
 	//----For rendering scene onto texture for ImGUI-------------
 	//TODO make this only applicable in editor mode
 	//TODO make the monitor dimensions based on the window instead of primary monitor
-	GLFWvidmode dimensions;
-	GLFWmonitor* mon = glfwGetPrimaryMonitor();
-	dimensions = *glfwGetVideoMode(mon);
+	if (!editor_mode) {
+		GLFWvidmode dimensions;
+		GLFWmonitor* mon = glfwGetPrimaryMonitor();
+		dimensions = *glfwGetVideoMode(mon);
 
-	glGenFramebuffers(1, &framebuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+		glGenFramebuffers(1, &framebuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
-	glGenTextures(1, &textureColorbuffer);
-	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
-	
-	glGenFramebuffers(1, &svfb);
-	glBindFramebuffer(GL_FRAMEBUFFER, svfb);
+		glGenTextures(1, &textureColorbuffer);
+		glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
 
-	glGenTextures(1, &svtcb);
-	glBindTexture(GL_TEXTURE_2D, svtcb);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, svtcb, 0);
-	
-	imgui_ready = true;
+		glGenFramebuffers(1, &svfb);
+		glBindFramebuffer(GL_FRAMEBUFFER, svfb);
+
+		glGenTextures(1, &svtcb);
+		glBindTexture(GL_TEXTURE_2D, svtcb);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, svtcb, 0);
+
+		imgui_ready = true;
+		editor_mode = true;
+	}
 	//----For rendering scene onto texture for ImGUI-------------
-	//delete text;
 }
 
 /*!***********************************************************************
@@ -1050,25 +1047,27 @@ void Renderer::RenderSystem::Update()
 {
 	//set the shader program before hand
 	glUseProgram(shader_program);
-	if (game_cam) 
+	/*if (game_cam) 
 	{
 		cam.update_ortho_cam(game_cam->getCam());
 		GLint uni_loc = glGetUniformLocation(shader_program, "cam");
 		if (uni_loc == -1)
 			DebuggerLogError("Unable to find uniform location");
 		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
-	}
+	}*/
+
 	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
 	if (uni_loc == -1)
 		DebuggerLogError("Unable to find uniform location");
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 
-	////TODO change this so it only prints to the frame buffer in editor view
-	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	if(editor_mode)
+		////TODO change this so it only prints to the frame buffer in editor view
+		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
-	// Render the game scene window
+	//Render the game scene window
 	bg_renderer.update_buff();
 	object_renderer.update_buff();
 	ui_renderer.update_buff();
@@ -1084,19 +1083,21 @@ void Renderer::RenderSystem::Update()
 	text_renderer.update_text();
 	//print all messages here
 
-	glUseProgram(shader_program);
-	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.editor_world_NDC[0][0]);
+	if (editor_mode) {
+		glUseProgram(shader_program);
+		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.editor_world_NDC[0][0]);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, svfb);
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
+		glBindFramebuffer(GL_FRAMEBUFFER, svfb);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
-	glBindVertexArray(bg_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
-	glBindVertexArray(object_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
-	//UI and TEXT don't get rendered in scene view
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindVertexArray(bg_renderer.get_vao());
+		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+		glBindVertexArray(object_renderer.get_vao());
+		glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+		//UI and TEXT don't get rendered in scene view
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 }
 
 /*!***********************************************************************

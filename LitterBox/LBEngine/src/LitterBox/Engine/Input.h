@@ -118,7 +118,7 @@ namespace LB {
 		 \brief
 		 Returns the mouse position based on the whole main window
 		*************************************************************************/
-		Vec2<double> const& GetMousePos();
+		Vec2<float> const& GetMousePos();
 
 		/*!***********************************************************************
 		 \brief
@@ -168,7 +168,7 @@ namespace LB {
 		*************************************************************************/
 		std::map<KeyCode, Key> inputKeys, inputKeysPausable;
 
-		Vec2<double> mousePos;
+		Vec2<float> mousePos;
 
 		bool inputKeysLast[GLFW_KEY_LAST] { false }, inputKeysCurr[GLFW_KEY_LAST]{ false };
 	};
