@@ -956,31 +956,6 @@ void Renderer::RenderSystem::Initialize()
 
 	test2 = DBG_NEW LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
 
-
-	button = DBG_NEW textbutt{};
-	button->text.update_msg_text("BUTTON");
-
-	button->background.position = { 200.f, 700.f };
-	button->background.w = 190.f;
-	button->background.h = 80.f;
-	button->update_text();
-
-	text = DBG_NEW LB::CPText{};
-	text->Initialise();
-	text->update_msg_text("Font Type 1");
-	text->update_msg_color({ 1.f, 0.f, 1.f });
-	text->update_msg_size(2.f);
-	text->update_msg_pos({ 20.f, 20.f });
-	text->update_msg_font("KernlGrotesk");
-
-	text2 = DBG_NEW LB::CPText{};
-	text2->Initialise();
-	text2->update_msg_text("Font Type 2");
-	text2->update_msg_color({ 1.f, 1.f, 1.f });
-	text2->update_msg_size(2.f);
-	text2->update_msg_pos({ 20.f, 120.f });
-	text2->update_msg_font("TiltNeon-Regular");
-
 	test2->texture = LB::ASSETMANAGER->GetTextureUnit("bg");
 	test2->uv[0].x = 0.f;
 	test2->uv[0].y = 0.f;

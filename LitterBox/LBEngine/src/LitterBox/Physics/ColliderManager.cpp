@@ -48,6 +48,9 @@ namespace LB
 		{
 			m_colliderPool[i] = nullptr;
 		}
+
+		// Initialize the ColliderLayerSystem
+		m_layerSystem.Initialize();
 	}
 
 	/*!***********************************************************************
@@ -115,15 +118,18 @@ namespace LB
 			{
 				continue;
 			}
-
+			
 			if (m_colliderPool[i]->m_shape == COL_POLYGON) 
 			{
+				//std::cout << position.x << ", " << position.y << std::endl;
 				if (CollisionIntersection_CirclePolygon_SAT(position, radius,
 					m_colliderPool[i]->m_transformedVerts, normal, depth))
 				{
 					vec_overlapped.push_back(m_colliderPool[i]);
 				}
+				
 			}
+			
 			if (m_colliderPool[i]->m_shape == COL_CIRCLE) 
 			{
 				if (CollisionIntersection_CircleCircle(position, m_colliderPool[i]->m_pos,
@@ -132,6 +138,7 @@ namespace LB
 					vec_overlapped.push_back(m_colliderPool[i]);
 				}
 			}
+			
 		}
 
 		return vec_overlapped;
@@ -208,6 +215,13 @@ namespace LB
 			break;
 		}
 	}
+
+	
+	ColliderLayerSystem& ColliderManager::GetLayerSystem()
+	{
+		return m_layerSystem;
+	}
+	
 
 	// ===
 	// END OF ColliderManager member functions
@@ -385,6 +399,13 @@ namespace LB
 					}
 				}
 
+				// Check if layers can be collided with, if cannot collide, continue
+				if (!this->GetLayerSystem().ShouldLayerCollide(colA->m_collisionlayer, colB->m_collisionlayer))
+				{
+					continue;
+				}
+				
+
 				// Normal here is moving B away from A
 				if (CheckColliders(colA, colB, normal_out, depth_out))
 				{
@@ -409,6 +430,14 @@ namespace LB
 						}
 
 						ResolveColliders(colA, colB, normal_out, depth_out);
+						
+						// _COLLISIONDATA is a struct that contains
+						// the Collision Data that includes colA and colB, check unity Collision2D
+						/*
+						if (colA->m_gameobj->HasComponent<CPPGameLogic>()) {
+							colA->m_gameobj->GetComponent<CPPGameLogic>().onCollisionEnter(_COLLISIONDATA)
+						}
+						*/
 					}
 				}
 			}

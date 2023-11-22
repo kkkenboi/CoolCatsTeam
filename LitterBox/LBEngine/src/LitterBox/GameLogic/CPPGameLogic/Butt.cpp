@@ -13,6 +13,7 @@
  disclosure of this file or its contents without the prior written consent
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
+#include "Platform/Windows/Windows.h"
 #include "Butt.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Engine/Input.h"
@@ -44,10 +45,13 @@ namespace LB {
 			auto test = COLLIDERS->OverlapCircle(INPUT->GetMousePos(), 1.f);
 
 			for (const auto& collider : test) {
-				if (coll == collider)
+				if (coll == collider) {
 					DebuggerLog("UI BUTTON CLICKED");
+				}
 			}
 		}
+
+		//std::cout << "BUTT SCRIPT\n";
 	}
 	/*!***********************************************************************
 	\brief
