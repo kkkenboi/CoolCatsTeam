@@ -89,27 +89,23 @@ namespace LB
 			transform = gameObj->GetComponent<CPTransform>();
 			initialized = true;
 		}
-		bool Serialize(Value& data, Document::AllocatorType& alloc) override
-		{
-			data.SetObject();
-			Value textureName;
-			data.AddMember("Texture", texture, alloc);
-			return true;
-		}
-		bool Deserialize(const Value& data) override
-		{
-			bool HasTexture = data.HasMember("Texture");
-			if (data.IsObject())
-			{
-				if (HasTexture)
-				{
-					const Value& textureValue = data["Texture"];
-					texture = textureValue.GetInt();
-					return true;
-				}
-			}
-			return false;
-		}
+
+		/*!************************************************************************
+		 * \brief 
+		 * Saves the texture name to file
+		 * \return 
+		 * Returns if the serialization succeeded
+		**************************************************************************/
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override;
+
+		/*!************************************************************************
+		 * \brief 
+		 * Reads the texture name and sets the ID appropriately
+		 * \return 
+		 * If the Deserialization succeeded 
+		**************************************************************************/
+		bool Deserialize(const Value& data) override;
+		
 		/*!***********************************************************************
 		\brief
 		 Gets the quad_id of the component that was given to it during construction.

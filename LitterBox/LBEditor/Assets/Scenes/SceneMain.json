@@ -30,7 +30,7 @@
                     "IsStatic": false
                 },
                 "Render": {
-                    "Texture": 15
+                    "Texture": "Felix"
                 },
                 "Collider": {
                     "Shape": 0,
@@ -56,7 +56,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 3
+                    "Texture": "Bush_1"
                 }
             },
             {
@@ -73,7 +73,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 3
+                    "Texture": "Bush_1"
                 }
             },
             {
@@ -90,7 +90,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 3
+                    "Texture": "Bush_1"
                 }
             },
             {
@@ -113,13 +113,20 @@
                     "IsStatic": false
                 },
                 "Render": {
-                    "Texture": 17
+                    "Texture": "GolfBall"
                 },
                 "Collider": {
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Radius": 50.0
+                },
+                "AudioSource": {
+                    "AudioClipName": "Clown-Horn_SFX",
+                    "Play On Awake": true,
+                    "Loop": true,
+                    "Volume": 1.0,
+                    "Pitch": 1.0
                 }
             },
             {
@@ -246,7 +253,7 @@
                     "IsStatic": false
                 },
                 "Render": {
-                    "Texture": 7
+                    "Texture": "Chaser"
                 },
                 "Collider": {
                     "Shape": 1,
@@ -272,14 +279,14 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 16
+                    "Texture": "Flag"
                 }
             },
             {
                 "Name": "ButtObject",
                 "Transform": {
                     "Position": {
-                        "x": 200.0,
+                        "x": 230.0,
                         "y": 700.0
                     },
                     "Scale": {
