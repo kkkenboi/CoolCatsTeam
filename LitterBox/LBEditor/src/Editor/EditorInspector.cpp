@@ -353,6 +353,23 @@ namespace LB
 			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				// Interface Buttons
+				ImGui::Text("%-19s", "Layer");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				if (ImGui::BeginCombo("##Layer", m_inspectedGO->GetComponent<CPCollider>()->GetLayerName().c_str()))
+				{
+
+					for (auto& [str, type] : COLLIDERS->GetLayerSystem().GetLayerVector())
+					{
+						if (ImGui::Selectable(str.c_str()))
+						{
+							m_inspectedGO->GetComponent<CPCollider>()->m_collisionlayer = type;
+						}
+					}
+					ImGui::EndCombo();
+				}
+
+
 				float width = m_inspectedGO->GetComponent<CPCollider>()->m_widthUnscaled;
 				ImGui::Text("%-19s", "Width");
 				ImGui::SameLine();

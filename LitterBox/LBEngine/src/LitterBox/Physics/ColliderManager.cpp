@@ -48,6 +48,9 @@ namespace LB
 		{
 			m_colliderPool[i] = nullptr;
 		}
+
+		// Initialize the ColliderLayerSystem
+		m_layerSystem.Initialize();
 	}
 
 	/*!***********************************************************************
@@ -212,6 +215,13 @@ namespace LB
 			break;
 		}
 	}
+
+	
+	ColliderLayerSystem& ColliderManager::GetLayerSystem()
+	{
+		return m_layerSystem;
+	}
+	
 
 	// ===
 	// END OF ColliderManager member functions
@@ -389,6 +399,13 @@ namespace LB
 					}
 				}
 
+				// Check if layers can be collided with, if cannot collide, continue
+				if (!this->GetLayerSystem().ShouldLayerCollide(colA->m_collisionlayer, colB->m_collisionlayer))
+				{
+					continue;
+				}
+				
+
 				// Normal here is moving B away from A
 				if (CheckColliders(colA, colB, normal_out, depth_out))
 				{
@@ -413,6 +430,14 @@ namespace LB
 						}
 
 						ResolveColliders(colA, colB, normal_out, depth_out);
+						
+						// _COLLISIONDATA is a struct that contains
+						// the Collision Data that includes colA and colB, check unity Collision2D
+						/*
+						if (colA->m_gameobj->HasComponent<CPPGameLogic>()) {
+							colA->m_gameobj->GetComponent<CPPGameLogic>().onCollisionEnter(_COLLISIONDATA)
+						}
+						*/
 					}
 				}
 			}
