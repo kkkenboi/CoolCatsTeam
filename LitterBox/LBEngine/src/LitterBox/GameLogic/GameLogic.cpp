@@ -38,7 +38,6 @@ namespace LB
 		SetSystemName("Game Logic System");
 
 		mono_set_assemblies_path("Editor;Library"); // Find the mscorlib.dll in the ./Editor/mono/4.5 sub folder
-		//mono_set_assemblies_path("Library"); // Find the mscorlib.dll in the ./Editor/mono/4.5 sub folder
 
 		m_domain = mono_jit_init("LitterBoxEngine");
 		DebuggerAssert(m_domain, "[Mono] LitterBoxEngine domain could not be created!");
