@@ -12,7 +12,7 @@ namespace LB
 		//std::array<std::array<LB::Vec2<float>, animCount>, frameCount> frames[animCount];
 		static ComponentTypeID GetType()
 		{
-			return C_CPAnimator;
+			//return C_CPAnimator;
 		}
 
 		//struct AnimationData
@@ -41,6 +41,7 @@ namespace LB
 
 		void StartAnimation(const std::string& animationName);
 		
+
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override;
 

@@ -41,18 +41,18 @@ namespace LB
 	//animation name and the frame will just increment when then add by itself, so they do not need to remember it ya know
 	//so right maybe I will need to have to create a counter where it incrememnt the frames as the user creates, and if he deletes, he delete and
 	//I decrement the counter
-	void CPAnimator::SetAnimation(const std::string animationName, int animCount, float timer) //I want it to allow the user to set the name of the animation
-	{
-		frames.resize(animCount, std::vector<LB::Vec2<float>>(frameCount));
-		std::vector<LB::Vec2<float>*> pointers(frames.size());
+	//void CPAnimator::SetAnimation(const std::string animationName, int animCount, float timer) //I want it to allow the user to set the name of the animation
+	//{
+	//	frames.resize(animCount, std::vector<LB::Vec2<float>>(frameCount));
+	//	std::vector<LB::Vec2<float>*> pointers(frames.size());
 
-		for (size_t i = 0; i < frames.size(); ++i) 
-		{
-			pointers[i] = frames[i].data();  // Get the pointer to the data of each inner vector
-		}
+	//	for (size_t i = 0; i < frames.size(); ++i) 
+	//	{
+	//		pointers[i] = frames[i].data();  // Get the pointer to the data of each inner vector
+	//	}
 
-		Renderer::GRAPHICS->init_anim(animationName, pointers.data(), timer, frameCount);
-	}
+	//	Renderer::GRAPHICS->init_anim(animationName, pointers.data(), timer, frameCount);
+	//}
 
 	void CPAnimator::StartAnimation(const std::string& animationName)
 	{

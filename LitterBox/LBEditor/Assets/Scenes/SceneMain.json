@@ -355,10 +355,42 @@
                         "Color": {
                             "x": 0.07,
                             "y": 0.1,
-                            "z": 0.94
+                            "z": 0.93
                         },
                         "Font name": "TiltNeon-Regular"
                     }
+                }
+            },
+            {
+                "Name": "Mage",
+                "Transform": {
+                    "Position": {
+                        "x": 542.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.25,
+                        "y": 1.25
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": false
+                },
+                "Render": {
+                    "Texture": "nugget"
+                },
+                "Collider": {
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Mage"
                 }
             }
         ]
