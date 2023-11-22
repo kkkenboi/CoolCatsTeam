@@ -453,7 +453,8 @@ namespace LB
         //We need to load the keycode table from json first
         LoadKeyCodeTable();
         //Can probablyyyyy use the filesystem for this in the future
-        Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyBinds.json");
+        //Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyBinds.json");
+        Document _jsonFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("KeyBinds.json").string());
         //Then we get the keybinds json and go through each member
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
@@ -480,7 +481,8 @@ namespace LB
     **************************************************************************/    
     void AssetManager::LoadKeyCodeTable()
     {
-        Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyCodeTable.json");
+        //Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyCodeTable.json");
+        Document _jsonFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("KeyCodeTable.json").string());
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
         {
@@ -514,7 +516,7 @@ namespace LB
             Value val(elem.second.c_str(), alloc);
             _jsonFile.AddMember(key, val, alloc);
         }
-        JSONSerializer::SaveToJSON("Editor/Jason/KeyBinds.json", _jsonFile);
+        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyBinds.json").string(), _jsonFile);
         //To test if the keycode and string to keycode function works
         //std::cout << KeyCodeToString(StringToKeyCode("KEY_J")) << '\n';
     }
@@ -561,6 +563,6 @@ namespace LB
             Value key(elem.first.c_str(), alloc);
             _jsonFile.AddMember(key, elem.second, alloc);
         }
-        JSONSerializer::SaveToJSON("Editor/Jason/KeyCodeTable.json", _jsonFile);
+        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyCodeTable.json").string(), _jsonFile);
     }
 }

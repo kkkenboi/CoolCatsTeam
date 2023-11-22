@@ -12,15 +12,14 @@ project "PurrfectPutt"
     files
     {
         "./**.json",
-        "src/**.h",
-        "src/**.cpp",
+        "**.cpp"
     }
 
     -- Includes for any additional dependencies for this project
     includedirs
     {
         "%{wks.location}/LBEngine/src",
-        "%{wks.location}/PurrfectPutt/src",
+        "%{wks.location}/PurrfectPutt",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
@@ -35,11 +34,9 @@ project "PurrfectPutt"
 
     postbuildcommands
     {
-        "mkdir \"$(TargetDir)Builds\"",
 
         "xcopy \"%{wks.location}PurrfectPutt\\Assets\" \"$(TargetDir)Assets\" /Y /I /E",
-        "xcopy \"%{wks.location}PurrfectPutt\\Builds\" \"$(TargetDir)Builds\" /Y /I /E",
-        "xcopy \"%{wks.location}PurrfectPutt\\Editor\" \"$(TargetDir)Editor\" /Y /I /E",
+        "xcopy \"%{wks.location}PurrfectPutt\\Library\" \"$(TargetDir)Library\" /Y /I /E",
         "xcopy \"%{wks.location}PurrfectPutt\\Logs\" \"$(TargetDir)Logs\" /Y /I /E",
         "xcopy \"%{wks.location}PurrfectPutt\\CSharpAssembly.dll\" \"$(TargetDir)\" /Y /I /E",
 
