@@ -1,5 +1,7 @@
 #include "LitterBox.h"
 
+#include "LitterBox/Core/Core.h"
+
 #include <windows.h>
 
 #include <stdlib.h>
@@ -16,6 +18,7 @@ int WINAPI WinMain(_In_ HINSTANCE instanceH, _In_opt_ HINSTANCE prevInstanceH, _
 	//UNREFERENCED_PARAMETER(argv);
 
 	auto app = LB::CreateApplication();
+	LB::CORE->SetPlayingMode(true);
 	while (app->IsRunning()) 
 	{
 		app->Run();

@@ -45,7 +45,7 @@ namespace LB
 		CORE->onPlayingModeToggle.Subscribe(LB::SceneOnPlayToggle);
 
 		// TODO: Lookup table for scene names, arranged where 0 index is loaded first!
-		LoadScene("SceneMain");
+		LoadScene("SceneMainMenu");
 	}
 
 	/*!***********************************************************************

@@ -99,6 +99,8 @@ namespace LB
         **************************************************************************/
         void ImportAssets();
 
+        std::vector<std::filesystem::path> GetNewFiles();
+
         
         //e.g "Boom" : Shared_Ptr to audio clip
         std::map<std::string, FMOD::Sound*> SoundMap;
