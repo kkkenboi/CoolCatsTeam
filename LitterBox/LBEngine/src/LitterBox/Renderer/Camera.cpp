@@ -122,4 +122,9 @@ namespace Renderer {
 
 		editor_world_NDC = editor_ortho * free_cam_coords;
 	}
+
+	glm::mat4 Camera::get_nel() const
+	{
+		return nel;
+	}
 }
