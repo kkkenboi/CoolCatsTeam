@@ -15,7 +15,7 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 #pragma once
-
+#include "LitterBox/Serialization/Serializer.h"
 namespace Renderer {
 
 	//----------------------------------------ANIMATION--------------------------------
@@ -143,5 +143,55 @@ namespace Renderer {
 		float x{}, y{}, scale{};
 		LB::Vec3<float> color{};
 		std::string font_file_name_wo_ext{};
+		bool Serialize(Value& data, Document::AllocatorType& alloc)
+		{
+			DebuggerLog("Serializing message");
+			data.SetObject();
+			Value textValue(text.c_str(), alloc);
+			data.AddMember("text", textValue, alloc);
+			data.AddMember("x", x, alloc);
+			data.AddMember("y", y, alloc);
+			data.AddMember("scale", scale, alloc);
+			Value colorValue;
+			if (color.Serialize(colorValue, alloc))
+			{
+				data.AddMember("Color", colorValue, alloc);
+			}
+			else return false;
+			Value fontNameValue(font_file_name_wo_ext.c_str(), alloc);
+			data.AddMember("Font name", fontNameValue, alloc);
+			return true;
+
+		}
+		bool Deserialize(const Value& data)
+		{
+			bool HasText = data.HasMember("text");
+			bool HasX = data.HasMember("x");
+			bool HasY = data.HasMember("y");
+			bool HasScale = data.HasMember("scale");
+			bool HasColor = data.HasMember("Color");
+			bool HasFontName = data.HasMember("Font name");
+			if (HasText)
+			{
+				const Value& textValue = data["text"];
+				text = textValue.GetString();
+			}
+			if (HasX && HasY && HasScale && HasColor)
+			{
+				const Value& xValue = data["x"];
+				const Value& yValue = data["y"];
+				const Value& scaleValue = data["scale"];
+				const Value& colorValue = data["Color"];
+				x = xValue.GetFloat(); y = yValue.GetFloat();
+				scale = scaleValue.GetFloat();
+				color.Deserialize(colorValue);
+			}
+			if (HasFontName)
+			{
+				const Value& textValue = data["Font name"];
+				font_file_name_wo_ext = textValue.GetString();
+			}
+			return true;
+		}
 	};
 }

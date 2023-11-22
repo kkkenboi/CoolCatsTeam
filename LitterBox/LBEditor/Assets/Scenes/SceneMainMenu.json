@@ -24,7 +24,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 20
+                    "Texture": "Main_Menu_M2"
                 }
             },
             {
@@ -144,7 +144,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 18
+                    "Texture": "lefthand"
                 }
             }
         ]
