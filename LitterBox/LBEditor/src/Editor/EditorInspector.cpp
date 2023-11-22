@@ -618,12 +618,12 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##TextSize", &textSize, 1.0f, 0.0f, 0.0f, "%.2f");
-				m_inspectedGO->GetComponent<CPText>()->update_msg_pos(Vec2<float>(textXPos, textYPos));
-				m_inspectedGO->GetComponent<CPText>()->update_msg_size(textSize);
+				//m_inspectedGO->GetComponent<CPText>()->update_msg_pos(Vec2<float>(textXPos, textYPos));
+				//m_inspectedGO->GetComponent<CPText>()->update_msg_size(textSize);
 
-				/*m_inspectedGO->GetComponent<CPText>()->get_msg().x = textXPos;
-				m_inspectedGO->GetComponent<CPText>()->get_msg().y = textYPos;*/
-				//m_inspectedGO->GetComponent<CPText>()->get_msg().scale = textSize;
+				m_inspectedGO->GetComponent<CPText>()->get_msg().x = textXPos;
+				m_inspectedGO->GetComponent<CPText>()->get_msg().y = textYPos;
+				m_inspectedGO->GetComponent<CPText>()->get_msg().scale = textSize;
 
 				ImGui::Text("%-19s", "Text");
 				ImGui::SameLine();
@@ -640,8 +640,8 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::ColorEdit3("##TextColor", (float*)&color);
 				col = Vec3<float>(color.x, color.y, color.z);
-				m_inspectedGO->GetComponent<CPText>()->update_msg_color(col);
-				//m_inspectedGO->GetComponent<CPText>()->get_msg().color = col;
+				//m_inspectedGO->GetComponent<CPText>()->update_msg_color(col);
+				m_inspectedGO->GetComponent<CPText>()->get_msg().color = col;
 				ImGui::Text("%-19s", "Font Name");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);
@@ -651,7 +651,8 @@ namespace LB
 					if (const ImGuiPayload* fontData = ImGui::AcceptDragDropPayload("FONT"))
 					{
 						const char* fontName = (const char*)fontData->Data;
-						m_inspectedGO->GetComponent<CPText>()->update_msg_font(fontName);
+						m_inspectedGO->GetComponent<CPText>()->get_msg().font_file_name_wo_ext = fontName;
+						//m_inspectedGO->GetComponent<CPText>()->update_msg_font(fontName);
 					}
 				}
 				if (ImGui::BeginCombo("##FontName", inspectedFontName.c_str()))
@@ -663,11 +664,18 @@ namespace LB
 						{
 							if (ImGui::Selectable(str.c_str()))
 							{
-								m_inspectedGO->GetComponent<CPText>()->update_msg_font(str);
+								//m_inspectedGO->GetComponent<CPText>()->update_msg_font(str);
+								m_inspectedGO->GetComponent<CPText>()->get_msg().font_file_name_wo_ext = str;
+
 							}
 						}
 					}
 					ImGui::EndCombo();
+				}
+				// Delete Component
+				if (ImGui::Button("Delete Text Component"))
+				{
+					m_inspectedGO->RemoveComponent(C_CPText);
 				}
 
 
