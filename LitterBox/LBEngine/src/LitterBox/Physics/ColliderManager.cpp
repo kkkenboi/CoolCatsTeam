@@ -115,15 +115,18 @@ namespace LB
 			{
 				continue;
 			}
-
+			
 			if (m_colliderPool[i]->m_shape == COL_POLYGON) 
 			{
+				//std::cout << position.x << ", " << position.y << std::endl;
 				if (CollisionIntersection_CirclePolygon_SAT(position, radius,
 					m_colliderPool[i]->m_transformedVerts, normal, depth))
 				{
 					vec_overlapped.push_back(m_colliderPool[i]);
 				}
+				
 			}
+			
 			if (m_colliderPool[i]->m_shape == COL_CIRCLE) 
 			{
 				if (CollisionIntersection_CircleCircle(position, m_colliderPool[i]->m_pos,
@@ -132,6 +135,7 @@ namespace LB
 					vec_overlapped.push_back(m_colliderPool[i]);
 				}
 			}
+			
 		}
 
 		return vec_overlapped;

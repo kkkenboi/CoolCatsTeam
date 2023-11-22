@@ -835,6 +835,10 @@ namespace LB
 	*************************************************************************/
 	bool CollisionIntersection_CirclePolygon_SAT(LB::Vec2<float> circleCenter, float circleRadius, std::vector<Vec2<float>> const& vertices, LB::Vec2<float>& normal_out, float& depth_out)
 	{
+		if (vertices.size() == 0) 
+		{
+			return false;
+		}
 		normal_out = LB::Vec2<float>{ 0.f, 0.f };
 		depth_out = 100000000.f;
 
@@ -1060,6 +1064,8 @@ namespace LB
 		for (int i = 0; i < vertices.size(); ++i)
 		{
 			LB::Vec2<float> vec = vertices[i];
+
+			std::cout << vec.x << ", " << vec.y << std::endl;
 			float dx = vertices[i].x - center.x;
 			float dy = vertices[i].y - center.y;
 			float distance = sqrt(dx * dx + dy * dy);

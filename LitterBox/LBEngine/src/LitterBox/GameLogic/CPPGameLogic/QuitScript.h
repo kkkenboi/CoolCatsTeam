@@ -44,5 +44,13 @@ namespace LB
 		 Empty Destroy function. No purpose
 		*************************************************************************/
 		void Destroy() override;
+
+		//-------------Rotation matrix values to get the left of the button---------------
+		Vec2<float> rot_row1{};
+		Vec2<float> rot_row2{};
+		Vec2<float> right_side{};
+
+		GameObject* hand{ nullptr };
+		//-------------Rotation matrix values to get the left of the button---------------
 	};
 }

@@ -24,7 +24,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 19
+                    "Texture": 20
                 }
             },
             {
@@ -100,9 +100,6 @@
                     },
                     "Rotation": 0.25
                 },
-                "Render": {
-                    "Texture": 12
-                },
                 "Collider": {
                     "Shape": 1,
                     "Width": 150.0,
@@ -131,6 +128,23 @@
                     "Width": 380.0,
                     "Height": 80.0,
                     "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Hand",
+                "Transform": {
+                    "Position": {
+                        "x": 162.0,
+                        "y": 123.0
+                    },
+                    "Scale": {
+                        "x": 6.0,
+                        "y": 7.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": 18
                 }
             }
         ]

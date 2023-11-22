@@ -22,6 +22,48 @@ namespace LB {
 	void QuitScript::Start()
 	{
 		coll = GameObj->GetComponent<CPCollider>();
+
+		float rot{ GameObj->GetComponent<CPTransform>()->GetRotation() };
+
+		//-------------Rotation matrix values to get the left of the button---------------
+		rot_row1.x = cosf(rot);
+		rot_row1.y = sinf(rot);
+
+		rot_row2.x = -sinf(rot);
+		rot_row2.y = cosf(rot);
+
+		//get the position of the object
+		right_side = GameObj->GetComponent<CPTransform>()->GetPosition();
+		Vec2<float> pos_trans{ right_side };
+
+		//move the point to the right of the game object
+		right_side.x -= (coll->m_width * 0.5f);
+		//bring the point to the origin
+		right_side -= pos_trans;
+
+		//rotate the object around the origin
+		Vec2<float> tmp{ right_side };
+		right_side.x = DotProduct(tmp, rot_row1);
+		right_side.y = DotProduct(tmp, rot_row2);
+
+		//move the point back
+		right_side += pos_trans;
+
+		//get a pointer to the hand game object
+		for (const auto& e : GOMANAGER->GetGameObjects()) {
+			if (e->GetName() != "Hand") {
+				continue;
+			}
+			hand = e;
+			break;
+		}
+
+		//get pos of hand object
+		if (!hand)
+			return;
+
+		//right_side -= (hand->GetComponent<CPTransform>()->GetPosition() * hand->GetComponent<CPTransform>()->GetScale() * 0.5f);
+		//-------------Rotation matrix values to get the left of the button---------------
 	}
 	void QuitScript::Update()
 	{
@@ -38,6 +80,18 @@ namespace LB {
 				if (coll == collider) {
 					glfwDestroyWindow(WINDOWSSYSTEM->GetWindow());
 				}
+			}
+		}
+
+		//checking if mouse is over the button
+		LB::Vec2<float> mouse{ INPUT->GetMousePos() };
+		mouse.y = mouse.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+		auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
+
+		for (const auto& collider : test) {
+			if (coll == collider) {
+
+				hand->GetComponent<CPTransform>()->SetPosition(right_side);
 			}
 		}
 	}
