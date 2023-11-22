@@ -44,7 +44,6 @@ namespace LB
 					texture = textureValue.GetInt();
 					return true;
 				}
-				//texture = textureValue.GetInt();
 				texture = ASSETMANAGER->GetTextureUnit(textureValue.GetString());
 				return true;
 			}

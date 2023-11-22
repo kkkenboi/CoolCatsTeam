@@ -234,6 +234,18 @@ namespace LB
 
         std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
+        std::vector<std::filesystem::path> ttfFontPaths = FILESYSTEM->GetFilesOfType(".ttf");
+        std::vector<std::filesystem::path> otfFontPaths = FILESYSTEM->GetFilesOfType(".otf");
+
+        //Adding the fonts to the asset map first, probably add it to the meta file in the future
+        for (const auto& f : ttfFontPaths)
+        {
+            assetMap[f.filename().stem().string()] = f.string();
+        }
+        for (const auto& f : otfFontPaths)
+        {
+            assetMap[f.filename().stem().string()] = f.string();
+        }
 
         //We grab all the files and put them into a vector (I don't concate them because I need them separate)
         //Now we start making the meta file

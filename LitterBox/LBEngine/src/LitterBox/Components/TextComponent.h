@@ -51,6 +51,12 @@ namespace LB {
 		*************************************************************************/
 		void Update() override;
 
+		bool Serialize(Value& data, Document::AllocatorType& alloc);
+		bool Deserialize(const Value& data);
+		static ComponentTypeID GetType()
+		{
+			return C_CPText;
+		}
 		/*!***********************************************************************
 		\brief
 		 Updates the text to be printed on the screen
@@ -129,5 +135,10 @@ namespace LB {
 		 contains all necessary information for the text to be printed
 		*************************************************************************/
 		inline Renderer::message& get_msg();
+
+		void set_msg(char* _msg)
+		{
+			msg.text = _msg;
+		}
 	};
 }
