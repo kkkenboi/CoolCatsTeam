@@ -32,7 +32,8 @@ namespace LB
 		C_CPScript,
 		C_CPScriptCPP,
 		C_CPCollider,
-		C_CPCamera
+		C_CPCamera,
+		C_CPAudioSource,
 	};
 
 	/*!***********************************************************************

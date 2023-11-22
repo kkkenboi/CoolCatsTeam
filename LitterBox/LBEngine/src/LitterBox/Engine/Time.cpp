@@ -10,6 +10,7 @@
 
 #include "Time.h"
 #include "LitterBox/Core/Core.h"
+#include <thread>
 
 namespace LB {
 	Time* TIME = nullptr;

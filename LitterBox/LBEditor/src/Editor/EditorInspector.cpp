@@ -21,6 +21,7 @@
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Components/RigidBodyComponent.h"
 #include "LitterBox/Components/TransformComponent.h"
+#include "LitterBox/Components/AudioSourceComponent.h"
 
 namespace LB
 {
@@ -164,6 +165,23 @@ namespace LB
 					m_inspectedGO->AddComponent(C_CPScriptCPP, FACTORY->GetCMs()[C_CPScriptCPP]->Create());
 					m_inspectedGO->GetComponent<CPScriptCPP>()->Initialise();
 					DebuggerLog("CPP Script added!");
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::Separator();
+			if (ImGui::MenuItem("Audio Source"))
+			{
+				if (m_inspectedGO->HasComponent<CPAudioSource>())
+				{
+					DebuggerLogWarning("Audio Source already exists.");
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					m_inspectedGO->AddComponent(C_CPAudioSource, FACTORY->GetCMs()[C_CPAudioSource]->Create());
+					m_inspectedGO->GetComponent<CPAudioSource>()->Initialise();
+					DebuggerLog("Audio Source component Added!");
 					ImGui::CloseCurrentPopup();
 				}
 			}
@@ -353,6 +371,23 @@ namespace LB
 			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				// Interface Buttons
+				ImGui::Text("%-19s", "Layer");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				if (ImGui::BeginCombo("##Layer", m_inspectedGO->GetComponent<CPCollider>()->GetLayerName().c_str()))
+				{
+
+					for (auto& [str, type] : COLLIDERS->GetLayerSystem().GetLayerVector())
+					{
+						if (ImGui::Selectable(str.c_str()))
+						{
+							m_inspectedGO->GetComponent<CPCollider>()->m_collisionlayer = type;
+						}
+					}
+					ImGui::EndCombo();
+				}
+
+
 				float width = m_inspectedGO->GetComponent<CPCollider>()->m_widthUnscaled;
 				ImGui::Text("%-19s", "Width");
 				ImGui::SameLine();
@@ -469,6 +504,79 @@ namespace LB
 				if (ImGui::Button("Delete CPP Script Component"))
 				{
 					m_inspectedGO->RemoveComponent(C_CPScriptCPP);
+				}
+			}
+		}
+		if (m_inspectedGO->HasComponent<CPAudioSource>())
+		{
+			if (ImGui::CollapsingHeader("Audio Source Component", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				// Interface Buttons
+				ImGui::Text("%-19s", "Audio Clip Name");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				std::string inspectedAudioClipName = m_inspectedGO->GetComponent<CPAudioSource>()->AudioClipName;
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* audioData = ImGui::AcceptDragDropPayload("AUDIO"))
+					{
+						const char* audioClipName = (const char*)audioData->Data;
+						m_inspectedGO->GetComponent<CPAudioSource>()->AudioClipName = audioClipName;
+					}
+				}
+				if (ImGui::BeginCombo("##AudioClips", inspectedAudioClipName.c_str()))
+				{
+					for (auto& [str, clip] : ASSETMANAGER->SoundMap)
+					{
+						if (ImGui::Selectable(str.c_str()))
+						{
+							m_inspectedGO->GetComponent<CPAudioSource>()->AudioClipName = str;
+						}
+					}
+					ImGui::EndCombo();
+				}
+				ImGui::Text("%-19s", "Play On Awake");
+				ImGui::SameLine();
+				ImGui::Checkbox("##PlayOnAwake", &m_inspectedGO->GetComponent<CPAudioSource>()->playOnAwake);
+
+				ImGui::Text("%-19s", "Loop");
+				ImGui::SameLine();
+				ImGui::Checkbox("##Loop", &m_inspectedGO->GetComponent<CPAudioSource>()->loop);
+
+				float vol = m_inspectedGO->GetComponent<CPAudioSource>()->volume;
+				ImGui::Text("%-19s", "Volume");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(extendedWidth);
+				ImGui::DragFloat("##Volume", &vol, 0.01f, 0.0f, 1.0f, "%.2f");
+				if (vol < 0.f)
+				{
+					m_inspectedGO->GetComponent<CPAudioSource>()->SetVolume(0.0f);
+				}
+				else
+				{
+					m_inspectedGO->GetComponent<CPAudioSource>()->SetVolume(vol);
+				}
+
+				float pitch = m_inspectedGO->GetComponent<CPAudioSource>()->pitch;
+				ImGui::Text("%-19s", "Pitch");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(extendedWidth);
+				ImGui::DragFloat("##Pitch", &pitch, 0.01f, -10.0f, 10.0f, "%.2f");
+
+				if (pitch < -10.f)
+				{
+					m_inspectedGO->GetComponent<CPAudioSource>()->SetPitch(-10.f);
+				}
+				else
+				{
+					m_inspectedGO->GetComponent<CPAudioSource>()->SetPitch(pitch);
+				}
+
+
+				// Delete Component
+				if (ImGui::Button("Delete Audio Source Component"))
+				{
+					m_inspectedGO->RemoveComponent(C_CPAudioSource);
 				}
 			}
 		}

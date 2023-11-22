@@ -11,7 +11,7 @@
         "Rotation": 0.0,
         "Children": [
             {
-                "Name": "Game Object",
+                "Name": "Main Menu",
                 "Transform": {
                     "Position": {
                         "x": 800.0,
@@ -20,6 +20,126 @@
                     "Scale": {
                         "x": 16.0,
                         "y": 9.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": 20
+                }
+            },
+            {
+                "Name": "StartGame",
+                "Transform": {
+                    "Position": {
+                        "x": 520.0,
+                        "y": 640.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.25
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 380.0,
+                    "Height": 80.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Controls",
+                "Transform": {
+                    "Position": {
+                        "x": 550.0,
+                        "y": 560.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.25
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 380.0,
+                    "Height": 80.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Credits",
+                "Transform": {
+                    "Position": {
+                        "x": 590.0,
+                        "y": 400.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.25
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 380.0,
+                    "Height": 80.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Quit",
+                "Transform": {
+                    "Position": {
+                        "x": 630.0,
+                        "y": 270.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.25
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 150.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Quit"
+                }
+            },
+            {
+                "Name": "Settings",
+                "Transform": {
+                    "Position": {
+                        "x": 570.0,
+                        "y": 480.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.25
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 380.0,
+                    "Height": 80.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Hand",
+                "Transform": {
+                    "Position": {
+                        "x": 162.0,
+                        "y": 123.0
+                    },
+                    "Scale": {
+                        "x": 6.0,
+                        "y": 7.0
                     },
                     "Rotation": 0.0
                 },
