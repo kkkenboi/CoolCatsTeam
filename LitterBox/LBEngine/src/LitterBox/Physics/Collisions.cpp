@@ -77,11 +77,14 @@ namespace LB
 		this->m_height = this->m_heightUnscaled * transform->GetScale().y;
 		this->m_radius = this->m_radiusUnscaled * transform->GetScale().x;
 
-		this->m_rotation = 0.f;
+		this->m_rotation = this->transform->GetRotation();
 		this->m_vertAmount = 4;
 
 		this->CreateAABB();
 		this->CreatePolygonBox();
+
+		this->UpdateScaledData();
+		this->UpdateColliderBoxVertices();
 
 		this->m_collisionlayer = COLLIDERS->GetLayerSystem().GetDefaultLayer();
 
