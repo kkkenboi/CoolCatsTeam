@@ -62,7 +62,14 @@ namespace LB {
 		if (!hand)
 			return;
 
-		//right_side -= (hand->GetComponent<CPTransform>()->GetPosition() * hand->GetComponent<CPTransform>()->GetScale() * 0.5f);
+
+		Vec2<float> hand_size{
+			hand->GetComponent<CPRender>()->w * hand->GetComponent<CPTransform>()->GetScale().x * 0.5f,
+			hand->GetComponent<CPRender>()->h * hand->GetComponent<CPTransform>()->GetScale().y * 0.5f,
+		};
+
+		right_side -= hand_size;
+		//(hand->GetComponent<CPTransform>()->GetPosition() * hand->GetComponent<CPTransform>()->GetScale() * 0.5f);
 		//-------------Rotation matrix values to get the left of the button---------------
 	}
 	void QuitScript::Update()

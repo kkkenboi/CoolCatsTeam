@@ -1065,7 +1065,6 @@ namespace LB
 		{
 			LB::Vec2<float> vec = vertices[i];
 
-			std::cout << vec.x << ", " << vec.y << std::endl;
 			float dx = vertices[i].x - center.x;
 			float dy = vertices[i].y - center.y;
 			float distance = sqrt(dx * dx + dy * dy);
