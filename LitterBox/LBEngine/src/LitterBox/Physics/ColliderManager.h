@@ -11,7 +11,7 @@ namespace LB
 	private:
 		size_t m_poolSize;
 		CPCollider** m_colliderPool;
-		//ColliderLayerSystem  m_layerSystem;
+		ColliderLayerSystem  m_layerSystem;
 	public:
 		std::vector<std::pair<std::string, SHAPETYPE>> m_shapeTypes;
 
@@ -75,7 +75,7 @@ namespace LB
 		*************************************************************************/
 		std::string GetShapeNames(SHAPETYPE type);
 
-		//ColliderLayerSystem& GetLayerSystem();
+		ColliderLayerSystem& GetLayerSystem();
 
 		// ================
 		// ISystem function overrides

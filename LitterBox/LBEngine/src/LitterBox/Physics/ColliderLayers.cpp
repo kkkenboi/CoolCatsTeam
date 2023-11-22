@@ -1,4 +1,5 @@
 #include "ColliderLayers.h"
+
 namespace LB {
 
 	void ColliderLayerSystem::Initialize() {
@@ -9,8 +10,7 @@ namespace LB {
 		ColliderLayer GameEntityLayer = AddLayer("GameEntity");
 		ColliderLayer UILayer = AddLayer("UI");
 
-		//SetCollisionLayerAllTrue(DefaultLayer);
-		/*
+		
 		std::cout << "2D Array : [" << m_collision_layer_matrix.size() << "]" <<
 			"[" << m_collision_layer_matrix[0].size() << "]" << std::endl;
 
@@ -20,13 +20,14 @@ namespace LB {
 		std::cout << "Vec Num 0 :" << m_layers[0].first << std::endl;
 		std::cout << "Vec Num 1 :" << m_layers[1].first << std::endl;
 		std::cout << "Vec Num 2 :" << m_layers[2].first << std::endl;
-		*/
+		
 		SetCollisionLayer(DefaultLayer, DefaultLayer, true);
 		SetCollisionLayer(DefaultLayer, GameEntityLayer, true);
 		SetCollisionLayer(DefaultLayer, UILayer, true);
 
 		SetCollisionLayer(GameEntityLayer, GameEntityLayer, true);
 		SetCollisionLayer(UILayer, UILayer, true);
+		SetCollisionLayerAllTrue(DefaultLayer);
 	}
 
 	ColliderLayer ColliderLayerSystem::AddLayer(std::string layer_name) {
@@ -122,6 +123,11 @@ namespace LB {
 		return m_layers[0].second;
 	}
 
+	std::vector<std::pair<std::string, ColliderLayer>>& ColliderLayerSystem::GetLayerVector()
+	{
+		return m_layers;
+	}
+
 	void ColliderLayerSystem::SetCollisionLayer(ColliderLayer layerA, ColliderLayer layerB, bool canCollide)
 	{
 		int indexA = layerA.GetPosInVec();
@@ -131,18 +137,37 @@ namespace LB {
 		m_collision_layer_matrix[indexB][indexA] = canCollide;
 	}
 
-	bool ColliderLayerSystem::LayerCollide(ColliderLayer layerA, ColliderLayer layerB)
+	void ColliderLayerSystem::SetCollisionLayerAllTrue(ColliderLayer layer)
+	{
+		int index = layer.GetPosInVec();
+
+		for (size_t i = 0; i < m_collision_layer_matrix.size(); ++i) 
+		{
+			for (size_t j = 0; j < m_collision_layer_matrix[i].size(); ++j)
+			{
+				if (i == index || j == index) 
+				{
+					m_collision_layer_matrix[i][j] = true;
+				}
+			}
+		}
+	}
+
+	bool ColliderLayerSystem::ShouldLayerCollide(ColliderLayer layerA, ColliderLayer layerB)
 	{
 		return m_collision_layer_matrix[layerA.GetPosInVec()][layerB.GetPosInVec()];
 	}
 
-	// ===================
-
-	ColliderLayer::ColliderLayer(std::string const name) : m_name{ name }, vec_pos{-1} 
+	// =================================
+	// Collider Layer stuff
+	// =================================
+	/*
+	ColliderLayer::ColliderLayer(std::string const name = "Default") : m_name{name}, vec_pos{-1}
 	{
 		// Empty by design
 	}
-
+	*/
+	/*
 	ColliderLayer& ColliderLayer::operator=(ColliderLayer layer) 
 	{
 		m_name = layer.GetName();
@@ -150,6 +175,7 @@ namespace LB {
 
 		return *this;
 	}
+	*/
 	
 	
 
@@ -162,4 +188,4 @@ namespace LB {
 	{
 		return vec_pos;
 	}
-}
+} // Namespace LB

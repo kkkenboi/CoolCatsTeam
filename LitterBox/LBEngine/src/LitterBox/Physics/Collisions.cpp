@@ -83,7 +83,7 @@ namespace LB
 		this->CreateAABB();
 		this->CreatePolygonBox();
 
-		//this->m_layer = COLLIDERS->GetLayerSystem().GetDefaultLayer();
+		this->m_collisionlayer = COLLIDERS->GetLayerSystem().GetDefaultLayer();
 
 		// Update the length and width of the RigidBody depending
 		// on the Collider
@@ -412,6 +412,11 @@ namespace LB
 			return "Error!";
 			break;
 		}
+	}
+
+	std::string CPCollider::GetLayerName()
+	{
+		return m_collisionlayer.GetName();
 	}
 
 	/*!***********************************************************************

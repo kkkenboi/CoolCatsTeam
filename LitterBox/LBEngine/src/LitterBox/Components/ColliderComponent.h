@@ -18,7 +18,7 @@
 #include "LitterBox/Utils/Math.h"
 #include "TransformComponent.h"
 #include "RigidBodyComponent.h"
-//#include "LitterBox/Physics/ColliderLayers.h"
+#include "LitterBox/Physics/ColliderLayers.h"
 
 namespace LB {
 
@@ -88,7 +88,7 @@ namespace LB {
 		float depth_out;
 
 		// Layer
-		//ColliderLayer m_layer;
+		ColliderLayer m_collisionlayer;
 
 		/*!***********************************************************************
 		  \brief
@@ -169,6 +169,8 @@ namespace LB {
 		  This function gets the ShapeName of the CPCollider
 		*************************************************************************/
 		std::string GetShapeName();
+
+		std::string GetLayerName();
 
 		/*!***********************************************************************
 		  \brief

@@ -22,11 +22,15 @@ namespace LB {
 
 		ColliderLayer& GetDefaultLayer();
 
-		// Sets the matrix for
+		std::vector<std::pair<std::string, ColliderLayer>>& GetLayerVector();
+
+		// Sets the matrix for the two given layers
 		void SetCollisionLayer(ColliderLayer layerA, ColliderLayer layerB, bool canCollide);
 
+		void SetCollisionLayerAllTrue(ColliderLayer layer);
+
 		// Returns true if these two layers can collide
-		bool LayerCollide(ColliderLayer layerA, ColliderLayer layerB);
+		bool ShouldLayerCollide(ColliderLayer layerA, ColliderLayer layerB);
 
 	private:
 		std::vector<std::pair<std::string, ColliderLayer>> m_layers;
@@ -36,10 +40,6 @@ namespace LB {
 
 	class ColliderLayer {
 	public:
-		ColliderLayer(std::string const name);
-
-		ColliderLayer & operator=(ColliderLayer layer);
-
 		std::string const GetName() const;
 		int& GetPosInVec();
 	public:
