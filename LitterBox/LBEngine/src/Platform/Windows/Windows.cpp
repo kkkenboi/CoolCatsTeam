@@ -65,19 +65,46 @@ namespace LB
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
-        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-        //Deserialise the config settings
-        //Current file path is : \LBEditor\Editor\Jason\config settings.json"
-         LB::JSONSerializer::DeserializeFromFile("config settings", m_Data);
-        // Update Window Title
+        // Setting Monitor and Video Mode
+        m_Data.m_Monitor = glfwGetPrimaryMonitor();
+        m_Data.m_VideoMode = glfwGetVideoMode(m_Data.m_Monitor);
 
-        // Create GLFW window
-        m_Data.m_PtrToWindow = glfwCreateWindow(m_Data.m_Width, m_Data.m_Height, m_Data.m_Title.c_str(), NULL, NULL);
-        if (!m_Data.m_PtrToWindow) {
-            DebuggerLogError("GLFW unable to create OpenGL context - abort program");
-            glfwTerminate();
-            //return false;
+        if (CORE->IsEditorLaunched())
+        {
+            //Deserialise the config settings
+            //Current file path is : \LBEditor\Library\Jason\config settings.json"
+            LB::JSONSerializer::DeserializeFromFile("config settings", m_Data);
+            // Update Window Title
+
+            // Create GLFW window
+            m_Data.m_PtrToWindow = glfwCreateWindow(m_Data.m_Width, m_Data.m_Height, m_Data.m_Title.c_str(), NULL, NULL);
+            if (!m_Data.m_PtrToWindow) {
+                DebuggerLogError("GLFW unable to create OpenGL context - abort program");
+                glfwTerminate();
+            }
+
+        }
+        else // Game Mode
+        {
+            std::cout << "i am entering here instead lmao fyck u\n";
+            glfwWindowHint(GLFW_RED_BITS, m_Data.m_VideoMode->redBits);
+            glfwWindowHint(GLFW_GREEN_BITS, m_Data.m_VideoMode->greenBits);
+            glfwWindowHint(GLFW_BLUE_BITS, m_Data.m_VideoMode->blueBits);
+            glfwWindowHint(GLFW_REFRESH_RATE, m_Data.m_VideoMode->refreshRate);
+
+            //Deserialise the config settings
+            //Current file path is : \LBEditor\Editor\Jason\config settings.json"
+            LB::JSONSerializer::DeserializeFromFile("config settings", m_Data);
+            // Update Window Title
+
+            // Create GLFW window
+            m_Data.m_PtrToWindow = glfwCreateWindow(m_Data.m_VideoMode->width, m_Data.m_VideoMode->height, m_Data.m_Title.c_str(), m_Data.m_Monitor, NULL); // Fullscreen mode
+            if (!m_Data.m_PtrToWindow) {
+                DebuggerLogError("GLFW unable to create OpenGL context - abort program");
+                glfwTerminate();
+            }
         }
 
         // Make the OpenGL context current
@@ -158,6 +185,24 @@ namespace LB
         {
             previousState = false;
         }
+
+        if (!CORE->IsEditorLaunched())
+        {
+            if (INPUT->IsKeyTriggered(KeyCode::KEY_L))
+            {
+                m_Data.m_FullscreenMode = !m_Data.m_FullscreenMode;
+
+                if (m_Data.m_FullscreenMode)
+                {
+                    glfwSetWindowMonitor(m_Data.m_PtrToWindow, m_Data.m_Monitor, 0, 0, m_Data.m_VideoMode->width, m_Data.m_VideoMode->height, NULL);
+                }
+                else
+                {
+                    glfwSetWindowMonitor(m_Data.m_PtrToWindow, NULL, m_Data.m_VideoMode->width/4, m_Data.m_VideoMode->height/4, m_Data.m_Width, m_Data.m_Height, NULL);
+                }
+            }
+        }
+
    
         std::string title{ this->m_Data.m_Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime()) };
 
@@ -264,7 +309,6 @@ namespace LB
     { 
         return m_Data.m_PtrToWindow; 
     }
-
 
     /*!***********************************************************************
      \brief

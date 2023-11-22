@@ -26,10 +26,11 @@ namespace LB {
 	 \brief 
 	 Initialises the LitterBox Engine with all the systems added
 	*************************************************************************/
-	Application::Application()
+	Application::Application(bool editorMode)
 	{
 		// Setting up LitterBox Engine with the available systems
 		Engine = std::make_shared<LBEngine>();
+		Engine->SetEditorLaunched(editorMode);
 
 		// TODO: Refactor intialization order and move back to debugger system
 		InitializeLoggers();
