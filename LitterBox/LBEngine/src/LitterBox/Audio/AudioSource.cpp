@@ -16,7 +16,7 @@ namespace LB
 			DebuggerLogWarning("NO AUDIO CLIP ATTACHED!");
 			return;
 		}
-		AUDIOMANAGER->AudioSources.push_back(this);
+		if(CORE->IsPlaying()) AUDIOMANAGER->AudioSources.push_back(this);
 	}
 
 	void CPAudioSource::Update()
@@ -43,10 +43,16 @@ namespace LB
 				Play();
 			}
 		}
+		else
+		{
+			hasPlayed = false;
+			playDelayed = false;
+			timer = 0;
+		}
 	}
 	void CPAudioSource::Destroy()
 	{
-
+		DebuggerLog("Destroyed!");
 	}
 
 	bool CPAudioSource::Serialize(Value& data, Document::AllocatorType& alloc)
@@ -89,7 +95,10 @@ namespace LB
 
 	void CPAudioSource::Play()
 	{
-		if (AudioClipName != "") channelID = AUDIOMANAGER->PlaySound(AudioClipName);
+		if (AudioClipName != "") 
+		{
+			channelID = AUDIOMANAGER->PlaySound(AudioClipName);
+		}
 		else DebuggerLogWarningFormat("Unable to find %s !", AudioClipName);
 		hasPlayed = true;
 	}
@@ -122,13 +131,16 @@ namespace LB
 	void CPAudioSource::SetPitch(float _pitch)
 	{
 		pitch = _pitch;
-		AUDIOMANAGER->SetChannelPitch(channelID, _pitch);
+		if (!CORE->IsPlaying()) return;
+		AUDIOMANAGER->SetChannelPitch(channelID, pitch);
 	}
 
 	void CPAudioSource::SetVolume(float _vol)
 	{
 		volume = _vol;
+		if (!CORE->IsPlaying()) return;
 		AUDIOMANAGER->SetChannelVolume(channelID, volume);
+		
 	}
 
 	

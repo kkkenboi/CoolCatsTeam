@@ -90,7 +90,6 @@ namespace LB
 		{
 			Channels.erase(channel);
 		}
-		audioSystem->update();
 		if (!AudioSources.empty())
 		{
 			for (const auto& audioSrc : AudioSources)
@@ -98,6 +97,8 @@ namespace LB
 				audioSrc->Update();
 			}
 		}
+		audioSystem->update();
+
 	}
 
 	/*!***********************************************************************
@@ -204,7 +205,7 @@ namespace LB
 		if (Channels.find(channelID) != Channels.end())
 		{
 			Channels[channelID]->setPitch(_pitch);
-		} else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
+		}// else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 
 	}
 	void AudioManager::SetChannelVolume(int channelID, float _vol)
@@ -212,7 +213,7 @@ namespace LB
 		if (Channels.find(channelID) != Channels.end())
 		{
 			Channels[channelID]->setVolume(_vol);
-		} else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
+		}// else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 	}
 	/*!***********************************************************************
 	 * \brief Function to stop all channels from playing
