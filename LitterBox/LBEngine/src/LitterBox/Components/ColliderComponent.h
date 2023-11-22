@@ -18,6 +18,7 @@
 #include "LitterBox/Utils/Math.h"
 #include "TransformComponent.h"
 #include "RigidBodyComponent.h"
+#include "LitterBox/Physics/ColliderLayers.h"
 
 namespace LB {
 
@@ -70,17 +71,24 @@ namespace LB {
 		float m_height;
 		float m_radius;
 
+		float m_ratio_width;
+		float m_ratio_height;
+
 		AABB m_aabb;
 
 		// For SAT
 		float m_rotation;
 		int m_vertAmount;
 		std::vector<Vec2<float>> m_untransformedVerts;
+		std::vector<Vec2<float>> m_ratioUntransformedVerts;
 		std::vector<Vec2<float>> m_transformedVerts;
 
 		// For physics
 		Vec2<float> normal_out;
 		float depth_out;
+
+		// Layer
+		ColliderLayer m_collisionlayer;
 
 		/*!***********************************************************************
 		  \brief
@@ -161,6 +169,8 @@ namespace LB {
 		  This function gets the ShapeName of the CPCollider
 		*************************************************************************/
 		std::string GetShapeName();
+
+		std::string GetLayerName();
 
 		/*!***********************************************************************
 		  \brief
