@@ -49,12 +49,12 @@ namespace LB {
 
 		// We then default initialise the vector inside the vector to be of
 		// the new size and setting all collisions with other layers to false
-		m_collision_layer_matrix.resize(position + 1, std::vector<bool>(position + 1, false));
+		m_collision_layer_matrix.resize(position + 1, std::vector<int>(position + 1, 0));
 		// We then adjust all the previously declared vectors to be of the new size
 		for (int i = 0; i < position; ++i)
 		{
-			m_collision_layer_matrix[i].resize(position + 1, false);
-			m_collision_layer_matrix[position][i] = false;
+			m_collision_layer_matrix[i].resize(position + 1, 0);
+			m_collision_layer_matrix[position][i] = 0;
 		}
 
 
@@ -88,7 +88,7 @@ namespace LB {
 		m_collision_layer_matrix.erase(m_collision_layer_matrix.begin() + position);
 
 		// Erase the rows associated with the layer in all the other columns
-		for (std::vector<bool> column : m_collision_layer_matrix) 
+		for (std::vector<int> column : m_collision_layer_matrix) 
 		{
 			column.erase(column.begin() + position);
 		}
@@ -127,7 +127,12 @@ namespace LB {
 	{
 		return m_layers;
 	}
-
+	
+	std::vector<std::vector<int>>& ColliderLayerSystem::GetLayerMatrix()
+	{
+		return m_collision_layer_matrix;
+	}
+	
 	void ColliderLayerSystem::SetCollisionLayer(ColliderLayer layerA, ColliderLayer layerB, bool canCollide)
 	{
 		int indexA = layerA.GetPosInVec();
@@ -147,7 +152,7 @@ namespace LB {
 			{
 				if (i == index || j == index) 
 				{
-					m_collision_layer_matrix[i][j] = true;
+					m_collision_layer_matrix[i][j] = 1;
 				}
 			}
 		}
