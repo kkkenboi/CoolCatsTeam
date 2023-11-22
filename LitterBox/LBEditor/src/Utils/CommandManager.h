@@ -39,9 +39,14 @@ namespace LB
 	private:
 		void AddToHistory(std::shared_ptr<ICommand> newCommand);
 
-		int historySize;	// How many unique commands to store?
-		std::deque< std::shared_ptr<ICommand>> history, undoHistory;
+		int historyCapacity;	// How many unique commands to store?
+
+		std::deque<std::shared_ptr<ICommand>> history, undoHistory;
 	};
+
+	void CheckUndo();
+
+	void CheckRedo();
 
 	extern CommandManager* COMMAND;
 }

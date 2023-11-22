@@ -39,7 +39,11 @@ namespace LB
 			if (HasTexture)
 			{
 				const Value& textureValue = data["Texture"];
-				//texture = textureValue.GetInt();
+				if (textureValue.IsInt())
+				{
+					texture = textureValue.GetInt();
+					return true;
+				}
 				texture = ASSETMANAGER->GetTextureUnit(textureValue.GetString());
 				return true;
 			}

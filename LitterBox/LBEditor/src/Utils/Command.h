@@ -17,15 +17,16 @@
 
 namespace LB
 {
-	enum class CommandType
+	enum CommandType
 	{
-
+		MOVE
 	};
 
 	class ICommand
 	{
 	public:
 		virtual void Execute() = 0;
+
 		virtual void Undo() = 0;
 
 		virtual bool Merge(std::shared_ptr<ICommand> incomingCommand) = 0;

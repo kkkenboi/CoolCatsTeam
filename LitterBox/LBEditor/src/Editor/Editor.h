@@ -26,6 +26,8 @@
 #include "LitterBox/Engine/LayerStack.h"
 #include "LitterBox/Factory/GameObjectManager.h"
 
+#include "Utils/CommandManager.h"
+
 namespace LB
 {
 	class Editor
@@ -69,6 +71,8 @@ namespace LB
 		void Destroy();
 
 	private:
+		std::shared_ptr<CommandManager> commandManager;
+
 		LayerStack m_ImGuiLayers;
 	};
 

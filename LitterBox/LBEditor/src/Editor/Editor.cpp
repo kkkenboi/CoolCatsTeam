@@ -70,8 +70,10 @@ namespace LB
 		else
 			DebuggerLogError("Editor System already exists!");
 
-		//SetSystemName("Editor System");
+		// Initialize command manager
+		commandManager = std::make_shared<CommandManager>();
 
+		// Initialize editor layers
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorToolBar>("ToolBar"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorInspector>("Inspector"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorHierarchy>("Hierarchy"));
