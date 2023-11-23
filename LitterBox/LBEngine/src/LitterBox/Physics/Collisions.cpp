@@ -422,6 +422,21 @@ namespace LB
 		return m_collisionlayer.GetName();
 	}
 
+	CPTransform* CPCollider::GetTransform()
+	{
+		return transform;
+	}
+
+	CPRigidBody* CPCollider::GetRigidBody()
+	{
+		return rigidbody;
+	}
+
+	GameObject* CPCollider::GetGameObject()
+	{
+		return gameObj;
+	}
+
 	/*!***********************************************************************
 	  \brief
 	  This serializes some of the data members of CPCollider
@@ -517,8 +532,8 @@ namespace LB
 		this->m_posX = position.x;
 		this->m_posY = position.y;
 
-		this->m_sin = sin(angle);
-		this->m_cos = cos(angle);
+		this->m_sin = sin(angle * deg_to_rads);
+		this->m_cos = cos(angle * deg_to_rads);
 	}
 
 	// ===============================

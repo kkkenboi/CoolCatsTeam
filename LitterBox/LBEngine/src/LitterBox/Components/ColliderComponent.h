@@ -172,6 +172,12 @@ namespace LB {
 
 		std::string GetLayerName();
 
+		CPTransform* GetTransform();
+
+		CPRigidBody* GetRigidBody();
+
+		GameObject* GetGameObject();
+
 		/*!***********************************************************************
 		  \brief
 		  This serializes some of the data members of CPCollider
