@@ -56,6 +56,7 @@ namespace LB
 		EDITORHIERACHY->onNewObjectSelected.Subscribe(LB::UpdateInspectedGO);
 		CORE->onPlayingModeToggle.Subscribe(LB::DeselectObject);
 		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::DeselectObject);
+		INPUT->SubscribeToKey(DeleteSelectedObject, KeyCode::KEY_DELETE, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Set default snap values
 		m_SnapTranslate[0] = 10.f, m_SnapTranslate[1] = 10.f;
@@ -258,7 +259,6 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				bool scaleYChanged = ImGui::DragFloat("##ScaleY", &scale.y, 0.1f, 0.0f, 0.0f, "%.2f");
-				m_inspectedGO->GetComponent<CPTransform>()->SetScale(scale);
 				if (scaleXChanged || scaleYChanged)
 				{
 					std::shared_ptr<ScaleCommand> scaleCommand = std::make_shared<ScaleCommand>(m_inspectedGO->GetComponent<CPTransform>(), scale);
@@ -269,8 +269,12 @@ namespace LB
 				ImGui::Text("%-19s", "Angle");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
-				ImGui::DragFloat("##Angle", &rotation, 0.1f, 0.0f, 0.0f, "%.3f");
-				m_inspectedGO->GetComponent<CPTransform>()->SetRotation(rotation);
+				bool rotationChanged = ImGui::DragFloat("##Angle", &rotation, 0.1f, 0.0f, 0.0f, "%.3f");
+				if (rotationChanged)
+				{
+					std::shared_ptr<RotateCommand> rotateCommand = std::make_shared<RotateCommand>(m_inspectedGO->GetComponent<CPTransform>(), rotation);
+					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(rotateCommand));
+				}
 
 				//DebuggerLogFormat("Snap Mode: %d", EDITORINSPECTOR->GetSnapMode());
 				// Choose snapping in translate, rotate and scale
@@ -860,6 +864,14 @@ namespace LB
 	{
 		UNREFERENCED_PARAMETER(newScene);
 		EDITORINSPECTOR->UpdateInspectedGO(nullptr);
+	}
+
+	void DeleteSelectedObject()
+	{
+		if (!EDITORINSPECTOR->IsGOInspected()) return;
+
+		GOMANAGER->RemoveGameObject(EDITORINSPECTOR->GetInspectedGO());
+		EDITORHIERACHY->onNewObjectSelected.Invoke(nullptr);
 	}
 
 	/*!***********************************************************************

@@ -84,7 +84,6 @@ namespace LB
           True if a game object is being inspected, false otherwise.
         *************************************************************************/
         bool IsGOInspected();
-        bool isPrefab = false;
 
         /*!***********************************************************************
           \brief
@@ -182,6 +181,7 @@ namespace LB
         *************************************************************************/
         float& SetSnapScale();
 
+        bool isPrefab = false;
     private:
         GameObject* m_inspectedGO{ nullptr };
         char m_inspectedName[256]{}, m_nameBuffer1[64]{}, m_textBuffer[256]{};
@@ -220,6 +220,8 @@ namespace LB
       Nothing.
     *************************************************************************/
     void DeselectObject(Scene* newScene);
+
+    void DeleteSelectedObject();
 
     extern EditorInspector* EDITORINSPECTOR;
 }
