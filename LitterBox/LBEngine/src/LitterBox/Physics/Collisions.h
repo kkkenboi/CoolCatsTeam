@@ -34,6 +34,12 @@ namespace LB
 		PhysicsTransform(LB::Vec2<float> position, float angle);
 	};
 
+	struct CollisionData
+	{
+		CPCollider* colliderThis;
+		CPCollider* colliderOther;
+	};
+
 	// ========================================================
 	// Collision Intersection Checks
 	// ========================================================

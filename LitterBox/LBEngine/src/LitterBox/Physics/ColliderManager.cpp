@@ -431,13 +431,16 @@ namespace LB
 
 						ResolveColliders(colA, colB, normal_out, depth_out);
 						
-						// _COLLISIONDATA is a struct that contains
+						// CollisionData is a struct that contains
 						// the Collision Data that includes colA and colB, check unity Collision2D
-						/*
-						if (colA->m_gameobj->HasComponent<CPPGameLogic>()) {
-							colA->m_gameobj->GetComponent<CPPGameLogic>().onCollisionEnter(_COLLISIONDATA)
+						
+						if (colA->m_gameobj->HasComponent<CPScriptCPP>()) {
+							CollisionData colData;
+							colData.colliderThis = colA;
+							colData.colliderOther = colB;
+							colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
 						}
-						*/
+						
 					}
 				}
 			}
@@ -461,7 +464,8 @@ namespace LB
 			{
 				if (m_colliderPool[i] != nullptr)
 				{
-					m_colliderPool[i]->m_pos = m_colliderPool[i]->transform->GetPosition();
+					m_colliderPool[i]->m_rotation = m_colliderPool[i]->GetTransform()->GetRotation();
+					m_colliderPool[i]->m_pos = m_colliderPool[i]->GetTransform()->GetPosition();
 					m_colliderPool[i]->UpdateScaledData();
 					m_colliderPool[i]->UpdateColliderBoxVertices();
 					m_colliderPool[i]->DebugDraw();

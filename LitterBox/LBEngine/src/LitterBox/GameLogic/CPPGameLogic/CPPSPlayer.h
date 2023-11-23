@@ -26,6 +26,7 @@ namespace LB
 		void Start() override;
 		void Update() override;
 		void Destroy() override;
+		void OnCollisionEnter(CollisionData colData) override;
 
 		CPRigidBody* rb{ nullptr };
 		CPRender* rend{ nullptr };
