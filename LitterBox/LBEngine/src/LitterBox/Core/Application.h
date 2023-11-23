@@ -49,7 +49,7 @@ namespace LB {
 		 \brief
 		 Initialises the LitterBox Engine with all the systems added
 		*************************************************************************/
-		Application();
+		Application(bool editorMode);
 
 		bool IsRunning();
 
@@ -73,8 +73,8 @@ namespace LB {
 	Creates the application in the project area, to be used by other projects
 	eg. Sandbox
 	*************************************************************************/
-	Application* CreateApplication();
+	Application* CreateApplication(bool EditorMode = false);
 
 }
 
-extern LB::Application* LB::CreateApplication();
+extern LB::Application* LB::CreateApplication(bool EditorMode);
