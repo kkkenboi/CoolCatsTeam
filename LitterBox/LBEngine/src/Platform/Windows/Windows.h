@@ -37,8 +37,11 @@ namespace LB
 		std::string		m_Title{};
 		unsigned int	m_Width{}, m_Height{};
 		double			m_PosX{}, m_PosY{};
+		bool			m_FullscreenMode{ true };
 
-		GLFWwindow*		m_PtrToWindow{ nullptr };
+		GLFWwindow* m_PtrToWindow{ nullptr };
+		const GLFWvidmode* m_VideoMode{ nullptr };
+		GLFWmonitor* m_Monitor{ nullptr };
 
 		/*!***********************************************************************
 		 \brief

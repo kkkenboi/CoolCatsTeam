@@ -57,4 +57,40 @@ namespace LB
 		CPTransform* m_transform;
 		Vec2<float> m_oldPos, m_newPos;
 	};
+
+	class ScaleCommand : public ICommand
+	{
+	public:
+		ScaleCommand(CPTransform* transform, Vec2<float> newScale) : m_transform{ transform }, m_oldScale{ transform->GetScale() }, m_newScale{ newScale } { }
+
+		void Execute() override
+		{
+			m_transform->SetScale(m_newScale);
+		}
+
+		void Undo() override
+		{
+			m_transform->SetScale(m_oldScale);
+		}
+
+		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
+		{
+			std::shared_ptr<ScaleCommand> incomingScaleCommand = std::dynamic_pointer_cast<ScaleCommand>(incomingCommand);
+			if (incomingScaleCommand->m_transform == m_transform && incomingScaleCommand->m_oldScale == m_newScale)
+			{
+				m_newScale = incomingScaleCommand->m_newScale;
+				return true;
+			}
+			return false;
+		}
+
+		CommandType GetType() override
+		{
+			return CommandType::SCALE;
+		}
+
+	private:
+		CPTransform* m_transform;
+		Vec2<float> m_oldScale, m_newScale;
+	};
 }

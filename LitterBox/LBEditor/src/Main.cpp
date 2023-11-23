@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 
-LB::Application* LB::CreateApplication()
+LB::Application* LB::CreateApplication(bool EditorMode)
 {
-	return DBG_NEW Application();
+	return DBG_NEW Application(EditorMode);
 }
 
 LB::Editor* LB::CreateEditor()
@@ -21,7 +21,9 @@ int main(int argc, char** argv)
 	UNREFERENCED_PARAMETER(argc);
 	UNREFERENCED_PARAMETER(argv);
 
-	auto app = LB::CreateApplication();
+	bool editorMode = true;
+
+	auto app = LB::CreateApplication(editorMode);
 	auto editor = LB::CreateEditor();
 	while (app->IsRunning()) 
 	{

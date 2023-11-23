@@ -19,6 +19,8 @@
 
 #include "Editor.h"
 #include "Litterbox/Engine/Layer.h"
+#include <ImGuizmo.h>
+
 
 namespace LB
 {
@@ -58,6 +60,7 @@ namespace LB
 		  Nothing.
 		*************************************************************************/
 		void SetObjectPicked(GameObject* obj);
+
 
 	private:
 		ImVec2 m_windowSize;

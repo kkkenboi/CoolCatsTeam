@@ -20,6 +20,7 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Scene/SceneManager.h"
 #include "EditorInspector.h"
+#include "LitterBox/Core/Core.h"
 
 namespace LB
 {
@@ -176,7 +177,10 @@ namespace LB
 						// To be changed to a better identifier for scene files
 						if (directory.path().filename().string().find("Scene") != std::string::npos)
 						{
-							SCENEMANAGER->LoadScene(directory.path().filename().stem().string());
+							if (!CORE->IsPlaying())
+								SCENEMANAGER->LoadScene(directory.path().filename().stem().string());
+							else
+								DebuggerLogWarningFormat("Tried to load new scene from Assets %s while a scene is running.", directory.path().filename().stem().string().c_str());
 						}
 						else //that means it's a prefab instead
 						{
