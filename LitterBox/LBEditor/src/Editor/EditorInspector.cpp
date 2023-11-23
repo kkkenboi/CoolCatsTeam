@@ -18,6 +18,7 @@
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
 #include "EditorSceneView.h"
+#include "EditorAssets.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Components/RigidBodyComponent.h"
@@ -26,6 +27,7 @@
 
 #include "Utils/CommandManager.h"
 #include "Commands/TransformCommands.h"
+#include "LitterBox/Serialization/FileSystemManager.h"
 
 namespace LB
 {
@@ -89,6 +91,24 @@ namespace LB
 		if (ImGui::Button("Add Component"))
 		{
 			ImGui::OpenPopup("Add Component");
+		}
+		if (!isPrefab)
+		{
+			ImGui::SameLine();
+			if (ImGui::Button("Create Prefab"))
+			{
+				if (std::filesystem::exists(FILESYSTEM->GetFilePath(m_inspectedGO->GetName() + ".json")))
+				{
+					DebuggerLogWarning("Prefab with that name already exists! Use a different name!");
+				}
+				else
+				{
+					DebuggerLog("Creating Prefab!");
+					std::filesystem::path prefab("Prefabs");
+					std::filesystem::path assetFileName(GetInspectedGO()->GetName());
+					JSONSerializer::SerializeToFile((EDITORASSETS->defaultDirectory/prefab / assetFileName).string(), *GetInspectedGO());
+				}
+			}
 		}
 		if (isPrefab)
 		{
