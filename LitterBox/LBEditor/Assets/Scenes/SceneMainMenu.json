@@ -32,7 +32,7 @@
                 "Transform": {
                     "Position": {
                         "x": 520.0,
-                        "y": 640.0
+                        "y": 625.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -45,14 +45,17 @@
                     "Width": 380.0,
                     "Height": 80.0,
                     "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Quit"
                 }
             },
             {
                 "Name": "Controls",
                 "Transform": {
                     "Position": {
-                        "x": 550.0,
-                        "y": 560.0
+                        "x": 540.0,
+                        "y": 550.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -62,17 +65,20 @@
                 },
                 "Collider": {
                     "Shape": 1,
-                    "Width": 380.0,
-                    "Height": 80.0,
+                    "Width": 250.0,
+                    "Height": 60.0,
                     "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Quit"
                 }
             },
             {
                 "Name": "Credits",
                 "Transform": {
                     "Position": {
-                        "x": 590.0,
-                        "y": 400.0
+                        "x": 570.0,
+                        "y": 415.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -82,9 +88,12 @@
                 },
                 "Collider": {
                     "Shape": 1,
-                    "Width": 380.0,
-                    "Height": 80.0,
+                    "Width": 250.0,
+                    "Height": 50.0,
                     "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Quit"
                 }
             },
             {
@@ -114,7 +123,7 @@
                 "Name": "Settings",
                 "Transform": {
                     "Position": {
-                        "x": 570.0,
+                        "x": 560.0,
                         "y": 480.0
                     },
                     "Scale": {
@@ -125,9 +134,12 @@
                 },
                 "Collider": {
                     "Shape": 1,
-                    "Width": 380.0,
-                    "Height": 80.0,
+                    "Width": 250.0,
+                    "Height": 60.0,
                     "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "Quit"
                 }
             },
             {
