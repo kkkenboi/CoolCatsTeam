@@ -30,7 +30,7 @@ namespace LB {
 	{
 		// Setting up LitterBox Engine with the available systems
 		Engine = std::make_shared<LBEngine>();
-		Engine->SetEditorLaunched(editorMode);
+		Engine->SetEditorMode(editorMode);
 
 		// TODO: Refactor intialization order and move back to debugger system
 		InitializeLoggers();

@@ -83,7 +83,6 @@ namespace LB
 
 		float normalWidth = 75.f;
 		float extendedWidth = 173.f;
-		float degreeBoxWidth = 181.f;
 		float dropdownWidth = 150.f;
 
 		//------------------------------------------ADD COMPONENT WINDOW------------------------------------------
@@ -265,7 +264,7 @@ namespace LB
 				float rotation = m_inspectedGO->GetComponent<CPTransform>()->GetRotation();
 				ImGui::Text("%-19s", "Angle");
 				ImGui::SameLine();
-				ImGui::SetNextItemWidth(degreeBoxWidth);
+				ImGui::SetNextItemWidth(extendedWidth);
 				ImGui::DragFloat("##Angle", &rotation, 0.1f, 0.0f, 0.0f, "%.3f");
 				m_inspectedGO->GetComponent<CPTransform>()->SetRotation(rotation);
 
@@ -280,7 +279,7 @@ namespace LB
 						EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::TRANSLATE);
 					}
 					ImGui::SameLine();
-					ImGui::Text("%4s", "X");
+					ImGui::Text("%6s", "X");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(normalWidth);
 					ImGui::DragFloat("##SnapTransX", &EDITORINSPECTOR->SetSnapTranslate(), 1.f, 0.0f, 0.0f, "%.2f");
@@ -304,7 +303,7 @@ namespace LB
 						EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::SCALE);
 					}
 					ImGui::SameLine();
-					ImGui::Text("%8s", "X");
+					ImGui::Text("%10s", "X");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(normalWidth);
 					ImGui::DragFloat("##SnapScaleX", &EDITORINSPECTOR->SetSnapScale(), 0.1f, 0.0f, 0.0f, "%.2f");
@@ -328,9 +327,9 @@ namespace LB
 						EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::ROTATE);
 					}
 					ImGui::SameLine();
-					ImGui::Text("%7s", "Deg");
+					ImGui::Text("%9s", "Deg");
 					ImGui::SameLine();
-					ImGui::SetNextItemWidth(degreeBoxWidth);
+					ImGui::SetNextItemWidth(extendedWidth);
 					ImGui::DragFloat("##SnapRotate", &EDITORINSPECTOR->SetSnapRotate(), 1.f, 0.0f, 0.0f, "%.2f");
 					if (EDITORINSPECTOR->GetSnapRotate() < 0.f)
 					{

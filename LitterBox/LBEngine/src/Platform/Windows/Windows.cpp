@@ -70,7 +70,7 @@ namespace LB
         m_Data.m_Monitor = glfwGetPrimaryMonitor();
         m_Data.m_VideoMode = glfwGetVideoMode(m_Data.m_Monitor);
 
-        if (CORE->IsEditorLaunched())
+        if (CORE->IsEditorMode())
         {
             //Deserialise the config settings
             //Current file path is : \LBEditor\Library\Jason\config settings.json"
@@ -168,6 +168,9 @@ namespace LB
     *************************************************************************/
     void WindowsSystem::Update()
     {
+        static float globalWidth = WINDOWSSYSTEM->GetWidth();
+        static float globalHeight = WINDOWSSYSTEM->GetHeight();
+
         if (glfwWindowShouldClose(this->m_Data.m_PtrToWindow))
         {
             MessageQuit q;
@@ -185,7 +188,7 @@ namespace LB
             previousState = false;
         }
 
-        if (!CORE->IsEditorLaunched())
+        if (!CORE->IsEditorMode())
         {
             if (INPUT->IsKeyTriggered(KeyCode::KEY_L))
             {
@@ -193,10 +196,14 @@ namespace LB
 
                 if (m_Data.m_FullscreenMode)
                 {
+                    m_Data.m_Width = m_Data.m_VideoMode->width;
+                    m_Data.m_Height = m_Data.m_VideoMode->height;
                     glfwSetWindowMonitor(m_Data.m_PtrToWindow, m_Data.m_Monitor, 0, 0, m_Data.m_VideoMode->width, m_Data.m_VideoMode->height, NULL);
                 }
                 else
                 {
+                    m_Data.m_Width = globalWidth;
+                    m_Data.m_Height = globalHeight;
                     glfwSetWindowMonitor(m_Data.m_PtrToWindow, NULL, m_Data.m_VideoMode->width/4, m_Data.m_VideoMode->height/4, m_Data.m_Width, m_Data.m_Height, NULL);
                 }
             }
