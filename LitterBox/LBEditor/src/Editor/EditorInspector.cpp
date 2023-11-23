@@ -17,6 +17,7 @@
 #include "pch.h"
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
+#include "EditorSceneView.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Components/RigidBodyComponent.h"
@@ -52,6 +53,12 @@ namespace LB
 		EDITORHIERACHY->onNewObjectSelected.Subscribe(LB::UpdateInspectedGO);
 		CORE->onPlayingModeToggle.Subscribe(LB::DeselectObject);
 		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::DeselectObject);
+
+		// Set default snap values
+		m_SnapTranslate[0] = 10.f, m_SnapTranslate[1] = 10.f;
+		m_SnapRotate = 10.f;
+		m_SnapScale[0] = 0.1f, m_SnapScale[1] = 0.1f;
+
 	}
 
 	/*!***********************************************************************
@@ -73,6 +80,7 @@ namespace LB
 
 		float normalWidth = 75.f;
 		float extendedWidth = 173.f;
+		float degreeBoxWidth = 181.f;
 		float dropdownWidth = 150.f;
 
 		//------------------------------------------ADD COMPONENT WINDOW------------------------------------------
@@ -249,9 +257,86 @@ namespace LB
 				float rotation = m_inspectedGO->GetComponent<CPTransform>()->GetRotation();
 				ImGui::Text("%-19s", "Angle");
 				ImGui::SameLine();
-				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::SetNextItemWidth(degreeBoxWidth);
 				ImGui::DragFloat("##Angle", &rotation, 0.1f, 0.0f, 0.0f, "%.3f");
 				m_inspectedGO->GetComponent<CPTransform>()->SetRotation(rotation);
+
+				//DebuggerLogFormat("Snap Mode: %d", EDITORINSPECTOR->GetSnapMode());
+				// Choose snapping in translate, rotate and scale
+				ImGui::Checkbox("Snap Values?", &EDITORINSPECTOR->ToggleSnapMode());
+
+				if (EDITORINSPECTOR->GetSnapMode())
+				{
+					if (ImGui::RadioButton("Translate", EDITORINSPECTOR->GetGizmosOperation() == ImGuizmo::TRANSLATE))
+					{
+						EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::TRANSLATE);
+					}
+					ImGui::SameLine();
+					ImGui::Text("%4s", "X");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##SnapTransX", &EDITORINSPECTOR->SetSnapTranslate(), 1.f, 0.0f, 0.0f, "%.2f");
+					ImGui::SameLine();
+					ImGui::Text("Y");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##SnapTransY", &EDITORINSPECTOR->SetSnapTranslate()+1, 1.f, 0.0f, 0.0f, "%.2f");
+
+					if (EDITORINSPECTOR->GetSnapTranslate() < 0.f)
+					{
+						EDITORINSPECTOR->SetSnapTranslate() = 0.f;
+					}
+					if (*(&(EDITORINSPECTOR->SetSnapTranslate()) + 1) < 0.f)
+					{
+						*(&(EDITORINSPECTOR->SetSnapTranslate()) + 1) = 0.f;
+					}
+
+					if (ImGui::RadioButton("Scale", EDITORINSPECTOR->GetGizmosOperation() == ImGuizmo::SCALE))
+					{
+						EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::SCALE);
+					}
+					ImGui::SameLine();
+					ImGui::Text("%8s", "X");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##SnapScaleX", &EDITORINSPECTOR->SetSnapScale(), 0.1f, 0.0f, 0.0f, "%.2f");
+					ImGui::SameLine();
+					ImGui::Text("Y");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##SnapScaleY", &EDITORINSPECTOR->SetSnapScale() + 1, 0.1f, 0.0f, 0.0f, "%.2f");
+
+					if (EDITORINSPECTOR->GetSnapScale() < 0.f)
+					{
+						EDITORINSPECTOR->SetSnapScale() = 0.f;
+					}
+					if (*(&(EDITORINSPECTOR->GetSnapScale()) + 1) < 0.f)
+					{
+						*(&(EDITORINSPECTOR->SetSnapScale()) + 1) = 0.f;
+					}
+
+					if (ImGui::RadioButton("Rotate", EDITORINSPECTOR->GetGizmosOperation() == ImGuizmo::ROTATE))
+					{
+						EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::ROTATE);
+					}
+					ImGui::SameLine();
+					ImGui::Text("%7s", "Deg");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(degreeBoxWidth);
+					ImGui::DragFloat("##SnapRotate", &EDITORINSPECTOR->SetSnapRotate(), 1.f, 0.0f, 0.0f, "%.2f");
+					if (EDITORINSPECTOR->GetSnapRotate() < 0.f)
+					{
+						EDITORINSPECTOR->SetSnapRotate() = 0.f;
+					}
+					if (EDITORINSPECTOR->GetSnapRotate() > 180.f)
+					{
+						EDITORINSPECTOR->SetSnapRotate() = 180.f;
+					}
+				}
+				else
+				{
+					EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::UNIVERSAL);
+				}
 			}
 		}
 		if (m_inspectedGO->HasComponent<CPRender>())
@@ -765,4 +850,131 @@ namespace LB
 		UNREFERENCED_PARAMETER(newScene);
 		EDITORINSPECTOR->UpdateInspectedGO(nullptr);
 	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the current gizmos mode.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	ImGuizmo::MODE EditorInspector::GetGizmosMode() const
+	{
+		return m_CurrentGizmosMode;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Sets the current gizmos mode.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void EditorInspector::SetGizmosMode(ImGuizmo::MODE mode)
+	{
+		m_CurrentGizmosMode = mode;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the current gizmos operation.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	ImGuizmo::OPERATION EditorInspector::GetGizmosOperation() const
+	{
+		return m_CurrentGizmosOperation;
+	}
+
+	void EditorInspector::SetGizmosOperation(ImGuizmo::OPERATION operation)
+	{
+		m_CurrentGizmosOperation = operation;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Gets the snap mode.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	bool const& EditorInspector::GetSnapMode() const
+	{
+		return m_SnapMode;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Toggles snap mode.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	bool& EditorInspector::ToggleSnapMode()
+	{
+		return m_SnapMode;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the snap value of translate.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float const& EditorInspector::GetSnapTranslate() const
+	{
+		return m_SnapTranslate[0];
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the snap value of rotate.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float const& EditorInspector::GetSnapRotate() const
+	{
+		return m_SnapRotate;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the snap value of scale.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float const& EditorInspector::GetSnapScale() const
+	{
+		return m_SnapScale[0];
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Set the snap value of translate through ImGui.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float& EditorInspector::SetSnapTranslate()
+	{
+		return m_SnapTranslate[0];
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Set the snap value of rotate through ImGui.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float& EditorInspector::SetSnapRotate()
+	{
+		return m_SnapRotate;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Set the snap value of scale through ImGui.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float& EditorInspector::SetSnapScale()
+	{
+		return m_SnapScale[0];
+	}
+
 }
