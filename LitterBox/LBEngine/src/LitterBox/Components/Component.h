@@ -34,6 +34,7 @@ namespace LB
 		C_CPCollider,
 		C_CPCamera,
 		C_CPAudioSource,
+		C_CPText,
 	};
 
 	/*!***********************************************************************
