@@ -24,6 +24,8 @@ namespace LB {
 
 		std::vector<std::pair<std::string, ColliderLayer>>& GetLayerVector();
 
+		std::vector<std::vector<int>>& GetLayerMatrix();
+
 		// Sets the matrix for the two given layers
 		void SetCollisionLayer(ColliderLayer layerA, ColliderLayer layerB, bool canCollide);
 
@@ -34,7 +36,7 @@ namespace LB {
 
 	private:
 		std::vector<std::pair<std::string, ColliderLayer>> m_layers;
-		std::vector<std::vector<bool>> m_collision_layer_matrix;
+		std::vector<std::vector<int>> m_collision_layer_matrix;
 	};
 
 

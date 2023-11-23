@@ -452,15 +452,19 @@ namespace LB
 *************************************************************************/
 	void ColliderManager::Update() 
 	{
-		// Draw Debug here
 
+
+		// Draw Debug here
 		if (DEBUG->IsDebugOn())
 		{
 			for (size_t i = 0; i < m_poolSize; ++i)
 			{
 				if (m_colliderPool[i] != nullptr)
 				{
-					m_colliderPool[i] ->DebugDraw();
+					m_colliderPool[i]->m_pos = m_colliderPool[i]->transform->GetPosition();
+					m_colliderPool[i]->UpdateScaledData();
+					m_colliderPool[i]->UpdateColliderBoxVertices();
+					m_colliderPool[i]->DebugDraw();
 				}
 			}
 		}
