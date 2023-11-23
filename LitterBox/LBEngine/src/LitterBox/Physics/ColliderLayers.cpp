@@ -11,15 +11,15 @@ namespace LB {
 		ColliderLayer UILayer = AddLayer("UI");
 
 		
-		std::cout << "2D Array : [" << m_collision_layer_matrix.size() << "]" <<
-			"[" << m_collision_layer_matrix[0].size() << "]" << std::endl;
+		//std::cout << "2D Array : [" << m_collision_layer_matrix.size() << "]" <<
+			//"[" << m_collision_layer_matrix[0].size() << "]" << std::endl;
 
-		std::cout << "Layer Number Default: " << FindLayerNumber("Default")
-			<< std::endl;
+		//std::cout << "Layer Number Default: " << FindLayerNumber("Default")
+			//<< std::endl;
 
-		std::cout << "Vec Num 0 :" << m_layers[0].first << std::endl;
-		std::cout << "Vec Num 1 :" << m_layers[1].first << std::endl;
-		std::cout << "Vec Num 2 :" << m_layers[2].first << std::endl;
+		//std::cout << "Vec Num 0 :" << m_layers[0].first << std::endl;
+		//std::cout << "Vec Num 1 :" << m_layers[1].first << std::endl;
+		//std::cout << "Vec Num 2 :" << m_layers[2].first << std::endl;
 		
 		SetCollisionLayer(DefaultLayer, DefaultLayer, true);
 		SetCollisionLayer(DefaultLayer, GameEntityLayer, true);
@@ -78,6 +78,7 @@ namespace LB {
 
 		if (!found)
 		{
+			std::cout << "Not found" << std::endl;
 			return;
 		}
 
@@ -105,12 +106,12 @@ namespace LB {
 	{
 		for (std::pair<std::string, ColliderLayer> item : m_layers)
 		{
-			std::cout << "In FindLayerNumber" << std::endl;
+			//std::cout << "In FindLayerNumber" << std::endl;
 			//std::cout << layer_name << std::endl;
-			std::cout << item.first << std::endl;
+			//std::cout << item.first << std::endl;
 			if (item.first == layer_name)
 			{
-				std::cout << "YoYo" << std::endl;
+				//std::cout << "YoYo" << std::endl;
 				return item.second.GetPosInVec();
 			}
 		}

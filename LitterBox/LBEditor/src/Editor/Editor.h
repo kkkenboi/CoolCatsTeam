@@ -26,6 +26,8 @@
 #include "LitterBox/Engine/LayerStack.h"
 #include "LitterBox/Factory/GameObjectManager.h"
 
+#include "Utils/CommandManager.h"
+
 namespace LB
 {
 	class Editor
@@ -35,39 +37,42 @@ namespace LB
 		/*!***********************************************************************
 		  \brief
 		  Constructor for the Editor class.
-		  \return
-		  Nothing.
 		*************************************************************************/
 		Editor();
-		~Editor();
-
-		void Run();
 
 		/*!***********************************************************************
 		  \brief
-		  Initializes the Editor system.
-		  \return
-		  Nothing.
+		  Calls Destroy when the editor is deleted.
+		*************************************************************************/
+		~Editor();
+
+		/*!***********************************************************************
+		  \brief
+		  Initializes the Editor system and ImGUI context.
 		*************************************************************************/
 		void Initialize();
 
 		/*!***********************************************************************
 		  \brief
-		  Updates the Editor system.
-		  \return
-		  Nothing.
+		  Calls Update, run is called every frame in the Main function.
+		*************************************************************************/
+		void Run();
+
+		/*!***********************************************************************
+		  \brief
+		  Updates the Editor system and all its layers.
 		*************************************************************************/
 		void Update();
 
 		/*!***********************************************************************
 		  \brief
-		  Destroys the Editor system.
-		  \return
-		  Nothing.
+		  Destroys the Editor system and ImGUI context.
 		*************************************************************************/
 		void Destroy();
 
 	private:
+		std::shared_ptr<CommandManager> commandManager;
+
 		LayerStack m_ImGuiLayers;
 	};
 

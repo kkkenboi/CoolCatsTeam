@@ -67,13 +67,14 @@ namespace LB
 		{
 			EDITOR = this;
 			CORE->SetEditorMode(true);
-			CORE->SetEditorLaunched(true);
 		}
 		else
 			DebuggerLogError("Editor System already exists!");
 
-		//SetSystemName("Editor System");
+		// Initialize command manager
+		commandManager = std::make_shared<CommandManager>();
 
+		// Initialize editor layers
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorToolBar>("ToolBar"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorInspector>("Inspector"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorHierarchy>("Hierarchy"));
@@ -238,7 +239,6 @@ namespace LB
 		ImGui::DockSpace(maindockspaceID, ImVec2(0.0f, 0.0f), 0);
 
 		ImGui::End();
-
 
 		// Update all the ImGui layers here
 		for (std::shared_ptr<Layer>& layer : m_ImGuiLayers)
