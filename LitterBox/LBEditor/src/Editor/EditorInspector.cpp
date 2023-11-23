@@ -180,7 +180,7 @@ namespace LB
 				else
 				{
 					m_inspectedGO->AddComponent(C_CPAudioSource, FACTORY->GetCMs()[C_CPAudioSource]->Create());
-					m_inspectedGO->GetComponent<CPAudioSource>()->Initialise();
+					//m_inspectedGO->GetComponent<CPAudioSource>()->Initialise();
 					DebuggerLog("Audio Source component Added!");
 					ImGui::CloseCurrentPopup();
 				}
@@ -263,6 +263,7 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);
 				int inspectedTextureID = m_inspectedGO->GetComponent<CPRender>()->texture;
+				//This allows you to drag into the text
 				if (ImGui::BeginDragDropTarget())
 				{
 					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("TEXTURE"))
@@ -283,7 +284,15 @@ namespace LB
 					}
 					ImGui::EndCombo();
 				}
-
+				//This allows you to drag into the combo
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("TEXTURE"))
+					{
+						const char* textureName = (const char*)textureData->Data;
+						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second);
+					}
+				}
 				// Delete Component
 				if (ImGui::Button("Delete Render Component"))
 				{
@@ -524,6 +533,7 @@ namespace LB
 				}
 			}
 		}
+		
 		if (m_inspectedGO->HasComponent<CPAudioSource>())
 		{
 			if (ImGui::CollapsingHeader("Audio Source Component", ImGuiTreeNodeFlags_DefaultOpen))
@@ -531,26 +541,40 @@ namespace LB
 				// Interface Buttons
 				ImGui::Text("%-19s", "Audio Clip Name");
 				ImGui::SameLine();
-				ImGui::SetNextItemWidth(dropdownWidth);
-				std::string inspectedAudioClipName = m_inspectedGO->GetComponent<CPAudioSource>()->AudioClipName;
+				//This is for dragging into the text thing
 				if (ImGui::BeginDragDropTarget())
 				{
 					if (const ImGuiPayload* audioData = ImGui::AcceptDragDropPayload("AUDIO"))
 					{
-						const char* audioClipName = (const char*)audioData->Data;
-						m_inspectedGO->GetComponent<CPAudioSource>()->AudioClipName = audioClipName;
+						const char* audioClipName = reinterpret_cast<const char*>(audioData->Data);
+						//DebuggerLogWarningFormat("clip name : %s", std::string(audioClipName).c_str());
+						m_inspectedGO->GetComponent<CPAudioSource>()->UpdateAudio(std::string(audioClipName));
+
 					}
 				}
+				ImGui::SetNextItemWidth(dropdownWidth);
+				std::string inspectedAudioClipName = m_inspectedGO->GetComponent<CPAudioSource>()->AudioClipName;
 				if (ImGui::BeginCombo("##AudioClips", inspectedAudioClipName.c_str()))
 				{
 					for (auto& [str, clip] : ASSETMANAGER->SoundMap)
 					{
 						if (ImGui::Selectable(str.c_str()))
 						{
-							m_inspectedGO->GetComponent<CPAudioSource>()->AudioClipName = str;
+							m_inspectedGO->GetComponent<CPAudioSource>()->UpdateAudio(str);
 						}
 					}
 					ImGui::EndCombo();
+				}
+				//This is for dragging into the combo
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* audioData = ImGui::AcceptDragDropPayload("AUDIO"))
+					{
+						const char* audioClipName = reinterpret_cast<const char*>(audioData->Data);
+						//DebuggerLogWarningFormat("clip name : %s", std::string(audioClipName).c_str());
+						m_inspectedGO->GetComponent<CPAudioSource>()->UpdateAudio(std::string(audioClipName));
+						
+					}
 				}
 				ImGui::Text("%-19s", "Play On Awake");
 				ImGui::SameLine();

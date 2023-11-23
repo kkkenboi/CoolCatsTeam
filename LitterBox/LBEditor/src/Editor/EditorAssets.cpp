@@ -194,12 +194,17 @@ namespace LB
 				{
 					if (ImGui::BeginDragDropSource())
 					{
-						ImGui::SetDragDropPayload("TEXTURE", FileName.c_str(), FileName.size());
+						ImGui::SetDragDropPayload("TEXTURE", FileName.c_str(), FileName.size()+1);
 						ImGui::EndDragDropSource();
 					}
 				}
 				if (directory.path().extension().string() == ".wav")
 				{
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("AUDIO", FileName.c_str(), FileName.size()+1);
+						ImGui::EndDragDropSource();
+					}
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
 						AUDIOMANAGER->ToggleSoundPlaying(FileName);
