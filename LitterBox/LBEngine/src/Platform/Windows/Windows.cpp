@@ -29,8 +29,7 @@
 namespace LB
 {
     void exit() {
-        static int test{ 0 };
-        std::cout << "OUT OF FOCUS " << test++ << '\n';
+        glfwIconifyWindow(WINDOWSSYSTEM->GetWindow());
     }
 
     WindowsSystem* WINDOWSSYSTEM = nullptr;
