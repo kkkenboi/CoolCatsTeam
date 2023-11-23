@@ -29,9 +29,6 @@ namespace LB
 
 		void Execute() override
 		{
-			DebuggerLogFormat("Transform pos: %f %f", m_transform->GetPosition().x, m_transform->GetPosition().y);
-			DebuggerLogFormat("New pos: %f %f", m_newPos.x, m_newPos.y);
-
 			m_transform->SetPosition(m_newPos);
 		}
 

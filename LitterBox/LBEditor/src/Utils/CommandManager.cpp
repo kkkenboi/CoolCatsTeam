@@ -54,8 +54,6 @@ namespace LB
 
 	void CommandManager::AddToHistory(std::shared_ptr<ICommand> newCommand)
 	{
-		history.push_back(nullptr);
-
 		// If command history capacity is reached, remove oldest command
 		if (history.size() > historyCapacity)
 		{
