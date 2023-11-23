@@ -59,6 +59,8 @@ namespace LB
 		*************************************************************************/
 		void SceneOnPlayToggle(bool isPlaying);
 
+		void CheckSceneToLoad();
+
 		/*!***********************************************************************
 		 \brief
 		 Loads a scene based on index in scene order
@@ -107,12 +109,14 @@ namespace LB
 	private:
 		std::vector<std::string> m_sceneOrder; // Names of all scenes loaded
 
-		Scene *m_currentScene{ nullptr };	// Which scene is currently loaded?
+		Scene* m_currentScene{ nullptr };	// Which scene is currently loaded?
+		Scene* m_nextScene{ nullptr };		// Which scene to load next (at the end of the frame)?
 		bool m_isReloading{ false };		// Is the scene reloading?
 	};
 
 	// For event subscription
 	void SceneOnPlayToggle(bool isPlaying);
+	void CheckSceneToLoad();
 
 	/*!***********************************************************************
 	 \brief
