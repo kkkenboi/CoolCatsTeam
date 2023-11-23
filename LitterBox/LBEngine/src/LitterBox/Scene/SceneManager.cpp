@@ -43,11 +43,13 @@ namespace LB
 
 		// On play, serialize the scene. On !play, reload the scene
 		CORE->onPlayingModeToggle.Subscribe(LB::SceneOnPlayToggle);
+		TIME->onFrameEnd.Subscribe(LB::CheckSceneToLoad);
 
 		// TODO: Lookup table for scene names, arranged where 0 index is loaded first!
 		JSONSerializer::DeserializeFromFile("SceneOrder", *this);
 
 		LoadScene(0);
+		CheckSceneToLoad(); // Force load the scene
 	}
 
 	/*!***********************************************************************
@@ -109,31 +111,13 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::LoadScene(Scene* newScene)
 	{
-		if (CORE->IsPlaying())
+		if (m_nextScene) 
 		{
-			DebuggerLogWarningFormat("Tried to load new scene %s while scene %s is running.", newScene->GetName().c_str(), m_currentScene->GetName().c_str());
-			MEMORY->Deallocate(newScene);
-			return;
+			DebuggerLogErrorFormat("Tried to load new scene %s while another new scene is not loaded!", newScene->GetName().c_str(), m_nextScene->GetName().c_str());
+			MEMORY->Deallocate(m_nextScene);
 		}
 
-		// TODO: Confirm first before saving
-		if (m_currentScene) {
-			if (m_isReloading)
-				m_isReloading = false;
-			else
-				m_currentScene->Save();
-		}
-
-		// Free current scene first
-		if (m_currentScene) {
-			m_currentScene->Destroy();
-			MEMORY->Deallocate(m_currentScene);
-		}
-		m_currentScene = newScene;
-
-		onNewSceneLoad.Invoke(m_currentScene);
-
-		m_currentScene->Init();
+		m_nextScene = newScene;
 	}
 
 	/*!***********************************************************************
@@ -171,6 +155,37 @@ namespace LB
 	void SceneOnPlayToggle(bool isPlaying)
 	{
 		SCENEMANAGER->SceneOnPlayToggle(isPlaying);
+	}
+
+	void SceneManager::CheckSceneToLoad()
+	{
+		if (!m_nextScene) return;
+
+		// TODO: Confirm first before saving
+		if (!CORE->IsPlaying() && m_currentScene) {
+			if (m_isReloading)
+				m_isReloading = false;
+			else
+				m_currentScene->Save();
+		}
+
+		// Free current scene first
+		if (m_currentScene) {
+			m_currentScene->Destroy();
+			MEMORY->Deallocate(m_currentScene);
+		}
+		m_currentScene = m_nextScene;
+
+		onNewSceneLoad.Invoke(m_currentScene);
+
+		m_currentScene->Init();
+
+		m_nextScene = nullptr;
+	}
+
+	void CheckSceneToLoad()
+	{
+		SCENEMANAGER->CheckSceneToLoad();
 	}
 
 	/*!***********************************************************************

@@ -267,19 +267,23 @@ namespace LB
 					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>( m_inspectedGO->GetComponent<CPTransform>(), pos );
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
 				}
-				//m_inspectedGO->GetComponent<CPTransform>()->SetPosition(pos);
 
 				Vec2<float> scale = m_inspectedGO->GetComponent<CPTransform>()->GetScale();
 				ImGui::Text("%-17s X", "Scale");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##ScaleX", &scale.x, 0.1f, 0.0f, 0.0f, "%.2f");
+				bool scaleXChanged = ImGui::DragFloat("##ScaleX", &scale.x, 0.1f, 0.0f, 0.0f, "%.2f");
 				ImGui::SameLine();
 				ImGui::Text("Y");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##ScaleY", &scale.y, 0.1f, 0.0f, 0.0f, "%.2f");
+				bool scaleYChanged = ImGui::DragFloat("##ScaleY", &scale.y, 0.1f, 0.0f, 0.0f, "%.2f");
 				m_inspectedGO->GetComponent<CPTransform>()->SetScale(scale);
+				if (scaleXChanged || scaleYChanged)
+				{
+					std::shared_ptr<ScaleCommand> scaleCommand = std::make_shared<ScaleCommand>(m_inspectedGO->GetComponent<CPTransform>(), scale);
+					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(scaleCommand));
+				}
 
 				float rotation = m_inspectedGO->GetComponent<CPTransform>()->GetRotation();
 				ImGui::Text("%-19s", "Angle");
