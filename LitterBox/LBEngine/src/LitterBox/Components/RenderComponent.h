@@ -22,6 +22,9 @@
 //#include "LitterBox/Serialization/AssetManager.h"
 #include <queue>
 
+
+constexpr float deg_to_rads{ PI / 180.f };
+
 namespace LB
 {
 	/*!***********************************************************************
@@ -188,7 +191,7 @@ namespace LB
 		*************************************************************************/
 		inline void get_transform_data() {
 			position = initialized ? transform->GetPosition() : position;
-			rotation = initialized ? transform->GetRotation() : rotation;
+			rotation = initialized ? transform->GetRotation() * deg_to_rads : rotation;
 			scal = initialized ? transform->GetScale() : scal;
 		};
 

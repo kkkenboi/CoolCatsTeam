@@ -27,13 +27,13 @@ namespace LB {
 
 		//-------------Rotation matrix values to get the left of the button---------------
 		rot_row1.x = cosf(rot);
-		rot_row1.y = sinf(rot);
+		rot_row1.y = -sinf(rot);
 
-		rot_row2.x = -sinf(rot);
+		rot_row2.x = sinf(rot);
 		rot_row2.y = cosf(rot);
 
 		//get the position of the object
-		right_side = GameObj->GetComponent<CPTransform>()->GetPosition();
+		right_side = coll->m_pos;
 		Vec2<float> pos_trans{ right_side };
 
 		//move the point to the right of the game object
@@ -43,11 +43,11 @@ namespace LB {
 
 		//rotate the object around the origin
 		Vec2<float> tmp{ right_side };
-		right_side.x = DotProduct(tmp, rot_row1);
-		right_side.y = DotProduct(tmp, rot_row2);
+		right_side.x = DotProduct(rot_row1, tmp);
+		right_side.y = DotProduct(rot_row2, tmp);
 
 		//move the point back
-		right_side += pos_trans;
+		right_side = right_side + pos_trans;
 
 		//get a pointer to the hand game object
 		for (const auto& e : GOMANAGER->GetGameObjects()) {
@@ -65,10 +65,11 @@ namespace LB {
 
 		Vec2<float> hand_size{
 			hand->GetComponent<CPRender>()->w * hand->GetComponent<CPTransform>()->GetScale().x * 0.5f,
-			hand->GetComponent<CPRender>()->h * hand->GetComponent<CPTransform>()->GetScale().y * 0.5f,
+			//we use a little less than half because there is some extra space on the top right corner
+			hand->GetComponent<CPRender>()->h * hand->GetComponent<CPTransform>()->GetScale().y * 0.45f,
 		};
 
-		right_side -= hand_size;
+		right_side = right_side - hand_size;
 		//(hand->GetComponent<CPTransform>()->GetPosition() * hand->GetComponent<CPTransform>()->GetScale() * 0.5f);
 		//-------------Rotation matrix values to get the left of the button---------------
 	}
