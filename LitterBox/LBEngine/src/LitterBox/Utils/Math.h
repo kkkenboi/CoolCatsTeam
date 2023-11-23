@@ -2596,4 +2596,30 @@ namespace LB
 	{
 		return Vec4<T>(rhs.x, rhs.y, rhs.z, (T)0);
 	}
+
+	/*!***********************************************************************
+	 \brief
+	 Non-Member to convert Degree to Radian
+
+	 \return
+	 double
+	*************************************************************************/
+	template<typename T>
+	T DegToRad(T Degangle)
+	{
+		return ((T)(PI / 180.0) * Degangle);
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Non-Member to convert Radian to Degree
+
+	 \return
+	 double
+	*************************************************************************/
+	template<typename T>
+	T RadToDeg(T Radangle)
+	{
+		return ((T)(180.0 / PI) * Radangle);
+	}
 }
