@@ -887,8 +887,6 @@ struct textbutt {
 		//number based on initial font size when loading freetype font
 		float nscale = background.h < 50.f ? background.h / 50.f : 1.f;
 
-		//std::cout << nscale << " is the scale\n";
-
 		text.update_msg_pos(textposition);
 		text.update_msg_size(nscale);
 	}

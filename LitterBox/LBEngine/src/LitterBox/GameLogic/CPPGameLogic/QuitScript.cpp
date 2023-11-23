@@ -17,6 +17,10 @@
 #include "QuitScript.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Core/Core.h"
+#include "LitterBox/Scene/SceneManager.h"
+
+extern const float deg_to_rads;
 
 namespace LB {
 	void QuitScript::Start()
@@ -85,8 +89,16 @@ namespace LB {
 			DebuggerLogFormat("CLICK POS: %f, %f", mouse.x, mouse.y);
 
 			for (const auto& collider : test) {
-				if (coll == collider) {
-					glfwDestroyWindow(WINDOWSSYSTEM->GetWindow());
+				if (coll != collider) {
+					continue;
+				}
+
+				if (GameObj->GetName() == "Quit") {
+					MessageQuit q;
+					CORE->BroadcastMessage(&q);
+				}
+				else if (GameObj->GetName() == "StartGame") {
+					SCENEMANAGER->LoadScene("SceneMain");
 				}
 			}
 		}
