@@ -19,7 +19,9 @@ namespace LB
 {
 	enum CommandType
 	{
-		MOVE
+		MOVE,
+		SCALE,
+		ROTATE
 	};
 
 	class ICommand
