@@ -29,6 +29,7 @@
 #include "EditorProfiler.h"
 #include "EditorPrefabWindow.h"
 #include "EditorAnimationEditor.h"
+#include "EditorCollisionLayer.h"
 
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
@@ -66,13 +67,14 @@ namespace LB
 		{
 			EDITOR = this;
 			CORE->SetEditorMode(true);
-			CORE->SetEditorLaunched(true);
 		}
 		else
 			DebuggerLogError("Editor System already exists!");
 
-		//SetSystemName("Editor System");
+		// Initialize command manager
+		commandManager = std::make_shared<CommandManager>();
 
+		// Initialize editor layers
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorToolBar>("ToolBar"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorInspector>("Inspector"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorHierarchy>("Hierarchy"));
@@ -83,6 +85,7 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAssets>("Assets"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAnimationEditor>("Animation Editor"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorPrefabWindow>("Prefab"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorCollisionLayer>("Collision Layers"));
 
 		Initialize();
 	}
@@ -137,7 +140,6 @@ namespace LB
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		ImGuizmo::BeginFrame();
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Docking Section
 		static bool dockspaceOpen = true;
@@ -147,7 +149,7 @@ namespace LB
 		ImGui::SetNextWindowViewport(viewport->ID);
 
 		ImGuiWindowFlags dockingFlags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-										ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNav;
+										ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_MenuBar;
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 		ImGui::Begin("Dockspace", &dockspaceOpen, dockingFlags);
@@ -237,7 +239,6 @@ namespace LB
 		ImGui::DockSpace(maindockspaceID, ImVec2(0.0f, 0.0f), 0);
 
 		ImGui::End();
-
 
 		// Update all the ImGui layers here
 		for (std::shared_ptr<Layer>& layer : m_ImGuiLayers)

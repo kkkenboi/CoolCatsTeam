@@ -11,15 +11,15 @@ namespace LB {
 		ColliderLayer UILayer = AddLayer("UI");
 
 		
-		std::cout << "2D Array : [" << m_collision_layer_matrix.size() << "]" <<
-			"[" << m_collision_layer_matrix[0].size() << "]" << std::endl;
+		//std::cout << "2D Array : [" << m_collision_layer_matrix.size() << "]" <<
+			//"[" << m_collision_layer_matrix[0].size() << "]" << std::endl;
 
-		std::cout << "Layer Number Default: " << FindLayerNumber("Default")
-			<< std::endl;
+		//std::cout << "Layer Number Default: " << FindLayerNumber("Default")
+			//<< std::endl;
 
-		std::cout << "Vec Num 0 :" << m_layers[0].first << std::endl;
-		std::cout << "Vec Num 1 :" << m_layers[1].first << std::endl;
-		std::cout << "Vec Num 2 :" << m_layers[2].first << std::endl;
+		//std::cout << "Vec Num 0 :" << m_layers[0].first << std::endl;
+		//std::cout << "Vec Num 1 :" << m_layers[1].first << std::endl;
+		//std::cout << "Vec Num 2 :" << m_layers[2].first << std::endl;
 		
 		SetCollisionLayer(DefaultLayer, DefaultLayer, true);
 		SetCollisionLayer(DefaultLayer, GameEntityLayer, true);
@@ -49,12 +49,12 @@ namespace LB {
 
 		// We then default initialise the vector inside the vector to be of
 		// the new size and setting all collisions with other layers to false
-		m_collision_layer_matrix.resize(position + 1, std::vector<bool>(position + 1, false));
+		m_collision_layer_matrix.resize(position + 1, std::vector<int>(position + 1, 0));
 		// We then adjust all the previously declared vectors to be of the new size
 		for (int i = 0; i < position; ++i)
 		{
-			m_collision_layer_matrix[i].resize(position + 1, false);
-			m_collision_layer_matrix[position][i] = false;
+			m_collision_layer_matrix[i].resize(position + 1, 0);
+			m_collision_layer_matrix[position][i] = 0;
 		}
 
 
@@ -78,6 +78,7 @@ namespace LB {
 
 		if (!found)
 		{
+			std::cout << "Not found" << std::endl;
 			return;
 		}
 
@@ -88,7 +89,7 @@ namespace LB {
 		m_collision_layer_matrix.erase(m_collision_layer_matrix.begin() + position);
 
 		// Erase the rows associated with the layer in all the other columns
-		for (std::vector<bool> column : m_collision_layer_matrix) 
+		for (std::vector<int> column : m_collision_layer_matrix) 
 		{
 			column.erase(column.begin() + position);
 		}
@@ -105,12 +106,12 @@ namespace LB {
 	{
 		for (std::pair<std::string, ColliderLayer> item : m_layers)
 		{
-			std::cout << "In FindLayerNumber" << std::endl;
+			//std::cout << "In FindLayerNumber" << std::endl;
 			//std::cout << layer_name << std::endl;
-			std::cout << item.first << std::endl;
+			//std::cout << item.first << std::endl;
 			if (item.first == layer_name)
 			{
-				std::cout << "YoYo" << std::endl;
+				//std::cout << "YoYo" << std::endl;
 				return item.second.GetPosInVec();
 			}
 		}
@@ -127,7 +128,12 @@ namespace LB {
 	{
 		return m_layers;
 	}
-
+	
+	std::vector<std::vector<int>>& ColliderLayerSystem::GetLayerMatrix()
+	{
+		return m_collision_layer_matrix;
+	}
+	
 	void ColliderLayerSystem::SetCollisionLayer(ColliderLayer layerA, ColliderLayer layerB, bool canCollide)
 	{
 		int indexA = layerA.GetPosInVec();
@@ -147,7 +153,7 @@ namespace LB {
 			{
 				if (i == index || j == index) 
 				{
-					m_collision_layer_matrix[i][j] = true;
+					m_collision_layer_matrix[i][j] = 1;
 				}
 			}
 		}

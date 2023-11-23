@@ -71,21 +71,21 @@ namespace LB
 		/*!***********************************************************************
 		 \brief
 		 Returns true if the game is in editor mode, m_editorMode is a bool
-		 to check if the game is in the editor view
+		 to check if the editor is attached to the engine.
 		*************************************************************************/
 
 		bool IsEditorMode() const;
 		/*!***********************************************************************
 		 \brief
-		 Flips the state of m_editorMode which is a bool to check if the game
-		 is in the editor view
+		 Flips the state of m_editorMode which is a bool to check if the editor 
+		 is attached to the engine.
 		*************************************************************************/
 		void ToggleEditorMode();
 
 		/*!***********************************************************************
 		 \brief
 		 Sets the state of m_editorMode to the given state, m_editorMode is a bool
-		 to check if the game is in the editor view
+		 to check if the the editor is attached to the engine.
 		*************************************************************************/
 		void SetEditorMode(bool newState);
 
@@ -114,26 +114,12 @@ namespace LB
 		// Event to let any subscribers know the game has started/stopped
 		Event<bool> onPlayingModeToggle;
 
-		/*!***********************************************************************
-		 \brief
-		 Returns true if the editor ImGUI has initialized and launched
-		*************************************************************************/
-		bool IsEditorLaunched() const;
-
-		/*!***********************************************************************
-		 \brief
-		 Sets the m_editorLaunch flag to the given state, this checks if the
-		 editor ImGUI has initialized and launched
-		*************************************************************************/
-		void SetEditorLaunched(bool newState);
-
 	private:
 		std::vector<std::shared_ptr<ISystem>> m_systems; // Pointers to all systems currently loaded
 		
-		bool					m_running;				// Is the editor running?
+		bool					m_running;				// Is the engine running?
 		bool					m_isPlaying{ false };	// Is the game running?
-		bool					m_editorMode{ true };	// Is the ImGUI editor interface open?
-		bool					m_editorLaunch{ false }; // Has the editor ImGUI initialized?
+		bool					m_editorMode{ false };	// Is the editor attached to the game engine?
 	};
 
 	extern LBEngine* CORE; // Global pointer to the singleton

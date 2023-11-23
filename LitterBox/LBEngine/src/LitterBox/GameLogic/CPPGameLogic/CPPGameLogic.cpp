@@ -23,6 +23,7 @@
 #include "Butt.h"
 #include "CPPSChaser.h"
 #include "QuitScript.h"
+#include "CPPSMage.h"
 
 namespace LB
 {
@@ -55,7 +56,8 @@ namespace LB
 		if (newScript->GetName() == "Player" || 
 			newScript->GetName() == "Enemy" || 
 			newScript->GetName() == "Butt" ||
-			newScript->GetName() == "Quit")
+			newScript->GetName() == "Quit" ||
+			newScript->GetName() == "Mage")
 		{
 			m_sceneScripts.push_back(newScript);
 			return;
@@ -95,6 +97,9 @@ namespace LB
 			}
 			else if (script->GetName() == "Quit") {
 				script->SetInstance(DBG_NEW QuitScript);
+			}
+			else if (script->GetName() == "Mage") {
+				script->SetInstance(DBG_NEW CPPSMage);
 			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 

@@ -42,9 +42,193 @@ IncludeDir["Mono"]          = "%{wks.location}/dependencies/Mono/include/mono-2.
 -- Projects 
 group "Dependencies"
 -- Dependencies that are not here are header-only files
-    include "dependencies/GLFW"
-    include "dependencies/Glad"
-    include "dependencies/ImGui"
+    project "GLFW"
+        location "dependencies/GLFW"
+        staticruntime "on"
+
+        kind "StaticLib"
+
+        language "C"
+
+        targetdir ("%{wks.location}/bin/" .. outputDir .. "/%{prj.name}")
+        objdir ("%{wks.location}/bin-int/" .. outputDir .. "/%{prj.name}")
+
+        files
+        {
+            "%{prj.location}/include/**.h",
+            "%{prj.location}/src/**.h",
+            "%{prj.location}/src/**.c"
+        }
+
+        filter "system:windows"
+            systemversion "latest"
+
+            defines
+            {
+                "_GLFW_WIN32",
+                "_CRT_SECURE_NO_WARNINGS"
+            }
+
+        filter "configurations:Release"
+            kind "StaticLib" 
+            runtime "Release" -- uses the release Runtime Library
+            optimize "On"
+            architecture "x86_64"
+    
+        filter "configurations:Editor"
+            kind "StaticLib"
+            runtime "Debug" -- uses the debug Runtime Library
+            symbols "On"
+            architecture "x86_64"
+    
+        filter "configurations:Engine"
+            kind "StaticLib" 
+            runtime "Release" -- uses the release Runtime Library
+            optimize "On"
+            architecture "x86_64"
+    
+        filter "configurations:Mono"
+            kind "StaticLib" 
+            runtime "Release" -- uses the release Runtime Library
+            optimize "On"
+            architecture "x86_64"
+
+    project "Glad"
+        location "dependencies/Glad"
+        kind "StaticLib"
+        staticruntime "on"
+    
+        language "C"
+    
+        targetdir ("bin/" .. outputDir .. "/%{prj.name}")
+        objdir ("bin-int/" .. outputDir .. "/%{prj.name}")
+    
+        files
+        {
+            "%{wks.location}/dependencies/Glad/include/glad/glad.h",
+            "%{wks.location}/dependencies/Glad/include/KHR/khrplatform.h",
+            "%{wks.location}/dependencies/Glad/src/glad.c"    
+        }
+    
+        includedirs
+        {
+            "%{prj.location}/include"
+        }
+    
+        filter "system:windows"
+            systemversion "latest"
+    
+        filter "configurations:Release"
+            kind "StaticLib" 
+            runtime "Release" -- uses the release Runtime Library
+            optimize "On"
+            architecture "x86_64"
+    
+        filter "configurations:Editor"
+            kind "StaticLib"
+            runtime "Debug" -- uses the debug Runtime Library
+            symbols "On"
+            architecture "x86_64"
+    
+        filter "configurations:Engine"
+            kind "StaticLib" 
+            runtime "Release" -- uses the release Runtime Library
+            optimize "On"
+            architecture "x86_64"
+    
+        filter "configurations:Mono"
+            kind "StaticLib" 
+            runtime "Release" -- uses the release Runtime Library
+            optimize "On"
+            architecture "x86_64"
+        
+    project "ImGui"
+        location "dependencies/ImGui"
+        kind "StaticLib"
+        staticruntime "on"
+
+        language "C++"
+        cppdialect "C++17"
+
+        targetdir ("bin/" .. outputDir .. "/%{prj.name}")
+        objdir ("bin-int/" .. outputDir .. "/%{prj.name}")
+
+        includedirs
+        {
+            "%{IncludeDir.GLFW}",
+            "%{IncludeDir.Glad}",
+            "%{IncludeDir.glm}",
+            "%{IncludeDir.spdlog}",
+            "%{IncludeDir.stb}",
+            "%{IncludeDir.FreeType}",
+            "%{IncludeDir.FMOD}",
+            "%{IncludeDir.RapidJSON}",
+        }
+
+        files
+        {
+            "%{prj.location}/imconfig.h",
+            "%{prj.location}/imgui.h",
+            "%{prj.location}/imgui.cpp",
+            "%{prj.location}/imgui_draw.cpp",
+            "%{prj.location}/imgui_internal.h",
+            "%{prj.location}/imgui_widgets.cpp",
+            "%{prj.location}/imgui_tables.cpp",
+            "%{prj.location}/imstb_rectpack.h",
+            "%{prj.location}/imstb_textedit.h",
+            "%{prj.location}/imstb_truetype.h",
+            "%{prj.location}/imgui_demo.cpp",
+            "%{prj.location}/imgui_impl_opengl3.cpp",
+            "%{prj.location}/imgui_impl_opengl3.h",
+            "%{prj.location}/imgui_impl_opengl3_loader.h",
+            "%{prj.location}/imgui_impl_glfw.cpp",
+            "%{prj.location}/imgui_impl_glfw.h",
+            "%{prj.location}/implot.h",
+            "%{prj.location}/implot_internal.h",
+            "%{prj.location}/implot.cpp",
+            "%{prj.location}/implot_demo.cpp",
+            "%{prj.location}/implot_items.cpp",
+            "%{prj.location}/ImSequencer.cpp",
+            "%{prj.location}/ImSequencer.h",
+            "%{prj.location}/ImCurveEdit.cpp",
+            "%{prj.location}/ImCurveEdit.h",
+            "%{prj.location}/ImGradient.cpp",
+            "%{prj.location}/ImGradient.h",
+            "%{prj.location}/GraphEditor.cpp",
+            "%{prj.location}/GraphEditor.h",
+            "%{prj.location}/ImApp.h",
+            "%{prj.location}/ImGuizmo.cpp",
+            "%{prj.location}/ImGuizmo.h",
+    
+        }
+
+        filter "system:windows"
+            systemversion "latest"
+
+        filter "configurations:Release"
+            kind "None" 
+            runtime "Release" -- uses the release Runtime Library
+            optimize "On"
+            architecture "x86_64"
+    
+        filter "configurations:Editor"
+            kind "StaticLib"
+            runtime "Debug" -- uses the debug Runtime Library
+            symbols "On"
+            architecture "x86_64"
+    
+        filter "configurations:Engine"
+            kind "None" 
+            runtime "Release" -- uses the release Runtime Library
+            optimize "On"
+            architecture "x86_64"
+    
+        filter "configurations:Mono"
+            kind "None" 
+            runtime "Release" -- uses the release Runtime Library
+            optimize "On"
+            architecture "x86_64"
+    
 group ""
 
 group "Script"
@@ -62,3 +246,4 @@ group ""
 group "Game"
     include "PurrfectPutt"
 group ""
+

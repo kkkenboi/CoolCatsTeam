@@ -217,6 +217,12 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
+		  A function that finds the distance between 2 vectors
+		*************************************************************************/
+		static T Distance(Vec2<T> const& lhs, Vec2<T> const& rhs);
+
+		/*!***********************************************************************
+		 \brief
 		  A function that sets x and y values to itself
 		*************************************************************************/
 		Vec2<T>& Set(T x, T y);
@@ -1235,6 +1241,18 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
+	 This function calculates the distance between 2 points MEMBER FUNCTION
+	\return
+	 T
+	*************************************************************************/
+	template<typename T>
+	T Vec2<T>::Distance(Vec2<T> const& lhs, Vec2<T> const& rhs)
+	{
+		return (T)sqrt((double)((lhs.x - rhs.x) * (lhs.x - rhs.x) + (lhs.y - rhs.y) * (lhs.y - rhs.y)));
+	}
+
+	/*!***********************************************************************
+	\brief
 	 This function set the x and y into the vector
 	\return
 	 Vec2<T>&
@@ -1302,7 +1320,7 @@ namespace LB
 	template<typename T>
 	T Distance(Vec2<T> const& lhs, Vec2<T> const& rhs)
 	{
-		return (T)sqrt((double)((lhs.x - rhs.x) * (lhs.x - rhs.x) + (lhs.y - rhs.y) * (lhs.y - rhs.y)));
+		return (T)sqrt((double)(((lhs.x - rhs.x) * (lhs.x - rhs.x)) + ((lhs.y - rhs.y) * (lhs.y - rhs.y))));
 	}
 
 	/*!***********************************************************************
@@ -2577,5 +2595,31 @@ namespace LB
 	Vec4<T> ToVector4(Vec3<T> const& rhs) // Vec3 to Vec4
 	{
 		return Vec4<T>(rhs.x, rhs.y, rhs.z, (T)0);
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Non-Member to convert Degree to Radian
+
+	 \return
+	 double
+	*************************************************************************/
+	template<typename T>
+	T DegToRad(T Degangle)
+	{
+		return ((T)(PI / 180.0) * Degangle);
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Non-Member to convert Radian to Degree
+
+	 \return
+	 double
+	*************************************************************************/
+	template<typename T>
+	T RadToDeg(T Radangle)
+	{
+		return ((T)(180.0 / PI) * Radangle);
 	}
 }

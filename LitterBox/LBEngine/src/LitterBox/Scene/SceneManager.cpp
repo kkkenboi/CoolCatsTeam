@@ -45,7 +45,9 @@ namespace LB
 		CORE->onPlayingModeToggle.Subscribe(LB::SceneOnPlayToggle);
 
 		// TODO: Lookup table for scene names, arranged where 0 index is loaded first!
-		LoadScene("SceneMainMenu");
+		JSONSerializer::DeserializeFromFile("SceneOrder", *this);
+
+		LoadScene(0);
 	}
 
 	/*!***********************************************************************
@@ -64,6 +66,10 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::Destroy()
 	{
+		// Save scene order
+		JSONSerializer::SerializeToFile("SceneOrder", *this);
+
+		// Auto-save current loaded scene if game is not playing
 		if (!CORE->IsPlaying())
 		{
 			m_currentScene->Save();
@@ -71,6 +77,20 @@ namespace LB
 
 		m_currentScene->Destroy();
 		MEMORY->Deallocate(m_currentScene);
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Loads a scene based on index in scene order
+	*************************************************************************/
+	void SceneManager::LoadScene(int index)
+	{
+		if (index < 0 || index >= m_sceneOrder.size())
+		{
+			DebuggerLogErrorFormat("Tried to load scene index out of range: %d!", index);
+			return;
+		}
+		LoadScene(m_sceneOrder[index]);
 	}
 
 	/*!***********************************************************************
@@ -128,6 +148,15 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
+	 Gets the current scene loaded in SceneManager
+	*************************************************************************/
+	Scene* SceneManager::GetCurrentScene()
+	{
+		return m_currentScene;
+	}
+
+	/*!***********************************************************************
+	 \brief
 	 Loads or saves the scene when the play button is pressed
 	*************************************************************************/
 	void SceneManager::SceneOnPlayToggle(bool isPlaying)
@@ -142,5 +171,50 @@ namespace LB
 	void SceneOnPlayToggle(bool isPlaying)
 	{
 		SCENEMANAGER->SceneOnPlayToggle(isPlaying);
+	}
+
+	/*!***********************************************************************
+	\brief
+	Serializes the scene order to the JSON file
+	*************************************************************************/
+	bool SceneManager::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+		data.SetObject();
+		Value sceneArray(rapidjson::kArrayType);
+		for (const auto& scene : m_sceneOrder)
+		{
+			Value sceneName(scene.c_str(), alloc);
+			sceneArray.PushBack(sceneName, alloc);
+		}
+		data.AddMember("SceneOrder", sceneArray, alloc);
+
+		return true;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Loads the scene order from the JSON file
+	*************************************************************************/
+	bool SceneManager::Deserialize(const Value& data)
+	{
+		DebuggerLogWarning("Ran!!");
+
+		bool HasScene = data.HasMember("SceneOrder");
+		if (data.IsObject())
+		{
+			if (HasScene)
+			{
+				const Value& scenesValue = data["SceneOrder"].GetArray();
+				for (rapidjson::SizeType i{}; i < scenesValue.Size(); ++i)
+				{
+					m_sceneOrder.push_back(scenesValue[i].GetString());
+				}
+
+				DebuggerLogWarningFormat("Scene Order size: %d", m_sceneOrder.size());
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

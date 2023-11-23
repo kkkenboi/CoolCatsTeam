@@ -1023,6 +1023,23 @@ void Renderer::RenderSystem::Update()
 {
 	//set the shader program before hand
 	glUseProgram(shader_program);
+
+	float onear = 4.f;
+	float ofar = -6.f;
+	float hvf = (float)LB::WINDOWSSYSTEM->GetHeight();
+	float wvf = (float)LB::WINDOWSSYSTEM->GetWidth();
+	float lvf = 0.f;
+	float rvf = wvf;
+
+	float zoomx = 2.f / rvf;
+	float zoomy = 2.f / hvf;
+
+	cam.ortho = {
+		 zoomx, 0.f, 0.f, 0.f,
+		 0.f, zoomy, 0.f, 0.f,
+		 0.f, 0.f, -2.f / (ofar - onear), 0.f,
+		 -(rvf + lvf) / (rvf - lvf), -1.f, -(ofar + onear) / (ofar - onear), 1.f
+	};
 	/*if (game_cam) 
 	{
 		cam.update_ortho_cam(game_cam->getCam());
