@@ -22,7 +22,7 @@
 namespace LB
 {
 	//This array is for the animation frames
-	std::array<std::array<LB::Vec2<float>, 4>, 12> frames[4];
+	std::array<std::array<LB::Vec2<float>, 4>, 10> frames;
 
 	/*!***********************************************************************
 	\brief
@@ -34,32 +34,32 @@ namespace LB
 
 		rend = GameObj->GetComponent<CPRender>();
 
+		trans = GameObj->GetComponent<CPTransform>();
+		right_face = trans->GetScale();
+		left_face = trans->GetScale();
+		left_face.x = -left_face.x;
+
 		DebuggerLogWarningFormat("Found run! %d", LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["run"]) != LB::ASSETMANAGER->Textures.end());
 
 		//---------------------------getting the uvs for the run------------------------
-		if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["run"]) != LB::ASSETMANAGER->Textures.end()) {
-			int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["run"])->second.first->width };
-			int img_height{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["run"])->second.first->height };
+		if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"]) != LB::ASSETMANAGER->Textures.end()) {
+			int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width };
 
-			float x_inc{ (float)img_width / (12.f * (float)img_width) };
-			float y_inc{ (float)img_height / (4.f * (float)img_height) };
+			float x_inc{ 1.f / 10.f };
 
-			for (int y{ 0 }; y < 4; ++y)
-				for (int x{ 0 }; x < 12; ++x) {
-					frames[y][x].at(0) = { x * x_inc, y * y_inc };//bottom left
-					frames[y][x].at(1) = { (x + 1) * x_inc, y * y_inc };//bottom right
-					frames[y][x].at(2) = { (x + 1) * x_inc, (y + 1) * y_inc };//top right
-					frames[y][x].at(3) = { x * x_inc, (y + 1) * y_inc };//top left
-				}
+			for (int x{ 0 }; x < 10; ++x) {
+				frames[x].at(0) = { x * x_inc, 0.f };//bottom left
+				frames[x].at(1) = { (x + 1) * x_inc, 0.f };//bottom right
+				frames[x].at(2) = { (x + 1) * x_inc, 1.f };//top right
+				frames[x].at(3) = { x * x_inc, 1.f };//top left
+			}
 		}
 		else DebuggerLogWarning("Can't find!");
-		Renderer::GRAPHICS->init_anim("up_walk", frames[0].data(), 0.5f, 12);
-		Renderer::GRAPHICS->init_anim("right_walk", frames[1].data(), 0.5f, 12);
-		Renderer::GRAPHICS->init_anim("left_walk", frames[2].data(), 0.5f, 12);
-		Renderer::GRAPHICS->init_anim("down_walk", frames[3].data(), 0.5f, 12);
+		Renderer::GRAPHICS->init_anim("player_walk", frames.data(), 0.1f, 10);
+		Renderer::GRAPHICS->init_anim("player_idle", frames.data(), 1.f, 1);
 
-		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("run"));
-		rend->play_repeat("up_walk");
+		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"));
+		rend->play_repeat("player_idle");
 	}
 
 	/*!***********************************************************************
@@ -72,25 +72,27 @@ namespace LB
 		{
 			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_1");
 			rend->stop_anim();
-			rend->play_repeat("up_walk");
+			rend->play_repeat("player_walk");
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A))
 		{
+			trans->SetScale(left_face);
 			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_2");
 			rend->stop_anim();
-			rend->play_repeat("left_walk");
+			rend->play_repeat("player_walk");
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D))
 		{
+			trans->SetScale(right_face);
 			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_3");
 			rend->stop_anim();
-			rend->play_repeat("right_walk");
+			rend->play_repeat("player_walk");
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S))
 		{
 			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_4");
 			rend->stop_anim();
-			rend->play_repeat("down_walk");
+			rend->play_repeat("player_walk");
 		}
 
 		// Movement WASD

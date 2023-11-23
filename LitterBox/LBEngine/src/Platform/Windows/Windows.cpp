@@ -29,7 +29,7 @@
 namespace LB
 {
     void exit() {
-        glfwIconifyWindow(WINDOWSSYSTEM->GetWindow());
+        //glfwIconifyWindow(WINDOWSSYSTEM->GetWindow());
     }
 
     WindowsSystem* WINDOWSSYSTEM = nullptr;

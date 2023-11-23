@@ -29,5 +29,9 @@ namespace LB
 
 		CPRigidBody* rb{ nullptr };
 		CPRender* rend{ nullptr };
+		CPTransform* trans{ nullptr };
+
+		LB::Vec2<float> right_face;
+		LB::Vec2<float> left_face;
 	};
 }
