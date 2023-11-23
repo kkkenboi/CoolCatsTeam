@@ -99,7 +99,7 @@ namespace LB
             // Update Window Title
 
             // Create GLFW window
-            m_Data.m_PtrToWindow = glfwCreateWindow(m_Data.m_VideoMode->width, m_Data.m_VideoMode->height, m_Data.m_Title.c_str(), m_Data.m_Monitor, NULL); // Fullscreen mode
+            m_Data.m_PtrToWindow = glfwCreateWindow(1600, 900, "GEH", NULL, NULL);//m_Data.m_VideoMode->width, m_Data.m_VideoMode->height, m_Data.m_Title.c_str(), m_Data.m_Monitor, NULL); // Fullscreen mode
             if (!m_Data.m_PtrToWindow) {
                 DebuggerLogError("GLFW unable to create OpenGL context - abort program");
                 glfwTerminate();
