@@ -24,6 +24,9 @@
 #include "LitterBox/Components/TransformComponent.h"
 #include "LitterBox/Components/AudioSourceComponent.h"
 
+#include "Utils/CommandManager.h"
+#include "Commands/TransformCommands.h"
+
 namespace LB
 {
 	EditorInspector* EDITORINSPECTOR{ nullptr };
@@ -234,13 +237,18 @@ namespace LB
 				ImGui::Text("%-17s X", "Position");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##PosX", &pos.x, 1.0f, 0.0f, 0.0f, "%.2f");
+				bool posXChanged = ImGui::DragFloat("##PosX", &pos.x, 1.0f, 0.0f, 0.0f, "%.2f");
 				ImGui::SameLine();
 				ImGui::Text("Y");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##PosY", &pos.y, 1.0f, 0.0f, 0.0f, "%.2f");
-				m_inspectedGO->GetComponent<CPTransform>()->SetPosition(pos);
+				bool posYChanged = ImGui::DragFloat("##PosY", &pos.y, 1.0f, 0.0f, 0.0f, "%.2f");
+				if (posXChanged || posYChanged)
+				{
+					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>( m_inspectedGO->GetComponent<CPTransform>(), pos );
+					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
+				}
+				//m_inspectedGO->GetComponent<CPTransform>()->SetPosition(pos);
 
 				Vec2<float> scale = m_inspectedGO->GetComponent<CPTransform>()->GetScale();
 				ImGui::Text("%-17s X", "Scale");

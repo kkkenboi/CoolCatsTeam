@@ -43,7 +43,11 @@ namespace LB
 	*************************************************************************/
 	void EditorHierarchy::Initialize()
 	{
+		// Update scenes after startup through events
 		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::UpdateSceneLoaded);
+
+		// But first after startup, load the active scene
+		UpdateSceneLoaded(SCENEMANAGER->GetCurrentScene());
 	}
 
 	/*!***********************************************************************
