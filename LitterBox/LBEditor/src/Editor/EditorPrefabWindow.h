@@ -48,7 +48,10 @@ namespace LB
 		*************************************************************************/
 		void UpdateLayer() override;
 
-	private:
+		
 
+	private:
+		GameObject* m_inspectedPrefab{ nullptr };
 	};
+	extern EditorPrefabWindow* EDITORPREFAB;
 }

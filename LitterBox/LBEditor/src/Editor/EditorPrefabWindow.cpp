@@ -16,9 +16,11 @@
 **************************************************************************/
 #include "pch.h"
 #include "EditorPrefabWindow.h"
+#include "EditorInspector.h"
 
 namespace LB
 {
+	EditorPrefabWindow* EDITORPREFAB = nullptr;
 	/*!***********************************************************************
 	  \brief
 	  Constructor for the EditorPrefabWindow class.
@@ -28,6 +30,10 @@ namespace LB
 	*************************************************************************/
 	EditorPrefabWindow::EditorPrefabWindow(std::string layerName) : Layer(layerName)
 	{
+		if (!EDITORPREFAB) EDITORPREFAB = this;
+		else DebuggerLogError("Editor Prefab already exists!");
+
+
 	}
 
 	/*!***********************************************************************
@@ -49,6 +55,23 @@ namespace LB
 	void EditorPrefabWindow::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
+		if(ImGui::Button("Save"))
+		{
+			DebuggerLogFormat("Saving %s prefab", EDITORINSPECTOR->GetInspectedGO()->GetName().c_str());
+			//Save the prefab to file by it's name
+			//JSONSerializer::SerializeToFile(EDITORINSPECTOR->GetInspectedGO()->GetName(), *EDITORINSPECTOR->GetInspectedGO());
+		}
+		if (EDITORINSPECTOR->isPrefab)
+		{
+			//We cache the obj so it's shorter to type
+			GameObject* prefabGO = EDITORINSPECTOR->GetInspectedGO();
+			DebuggerLogWarningFormat("Prefab texture : %s", ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture).c_str());
+			float xScale = prefabGO->GetComponent<CPTransform>()->GetScale().x;
+			float yScale = prefabGO->GetComponent<CPTransform>()->GetScale().y;
+			//int prefabTexture = ASSETMANAGER->GetTextureUnit(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
+			int prefabTexture = ASSETMANAGER->GetTextureIndex(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
+			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(prefabTexture)), { 100*xScale,100*yScale }, { 0,1 }, {1,0});
+		}
 		ImGui::End();
 	}
 }
