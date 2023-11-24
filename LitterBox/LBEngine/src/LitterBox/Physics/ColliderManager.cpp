@@ -447,7 +447,6 @@ namespace LB
 							CollisionData colData;
 							colData.colliderThis = colA;
 							colData.colliderOther = colB;
-							std::cout << "Entering A" << std::endl;
 							if (colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
 							{
 								colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
@@ -457,7 +456,6 @@ namespace LB
 							CollisionData colData;
 							colData.colliderThis = colB;
 							colData.colliderOther = colA;
-							std::cout << "Entering B" << std::endl;
 							if (colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
 							{
 								colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
