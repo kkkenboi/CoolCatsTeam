@@ -25,21 +25,28 @@ namespace LB
 		GameObject* GetHero();
 		GameObject* GetProjectile();
 
-		GameObject* SpawnProjectile();
+		void SpawnProjectile();
 
 		float GetSpeedMag();	//Getter function for the speed when chasing
 		float GetBackOffSpeedMag(); //Getter function for the speed when backingOff
 		float TooCloseDistance(); //Getter function if they get too close
 		float RangeAttackDistance(); //Getter function if the in range to shoot
 		float GetProjSpeed();
+
+		double& NextShot();
+		double& SetTime();
+		double& FireRate();
+		int& Count();
+
+		int& NumOfProj();
+
+		//float& GetTimer();
+		//bool& TimerCheck();
+
+
+		bool& CheckHasShot();
 		
-		void IntervalTimer();
-
-		//Function to calculate the boundaries
-		//float MaxDistance();
-		//float MinDistance();
-
-
+		//void Timer(double setTimer, int fireRate, int counter, FiniteStateMachine& fsm);
 
 	private:
 		CPRender* mRender; //animation purpose
@@ -53,14 +60,22 @@ namespace LB
 		int mHealth; //health of the mage
 		float mSpeedMagnitude{}; //normal speed when approaching towards the player
 		float mBackOffSpeed{}; //When player is nearby, it backs off
-		int mNumOfProjectile{}; //the number of projectile the player will shoot
 		float mTooClose{};
+
+		//shooting
+		int mNumOfProjectile{}; //the number of projectile the player will shoot
 		float mAttackRange{};
 		float mProjSpeed{};
+		bool mHasShot{};
+
+		double mnextTimeToShoot;
+		int mcount;
+		double msetTimer;
+		double mfireRate;
 
 		//timer
-		float mtimerInterval;
-		bool mtimerDone;
+		//float mtimerInterval;
+		//bool mtimerDone;
 
 		//Boundaries between enemy and player
 		float mMaxDistance{};

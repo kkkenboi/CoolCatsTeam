@@ -51,7 +51,7 @@ namespace LB
 
 	void CPPSBaseGolfBall::Update()
 	{
-
+		
 	}
 
 	void CPPSBaseGolfBall::Destroy()

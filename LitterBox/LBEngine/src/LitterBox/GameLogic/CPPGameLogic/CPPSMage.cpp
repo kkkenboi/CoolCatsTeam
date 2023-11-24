@@ -8,6 +8,13 @@
 #include "LitterBox/Engine/Time.h"
 
 #include "LitterBox/Factory/GameObjectManager.h"
+//namespace test
+//{
+//	double nextTimeToShoot = 0.0;
+//	int counter = 0;
+//	double setTimer = 0.0;
+//	double fireRate = 2.0f;
+//}
 
 namespace LB
 {
@@ -74,18 +81,24 @@ namespace LB
 		mProjSpeed = 1500.0f;
 		mNumOfProjectile = 3; //set to 3 projectiles
 
+		mHasShot = false;
+
 		//a little hardcoding for now
 		mMinDistance = 120.0f;
 		mMaxDistance = 1330.0f;
 		rangeDistance = mMaxDistance - mMinDistance;
 
+		mnextTimeToShoot = 0.0;
+		mcount = 0;
+		msetTimer = 0.0;
+		mfireRate = 2.0;
+
 		//timer
-		mtimerInterval = 3.0f; //3 second interval
-		mtimerDone = false;
+		//mtimerInterval = 3.0f; //3 second interval
+		//mtimerDone = false;
 
 		//it has fully initialised
 		mInitialised = true;
-
 		
 	}
 
@@ -193,28 +206,89 @@ namespace LB
 		return mAttackRange;
 	}
 
+	///*!***********************************************************************
+	//\brief
+	//Getter for Timer
+	//*************************************************************************/
+	//float& CPPSMage::GetTimer()
+	//{
+	//	return mtimerInterval;
+	//}
+
+	//bool& CPPSMage::TimerCheck()
+	//{
+	//	return mtimerDone;
+	//}
 	/*!***********************************************************************
 	\brief
 	Getter for shooting intervals timer
 	*************************************************************************/
-	void CPPSMage::IntervalTimer()
+	//void CPPSMage::Timer(double setTimer, int fireRate, int counter, FiniteStateMachine& fsm)
+	//{
+	//	if (TIME->GetTime() >= NextShot())
+	//	{
+	//		NextShot() = TIME->GetTime() + (double)(1 / FireRate());
+	//		++Count();
+	//		if (Count() == NumOfProj())
+	//		{
+	//			Count() = 0;
+	//			fsm.ChangeState("Idle");
+	//		}
+	//	}
+	//}
+
+	bool& CPPSMage::CheckHasShot()
 	{
-		while (mtimerDone)
-		{
-			mtimerInterval -= 1.0f * TIME->GetDeltaTime();
-			if (mtimerInterval <= 0.0f)
-			{
-				mtimerInterval = false;
-			}
-		}
+		return mHasShot;
 	}
 
-	//GameObject* CPPSMage::SpawnProjectile()
-	//{
-	//	//return FACTORY->SpawnGameObject(std::initializer_list <ComponentTypeID>{C_CPRender, C_CPCollider, C_CPRigidBody}, GOSpawnType::SCENE_BOUNDED);
-	//	//return FACTORY->SpawnGameObject();
+	void CPPSMage::SpawnProjectile()
+	{
+		Vec2<float> CurHeroPos = GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
+		Vec2<float> CurEnemyPos = GetRigidBody()->getPos(); //Getting the current Mage Position
 
-	//}
+		float offset = 100.0f;
+		Vec2<float> Direction = (CurHeroPos - (Vec2<float>{ CurEnemyPos.x + offset, CurEnemyPos.y + offset })).Normalise();
+		Vec2<float> ShootingForce = Direction * GetSpeedMag() * 2.0f;
+
+
+		Vec2<float> PosToSpawn{ CurEnemyPos.x + offset, CurEnemyPos.y + offset };
+		//ASSETMANAGER->SpawnGameObject("Projectile", PosToSpawn);
+
+		GameObject* mageProjectileObject = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("Projectile", *mageProjectileObject);
+		if (!(PosToSpawn == Vec2<float>{0, 0}))
+		{
+			mageProjectileObject->GetComponent<CPTransform>()->SetPosition(PosToSpawn);
+		}
+
+		mageProjectileObject->GetComponent<CPRigidBody>()->addImpulse(ShootingForce);
+	}
+
+	int& CPPSMage::NumOfProj()
+	{
+		return mNumOfProjectile;
+	}
+	
+	double& CPPSMage::NextShot()
+	{
+		return mnextTimeToShoot;
+	}
+
+	double& CPPSMage::SetTime()
+	{
+		return msetTimer;
+	}
+
+	double& CPPSMage::FireRate()
+	{
+		return mfireRate;
+	}
+
+	int& CPPSMage::Count()
+	{
+		return mcount;
+	}
 	// States ===================
 
 	/*!***********************************************************************
@@ -233,6 +307,7 @@ namespace LB
 	}
 	void MageIdleState::Update()
 	{
+		DebuggerLog("Entered MageIdleState");
 		if (INPUT->IsKeyPressed(KeyCode::KEY_M)) //MAGE WILL CHASE WHEN THIS IS PRESSED
 		{
 			// Change the state to Chase
@@ -260,19 +335,14 @@ namespace LB
 	}
 	void MageChaseState::Update()
 	{
-		DebuggerLog("Entered ChaseState");
+		DebuggerLog("Entered MageChaseState");
 		//Calculating the distance between the Enemy and the player
 		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
 		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
-		////DEBUG->DrawLine(CurEnemyPos, CurHeroPos, Vec4<float>{0.0f, 0.0f, 1.0f, 1.0f}); //Doesnt work?
-
 		float DistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos);
-		DebuggerLogFormat("Distance: %f", DistInBwn);
 
 		////Getting the direction of the player and the enemy
-		Vec2<float> Direction = CurHeroPos - CurEnemyPos;
-		Direction = Normalise(Direction);
-
+		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
 		
 		mEnemy->GetRigidBody()->addForce(NormalForce);
@@ -317,13 +387,10 @@ namespace LB
 		//Calculating the distance between the Enemy and the player
 		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
 		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
-		//DEBUG->DrawLine(CurEnemyPos, CurHeroPos, Vec4<float>{0.0f, 0.0f, 1.0f, 1.0f}); //Doesnt work?
 		float DistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos);
-		DebuggerLogFormat("Distance: %f", DistInBwn);
 
 		//Getting the direction of the player and the enemy
-		Vec2<float> Direction = CurHeroPos - CurEnemyPos;
-		Direction = Direction.Normalise();
+		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> BackOffForce = (-Direction) * mEnemy->GetBackOffSpeedMag();
 
 		mEnemy->GetRigidBody()->addForce(BackOffForce);
@@ -359,8 +426,6 @@ namespace LB
 	void MageHurtState::Update()
 	{
 		DebuggerLog("Entered MageHurtState");
-
-
 	}
 	void MageHurtState::Exit()
 	{
@@ -379,37 +444,61 @@ namespace LB
 	void MageShootingState::Enter()
 	{
 		DebuggerLog("Entered MageShootingState");
-
+		
 		this->Update();
 	}
 	void MageShootingState::Update()
 	{
-		DebuggerLog("Entered MageShootingState");
 		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
 		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
-		//DEBUG->DrawLine(CurEnemyPos, CurHeroPos, Vec4<float>{0.0f, 0.0f, 1.0f, 1.0f}); //Doesnt work?
-		float DistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos); //Getting distance
-		Vec2<float> DirectionToShoot = (CurHeroPos - CurEnemyPos).Normalise();
-		Vec2<float> Shoot = DirectionToShoot * mEnemy->GetProjSpeed();
-		float offset = 100.0f;
+		//float DistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos);
 
-		//mEnemy->SpawnProjectile();
+		////Getting the direction of the player and the enemy
+		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
+		Vec2<float> ShootingForce = Direction * (mEnemy->GetSpeedMag() * 10.0f);
 
-		//ASSETMANAGER->SpawnGameObject("Projectile.json", CurEnemyPos);
-		GameObject* test = FACTORY->SpawnGameObject({5,5});
-		Vec2<float> PosToSpawn{ 0,0/*CurEnemyPos.x + offset, CurEnemyPos.y + offset*/ };
 
-		if (INPUT->IsKeyPressed(KeyCode::KEY_5))
+		if (TIME->GetTime() >= mEnemy->NextShot())
 		{
-			ASSETMANAGER->SpawnGameObject("Projectile", PosToSpawn);
-			JSONSerializer::DeserializeFromFile("Projectile", *test);
-
+			mEnemy->SpawnProjectile();
+			//current time + 1/firerate
+			mEnemy->NextShot() = TIME->GetTime() + (double)(1 / mEnemy->FireRate());
+			//++mEnemy->FireRate();
+			DebuggerLog("SHOOOOTTTINGGG");
+			DebuggerLogFormat("Entered MageShootingState: %d", mEnemy->SetTime());
+			++mEnemy->Count();
+			if (mEnemy->Count() == mEnemy->NumOfProj())
+			{
+				mEnemy->Count() = 0;
+				GetFSM().ChangeState("Idle");	
+			}
 		}
+		
+		//if (INPUT->IsKeyPressed(KeyCode::KEY_5) && mEnemy->CheckHasShot() == false)
+		//{
+			//if (mEnemy->NumOfProj() >= 0) //if got bullet
+			//{
+			//	mEnemy->SpawnProjectile(); //it spawns for now
+			//	mEnemy->CheckHasShot() = true; //meaning it shot
+			//	//run the timer
+			//	if (mEnemy->TimerCheck() == false) //timer is not done
+			//	{
+			//		DebuggerLog("Entered");
+			//		mEnemy->GetTimer() -= TIME->GetDeltaTime(); //time is decreasing
+			//		if (mEnemy->GetTimer() <= 0.0) //if hit 0
+			//		{
+			//			mEnemy->TimerCheck() = true; //timer is done
+			//			mEnemy->CheckHasShot() = false; //and it went to have not shoot yet
+			//		}
+			//	}
+			//	mEnemy->NumOfProj() -= 1; //decrease the num of projectile
+			//	DebuggerLogFormat("Num Of Projectile: %i", mEnemy->NumOfProj());
+			//}
+		//}
 		//test->StartComponents();
 		
-
-
 	}
+
 	void MageShootingState::Exit()
 	{
 	}
