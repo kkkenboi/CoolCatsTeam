@@ -211,6 +211,10 @@ namespace LB
 		m_currentScene->Init();
 
 		m_nextScene = nullptr;
+
+		// Start the scripts!! TODO: Refactor this
+		if (CORE->IsPlaying())
+			LB::StartScripts(true);
 	}
 
 	void CheckSceneToLoad()

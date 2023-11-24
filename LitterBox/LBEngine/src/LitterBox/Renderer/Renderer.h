@@ -261,6 +261,7 @@ namespace Renderer {
 		quad* quad_buff;
 		std::vector<index> index_buff;
 		unsigned int quad_buff_size;
+		unsigned int furthest_index{ 0 };
 
 		std::list<const LB::CPRender*> active_objs;
 		//TODO figure out parsing in shader file paths
