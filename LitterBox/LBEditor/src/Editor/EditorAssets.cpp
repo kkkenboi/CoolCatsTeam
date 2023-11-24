@@ -162,14 +162,10 @@ namespace LB
 				{
 					DebuggerLog("Clicked on " + FileName);
 					std::string fileExtension = directory.path().extension().string();
-					if (fileExtension != ".json" && fileExtension != ".wav" && fileExtension != ".png")
+					if (fileExtension != ".json" && fileExtension != ".wav" && fileExtension != ".png" && fileExtension!= ".shader" && fileExtension!=".otf"&&fileExtension!=".ttf")
 					{
 						DebuggerLog("Invalid file extension " + fileExtension + " was clicked!");
-						ImGui::OpenPopup("Delete?");
-						// Always center this window when appearing
-						ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-						ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-						
+						ImGui::OpenPopup("Error!");
 					}
 					//Load the properties into the inspector
 				}
@@ -231,34 +227,38 @@ namespace LB
 						//Load the properties into the inspector
 					}
 				}
+				
 
 				//The name of the folder is without the file extension probably...
 				ImGui::Text(directory.path().filename().stem().string().c_str());
 
-				ImGui::PopID();
-				if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+				
+				// Always center this window when appearing
+				ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+				ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+				if (ImGui::BeginPopupModal("Error!", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 				{
-					ImGui::Text("All those beautiful files will be deleted.\nThis operation cannot be undone!");
+					ImGui::Text("File type not recognised!");
 					ImGui::Separator();
 
-					//static int unused_i = 0;
-					//ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
+					////static int unused_i = 0;
+					////ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
 
-					static bool dont_ask_me_next_time = false;
-					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-					ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
-					ImGui::PopStyleVar();
+					////static bool dont_ask_me_next_time = false;
+					////ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+					////ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
+					////ImGui::PopStyleVar();
 
-					if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+					if (ImGui::Button("close")) { ImGui::CloseCurrentPopup(); }
 					ImGui::SetItemDefaultFocus();
 					ImGui::SameLine();
-
+					ImGui::EndPopup();
 				}
+				ImGui::PopID();
 
 			}
 		}
 		ImGui::Columns(1);
-
 
 		ImGui::End();
 	}
