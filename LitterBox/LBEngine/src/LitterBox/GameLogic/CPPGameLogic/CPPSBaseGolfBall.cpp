@@ -2,6 +2,7 @@
 
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Physics/PhysicsMath.h"
 
 namespace LB
 {
@@ -51,6 +52,19 @@ namespace LB
 
 	void CPPSBaseGolfBall::Update()
 	{
+		
+	}
+
+	void CPPSBaseGolfBall::OnCollisionEnter(CollisionData colData)
+	{
+		if (colData.colliderOther->m_gameobj->GetName() == "MainChar" ||
+			colData.colliderOther->m_gameobj->GetName() == "NorthWall" ||
+			colData.colliderOther->m_gameobj->GetName() == "SouthWall" ||
+			colData.colliderOther->m_gameobj->GetName() == "WestWall" ||
+			colData.colliderOther->m_gameobj->GetName() == "EastWall")
+		{
+			GOMANAGER->RemoveGameObject(this->GameObj);
+		}
 		
 	}
 

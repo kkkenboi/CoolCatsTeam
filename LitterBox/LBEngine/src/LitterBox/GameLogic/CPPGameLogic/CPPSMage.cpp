@@ -8,6 +8,7 @@
 #include "LitterBox/Engine/Time.h"
 
 #include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Physics/PhysicsMath.h"
 //namespace test
 //{
 //	double nextTimeToShoot = 0.0;
@@ -232,6 +233,21 @@ namespace LB
 		return mAttackRange;
 	}
 
+	void CPPSMage::OnCollisionEnter(CollisionData colData)
+	{
+		if (this->mFSM.GetCurrentState()->GetStateID() == "Chase")
+		{
+			if (colData.colliderOther->m_gameobj->GetName() == "ball") {
+				if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
+				{
+					--mHealth;
+					mFSM.ChangeState("Hurt");
+				}
+			}
+		}
+
+	}
+
 	///*!***********************************************************************
 	//\brief
 	//Getter for Timer
@@ -275,7 +291,7 @@ namespace LB
 
 		float offset = 100.0f;
 		Vec2<float> Direction = (CurHeroPos - (Vec2<float>{ CurEnemyPos.x + offset, CurEnemyPos.y + offset })).Normalise();
-		Vec2<float> ShootingForce = Direction * GetSpeedMag() * 2.0f;
+		Vec2<float> ShootingForce = Direction * GetSpeedMag() * 3.0f;
 
 
 		Vec2<float> PosToSpawn{ CurEnemyPos.x + offset, CurEnemyPos.y + offset };

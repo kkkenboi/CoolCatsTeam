@@ -40,11 +40,13 @@ namespace LB
 
 		int& NumOfProj();
 
+
 		//float& GetTimer();
 		//bool& TimerCheck();
 
 
 		bool& CheckHasShot();
+		void OnCollisionEnter(CollisionData colData);
 		
 		//void Timer(double setTimer, int fireRate, int counter, FiniteStateMachine& fsm);
 

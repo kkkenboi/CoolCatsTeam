@@ -156,7 +156,7 @@
                 }
             },
             {
-                "Name": "South Wall",
+                "Name": "SouthWall",
                 "Transform": {
                     "Position": {
                         "x": 800.0,
@@ -355,7 +355,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Density": 10.0,
-                    "IsStatic": true
+                    "IsStatic": false
                 },
                 "Render": {
                     "Texture": "MageAttackSpriteSheet"

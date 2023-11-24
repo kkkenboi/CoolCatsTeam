@@ -19,7 +19,8 @@ namespace LB
 		CPRigidBody* GetRigidBody(); //for RigidBody for the golf ball
 		CPCollider* GetCollider(); //for collider for the golf ball
 		GameObject* GetHero();
-		
+
+		void OnCollisionEnter(CollisionData colData);		
 
 		//timer to despawn the golfball
 		//destroy the golfball
