@@ -1,0 +1,32 @@
+{
+    "Name": "Projectile",
+    "Transform": {
+        "Position": {
+            "x": 896.89,
+            "y": 556.02
+        },
+        "Scale": {
+            "x": 2.0,
+            "y": 2.0
+        },
+        "Rotation": 0.0
+    },
+    "RigidBody": {
+        "Width": 100.0,
+        "Height": 100.0,
+        "Density": 10.0,
+        "IsStatic": false
+    },
+    "Render": {
+        "Texture": "FireBall_0000"
+    },
+    "Collider": {
+        "Shape": 0,
+        "Width": 100.0,
+        "Height": 100.0,
+        "Radius": 8.0
+    },
+    "CPPScript": {
+        "Script": "Projectile"
+    }
+}
