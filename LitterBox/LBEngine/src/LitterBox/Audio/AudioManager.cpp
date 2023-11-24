@@ -16,6 +16,7 @@
 #include "AudioManager.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Debugging/Debug.h"
+#include "LitterBox/Core/Core.h"
 namespace LB
 {
 	AudioManager* AUDIOMANAGER = nullptr;
@@ -47,6 +48,7 @@ namespace LB
 			//TODO USE OUR BEAUTIFUL DEBUGGER!
 			// Handle initialization error
 		}
+		CORE->onPlayingModeToggle.Subscribe(RemoveAllAudioSources);
 	}
 
 	/*!***********************************************************************
@@ -64,6 +66,11 @@ namespace LB
 	void PlayAHHSound()
 	{
 		AUDIOMANAGER->PlaySound("Enemy hurt");
+	}
+	void RemoveAllAudioSources(bool isPlaying)
+	{
+		if(!isPlaying)
+		AUDIOMANAGER->AudioSources.clear();
 	}
 
 	/*!***********************************************************************
@@ -90,6 +97,8 @@ namespace LB
 		{
 			Channels.erase(channel);
 		}
+		
+		
 		if (!AudioSources.empty())
 		{
 			for (const auto& audioSrc : AudioSources)
@@ -98,7 +107,6 @@ namespace LB
 			}
 		}
 		audioSystem->update();
-
 	}
 
 	/*!***********************************************************************
@@ -146,6 +154,11 @@ namespace LB
 	**************************************************************************/
 	void AudioManager::ToggleSoundPlaying(std::string soundName)
 	{
+		if (CORE->IsPlaying())
+		{
+			DebuggerLogWarning("Unable to preview sounds while editor is in playmode!");
+			return;
+		}
 		if (Channels.empty()) PlaySound(soundName);
 		else
 		{

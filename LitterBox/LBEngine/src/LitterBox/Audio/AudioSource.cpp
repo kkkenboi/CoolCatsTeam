@@ -2,6 +2,7 @@
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Core/Core.h"
+#include <algorithm>
 
 namespace LB
 {
@@ -16,7 +17,9 @@ namespace LB
 			DebuggerLogWarning("NO AUDIO CLIP ATTACHED!");
 			return;
 		}
-		if(CORE->IsPlaying()) AUDIOMANAGER->AudioSources.push_back(this);
+		DebuggerLogWarning("Audio Component Initialised!");
+		AUDIOMANAGER->AudioSources.push_back(this); 
+		
 	}
 
 	void CPAudioSource::Update()
@@ -24,6 +27,7 @@ namespace LB
 		//We only want to play sounds when the game is running
 		if (CORE->IsPlaying())
 		{
+			//DebuggerLog("Audio Source update!");
 			//If the audio source is playonawake and hasn't played yet
 			if (playOnAwake && !hasPlayed) {
 				//We play the sound
@@ -50,9 +54,23 @@ namespace LB
 			timer = 0;
 		}
 	}
+	void CPAudioSource::UpdateAudio(std::string clipName)
+	{
+		hasPlayed = false;
+		Stop();
+		AudioClipName = clipName;
+	}
 	void CPAudioSource::Destroy()
 	{
-		DebuggerLog("Destroyed!");
+		DebuggerLogWarning("Destroyed!");
+	/*	std::vector<CPAudioSource*>::iterator chosenOne;
+		for (auto iter = std::begin(AUDIOMANAGER->AudioSources); iter != std::end(AUDIOMANAGER->AudioSources); ++iter)
+		{
+			if (*iter == this) chosenOne = iter;
+		}
+		AUDIOMANAGER->AudioSources.erase(chosenOne);*/
+		//std::remove_if(AUDIOMANAGER->AudioSources.begin(), AUDIOMANAGER->AudioSources.end(), [&](auto& src) {std::cout << "found!\n"; return src == this; });
+		
 	}
 
 	bool CPAudioSource::Serialize(Value& data, Document::AllocatorType& alloc)

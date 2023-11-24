@@ -170,4 +170,13 @@ namespace LB
 	{
 
 	}
+
+	void CPPSPlayer::OnCollisionEnter(CollisionData colData) 
+	{
+		if (colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1") {
+			if (colData.colliderOther->GetRigidBody() != nullptr) {
+				colData.colliderOther->GetRigidBody()->addImpulse(Vec2<float>{0.f, 500.f});
+			}
+		}
+	}
 }

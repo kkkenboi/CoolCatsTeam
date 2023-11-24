@@ -139,6 +139,15 @@ namespace LB
 			return C_CPScriptCPP;
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Returns the current script that is being used
+		*************************************************************************/
+		CPPBehaviour* GetInstance() 
+		{
+			return m_instance;
+		}
+
 	private:
 		std::string m_name{ "CPPScript" };		// Name of the script to load (not filename)
 		CPPBehaviour* m_instance{ nullptr };	// Pointer to the script object
