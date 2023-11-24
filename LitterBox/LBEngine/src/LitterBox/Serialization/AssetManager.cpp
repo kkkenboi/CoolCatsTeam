@@ -470,6 +470,7 @@ namespace LB
     void AssetManager::SpawnGameObject(std::string fileName, Vec2<float> pos)
     {
         GameObject* prefab = FACTORY->SpawnGameObject();
+        //prefab->Deserialize(JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath(fileName).string()));
         JSONSerializer::DeserializeFromFile(fileName, *prefab);
         if (!(pos == Vec2<float>{0, 0}))
         prefab->GetComponent<CPTransform>()->SetPosition(pos);
