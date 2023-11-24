@@ -27,7 +27,7 @@ namespace LB {
 	{
 		coll = GameObj->GetComponent<CPCollider>();
 
-		float rot{ GameObj->GetComponent<CPTransform>()->GetRotation() };
+		float rot{ GameObj->GetComponent<CPTransform>()->GetRotation() * deg_to_rads };
 
 		//-------------Rotation matrix values to get the left of the button---------------
 		rot_row1.x = cosf(rot);
