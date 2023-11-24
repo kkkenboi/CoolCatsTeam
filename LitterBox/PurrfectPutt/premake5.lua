@@ -35,8 +35,10 @@ project "PurrfectPutt"
     postbuildcommands
     {
 
-        "xcopy \"%{wks.location}PurrfectPutt\\Assets\" \"$(TargetDir)Assets\" /Y /I /E",
-        "xcopy \"%{wks.location}PurrfectPutt\\Library\" \"$(TargetDir)Library\" /Y /I /E",
+        -- "xcopy \"%{wks.location}PurrfectPutt\\Assets\" \"$(TargetDir)Assets\" /Y /I /E",
+        -- "xcopy \"%{wks.location}PurrfectPutt\\Library\" \"$(TargetDir)Library\" /Y /I /E",
+        "xcopy \"%{wks.location}LBEditor\\Assets\" \"$(TargetDir)Assets\" /Y /I /E",
+        "xcopy \"%{wks.location}LBEditor\\Editor\" \"$(TargetDir)Library\" /Y /I /E",
         "xcopy \"%{wks.location}PurrfectPutt\\Logs\" \"$(TargetDir)Logs\" /Y /I /E",
         "xcopy \"%{wks.location}PurrfectPutt\\CSharpAssembly.dll\" \"$(TargetDir)\" /Y /I /E",
 

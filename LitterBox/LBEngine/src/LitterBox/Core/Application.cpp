@@ -96,15 +96,30 @@ namespace LB {
 	void Application::Run()
 	{
 		Engine->GameLoop();
-
-		/*while (Engine->IsRunning())
-		{
-			Engine->GameLoop();
-		}*/
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Checks if the application is running
+
+	 \return
+	 True if the application is running
+	*************************************************************************/
 	bool Application::IsRunning()
 	{
 		return Engine->IsRunning();
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Quits the application
+
+	 \return
+	 None
+	*************************************************************************/
+	void Application::Quit()
+	{
+		MessageQuit q;
+		CORE->BroadcastMessage(&q);
 	}
 }
