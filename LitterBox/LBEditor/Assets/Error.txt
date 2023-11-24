@@ -1,0 +1,1 @@
+This is just to allow for testing of double clicks! Double clicking on this file in the content browser should spawn an error pop up!

@@ -69,23 +69,24 @@ namespace LB
 		{
 			//We cache the obj so it's shorter to type
 			GameObject* prefabGO = EDITORINSPECTOR->GetInspectedGO();
-			DebuggerLogWarningFormat("Prefab texture : %s", ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture).c_str());
+			//We make the scale a bit bigger just so that we can see 
 			float xScale = prefabGO->GetComponent<CPTransform>()->GetScale().x*100;
 			float yScale = prefabGO->GetComponent<CPTransform>()->GetScale().y*100;
 			//int prefabTexture = ASSETMANAGER->GetTextureUnit(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
+			//this sets the prefab texture
 			int prefabTexture = ASSETMANAGER->GetTextureIndex(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
 			
-
+			//Getting the imgui draw list so we can apply transformations to the image
 			ImDrawList* drawList = ImGui::GetWindowDrawList();
 			float angle = prefabGO->GetComponent<CPTransform>()->GetRotation();
-			ImVec2 p = ImGui::GetCursorScreenPos();
-			//static float angle = 0.0f;
-			//angle += TIME->GetDeltaTime();
+			ImVec2 p = ImGui::GetCursorScreenPos();	//This cursor is not mouse cursor!! it's the gui cursor!!
+			//Some math for the rotation 
 			float cos_a = cosf((-DegToRad(angle)) + PI);
 			float sin_a = sinf((-DegToRad(angle)) + PI);
 			//ImVec2 center{ prefabGO->GetComponent<CPTransform>()->GetPosition().x+100,prefabGO->GetComponent<CPTransform>()->GetPosition().y+100 };
 			ImVec2 center{ p.x+ImGui::GetWindowWidth()/2,p.y + yScale/2};
 
+			//Applying the rotation
 			ImVec2 pos[4] =
 			{
 				center + ImRotate(ImVec2(-xScale * 0.5f, -yScale * 0.5f), cos_a, sin_a),
@@ -100,10 +101,8 @@ namespace LB
 				ImVec2(1.0f, 1.0f),
 				ImVec2(0.0f, 1.0f)
 			};
-
+			//then we draw it
 			drawList->AddImageQuad(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(prefabTexture)), pos[0], pos[1], pos[2], pos[3], uvs[0], uvs[1], uvs[2], uvs[3], IM_COL32_WHITE);
-			//ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(prefabTexture)), { 100*xScale,100*yScale }, { 0,1 }, {1,0});
-			
 		}
 		ImGui::End();
 	}
