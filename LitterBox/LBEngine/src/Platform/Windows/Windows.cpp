@@ -29,7 +29,7 @@
 namespace LB
 {
     void exit() {
-        glfwIconifyWindow(WINDOWSSYSTEM->GetWindow());
+        //glfwIconifyWindow(WINDOWSSYSTEM->GetWindow());
     }
 
     WindowsSystem* WINDOWSSYSTEM = nullptr;
@@ -70,40 +70,43 @@ namespace LB
         m_Data.m_Monitor = glfwGetPrimaryMonitor();
         m_Data.m_VideoMode = glfwGetVideoMode(m_Data.m_Monitor);
 
+        //Deserialise the config settings
+        //Current file path is : \LBEditor\Library\Jason\config settings.json"
+        LB::JSONSerializer::DeserializeFromFile("config settings", m_Data);
+
         if (CORE->IsEditorMode())
         {
-            //Deserialise the config settings
-            //Current file path is : \LBEditor\Library\Jason\config settings.json"
-            LB::JSONSerializer::DeserializeFromFile("config settings", m_Data);
-            // Update Window Title
-
             // Create GLFW window
             m_Data.m_PtrToWindow = glfwCreateWindow(m_Data.m_Width, m_Data.m_Height, m_Data.m_Title.c_str(), NULL, NULL);
             if (!m_Data.m_PtrToWindow) {
                 DebuggerLogError("GLFW unable to create OpenGL context - abort program");
                 glfwTerminate();
             }
+            m_Data.m_Width = 1600;
+            m_Data.m_Height = 900;
 
+            used_width = m_Data.m_Width;
+            used_height = m_Data.m_Height;
         }
         else // Game Mode
         {
-            std::cout << "i am entering here instead lmao fyck u\n";
             glfwWindowHint(GLFW_RED_BITS, m_Data.m_VideoMode->redBits);
             glfwWindowHint(GLFW_GREEN_BITS, m_Data.m_VideoMode->greenBits);
             glfwWindowHint(GLFW_BLUE_BITS, m_Data.m_VideoMode->blueBits);
             glfwWindowHint(GLFW_REFRESH_RATE, m_Data.m_VideoMode->refreshRate);
 
-            //Deserialise the config settings
-            //Current file path is : \LBEditor\Editor\Jason\config settings.json"
-            LB::JSONSerializer::DeserializeFromFile("config settings", m_Data);
             // Update Window Title
 
             // Create GLFW window
+
             m_Data.m_PtrToWindow = glfwCreateWindow(m_Data.m_VideoMode->width, m_Data.m_VideoMode->height, m_Data.m_Title.c_str(), m_Data.m_Monitor, NULL); // Fullscreen mode
             if (!m_Data.m_PtrToWindow) {
                 DebuggerLogError("GLFW unable to create OpenGL context - abort program");
                 glfwTerminate();
             }
+            used_width = m_Data.m_VideoMode->width;
+            used_height = m_Data.m_VideoMode->height;
+
         }
 
         // Make the OpenGL context current
@@ -145,7 +148,7 @@ namespace LB
         FrameBufferCB(m_Data.m_PtrToWindow, fb_width, fb_height);
 
         SetSystemName("Windows System");
-	}
+    }
 
     /*!***********************************************************************
      \brief
@@ -170,6 +173,7 @@ namespace LB
     {
         static float globalWidth = WINDOWSSYSTEM->GetWidth();
         static float globalHeight = WINDOWSSYSTEM->GetHeight();
+
 
         if (glfwWindowShouldClose(this->m_Data.m_PtrToWindow))
         {
@@ -196,16 +200,19 @@ namespace LB
 
                 if (m_Data.m_FullscreenMode)
                 {
-                    m_Data.m_Width = m_Data.m_VideoMode->width;
-                    m_Data.m_Height = m_Data.m_VideoMode->height;
                     glfwSetWindowMonitor(m_Data.m_PtrToWindow, m_Data.m_Monitor, 0, 0, m_Data.m_VideoMode->width, m_Data.m_VideoMode->height, NULL);
+                    used_width = m_Data.m_VideoMode->width;
+                    used_height = m_Data.m_VideoMode->height;
                 }
                 else
                 {
-                    m_Data.m_Width = globalWidth;
-                    m_Data.m_Height = globalHeight;
                     glfwSetWindowMonitor(m_Data.m_PtrToWindow, NULL, m_Data.m_VideoMode->width/4, m_Data.m_VideoMode->height/4, m_Data.m_Width, m_Data.m_Height, NULL);
+
+                    used_width = m_Data.m_Width;
+                    used_height = m_Data.m_Height;
                 }
+
+                screenSizeChange.Invoke();
             }
         }
 
@@ -253,7 +260,7 @@ namespace LB
     *************************************************************************/
     unsigned int WindowsSystem::GetWidth() const 
     { 
-        return m_Data.m_Width; 
+        return used_width; 
     }
 
     /*!***********************************************************************
@@ -265,7 +272,7 @@ namespace LB
     *************************************************************************/
     unsigned int WindowsSystem::GetHeight() const
     { 
-        return m_Data.m_Height;
+        return used_height;
     }
 
     /*!***********************************************************************

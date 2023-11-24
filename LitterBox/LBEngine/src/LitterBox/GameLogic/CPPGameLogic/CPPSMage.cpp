@@ -18,6 +18,7 @@
 
 namespace LB
 {
+	std::array<std::array<LB::Vec2<float>, 4>, 33> mage_anim_frams;
 	void CPPSMage::Start()
 	{
 		//initialising the components of the mage, basically same as chase where I am getting the components
@@ -48,6 +49,31 @@ namespace LB
 			mCollider = nullptr;
 			return;
 		}
+
+		//get the mage animation
+		if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["sheet"]) != LB::ASSETMANAGER->Textures.end()) {
+			int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["sheet"])->second.first->width };
+			int img_height{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["sheet"])->second.first->height };
+		
+			float x_inc{ 1.f / 17.f };
+			float y_inc{ 110.f / (float)img_height };
+
+			//y increments 110 pixels at a time for 4 times
+			//for(int y{0}; y < 3; ++y)
+				for (int x{ 0 }; x < 17; ++x) {
+					mage_anim_frams[x].at(0) = { x * x_inc, 0.f };//bottom left
+					mage_anim_frams[x].at(1) = { (x + 1) * x_inc, 0.f };//bottom right
+					mage_anim_frams[x].at(2) = { (x + 1) * x_inc, 1.f };//top right
+					mage_anim_frams[x].at(3) = { x * x_inc, 1.f };//top left
+				}
+
+
+			Renderer::GRAPHICS->init_anim("mage_float", mage_anim_frams.data(), 0.5f, 17);
+
+			mRender->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("sheet"));
+			mRender->play_repeat("mage_float");
+		}
+
 		
 		//initialse the state of the mage
 		//STATES : IDLE, CHASING, BACKOFF, HURT, SHOOTING

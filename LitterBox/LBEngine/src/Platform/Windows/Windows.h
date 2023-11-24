@@ -69,6 +69,7 @@ namespace LB
 			data.AddMember("Height", m_Height,allocator);
 			data.AddMember("PosX", 0.0,allocator);
 			data.AddMember("PosY", 0.0,allocator);
+			data.AddMember("FullScreenMode", m_FullscreenMode, allocator);
 			return true;
 		}
 
@@ -84,6 +85,8 @@ namespace LB
 			bool HasTitle = data.HasMember("Title");
 			bool HasWidth = data.HasMember("Width");
 			bool HasHeight = data.HasMember("Height");
+			bool HasFullScreen = data.HasMember("FullScreenMode");
+
 			if (data.IsObject())
 			{
 				if (HasTitle)
@@ -94,6 +97,10 @@ namespace LB
 				{
 					m_Width = data["Width"].GetInt();
 					m_Height = data["Height"].GetInt();
+				}
+				if (HasFullScreen)
+				{
+					m_FullscreenMode = data["FullScreenMode"].GetBool();
 				}
 				return true;
 			}
@@ -194,11 +201,18 @@ namespace LB
 
 		static void FocusCB(GLFWwindow* window, int focused);
 
+		inline unsigned int GetScreenWidth() { return m_Data.m_VideoMode->width; }
+		inline unsigned int GetScreenHeight() { return m_Data.m_VideoMode->height; }
+		inline bool			IsFullScreen() { return m_Data.m_FullscreenMode; }
+
 		Event<> OnApplicationFocus;
 		Event<> onApplicationUnFocus;
+		Event<> screenSizeChange;
 
 	private:
 		WindowsData m_Data;
+		unsigned int used_width;
+		unsigned int used_height;
 	};
 
 	/*!***********************************************************************

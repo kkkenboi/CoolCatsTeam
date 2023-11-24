@@ -16,7 +16,6 @@
 **************************************************************************/
 
 #include "Platform/Windows/Windows.h"
-//#include "Platform/Editor/Editor.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
@@ -51,6 +50,10 @@ namespace LB {
 		*************************************************************************/
 		Application(bool editorMode);
 
+		/*!***********************************************************************
+		 \brief
+		 Checks if the application is running
+		*************************************************************************/
 		bool IsRunning();
 
 		/*!***********************************************************************
@@ -64,6 +67,13 @@ namespace LB {
 		 Keeps the LitterBox Engine game loop running if program is not closing
 		*************************************************************************/
 		void Run();
+
+		/*!***********************************************************************
+		 \brief
+		 Quits the application
+		*************************************************************************/
+		void Quit();
+
 	private:
 		std::shared_ptr<LBEngine> Engine;
 	};

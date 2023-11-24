@@ -261,6 +261,7 @@ namespace Renderer {
 		quad* quad_buff;
 		std::vector<index> index_buff;
 		unsigned int quad_buff_size;
+		unsigned int furthest_index{ 0 };
 
 		std::list<const LB::CPRender*> active_objs;
 		//TODO figure out parsing in shader file paths
@@ -290,7 +291,7 @@ namespace Renderer {
 		\brief
 		 Gets number of active render objects
 		*************************************************************************/
-		inline size_t get_ao_size() { return active_objs.size(); }
+		inline size_t get_furthest_index() { return furthest_index + 1; }
 		/*!***********************************************************************
 		\brief
 		 Gets handle to vertex buffer object in GPU

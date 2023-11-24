@@ -97,7 +97,7 @@
                 "Name": "ball",
                 "Transform": {
                     "Position": {
-                        "x": 959.61,
+                        "x": 959.59,
                         "y": 351.04
                     },
                     "Scale": {
@@ -237,8 +237,8 @@
                 "Name": "EnemyChaser1",
                 "Transform": {
                     "Position": {
-                        "x": 703.29,
-                        "y": 598.42
+                        "x": 703.28,
+                        "y": 598.4
                     },
                     "Scale": {
                         "x": 1.25,
@@ -280,29 +280,6 @@
                 },
                 "Render": {
                     "Texture": "Flag"
-                }
-            },
-            {
-                "Name": "ButtObject",
-                "Transform": {
-                    "Position": {
-                        "x": 230.0,
-                        "y": 700.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Collider": {
-                    "Shape": 1,
-                    "Width": 190.0,
-                    "Height": 80.0,
-                    "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Script": "Butt"
                 }
             },
             {
@@ -378,10 +355,10 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Density": 10.0,
-                    "IsStatic": false
+                    "IsStatic": true
                 },
                 "Render": {
-                    "Texture": "nugget"
+                    "Texture": "MageAttackSpriteSheet"
                 },
                 "Collider": {
                     "Shape": 0,

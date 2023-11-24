@@ -38,7 +38,7 @@
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "Rotation": 0.25
+                    "Rotation": 14.31
                 },
                 "Collider": {
                     "Shape": 1,
@@ -61,11 +61,11 @@
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "Rotation": 0.25
+                    "Rotation": 14.31
                 },
                 "Collider": {
                     "Shape": 1,
-                    "Width": 290.0,
+                    "Width": 250.0,
                     "Height": 60.0,
                     "Radius": 50.0
                 },
@@ -84,11 +84,11 @@
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "Rotation": 0.25
+                    "Rotation": 14.31
                 },
                 "Collider": {
                     "Shape": 1,
-                    "Width": 290.0,
+                    "Width": 250.0,
                     "Height": 50.0,
                     "Radius": 50.0
                 },
@@ -107,7 +107,7 @@
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "Rotation": 0.25
+                    "Rotation": 14.31
                 },
                 "Collider": {
                     "Shape": 1,
@@ -130,11 +130,11 @@
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "Rotation": 0.25
+                    "Rotation": 14.31
                 },
                 "Collider": {
                     "Shape": 1,
-                    "Width": 290.0,
+                    "Width": 250.0,
                     "Height": 60.0,
                     "Radius": 50.0
                 },
