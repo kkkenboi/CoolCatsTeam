@@ -73,9 +73,9 @@ namespace LB
 		this->m_heightUnscaledOG = m_heightUnscaled;
 		this->m_radiusUnscaledOG = m_radiusUnscaled;
 
-		this->m_width = this->m_widthUnscaled * transform->GetScale().x;
-		this->m_height = this->m_heightUnscaled * transform->GetScale().y;
-		this->m_radius = this->m_radiusUnscaled * transform->GetScale().x;
+		this->m_width = this->m_widthUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
+		this->m_height = this->m_heightUnscaled * PHY_MATH::Absolute(transform->GetScale().y);
+		this->m_radius = this->m_radiusUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
 
 		this->m_rotation = this->transform->GetRotation();
 		this->m_vertAmount = 4;
@@ -209,12 +209,12 @@ namespace LB
 	*************************************************************************/
 	void CPCollider::UpdateScaledData()
 	{
-		this->m_width = this->m_widthUnscaled * transform->GetScale().x;
-		this->m_height = this->m_heightUnscaled * transform->GetScale().y;
-		this->m_radius = this->m_radiusUnscaled * transform->GetScale().x;
+		this->m_width = this->m_widthUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
+		this->m_height = this->m_heightUnscaled * PHY_MATH::Absolute(transform->GetScale().y);
+		this->m_radius = this->m_radiusUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
 
-		float old_width = this->m_widthUnscaledOG * transform->GetScale().x;
-		float old_height = this->m_heightUnscaledOG * transform->GetScale().y;
+		float old_width = this->m_widthUnscaledOG * PHY_MATH::Absolute(transform->GetScale().x);
+		float old_height = this->m_heightUnscaledOG * PHY_MATH::Absolute(transform->GetScale().y);
 		//float old_radius = this->m_radiusUnscaledOG * transform->GetScale().x;
 
 		this->m_ratio_width = m_width / old_width;
@@ -364,13 +364,13 @@ namespace LB
 	void CPCollider::SetWidthHeightRadius(float width, float height, float radius)
 	{
 		this->m_widthUnscaled = width;
-		this->m_width = m_widthUnscaled * transform->GetScale().x;
+		this->m_width = m_widthUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
 
 		this->m_heightUnscaled = height;
-		this->m_height = m_heightUnscaled * transform->GetScale().y;
+		this->m_height = m_heightUnscaled * PHY_MATH::Absolute(transform->GetScale().y);
 
 		this->m_radiusUnscaled = radius;
-		this->m_radius = m_radiusUnscaled * transform->GetScale().x;
+		this->m_radius = m_radiusUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
 
 		if (this->m_shape == COL_POLYGON) 
 		{

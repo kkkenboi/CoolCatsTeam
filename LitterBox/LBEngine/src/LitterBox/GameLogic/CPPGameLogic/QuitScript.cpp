@@ -17,6 +17,10 @@
 #include "QuitScript.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Core/Core.h"
+#include "LitterBox/Scene/SceneManager.h"
+
+extern const float deg_to_rads;
 
 namespace LB {
 	void QuitScript::Start()
@@ -49,19 +53,25 @@ namespace LB {
 		//move the point back
 		right_side = right_side + pos_trans;
 
+		GameObject* screen{ nullptr };
+
 		//get a pointer to the hand game object
 		for (const auto& e : GOMANAGER->GetGameObjects()) {
+			//get pointer to main menu image
+			if (e->GetName() == "Main Menu") {
+				screen = e;
+				continue;
+			}
+			//get pointer to hand object
 			if (e->GetName() != "Hand") {
 				continue;
 			}
 			hand = e;
-			break;
 		}
 
 		//get pos of hand object
-		if (!hand)
+		if (!hand || !screen)
 			return;
-
 
 		Vec2<float> hand_size{
 			hand->GetComponent<CPRender>()->w * hand->GetComponent<CPTransform>()->GetScale().x * 0.5f,
@@ -80,13 +90,25 @@ namespace LB {
 			DebuggerLogWarning("Mouse 1 is pressed!");
 			LB::Vec2<float> mouse{ INPUT->GetMousePos() };
 			mouse.y = mouse.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+
+			mouse.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
 			auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
 
 			DebuggerLogFormat("CLICK POS: %f, %f", mouse.x, mouse.y);
 
 			for (const auto& collider : test) {
-				if (coll == collider) {
-					glfwDestroyWindow(WINDOWSSYSTEM->GetWindow());
+				if (coll != collider) {
+					continue;
+				}
+
+				DebuggerLogFormat("BUTTON CLICK");
+				if (GameObj->GetName() == "Quit") {
+					MessageQuit q;
+					CORE->BroadcastMessage(&q);
+				}
+				else if (GameObj->GetName() == "StartGame") {
+					SCENEMANAGER->LoadScene("SceneMain");
 				}
 			}
 		}
@@ -94,6 +116,8 @@ namespace LB {
 		//checking if mouse is over the button
 		LB::Vec2<float> mouse{ INPUT->GetMousePos() };
 		mouse.y = mouse.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+		mouse.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
+		mouse.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
 		auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
 
 		for (const auto& collider : test) {
