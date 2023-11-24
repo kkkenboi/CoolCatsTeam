@@ -433,12 +433,35 @@ namespace LB
 						
 						// CollisionData is a struct that contains
 						// the Collision Data that includes colA and colB, check unity Collision2D
-						
+						/*
+						if (colB->m_gameobj->HasComponent<CPScriptCPP>()) {
+							CollisionData colData;
+							colData.colliderThis = colB;
+							colData.colliderOther = colA;
+							std::cout << "Entering B" << std::endl;
+							colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
+						}
+						*/
+
 						if (colA->m_gameobj->HasComponent<CPScriptCPP>()) {
 							CollisionData colData;
 							colData.colliderThis = colA;
 							colData.colliderOther = colB;
-							colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
+							std::cout << "Entering A" << std::endl;
+							if (colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
+							{
+								colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
+							}
+						}
+						if (colB->m_gameobj->HasComponent<CPScriptCPP>()) {
+							CollisionData colData;
+							colData.colliderThis = colB;
+							colData.colliderOther = colA;
+							std::cout << "Entering B" << std::endl;
+							if (colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
+							{
+								colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
+							}
 						}
 						
 					}
