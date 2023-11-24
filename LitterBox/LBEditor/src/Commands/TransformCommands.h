@@ -93,4 +93,40 @@ namespace LB
 		CPTransform* m_transform;
 		Vec2<float> m_oldScale, m_newScale;
 	};
+
+	class RotateCommand : public ICommand
+	{
+	public:
+		RotateCommand(CPTransform* transform, float newRotation) : m_transform{ transform }, m_oldRotation{ transform->GetRotation() }, m_newRotation{ newRotation } { }
+
+		void Execute() override
+		{
+			m_transform->SetRotation(m_newRotation);
+		}
+
+		void Undo() override
+		{
+			m_transform->SetRotation(m_oldRotation);
+		}
+
+		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
+		{
+			std::shared_ptr<RotateCommand> incomingRotateCommand = std::dynamic_pointer_cast<RotateCommand>(incomingCommand);
+			if (incomingRotateCommand->m_transform == m_transform && fabs(incomingRotateCommand->m_oldRotation - m_newRotation) < EPSILON_F)
+			{
+				m_newRotation = incomingRotateCommand->m_newRotation;
+				return true;
+			}
+			return false;
+		}
+
+		CommandType GetType() override
+		{
+			return CommandType::ROTATE;
+		}
+
+	private:
+		CPTransform* m_transform;
+		float m_oldRotation, m_newRotation;
+	};
 }

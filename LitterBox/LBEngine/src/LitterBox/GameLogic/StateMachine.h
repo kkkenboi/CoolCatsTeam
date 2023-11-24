@@ -95,6 +95,8 @@ public:
 	*************************************************************************/
 	State* GetState(std::string stateID);
 
+	State* GetCurrentState();
+
 	/*!***********************************************************************
 	\brief
 	This function sets the current State of the FiniteStateMachine

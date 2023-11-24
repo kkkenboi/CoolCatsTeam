@@ -109,6 +109,18 @@ namespace LB {
 		delete mFSM.GetState("Hurt");
 	}
 
+	void CPPSChaser::OnCollisionEnter(CollisionData colData)
+	{
+		std::cout << "Chaser Colliding with another object" << std::endl;
+		if (this->mFSM.GetCurrentState()->GetStateID() == "Chase")
+		{
+			if (colData.colliderOther->m_gameobj->GetName() == "ball") {
+				std::cout << "Got Hit By Ball" << std::endl;
+				--mHealth;
+				mFSM.ChangeState("Hurt");
+			}
+		}
+	}
 
 	/*!***********************************************************************
 	\brief
@@ -215,7 +227,6 @@ namespace LB {
 	}
 	void ChaseState::Exit()
 	{
-
 	}
 
 	// HURT STATE FUNCTIONS !!!

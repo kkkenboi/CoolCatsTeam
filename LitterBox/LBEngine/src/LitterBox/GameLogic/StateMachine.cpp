@@ -63,6 +63,11 @@ State* FiniteStateMachine::GetState(std::string stateID)
 	return mStateMap[stateID];
 }
 
+State* FiniteStateMachine::GetCurrentState()
+{
+	return mCurrentState;
+}
+
 /*!***********************************************************************
 \brief
 This function sets the current State of the FiniteStateMachine

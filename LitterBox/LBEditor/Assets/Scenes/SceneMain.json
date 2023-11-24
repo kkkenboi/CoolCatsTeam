@@ -97,8 +97,8 @@
                 "Name": "ball",
                 "Transform": {
                     "Position": {
-                        "x": 800.0,
-                        "y": 450.0
+                        "x": 959.61,
+                        "y": 351.04
                     },
                     "Scale": {
                         "x": 0.3,
@@ -237,8 +237,8 @@
                 "Name": "EnemyChaser1",
                 "Transform": {
                     "Position": {
-                        "x": 747.0,
-                        "y": 450.0
+                        "x": 703.29,
+                        "y": 598.42
                     },
                     "Scale": {
                         "x": 1.25,

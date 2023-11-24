@@ -27,9 +27,13 @@
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
 
+#include "Utils/CommandManager.h"
+#include "Commands/TransformCommands.h"
+
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
 
+#include <memory>
 
 extern unsigned int svtcb;
 extern Renderer::RenderSystem* Renderer::GRAPHICS;
@@ -157,8 +161,8 @@ namespace LB
 		auto vpMax= ImGui::GetWindowContentRegionMax();
 		auto vpOffset = ImGui::GetWindowPos();
 
-		vpMinMax[0] = { vpMin.x + vpOffset.x, vpMin.y + vpOffset.y };
-		vpMinMax[1] = { vpMax.x + vpOffset.x, vpMax.y + vpOffset.y };
+		vpMinMax[0] = { (vpMin.x + vpOffset.x - Renderer::GRAPHICS->get_cam().get_cam_pos().x / 2.f), (vpMin.y + vpOffset.y + Renderer::GRAPHICS->get_cam().get_cam_pos().y / 2.f) };
+		vpMinMax[1] = { (vpMax.x + vpOffset.x - Renderer::GRAPHICS->get_cam().get_cam_pos().x / 2.f), (vpMax.y + vpOffset.y + Renderer::GRAPHICS->get_cam().get_cam_pos().y / 2.f) };
 
 		// Renders the scene view as an image from the opengl buffer
 		ImGui::BeginChild("GameRender");
@@ -220,22 +224,22 @@ namespace LB
 			switch (EDITORINSPECTOR->GetGizmosOperation())
 			{
 			case ImGuizmo::TRANSLATE:
-				ImGuizmo::Manipulate(glm::value_ptr(glm::mat4{ 1.f }), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&EDITORINSPECTOR->GetSnapTranslate());
 				break;
 			case ImGuizmo::ROTATE:
-				ImGuizmo::Manipulate(glm::value_ptr(glm::mat4{ 1.f }), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&EDITORINSPECTOR->GetSnapRotate());
 				break;
 			case ImGuizmo::SCALE:
-				ImGuizmo::Manipulate(glm::value_ptr(glm::mat4{ 1.f }), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&EDITORINSPECTOR->GetSnapScale());
 				break;
 			case ImGuizmo::UNIVERSAL: // No snapping is applied
-				ImGuizmo::Manipulate(glm::value_ptr(glm::mat4{ 1.f }), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					NULL);
 				break;
@@ -252,9 +256,24 @@ namespace LB
 				float finalRot = { decompRot.z };
 				Vec2<float> finalScale = { decompScale.x, decompScale.y };
 				// Set the new values to translate, rotate and scale 
-				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(finalTrans);
+				if (!(finalTrans == trans))
+				{
+					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalTrans);
+					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
+				}
+				if (fabs(finalScale.x - scale.x) > EPSILON_F || fabs(finalScale.y - scale.y) > EPSILON_F)
+				{
+					std::shared_ptr<ScaleCommand> scaleCommand = std::make_shared<ScaleCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalScale);
+					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(scaleCommand));
+				}
+				if (fabs(finalRot - rot) > EPSILON_F)
+				{
+					std::shared_ptr<RotateCommand> rotateCommand = std::make_shared<RotateCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalRot);
+					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(rotateCommand));
+				}
+				/*EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(finalTrans);
 				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetRotation(finalRot);
-				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetScale(finalScale);
+				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetScale(finalScale);*/
 			}
 		}
 
