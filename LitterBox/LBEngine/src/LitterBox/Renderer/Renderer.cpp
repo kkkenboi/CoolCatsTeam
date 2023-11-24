@@ -368,7 +368,7 @@ void LB::CPRender::Destroy()
 Destructor of the CPRender component.
 *************************************************************************/
 LB::CPRender::~CPRender() {
-	this->Destroy();
+	//this->Destroy();
 }
 
 //########################ANIMATION##############################
@@ -483,7 +483,7 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 		//return quad_data full of garbage
 		return i;
 	}
-
+	
 	//set position of quad
 	quad_buff[i].data[0].pos = { -0.5f, -0.5f };//bottom left
 	quad_buff[i].data[1].pos = { 0.5f, -0.5f  };//bottom right
@@ -502,6 +502,8 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 
 	active_objs.emplace_back(obj);
 
+	furthest_index = i > furthest_index ? i : furthest_index;
+
 	return i;
 }
 /*!***********************************************************************
@@ -518,7 +520,9 @@ void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 		quad_buff[obj->get_index()].data[i].active = false;
 	}
 
-	active_objs.remove_if([obj](const LB::CPRender* in_list) { return *obj == *in_list; });
+	//set the indices to 0
+	index_buff.at(obj->get_index()) = index{ 0,0,0,0,0,0 };
+	active_objs.remove_if([obj](const LB::CPRender* in_list) { return obj == in_list; });
 }
 /*!***********************************************************************
 \brief
@@ -536,7 +540,6 @@ void Renderer::Renderer::update_buff()
 		if (e->texture == 0) 
 			continue;
 		unsigned int obj_index{ e->get_index() };
-
 		const_cast<LB::CPRender*>(e)->get_transform_data();
 		//set position based off camera mat
 		//edit color and uv coordinates and texture
@@ -554,13 +557,12 @@ void Renderer::Renderer::update_buff()
 			quad_buff[obj_index].data[i].color.x = e->col.x;
 			quad_buff[obj_index].data[i].color.y = e->col.y;
 			quad_buff[obj_index].data[i].color.z = e->col.z;
-			if(quad_buff[obj_index].data[i].texIndex != (float)e->texture)
-				quad_buff[obj_index].data[i].texIndex = (float)e->texture;
+			quad_buff[obj_index].data[i].texIndex = (float)e->texture;
 		}
 	}
-
+	
 	glNamedBufferSubData(vbo, 0, sizeof(quad) * quad_buff_size, quad_buff);
-	glNamedBufferSubData(ibo, 0, sizeof(index) * active_objs.size(), index_buff.data());
+	glNamedBufferSubData(ibo, 0, sizeof(index) * index_buff.size(), index_buff.data());
 	GLenum err = glGetError();
 	if (err != GL_NO_ERROR)
 		std::cerr << (int)err << std::endl;
