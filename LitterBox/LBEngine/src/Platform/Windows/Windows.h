@@ -201,11 +201,18 @@ namespace LB
 
 		static void FocusCB(GLFWwindow* window, int focused);
 
+		inline unsigned int GetScreenWidth() { return m_Data.m_VideoMode->width; }
+		inline unsigned int GetScreenHeight() { return m_Data.m_VideoMode->height; }
+		inline bool			IsFullScreen() { return m_Data.m_FullscreenMode; }
+
 		Event<> OnApplicationFocus;
 		Event<> onApplicationUnFocus;
+		Event<> screenSizeChange;
 
 	private:
 		WindowsData m_Data;
+		unsigned int used_width;
+		unsigned int used_height;
 	};
 
 	/*!***********************************************************************

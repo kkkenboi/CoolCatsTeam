@@ -84,6 +84,9 @@ namespace LB
             }
             m_Data.m_Width = 1600;
             m_Data.m_Height = 900;
+
+            used_width = m_Data.m_Width;
+            used_height = m_Data.m_Height;
         }
         else // Game Mode
         {
@@ -101,9 +104,9 @@ namespace LB
                 DebuggerLogError("GLFW unable to create OpenGL context - abort program");
                 glfwTerminate();
             }
+            used_width = m_Data.m_VideoMode->width;
+            used_height = m_Data.m_VideoMode->height;
 
-            m_Data.m_Width =    m_Data.m_VideoMode->width;
-            m_Data.m_Height =   m_Data.m_VideoMode->height;
         }
 
         // Make the OpenGL context current
@@ -198,13 +201,18 @@ namespace LB
                 if (m_Data.m_FullscreenMode)
                 {
                     glfwSetWindowMonitor(m_Data.m_PtrToWindow, m_Data.m_Monitor, 0, 0, m_Data.m_VideoMode->width, m_Data.m_VideoMode->height, NULL);
+                    used_width = m_Data.m_VideoMode->width;
+                    used_height = m_Data.m_VideoMode->height;
                 }
                 else
                 {
-                    m_Data.m_Width = globalWidth;
-                    m_Data.m_Height = globalHeight;
                     glfwSetWindowMonitor(m_Data.m_PtrToWindow, NULL, m_Data.m_VideoMode->width/4, m_Data.m_VideoMode->height/4, m_Data.m_Width, m_Data.m_Height, NULL);
+
+                    used_width = m_Data.m_Width;
+                    used_height = m_Data.m_Height;
                 }
+
+                screenSizeChange.Invoke();
             }
         }
 
@@ -252,7 +260,7 @@ namespace LB
     *************************************************************************/
     unsigned int WindowsSystem::GetWidth() const 
     { 
-        return m_Data.m_Width; 
+        return used_width; 
     }
 
     /*!***********************************************************************
@@ -264,7 +272,7 @@ namespace LB
     *************************************************************************/
     unsigned int WindowsSystem::GetHeight() const
     { 
-        return m_Data.m_Height;
+        return used_height;
     }
 
     /*!***********************************************************************
