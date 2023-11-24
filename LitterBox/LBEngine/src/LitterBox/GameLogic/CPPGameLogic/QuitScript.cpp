@@ -80,7 +80,6 @@ namespace LB {
 		};
 
 		right_side = right_side - hand_size;
-		//(hand->GetComponent<CPTransform>()->GetPosition() * hand->GetComponent<CPTransform>()->GetScale() * 0.5f);
 		//-------------Rotation matrix values to get the left of the button---------------
 	}
 	void QuitScript::Update()
@@ -111,6 +110,11 @@ namespace LB {
 					SCENEMANAGER->LoadScene("SceneMain");
 				}
 			}
+		}
+		static bool trig{ false };
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_O) && !trig) {
+			SCENEMANAGER->LoadScene("SceneMain");
+			trig = true;
 		}
 
 		//checking if mouse is over the button

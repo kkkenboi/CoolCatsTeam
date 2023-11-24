@@ -60,19 +60,6 @@ namespace LB
 
 		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"));
 		rend->play_repeat("player_idle");
-
-		GameObject* screen{ nullptr };
-
-		//get a pointer to the hand game object
-		for (const auto& e : GOMANAGER->GetGameObjects()) {
-			//get pointer to main menu image
-			if (e->GetName() == "MainChar") {
-				screen = e;
-				break;
-			}
-		}
-
-		//screen->RemoveComponent(LB::ComponentTypeID::C_CPRender);
 	}
 
 	/*!***********************************************************************
