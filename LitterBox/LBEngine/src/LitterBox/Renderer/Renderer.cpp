@@ -522,6 +522,7 @@ void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 
 	//set the indices to 0
 	index_buff.at(obj->get_index()) = index{ 0,0,0,0,0,0 };
+	furthest_index = furthest_index == obj->get_index() ? furthest_index - 1 : furthest_index;
 	active_objs.remove_if([obj](const LB::CPRender* in_list) { return obj == in_list; });
 }
 /*!***********************************************************************
@@ -1049,11 +1050,11 @@ void Renderer::RenderSystem::Update()
 	ui_renderer.update_buff();
 
 	glBindVertexArray(bg_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(ui_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 
 	//print all messages here
 	text_renderer.update_text();
@@ -1068,9 +1069,9 @@ void Renderer::RenderSystem::Update()
 		glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
 		glBindVertexArray(bg_renderer.get_vao());
-		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 		glBindVertexArray(object_renderer.get_vao());
-		glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+		glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 		//UI and TEXT don't get rendered in scene view
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
