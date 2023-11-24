@@ -19,8 +19,6 @@ int WINAPI WinMain(_In_ HINSTANCE instanceH, _In_opt_ HINSTANCE prevInstanceH, _
 
 	bool editorMode = false;
 
-	int* memleak = new int(4);
-
 	auto app = LB::CreateApplication(editorMode);
 	LB::CORE->SetPlayingMode(true);
 	while (app->IsRunning()) 
@@ -28,8 +26,5 @@ int WINAPI WinMain(_In_ HINSTANCE instanceH, _In_opt_ HINSTANCE prevInstanceH, _
 		app->Run();
 	}
 	delete app;
-
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
 
 }
