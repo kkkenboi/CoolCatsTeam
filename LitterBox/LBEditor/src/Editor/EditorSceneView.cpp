@@ -203,7 +203,7 @@ namespace LB
 		// Set the different ImGuizmo operation modes here
 
 		// ----------------------------------------------
-		if (EDITORINSPECTOR->GetInspectedGO())
+		if (EDITORINSPECTOR->GetInspectedGO() && !EDITORINSPECTOR->isPrefab) // TODO: Less magic prefab editting implementation bools
 		{
 			auto trans = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetPosition();
 			auto rot = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetRotation();

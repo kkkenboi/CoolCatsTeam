@@ -206,7 +206,7 @@ namespace LB
 		inline bool			IsFullScreen() { return m_Data.m_FullscreenMode; }
 
 		Event<> OnApplicationFocus;
-		Event<> onApplicationUnFocus;
+		Event<> OnApplicationUnFocus;
 		Event<> screenSizeChange;
 
 	private:

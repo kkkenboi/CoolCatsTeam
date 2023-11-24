@@ -164,6 +164,50 @@ namespace LB {
 		return m_collision_layer_matrix[layerA.GetPosInVec()][layerB.GetPosInVec()];
 	}
 
+	bool ColliderLayerSystem::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+		if (!m_layers.empty())
+		{
+			data.SetObject();
+			Value layerArray(rapidjson::kArrayType);
+			for (auto& layer : m_layers)
+			{
+				Value layerValue;
+				if (layer.second.Serialize(layerValue, alloc))
+				{
+					layerArray.PushBack(layerValue, alloc);
+				}
+			}
+			data.AddMember("CollisionLayers", layerArray, alloc);
+			return true;
+		}
+		return false;
+	}
+
+	bool ColliderLayerSystem::Deserialize(const Value& data)
+	{
+		bool HasCollisionLayers = data.HasMember("CollisionLayers");
+		if (HasCollisionLayers)
+		{	//We just save it into a json array 
+			const Value& childrenValue = data["CollisionLayers"].GetArray();
+			//for (rapidjson::SizeType i{ childrenValue.Size() }; i > 0; --i)
+			//{
+				//ColliderLayer temp;
+				//temp.Deserialize(childrenValue[i]);
+				//AddLayer(childrenValue[i].)
+			for (Value::ConstMemberIterator itr = childrenValue.MemberEnd();
+				itr != childrenValue.MemberBegin(); --itr)
+			{
+				if (itr->name.IsString() && itr->value.IsInt())
+				{
+					AddLayer(itr->name.GetString());
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
 	// =================================
 	// Collider Layer stuff
 	// =================================
@@ -185,7 +229,7 @@ namespace LB {
 	
 	
 
-	std::string const ColliderLayer::GetName() const 
+	std::string& ColliderLayer::GetName()
 	{
 		return m_name;
 	}
@@ -193,5 +237,25 @@ namespace LB {
 	int& ColliderLayer::GetPosInVec() 
 	{
 		return vec_pos;
+	}
+	bool ColliderLayer::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+		data.SetObject();
+		Value layerNameValue(m_name.c_str(), alloc);
+		data.AddMember("Layer Name", layerNameValue, alloc);
+		data.AddMember("Layer ID", vec_pos, alloc);
+		return true;
+	}
+	bool ColliderLayer::Deserialize(const Value& data)
+	{
+		bool HasLayerName = data.HasMember("Layer Name");
+		bool HasLayerID = data.HasMember("Layer ID");
+		if (HasLayerName && HasLayerID)
+		{
+			m_name = data["Layer Name"].GetString();
+			vec_pos = data["Layer ID"].GetInt();
+			return true;
+		}
+		return false;
 	}
 } // Namespace LB
