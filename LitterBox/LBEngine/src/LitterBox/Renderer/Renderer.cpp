@@ -522,8 +522,18 @@ void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 
 	//set the indices to 0
 	index_buff.at(obj->get_index()) = index{ 0,0,0,0,0,0 };
-	furthest_index = furthest_index == obj->get_index() ? furthest_index - 1 : furthest_index;
 	active_objs.remove_if([obj](const LB::CPRender* in_list) { return obj == in_list; });
+
+	if (active_objs.size()) {
+		unsigned int max_index{ active_objs.front()->get_index() };
+		for (auto const& e : active_objs) {
+			max_index = e->get_index() > max_index ? e->get_index() : max_index;
+		}
+		furthest_index = max_index;
+	}
+	else {
+		furthest_index = 0;
+	}
 }
 /*!***********************************************************************
 \brief
@@ -558,7 +568,8 @@ void Renderer::Renderer::update_buff()
 			quad_buff[obj_index].data[i].color.x = e->col.x;
 			quad_buff[obj_index].data[i].color.y = e->col.y;
 			quad_buff[obj_index].data[i].color.z = e->col.z;
-			quad_buff[obj_index].data[i].texIndex = (float)e->texture;
+			if (quad_buff[obj_index].data[i].texIndex != (float)e->texture)
+				quad_buff[obj_index].data[i].texIndex = (float)e->texture;
 		}
 	}
 	
