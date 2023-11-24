@@ -61,7 +61,7 @@ namespace LB
 			newScript->GetName() == "Butt" ||
 			newScript->GetName() == "Quit" ||
 			newScript->GetName() == "Mage" ||
-			newScript->GetName() == "Projectile")
+			newScript->GetName() == "Projectile" ||
 			newScript->GetName() == "PauseMenuScript" ||
 			newScript->GetName() == "PauseQuitGameScript")
 		{

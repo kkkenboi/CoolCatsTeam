@@ -483,22 +483,24 @@ namespace LB
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> ShootingForce = Direction * (mEnemy->GetSpeedMag() * 10.0f);
 
-
-		if (TIME->GetTime() >= mEnemy->NextShot())
-		{
-			mEnemy->SpawnProjectile();
-			//current time + 1/firerate
-			mEnemy->NextShot() = TIME->GetTime() + (double)(1 / mEnemy->FireRate());
-			//++mEnemy->FireRate();
-			DebuggerLog("SHOOOOTTTINGGG");
-			DebuggerLogFormat("Entered MageShootingState: %d", mEnemy->SetTime());
-			++mEnemy->Count();
-			if (mEnemy->Count() == mEnemy->NumOfProj())
+		//if (INPUT->IsKeyPressed(KeyCode::KEY_5))
+		//{
+			if (TIME->GetTime() >= mEnemy->NextShot())
 			{
-				mEnemy->Count() = 0;
-				GetFSM().ChangeState("Idle");	
+				mEnemy->SpawnProjectile();
+				//current time + 1/firerate
+				mEnemy->NextShot() = TIME->GetTime() + (double)(1 / mEnemy->FireRate());
+				//++mEnemy->FireRate();
+				DebuggerLog("SHOOOOTTTINGGG");
+				DebuggerLogFormat("Entered MageShootingState: %d", mEnemy->SetTime());
+				++mEnemy->Count();
+				if (mEnemy->Count() == mEnemy->NumOfProj())
+				{
+					mEnemy->Count() = 0;
+					GetFSM().ChangeState("Idle");	
+				}
 			}
-		}
+		//}
 		
 		//if (INPUT->IsKeyPressed(KeyCode::KEY_5) && mEnemy->CheckHasShot() == false)
 		//{
