@@ -24,6 +24,7 @@
 #include "CPPSChaser.h"
 #include "QuitScript.h"
 #include "CPPSMage.h"
+#include "PauseQuitButton.h"
 
 namespace LB
 {
@@ -57,7 +58,8 @@ namespace LB
 			newScript->GetName() == "Enemy" || 
 			newScript->GetName() == "Butt" ||
 			newScript->GetName() == "Quit" ||
-			newScript->GetName() == "Mage")
+			newScript->GetName() == "Mage" ||
+			newScript->GetName() == "PauseQuit")
 		{
 			m_sceneScripts.push_back(newScript);
 
@@ -117,6 +119,9 @@ namespace LB
 			}
 			else if (script->GetName() == "Mage") {
 				script->SetInstance(DBG_NEW CPPSMage);
+			}
+			else if (script->GetName() == "PauseQuit") {
+				script->SetInstance(DBG_NEW PauseQuitButton);
 			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 	}

@@ -19,6 +19,8 @@ it handls the logic for the chaser enemy
 #include "LitterBox/Debugging/Debug.h"
 
 #include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Engine/Time.h"
+#include "LitterBox/Physics/PhysicsMath.h"
 
 namespace LB {
 
@@ -111,13 +113,14 @@ namespace LB {
 
 	void CPPSChaser::OnCollisionEnter(CollisionData colData)
 	{
-		std::cout << "Chaser Colliding with another object" << std::endl;
 		if (this->mFSM.GetCurrentState()->GetStateID() == "Chase")
 		{
 			if (colData.colliderOther->m_gameobj->GetName() == "ball") {
-				std::cout << "Got Hit By Ball" << std::endl;
-				--mHealth;
-				mFSM.ChangeState("Hurt");
+				if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
+				{
+					--mHealth;
+					mFSM.ChangeState("Hurt");
+				}
 			}
 		}
 	}
@@ -158,13 +161,23 @@ namespace LB {
 		return mPlayer;
 	}
 
+	int& CPPSChaser::GetHealth()
+	{
+		return mHealth;
+	}
+
 	/*!***********************************************************************
 	\brief
 	Getter for speed magnitude
 	*************************************************************************/
-	float CPPSChaser::GetSpeedMag()
+	float& CPPSChaser::GetSpeedMag()
 	{
 		return mSpeedMagnitude;
+	}
+
+	float& CPPSChaser::GetHurtTimer()
+	{
+		return mHurtTimer;
 	}
 
 	// States ===================
@@ -242,16 +255,27 @@ namespace LB {
 
 	void HurtState::Enter()
 	{
+		std::cout << "Health: " << mEnemy->GetHealth();
+		mEnemy->GetHurtTimer() = 1.5f;
 		this->Update();
 	}
 
 	void HurtState::Update()
 	{
+		mEnemy->GetHurtTimer() -= TIME->GetDeltaTime();
+		if (mEnemy->GetHurtTimer() <= 0.f) 
+		{
+			this->GetFSM().ChangeState("Chase");
+		}
 
+		if (mEnemy->GetHealth() <= 0) 
+		{
+			//mEnemy->GetCollider()
+		}
 	}
 
 	void HurtState::Exit()
 	{
-
+		mEnemy->GetHurtTimer() = 1.5f;
 	}
 }

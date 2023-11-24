@@ -72,7 +72,7 @@ namespace LB
 			}
 		}
 
-		screen->RemoveComponent(LB::ComponentTypeID::C_CPRender);
+		//screen->RemoveComponent(LB::ComponentTypeID::C_CPRender);
 	}
 
 	/*!***********************************************************************
