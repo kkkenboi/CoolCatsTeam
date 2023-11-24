@@ -81,6 +81,12 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
+		 Save the currently loaded scene if not in playing mode
+		*************************************************************************/
+		void TrySaveScene();
+
+		/*!***********************************************************************
+		 \brief
 		 Loads the same scene again without saving
 		*************************************************************************/
 		void ReloadScene();
@@ -105,6 +111,7 @@ namespace LB
 
 		// Lets any subscribers know when a new scene is loaded
 		Event<Scene*> onNewSceneLoad;
+		Event<> onSceneSaved;
 
 	private:
 		std::vector<std::string> m_sceneOrder; // Names of all scenes loaded
@@ -117,6 +124,7 @@ namespace LB
 	// For event subscription
 	void SceneOnPlayToggle(bool isPlaying);
 	void CheckSceneToLoad();
+	void TrySaveScene();
 
 	/*!***********************************************************************
 	 \brief

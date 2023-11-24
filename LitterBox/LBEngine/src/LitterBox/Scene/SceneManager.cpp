@@ -16,6 +16,7 @@
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Core/Core.h"
+#include "LitterBox/Engine/Input.h"
 
 namespace LB
 {
@@ -44,6 +45,7 @@ namespace LB
 		// On play, serialize the scene. On !play, reload the scene
 		CORE->onPlayingModeToggle.Subscribe(LB::SceneOnPlayToggle);
 		TIME->onFrameEnd.Subscribe(LB::CheckSceneToLoad);
+		INPUT->SubscribeToKey(LB::TrySaveScene, KeyCode::KEY_S, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// TODO: Lookup table for scene names, arranged where 0 index is loaded first!
 		JSONSerializer::DeserializeFromFile("SceneOrder", *this);
@@ -72,10 +74,7 @@ namespace LB
 		JSONSerializer::SerializeToFile("SceneOrder", *this);
 
 		// Auto-save current loaded scene if game is not playing
-		if (!CORE->IsPlaying())
-		{
-			m_currentScene->Save();
-		}
+		TrySaveScene();
 
 		m_currentScene->Destroy();
 		MEMORY->Deallocate(m_currentScene);
@@ -122,6 +121,31 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
+	 Save the currently loaded scene if not in playing mode
+	*************************************************************************/
+	void SceneManager::TrySaveScene()
+	{
+		if (!CORE->IsPlaying())
+		{
+			m_currentScene->Save();
+			onSceneSaved.Invoke();
+		}
+		else
+		{
+			DebuggerLogErrorFormat("Tried to save scene %s while in play mode!", m_currentScene->GetName().c_str());
+		}
+	}
+
+	void TrySaveScene()
+	{
+		if (INPUT->IsKeyPressed(KeyCode::KEY_LEFTCONTROL))
+		{
+			SCENEMANAGER->TrySaveScene();
+		}
+	}
+
+	/*!***********************************************************************
+	 \brief
 	 Loads the same scene again without saving
 	*************************************************************************/
 	void SceneManager::ReloadScene()
@@ -146,7 +170,10 @@ namespace LB
 	void SceneManager::SceneOnPlayToggle(bool isPlaying)
 	{
 		if (isPlaying)
+		{
 			m_currentScene->Save();
+			onSceneSaved.Invoke();
+		}
 		else
 			ReloadScene();
 	}
@@ -166,7 +193,10 @@ namespace LB
 			if (m_isReloading)
 				m_isReloading = false;
 			else
+			{
 				m_currentScene->Save();
+				onSceneSaved.Invoke();
+			}
 		}
 
 		// Free current scene first

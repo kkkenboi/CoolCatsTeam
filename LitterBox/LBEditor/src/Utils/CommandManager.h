@@ -19,6 +19,7 @@
 #include <deque>
 
 #include "LitterBox/Core/System.h"
+#include "LitterBox/Scene/Scene.h"
 #include "Command.h"
 
 namespace LB
@@ -36,10 +37,21 @@ namespace LB
 
 		void ResizeHistory(int newSize);
 
+		void ClearHistory();
+
+		/*!***********************************************************************
+		  \brief
+		  Are there any command changes to the current scene that are not saved?
+		*************************************************************************/
+		bool UpToDate();
+
+		void UpdateCommandsSaved();
+
 	private:
 		void AddToHistory(std::shared_ptr<ICommand> newCommand);
 
-		int historyCapacity;	// How many unique commands to store?
+		int m_historyCapacity;		// How many unique commands to store?
+		int m_savedCommandIndex{0};	// The index of the last command saved
 
 		std::deque<std::shared_ptr<ICommand>> history, undoHistory;
 	};
@@ -47,6 +59,10 @@ namespace LB
 	void CheckUndo();
 
 	void CheckRedo();
+
+	void UpdateCommandsSaved();
+
+	void ClearHistory(Scene* newScene);
 
 	extern CommandManager* COMMAND;
 }

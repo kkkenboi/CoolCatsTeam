@@ -13,6 +13,7 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
+#include "LitterBox/Scene/SceneManager.h"
 #include "LitterBox/Engine/Input.h"
 #include "CommandManager.h"
 
@@ -20,7 +21,7 @@ namespace LB
 {
 	CommandManager* COMMAND = nullptr;
 
-	CommandManager::CommandManager() : history{}, undoHistory{}
+	CommandManager::CommandManager() : history{}, undoHistory{}, m_savedCommandIndex{ 0 }
 	{
 		if (!COMMAND)
 			COMMAND = this;
@@ -33,10 +34,16 @@ namespace LB
 		// Input event for undo/redo
 		INPUT->SubscribeToKey(CheckUndo, KeyCode::KEY_Z, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 		INPUT->SubscribeToKey(CheckRedo, KeyCode::KEY_R, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+
+		// Scene events
+		SCENEMANAGER->onSceneSaved.Subscribe(LB::UpdateCommandsSaved);
+		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::ClearHistory);
 	}
 
 	void CommandManager::AddCommand(std::shared_ptr<ICommand> newCommand)
 	{
+		m_savedCommandIndex = 0; // Reset the saved command index
+
 		newCommand->Execute();
 
 		if (!history.empty() && history.front()->GetType() == newCommand->GetType())
@@ -57,7 +64,7 @@ namespace LB
 	void CommandManager::AddToHistory(std::shared_ptr<ICommand> newCommand)
 	{
 		// If command history capacity is reached, remove oldest command
-		if (history.size() > historyCapacity)
+		if (history.size() > m_historyCapacity)
 		{
 			history.pop_back();
 			history.push_front(newCommand);
@@ -94,7 +101,23 @@ namespace LB
 
 	void CommandManager::ResizeHistory(int newSize)
 	{
-		historyCapacity = newSize;
+		m_historyCapacity = newSize;
+	}
+
+	void CommandManager::ClearHistory()
+	{
+		history.clear();
+		m_savedCommandIndex = 0;
+	}
+
+	bool CommandManager::UpToDate()
+	{
+		return m_savedCommandIndex == history.size();
+	}
+
+	void CommandManager::UpdateCommandsSaved()
+	{
+		m_savedCommandIndex = history.size();
 	}
 
 	void CheckUndo()
@@ -111,5 +134,16 @@ namespace LB
 		{
 			COMMAND->Redo();
 		}
+	}
+
+	void UpdateCommandsSaved()
+	{
+		COMMAND->UpdateCommandsSaved();
+	}
+
+	void ClearHistory(Scene* newScene)
+	{
+		UNREFERENCED_PARAMETER(newScene);
+		COMMAND->ClearHistory();
 	}
 }
