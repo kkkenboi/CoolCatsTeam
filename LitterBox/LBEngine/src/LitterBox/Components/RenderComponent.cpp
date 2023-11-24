@@ -41,10 +41,16 @@ namespace LB
 				const Value& textureValue = data["Texture"];
 				if (textureValue.IsInt())
 				{
-					texture = textureValue.GetInt();
+					std::string textureName = ASSETMANAGER->GetTextureName(textureValue.GetInt());
+					UpdateTexture(textureValue.GetInt(), ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
+					//texture = textureValue.GetInt();
 					return true;
 				}
-				texture = ASSETMANAGER->GetTextureUnit(textureValue.GetString());
+				std::string textureName = textureValue.GetString();
+
+				UpdateTexture(ASSETMANAGER->GetTextureUnit(textureName), ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
+
+				//texture = ASSETMANAGER->GetTextureUnit(textureValue.GetString());
 				return true;
 			}
 		}

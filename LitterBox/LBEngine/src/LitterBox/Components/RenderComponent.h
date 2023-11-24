@@ -176,9 +176,11 @@ namespace LB
 		 NOTE: the texture slot may or may not be bound. The ounus is on the
 		 developer to ensure the _texture argument is a valid texture
 		*************************************************************************/
-		void UpdateTexture(int _texture)
+		void UpdateTexture(int _texture, int width, int height)
 		{
 			texture = _texture;
+			w = width;
+			h = height;
 			uv[0] = { 0.f, 0.f };
 			uv[1] = { 1.f, 0.f };
 			uv[2] = { 1.f, 1.f };

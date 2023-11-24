@@ -140,7 +140,7 @@ namespace LB
 
 			//INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 
-			EDITORINSPECTOR->SetGizmosMode(ImGuizmo::LOCAL);
+			EDITORINSPECTOR->SetGizmosMode(ImGuizmo::WORLD);
 			EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::UNIVERSAL);
 	}
 
@@ -161,8 +161,8 @@ namespace LB
 		auto vpMax= ImGui::GetWindowContentRegionMax();
 		auto vpOffset = ImGui::GetWindowPos();
 
-		vpMinMax[0] = { (vpMin.x + vpOffset.x - Renderer::GRAPHICS->get_cam().get_cam_pos().x / 2.f), (vpMin.y + vpOffset.y + Renderer::GRAPHICS->get_cam().get_cam_pos().y / 2.f) };
-		vpMinMax[1] = { (vpMax.x + vpOffset.x - Renderer::GRAPHICS->get_cam().get_cam_pos().x / 2.f), (vpMax.y + vpOffset.y + Renderer::GRAPHICS->get_cam().get_cam_pos().y / 2.f) };
+		vpMinMax[0] = { vpMin.x + vpOffset.x, vpMin.y + vpOffset.y };
+		vpMinMax[1] = { vpMax.x + vpOffset.x, vpMax.y + vpOffset.y };
 
 		// Renders the scene view as an image from the opengl buffer
 		ImGui::BeginChild("GameRender");
@@ -176,8 +176,8 @@ namespace LB
 		{
 			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
 			{
-				m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-				m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+				m_mousePosInWorld.x = (((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().x;
+				m_mousePosInWorld.y = ((1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().y;
 
 				const char* assetPath = (const char*)assetData->Data;
 				ASSETMANAGER->SpawnGameObject(assetPath, m_mousePosInWorld);
@@ -187,8 +187,8 @@ namespace LB
 		// If the user has clicked on the scene view, check if they clicked on a GameObject
 		if (ImGui::IsItemClicked() && !ImGuizmo::IsOver())
 		{
-			m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-			m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+			m_mousePosInWorld.x = (((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().x;
+			m_mousePosInWorld.y = ((1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().y;
 
 			SetObjectPicked(CheckMousePosGameObj(m_mousePosInWorld));
 		}
@@ -224,22 +224,22 @@ namespace LB
 			switch (EDITORINSPECTOR->GetGizmosOperation())
 			{
 			case ImGuizmo::TRANSLATE:
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&EDITORINSPECTOR->GetSnapTranslate());
 				break;
 			case ImGuizmo::ROTATE:
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&EDITORINSPECTOR->GetSnapRotate());
 				break;
 			case ImGuizmo::SCALE:
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&EDITORINSPECTOR->GetSnapScale());
 				break;
 			case ImGuizmo::UNIVERSAL: // No snapping is applied
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					NULL);
 				break;

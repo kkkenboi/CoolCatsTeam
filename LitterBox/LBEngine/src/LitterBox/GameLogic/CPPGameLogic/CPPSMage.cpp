@@ -59,7 +59,7 @@ namespace LB
 
 			Renderer::GRAPHICS->init_anim("mage_float", mage_anim_frams.data(), 0.5f, 17);
 
-			mRender->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("sheet"));
+			mRender->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("sheet"), LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["sheet"])->second.first->width, LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["sheet"])->second.first->height);
 			mRender->play_repeat("mage_float");
 		}
 
