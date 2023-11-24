@@ -2604,7 +2604,7 @@ namespace LB
 	 Non-Member to convert Degree to Radian
 
 	 \return
-	 double
+	 T
 	*************************************************************************/
 	template<typename T>
 	T DegToRad(T Degangle)
@@ -2617,11 +2617,24 @@ namespace LB
 	 Non-Member to convert Radian to Degree
 
 	 \return
-	 double
+	 T
 	*************************************************************************/
 	template<typename T>
 	T RadToDeg(T Radangle)
 	{
 		return ((T)(180.0 / PI) * Radangle);
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Non-Member to Absolute Value
+
+	 \return
+	 T
+	*************************************************************************/
+	template<typename T>
+	T AbsValue(T value)
+	{
+		return value < 0 ? (-value) : value;
 	}
 }

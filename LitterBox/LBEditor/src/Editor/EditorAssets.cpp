@@ -164,14 +164,17 @@ namespace LB
 					//Load the properties into the inspector
 				}
 
+				//IF IT'S A PREFAB
 				if (directory.path().extension().string() == ".json")
 				{
+					//PREFAB DRAG AND DROP TO SCENE
 					if (ImGui::BeginDragDropSource())
 					{
 						//DebuggerLog(directory.path().extension().string());
 						ImGui::SetDragDropPayload("PREFAB", FileName.c_str(), FileName.size());
 						ImGui::EndDragDropSource();
 					}
+					//PREFAB EDITOR STUFF
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
 						// To be changed to a better identifier for scene files
@@ -198,12 +201,17 @@ namespace LB
 				{
 					if (ImGui::BeginDragDropSource())
 					{
-						ImGui::SetDragDropPayload("TEXTURE", FileName.c_str(), FileName.size());
+						ImGui::SetDragDropPayload("TEXTURE", FileName.c_str(), FileName.size()+1);
 						ImGui::EndDragDropSource();
 					}
 				}
 				if (directory.path().extension().string() == ".wav")
 				{
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("AUDIO", FileName.c_str(), FileName.size()+1);
+						ImGui::EndDragDropSource();
+					}
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
 						AUDIOMANAGER->ToggleSoundPlaying(FileName);

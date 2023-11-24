@@ -168,4 +168,9 @@ namespace LB
 	{
 
 	}
+
+	void CPPSPlayer::OnCollisionEnter(CollisionData colData) 
+	{
+
+	}
 }

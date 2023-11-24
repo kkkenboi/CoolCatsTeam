@@ -15,6 +15,7 @@
 
 #pragma once
 #include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Physics/Collisions.h"
 
 namespace LB
 {
@@ -49,6 +50,17 @@ namespace LB
 		 Called when the GameObject is destroyed (E.g. when the scene stops)
 		*************************************************************************/
 		virtual void Destroy() = 0;
+
+		/*!***********************************************************************
+		\brief
+		 Called when the GameObject is destroyed (E.g. when the scene stops)
+		*************************************************************************/
+		virtual void OnCollisionEnter(CollisionData colData) 
+		{
+			// Purposely empty, supposed to be implemented
+			// by the scripts, if the script does not want
+			// to do anything, will just return
+		}
 
 		GameObject* GameObj{nullptr};
 	};

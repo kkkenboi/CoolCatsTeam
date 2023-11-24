@@ -117,6 +117,7 @@ namespace LB
 	void PlayTestSound();
 	void PlayExplosionSound();
 	void PlayAHHSound();
+	void RemoveAllAudioSources(bool isPlaying);
 
 	/*!***********************************************************************
 	 * \brief Global Pointer for the AudioManager
