@@ -127,4 +127,10 @@ namespace Renderer {
 	{
 		return nel;
 	}
+
+	glm::vec3 Camera::get_cam_pos() const
+	{
+		return cam_pos;
+	}
+
 }

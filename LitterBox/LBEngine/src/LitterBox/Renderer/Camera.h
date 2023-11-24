@@ -124,6 +124,8 @@ namespace Renderer {
 		void free_cam_move(LB::Vec2<float> new_pos);
 
 		glm::mat4 get_nel() const;
+
+		glm::vec3 get_cam_pos() const;
 	};
 	//----------------------------------------CAMERA-----------------------------------
 }
