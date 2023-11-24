@@ -1,5 +1,6 @@
 #pragma once
 #include "CPPBehaviour.h"
+#include "CPPSBaseGolfBall.h"
 #include "Litterbox/Factory/Components.h"
 #include "LitterBox/GameLogic/StateMachine.h"
 
@@ -22,10 +23,17 @@ namespace LB
 		CPRigidBody* GetRigidBody();
 		CPCollider* GetCollider();
 		GameObject* GetHero();
+		GameObject* GetProjectile();
+
+		GameObject* SpawnProjectile();
+
 		float GetSpeedMag();	//Getter function for the speed when chasing
 		float GetBackOffSpeedMag(); //Getter function for the speed when backingOff
-		float TooClose(); //Getter function if they get too close
-		float RangeAttack(); //Getter function if the in range to shoot
+		float TooCloseDistance(); //Getter function if they get too close
+		float RangeAttackDistance(); //Getter function if the in range to shoot
+		float GetProjSpeed();
+		
+		void IntervalTimer();
 
 		//Function to calculate the boundaries
 		//float MaxDistance();
@@ -39,6 +47,7 @@ namespace LB
 		CPCollider* mCollider; //Getting the collider of the enemy
 
 		GameObject* mPlayer{ nullptr }; //Getting the player
+		GameObject* mProjectile{ nullptr };
 
 		//stats of what the mage will have
 		int mHealth; //health of the mage
@@ -47,8 +56,13 @@ namespace LB
 		int mNumOfProjectile{}; //the number of projectile the player will shoot
 		float mTooClose{};
 		float mAttackRange{};
+		float mProjSpeed{};
 
-		//Boundaries in the map
+		//timer
+		float mtimerInterval;
+		bool mtimerDone;
+
+		//Boundaries between enemy and player
 		float mMaxDistance{};
 		float mMinDistance{};
 		float rangeDistance{};

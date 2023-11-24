@@ -3,6 +3,10 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Debugging/Debug.h"
 
+#include "CPPSBaseGolfBall.h"
+
+#include "LitterBox/Engine/Time.h"
+
 #include "LitterBox/Factory/GameObjectManager.h"
 
 namespace LB
@@ -67,17 +71,22 @@ namespace LB
 		//initialise the variables for the Mage
 		mHealth = 3;
 		mSpeedMagnitude = 1000.f;
+		mProjSpeed = 1500.0f;
 		mNumOfProjectile = 3; //set to 3 projectiles
-		//mAttackRange = 700.0f;
-		//mTooClose = 500.0f; //MAY NEED CHANGE, NEED FURTHER TESTING
 
 		//a little hardcoding for now
 		mMinDistance = 120.0f;
 		mMaxDistance = 1330.0f;
 		rangeDistance = mMaxDistance - mMinDistance;
 
+		//timer
+		mtimerInterval = 3.0f; //3 second interval
+		mtimerDone = false;
+
 		//it has fully initialised
 		mInitialised = true;
+
+		
 	}
 
 	void CPPSMage::Update()
@@ -136,6 +145,16 @@ namespace LB
 		return mPlayer;
 	}
 
+	GameObject* CPPSMage::GetProjectile()
+	{
+		return mProjectile;
+	}
+
+	float CPPSMage::GetProjSpeed()
+	{
+		return mProjSpeed;
+	}
+
 	/*!***********************************************************************
 	\brief
 	Getter for speed magnitude
@@ -158,7 +177,7 @@ namespace LB
 	\brief
 	Getter for tooClose
 	*************************************************************************/
-	float CPPSMage::TooClose()
+	float CPPSMage::TooCloseDistance()
 	{
 		mTooClose = rangeDistance / 3.0f;
 		return mTooClose;
@@ -168,12 +187,34 @@ namespace LB
 	\brief
 	Getter for range attack
 	*************************************************************************/
-	float CPPSMage::RangeAttack()
+	float CPPSMage::RangeAttackDistance()
 	{
 		mAttackRange = rangeDistance / 2.0f;
 		return mAttackRange;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Getter for shooting intervals timer
+	*************************************************************************/
+	void CPPSMage::IntervalTimer()
+	{
+		while (mtimerDone)
+		{
+			mtimerInterval -= 1.0f * TIME->GetDeltaTime();
+			if (mtimerInterval <= 0.0f)
+			{
+				mtimerInterval = false;
+			}
+		}
+	}
+
+	//GameObject* CPPSMage::SpawnProjectile()
+	//{
+	//	//return FACTORY->SpawnGameObject(std::initializer_list <ComponentTypeID>{C_CPRender, C_CPCollider, C_CPRigidBody}, GOSpawnType::SCENE_BOUNDED);
+	//	//return FACTORY->SpawnGameObject();
+
+	//}
 	// States ===================
 
 	/*!***********************************************************************
@@ -214,7 +255,7 @@ namespace LB
 
 	void MageChaseState::Enter()
 	{
-		DebuggerLog("Entered ChaseState");
+		DebuggerLog("Entered MageChaseState");
 		this->Update();
 	}
 	void MageChaseState::Update()
@@ -236,13 +277,13 @@ namespace LB
 		
 		mEnemy->GetRigidBody()->addForce(NormalForce);
 
-		if (DistInBwn < mEnemy->TooClose())
+		if (DistInBwn < mEnemy->TooCloseDistance())
 		{
 			GetFSM().ChangeState("BackOff");
 		}
-		else if (DistInBwn >= mEnemy->TooClose() && DistInBwn <= mEnemy->RangeAttack())
+		else if (DistInBwn >= mEnemy->TooCloseDistance() && DistInBwn <= mEnemy->RangeAttackDistance())
 		{
-			//GetFSM().ChangeState("Shooting");
+			GetFSM().ChangeState("Shooting");
 		}
 		
 		//I need to check if its too close or not
@@ -267,12 +308,12 @@ namespace LB
 
 	void MageBackOffState::Enter()
 	{
-		DebuggerLog("Entered BackOffState");
+		DebuggerLog("Entered MageBackOffState");
 		this->Update();
 	}
 	void MageBackOffState::Update()
 	{
-		DebuggerLog("Entered BackOffState");
+		DebuggerLog("Entered MageBackOffState");
 		//Calculating the distance between the Enemy and the player
 		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
 		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
@@ -287,13 +328,13 @@ namespace LB
 
 		mEnemy->GetRigidBody()->addForce(BackOffForce);
 
-		if (DistInBwn >= mEnemy->TooClose())
+		if (DistInBwn >= mEnemy->TooCloseDistance())
 		{
 			GetFSM().ChangeState("Chase");
 		}
-		else if (DistInBwn >= mEnemy->TooClose() && DistInBwn <= mEnemy->RangeAttack())
+		else if (DistInBwn >= mEnemy->TooCloseDistance() && DistInBwn <= mEnemy->RangeAttackDistance())
 		{
-			//GetFSM().ChangeState("Shooting");
+			GetFSM().ChangeState("Shooting");
 		}
 	}
 	void MageBackOffState::Exit()
@@ -312,10 +353,13 @@ namespace LB
 
 	void MageHurtState::Enter()
 	{
+		DebuggerLog("Entered MageHurtState");
 		this->Update();
 	}
 	void MageHurtState::Update()
 	{
+		DebuggerLog("Entered MageHurtState");
+
 
 	}
 	void MageHurtState::Exit()
@@ -334,10 +378,36 @@ namespace LB
 
 	void MageShootingState::Enter()
 	{
+		DebuggerLog("Entered MageShootingState");
+
 		this->Update();
 	}
 	void MageShootingState::Update()
 	{
+		DebuggerLog("Entered MageShootingState");
+		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
+		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
+		//DEBUG->DrawLine(CurEnemyPos, CurHeroPos, Vec4<float>{0.0f, 0.0f, 1.0f, 1.0f}); //Doesnt work?
+		float DistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos); //Getting distance
+		Vec2<float> DirectionToShoot = (CurHeroPos - CurEnemyPos).Normalise();
+		Vec2<float> Shoot = DirectionToShoot * mEnemy->GetProjSpeed();
+		float offset = 100.0f;
+
+		//mEnemy->SpawnProjectile();
+
+		//ASSETMANAGER->SpawnGameObject("Projectile.json", CurEnemyPos);
+		GameObject* test = FACTORY->SpawnGameObject({5,5});
+		Vec2<float> PosToSpawn{ 0,0/*CurEnemyPos.x + offset, CurEnemyPos.y + offset*/ };
+
+		if (INPUT->IsKeyPressed(KeyCode::KEY_5))
+		{
+			ASSETMANAGER->SpawnGameObject("Projectile", PosToSpawn);
+			JSONSerializer::DeserializeFromFile("Projectile", *test);
+
+		}
+		//test->StartComponents();
+		
+
 
 	}
 	void MageShootingState::Exit()

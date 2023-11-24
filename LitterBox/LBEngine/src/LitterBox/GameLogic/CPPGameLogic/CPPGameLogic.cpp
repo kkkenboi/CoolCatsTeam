@@ -24,6 +24,7 @@
 #include "CPPSChaser.h"
 #include "QuitScript.h"
 #include "CPPSMage.h"
+#include "CPPSBaseGolfBall.h"
 
 namespace LB
 {
@@ -57,7 +58,8 @@ namespace LB
 			newScript->GetName() == "Enemy" || 
 			newScript->GetName() == "Butt" ||
 			newScript->GetName() == "Quit" ||
-			newScript->GetName() == "Mage")
+			newScript->GetName() == "Mage" ||
+			newScript->GetName() == "Projectile")
 		{
 			m_sceneScripts.push_back(newScript);
 			return;
@@ -100,6 +102,9 @@ namespace LB
 			}
 			else if (script->GetName() == "Mage") {
 				script->SetInstance(DBG_NEW CPPSMage);
+			}
+			else if (script->GetName() == "Projectile") {
+				script->SetInstance(DBG_NEW CPPSBaseGolfBall);
 			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 
