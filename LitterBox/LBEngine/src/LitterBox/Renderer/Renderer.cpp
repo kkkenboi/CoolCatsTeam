@@ -927,6 +927,14 @@ LB::CPText* text;
 LB::CPText* text2;
 textbutt* button;
 
+void change_vp() {
+
+	float height{ 9.f / 16.f };
+	height *= (float)LB::WINDOWSSYSTEM->GetWidth();
+	float diff{ (float)LB::WINDOWSSYSTEM->GetHeight() - height };
+	glViewport(0, (int)(diff * 0.5f), LB::WINDOWSSYSTEM->GetWidth(), (int)height);
+}
+
 /*!***********************************************************************
 \brief
  Initialize function from base class ISystem.
@@ -984,6 +992,11 @@ void Renderer::RenderSystem::Initialize()
 
 	//turnOnEditorMode();
 	//delete text;
+
+	if (!editor_mode) {
+		change_vp();
+		LB::WINDOWSSYSTEM->screenSizeChange.Subscribe(change_vp, 0);
+	}
 }
 
 void Renderer::RenderSystem::turnOnEditorMode() {
