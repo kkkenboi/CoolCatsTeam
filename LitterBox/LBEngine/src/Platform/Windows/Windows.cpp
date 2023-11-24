@@ -144,6 +144,8 @@ namespace LB
         glfwGetFramebufferSize(m_Data.m_PtrToWindow, &fb_width, &fb_height);
         FrameBufferCB(m_Data.m_PtrToWindow, fb_width, fb_height);
 
+        OnApplicationUnFocus.Subscribe(exit);
+
         SetSystemName("Windows System");
 	}
 
@@ -217,7 +219,6 @@ namespace LB
 
         Draw(this->m_Data);
         
-        onApplicationUnFocus.Subscribe(exit);
     }
 
     /*!***********************************************************************
@@ -356,6 +357,6 @@ namespace LB
         if (focused)
             WINDOWSSYSTEM->OnApplicationFocus.Invoke();
         else
-            WINDOWSSYSTEM->onApplicationUnFocus.Invoke();
+            WINDOWSSYSTEM->OnApplicationUnFocus.Invoke();
     }
 }

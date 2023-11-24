@@ -76,6 +76,7 @@ namespace LB
                 _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(textureFP), metaAlloc);
             }
         }
+        //AUDIOMANAGER->StopAllChannels();
         //Same thing as above but for audio
         for (const auto& soundFP : SoundFilePaths)
         {

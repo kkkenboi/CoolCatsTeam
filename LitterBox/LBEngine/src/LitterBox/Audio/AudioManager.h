@@ -96,6 +96,9 @@ namespace LB
 		void UnPauseChannel(int channelID);
 		void SetChannelPitch(int channelID, float _pitch);
 		void SetChannelVolume(int ChannelID, float _vol);
+
+		void PauseAllChannels();
+		void UnPauseAllChannels();
 		//bool IsPlaying(std::string soundName);
 		//void StopAllSounds();
 
@@ -118,6 +121,8 @@ namespace LB
 	void PlayExplosionSound();
 	void PlayAHHSound();
 	void RemoveAllAudioSources(bool isPlaying);
+	void Pause();
+	void UnPause();
 
 	/*!***********************************************************************
 	 * \brief Global Pointer for the AudioManager

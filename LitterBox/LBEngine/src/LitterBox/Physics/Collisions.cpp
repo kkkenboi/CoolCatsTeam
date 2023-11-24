@@ -445,6 +445,9 @@ namespace LB
 	{
 		DebuggerLog("Serializing Collider");
 		data.SetObject();
+		Value collisionValue(m_collisionlayer.GetName().c_str(), alloc);
+
+		data.AddMember("Layer", collisionValue, alloc);
 		data.AddMember("Shape", m_shape, alloc);
 		data.AddMember("Width", m_widthUnscaled, alloc);
 		data.AddMember("Height", m_heightUnscaled, alloc);
@@ -459,16 +462,19 @@ namespace LB
 	bool CPCollider::Deserialize(const Value& data)
 	{
 		DebuggerLog("Deserializing Collider");
+		bool HasLayer = data.HasMember("Layer");
 		bool HasShape = data.HasMember("Shape");
 		bool HasWidth = data.HasMember("Width");
 		bool HasHeight = data.HasMember("Height");
 		bool HasRadius = data.HasMember("Radius");
-		if (HasShape && HasWidth && HasHeight && HasRadius)
+		if (HasShape && HasWidth && HasHeight && HasRadius && HasLayer)
 		{
+			const Value& layerValue = data["Layer"];
 			const Value& shapeValue = data["Shape"];
 			const Value& widthValue = data["Width"];
 			const Value& heightValue = data["Height"];
 			const Value& radiusValue = data["Radius"];
+			m_collisionlayer.GetName() = layerValue.GetString();
 			m_shape = (SHAPETYPE)shapeValue.GetInt();
 			m_widthUnscaled = widthValue.GetFloat();
 			m_heightUnscaled = heightValue.GetFloat();

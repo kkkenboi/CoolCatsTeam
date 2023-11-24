@@ -195,7 +195,7 @@ namespace LB
 		static void FocusCB(GLFWwindow* window, int focused);
 
 		Event<> OnApplicationFocus;
-		Event<> onApplicationUnFocus;
+		Event<> OnApplicationUnFocus;
 
 	private:
 		WindowsData m_Data;

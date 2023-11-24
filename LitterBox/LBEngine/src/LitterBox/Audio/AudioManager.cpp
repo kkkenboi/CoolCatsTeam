@@ -17,6 +17,7 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Core/Core.h"
+#include "Platform/Windows/Windows.h"
 namespace LB
 {
 	AudioManager* AUDIOMANAGER = nullptr;
@@ -49,6 +50,8 @@ namespace LB
 			// Handle initialization error
 		}
 		CORE->onPlayingModeToggle.Subscribe(RemoveAllAudioSources);
+		WINDOWSSYSTEM->OnApplicationFocus.Subscribe(UnPause);
+		WINDOWSSYSTEM->OnApplicationUnFocus.Subscribe(Pause);
 	}
 
 	/*!***********************************************************************
@@ -73,6 +76,16 @@ namespace LB
 		AUDIOMANAGER->AudioSources.clear();
 	}
 
+	void Pause()
+	{
+		AUDIOMANAGER->PauseAllChannels();
+	}
+
+	void UnPause()
+	{
+		AUDIOMANAGER->UnPauseAllChannels();
+	}
+
 	/*!***********************************************************************
 	* \brief Updates the Audio System (Called by ISystem)
 	* 
@@ -86,8 +99,10 @@ namespace LB
 		{	
 			//Fmod always does this weird address thing...
 			bool isPlaying = false;
+			bool isPaused = false;
+			iter->second->getPaused(&isPaused);
 			iter->second->isPlaying(&isPlaying);
-			if (!isPlaying)
+			if (!isPlaying &&!isPaused)
 			{
 				stoppedChannels.push_back(iter);
 			}
@@ -227,6 +242,40 @@ namespace LB
 		{
 			Channels[channelID]->setVolume(_vol);
 		}// else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
+	}
+	void AudioManager::PauseAllChannels()
+	{
+		for (const auto& src : AudioSources)
+		{
+			src->Pause();
+		}
+		//for (auto iter = Channels.begin(); iter != Channels.end(); ++iter)
+		//{
+		//	//Fmod always does this weird address thing...
+		//	bool isPlaying = false;
+		//	iter->second->isPlaying(&isPlaying);
+		//	if (isPlaying)
+		//	{
+		//		iter->second->setPaused(true);
+		//	}
+		//}
+	}
+	void AudioManager::UnPauseAllChannels()
+	{
+		for (const auto& src : AudioSources)
+		{
+			src->UnPause();
+		}
+		//for (auto iter = Channels.begin(); iter != Channels.end(); ++iter)
+		//{
+		//	//Fmod always does this weird address thing...
+		//	bool isPaused{ false };
+		//	iter->second->getPaused(&isPaused);
+		//	if (isPaused)
+		//	{
+		//		iter->second->setPaused(false);
+		//	}
+		//}
 	}
 	/*!***********************************************************************
 	 * \brief Function to stop all channels from playing

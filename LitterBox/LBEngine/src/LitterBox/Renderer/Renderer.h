@@ -719,6 +719,8 @@ namespace Renderer {
 		*************************************************************************/
 		void Destroy() override;
 
+		~RenderSystem() override;
+
 		void turnOnEditorMode();
 
 		inline unsigned int get_game_view() { return editor_mode ? textureColorbuffer : -1; }
