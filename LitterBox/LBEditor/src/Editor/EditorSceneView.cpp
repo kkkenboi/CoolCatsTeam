@@ -261,12 +261,12 @@ namespace LB
 					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalTrans);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
 				}
-				if (!(finalScale == scale))
+				if (fabs(finalScale.x - scale.x) > EPSILON_F || fabs(finalScale.y - scale.y) > EPSILON_F)
 				{
 					std::shared_ptr<ScaleCommand> scaleCommand = std::make_shared<ScaleCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalScale);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(scaleCommand));
 				}
-				if (!(finalRot == rot))
+				if (fabs(finalRot - rot) > EPSILON_F)
 				{
 					std::shared_ptr<RotateCommand> rotateCommand = std::make_shared<RotateCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalRot);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(rotateCommand));

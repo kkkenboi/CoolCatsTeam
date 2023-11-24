@@ -111,10 +111,10 @@ namespace LB
 
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
-			std::shared_ptr<RotateCommand> incomingScaleCommand = std::dynamic_pointer_cast<RotateCommand>(incomingCommand);
-			if (incomingScaleCommand->m_transform == m_transform && incomingScaleCommand->m_oldRotation == m_newRotation)
+			std::shared_ptr<RotateCommand> incomingRotateCommand = std::dynamic_pointer_cast<RotateCommand>(incomingCommand);
+			if (incomingRotateCommand->m_transform == m_transform && fabs(incomingRotateCommand->m_oldRotation - m_newRotation) < EPSILON_F)
 			{
-				m_newRotation = incomingScaleCommand->m_newRotation;
+				m_newRotation = incomingRotateCommand->m_newRotation;
 				return true;
 			}
 			return false;

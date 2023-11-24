@@ -27,7 +27,9 @@
 
 namespace LB
 {
-#define PI 3.14159265358979323846 // Used for rotation
+	#define PI 3.14159265358979323846 // Used for rotation
+	#define EPSILON_F 0.00001f
+	#define EPSILON_D 0.00001
 
 	/*!***********************************************************************
 	 \brief

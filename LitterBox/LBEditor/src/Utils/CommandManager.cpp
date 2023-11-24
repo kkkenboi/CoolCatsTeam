@@ -41,8 +41,10 @@ namespace LB
 
 		if (!history.empty() && history.front()->GetType() == newCommand->GetType())
 		{
-			if (!history.front()->Merge(newCommand))
+			if (!history.front()->Merge(newCommand)) 
+			{
 				AddToHistory(newCommand);
+			}
 		}
 		else
 		{
