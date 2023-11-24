@@ -19,8 +19,8 @@ namespace LB
 		}
 		DebuggerLogWarning("Audio Component Initialised!");
 		AUDIOMANAGER->AudioSources.push_back(this); 
-		
 	}
+
 
 	void CPAudioSource::Update()
 	{
@@ -63,6 +63,7 @@ namespace LB
 	void CPAudioSource::Destroy()
 	{
 		DebuggerLogWarning("Destroyed!");
+		AUDIOMANAGER->AudioSources.clear();
 	/*	std::vector<CPAudioSource*>::iterator chosenOne;
 		for (auto iter = std::begin(AUDIOMANAGER->AudioSources); iter != std::end(AUDIOMANAGER->AudioSources); ++iter)
 		{

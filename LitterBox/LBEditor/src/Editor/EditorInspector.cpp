@@ -110,7 +110,7 @@ namespace LB
 				}
 			}
 		}
-		if (isPrefab)
+	/*	if (isPrefab)
 		{
 			ImGui::SameLine();
 			if (ImGui::Button("Save"))
@@ -118,7 +118,7 @@ namespace LB
 				DebuggerLogFormat("Saving Prefab %s ",GetInspectedGO()->GetName().c_str());
 				JSONSerializer::SerializeToFile(GetInspectedGO()->GetName(), *GetInspectedGO());
 			}
-		}
+		}*/
 
 		// Upon clicking to add a component to the Inspected Game Object
 		if (ImGui::BeginPopup("Add Component"))

@@ -16,9 +16,12 @@
 **************************************************************************/
 #include "pch.h"
 #include "EditorPrefabWindow.h"
-
+#include "EditorInspector.h"
+#include "LitterBox/Engine/Time.h"
+#include "LitterBox/Utils/Math.h"
 namespace LB
 {
+	EditorPrefabWindow* EDITORPREFAB = nullptr;
 	/*!***********************************************************************
 	  \brief
 	  Constructor for the EditorPrefabWindow class.
@@ -28,8 +31,15 @@ namespace LB
 	*************************************************************************/
 	EditorPrefabWindow::EditorPrefabWindow(std::string layerName) : Layer(layerName)
 	{
-	}
+		if (!EDITORPREFAB) EDITORPREFAB = this;
+		else DebuggerLogError("Editor Prefab already exists!");
 
+
+	}
+	static inline ImVec2 operator+(const ImVec2& lhs, const ImVec2& rhs)
+	{
+		return ImVec2(lhs.x + rhs.x, lhs.y + rhs.y);
+	}
 	/*!***********************************************************************
 	\brief
 	Initializes the EditorPrefabWindow layer.
@@ -49,6 +59,52 @@ namespace LB
 	void EditorPrefabWindow::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
+		if(ImGui::Button("Save"))
+		{
+			DebuggerLogFormat("Saving %s prefab", EDITORINSPECTOR->GetInspectedGO()->GetName().c_str());
+			//Save the prefab to file by it's name
+			JSONSerializer::SerializeToFile(EDITORINSPECTOR->GetInspectedGO()->GetName(), *EDITORINSPECTOR->GetInspectedGO());
+		}
+		if (EDITORINSPECTOR->isPrefab)
+		{
+			//We cache the obj so it's shorter to type
+			GameObject* prefabGO = EDITORINSPECTOR->GetInspectedGO();
+			DebuggerLogWarningFormat("Prefab texture : %s", ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture).c_str());
+			float xScale = prefabGO->GetComponent<CPTransform>()->GetScale().x*100;
+			float yScale = prefabGO->GetComponent<CPTransform>()->GetScale().y*100;
+			//int prefabTexture = ASSETMANAGER->GetTextureUnit(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
+			int prefabTexture = ASSETMANAGER->GetTextureIndex(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
+			
+
+			ImDrawList* drawList = ImGui::GetWindowDrawList();
+			float angle = prefabGO->GetComponent<CPTransform>()->GetRotation();
+			ImVec2 p = ImGui::GetCursorScreenPos();
+			//static float angle = 0.0f;
+			//angle += TIME->GetDeltaTime();
+			float cos_a = cosf((-DegToRad(angle)) + PI);
+			float sin_a = sinf((-DegToRad(angle)) + PI);
+			//ImVec2 center{ prefabGO->GetComponent<CPTransform>()->GetPosition().x+100,prefabGO->GetComponent<CPTransform>()->GetPosition().y+100 };
+			ImVec2 center{ p.x+ImGui::GetWindowWidth()/2,p.y + yScale/2};
+
+			ImVec2 pos[4] =
+			{
+				center + ImRotate(ImVec2(-xScale * 0.5f, -yScale * 0.5f), cos_a, sin_a),
+				center + ImRotate(ImVec2(+xScale * 0.5f, -yScale * 0.5f), cos_a, sin_a),
+				center + ImRotate(ImVec2(+xScale * 0.5f, +yScale * 0.5f), cos_a, sin_a),
+				center + ImRotate(ImVec2(-xScale * 0.5f, +yScale * 0.5f), cos_a, sin_a)
+			};
+			ImVec2 uvs[4] =
+			{
+				ImVec2(0.0f, 0.0f),
+				ImVec2(1.0f, 0.0f),
+				ImVec2(1.0f, 1.0f),
+				ImVec2(0.0f, 1.0f)
+			};
+
+			drawList->AddImageQuad(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(prefabTexture)), pos[0], pos[1], pos[2], pos[3], uvs[0], uvs[1], uvs[2], uvs[3], IM_COL32_WHITE);
+			//ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(prefabTexture)), { 100*xScale,100*yScale }, { 0,1 }, {1,0});
+			
+		}
 		ImGui::End();
 	}
 }

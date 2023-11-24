@@ -60,7 +60,7 @@ namespace LB
 		void Destroy() {}
 
 		std::filesystem::path currentDirectory;			//keeps track of the current directory we're in
-		std::filesystem::path defaultDirectory;			//default directory 
+		std::filesystem::path defaultDirectory;			//default directory (ROOT/Assets/)
 	private:
 		std::string folderPathName;
 		std::filesystem::path relativePath;			//relative pathname of the current directory
