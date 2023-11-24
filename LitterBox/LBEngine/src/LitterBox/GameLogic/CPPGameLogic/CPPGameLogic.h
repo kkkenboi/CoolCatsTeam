@@ -42,6 +42,8 @@ namespace LB
 		*************************************************************************/
 		void Start();
 
+		void StartScript(CPScriptCPP* script);
+
 		/*!***********************************************************************
 		 \brief
 		 Adds a new script to the list of scripts to load when scene plays

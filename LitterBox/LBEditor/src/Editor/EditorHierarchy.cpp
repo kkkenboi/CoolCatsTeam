@@ -105,7 +105,7 @@ namespace LB
 			| ((m_loadedScene->GetRoot()->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
 
 		// If this GO has children GO,
-		if (ImGui::TreeNodeEx(m_loadedScene->GetName().c_str(), flags))
+		if (ImGui::TreeNodeEx((m_loadedScene->GetName() + (COMMAND->UpToDate() ? "" : " (*)")).c_str(), flags))
 		{
 			// Recursively render each one
 			for (int index{ 0 }; index < m_loadedScene->GetRoot()->GetChildCount(); ++index)

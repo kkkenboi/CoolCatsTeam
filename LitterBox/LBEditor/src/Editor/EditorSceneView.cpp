@@ -27,9 +27,13 @@
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
 
+#include "Utils/CommandManager.h"
+#include "Commands/TransformCommands.h"
+
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
 
+#include <memory>
 
 extern unsigned int svtcb;
 extern Renderer::RenderSystem* Renderer::GRAPHICS;
@@ -252,9 +256,24 @@ namespace LB
 				float finalRot = { decompRot.z };
 				Vec2<float> finalScale = { decompScale.x, decompScale.y };
 				// Set the new values to translate, rotate and scale 
-				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(finalTrans);
+				if (!(finalTrans == trans))
+				{
+					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalTrans);
+					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
+				}
+				if (fabs(finalScale.x - scale.x) > EPSILON_F || fabs(finalScale.y - scale.y) > EPSILON_F)
+				{
+					std::shared_ptr<ScaleCommand> scaleCommand = std::make_shared<ScaleCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalScale);
+					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(scaleCommand));
+				}
+				if (fabs(finalRot - rot) > EPSILON_F)
+				{
+					std::shared_ptr<RotateCommand> rotateCommand = std::make_shared<RotateCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalRot);
+					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(rotateCommand));
+				}
+				/*EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(finalTrans);
 				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetRotation(finalRot);
-				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetScale(finalScale);
+				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetScale(finalScale);*/
 			}
 		}
 

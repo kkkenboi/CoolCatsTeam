@@ -31,6 +31,8 @@ namespace LB
 		void Update() override;
 		void Destroy() override;
 
+		void OnCollisionEnter(CollisionData colData) override;
+
 
 		/*!***********************************************************************
 		\brief

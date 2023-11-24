@@ -60,6 +60,13 @@ namespace LB
 			newScript->GetName() == "Mage")
 		{
 			m_sceneScripts.push_back(newScript);
+
+			// If scene is already running, start the script immediately
+			if (CORE->IsPlaying())
+			{
+				StartScript(newScript);
+			}
+
 			return;
 		}
 
@@ -83,6 +90,16 @@ namespace LB
 	{
 		for (CPScriptCPP* script : m_sceneScripts)
 		{
+			StartScript(script);
+			script->Start();
+		}
+	}
+
+	void CPPGameLogic::StartScript(CPScriptCPP* script)
+	{
+			// If script already has an instance, ignore!
+			if (script->GetInstance()) return;
+
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 			// Very basic RTTR for now
 			if (script->GetName() == "Player")
@@ -102,9 +119,6 @@ namespace LB
 				script->SetInstance(DBG_NEW CPPSMage);
 			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
-
-			script->Start();
-		}
 	}
 
 	/*!***********************************************************************

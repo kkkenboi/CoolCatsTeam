@@ -158,15 +158,12 @@ namespace LB
 		// Menu Bar 
 		if (ImGui::BeginMenuBar())
 		{
-			if (ImGui::BeginMenu("File"))
+			if (ImGui::BeginMenu("Menu"))
 			{
-				if (ImGui::MenuItem("Hide Docking Bar"))
+				if (ImGui::MenuItem("Save"))
 				{
-					;
+					SCENEMANAGER->TrySaveScene();
 				}
-
-				ImGui::Separator();
-
 				if (ImGui::MenuItem("Exit"))
 				{
 					MessageQuit q;
