@@ -26,6 +26,7 @@
 #include "CPPSMage.h"
 #include "CPPSBaseGolfBall.h"
 #include "PauseMenuScript.h"
+#include "PauseResumeButton.h"
 #include "PauseQuitButton.h"
 
 namespace LB
@@ -63,6 +64,7 @@ namespace LB
 			newScript->GetName() == "Mage" ||
 			newScript->GetName() == "Projectile" ||
 			newScript->GetName() == "PauseMenuScript" ||
+			newScript->GetName() == "PauseResumeGameScript" ||
 			newScript->GetName() == "PauseQuitGameScript")
 		{
 			m_sceneScripts.push_back(newScript);
@@ -130,6 +132,9 @@ namespace LB
 			else if (script->GetName() == "PauseMenuScript") {
 				script->SetInstance(DBG_NEW PauseMenuScript);
 			}
+			else if (script->GetName() == "PauseResumeGameScript") {
+				script->SetInstance(DBG_NEW PauseResumeButton);
+			}
 			else if (script->GetName() == "PauseQuitGameScript") {
 				script->SetInstance(DBG_NEW PauseQuitButton);
 			}
@@ -152,7 +157,7 @@ namespace LB
 	*************************************************************************/
 	void CPPGameLogic::Update()
 	{
-		if (!CORE->IsPlaying() || TIME->IsPaused()) return;
+		if (!CORE->IsPlaying()) return;
 
 		for (CPScriptCPP* script : m_sceneScripts)
 		{

@@ -10,6 +10,27 @@ namespace LB
 	{
 		//mIsPaused = TIME->IsPaused();
 		//TIME->Pause(false);
+
+		// Grab All The GOs associated with the Pause Menu
+		for (GameObject* GO : GOMANAGER->GetGameObjects())
+		{
+			if (GO->GetName() == "PauseMenuTextureObject")
+			{
+				MenuTextureObject = GO;
+			}
+			if (GO->GetName() == "PauseMenuResumeObject")
+			{
+				ResumeButtonObject = GO;
+			}
+			if (GO->GetName() == "PauseMenuHowToPlayObject")
+			{
+				HowToPlayButtonObject = GO;
+			}
+			if (GO->GetName() == "PauseMenuQuitObject")
+			{
+				QuitButtonObject = GO;
+			}
+		}
 	}
 
 	void PauseMenuScript::Update()
@@ -20,50 +41,40 @@ namespace LB
 			if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
 			{
 				TIME->Pause(true);
-				/*
-				// Spawn the prefab
-				// ===================================================================
-				// Make GameObject that has Texture of Pause Menu
-				MenuTextureObject = FACTORY->SpawnGameObject(std::initializer_list{ C_CPRender },
-					GOSpawnType::SCENE_BOUNDED);
-
 				
+				// Move all the GOs to the Front of the Screen
 
+				MenuTextureObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
+				MenuTextureObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{16.37f, 10.80f});
 
-				MenuTextureObject->SetName("MenuTextureObject");
+				ResumeButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{807.f, 507.1f});
+				ResumeButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(270.f, 78.f, 50.f);
 
-				// ===================================================================
-				// Make GameObject that has Collider to allow for Resume Game
-				ResumeButtonObject = FACTORY->SpawnGameObject(std::initializer_list{ C_CPCollider, C_CPScriptCPP },
-					GOSpawnType::SCENE_BOUNDED);
+				HowToPlayButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{805.f, 412.f});
+				HowToPlayButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(270.f, 74.f, 50.f);
 
-
-				ResumeButtonObject->SetName("ResumeButtonObject");
-				
-				// ===================================================================
-				// Make GameObject that has Collider to allow for How To Play
-				HowToPlayButtonObject = FACTORY->SpawnGameObject(std::initializer_list{ C_CPCollider, C_CPScriptCPP },
-					GOSpawnType::SCENE_BOUNDED);
-
-				HowToPlayButtonObject->SetName("HowToPlayButtonObject");
-				*/
-				// ===================================================================
-				// Make GameObject that has Collider to allow for Quit Game
-				QuitButtonObject = FACTORY->SpawnGameObject();
-				//JSONSerializer::DeserializeFromFile("PauseQuitGameObject", *QuitButtonObject);
+				QuitButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{804.f, 238.f});
+				QuitButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(266.f, 77.f, 50.f);
 			}
 		}
 
-		if (TIME->IsPaused())
+		else if (TIME->IsPaused())
 		{
 			if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
 			{
 				TIME->Pause(false);
+				
+				MenuTextureObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+				MenuTextureObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
 
-				MenuTextureObject->Destroy();
-				ResumeButtonObject->Destroy();
-				HowToPlayButtonObject->Destroy();
-				QuitButtonObject->Destroy();
+				ResumeButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+				ResumeButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+				
+				HowToPlayButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+				HowToPlayButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+				
+				QuitButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+				QuitButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
 
 			}
 		}
