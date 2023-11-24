@@ -467,14 +467,17 @@ namespace LB
 		bool HasWidth = data.HasMember("Width");
 		bool HasHeight = data.HasMember("Height");
 		bool HasRadius = data.HasMember("Radius");
-		if (HasShape && HasWidth && HasHeight && HasRadius && HasLayer)
+		if (HasLayer)
 		{
 			const Value& layerValue = data["Layer"];
+			m_collisionlayer.GetName() = layerValue.GetString();
+		}
+		if (HasShape && HasWidth && HasHeight && HasRadius)
+		{
 			const Value& shapeValue = data["Shape"];
 			const Value& widthValue = data["Width"];
 			const Value& heightValue = data["Height"];
 			const Value& radiusValue = data["Radius"];
-			m_collisionlayer.GetName() = layerValue.GetString();
 			m_shape = (SHAPETYPE)shapeValue.GetInt();
 			m_widthUnscaled = widthValue.GetFloat();
 			m_heightUnscaled = heightValue.GetFloat();
