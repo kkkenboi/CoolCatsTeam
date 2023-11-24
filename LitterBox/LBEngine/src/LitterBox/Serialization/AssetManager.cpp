@@ -368,8 +368,6 @@ namespace LB
 	    glBindTextureUnit(0 + i, Textures.find(textureName)->second.first->id);
 	    TextureSlots[i] = true;
 
-        std::cout << "Texture name is " << textureName << " unit: " << 0 + i << std::endl;
-
 	    return true;
     }
 
