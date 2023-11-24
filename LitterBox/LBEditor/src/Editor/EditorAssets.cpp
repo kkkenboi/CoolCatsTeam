@@ -181,7 +181,7 @@ namespace LB
 					if (ImGui::BeginDragDropSource())
 					{
 						//DebuggerLog(directory.path().extension().string());
-						ImGui::SetDragDropPayload("PREFAB", FileName.c_str(), FileName.size());
+						ImGui::SetDragDropPayload("PREFAB", FileName.c_str(), FileName.size()+1);
 						ImGui::EndDragDropSource();
 					}
 					//PREFAB EDITOR STUFF

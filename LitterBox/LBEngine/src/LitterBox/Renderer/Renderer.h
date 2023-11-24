@@ -291,7 +291,7 @@ namespace Renderer {
 		\brief
 		 Gets number of active render objects
 		*************************************************************************/
-		inline size_t get_ao_size() { return active_objs.size(); }
+		inline size_t get_furthest_index() { return furthest_index + 1; }
 		/*!***********************************************************************
 		\brief
 		 Gets handle to vertex buffer object in GPU

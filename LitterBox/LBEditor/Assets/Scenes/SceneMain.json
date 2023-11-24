@@ -14,8 +14,8 @@
                 "Name": "MainChar",
                 "Transform": {
                     "Position": {
-                        "x": 1056.53,
-                        "y": 421.22
+                        "x": 1246.55,
+                        "y": 272.79
                     },
                     "Scale": {
                         "x": 1.25,
@@ -97,8 +97,8 @@
                 "Name": "ball",
                 "Transform": {
                     "Position": {
-                        "x": 959.61,
-                        "y": 351.04
+                        "x": 1113.5,
+                        "y": 287.42
                     },
                     "Scale": {
                         "x": 0.3,
@@ -237,8 +237,8 @@
                 "Name": "EnemyChaser1",
                 "Transform": {
                     "Position": {
-                        "x": 703.29,
-                        "y": 598.42
+                        "x": 456.23,
+                        "y": 640.78
                     },
                     "Scale": {
                         "x": 1.25,
@@ -368,6 +368,126 @@
                 },
                 "CPPScript": {
                     "Script": "Mage"
+                }
+            },
+            {
+                "Name": "PauseMenuHolderObject",
+                "Transform": {
+                    "Position": {
+                        "x": 800.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 16.37,
+                        "y": 10.8
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Script": "PauseMenuScript"
+                }
+            },
+            {
+                "Name": "PauseMenuTextureObject",
+                "Transform": {
+                    "Position": {
+                        "x": 800.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 16.37,
+                        "y": 10.8
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Texture": "Pause Menu"
+                }
+            },
+            {
+                "Name": "PauseMenuObjectHolder",
+                "Transform": {
+                    "Position": {
+                        "x": 800.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Script": "PauseMenu"
+                }
+            },
+            {
+                "Name": "PauseResumeGameObject",
+                "Transform": {
+                    "Position": {
+                        "x": 807.0,
+                        "y": 507.1
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 270.0,
+                    "Height": 78.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseResumeScript"
+                }
+            },
+            {
+                "Name": "PauseHowToPlayObject",
+                "Transform": {
+                    "Position": {
+                        "x": 805.0,
+                        "y": 412.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 270.0,
+                    "Height": 74.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseHowToPlayScript"
+                }
+            },
+            {
+                "Name": "PauseQuitObject",
+                "Transform": {
+                    "Position": {
+                        "x": 804.0,
+                        "y": 238.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Shape": 1,
+                    "Width": 266.0,
+                    "Height": 77.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseQuitGameScript"
                 }
             }
         ]

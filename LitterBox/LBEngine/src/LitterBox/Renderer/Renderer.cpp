@@ -523,6 +523,17 @@ void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 	//set the indices to 0
 	index_buff.at(obj->get_index()) = index{ 0,0,0,0,0,0 };
 	active_objs.remove_if([obj](const LB::CPRender* in_list) { return obj == in_list; });
+
+	if (active_objs.size()) {
+		unsigned int max_index{ active_objs.front()->get_index() };
+		for (auto const& e : active_objs) {
+			max_index = e->get_index() > max_index ? e->get_index() : max_index;
+		}
+		furthest_index = max_index;
+	}
+	else {
+		furthest_index = 0;
+	}
 }
 /*!***********************************************************************
 \brief
@@ -557,7 +568,8 @@ void Renderer::Renderer::update_buff()
 			quad_buff[obj_index].data[i].color.x = e->col.x;
 			quad_buff[obj_index].data[i].color.y = e->col.y;
 			quad_buff[obj_index].data[i].color.z = e->col.z;
-			quad_buff[obj_index].data[i].texIndex = (float)e->texture;
+			if (quad_buff[obj_index].data[i].texIndex != (float)e->texture)
+				quad_buff[obj_index].data[i].texIndex = (float)e->texture;
 		}
 	}
 	
@@ -915,6 +927,14 @@ LB::CPText* text;
 LB::CPText* text2;
 textbutt* button;
 
+void change_vp() {
+
+	float height{ 9.f / 16.f };
+	height *= (float)LB::WINDOWSSYSTEM->GetWidth();
+	float diff{ (float)LB::WINDOWSSYSTEM->GetHeight() - height };
+	glViewport(0, (int)(diff * 0.5f), LB::WINDOWSSYSTEM->GetWidth(), (int)height);
+}
+
 /*!***********************************************************************
 \brief
  Initialize function from base class ISystem.
@@ -972,6 +992,11 @@ void Renderer::RenderSystem::Initialize()
 
 	//turnOnEditorMode();
 	//delete text;
+
+	if (!editor_mode) {
+		change_vp();
+		LB::WINDOWSSYSTEM->screenSizeChange.Subscribe(change_vp, 0);
+	}
 }
 
 void Renderer::RenderSystem::turnOnEditorMode() {
@@ -1049,11 +1074,11 @@ void Renderer::RenderSystem::Update()
 	ui_renderer.update_buff();
 
 	glBindVertexArray(bg_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(ui_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 
 	//print all messages here
 	text_renderer.update_text();
@@ -1068,9 +1093,9 @@ void Renderer::RenderSystem::Update()
 		glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
 		glBindVertexArray(bg_renderer.get_vao());
-		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 		glBindVertexArray(object_renderer.get_vao());
-		glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+		glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 		//UI and TEXT don't get rendered in scene view
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}

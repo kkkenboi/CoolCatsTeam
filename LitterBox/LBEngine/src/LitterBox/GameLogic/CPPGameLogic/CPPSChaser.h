@@ -42,7 +42,9 @@ namespace LB
 		CPRigidBody* GetRigidBody();
 		CPCollider* GetCollider();
 		GameObject* GetHero();
-		float GetSpeedMag();	//Getter function for the speed of the chaser
+		int& GetHealth();
+		float& GetSpeedMag();	//Getter function for the speed of the chaser
+		float& GetHurtTimer();
 
 	private:
 
@@ -59,6 +61,7 @@ namespace LB
 
 		int mHealth{};
 		float mSpeedMagnitude{};
+		float mHurtTimer{};
 
 		bool mInitialised{false};
 	};
