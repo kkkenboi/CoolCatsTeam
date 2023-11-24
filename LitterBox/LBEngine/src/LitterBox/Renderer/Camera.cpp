@@ -28,8 +28,8 @@ namespace Renderer {
 	{
 		float onear = 4.f;
 		float ofar = -6.f;
-		float hvf = (float)LB::WINDOWSSYSTEM->GetHeight();
-		float wvf = (float)LB::WINDOWSSYSTEM->GetWidth();
+		float hvf = 900.f;
+		float wvf = 1600.f;
 		float lvf = 0.f;
 		float rvf = wvf;
 
