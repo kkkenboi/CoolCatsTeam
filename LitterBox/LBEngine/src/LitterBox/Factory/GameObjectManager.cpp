@@ -432,8 +432,36 @@ namespace LB
 		}
 		else
 		{
-			DebuggerLogErrorFormat("[GO Manager] Tried to delete invalid GO \"%s\"", gameObject->GetName().c_str());
+			DebuggerLogWarningFormat("[GO Manager] Tried to delete invalid GO \"%s\"", gameObject->GetName().c_str());
 		}
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Removes a GameObject from the current pool of GameObjects for loaded scene
+	 WITHOUT deleting it
+	*************************************************************************/
+	void GameObjectManager::DetachGameObject(GameObject* gameObject)
+	{
+		auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
+		if (it != m_GameObjects.end())
+		{
+			m_GameObjects.erase(it);
+		}
+		else
+		{
+			DebuggerLogWarningFormat("[GO Manager] Tried to detach invalid GO \"%s\"", gameObject->GetName().c_str());
+		}
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Is the GameObject pointer given currently in the pool of GameObjects for
+	 this scene?
+	*************************************************************************/
+	bool GameObjectManager::IsGameObjectInScene(GameObject* gameObject)
+	{
+		return std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject) != m_GameObjects.end();
 	}
 
 	/*!***********************************************************************

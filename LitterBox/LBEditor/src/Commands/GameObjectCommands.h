@@ -18,6 +18,7 @@
 #include <memory>
 #include "Utils/Command.h"
 #include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Components/RenderComponent.h"
 
 namespace LB
 {
@@ -28,12 +29,14 @@ namespace LB
 
 		void Execute() override
 		{
-
+			GOMANAGER->DetachGameObject(removedGO);
+			removedGO->GetComponent<CPRender>()->set_active();
 		}
 
 		void Undo() override
 		{
-
+			GOMANAGER->AddGameObject(removedGO);
+			removedGO->GetComponent<CPRender>()->set_active();
 		}
 
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
@@ -44,6 +47,14 @@ namespace LB
 		CommandType GetType() override
 		{
 			return DELETEGO;
+		}
+
+		~RemoveObjectCommand() override
+		{
+			if (!GOMANAGER->IsGameObjectInScene(removedGO))
+			{
+				removedGO->Destroy();
+			}
 		}
 
 	private:

@@ -33,8 +33,6 @@
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
 
-#include <memory>
-
 extern unsigned int svtcb;
 extern Renderer::RenderSystem* Renderer::GRAPHICS;
 

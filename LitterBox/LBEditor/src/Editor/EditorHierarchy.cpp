@@ -17,6 +17,10 @@
 #include "pch.h"
 #include "EditorHierarchy.h"
 
+#include "EditorInspector.h"
+#include "Utils/CommandManager.h"
+#include "Commands/GameObjectCommands.h"
+
 namespace LB
 {
 	EditorHierarchy* EDITORHIERACHY = nullptr;
@@ -78,7 +82,11 @@ namespace LB
 		{
 			if (m_clickedItem)
 			{
-				GOMANAGER->RemoveGameObject(m_clickedItem->gameObj);
+				// Remove GO command
+				std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
+				COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
+
+				//GOMANAGER->RemoveGameObject(m_clickedItem->gameObj);
 				m_clickedItem = nullptr;
 				onNewObjectSelected.Invoke(nullptr);
 			}
