@@ -66,7 +66,7 @@ namespace LB
 		 Destroy the system after the core game loop
 		*************************************************************************/
 		virtual void Destroy() {}
-1
+
 		virtual ~ISystem() {}
 
 		/*!***********************************************************************
