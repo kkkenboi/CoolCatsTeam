@@ -60,7 +60,6 @@ namespace LB
 		EDITORHIERACHY->onNewObjectSelected.Subscribe(LB::UpdateInspectedGO);
 		CORE->onPlayingModeToggle.Subscribe(LB::DeselectObject);
 		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::DeselectObject);
-		INPUT->SubscribeToKey(DeleteSelectedObject, KeyCode::KEY_DELETE, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Set default snap values
 		m_SnapTranslate[0] = 10.f, m_SnapTranslate[1] = 10.f;
@@ -932,16 +931,6 @@ namespace LB
 	{
 		UNREFERENCED_PARAMETER(newScene);
 		EDITORINSPECTOR->UpdateInspectedGO(nullptr);
-	}
-
-	void DeleteSelectedObject()
-	{
-		if (!EDITORINSPECTOR->IsGOInspected()) return;
-
-		std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
-		COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
-
-		EDITORHIERACHY->onNewObjectSelected.Invoke(nullptr);
 	}
 
 	/*!***********************************************************************

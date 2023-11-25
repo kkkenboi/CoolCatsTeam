@@ -49,6 +49,8 @@ namespace LB
 	{
 		// Update scenes after startup through events
 		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::UpdateSceneLoaded);
+		
+		INPUT->SubscribeToKey(LB::DeleteSelectedObject, KeyCode::KEY_DELETE, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// But first after startup, load the active scene
 		UpdateSceneLoaded(SCENEMANAGER->GetCurrentScene());
@@ -87,7 +89,6 @@ namespace LB
 				std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
 				COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
 
-				m_clickedItem = nullptr;
 				onNewObjectSelected.Invoke(nullptr);
 			}
 		}
@@ -230,5 +231,30 @@ namespace LB
 	void UpdateSceneLoaded(Scene* loadedScene)
 	{
 		EDITORHIERACHY->UpdateSceneLoaded(loadedScene);
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Deletes the clicked GameObject
+	*************************************************************************/
+	void EditorHierarchy::DeleteSelectedObject()
+	{
+		m_clickedItem = nullptr;
+
+		if (!EDITORINSPECTOR->IsGOInspected()) return;
+
+		std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
+		COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
+
+		onNewObjectSelected.Invoke(nullptr);
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Deletes the clicked GameObject
+	*************************************************************************/
+	void DeleteSelectedObject()
+	{
+		EDITORHIERACHY->DeleteSelectedObject();
 	}
 }

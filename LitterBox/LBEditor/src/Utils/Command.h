@@ -37,6 +37,6 @@ namespace LB
 
 		virtual CommandType GetType() = 0;
 
-		virtual ~ICommand() { }
+		virtual void OnRemove() = 0;
 	};
 }

@@ -32,6 +32,12 @@ namespace LB
 		{
 			GOMANAGER->DetachGameObject(m_removedGO);
 
+			// Remove object from inspection if inspected
+			if (EDITORINSPECTOR->IsGOInspected() && EDITORINSPECTOR->GetInspectedGO() == m_removedGO)
+			{
+				EDITORHIERACHY->onNewObjectSelected.Invoke(nullptr);
+			}
+
 			// TODO: Refactor when SetActive for GameObject is implemented
 			if (m_removedGO->HasComponent<CPRender>())
 				m_removedGO->GetComponent<CPRender>()->set_active();
@@ -61,8 +67,18 @@ namespace LB
 			return DELETEGO;
 		}
 
-		~RemoveObjectCommand() override
+		void OnRemove() override
 		{
+			// If the most recent command was this, don't destroy! 
+			// (E.g. Delete -> Undo -> Delete) This current command on the redo stack will try to delete the same GO
+			auto lastCommand = COMMAND->GetLastCommand();
+			if (lastCommand->GetType() == GetType())
+			{
+				std::shared_ptr<RemoveObjectCommand> deleteCommand = std::dynamic_pointer_cast<RemoveObjectCommand>(lastCommand);
+				if (deleteCommand->m_removedGO == m_removedGO)
+					return;
+			}
+
 			if (!GOMANAGER->IsGameObjectInScene(m_removedGO))
 			{
 				m_removedGO->Destroy();
@@ -85,6 +101,13 @@ namespace LB
 
 		void Execute() override
 		{
+			// If the object already exists (Meaning the command has undoed and redoed)
+			if (m_spawnedGO)
+			{
+				GOMANAGER->AddGameObject(m_spawnedGO);
+				return;
+			}
+
 			// Different spawn criteria
 			if (!m_prefabData.empty())
 				m_spawnedGO = ASSETMANAGER->SpawnGameObject(m_prefabData, m_spawnPos);
@@ -94,7 +117,13 @@ namespace LB
 
 		void Undo() override
 		{
-			GOMANAGER->RemoveGameObject(m_spawnedGO);
+			// Remove object from inspection if inspected
+			if (EDITORINSPECTOR->IsGOInspected() && EDITORINSPECTOR->GetInspectedGO() == m_spawnedGO)
+			{
+				EDITORHIERACHY->onNewObjectSelected.Invoke(nullptr);
+			}
+
+			GOMANAGER->DetachGameObject(m_spawnedGO);
 		}
 
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
@@ -108,7 +137,7 @@ namespace LB
 			return SPAWNGO;
 		}
 
-		~SpawnObjectCommand() override
+		void OnRemove() override
 		{
 			if (!GOMANAGER->IsGameObjectInScene(m_spawnedGO))
 			{

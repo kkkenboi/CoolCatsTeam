@@ -53,6 +53,8 @@ namespace LB
 			return CommandType::MOVE;
 		}
 
+		void OnRemove() override { }
+
 	private:
 		CPTransform* m_transform;
 		Vec2<float> m_oldPos, m_newPos;
@@ -89,6 +91,8 @@ namespace LB
 			return CommandType::SCALE;
 		}
 
+		void OnRemove() override { }
+
 	private:
 		CPTransform* m_transform;
 		Vec2<float> m_oldScale, m_newScale;
@@ -124,6 +128,8 @@ namespace LB
 		{
 			return CommandType::ROTATE;
 		}
+
+		void OnRemove() override { }
 
 	private:
 		CPTransform* m_transform;

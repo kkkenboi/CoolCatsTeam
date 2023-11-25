@@ -39,6 +39,8 @@ namespace LB
 
 		void ClearHistory();
 
+		void ClearRedoHistory();
+
 		/*!***********************************************************************
 		  \brief
 		  Are there any command changes to the current scene that are not saved?
@@ -46,6 +48,8 @@ namespace LB
 		bool UpToDate();
 
 		void UpdateCommandsSaved();
+
+		std::shared_ptr<ICommand> GetLastCommand();
 
 	private:
 		void AddToHistory(std::shared_ptr<ICommand> newCommand);
