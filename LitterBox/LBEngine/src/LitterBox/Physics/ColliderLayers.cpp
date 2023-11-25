@@ -1,3 +1,19 @@
+/*!************************************************************************
+ \file				ColliderComponent.cpp
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:		CSD2401A
+ \date				25-11-2023
+ \brief
+ This file contains the ColliderLayerSystem and the ColliderLayer class and
+ all its functionalities, these classes handle making Collider Layers,
+ and which layers can collide with each other in a collider matrix
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "ColliderLayers.h"
 
 namespace LB {
@@ -9,17 +25,6 @@ namespace LB {
 		ColliderLayer DefaultLayer = AddLayer("Default");
 		ColliderLayer GameEntityLayer = AddLayer("GameEntity");
 		ColliderLayer UILayer = AddLayer("UI");
-
-		
-		//std::cout << "2D Array : [" << m_collision_layer_matrix.size() << "]" <<
-			//"[" << m_collision_layer_matrix[0].size() << "]" << std::endl;
-
-		//std::cout << "Layer Number Default: " << FindLayerNumber("Default")
-			//<< std::endl;
-
-		//std::cout << "Vec Num 0 :" << m_layers[0].first << std::endl;
-		//std::cout << "Vec Num 1 :" << m_layers[1].first << std::endl;
-		//std::cout << "Vec Num 2 :" << m_layers[2].first << std::endl;
 		
 		SetCollisionLayer(DefaultLayer, DefaultLayer, true);
 		SetCollisionLayer(DefaultLayer, GameEntityLayer, true);

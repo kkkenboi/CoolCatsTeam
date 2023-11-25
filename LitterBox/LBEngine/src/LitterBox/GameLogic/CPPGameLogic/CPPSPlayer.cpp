@@ -34,6 +34,7 @@ namespace LB
 
 		rend = GameObj->GetComponent<CPRender>();
 
+
 		trans = GameObj->GetComponent<CPTransform>();
 		right_face = trans->GetScale();
 		left_face = trans->GetScale();
@@ -58,7 +59,7 @@ namespace LB
 		Renderer::GRAPHICS->init_anim("player_walk", frames.data(), 0.1f, 10);
 		Renderer::GRAPHICS->init_anim("player_idle", frames.data(), 1.f, 1);
 
-		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width, LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->height);
+		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), rend->w, rend->h);
 		rend->play_repeat("player_idle");
 	}
 

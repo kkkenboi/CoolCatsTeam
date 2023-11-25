@@ -14,8 +14,8 @@
                 "Name": "MainChar",
                 "Transform": {
                     "Position": {
-                        "x": 1056.53,
-                        "y": 421.22
+                        "x": 1246.55,
+                        "y": 272.79
                     },
                     "Scale": {
                         "x": 1.25,
@@ -30,9 +30,12 @@
                     "IsStatic": false
                 },
                 "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Texture": "Felix"
                 },
                 "Collider": {
+                    "Layer": "Default",
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
@@ -56,6 +59,8 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Texture": "Bush_1"
                 }
             },
@@ -73,6 +78,8 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Texture": "Bush_1"
                 }
             },
@@ -90,6 +97,8 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Texture": "Bush_1"
                 }
             },
@@ -97,8 +106,8 @@
                 "Name": "ball",
                 "Transform": {
                     "Position": {
-                        "x": 800.0,
-                        "y": 450.0
+                        "x": 1113.5,
+                        "y": 287.42
                     },
                     "Scale": {
                         "x": 0.3,
@@ -113,9 +122,12 @@
                     "IsStatic": false
                 },
                 "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Texture": "GolfBall"
                 },
                 "Collider": {
+                    "Layer": "Default",
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
@@ -123,8 +135,8 @@
                 },
                 "AudioSource": {
                     "AudioClipName": "Clown-Horn_SFX",
-                    "Play On Awake": true,
-                    "Loop": true,
+                    "Play On Awake": false,
+                    "Loop": false,
                     "Volume": 1.0,
                     "Pitch": 1.0
                 }
@@ -149,6 +161,7 @@
                     "IsStatic": true
                 },
                 "Collider": {
+                    "Layer": "Default",
                     "Shape": 1,
                     "Width": 1500.0,
                     "Height": 100.0,
@@ -156,7 +169,7 @@
                 }
             },
             {
-                "Name": "South Wall",
+                "Name": "SouthWall",
                 "Transform": {
                     "Position": {
                         "x": 800.0,
@@ -175,6 +188,7 @@
                     "IsStatic": true
                 },
                 "Collider": {
+                    "Layer": "Default",
                     "Shape": 1,
                     "Width": 1500.0,
                     "Height": 100.0,
@@ -201,6 +215,7 @@
                     "IsStatic": true
                 },
                 "Collider": {
+                    "Layer": "Default",
                     "Shape": 1,
                     "Width": 100.0,
                     "Height": 800.0,
@@ -227,6 +242,7 @@
                     "IsStatic": true
                 },
                 "Collider": {
+                    "Layer": "Default",
                     "Shape": 1,
                     "Width": 100.0,
                     "Height": 800.0,
@@ -237,8 +253,8 @@
                 "Name": "EnemyChaser1",
                 "Transform": {
                     "Position": {
-                        "x": 747.0,
-                        "y": 450.0
+                        "x": 456.23,
+                        "y": 640.78
                     },
                     "Scale": {
                         "x": 1.25,
@@ -253,9 +269,12 @@
                     "IsStatic": false
                 },
                 "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Texture": "Chaser"
                 },
                 "Collider": {
+                    "Layer": "Default",
                     "Shape": 1,
                     "Width": 100.0,
                     "Height": 100.0,
@@ -279,6 +298,8 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Texture": "Flag"
                 }
             },
@@ -355,12 +376,15 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Density": 10.0,
-                    "IsStatic": true
+                    "IsStatic": false
                 },
                 "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Texture": "MageAttackSpriteSheet"
                 },
                 "Collider": {
+                    "Layer": "Default",
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
@@ -368,6 +392,224 @@
                 },
                 "CPPScript": {
                     "Script": "Mage"
+                }
+            },
+            {
+                "Name": "PauseMenuHolderObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.37,
+                        "y": 10.8
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Script": "PauseMenuScript"
+                }
+            },
+            {
+                "Name": "PauseMenuTextureObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "Pause Menu"
+                }
+            },
+            {
+                "Name": "PauseMenuResumeObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Layer": "Default",
+                    "Shape": 1,
+                    "Width": 1.0,
+                    "Height": 1.0,
+                    "Radius": 1.0
+                },
+                "CPPScript": {
+                    "Script": "PauseResumeGameScript"
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Layer": "Default",
+                    "Shape": 1,
+                    "Width": 1.0,
+                    "Height": 1.0,
+                    "Radius": 1.0
+                },
+                "CPPScript": {
+                    "Script": "PauseHowToPlayScript"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Layer": "Default",
+                    "Shape": 1,
+                    "Width": 1.0,
+                    "Height": 1.0,
+                    "Radius": 1.0
+                },
+                "CPPScript": {
+                    "Script": "PauseQuitGameScript"
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayTextureObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.1,
+                        "y": 9.18
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "HowToPlay"
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayPreviousMenuButton",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": -8.8
+                },
+                "Collider": {
+                    "Layer": "Default",
+                    "Shape": 1,
+                    "Width": 218.0,
+                    "Height": 165.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseHowToPlayBackScript"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmTexture",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.2,
+                        "y": 9.1
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "QuitMenu"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmYesObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Layer": "Default",
+                    "Shape": 1,
+                    "Width": 212.0,
+                    "Height": 84.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseQuitGameYesScript"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmNoObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Layer": "Default",
+                    "Shape": 1,
+                    "Width": 206.0,
+                    "Height": 91.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseQuitGameNoScript"
                 }
             }
         ]

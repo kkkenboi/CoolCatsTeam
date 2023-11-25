@@ -1,0 +1,19 @@
+{
+    "Name": "PauseMenuHowToPlayTextureObject",
+    "Transform": {
+        "Position": {
+            "x": 800.0,
+            "y": 450.0
+        },
+        "Scale": {
+            "x": 16.1,
+            "y": 9.18
+        },
+        "Rotation": 0.0
+    },
+    "Render": {
+        "Width": 100.0,
+        "Height": 100.0,
+        "Texture": "HowToPlay"
+    }
+}

@@ -170,12 +170,29 @@ namespace LB {
 		*************************************************************************/
 		std::string GetShapeName();
 
+		/*!***********************************************************************
+		  \brief
+		  This function returns the name of the layer that the CPCollider is on
+		*************************************************************************/
 		std::string GetLayerName();
 
+		/*!***********************************************************************
+		  \brief
+		  This function returns the transform component tied to the Game Object
+		*************************************************************************/
 		CPTransform* GetTransform();
 
+		/*!***********************************************************************
+		  \brief
+		  This function returns the rigidbody component tied to the Game Object
+		*************************************************************************/
 		CPRigidBody* GetRigidBody();
 
+
+		/*!***********************************************************************
+		  \brief
+		  This serializes some of the data members of CPCollider
+		*************************************************************************/
 		GameObject* GetGameObject();
 
 		/*!***********************************************************************

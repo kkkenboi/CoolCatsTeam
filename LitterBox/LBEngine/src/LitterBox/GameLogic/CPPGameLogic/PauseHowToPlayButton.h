@@ -1,10 +1,11 @@
 #pragma once
+
 #include "CPPBehaviour.h"
 #include "LitterBox/Factory/Components.h"
 
 namespace LB
 {
-	class PauseQuitButton : public CPPBehaviour
+	class PauseMenuHowToPlayButton : public CPPBehaviour
 	{
 	public:
 		void Start() override;
@@ -14,11 +15,10 @@ namespace LB
 		CPCollider* GetCollider();
 	private:
 		CPCollider* mCollider;
+		GameObject* HowToPlayTexture;
+		GameObject* HowToPlayBackButton;
 
-		GameObject* ConfirmMenuTexture;
-		GameObject* ConfirmMenuYesButton;
-		GameObject* ConfirmMenuNoButton;
-
+		// Pause Menu Objects
 		GameObject* PauseMenuTexture;
 		GameObject* PauseMenuResumeButton;
 		GameObject* PauseMenuHowToPlayButton;

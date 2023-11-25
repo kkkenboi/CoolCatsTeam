@@ -1,32 +1,22 @@
-#include "Platform/Windows/Windows.h"
-#include "PauseQuitButton.h"
+#include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Physics/ColliderManager.h"
-#include "LitterBox/Core/Core.h"
+#include "PauseHowToPlayButton.h"
 
-namespace LB 
+namespace LB
 {
-	void PauseQuitButton::Start() 
+	void PauseMenuHowToPlayButton::Start()
 	{
-
-		// Grab All The GOs associated with the Pause Menu
-		for (GameObject* GO : GOMANAGER->GetGameObjects())
-		{
-			// Confirm Menu
-			if (GO->GetName() == "PauseMenuQuitConfirmTexture")
+		std::vector<GameObject*> GOs = GOMANAGER->GetGameObjects();
+		for (GameObject* GO : GOs) {
+			if (GO->GetName() == "PauseMenuHowToPlayTextureObject") 
 			{
-				ConfirmMenuTexture = GO;
+				HowToPlayTexture = GO;
 			}
-			if (GO->GetName() == "PauseMenuQuitConfirmYesObject")
+			if (GO->GetName() == "PauseMenuHowToPlayPreviousMenuButton")
 			{
-				ConfirmMenuYesButton = GO;
+				HowToPlayBackButton = GO;
 			}
-			if (GO->GetName() == "PauseMenuQuitConfirmNoObject")
-			{
-				ConfirmMenuNoButton = GO;
-			}
-
-			// Pause Menu
 			if (GO->GetName() == "PauseMenuTextureObject")
 			{
 				PauseMenuTexture = GO;
@@ -35,7 +25,7 @@ namespace LB
 			{
 				PauseMenuResumeButton = GO;
 			}
-			if (GO->GetName() == "PauseMenuHowToPlayObject")
+			if (GO->GetName() == "PauseMenuHowToPlayObject") 
 			{
 				PauseMenuHowToPlayButton = GO;
 			}
@@ -43,58 +33,53 @@ namespace LB
 			{
 				PauseMenuExitButton = GO;
 			}
-		}
 
-		if (GameObj->HasComponent<CPCollider>())
-		{
-			mCollider = GameObj->GetComponent<CPCollider>();
 		}
-		else
-		{
-			mCollider = nullptr;
-			return;
-		}
+		
+		mCollider = this->GameObj->GetComponent<CPCollider>();
 	}
 
-	void PauseQuitButton::Update()
+	void PauseMenuHowToPlayButton::Update()
 	{
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
-		if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
+
 
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 
 			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
 			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
 
 			// Loop through the colliders found on mouse click
 			for (size_t i = 0; i < vec_colliders.size(); ++i)
 			{
-				// If we found the block
 				if (vec_colliders[i] == mCollider)
 				{
+					// If we found the block
+					// Move all the Pause Menu Objects away
 					PauseMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 					PauseMenuResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 					PauseMenuHowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 					PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
-					ConfirmMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
-					ConfirmMenuYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{590.52f, 350.69f});
-					ConfirmMenuNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{998.f, 347.f});
+					// Move all the How To Play Objects into scene
+					HowToPlayTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.66f, 449.39f});
+					HowToPlayTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{16.10f, 9.18f});
+
+					HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{161.75f, 72.12f});
+					HowToPlayBackButton->GetComponent<CPCollider>()->SetWidthHeightRadius(218.f, 165.f, 50.f);
+			
 				}
 			}
 		}
 	}
 
-	void PauseQuitButton::Destroy()
+	void PauseMenuHowToPlayButton::Destroy()
 	{
 
-	}
-
-	CPCollider* PauseQuitButton::GetCollider() 
-	{
-		return mCollider;
 	}
 }

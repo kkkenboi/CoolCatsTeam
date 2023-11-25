@@ -1,12 +1,12 @@
 #include "Platform/Windows/Windows.h"
-#include "PauseQuitButton.h"
+#include "PauseQuitNoButton.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Core/Core.h"
 
-namespace LB 
+namespace LB
 {
-	void PauseQuitButton::Start() 
+	void PauseQuitNoButton::Start()
 	{
 
 		// Grab All The GOs associated with the Pause Menu
@@ -56,7 +56,7 @@ namespace LB
 		}
 	}
 
-	void PauseQuitButton::Update()
+	void PauseQuitNoButton::Update() 
 	{
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
 		if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
@@ -75,26 +75,26 @@ namespace LB
 				// If we found the block
 				if (vec_colliders[i] == mCollider)
 				{
-					PauseMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
-					PauseMenuResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
-					PauseMenuHowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
-					PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
-					ConfirmMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
-					ConfirmMenuYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{590.52f, 350.69f});
-					ConfirmMenuNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{998.f, 347.f});
+					PauseMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
+
+					PauseMenuResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{807.f, 507.1f});
+
+					PauseMenuHowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{805.f, 412.f});
+
+					PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{804.f, 238.f});
+
+
+					ConfirmMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					ConfirmMenuYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					ConfirmMenuNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 				}
 			}
 		}
 	}
 
-	void PauseQuitButton::Destroy()
+	void PauseQuitNoButton::Destroy()
 	{
-
-	}
-
-	CPCollider* PauseQuitButton::GetCollider() 
-	{
-		return mCollider;
+	
 	}
 }
