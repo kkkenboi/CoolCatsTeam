@@ -59,7 +59,7 @@ namespace LB
 	void PauseQuitButton::Update()
 	{
 		Vec2<float> mouse_pos = INPUT->GetMousePos();
-		if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
 

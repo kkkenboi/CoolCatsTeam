@@ -34,7 +34,7 @@ namespace LB
 		if (TIME->IsPaused())
 		{
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
-			if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
+			if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 			{
 				Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
 				mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();

@@ -16,6 +16,7 @@
 
 #include "ColliderManager.h"
 #include "PhysicsMath.h"
+#include "Litterbox/Engine/Time.h"
 
 namespace LB 
 {
@@ -118,10 +119,8 @@ namespace LB
 			{
 				continue;
 			}
-			
 			if (m_colliderPool[i]->m_shape == COL_POLYGON) 
 			{
-				//std::cout << position.x << ", " << position.y << std::endl;
 				if (CollisionIntersection_CirclePolygon_SAT(position, radius,
 					m_colliderPool[i]->m_transformedVerts, normal, depth))
 				{
@@ -477,9 +476,7 @@ namespace LB
 	void ColliderManager::Update() 
 	{
 
-
-		// Draw Debug here
-		if (DEBUG->IsDebugOn())
+		if (TIME->IsPaused())
 		{
 			for (size_t i = 0; i < m_poolSize; ++i)
 			{
@@ -489,6 +486,16 @@ namespace LB
 					m_colliderPool[i]->m_pos = m_colliderPool[i]->GetTransform()->GetPosition();
 					m_colliderPool[i]->UpdateScaledData();
 					m_colliderPool[i]->UpdateColliderBoxVertices();
+				}
+			}
+		}
+
+		if (DEBUG->IsDebugOn())
+		{
+			for (size_t i = 0; i < m_poolSize; ++i)
+			{
+				if (m_colliderPool[i] != nullptr)
+				{
 					m_colliderPool[i]->DebugDraw();
 				}
 			}

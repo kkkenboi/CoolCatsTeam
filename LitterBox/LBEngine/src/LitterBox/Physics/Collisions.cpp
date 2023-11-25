@@ -60,7 +60,7 @@ namespace LB
 		if (this->m_gameobj->HasComponent<CPRender>())
 		{
 			this->m_widthUnscaled = this->m_gameobj->GetComponent<CPRender>()->w;
-			this->m_radiusUnscaled = this->m_gameobj->GetComponent<CPRender>()->w;
+			this->m_radiusUnscaled = this->m_gameobj->GetComponent<CPRender>()->w/2.f;
 			this->m_heightUnscaled = this->m_gameobj->GetComponent<CPRender>()->h;
 		}
 
