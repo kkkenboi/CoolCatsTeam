@@ -125,7 +125,7 @@ namespace Renderer {
 
 		inline LB::Vec2<float> zoomed() { return LB::Vec2<float>{editor_ortho[0][0], editor_ortho[1][1]}; }
 
-		glm::mat4 get_nel() const;
+		glm::mat4 get_free_cam() const;
 
 		glm::vec3 get_cam_pos() const;
 	};

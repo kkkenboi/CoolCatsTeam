@@ -17,12 +17,8 @@
 namespace LB
 {
 	/*!************************************************************************
-	 * \brief 
+	 * \brief Serializes the Render Component
 	 * 
-	 * \param data 
-	 * \param alloc 
-	 * \return true 
-	 * \return false 
 	**************************************************************************/
 	bool CPRender::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
@@ -33,6 +29,11 @@ namespace LB
 		data.AddMember("Texture", textureName, alloc);
 		return true;
 	}
+
+	/*!************************************************************************
+	 * \brief Deserializes the Render Component
+	 * 
+	**************************************************************************/
 	bool CPRender::Deserialize(const Value& data)
 	{
 		bool HasTexture = data.HasMember("Texture");
@@ -44,13 +45,21 @@ namespace LB
 			if (HasHeight) h = data["Height"].GetFloat();
 			if (HasTexture)
 			{
+				//Because we have 2 versions, for now we keep this
+				//Until all versions have been updated then we can remove this
 				const Value& textureValue = data["Texture"];
 				if (textureValue.IsInt())
 				{
-					texture = textureValue.GetInt();
+					std::string textureName = ASSETMANAGER->GetTextureName(textureValue.GetInt());
+					UpdateTexture(textureValue.GetInt(), w, h);
+					//texture = textureValue.GetInt();
 					return true;
 				}
-				texture = ASSETMANAGER->GetTextureUnit(textureValue.GetString());
+				std::string textureName = textureValue.GetString();
+
+				UpdateTexture(ASSETMANAGER->GetTextureUnit(textureName), w, h);
+
+				//texture = ASSETMANAGER->GetTextureUnit(textureValue.GetString());
 				return true;
 			}
 		}

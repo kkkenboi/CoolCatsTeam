@@ -130,6 +130,7 @@ namespace LB
 	*************************************************************************/
 	void Debugger::DrawBox(Vec2<float> center, float width, float height, Vec4<float> color, float rot)
 	{
+		if (!m_debugModeOn) return;
 		//rotation matrix
 		glm::mat4 rotation{
 			cosf(rot), sinf(rot), 0.f, 0.f,
@@ -173,6 +174,7 @@ namespace LB
 	*************************************************************************/
 	void Debugger::DrawCircle(Vec2<float> center, float radius, Vec4<float> color)
 	{
+		if (!m_debugModeOn) return;
 		//one angle for before
 		float bangle{ 0.f };
 		//one angle for after
@@ -194,6 +196,7 @@ namespace LB
 	*************************************************************************/
 	void Debugger::DrawLine(Vec2<float> start, Vec2<float> end, Vec4<float> color)
 	{
+		if (!m_debugModeOn) return;
 		//std::cout << drawobj.size() << '\n';
 		//std::cout << '\n';
 		//drawobj.size();
@@ -235,6 +238,7 @@ namespace LB
 	*************************************************************************/
 	void Debugger::LineUpdate(DebugObject& obj, const size_t& index) 
 	{
+		
 		//-----------------Matrix projection of start point--------------
 
 		glm::vec4 start_point{ obj.center.x, obj.center.y, 0.f, 1.f };

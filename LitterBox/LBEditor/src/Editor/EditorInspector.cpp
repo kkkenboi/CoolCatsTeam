@@ -412,7 +412,7 @@ namespace LB
 					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("TEXTURE"))
 					{
 						const char* textureName = (const char*)textureData->Data;
-						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second);
+						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
 					}
 				}
 				if (ImGui::BeginCombo("##Texture", ASSETMANAGER->GetTextureName(inspectedTextureID).c_str()))
@@ -422,7 +422,7 @@ namespace LB
 						std::filesystem::path tempPath{ str };
 						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 						{
-							m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second);
+							m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, tex.first->width, tex.first->height);
 						}
 					}
 					ImGui::EndCombo();
@@ -433,7 +433,7 @@ namespace LB
 					if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("TEXTURE"))
 					{
 						const char* textureName = (const char*)textureData->Data;
-						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second);
+						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
 					}
 				}
 				// Delete Component

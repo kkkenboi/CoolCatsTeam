@@ -3,9 +3,12 @@
  \author(s)			Amadeus Chia Jinhan, 
  \par DP email(s):	amadeusjinhan.chia@digipen.edu,
  \par Course:       CSD2401A
- \date				02/11/2023
+ \date				25/11/2023
  \brief				This file contains the definitions of AudioManager 
-					functions (This will be more detailed as more 
+					functions. The AudioManager also updates all the 
+					audio components in the game. The audio manager 
+					can currently handle pause and unpause, volume and pitch
+					controls (This will be more detailed as more 
 					features get added)
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
@@ -76,11 +79,20 @@ namespace LB
 		AUDIOMANAGER->AudioSources.clear();
 	}
 
+
+	/*!************************************************************************
+	 * \brief GLOBAL PAUSE function wrapper
+	 * (Calls Audiomanager->PauseAllChannels)
+	**************************************************************************/
 	void Pause()
 	{
 		AUDIOMANAGER->PauseAllChannels();
 	}
 
+	/*!************************************************************************
+	 * \brief GLOBAL UNPAUSE function wrapper
+	 * (Calls Audiomanager->UnPauseAllChannels)
+	**************************************************************************/
 	void UnPause()
 	{
 		AUDIOMANAGER->UnPauseAllChannels();
@@ -113,7 +125,7 @@ namespace LB
 			Channels.erase(channel);
 		}
 		
-		
+		//then we update any audio sources that are in the game
 		if (!AudioSources.empty())
 		{
 			for (const auto& audioSrc : AudioSources)
@@ -192,6 +204,11 @@ namespace LB
 		return (Channels.find(ChannelID) != Channels.end());
 	}
 
+	/*!************************************************************************
+	* \brief Function to check if the specified channel is paused
+	* 
+	* \param channelID Channel ID to check for
+	**************************************************************************/	
 	bool AudioManager::IsPaused(int channelID)
 	{
 		bool isPaused{ false };
@@ -206,6 +223,11 @@ namespace LB
 		return isPaused;
 	}
 
+	/*!************************************************************************
+	* \brief Function to stop a specified channel from playing
+	* 
+	* \param channelID Channel ID to stop playing from (grab the ID from playing sound)
+	**************************************************************************/
 	void AudioManager::StopChannel(int channelID)
 	{
 		if (Channels.find(channelID) != Channels.end())
@@ -214,6 +236,11 @@ namespace LB
 		} else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 	}
 
+	/*!************************************************************************
+	* \brief Function to PAUSE a specific channel from playing
+	* (Grab the channel id from the PlaySound function)
+	* \param channelID Channel ID to PAUSE the sound from
+	**************************************************************************/	
 	void AudioManager::PauseChannel(int channelID)
 	{
 		if (!IsPaused(channelID))
@@ -221,6 +248,12 @@ namespace LB
 			Channels[channelID]->setPaused(true);
 		}
 	}
+
+	/*!************************************************************************
+	* \brief Function to UNPAUSE a specific channel from playing
+	* (Grab the channel id from the PlaySound function)
+	* \param channelID Channel ID to UNPAUSE the sound from
+	**************************************************************************/	
 	void AudioManager::UnPauseChannel(int channelID)
 	{
 		if (IsPaused(channelID))
@@ -228,6 +261,14 @@ namespace LB
 			Channels[channelID]->setPaused(false);
 		}
 	}
+
+
+	/*!************************************************************************
+	* \brief Set the Channel Pitch object
+	* (Grab channel id from PlaySound function)
+	* \param channelID Channel ID to set the pitch for
+	* \param _pitch Pitch to set
+	**************************************************************************/
 	void AudioManager::SetChannelPitch(int channelID,float _pitch)
 	{
 		if (Channels.find(channelID) != Channels.end())
@@ -236,6 +277,13 @@ namespace LB
 		}// else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 
 	}
+
+	/*!************************************************************************
+	* \brief Set the Channel Volume object
+	* (Grab channel id from PlaySound function)
+	* \param ChannelID Channel ID to set the volume for
+	* \param _vol Volume to set
+	**************************************************************************/
 	void AudioManager::SetChannelVolume(int channelID, float _vol)
 	{
 		if (Channels.find(channelID) != Channels.end())
@@ -243,6 +291,11 @@ namespace LB
 			Channels[channelID]->setVolume(_vol);
 		}// else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 	}
+
+	/*!************************************************************************
+	* \brief Function to pause ALL channels
+	* 
+	**************************************************************************/
 	void AudioManager::PauseAllChannels()
 	{
 		for (const auto& src : AudioSources)
@@ -260,6 +313,11 @@ namespace LB
 		//	}
 		//}
 	}
+
+	/*!************************************************************************
+	* \brief Function to unpuase ALL channels
+	* 
+	**************************************************************************/
 	void AudioManager::UnPauseAllChannels()
 	{
 		for (const auto& src : AudioSources)
