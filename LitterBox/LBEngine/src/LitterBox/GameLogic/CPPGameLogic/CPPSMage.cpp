@@ -9,17 +9,15 @@
 
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Physics/PhysicsMath.h"
-//namespace test
-//{
-//	double nextTimeToShoot = 0.0;
-//	int counter = 0;
-//	double setTimer = 0.0;
-//	double fireRate = 2.0f;
-//}
 
 namespace LB
 {
+	//animation array
 	std::array<std::array<LB::Vec2<float>, 4>, 33> mage_anim_frams;
+	/*!***********************************************************************
+	\brief
+	Starting behaviour for Mage where variables are initialized
+	*************************************************************************/
 	void CPPSMage::Start()
 	{
 		//initialising the components of the mage, basically same as chase where I am getting the components
@@ -103,32 +101,33 @@ namespace LB
 		}
 
 		//initialise the variables for the Mage
-		mHealth = 3;
-		mSpeedMagnitude = 1000.f;
-		mProjSpeed = 1500.0f;
+		mHealth = 3; //health
+		mSpeedMagnitude = 1000.f; //speed of movement
+		mProjSpeed = 1500.0f; //pojectile speed
 		mNumOfProjectile = 3; //set to 3 projectiles
 
-		mHasShot = false;
+		mHasShot = false; //a boolean to check if the enemy has shot
 
-		//a little hardcoding for now
+		//a little hardcoding for now, min and max distance between enemy and player
 		mMinDistance = 120.0f;
 		mMaxDistance = 1330.0f;
 		rangeDistance = mMaxDistance - mMinDistance;
 
+		//timer set for shooting of projectils
 		mnextTimeToShoot = 0.0;
 		mcount = 0;
 		msetTimer = 0.0;
 		mfireRate = 2.0;
-
-		//timer
-		//mtimerInterval = 3.0f; //3 second interval
-		//mtimerDone = false;
 
 		//it has fully initialised
 		mInitialised = true;
 		
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update behaviour for Mage, checks if everything has been initialised to start FSM
+	*************************************************************************/
 	void CPPSMage::Update()
 	{
 		if (mInitialised == false)
@@ -138,6 +137,10 @@ namespace LB
 		mFSM.Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Desroy function fpr Mage, clear the states
+	*************************************************************************/
 	void CPPSMage::Destroy()
 	{
 		//STATES : IDLE, CHASING, BACKOFF, HURT, SHOOTING
@@ -185,11 +188,20 @@ namespace LB
 		return mPlayer;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Getter for the Projectile Object
+	*************************************************************************/
 	GameObject* CPPSMage::GetProjectile()
 	{
 		return mProjectile;
 	}
 
+
+	/*!***********************************************************************
+	\brief
+	Getter for the Projectile Speed
+	*************************************************************************/
 	float CPPSMage::GetProjSpeed()
 	{
 		return mProjSpeed;
@@ -206,7 +218,7 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	Getter for speed magnitude
+	Getter for Back Off speed magnitude
 	*************************************************************************/
 	float CPPSMage::GetBackOffSpeedMag()
 	{
@@ -233,6 +245,10 @@ namespace LB
 		return mAttackRange;
 	}
 
+	/*!***********************************************************************
+	\brief
+	On collision to check who it is colliding with and what will happen
+	*************************************************************************/
 	void CPPSMage::OnCollisionEnter(CollisionData colData)
 	{
 		if (this->mFSM.GetCurrentState()->GetStateID() == "Chase")
@@ -248,42 +264,19 @@ namespace LB
 
 	}
 
-	///*!***********************************************************************
-	//\brief
-	//Getter for Timer
-	//*************************************************************************/
-	//float& CPPSMage::GetTimer()
-	//{
-	//	return mtimerInterval;
-	//}
-
-	//bool& CPPSMage::TimerCheck()
-	//{
-	//	return mtimerDone;
-	//}
 	/*!***********************************************************************
 	\brief
-	Getter for shooting intervals timer
+	A bool to check if the mage has shot anything
 	*************************************************************************/
-	//void CPPSMage::Timer(double setTimer, int fireRate, int counter, FiniteStateMachine& fsm)
-	//{
-	//	if (TIME->GetTime() >= NextShot())
-	//	{
-	//		NextShot() = TIME->GetTime() + (double)(1 / FireRate());
-	//		++Count();
-	//		if (Count() == NumOfProj())
-	//		{
-	//			Count() = 0;
-	//			fsm.ChangeState("Idle");
-	//		}
-	//	}
-	//}
-
 	bool& CPPSMage::CheckHasShot()
 	{
 		return mHasShot;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Spawn function to spawn projectile Game Object
+	*************************************************************************/
 	void CPPSMage::SpawnProjectile()
 	{
 		Vec2<float> CurHeroPos = GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
@@ -297,6 +290,7 @@ namespace LB
 		Vec2<float> PosToSpawn{ CurEnemyPos.x + offset, CurEnemyPos.y + offset };
 		//ASSETMANAGER->SpawnGameObject("Projectile", PosToSpawn);
 
+		//Spawn Game Object
 		GameObject* mageProjectileObject = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Projectile", *mageProjectileObject);
 		if (!(PosToSpawn == Vec2<float>{0, 0}))
@@ -307,20 +301,33 @@ namespace LB
 		mageProjectileObject->GetComponent<CPRigidBody>()->addImpulse(ShootingForce);
 	}
 
+	/*!***********************************************************************
+	\brief
+	Getter for num of projectile (will need to decrement later)
+	*************************************************************************/
 	int& CPPSMage::NumOfProj()
 	{
 		return mNumOfProjectile;
 	}
 	
+	/*!***********************************************************************
+	\brief
+	Getter for getting the next shot time
+	*************************************************************************/
 	double& CPPSMage::NextShot()
 	{
 		return mnextTimeToShoot;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Setting how much time every interval
+	*************************************************************************/
 	double& CPPSMage::SetTime()
 	{
 		return msetTimer;
 	}
+
 
 	double& CPPSMage::FireRate()
 	{
@@ -468,6 +475,7 @@ namespace LB
 	void MageHurtState::Update()
 	{
 		DebuggerLog("Entered MageHurtState");
+		GetFSM().ChangeState("Idle");
 	}
 	void MageHurtState::Exit()
 	{
@@ -516,30 +524,6 @@ namespace LB
 					GetFSM().ChangeState("Idle");	
 				}
 			}
-		//}
-		
-		//if (INPUT->IsKeyPressed(KeyCode::KEY_5) && mEnemy->CheckHasShot() == false)
-		//{
-			//if (mEnemy->NumOfProj() >= 0) //if got bullet
-			//{
-			//	mEnemy->SpawnProjectile(); //it spawns for now
-			//	mEnemy->CheckHasShot() = true; //meaning it shot
-			//	//run the timer
-			//	if (mEnemy->TimerCheck() == false) //timer is not done
-			//	{
-			//		DebuggerLog("Entered");
-			//		mEnemy->GetTimer() -= TIME->GetDeltaTime(); //time is decreasing
-			//		if (mEnemy->GetTimer() <= 0.0) //if hit 0
-			//		{
-			//			mEnemy->TimerCheck() = true; //timer is done
-			//			mEnemy->CheckHasShot() = false; //and it went to have not shoot yet
-			//		}
-			//	}
-			//	mEnemy->NumOfProj() -= 1; //decrease the num of projectile
-			//	DebuggerLogFormat("Num Of Projectile: %i", mEnemy->NumOfProj());
-			//}
-		//}
-		//test->StartComponents();
 		
 	}
 

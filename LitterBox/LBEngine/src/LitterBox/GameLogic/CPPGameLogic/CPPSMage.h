@@ -41,10 +41,6 @@ namespace LB
 		int& NumOfProj();
 
 
-		//float& GetTimer();
-		//bool& TimerCheck();
-
-
 		bool& CheckHasShot();
 		void OnCollisionEnter(CollisionData colData);
 		
@@ -74,10 +70,6 @@ namespace LB
 		int mcount;
 		double msetTimer;
 		double mfireRate;
-
-		//timer
-		//float mtimerInterval;
-		//bool mtimerDone;
 
 		//Boundaries between enemy and player
 		float mMaxDistance{};
