@@ -1,3 +1,18 @@
+/*!************************************************************************
+ \file				CPPSMage.cpp
+ \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao
+ \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan\@digipen.edu
+ \par Course:		CSD2401A
+ \date				25-11-2023
+ \brief
+ This file contains the CPPSChaser class and all its functionalities,
+it handls the logic for the chaser enemy
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #pragma once
 #include "CPPBehaviour.h"
 #include "CPPSBaseGolfBall.h"
@@ -25,23 +40,25 @@ namespace LB
 		GameObject* GetHero();
 		GameObject* GetProjectile();
 
+		//spawn function
 		void SpawnProjectile();
 
 		float GetSpeedMag();	//Getter function for the speed when chasing
 		float GetBackOffSpeedMag(); //Getter function for the speed when backingOff
 		float TooCloseDistance(); //Getter function if they get too close
 		float RangeAttackDistance(); //Getter function if the in range to shoot
-		float GetProjSpeed();
+		float GetProjSpeed(); //Getter function for projectile speed
 
-		double& NextShot();
-		double& SetTime();
-		double& FireRate();
-		int& Count();
+		//timer to shoot in interval
+		double& NextShot(); //Getter function for next shot
+		double& SetTime(); //time that will keep incrementing from current time
+		double& FireRate(); //fire rate, intervals of shooting
+		int& Count(); //keeping track of the count when shooting
 
-		int& NumOfProj();
+		int& NumOfProj(); //total num of projectile
 
 
-		bool& CheckHasShot();
+		bool& CheckHasShot();//a boolean to check if it has shot
 		void OnCollisionEnter(CollisionData colData);
 		
 		//void Timer(double setTimer, int fireRate, int counter, FiniteStateMachine& fsm);
@@ -77,7 +94,7 @@ namespace LB
 		float rangeDistance{};
 
 		// Holds the different state and the current state
-		// that the Chaser enemy is in
+		// that the Mage enemy is in
 		FiniteStateMachine mFSM{}; //state machine of the mage enemy, I will have to add into it
 
 		bool mInitialised{ false }; //setting to false, later after everything has been initialised in the cpp, it will set to true

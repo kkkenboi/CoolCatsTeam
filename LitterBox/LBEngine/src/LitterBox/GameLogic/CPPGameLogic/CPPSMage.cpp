@@ -1,3 +1,18 @@
+/*!************************************************************************
+ \file				CPPSMage.cpp
+ \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao
+ \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan\@digipen.edu
+ \par Course:		CSD2401A
+ \date				25-11-2023
+ \brief
+ This file contains the CPPSChaser class and all its functionalities,
+it handls the logic for the chaser enemy
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "CPPSMage.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Serialization/AssetManager.h"
@@ -330,16 +345,24 @@ namespace LB
 		return msetTimer;
 	}
 
-
+	/*!***********************************************************************
+	\brief
+	Getter for setting fire rate
+	*************************************************************************/
 	double& CPPSMage::FireRate()
 	{
 		return mfireRate;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Getter for getting the count
+	*************************************************************************/
 	int& CPPSMage::Count()
 	{
 		return mcount;
 	}
+
 	// States ===================
 
 	/*!***********************************************************************
@@ -358,7 +381,7 @@ namespace LB
 	}
 	void MageIdleState::Update()
 	{
-		DebuggerLog("Entered MageIdleState");
+		//DebuggerLog("Entered MageIdleState");
 		if (INPUT->IsKeyPressed(KeyCode::KEY_M)) //MAGE WILL CHASE WHEN THIS IS PRESSED
 		{
 			// Change the state to Chase
@@ -381,12 +404,12 @@ namespace LB
 
 	void MageChaseState::Enter()
 	{
-		DebuggerLog("Entered MageChaseState");
+		//DebuggerLog("Entered MageChaseState");
 		this->Update();
 	}
 	void MageChaseState::Update()
 	{
-		DebuggerLog("Entered MageChaseState");
+		//DebuggerLog("Entered MageChaseState");
 		//Calculating the distance between the Enemy and the player
 		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
 		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
@@ -396,21 +419,16 @@ namespace LB
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
 		
-		mEnemy->GetRigidBody()->addForce(NormalForce);
+		mEnemy->GetRigidBody()->addForce(NormalForce); //add force to move
 
-		if (DistInBwn < mEnemy->TooCloseDistance())
+		if (DistInBwn < mEnemy->TooCloseDistance()) //checking the distance if its too close
 		{
-			GetFSM().ChangeState("BackOff");
+			GetFSM().ChangeState("BackOff");//it will change the state to back off
 		}
-		else if (DistInBwn >= mEnemy->TooCloseDistance() && DistInBwn <= mEnemy->RangeAttackDistance())
+		else if (DistInBwn >= mEnemy->TooCloseDistance() && DistInBwn <= mEnemy->RangeAttackDistance()) //if distance bwn not too close and its on the attack range
 		{
-			GetFSM().ChangeState("Shooting");
+			GetFSM().ChangeState("Shooting"); //it will change the state to shooting
 		}
-		
-		//I need to check if its too close or not
-		//if so it will backoff to the opposite direction from where its heading
-		
-		//else, it will just go towards the player
 
 	}
 	void MageChaseState::Exit()
@@ -429,30 +447,30 @@ namespace LB
 
 	void MageBackOffState::Enter()
 	{
-		DebuggerLog("Entered MageBackOffState");
+		//DebuggerLog("Entered MageBackOffState");
 		this->Update();
 	}
 	void MageBackOffState::Update()
 	{
-		DebuggerLog("Entered MageBackOffState");
+		//DebuggerLog("Entered MageBackOffState");
 		//Calculating the distance between the Enemy and the player
 		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
 		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
-		float DistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos);
+		float DistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos); //Dist in between
 
 		//Getting the direction of the player and the enemy
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
-		Vec2<float> BackOffForce = (-Direction) * mEnemy->GetBackOffSpeedMag();
+		Vec2<float> BackOffForce = (-Direction) * mEnemy->GetBackOffSpeedMag(); //opposite direction
 
-		mEnemy->GetRigidBody()->addForce(BackOffForce);
+		mEnemy->GetRigidBody()->addForce(BackOffForce); //Adding force with back off force
 
-		if (DistInBwn >= mEnemy->TooCloseDistance())
+		if (DistInBwn >= mEnemy->TooCloseDistance()) //if dist is far
 		{
-			GetFSM().ChangeState("Chase");
+			GetFSM().ChangeState("Chase"); //goes back to chasing state
 		}
-		else if (DistInBwn >= mEnemy->TooCloseDistance() && DistInBwn <= mEnemy->RangeAttackDistance())
+		else if (DistInBwn >= mEnemy->TooCloseDistance() && DistInBwn <= mEnemy->RangeAttackDistance()) //if its in between
 		{
-			GetFSM().ChangeState("Shooting");
+			GetFSM().ChangeState("Shooting"); //goes to shooting state
 		}
 	}
 	void MageBackOffState::Exit()
@@ -471,12 +489,12 @@ namespace LB
 
 	void MageHurtState::Enter()
 	{
-		DebuggerLog("Entered MageHurtState");
+		//DebuggerLog("Entered MageHurtState");
 		this->Update();
 	}
 	void MageHurtState::Update()
 	{
-		DebuggerLog("Entered MageHurtState");
+		//DebuggerLog("Entered MageHurtState");
 		GetFSM().ChangeState("Idle");
 	}
 	void MageHurtState::Exit()
@@ -495,10 +513,11 @@ namespace LB
 
 	void MageShootingState::Enter()
 	{
-		DebuggerLog("Entered MageShootingState");
+		//DebuggerLog("Entered MageShootingState");
 		
 		this->Update();
 	}
+
 	void MageShootingState::Update()
 	{
 		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
@@ -526,6 +545,7 @@ namespace LB
 					GetFSM().ChangeState("Idle");	
 				}
 			}
+		//}
 		
 	}
 
