@@ -103,45 +103,6 @@
                 }
             },
             {
-                "Name": "ball",
-                "Transform": {
-                    "Position": {
-                        "x": 1113.5,
-                        "y": 287.42
-                    },
-                    "Scale": {
-                        "x": 0.3,
-                        "y": 0.3
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": false
-                },
-                "Render": {
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Texture": "GolfBall"
-                },
-                "Collider": {
-                    "Layer": "Default",
-                    "Shape": 0,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Radius": 50.0
-                },
-                "AudioSource": {
-                    "AudioClipName": "Clown-Horn_SFX",
-                    "Play On Awake": false,
-                    "Loop": false,
-                    "Volume": 1.0,
-                    "Pitch": 1.0
-                }
-            },
-            {
                 "Name": "NorthWall",
                 "Transform": {
                     "Position": {

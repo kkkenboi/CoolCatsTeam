@@ -4,7 +4,7 @@
 
 namespace LB
 {
-	class CPPSBaseGolfBall : public CPPBehaviour
+	class CPPSPlayerGolfBall : public CPPBehaviour
 	{
 	public:
 		/*!***********************************************************************
@@ -20,7 +20,7 @@ namespace LB
 		CPCollider* GetCollider(); //for collider for the golf ball
 		GameObject* GetHero();
 
-		void OnCollisionEnter(CollisionData colData);		
+		void OnCollisionEnter(CollisionData colData);
 
 		//timer to despawn the golfball
 		//destroy the golfball
@@ -34,5 +34,7 @@ namespace LB
 		float mSpeedMagnitude{};
 		float mVelocity{};
 		float mSize{};
+
+		float mLifetime{ 1.5f }, mCurrentLifetime{ 1.5f };
 	};
 }

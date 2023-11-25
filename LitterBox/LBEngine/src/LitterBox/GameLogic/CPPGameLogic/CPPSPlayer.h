@@ -19,6 +19,7 @@ namespace LB
 {
 	class CPPSPlayer : public CPPBehaviour
 	{
+	public:
 		/*!***********************************************************************
 		\brief
 		Inherited Functions from CPPBehaviour that the user must implement
@@ -41,6 +42,7 @@ namespace LB
 
 		bool m_isFacingLeft;
 
+	private:
 		LB::Vec2<float> right_face;
 		LB::Vec2<float> left_face;
 	};

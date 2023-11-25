@@ -1,13 +1,13 @@
 {
-    "Name": "ball",
+    "Name": "EnemyChaser1",
     "Transform": {
         "Position": {
-            "x": 1113.5,
-            "y": 287.42
+            "x": 456.23,
+            "y": 640.78
         },
         "Scale": {
-            "x": 0.3,
-            "y": 0.3
+            "x": 1.25,
+            "y": 1.25
         },
         "Rotation": 0.0
     },
@@ -20,16 +20,16 @@
     "Render": {
         "Width": 100.0,
         "Height": 100.0,
-        "Texture": "GolfBall"
+        "Texture": "Chaser"
     },
     "Collider": {
         "Layer": "Default",
-        "Shape": 0,
-        "Width": 20.0,
-        "Height": 20.0,
-        "Radius": 20.0
+        "Shape": 1,
+        "Width": 100.0,
+        "Height": 100.0,
+        "Radius": 50.0
     },
     "CPPScript": {
-        "Script": "PlayerBall"
+        "Script": "Enemy"
     }
 }

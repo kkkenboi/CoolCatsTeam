@@ -25,6 +25,7 @@
 #include "QuitScript.h"
 #include "CPPSMage.h"
 #include "CPPSBaseGolfBall.h"
+#include "CPPSPlayerGolfBall.h"
 #include "PauseMenuScript.h"
 #include "PauseResumeButton.h"
 #include "PauseHowToPlayButton.h"
@@ -67,6 +68,7 @@ namespace LB
 			newScript->GetName() == "Quit" ||
 			newScript->GetName() == "Mage" ||
 			newScript->GetName() == "Projectile" ||
+			newScript->GetName() == "PlayerBall" ||
 			newScript->GetName() == "PauseMenuScript" ||
 			newScript->GetName() == "PauseResumeGameScript" ||
 			newScript->GetName() == "PauseHowToPlayScript" ||
@@ -81,6 +83,7 @@ namespace LB
 			if (CORE->IsPlaying())
 			{
 				StartScript(newScript);
+				newScript->Start();
 			}
 
 			return;
@@ -141,6 +144,9 @@ namespace LB
 			}
 			else if (script->GetName() == "Projectile") {
 				script->SetInstance(DBG_NEW CPPSBaseGolfBall);
+			}
+			else if (script->GetName() == "PlayerBall") {
+				script->SetInstance(DBG_NEW CPPSPlayerGolfBall);
 			}
 			else if (script->GetName() == "PauseMenuScript") {
 				script->SetInstance(DBG_NEW PauseMenuScript);

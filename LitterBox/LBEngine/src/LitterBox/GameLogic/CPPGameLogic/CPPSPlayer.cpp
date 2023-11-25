@@ -205,7 +205,7 @@ namespace LB
 		//------------------Spawn a golf ball----------------------
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
 		{
-			if (m_currentBalls > m_maxBalls) return;
+			if (m_currentBalls >= m_maxBalls) return;
 			++m_currentBalls;
 
 			//Spawn Game Object
