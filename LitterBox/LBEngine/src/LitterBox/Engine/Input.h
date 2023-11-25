@@ -137,6 +137,13 @@ namespace LB {
 
 		/*!***********************************************************************
 		 \brief
+		 Overwrite the mouse position, mainly used by Editor to map the mousePos
+		 to the GameView instead of the full screen
+		*************************************************************************/
+		void OverwriteMousePos(Vec2<float> const& newPos);
+
+		/*!***********************************************************************
+		 \brief
 		 Subscribes the key event to register/notify when the event occurs
 		*************************************************************************/
 		void SubscribeToKey(Event<>::func_ptr function, KeyCode key, KeyEvent keyEvent, KeyTriggerType triggerType = KeyTriggerType::PAUSABLE);
@@ -185,7 +192,7 @@ namespace LB {
 
 		Vec2<float> mousePos;
 
-		bool inputKeysLast[GLFW_KEY_LAST] { false }, inputKeysCurr[GLFW_KEY_LAST]{ false };
+		bool inputKeysLast[GLFW_KEY_LAST]{ false }, inputKeysCurr[GLFW_KEY_LAST]{ false }, mousePosOverwritten{ false };
 	};
 
 	/*!***********************************************************************

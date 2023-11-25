@@ -148,6 +148,13 @@ namespace LB
 	*************************************************************************/
 	void InputSystem::GLFWMousePos(GLFWwindow* window, double xpos, double ypos) 
 	{
+		// If mouse position is being controlled externally (like editor), don't use GLFW's
+		if (mousePosOverwritten) 
+		{
+			mousePosOverwritten = false;
+			return;
+		}
+
 		UNREFERENCED_PARAMETER(window);
 		mousePos.x = (float)xpos;
 		mousePos.y = (float)ypos;
@@ -160,6 +167,18 @@ namespace LB
 	Vec2<float> const& InputSystem::GetMousePos()
 	{
 		return mousePos;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Overwrite the mouse position, mainly used by Editor to map the mousePos
+	 to the GameView instead of the full screen
+	*************************************************************************/
+	void InputSystem::OverwriteMousePos(Vec2<float> const& newPos)
+	{
+		mousePos.x = newPos.x;
+		mousePos.y = newPos.y;
+		mousePosOverwritten = true;
 	}
 
 	/*!***********************************************************************
