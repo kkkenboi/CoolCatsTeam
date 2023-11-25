@@ -79,14 +79,15 @@ namespace LB
 					return;
 			}
 
-			if (!GOMANAGER->IsGameObjectInScene(m_removedGO))
+			if (m_removedGO && !GOMANAGER->IsGameObjectInScene(m_removedGO))
 			{
 				m_removedGO->Destroy();
 			}
 		}
 
-	private:
 		GameObject* m_removedGO;
+
+	private:
 		CPTransform* m_removedGOParent;
 
 		Vec2<float> m_lastPos;
@@ -105,6 +106,12 @@ namespace LB
 			if (m_spawnedGO)
 			{
 				GOMANAGER->AddGameObject(m_spawnedGO);
+
+				// TODO: Refactor when SetActive for GameObject is implemented
+				if (m_spawnedGO->HasComponent<CPRender>())
+					m_spawnedGO->GetComponent<CPRender>()->set_active();
+				m_spawnedGOParent->AddChild(m_spawnedGO->GetComponent<CPTransform>());
+				m_spawnedGO->GetComponent<CPTransform>()->SetPosition(Vec2<float>{m_spawnPos});
 				return;
 			}
 
@@ -113,6 +120,8 @@ namespace LB
 				m_spawnedGO = ASSETMANAGER->SpawnGameObject(m_prefabData, m_spawnPos);
 			else
 				m_spawnedGO = FACTORY->SpawnGameObject();
+
+			m_spawnedGOParent = m_spawnedGO->GetComponent<CPTransform>()->GetParent();
 		}
 
 		void Undo() override
@@ -122,6 +131,12 @@ namespace LB
 			{
 				EDITORHIERACHY->onNewObjectSelected.Invoke(nullptr);
 			}
+
+			// TODO: Refactor when SetActive for GameObject is implemented
+			if (m_spawnedGO->HasComponent<CPRender>())
+				m_spawnedGO->GetComponent<CPRender>()->set_active();
+			m_spawnedGO->GetComponent<CPTransform>()->GetParent()->RemoveChild(m_spawnedGO->GetComponent<CPTransform>());
+			m_spawnedGO->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
 			GOMANAGER->DetachGameObject(m_spawnedGO);
 		}
@@ -139,6 +154,18 @@ namespace LB
 
 		void OnRemove() override
 		{
+			// TODO: Refactor spawn and delete logic
+			auto& redoHist = COMMAND->GetRedoHistory();
+			for (auto& command : redoHist)
+			{
+				if (command->GetType() == DELETEGO)
+				{
+					std::shared_ptr<RemoveObjectCommand> deleteCommand = std::dynamic_pointer_cast<RemoveObjectCommand>(command);
+					if (deleteCommand->m_removedGO == m_spawnedGO)
+						deleteCommand->m_removedGO = nullptr;
+				}
+			}
+
 			if (!GOMANAGER->IsGameObjectInScene(m_spawnedGO))
 			{
 				m_spawnedGO->Destroy();
@@ -147,6 +174,7 @@ namespace LB
 
 	private:
 		GameObject* m_spawnedGO{ nullptr };
+		CPTransform* m_spawnedGOParent{ nullptr };
 
 		// Details about the new GO
 		std::string m_prefabData {};

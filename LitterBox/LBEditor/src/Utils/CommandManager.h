@@ -51,6 +51,8 @@ namespace LB
 
 		std::shared_ptr<ICommand> GetLastCommand();
 
+		std::deque<std::shared_ptr<ICommand>>& GetRedoHistory();
+
 	private:
 		void AddToHistory(std::shared_ptr<ICommand> newCommand);
 

@@ -140,6 +140,11 @@ namespace LB
 		return history.front();
 	}
 
+	std::deque<std::shared_ptr<ICommand>>& CommandManager::GetRedoHistory()
+	{
+		return undoHistory;
+	}
+
 	void CheckUndo()
 	{
 		if (INPUT->IsKeyPressed(KeyCode::KEY_LEFTCONTROL))
