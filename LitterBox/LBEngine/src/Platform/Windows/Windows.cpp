@@ -28,8 +28,12 @@
 
 namespace LB
 {
+    /*!***********************************************************************
+     \brief
+     Callback function that is in charge of minimizing window on unfocus.
+    *************************************************************************/
     void exit() {
-        //glfwIconifyWindow(WINDOWSSYSTEM->GetWindow());
+        glfwIconifyWindow(WINDOWSSYSTEM->GetWindow());
     }
 
     WindowsSystem* WINDOWSSYSTEM = nullptr;
