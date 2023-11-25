@@ -23,6 +23,14 @@
 extern const float deg_to_rads;
 
 namespace LB {
+	/*!***********************************************************************
+	\brief
+	 Start function gets collider of object and gets the position that is left
+	 of the collider. This is for the hand object to use to position properly.
+
+	 NOTE: The game object MUST HAVE the collider component, behaviour if not
+	 is undefined
+	*************************************************************************/
 	void QuitScript::Start()
 	{
 		coll = GameObj->GetComponent<CPCollider>();
@@ -82,6 +90,15 @@ namespace LB {
 		right_side = right_side - hand_size;
 		//-------------Rotation matrix values to get the left of the button---------------
 	}
+
+	/*!***********************************************************************
+	\brief
+	 Update function will checl to see if the mouse is hovering over the collider
+	 and update the hand object to follow the button the mouse is hovering over.
+
+	 The function also checks which mouse button is pressed and performs the
+	 appropriate function.
+	*************************************************************************/
 	void QuitScript::Update()
 	{
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
