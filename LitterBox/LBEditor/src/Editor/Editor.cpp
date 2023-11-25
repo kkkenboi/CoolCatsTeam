@@ -185,6 +185,7 @@ namespace LB
 		ImGuiID inspectorID{};
 		ImGuiID animationID{};
 		ImGuiID prefabID{};
+		ImGuiID collisionLayerID{};
 
 		// Docking Section
 		ImGuiID maindockspaceID = ImGui::GetID("MainDockspace");
@@ -210,14 +211,16 @@ namespace LB
 			// Assets is set in the bottom middle, hierarchy on the top middle and inspector on the right
 			assetsID = ImGui::DockBuilderSplitNode(assetsID, ImGuiDir_Left, 0.5f, NULL, &inspectorID);
 			assetsID = ImGui::DockBuilderSplitNode(assetsID, ImGuiDir_Down, 0.5f, NULL, &hierarchyID);
-			inspectorID = ImGui::DockBuilderSplitNode(inspectorID, ImGuiDir_Up, 0.5f, NULL, &prefabID);
+			inspectorID = ImGui::DockBuilderSplitNode(inspectorID, ImGuiDir_Up, 0.489f, NULL, &prefabID);
 
 			// Set profiler at the same location as console
 			profilerID = consoleID;
-			// Set scene view at the same location as game view
-			sceneviewID = gameviewID;
-			// Set the animation at the same location as the prefab
-			animationID = prefabID;
+			// Set scene view at the same location as console
+			sceneviewID = consoleID;
+			// Set the animation at the same location as game view
+			animationID = gameviewID;
+			// Set the collision layer at the same location as the assets
+			collisionLayerID = assetsID;
 
 			ImGui::DockBuilderDockWindow("ToolBar", toolbarID);
 			ImGui::DockBuilderDockWindow("Console", consoleID);
@@ -229,6 +232,7 @@ namespace LB
 			ImGui::DockBuilderDockWindow("Inspector", inspectorID);
 			ImGui::DockBuilderDockWindow("Animation Editor", animationID);
 			ImGui::DockBuilderDockWindow("Prefab Viewer", prefabID);
+			ImGui::DockBuilderDockWindow("Collision Layers", collisionLayerID);
 
 			ImGui::DockBuilderFinish(maindockspaceID);
 		}
