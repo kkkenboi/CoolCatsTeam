@@ -68,6 +68,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayer::Update()
 	{
+		//Animation and sounds
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
 		{
 			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_1");
@@ -76,14 +77,14 @@ namespace LB
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A))
 		{
-			trans->SetScale(left_face);
+			//trans->SetScale(left_face);
 			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_2");
 			rend->stop_anim();
 			rend->play_repeat("player_walk");
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D))
 		{
-			trans->SetScale(right_face);
+			//trans->SetScale(right_face);
 			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_3");
 			rend->stop_anim();
 			rend->play_repeat("player_walk");
@@ -130,11 +131,17 @@ namespace LB
 		}
 
 		// Pushes everything away from the player in a circle
-		if (INPUT->IsKeyPressed(KeyCode::KEY_F))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_F))
+		{
+			int Channel = AUDIOMANAGER->PlaySound("Sward-Whoosh_1");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.3f);
+
+		}
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_F))
 		{
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
-			float effect_radius = 200.f;
-			float effect_magnitude = 500.f;
+			float effect_radius = 100.f;
+			float effect_magnitude = 1500.f;
 
 			DEBUG->DrawCircle(current_pos, effect_radius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
 
@@ -142,7 +149,8 @@ namespace LB
 
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-
+			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
 			//std::cout << vec_colliders.size() << std::endl;
 			for (size_t i = 0; i < vec_colliders.size(); ++i) {
 				Vec2<float> force_to_apply = mouse_pos - vec_colliders[i]->m_pos;
@@ -159,6 +167,19 @@ namespace LB
 
 			}
 		}
+		//Player face mouse pos
+		Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
+		Vec2<float> mousePos = INPUT->GetMousePos();
+		mousePos.y = mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+		mousePos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
+		mousePos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+		Vec2<float> playerToMouseDir = mousePos - playerPos;
+		Vec2<float> TransformRight{ right_face };
+		if (DotProduct(playerToMouseDir.Normalise(), TransformRight.Normalise()) < 0)
+		{
+			trans->SetScale(left_face);
+		} else trans->SetScale(right_face);
+
 		
 	}
 
