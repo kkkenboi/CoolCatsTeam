@@ -1,3 +1,14 @@
+/*!************************************************************************
+ * \file				StateMachine.h
+ * \author(s)			
+ * \par DP email(s):  	@digipen.edu
+ * \par Course:       	CSD
+ * \date				25/11/2023
+ * \brief 
+ *  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #pragma once
 //#include "LitterBox/Engine/Input.h"
 #include <map>

@@ -3,6 +3,7 @@
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Physics/PhysicsMath.h"
+#include "LitterBox/Audio/AudioManager.h"
 
 namespace LB
 {
@@ -63,6 +64,11 @@ namespace LB
 			colData.colliderOther->m_gameobj->GetName() == "WestWall" ||
 			colData.colliderOther->m_gameobj->GetName() == "EastWall")
 		{
+			
+			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
+			
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.3f);
+
 			GOMANAGER->RemoveGameObject(this->GameObj);
 		}
 		

@@ -80,25 +80,70 @@ namespace LB
 		 * (Technically... 1 sound 1 channel so...)
 		**************************************************************************/
 		bool IsPlaying(int ChannelID);
+
+		/*!************************************************************************
+		 * \brief Function to check if the specified channel is paused
+		 * 
+		 * \param channelID Channel ID to check for
+		**************************************************************************/
 		bool IsPaused(int channelID);
 
 
 		/*!***********************************************************************
 		* \brief Function to stop all channels from playing
 		*
-		*
 		**************************************************************************/
 		void StopAllChannels();
+		
+		/*!************************************************************************
+		 * \brief Function to pause ALL channels
+		 * 
+		**************************************************************************/
+		void PauseAllChannels();
 
-		//TODO
+		/*!************************************************************************
+		 * \brief Function to unpuase ALL channels
+		 * 
+		**************************************************************************/
+		void UnPauseAllChannels();
+
+		/*!************************************************************************
+		 * \brief Function to stop a specified channel from playing
+		 * 
+		 * \param channelID Channel ID to stop playing from (grab the ID from playing sound)
+		**************************************************************************/
 		void StopChannel(int channelID);
+
+		/*!************************************************************************
+		 * \brief Function to PAUSE a specific channel from playing
+		 * (Grab the channel id from the PlaySound function)
+		 * \param channelID Channel ID to PAUSE the sound from
+		**************************************************************************/
 		void PauseChannel(int channelID);
+
+		/*!************************************************************************
+		 * \brief Function to UNPAUSE a specific channel from playing
+		 * (Grab the channel id from the PlaySound function)
+		 * \param channelID Channel ID to UNPAUSE the sound from
+		**************************************************************************/
 		void UnPauseChannel(int channelID);
+
+		/*!************************************************************************
+		 * \brief Set the Channel Pitch object
+		 * (Grab channel id from PlaySound function)
+		 * \param channelID Channel ID to set the pitch for
+		 * \param _pitch Pitch to set
+		**************************************************************************/
 		void SetChannelPitch(int channelID, float _pitch);
+
+		/*!************************************************************************
+		 * \brief Set the Channel Volume object
+		 * (Grab channel id from PlaySound function)
+		 * \param ChannelID Channel ID to set the volume for
+		 * \param _vol Volume to set
+		**************************************************************************/
 		void SetChannelVolume(int ChannelID, float _vol);
 
-		void PauseAllChannels();
-		void UnPauseAllChannels();
 		//bool IsPlaying(std::string soundName);
 		//void StopAllSounds();
 
@@ -121,8 +166,14 @@ namespace LB
 	void PlayExplosionSound();
 	void PlayAHHSound();
 	void RemoveAllAudioSources(bool isPlaying);
-	void Pause();
-	void UnPause();
+
+
+	/*!************************************************************************
+	 * \brief GLOBAL PAUSE function wrappers
+	 * 
+	**************************************************************************/
+	void Pause();	//Wrapper for PauseAllChannels
+	void UnPause();	//Wrapper for UnPauseAllChannels
 
 	/*!***********************************************************************
 	 * \brief Global Pointer for the AudioManager
