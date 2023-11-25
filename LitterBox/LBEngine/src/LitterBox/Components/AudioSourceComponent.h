@@ -43,6 +43,11 @@ namespace LB
 		{
 			return C_CPAudioSource;
 		}
+	private:
+		float timer{ 0 };
+		bool playDelayed{ false };
+		int channelID{ 0 };
+		bool hasPlayed{ false };
 	};
 
 }
