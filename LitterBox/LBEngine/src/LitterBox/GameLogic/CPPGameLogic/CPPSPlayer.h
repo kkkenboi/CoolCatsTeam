@@ -35,6 +35,12 @@ namespace LB
 
 		float m_walkSpeed, m_maxSpeed, m_stepSoundInterval, m_stepSoundCurrent;
 
+		int m_maxBalls, m_currentBalls;
+
+		float m_shootForce, m_shootRadius;
+
+		bool m_isFacingLeft;
+
 		LB::Vec2<float> right_face;
 		LB::Vec2<float> left_face;
 	};

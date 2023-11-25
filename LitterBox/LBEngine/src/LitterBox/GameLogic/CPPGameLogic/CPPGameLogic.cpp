@@ -95,7 +95,12 @@ namespace LB
 	*************************************************************************/
 	void CPPGameLogic::Unload(CPScriptCPP* scriptToRemove)
 	{
-		m_sceneScripts.remove(scriptToRemove);
+		auto script = std::find(m_sceneScripts.begin(), m_sceneScripts.end(), scriptToRemove);
+
+		if (script != m_sceneScripts.end())
+		{
+			m_sceneScripts.erase(script);
+		}
 	}
 
 	/*!***********************************************************************
@@ -179,9 +184,12 @@ namespace LB
 	{
 		if (!CORE->IsPlaying()) return;
 
-		for (CPScriptCPP* script : m_sceneScripts)
+		for (int index{ 0 }; index < m_sceneScripts.size(); ++index)
 		{
-			script->Update();
+			CPScriptCPP* script = m_sceneScripts[index];
+			// TODO: Refactor script deletion in loop
+			if (script)
+				script->Update();
 		}
 	}
 
@@ -212,13 +220,13 @@ namespace LB
 	*************************************************************************/
 	void CPScriptCPP::Destroy()
 	{
+		CPPGAMELOGIC->Unload(this);
 		if (m_instance)
 		{
 			m_instance->Destroy();
 			delete m_instance;
 			m_instance = nullptr;
 		}
-		CPPGAMELOGIC->Unload(this);
 	}
 
 	//--------------------------CPP SCRIPT COMPONENT--------------------------

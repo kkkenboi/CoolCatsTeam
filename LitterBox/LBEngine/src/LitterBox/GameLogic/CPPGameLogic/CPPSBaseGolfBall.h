@@ -25,9 +25,9 @@ namespace LB
 		//timer to despawn the golfball
 		//destroy the golfball
 	private:
-		CPRender* mRender; //animation purpose
-		CPRigidBody* mRigidBody; //Getting the RB of the enemy
-		CPCollider* mCollider; //Getting the collider of the enemy
+		CPRender* mRender{ nullptr }; //animation purpose
+		CPRigidBody* mRigidBody{ nullptr }; //Getting the RB of the enemy
+		CPCollider* mCollider{ nullptr }; //Getting the collider of the enemy
 		GameObject* mPlayer{ nullptr };
 
 		//Stats of the ball should have
@@ -35,6 +35,6 @@ namespace LB
 		float mVelocity{};
 		float mSize{};
 
-
+		float mLifetime, mCurrentLifetime;
 	};
 }

@@ -4,38 +4,15 @@
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "LitterBox/Audio/AudioManager.h"
+#include "LitterBox/Engine/Time.h"
 
 namespace LB
 {
 	void CPPSBaseGolfBall::Start()
 	{
-		if (GameObj->HasComponent<CPRender>())
-		{
-			mRender = GameObj->GetComponent<CPRender>();
-		}
-		else
-		{
-			mRender = nullptr;
-			return;
-		}
-		if (GameObj->HasComponent<CPRigidBody>())
-		{
-			mRigidBody = GameObj->GetComponent<CPRigidBody>();
-		}
-		else
-		{
-			mRigidBody = nullptr;
-			return;
-		}
-		if (GameObj->HasComponent<CPCollider>())
-		{
-			mCollider = GameObj->GetComponent<CPCollider>();
-		}
-		else
-		{
-			mCollider = nullptr;
-			return;
-		}
+		mRender = GameObj->GetComponent<CPRender>();
+		mRigidBody = GameObj->GetComponent<CPRigidBody>();
+		mCollider = GameObj->GetComponent<CPCollider>();
 
 		std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
 		for (GameObject* GO : GOs) {
@@ -49,11 +26,26 @@ namespace LB
 		mSpeedMagnitude = 1000.0f;
 		mVelocity = 1000.0f; //with direction
 		mSize = 1.0f;
+
+		mCurrentLifetime = mLifetime = 1.0f;
 	}
 
 	void CPPSBaseGolfBall::Update()
 	{
-		
+		if (!mRigidBody)
+		{
+			mRigidBody = GameObj->GetComponent<CPRigidBody>();
+			return;
+		}
+
+		if (mRigidBody->mVelocity.LengthSquared() < 50.0f)
+		{
+			mCurrentLifetime -= TIME->GetDeltaTime();
+			if (mCurrentLifetime <= 0.0f)
+			{
+				GOMANAGER->RemoveGameObject(this->GameObj);
+			}
+		}
 	}
 
 	void CPPSBaseGolfBall::OnCollisionEnter(CollisionData colData)

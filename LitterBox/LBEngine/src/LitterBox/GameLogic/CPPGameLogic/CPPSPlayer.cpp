@@ -46,6 +46,12 @@ namespace LB
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
+		m_shootForce = 3250.0f;
+		m_shootRadius = 120.0f;
+
+		m_maxBalls = 3;
+		m_currentBalls = 0;
+
 		//---------------------------getting the uvs for the run------------------------
 		if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"]) != LB::ASSETMANAGER->Textures.end()) {
 			int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width };
@@ -163,7 +169,7 @@ namespace LB
 		}
 		m_stepSoundCurrent += TIME->GetDeltaTime();
 		
-		//------------------Pushes everything away from the player in a circle------------------
+		//------------------Pushes balls away from the player in a circle------------------
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
 			// Play hit sound
@@ -172,21 +178,18 @@ namespace LB
 
 			// Pushes the ball
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
-			float effect_radius = 100.f;
-			float effect_magnitude = 1500.f;
 
-			DEBUG->DrawCircle(current_pos, effect_radius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
-
-			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, effect_radius);
+			DEBUG->DrawCircle(current_pos, m_shootRadius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
+			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, m_shootRadius);
 
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
 			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
-			//std::cout << vec_colliders.size() << std::endl;
+
 			for (size_t i = 0; i < vec_colliders.size(); ++i) {
 				Vec2<float> force_to_apply = mouse_pos - vec_colliders[i]->m_pos;
-				force_to_apply = Normalise(force_to_apply) * effect_magnitude;
+				force_to_apply = Normalise(force_to_apply) * m_shootForce;
 
 				if (vec_colliders[i]->rigidbody != nullptr)
 				{
@@ -199,15 +202,36 @@ namespace LB
 			}
 		}
 
+		//------------------Spawn a golf ball----------------------
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
+		{
+			if (m_currentBalls > m_maxBalls) return;
+			++m_currentBalls;
+
+			//Spawn Game Object
+			GameObject* ballObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("ball", *ballObject);
+
+			Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
+			playerPos.x += m_isFacingLeft ? -50.0f : 50.0f;
+
+			ballObject->GetComponent<CPTransform>()->SetPosition(playerPos);
+		}
+
 		//------------------Player face mouse pos------------------
 		Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
 		Vec2<float> mousePos = INPUT->GetMousePos();
+		
 		mousePos.y = mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 		mousePos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
 		mousePos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+		
 		Vec2<float> playerToMouseDir = mousePos - playerPos;
 		Vec2<float> TransformRight{ right_face };
-		if (DotProduct(playerToMouseDir.Normalise(), TransformRight.Normalise()) < 0)
+
+		m_isFacingLeft = DotProduct(playerToMouseDir.Normalise(), TransformRight.Normalise()) < 0.0f;
+
+		if (m_isFacingLeft)
 		{
 			trans->SetScale(left_face);
 		} else trans->SetScale(right_face);
