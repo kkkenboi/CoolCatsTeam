@@ -59,8 +59,11 @@ namespace LB
 		// Get m_widthUnscaled, m_heightUnscaled and m_radiusUnscaled from render component
 		if (this->m_gameobj->HasComponent<CPRender>())
 		{
+			if(!m_widthUnscaled)
 			this->m_widthUnscaled = this->m_gameobj->GetComponent<CPRender>()->w;
+			if(!m_radiusUnscaled)
 			this->m_radiusUnscaled = this->m_gameobj->GetComponent<CPRender>()->w/2.f;
+			if (!m_heightUnscaled)
 			this->m_heightUnscaled = this->m_gameobj->GetComponent<CPRender>()->h;
 		}
 
@@ -93,7 +96,7 @@ namespace LB
 
 		this->UpdateScaledData();
 		this->UpdateColliderBoxVertices();
-
+		if(m_collisionlayer.GetName().empty())
 		this->m_collisionlayer = COLLIDERS->GetLayerSystem().GetDefaultLayer();
 
 		// Update the length and width of the RigidBody depending
@@ -469,9 +472,11 @@ namespace LB
 	{
 		DebuggerLog("Serializing Collider");
 		data.SetObject();
-		Value collisionValue(m_collisionlayer.GetName().c_str(), alloc);
+		Value collisionValue;
+		m_collisionlayer.Serialize(collisionValue, alloc);
+		//Value collisionValue(m_collisionlayer.GetName().c_str(), alloc);
 
-		data.AddMember("Layer", collisionValue, alloc);
+		data.AddMember("ColliderLayer", collisionValue, alloc);
 		data.AddMember("Shape", m_shape, alloc);
 		data.AddMember("Width", m_widthUnscaled, alloc);
 		data.AddMember("Height", m_heightUnscaled, alloc);
@@ -486,15 +491,16 @@ namespace LB
 	bool CPCollider::Deserialize(const Value& data)
 	{
 		DebuggerLog("Deserializing Collider");
-		bool HasLayer = data.HasMember("Layer");
+		bool HasLayer = data.HasMember("ColliderLayer");
 		bool HasShape = data.HasMember("Shape");
 		bool HasWidth = data.HasMember("Width");
 		bool HasHeight = data.HasMember("Height");
 		bool HasRadius = data.HasMember("Radius");
 		if (HasLayer)
 		{
-			const Value& layerValue = data["Layer"];
-			m_collisionlayer.GetName() = layerValue.GetString();
+			const Value& layerValue = data["ColliderLayer"];
+			m_collisionlayer.Deserialize(layerValue);
+			//m_collisionlayer.GetName() = layerValue.GetString();
 		}
 		if (HasShape && HasWidth && HasHeight && HasRadius)
 		{
