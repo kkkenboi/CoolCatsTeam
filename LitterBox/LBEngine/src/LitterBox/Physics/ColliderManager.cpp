@@ -17,6 +17,7 @@
 #include "ColliderManager.h"
 #include "PhysicsMath.h"
 #include "Litterbox/Engine/Time.h"
+#include "LitterBox/Core/Core.h"
 
 namespace LB 
 {
@@ -464,7 +465,7 @@ namespace LB
 	void ColliderManager::Update() 
 	{
 
-		if (TIME->IsPaused())
+		if (TIME->IsPaused() || !CORE->IsPlaying())
 		{
 			for (size_t i = 0; i < m_poolSize; ++i)
 			{
@@ -474,6 +475,7 @@ namespace LB
 					m_colliderPool[i]->m_pos = m_colliderPool[i]->GetTransform()->GetPosition();
 					m_colliderPool[i]->UpdateScaledData();
 					m_colliderPool[i]->UpdateColliderBoxVertices();
+					m_colliderPool[i]->UpdateColliderAABB();
 				}
 			}
 		}
