@@ -27,6 +27,8 @@
 
 #include "Utils/CommandManager.h"
 #include "Commands/TransformCommands.h"
+#include "Commands/GameObjectCommands.h"
+
 #include "LitterBox/Serialization/FileSystemManager.h"
 
 namespace LB
@@ -936,7 +938,9 @@ namespace LB
 	{
 		if (!EDITORINSPECTOR->IsGOInspected()) return;
 
-		GOMANAGER->RemoveGameObject(EDITORINSPECTOR->GetInspectedGO());
+		std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
+		COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
+
 		EDITORHIERACHY->onNewObjectSelected.Invoke(nullptr);
 	}
 

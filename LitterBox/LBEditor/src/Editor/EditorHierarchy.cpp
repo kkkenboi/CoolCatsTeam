@@ -72,10 +72,11 @@ namespace LB
 
 		if (ImGui::Button("Create Game Object"))
 		{
-			GameObject* newGO = FACTORY->SpawnGameObject();
+			//Spawn GO Command
+			std::shared_ptr<SpawnObjectCommand> spawnCommand = std::make_shared<SpawnObjectCommand>();
+			COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(spawnCommand));
 
-			newGO->GetComponent<CPTransform>()->SetParent(m_loadedScene->GetRoot());
-			m_loadedScene->GetRoot()->AddChild(newGO->GetComponent<CPTransform>());
+			// GameObject* newGO = FACTORY->SpawnGameObject();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Delete Selected"))
@@ -86,7 +87,6 @@ namespace LB
 				std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
 				COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
 
-				//GOMANAGER->RemoveGameObject(m_clickedItem->gameObj);
 				m_clickedItem = nullptr;
 				onNewObjectSelected.Invoke(nullptr);
 			}

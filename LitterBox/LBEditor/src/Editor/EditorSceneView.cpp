@@ -29,6 +29,7 @@
 
 #include "Utils/CommandManager.h"
 #include "Commands/TransformCommands.h"
+#include "Commands/GameObjectCommands.h"
 
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
@@ -178,7 +179,12 @@ namespace LB
 				m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
 
 				const char* assetPath = (const char*)assetData->Data;
-				ASSETMANAGER->SpawnGameObject(assetPath, m_mousePosInWorld);
+
+				//Spawn GO Command
+				std::shared_ptr<SpawnObjectCommand> spawnCommand = std::make_shared<SpawnObjectCommand>(assetPath, m_mousePosInWorld);
+				COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(spawnCommand));
+
+				// ASSETMANAGER->SpawnGameObject(assetPath, m_mousePosInWorld);
 			}
 		}
 
