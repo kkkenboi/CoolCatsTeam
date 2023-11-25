@@ -219,9 +219,10 @@ namespace LB
         //"KEY_J" : 74
         std::map <std::string,int> KeyCodeTable;
 
-
-
-
+        //This is the folder name where the meta file will be stored
+        //basically %APPDATA%/PurrfectPutt
+        char* _appData{ nullptr };
+        std::filesystem::path folderName{ "PurrfectPutt" };
         private:
 
         /*!***********************************************************************
