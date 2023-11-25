@@ -430,18 +430,6 @@ namespace LB
 
 						ResolveColliders(colA, colB, normal_out, depth_out);
 						
-						// CollisionData is a struct that contains
-						// the Collision Data that includes colA and colB, check unity Collision2D
-						/*
-						if (colB->m_gameobj->HasComponent<CPScriptCPP>()) {
-							CollisionData colData;
-							colData.colliderThis = colB;
-							colData.colliderOther = colA;
-							std::cout << "Entering B" << std::endl;
-							colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
-						}
-						*/
-
 						if (colA->m_gameobj->HasComponent<CPScriptCPP>()) {
 							CollisionData colData;
 							colData.colliderThis = colA;

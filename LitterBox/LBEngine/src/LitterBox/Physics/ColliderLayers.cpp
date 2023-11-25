@@ -18,6 +18,11 @@
 
 namespace LB {
 
+	/*!***********************************************************************
+	\brief
+	  This function initializes the ColliderLayerSystem with some default
+	  layers and also sets their collision matrix
+	*************************************************************************/
 	void ColliderLayerSystem::Initialize() {
 		m_layers.clear();
 		m_collision_layer_matrix.clear();
@@ -35,6 +40,11 @@ namespace LB {
 		SetCollisionLayerAllTrue(DefaultLayer);
 	}
 
+	/*!***********************************************************************
+	\brief
+	  This function adds a layer to the CollisionLayerSystem, sets all its
+	  collision with other layers to false within the matrix
+	*************************************************************************/
 	ColliderLayer ColliderLayerSystem::AddLayer(std::string layer_name) {
 		ColliderLayer TempLayer(layer_name);
 
@@ -66,6 +76,11 @@ namespace LB {
 		return m_layers.back().second;
 	}
 
+	/*!***********************************************************************
+	\brief
+	  This function removes a layer from the ColliderLayerSystem and resizes
+	  the collision matrix with one less layer
+	*************************************************************************/
 	void ColliderLayerSystem::RemoveLayer(std::string layer_name) {
 		// Loop through the std::vector of std::pairs, looking to see
 		// if the std::string is found	
@@ -107,6 +122,10 @@ namespace LB {
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	  This function finds the layer number from a layer name
+	*************************************************************************/
 	int ColliderLayerSystem::FindLayerNumber(std::string layer_name) 
 	{
 		for (std::pair<std::string, ColliderLayer> item : m_layers)
@@ -124,21 +143,39 @@ namespace LB {
 		return -1;
 	}
 
+	/*!***********************************************************************
+	\brief
+	  This function returns the first layer in the vector which is normally
+	  the default layer
+	*************************************************************************/
 	ColliderLayer& ColliderLayerSystem::GetDefaultLayer()
 	{
 		return m_layers[0].second;
 	}
 
+	/*!***********************************************************************
+	\brief
+	  This returns the vector of all the layers in the CollisionLayerSystem
+	*************************************************************************/
 	std::vector<std::pair<std::string, ColliderLayer>>& ColliderLayerSystem::GetLayerVector()
 	{
 		return m_layers;
 	}
 	
+	/*!***********************************************************************
+	\brief
+	  This function returns the collision matrix of the CollisionLayerSystem
+	*************************************************************************/
 	std::vector<std::vector<int>>& ColliderLayerSystem::GetLayerMatrix()
 	{
 		return m_collision_layer_matrix;
 	}
 	
+	/*!***********************************************************************
+	\brief
+	  This function initializes the ColliderLayerSystem with some default
+	  layers and also sets their collision matrix
+	*************************************************************************/
 	void ColliderLayerSystem::SetCollisionLayer(ColliderLayer layerA, ColliderLayer layerB, bool canCollide)
 	{
 		int indexA = layerA.GetPosInVec();
@@ -148,6 +185,11 @@ namespace LB {
 		m_collision_layer_matrix[indexB][indexA] = canCollide;
 	}
 
+	/*!***********************************************************************
+	\brief
+	  This function sets all the Collision Matrix for this layer to true,
+	  which means all layers will collide with this layer
+	*************************************************************************/
 	void ColliderLayerSystem::SetCollisionLayerAllTrue(ColliderLayer layer)
 	{
 		int index = layer.GetPosInVec();
@@ -164,11 +206,19 @@ namespace LB {
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	  This function returns whether or not two layers should collide
+	*************************************************************************/
 	bool ColliderLayerSystem::ShouldLayerCollide(ColliderLayer layerA, ColliderLayer layerB)
 	{
 		return m_collision_layer_matrix[layerA.GetPosInVec()][layerB.GetPosInVec()];
 	}
 
+	/*!***********************************************************************
+	\brief
+	  This function serializes the ColliderLAyerSystem
+	*************************************************************************/
 	bool ColliderLayerSystem::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		if (!m_layers.empty())
@@ -189,6 +239,10 @@ namespace LB {
 		return false;
 	}
 
+	/*!***********************************************************************
+	\brief
+	  This function deserializes the ColliderLayerSystem
+	*************************************************************************/
 	bool ColliderLayerSystem::Deserialize(const Value& data)
 	{
 		bool HasCollisionLayers = data.HasMember("CollisionLayers");
@@ -216,33 +270,31 @@ namespace LB {
 	// =================================
 	// Collider Layer stuff
 	// =================================
-	/*
-	ColliderLayer::ColliderLayer(std::string const name = "Default") : m_name{name}, vec_pos{-1}
-	{
-		// Empty by design
-	}
-	*/
-	/*
-	ColliderLayer& ColliderLayer::operator=(ColliderLayer layer) 
-	{
-		m_name = layer.GetName();
-		vec_pos = layer.GetPosInVec();
-
-		return *this;
-	}
-	*/
 	
 	
-
+	/*!***********************************************************************
+	\brief
+	  This function gets the name of the layer
+	*************************************************************************/
 	std::string& ColliderLayer::GetName()
 	{
 		return m_name;
 	}
 
+	/*!***********************************************************************
+	\brief
+	  This function gets the position of the layer in the vector of the
+	  CollisionLayerMatrix
+	*************************************************************************/
 	int& ColliderLayer::GetPosInVec() 
 	{
 		return vec_pos;
 	}
+
+	/*!***********************************************************************
+	\brief
+	  This function allows us to serialize the CollisionLayer
+	*************************************************************************/
 	bool ColliderLayer::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
@@ -251,6 +303,11 @@ namespace LB {
 		data.AddMember("Layer ID", vec_pos, alloc);
 		return true;
 	}
+
+	/*!***********************************************************************
+	\brief
+	  This function allows us to deserialize the CollisionLayer
+	*************************************************************************/
 	bool ColliderLayer::Deserialize(const Value& data)
 	{
 		bool HasLayerName = data.HasMember("Layer Name");
