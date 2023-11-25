@@ -58,11 +58,7 @@ namespace LB
 		{
 			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
 
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.3f);
-
-			CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
-			--player->m_currentBalls;
-			GOMANAGER->RemoveGameObject(this->GameObj);
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 		}
 
 	}

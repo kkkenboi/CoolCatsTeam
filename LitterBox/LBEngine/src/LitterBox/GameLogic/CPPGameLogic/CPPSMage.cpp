@@ -108,9 +108,12 @@ namespace LB
 		//timer set for shooting of projectils
 		mNumOfProjectile = 3; //set to 3 projectiles
 		mNumOfProjectileCurrent = 0;
-		mProjCooldown = 0.3f;
+		mProjCooldown = 0.35f;
 		mProjCooldownCurrent = 0.0f;
-		mProjSpeed = 1500.0f; //pojectile speed
+		mProjSpeed = 1000.0f; //pojectile speed
+
+		// 0.5 seconds of invincibility
+		mGotAttacked = 0.5f;
 
 		//it has fully initialised
 		mInitialised = true;
@@ -126,6 +129,15 @@ namespace LB
 		{
 			return;
 		}
+		if (mShouldDestroy)
+		{
+			GOMANAGER->RemoveGameObject(this->GameObj);
+			return;
+		}
+		if (mGotAttackedCooldown > 0.0f) {
+			mGotAttackedCooldown -= TIME->GetDeltaTime();
+		}
+
 		mFSM.Update();
 	}
 
@@ -195,17 +207,27 @@ namespace LB
 	*************************************************************************/
 	void CPPSMage::OnCollisionEnter(CollisionData colData)
 	{
-		if (this->mFSM.GetCurrentState()->GetStateID() == "Chase")
-		{
-			if (colData.colliderOther->m_gameobj->GetName() == "ball") {
-				if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
+		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
+			int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
+			{
+				if (mGotAttackedCooldown > 0.0f) {
+					return;
+				}
+				mGotAttackedCooldown = mGotAttacked;
+
+				--mHealth;
+				mFSM.ChangeState("Hurt");
+
+				if (mHealth < 0)
 				{
-					--mHealth;
-					mFSM.ChangeState("Hurt");
+					GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
+					GOMANAGER->RemoveGameObject(this->GameObj);
 				}
 			}
 		}
-
 	}
 
 	/*!***********************************************************************
@@ -386,7 +408,7 @@ namespace LB
 	void MageShootingState::Enter()
 	{
 		mEnemy->mRender->stop_anim();
-		mEnemy->mRender->play_now("mage_float");
+		mEnemy->mRender->play_repeat("mage_float");
 
 		mEnemy->mNumOfProjectileCurrent = 0;
 		mEnemy->mProjCooldownCurrent = 0.0f;

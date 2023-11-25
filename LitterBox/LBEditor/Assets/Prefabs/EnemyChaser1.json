@@ -23,7 +23,10 @@
         "Texture": "Chaser"
     },
     "Collider": {
-        "Layer": "Default",
+        "ColliderLayer": {
+            "Layer Name": "GameEntity",
+            "Layer ID": 1
+        },
         "Shape": 1,
         "Width": 100.0,
         "Height": 100.0,

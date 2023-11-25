@@ -52,6 +52,14 @@ namespace LB
 		m_maxBalls = 3;
 		m_currentBalls = 0;
 
+		m_health = 3;
+
+		// 0.5 seconds of invincibility
+		mGotAttacked = 0.5f;
+
+		// So that balls don't spawn on top each other
+		rb->addForce(Vec2<float>{10.0f, 0.0f});
+
 		//---------------------------getting the uvs for the run------------------------
 		if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"]) != LB::ASSETMANAGER->Textures.end()) {
 			int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width };
@@ -79,6 +87,36 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayer::Update()
 	{
+		//-----------------TESTING SPAWN-----------------------
+		//Spawn Mage
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
+		{
+			Vec2<float> mouse_pos = INPUT->GetMousePos();
+			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+
+			GameObject* mageObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("Mage", *mageObject);
+			mageObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		}
+		//Spawn Chaser
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
+		{
+			Vec2<float> mouse_pos = INPUT->GetMousePos();
+			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+
+			GameObject* chaserObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserObject);
+			chaserObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		}
+
+		if (mGotAttackedCooldown > 0.0f) {
+			mGotAttackedCooldown -= TIME->GetDeltaTime();
+		}
+
 		//------------------Walking animation------------------
 		static bool isWalkingAnim{ false };
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
@@ -193,7 +231,7 @@ namespace LB
 
 				if (vec_colliders[i]->rigidbody != nullptr)
 				{
-					if (vec_colliders[i] == GameObj->GetComponent<CPCollider>())
+					if (vec_colliders[i] == GameObj->GetComponent<CPCollider>() || vec_colliders[i]->GetLayerName() != "PlayerBall")
 					{
 						continue;
 					}
@@ -248,6 +286,25 @@ namespace LB
 
 	void CPPSPlayer::OnCollisionEnter(CollisionData colData) 
 	{
+		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
+			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
+			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
+		{
+			if (mGotAttackedCooldown > 0.0f) {
+				return;
+			}
+			mGotAttackedCooldown = mGotAttacked;
 
+			int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+
+			--m_health;
+
+			if (m_health < 0)
+			{
+				//GOMANAGER->RemoveGameObject(this->GameObj);
+			}
+
+		}
 	}
 }

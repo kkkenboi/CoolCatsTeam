@@ -23,7 +23,10 @@
         "Texture": "FireBall_0000"
     },
     "Collider": {
-        "Layer": "Default",
+        "ColliderLayer": {
+            "Layer Name": "EnemyBall",
+            "Layer ID": 5
+        },
         "Shape": 0,
         "Width": 20.0,
         "Height": 20.0,

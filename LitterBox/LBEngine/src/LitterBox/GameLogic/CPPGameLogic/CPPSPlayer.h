@@ -38,6 +38,9 @@ namespace LB
 
 		int m_maxBalls, m_currentBalls;
 
+		int m_health;
+		float mGotAttacked, mGotAttackedCooldown;
+
 		float m_shootForce, m_shootRadius;
 
 		bool m_isFacingLeft;

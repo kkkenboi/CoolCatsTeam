@@ -63,7 +63,9 @@ namespace LB
 		float mSpeedMagnitude{};
 		float mHurtTimer{};
 
-		bool mInitialised{false};
+		float mGotAttacked, mGotAttackedCooldown;
+
+		bool mInitialised{ false }, mShouldDestroy{ false };
 	};
 
 	// States

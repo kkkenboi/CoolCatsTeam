@@ -23,11 +23,14 @@
         "Texture": "GolfBall"
     },
     "Collider": {
-        "Layer": "Default",
+        "ColliderLayer": {
+            "Layer Name": "PlayerBall",
+            "Layer ID": 4
+        },
         "Shape": 0,
-        "Width": 20.0,
-        "Height": 20.0,
-        "Radius": 20.0
+        "Width": 30.0,
+        "Height": 30.0,
+        "Radius": 30.0
     },
     "CPPScript": {
         "Script": "PlayerBall"
