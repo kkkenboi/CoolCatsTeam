@@ -29,8 +29,11 @@ namespace LB
 		void OnCollisionEnter(CollisionData colData) override;
 
 		CPRigidBody* rb{ nullptr };
+		CPCollider* col{ nullptr };
 		CPRender* rend{ nullptr };
 		CPTransform* trans{ nullptr };
+
+		float m_walkSpeed, m_maxSpeed, m_stepSoundInterval, m_stepSoundCurrent;
 
 		LB::Vec2<float> right_face;
 		LB::Vec2<float> left_face;

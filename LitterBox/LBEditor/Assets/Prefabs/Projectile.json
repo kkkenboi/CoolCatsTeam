@@ -18,13 +18,16 @@
         "IsStatic": false
     },
     "Render": {
+        "Width": 100.0,
+        "Height": 100.0,
         "Texture": "FireBall_0000"
     },
     "Collider": {
+        "Layer": "Default",
         "Shape": 0,
-        "Width": 100.0,
-        "Height": 100.0,
-        "Radius": 8.0
+        "Width": 20.0,
+        "Height": 20.0,
+        "Radius": 20.0
     },
     "CPPScript": {
         "Script": "Projectile"
