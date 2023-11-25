@@ -51,7 +51,9 @@ namespace LB
     void ReimportAssets()
     {
         //First we have to grab our meta file so that we can compare 
-        Document _metaJson = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("MetaFiles.json").string());
+        ASSETMANAGER->_appData = getenv("APPDATA");
+        std::filesystem::path appData{ ASSETMANAGER->_appData };
+        Document _metaJson = JSONSerializer::GetJSONFile((appData/ASSETMANAGER->folderName / std::filesystem::path("MetaFiles.json")).string());
         Document::AllocatorType& metaAlloc = _metaJson.GetAllocator();
 
         //Then we get all the file types 
@@ -146,9 +148,10 @@ namespace LB
                 _metaJson[metaData.first.c_str()] = fileTime;
                 ASSETMANAGER->metaFileMap[metaData.first] = fileTime;
             }
-        }
         //We save to json once we're done
-        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("MetaFiles.json").string(), _metaJson);
+        }
+        JSONSerializer::SaveToJSON((appData / ASSETMANAGER->folderName / std::filesystem::path("MetaFiles.json")).string(), _metaJson);
+        //JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("MetaFiles.json").string(), _metaJson);
     }
 
 
@@ -230,6 +233,12 @@ namespace LB
         //generated when we import our assets. We should only ever call this function ONCE.
 
         //First we get the meta file data and put it into a vector
+        _appData = getenv("APPDATA");
+        std::filesystem::path appData(_appData);
+        if (!std::filesystem::exists(appData/folderName))
+        {
+            std::filesystem::create_directory(appData / folderName);
+        }
         Document _metaFile;// = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("MetaFiles.json").string());
         Document::AllocatorType& metaAlloc = _metaFile.GetAllocator();
 
@@ -284,7 +293,7 @@ namespace LB
             AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound(s.string().c_str(), FMOD_DEFAULT, nullptr, &SoundMap[s.stem().string()]);
             if (AUDIOMANAGER->result != FMOD_OK) DebuggerLogWarningFormat("UNABLE TO FIND %s SOUND!", s.string().c_str());
         }
-        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("MetaFiles.json").string(), _metaFile);
+        JSONSerializer::SaveToJSON((appData / folderName / std::filesystem::path("MetaFiles.json")).string(), _metaFile);
     }
 
     std::vector<std::filesystem::path> AssetManager::GetNewFiles()

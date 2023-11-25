@@ -377,10 +377,10 @@ namespace LB
 		}
 		if (m_inspectedGO->HasComponent<CPRender>())
 		{
+			float width = m_inspectedGO->GetComponent<CPRender>()->w;
+			float height = m_inspectedGO->GetComponent<CPRender>()->h;
 			if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				float width = m_inspectedGO->GetComponent<CPRender>()->w;
-				float height = m_inspectedGO->GetComponent<CPRender>()->h;
 				ImGui::Text("%-17s Width", "Sprite Size");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
@@ -422,7 +422,7 @@ namespace LB
 						std::filesystem::path tempPath{ str };
 						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 						{
-							m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, tex.first->width, tex.first->height);
+							m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, width, height);
 						}
 					}
 					ImGui::EndCombo();
