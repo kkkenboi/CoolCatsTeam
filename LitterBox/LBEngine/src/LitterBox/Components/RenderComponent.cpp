@@ -28,14 +28,20 @@ namespace LB
 	{
 		data.SetObject();
 		Value textureName(ASSETMANAGER->GetTextureName(texture).c_str(),alloc);
+		data.AddMember("Width", w, alloc);
+		data.AddMember("Height", h, alloc);
 		data.AddMember("Texture", textureName, alloc);
 		return true;
 	}
 	bool CPRender::Deserialize(const Value& data)
 	{
 		bool HasTexture = data.HasMember("Texture");
+		bool HasWidth = data.HasMember("Width");
+		bool HasHeight = data.HasMember("Height");
 		if (data.IsObject())
 		{
+			if (HasWidth) w = data["Width"].GetFloat();
+			if (HasHeight) h = data["Height"].GetFloat();
 			if (HasTexture)
 			{
 				const Value& textureValue = data["Texture"];

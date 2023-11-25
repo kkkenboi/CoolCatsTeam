@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <utility>
+#include "LitterBox/Serialization/Serializer.h"
 
 namespace LB {
 	class ColliderLayer;
@@ -33,6 +34,9 @@ namespace LB {
 
 		// Returns true if these two layers can collide
 		bool ShouldLayerCollide(ColliderLayer layerA, ColliderLayer layerB);
+		bool Serialize(Value& data, Document::AllocatorType& alloc);
+		bool Deserialize(const Value& data);
+
 
 	private:
 		std::vector<std::pair<std::string, ColliderLayer>> m_layers;
@@ -42,8 +46,10 @@ namespace LB {
 
 	class ColliderLayer {
 	public:
-		std::string const GetName() const;
+		std::string& GetName();
 		int& GetPosInVec();
+		bool Serialize(Value& data, Document::AllocatorType& alloc);
+		bool Deserialize(const Value& data);
 	public:
 		std::string m_name;
 		int vec_pos;

@@ -161,8 +161,8 @@ namespace LB
 		auto vpMax= ImGui::GetWindowContentRegionMax();
 		auto vpOffset = ImGui::GetWindowPos();
 
-		vpMinMax[0] = { vpMin.x + vpOffset.x, vpMin.y + vpOffset.y };
-		vpMinMax[1] = { vpMax.x + vpOffset.x, vpMax.y + vpOffset.y };
+		vpMinMax[0] = { (vpMin.x + vpOffset.x - Renderer::GRAPHICS->get_cam().get_cam_pos().x / 2.f), (vpMin.y + vpOffset.y + Renderer::GRAPHICS->get_cam().get_cam_pos().y / 2.f) };
+		vpMinMax[1] = { (vpMax.x + vpOffset.x - Renderer::GRAPHICS->get_cam().get_cam_pos().x / 2.f), (vpMax.y + vpOffset.y + Renderer::GRAPHICS->get_cam().get_cam_pos().y / 2.f) };
 
 		// Renders the scene view as an image from the opengl buffer
 		ImGui::BeginChild("GameRender");
@@ -203,7 +203,7 @@ namespace LB
 		// Set the different ImGuizmo operation modes here
 
 		// ----------------------------------------------
-		if (EDITORINSPECTOR->GetInspectedGO())
+		if (EDITORINSPECTOR->GetInspectedGO() && !EDITORINSPECTOR->isPrefab) // TODO: Less magic prefab editting implementation bools
 		{
 			auto trans = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetPosition();
 			auto rot = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetRotation();
@@ -224,22 +224,22 @@ namespace LB
 			switch (EDITORINSPECTOR->GetGizmosOperation())
 			{
 			case ImGuizmo::TRANSLATE:
-				ImGuizmo::Manipulate(glm::value_ptr(glm::mat4{ 1.f }), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&EDITORINSPECTOR->GetSnapTranslate());
 				break;
 			case ImGuizmo::ROTATE:
-				ImGuizmo::Manipulate(glm::value_ptr(glm::mat4{ 1.f }), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&EDITORINSPECTOR->GetSnapRotate());
 				break;
 			case ImGuizmo::SCALE:
-				ImGuizmo::Manipulate(glm::value_ptr(glm::mat4{ 1.f }), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&EDITORINSPECTOR->GetSnapScale());
 				break;
 			case ImGuizmo::UNIVERSAL: // No snapping is applied
-				ImGuizmo::Manipulate(glm::value_ptr(glm::mat4{ 1.f }), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_nel()), glm::value_ptr(Renderer::GRAPHICS->get_cam().ortho),
 					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					NULL);
 				break;

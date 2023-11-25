@@ -76,6 +76,7 @@ namespace LB
                 _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(textureFP), metaAlloc);
             }
         }
+        //AUDIOMANAGER->StopAllChannels();
         //Same thing as above but for audio
         for (const auto& soundFP : SoundFilePaths)
         {
@@ -468,6 +469,7 @@ namespace LB
     void AssetManager::SpawnGameObject(std::string fileName, Vec2<float> pos)
     {
         GameObject* prefab = FACTORY->SpawnGameObject();
+        //prefab->Deserialize(JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath(fileName).string()));
         JSONSerializer::DeserializeFromFile(fileName, *prefab);
         if (!(pos == Vec2<float>{0, 0}))
         prefab->GetComponent<CPTransform>()->SetPosition(pos);

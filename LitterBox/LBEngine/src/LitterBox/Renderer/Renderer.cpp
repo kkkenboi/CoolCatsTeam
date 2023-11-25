@@ -368,7 +368,7 @@ void LB::CPRender::Destroy()
 Destructor of the CPRender component.
 *************************************************************************/
 LB::CPRender::~CPRender() {
-	this->Destroy();
+	//this->Destroy();
 }
 
 //########################ANIMATION##############################
@@ -483,7 +483,7 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 		//return quad_data full of garbage
 		return i;
 	}
-
+	
 	//set position of quad
 	quad_buff[i].data[0].pos = { -0.5f, -0.5f };//bottom left
 	quad_buff[i].data[1].pos = { 0.5f, -0.5f  };//bottom right
@@ -502,6 +502,8 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 
 	active_objs.emplace_back(obj);
 
+	furthest_index = i > furthest_index ? i : furthest_index;
+
 	return i;
 }
 /*!***********************************************************************
@@ -518,7 +520,20 @@ void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 		quad_buff[obj->get_index()].data[i].active = false;
 	}
 
-	active_objs.remove_if([obj](const LB::CPRender* in_list) { return *obj == *in_list; });
+	//set the indices to 0
+	index_buff.at(obj->get_index()) = index{ 0,0,0,0,0,0 };
+	active_objs.remove_if([obj](const LB::CPRender* in_list) { return obj == in_list; });
+
+	if (active_objs.size()) {
+		unsigned int max_index{ active_objs.front()->get_index() };
+		for (auto const& e : active_objs) {
+			max_index = e->get_index() > max_index ? e->get_index() : max_index;
+		}
+		furthest_index = max_index;
+	}
+	else {
+		furthest_index = 0;
+	}
 }
 /*!***********************************************************************
 \brief
@@ -536,7 +551,6 @@ void Renderer::Renderer::update_buff()
 		if (e->texture == 0) 
 			continue;
 		unsigned int obj_index{ e->get_index() };
-
 		const_cast<LB::CPRender*>(e)->get_transform_data();
 		//set position based off camera mat
 		//edit color and uv coordinates and texture
@@ -554,13 +568,13 @@ void Renderer::Renderer::update_buff()
 			quad_buff[obj_index].data[i].color.x = e->col.x;
 			quad_buff[obj_index].data[i].color.y = e->col.y;
 			quad_buff[obj_index].data[i].color.z = e->col.z;
-			if(quad_buff[obj_index].data[i].texIndex != (float)e->texture)
+			if (quad_buff[obj_index].data[i].texIndex != (float)e->texture)
 				quad_buff[obj_index].data[i].texIndex = (float)e->texture;
 		}
 	}
-
+	
 	glNamedBufferSubData(vbo, 0, sizeof(quad) * quad_buff_size, quad_buff);
-	glNamedBufferSubData(ibo, 0, sizeof(index) * active_objs.size(), index_buff.data());
+	glNamedBufferSubData(ibo, 0, sizeof(index) * index_buff.size(), index_buff.data());
 	GLenum err = glGetError();
 	if (err != GL_NO_ERROR)
 		std::cerr << (int)err << std::endl;
@@ -887,8 +901,6 @@ struct textbutt {
 		//number based on initial font size when loading freetype font
 		float nscale = background.h < 50.f ? background.h / 50.f : 1.f;
 
-		//std::cout << nscale << " is the scale\n";
-
 		text.update_msg_pos(textposition);
 		text.update_msg_size(nscale);
 	}
@@ -914,6 +926,14 @@ LB::CPRender* buttonbg_2;
 LB::CPText* text;
 LB::CPText* text2;
 textbutt* button;
+
+void change_vp() {
+
+	float height{ 9.f / 16.f };
+	height *= (float)LB::WINDOWSSYSTEM->GetWidth();
+	float diff{ (float)LB::WINDOWSSYSTEM->GetHeight() - height };
+	glViewport(0, (int)(diff * 0.5f), LB::WINDOWSSYSTEM->GetWidth(), (int)height);
+}
 
 /*!***********************************************************************
 \brief
@@ -949,10 +969,10 @@ void Renderer::RenderSystem::Initialize()
 	
 	//----------------------------------------------------FONTS AS WELL-----------------------------------------------
 	//cache some values
-	float midx = (float)LB::WINDOWSSYSTEM->GetWidth() * 0.5f;
-	float midy = (float)LB::WINDOWSSYSTEM->GetHeight() * 0.5f;
-	float w = (float)LB::WINDOWSSYSTEM->GetWidth();
-	float h = (float)LB::WINDOWSSYSTEM->GetHeight();
+	float midx = 1600.f * 0.5f;
+	float midy = 900.f * 0.5f;
+	float w = 1600.f;
+	float h = 900.f;
 
 	test2 = DBG_NEW LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
 
@@ -972,6 +992,11 @@ void Renderer::RenderSystem::Initialize()
 
 	//turnOnEditorMode();
 	//delete text;
+
+	if (!editor_mode) {
+		change_vp();
+		LB::WINDOWSSYSTEM->screenSizeChange.Subscribe(change_vp, 0);
+	}
 }
 
 void Renderer::RenderSystem::turnOnEditorMode() {
@@ -1023,23 +1048,6 @@ void Renderer::RenderSystem::Update()
 {
 	//set the shader program before hand
 	glUseProgram(shader_program);
-
-	float onear = 4.f;
-	float ofar = -6.f;
-	float hvf = (float)LB::WINDOWSSYSTEM->GetHeight();
-	float wvf = (float)LB::WINDOWSSYSTEM->GetWidth();
-	float lvf = 0.f;
-	float rvf = wvf;
-
-	float zoomx = 2.f / rvf;
-	float zoomy = 2.f / hvf;
-
-	cam.ortho = {
-		 zoomx, 0.f, 0.f, 0.f,
-		 0.f, zoomy, 0.f, 0.f,
-		 0.f, 0.f, -2.f / (ofar - onear), 0.f,
-		 -(rvf + lvf) / (rvf - lvf), -1.f, -(ofar + onear) / (ofar - onear), 1.f
-	};
 	/*if (game_cam) 
 	{
 		cam.update_ortho_cam(game_cam->getCam());
@@ -1066,11 +1074,11 @@ void Renderer::RenderSystem::Update()
 	ui_renderer.update_buff();
 
 	glBindVertexArray(bg_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(object_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 	glBindVertexArray(ui_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 
 	//print all messages here
 	text_renderer.update_text();
@@ -1085,9 +1093,9 @@ void Renderer::RenderSystem::Update()
 		glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
 		glBindVertexArray(bg_renderer.get_vao());
-		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 		glBindVertexArray(object_renderer.get_vao());
-		glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_ao_size() * 6), GL_UNSIGNED_SHORT, NULL);
+		glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 		//UI and TEXT don't get rendered in scene view
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
@@ -1300,7 +1308,12 @@ void Renderer::RenderSystem::fcam_zoom(float zoom)
 *************************************************************************/
 void Renderer::RenderSystem::Destroy()
 {
-	if(test2)
+	
+}
+
+Renderer::RenderSystem::~RenderSystem() 
+{
+	if (test2)
 		delete test2;
 
 	if (button)
@@ -1324,6 +1337,7 @@ void Renderer::RenderSystem::Destroy()
 
 	glDeleteProgram(shader_program);
 }
+
 //----------------------------------------------RENDERER-SYSTEM-------------------------------------------
 
 

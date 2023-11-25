@@ -73,9 +73,9 @@ namespace LB
 		this->m_heightUnscaledOG = m_heightUnscaled;
 		this->m_radiusUnscaledOG = m_radiusUnscaled;
 
-		this->m_width = this->m_widthUnscaled * transform->GetScale().x;
-		this->m_height = this->m_heightUnscaled * transform->GetScale().y;
-		this->m_radius = this->m_radiusUnscaled * transform->GetScale().x;
+		this->m_width = this->m_widthUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
+		this->m_height = this->m_heightUnscaled * PHY_MATH::Absolute(transform->GetScale().y);
+		this->m_radius = this->m_radiusUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
 
 		this->m_rotation = this->transform->GetRotation();
 		this->m_vertAmount = 4;
@@ -209,12 +209,12 @@ namespace LB
 	*************************************************************************/
 	void CPCollider::UpdateScaledData()
 	{
-		this->m_width = this->m_widthUnscaled * transform->GetScale().x;
-		this->m_height = this->m_heightUnscaled * transform->GetScale().y;
-		this->m_radius = this->m_radiusUnscaled * transform->GetScale().x;
+		this->m_width = this->m_widthUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
+		this->m_height = this->m_heightUnscaled * PHY_MATH::Absolute(transform->GetScale().y);
+		this->m_radius = this->m_radiusUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
 
-		float old_width = this->m_widthUnscaledOG * transform->GetScale().x;
-		float old_height = this->m_heightUnscaledOG * transform->GetScale().y;
+		float old_width = this->m_widthUnscaledOG * PHY_MATH::Absolute(transform->GetScale().x);
+		float old_height = this->m_heightUnscaledOG * PHY_MATH::Absolute(transform->GetScale().y);
 		//float old_radius = this->m_radiusUnscaledOG * transform->GetScale().x;
 
 		this->m_ratio_width = m_width / old_width;
@@ -364,13 +364,13 @@ namespace LB
 	void CPCollider::SetWidthHeightRadius(float width, float height, float radius)
 	{
 		this->m_widthUnscaled = width;
-		this->m_width = m_widthUnscaled * transform->GetScale().x;
+		this->m_width = m_widthUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
 
 		this->m_heightUnscaled = height;
-		this->m_height = m_heightUnscaled * transform->GetScale().y;
+		this->m_height = m_heightUnscaled * PHY_MATH::Absolute(transform->GetScale().y);
 
 		this->m_radiusUnscaled = radius;
-		this->m_radius = m_radiusUnscaled * transform->GetScale().x;
+		this->m_radius = m_radiusUnscaled * PHY_MATH::Absolute(transform->GetScale().x);
 
 		if (this->m_shape == COL_POLYGON) 
 		{
@@ -445,6 +445,9 @@ namespace LB
 	{
 		DebuggerLog("Serializing Collider");
 		data.SetObject();
+		Value collisionValue(m_collisionlayer.GetName().c_str(), alloc);
+
+		data.AddMember("Layer", collisionValue, alloc);
 		data.AddMember("Shape", m_shape, alloc);
 		data.AddMember("Width", m_widthUnscaled, alloc);
 		data.AddMember("Height", m_heightUnscaled, alloc);
@@ -459,10 +462,16 @@ namespace LB
 	bool CPCollider::Deserialize(const Value& data)
 	{
 		DebuggerLog("Deserializing Collider");
+		bool HasLayer = data.HasMember("Layer");
 		bool HasShape = data.HasMember("Shape");
 		bool HasWidth = data.HasMember("Width");
 		bool HasHeight = data.HasMember("Height");
 		bool HasRadius = data.HasMember("Radius");
+		if (HasLayer)
+		{
+			const Value& layerValue = data["Layer"];
+			m_collisionlayer.GetName() = layerValue.GetString();
+		}
 		if (HasShape && HasWidth && HasHeight && HasRadius)
 		{
 			const Value& shapeValue = data["Shape"];
