@@ -27,7 +27,11 @@
 #include "CPPSBaseGolfBall.h"
 #include "PauseMenuScript.h"
 #include "PauseResumeButton.h"
+#include "PauseHowToPlayButton.h"
+#include "PauseHowToPlayBackButton.h"
 #include "PauseQuitButton.h"
+#include "PauseQuitYesButton.h"
+#include "PauseQuitNoButton.h"
 
 namespace LB
 {
@@ -65,7 +69,11 @@ namespace LB
 			newScript->GetName() == "Projectile" ||
 			newScript->GetName() == "PauseMenuScript" ||
 			newScript->GetName() == "PauseResumeGameScript" ||
-			newScript->GetName() == "PauseQuitGameScript")
+			newScript->GetName() == "PauseHowToPlayScript" ||
+			newScript->GetName() == "PauseHowToPlayBackScript" ||
+			newScript->GetName() == "PauseQuitGameScript" ||
+			newScript->GetName() == "PauseQuitGameYesScript" ||
+			newScript->GetName() == "PauseQuitGameNoScript")
 		{
 			m_sceneScripts.push_back(newScript);
 
@@ -135,8 +143,20 @@ namespace LB
 			else if (script->GetName() == "PauseResumeGameScript") {
 				script->SetInstance(DBG_NEW PauseResumeButton);
 			}
+			else if (script->GetName() == "PauseHowToPlayScript") {
+				script->SetInstance(DBG_NEW PauseMenuHowToPlayButton);
+			}
+			else if (script->GetName() == "PauseHowToPlayBackScript") {
+				script->SetInstance(DBG_NEW PauseMenuHowToPlayBackButton);
+			}
 			else if (script->GetName() == "PauseQuitGameScript") {
 				script->SetInstance(DBG_NEW PauseQuitButton);
+			}
+			else if (script->GetName() == "PauseQuitGameYesScript") {
+				script->SetInstance(DBG_NEW PauseQuitYesButton);
+			}
+			else if (script->GetName() == "PauseQuitGameNoScript") {
+				script->SetInstance(DBG_NEW PauseQuitNoButton);
 			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 	}

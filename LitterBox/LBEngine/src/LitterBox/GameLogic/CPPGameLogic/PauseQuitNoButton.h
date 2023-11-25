@@ -4,7 +4,7 @@
 
 namespace LB
 {
-	class PauseQuitButton : public CPPBehaviour
+	class PauseQuitNoButton : public CPPBehaviour
 	{
 	public:
 		void Start() override;
