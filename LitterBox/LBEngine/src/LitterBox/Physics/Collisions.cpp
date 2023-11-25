@@ -56,6 +56,14 @@ namespace LB
 
 		this->m_pos = transform->GetPosition();
 
+		// Get m_widthUnscaled, m_heightUnscaled and m_radiusUnscaled from render component
+		if (this->m_gameobj->HasComponent<CPRender>())
+		{
+			this->m_widthUnscaled = this->m_gameobj->GetComponent<CPRender>()->w;
+			this->m_radiusUnscaled = this->m_gameobj->GetComponent<CPRender>()->w;
+			this->m_heightUnscaled = this->m_gameobj->GetComponent<CPRender>()->h;
+		}
+
 		if (this->m_widthUnscaled <= 0.f)
 		{
 			this->m_widthUnscaled = 100.f;
@@ -417,21 +425,37 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function returns the name of the layer that the CPCollider is on
+	*************************************************************************/
 	std::string CPCollider::GetLayerName()
 	{
 		return m_collisionlayer.GetName();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function returns the transform component tied to the Game Object
+	*************************************************************************/
 	CPTransform* CPCollider::GetTransform()
 	{
 		return transform;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function returns the rigidbody component tied to the Game Object
+	*************************************************************************/
 	CPRigidBody* CPCollider::GetRigidBody()
 	{
 		return rigidbody;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function returns the game object tied to the collider
+	*************************************************************************/
 	GameObject* CPCollider::GetGameObject()
 	{
 		return gameObj;
