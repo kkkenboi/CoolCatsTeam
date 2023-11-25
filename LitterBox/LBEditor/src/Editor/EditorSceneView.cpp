@@ -29,11 +29,10 @@
 
 #include "Utils/CommandManager.h"
 #include "Commands/TransformCommands.h"
+#include "Commands/GameObjectCommands.h"
 
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
-
-#include <memory>
 
 extern unsigned int svtcb;
 extern Renderer::RenderSystem* Renderer::GRAPHICS;
@@ -182,7 +181,12 @@ namespace LB
 			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
 			{
 				const char* assetPath = (const char*)assetData->Data;
-				ASSETMANAGER->SpawnGameObject(assetPath, m_mousePosInWorld);
+
+				//Spawn GO Command
+				std::shared_ptr<SpawnObjectCommand> spawnCommand = std::make_shared<SpawnObjectCommand>(assetPath, m_mousePosInWorld);
+				COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(spawnCommand));
+
+				// ASSETMANAGER->SpawnGameObject(assetPath, m_mousePosInWorld);
 			}
 		}
 		// If the user has clicked on the scene view, check if they clicked on a GameObject

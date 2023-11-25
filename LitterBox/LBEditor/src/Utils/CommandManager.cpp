@@ -58,7 +58,7 @@ namespace LB
 			AddToHistory(newCommand);
 		}
 
-		undoHistory.clear();
+		ClearRedoHistory();
 	}
 
 	void CommandManager::AddToHistory(std::shared_ptr<ICommand> newCommand)
@@ -106,8 +106,23 @@ namespace LB
 
 	void CommandManager::ClearHistory()
 	{
+		for (auto& command : history) 
+		{
+			command->OnRemove();
+		}
+
 		history.clear();
 		m_savedCommandIndex = 0;
+	}
+
+	void CommandManager::ClearRedoHistory()
+	{
+		for (auto& command : undoHistory)
+		{
+			command->OnRemove();
+		}
+
+		undoHistory.clear();
 	}
 
 	bool CommandManager::UpToDate()
@@ -118,6 +133,16 @@ namespace LB
 	void CommandManager::UpdateCommandsSaved()
 	{
 		m_savedCommandIndex = history.size();
+	}
+
+	std::shared_ptr<ICommand> CommandManager::GetLastCommand()
+	{
+		return history.front();
+	}
+
+	std::deque<std::shared_ptr<ICommand>>& CommandManager::GetRedoHistory()
+	{
+		return undoHistory;
 	}
 
 	void CheckUndo()
