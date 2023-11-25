@@ -144,6 +144,8 @@ namespace LB
         glfwGetFramebufferSize(m_Data.m_PtrToWindow, &fb_width, &fb_height);
         FrameBufferCB(m_Data.m_PtrToWindow, fb_width, fb_height);
 
+        onApplicationUnFocus.Subscribe(exit);
+
         SetSystemName("Windows System");
 	}
 
@@ -208,16 +210,16 @@ namespace LB
                 }
             }
         }
+        else
+        {
+            // If in editor mode, display the FPS in the title bar
+            std::string title{ this->m_Data.m_Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime()) };
 
-   
-        std::string title{ this->m_Data.m_Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime()) };
+            // Set Window Title (Name + FPS)
+            glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
+        }
 
-        // Set Window Title (Name + FPS)
-        glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
-
-        Draw(this->m_Data);
-        
-        onApplicationUnFocus.Subscribe(exit);
+        Draw(this->m_Data);   
     }
 
     /*!***********************************************************************

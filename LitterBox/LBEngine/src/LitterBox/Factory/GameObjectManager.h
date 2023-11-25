@@ -153,12 +153,24 @@ namespace LB
 		*************************************************************************/
 		void SetName(std::string const& newName);
 
+		/*!***********************************************************************
+		 \brief
+		 Returns true if the GameObject is active (enabled)
+		*************************************************************************/
+		bool IsActive();
+
+		/*!***********************************************************************
+		 \brief
+		 Sets the state of the GameObject (active or inactive)
+		*************************************************************************/
+		void SetActive(bool active);
+
 	private:
 		std::string											m_name{ "Game Object" };
 
 		std::unordered_map<ComponentTypeID, IComponent*>	m_Components;
 		int													m_ID;
-		bool												m_IsActive;
+		bool												m_active;
 	};
 
 	/*!***********************************************************************
@@ -198,6 +210,8 @@ namespace LB
 		 Removes a GameObject from the current pool of GameObjects for loaded scene
 		*************************************************************************/
 		void RemoveGameObject(GameObject* gameObject);
+
+		// Add a function that removes a GO from the scene GOs without deleting it
 
 		/*!***********************************************************************
 		 \brief
