@@ -24,8 +24,6 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Width": 100.0,
-                    "Height": 100.0,
                     "Texture": "Main_Menu_M2"
                 }
             },
@@ -43,7 +41,6 @@
                     "Rotation": 14.31
                 },
                 "Collider": {
-                    "Layer": "Default",
                     "Shape": 1,
                     "Width": 380.0,
                     "Height": 80.0,
@@ -67,7 +64,6 @@
                     "Rotation": 14.31
                 },
                 "Collider": {
-                    "Layer": "Default",
                     "Shape": 1,
                     "Width": 250.0,
                     "Height": 60.0,
@@ -91,7 +87,6 @@
                     "Rotation": 14.31
                 },
                 "Collider": {
-                    "Layer": "Default",
                     "Shape": 1,
                     "Width": 250.0,
                     "Height": 50.0,
@@ -115,7 +110,6 @@
                     "Rotation": 14.31
                 },
                 "Collider": {
-                    "Layer": "Default",
                     "Shape": 1,
                     "Width": 150.0,
                     "Height": 100.0,
@@ -139,7 +133,6 @@
                     "Rotation": 14.31
                 },
                 "Collider": {
-                    "Layer": "Default",
                     "Shape": 1,
                     "Width": 250.0,
                     "Height": 60.0,
@@ -163,8 +156,6 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Width": 100.0,
-                    "Height": 100.0,
                     "Texture": "lefthand"
                 }
             }
