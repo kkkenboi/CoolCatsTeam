@@ -35,13 +35,13 @@ namespace LB
 	 \brief
 	 Creates a GameObject
 	*************************************************************************/
-	GameObject::GameObject() : m_Components{}, m_IsActive{ false }, m_ID{} {}
+	GameObject::GameObject() : m_Components{}, m_active{ false }, m_ID{} {}
 
 	/*!***********************************************************************
 	 \brief
 	 Creates a GameObject with an ID
 	*************************************************************************/
-	GameObject::GameObject(int ID) : m_Components{}, m_IsActive{ false }, m_ID{ ID } {}
+	GameObject::GameObject(int ID) : m_Components{}, m_active{ false }, m_ID{ ID } {}
 
 	/*!***********************************************************************
 	 \brief
@@ -342,6 +342,24 @@ namespace LB
 	void GameObject::SetName(std::string const& newName)
 	{
 		m_name = newName;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Returns true if the GameObject is active (enabled)
+	*************************************************************************/
+	bool GameObject::IsActive()
+	{
+		return m_active;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Sets the state of the GameObject (active or inactive)
+	*************************************************************************/
+	void GameObject::SetActive(bool active)
+	{
+		m_active = active;
 	}
 
 	/***************************************************************************************************

@@ -6,10 +6,6 @@
 
 namespace LB
 {
-	float timer{ 0 };
-	bool playDelayed{ false };
-	int channelID{ 0 };
-	bool hasPlayed{ false };
 	void CPAudioSource::Initialise()
 	{
 		if (AudioClipName == "")
@@ -49,7 +45,7 @@ namespace LB
 		}
 		else
 		{
-			hasPlayed = false;
+			if(isPlaying())Stop(); //hasPlayed = false;
 			playDelayed = false;
 			timer = 0;
 		}
@@ -63,6 +59,7 @@ namespace LB
 	void CPAudioSource::Destroy()
 	{
 		DebuggerLogWarning("Destroyed!");
+		if(isPlaying())Stop();
 		AUDIOMANAGER->AudioSources.clear();
 	/*	std::vector<CPAudioSource*>::iterator chosenOne;
 		for (auto iter = std::begin(AUDIOMANAGER->AudioSources); iter != std::end(AUDIOMANAGER->AudioSources); ++iter)
@@ -117,6 +114,8 @@ namespace LB
 		if (AudioClipName != "") 
 		{
 			channelID = AUDIOMANAGER->PlaySound(AudioClipName);
+			SetPitch(pitch);
+			SetVolume(volume);
 		}
 		else DebuggerLogWarningFormat("Unable to find %s !", AudioClipName);
 		hasPlayed = true;

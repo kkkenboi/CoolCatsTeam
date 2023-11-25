@@ -1308,7 +1308,12 @@ void Renderer::RenderSystem::fcam_zoom(float zoom)
 *************************************************************************/
 void Renderer::RenderSystem::Destroy()
 {
-	if(test2)
+	
+}
+
+Renderer::RenderSystem::~RenderSystem() 
+{
+	if (test2)
 		delete test2;
 
 	if (button)
@@ -1332,6 +1337,7 @@ void Renderer::RenderSystem::Destroy()
 
 	glDeleteProgram(shader_program);
 }
+
 //----------------------------------------------RENDERER-SYSTEM-------------------------------------------
 
 

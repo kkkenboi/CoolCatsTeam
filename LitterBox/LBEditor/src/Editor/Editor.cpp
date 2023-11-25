@@ -84,7 +84,7 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorProfiler>("Profiler"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAssets>("Assets"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAnimationEditor>("Animation Editor"));
-		m_ImGuiLayers.AddLayer(std::make_shared<EditorPrefabWindow>("Prefab"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorPrefabWindow>("Prefab Viewer"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorCollisionLayer>("Collision Layers"));
 
 		Initialize();
@@ -228,7 +228,7 @@ namespace LB
 			ImGui::DockBuilderDockWindow("Hierarchy", hierarchyID);
 			ImGui::DockBuilderDockWindow("Inspector", inspectorID);
 			ImGui::DockBuilderDockWindow("Animation Editor", animationID);
-			ImGui::DockBuilderDockWindow("Prefab", prefabID);
+			ImGui::DockBuilderDockWindow("Prefab Viewer", prefabID);
 
 			ImGui::DockBuilderFinish(maindockspaceID);
 		}

@@ -378,6 +378,28 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_DefaultOpen))
 			{
+				float width = m_inspectedGO->GetComponent<CPRender>()->w;
+				float height = m_inspectedGO->GetComponent<CPRender>()->h;
+				ImGui::Text("%-17s Width", "Sprite Size");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				bool widthChanged = ImGui::DragFloat("##SpriteWidth", &width, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::SameLine();
+				ImGui::Text("Height");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				bool heightChanged = ImGui::DragFloat("##SpriteHeight", &height, 1.0f, 0.0f, 0.0f, "%.2f");
+				if (widthChanged || heightChanged)
+				{
+					m_inspectedGO->GetComponent<CPRender>()->w = width;
+					m_inspectedGO->GetComponent<CPRender>()->h = height;
+				}
+				
+			/*	if (widthChanged || heightChanged)
+				{
+					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(m_inspectedGO->GetComponent<CPTransform>(), pos);
+					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
+				}*/
 				// Interface Buttons
 				ImGui::Text("%-19s", "Image");
 				ImGui::SameLine();

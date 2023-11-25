@@ -21,7 +21,9 @@ namespace LB
 	{
 		MOVE,
 		SCALE,
-		ROTATE
+		ROTATE,
+		SPAWNGO,
+		DELETEGO
 	};
 
 	class ICommand

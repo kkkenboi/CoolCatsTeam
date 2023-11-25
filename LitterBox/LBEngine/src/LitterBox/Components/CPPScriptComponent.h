@@ -59,8 +59,8 @@ namespace LB
 		*************************************************************************/
 		void Update() override
 		{
-			if (!m_instance) return;
-			m_instance->Update();
+			if (m_instance)
+				m_instance->Update();
 		}
 
 		/*!***********************************************************************

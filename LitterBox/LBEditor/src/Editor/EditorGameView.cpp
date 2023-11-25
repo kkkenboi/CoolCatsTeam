@@ -65,7 +65,11 @@ namespace LB
 		if ((ImGui::GetItemRectMax().y == ImGui::GetItemRectMin().y))
 			m_MousePos.y = 0.0f;
 		else
-			m_MousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+			m_MousePos.y = ((ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+			//m_MousePos.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
+
+		// Overwrite Input's mousePosition to be mapped to GameView
+		INPUT->OverwriteMousePos(m_MousePos);
 
 		ImGui::EndChild();
 
