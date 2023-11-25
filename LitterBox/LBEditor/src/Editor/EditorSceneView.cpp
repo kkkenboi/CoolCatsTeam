@@ -29,11 +29,10 @@
 
 #include "Utils/CommandManager.h"
 #include "Commands/TransformCommands.h"
+#include "Commands/GameObjectCommands.h"
 
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
-
-#include <memory>
 
 extern unsigned int svtcb;
 extern Renderer::RenderSystem* Renderer::GRAPHICS;
@@ -171,37 +170,30 @@ namespace LB
 		if(warning_remover != static_cast<unsigned int>(-1))
 			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(Renderer::GRAPHICS->get_scene_view())), m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
+		m_mousePosInWorld.x = (((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().x;
+		m_mousePosInWorld.y = ((1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().y;
+
+		//std::cout << "Mouse Position X: " << m_mousePosInWorld.x << "Y: " << m_mousePosInWorld.y << std::endl;
+
 		// If a prefab json file has been dropped onto the scene view
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* assetData = ImGui::AcceptDragDropPayload("PREFAB"))
 			{
-				m_mousePosInWorld.x = (((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().x;
-				m_mousePosInWorld.y = ((1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().y;
-
 				const char* assetPath = (const char*)assetData->Data;
-				ASSETMANAGER->SpawnGameObject(assetPath, m_mousePosInWorld);
+
+				//Spawn GO Command
+				std::shared_ptr<SpawnObjectCommand> spawnCommand = std::make_shared<SpawnObjectCommand>(assetPath, m_mousePosInWorld);
+				COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(spawnCommand));
+
+				// ASSETMANAGER->SpawnGameObject(assetPath, m_mousePosInWorld);
 			}
 		}
-
 		// If the user has clicked on the scene view, check if they clicked on a GameObject
 		if (ImGui::IsItemClicked() && !ImGuizmo::IsOver())
 		{
-			m_mousePosInWorld.x = (((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().x;
-			m_mousePosInWorld.y = ((1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().y;
-
 			SetObjectPicked(CheckMousePosGameObj(m_mousePosInWorld));
 		}
-		// If the user is dragging the mouse while a GameObject is selected, have the GameObject follow the cursor
-		//if (ImGui::IsItemHovered() && ImGui::IsMouseDragging(0) && EDITORINSPECTOR->IsGOInspected() && !ImGuizmo::IsOver())
-		//{
-		//	m_mousePosInWorld.x = ((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth();
-		//	m_mousePosInWorld.y = (1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight();
-
-		//	EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(m_mousePosInWorld);
-		//}
-		// Set the different ImGuizmo operation modes here
-
 		// ----------------------------------------------
 		if (EDITORINSPECTOR->GetInspectedGO() && !EDITORINSPECTOR->isPrefab) // TODO: Less magic prefab editting implementation bools
 		{

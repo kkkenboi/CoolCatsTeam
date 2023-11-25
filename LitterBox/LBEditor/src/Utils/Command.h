@@ -36,5 +36,7 @@ namespace LB
 		virtual bool Merge(std::shared_ptr<ICommand> incomingCommand) = 0;
 
 		virtual CommandType GetType() = 0;
+
+		virtual void OnRemove() = 0;
 	};
 }

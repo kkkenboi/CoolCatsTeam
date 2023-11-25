@@ -90,6 +90,12 @@ namespace LB
         *************************************************************************/
         void UpdateClickedItem(CPTransform* newClickedItem);
 
+        /*!***********************************************************************
+          \brief
+          Deletes the clicked GameObject
+        *************************************************************************/
+        void DeleteSelectedObject();
+
         Event<GameObject*> onNewObjectSelected;
 
     private:
@@ -106,6 +112,12 @@ namespace LB
       Nothing.
     *************************************************************************/
     void UpdateSceneLoaded(Scene* loadedScene);
+
+    /*!***********************************************************************
+      \brief
+      Deletes the clicked GameObject
+    *************************************************************************/
+    void DeleteSelectedObject();
 
     extern EditorHierarchy* EDITORHIERACHY;
 }

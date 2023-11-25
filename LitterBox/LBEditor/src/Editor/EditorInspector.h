@@ -221,8 +221,6 @@ namespace LB
     *************************************************************************/
     void DeselectObject(Scene* newScene);
 
-    void DeleteSelectedObject();
-
     extern EditorInspector* EDITORINSPECTOR;
 }
 

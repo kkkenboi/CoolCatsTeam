@@ -289,6 +289,8 @@ namespace LB
 
 		Vec2<float> PosToSpawn{ CurEnemyPos.x + offset, CurEnemyPos.y + offset };
 		//ASSETMANAGER->SpawnGameObject("Projectile", PosToSpawn);
+		int Channel = AUDIOMANAGER->PlaySound("Fire, Whoosh, Flame, Fireball, Fast x4 SND11948 1");
+		AUDIOMANAGER->SetChannelVolume(Channel, 0.3f);
 
 		//Spawn Game Object
 		GameObject* mageProjectileObject = FACTORY->SpawnGameObject();

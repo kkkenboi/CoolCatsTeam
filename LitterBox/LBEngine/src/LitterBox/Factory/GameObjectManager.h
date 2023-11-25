@@ -208,10 +208,23 @@ namespace LB
 		/*!***********************************************************************
 		 \brief
 		 Removes a GameObject from the current pool of GameObjects for loaded scene
+		 and deletes it
 		*************************************************************************/
 		void RemoveGameObject(GameObject* gameObject);
 
-		// Add a function that removes a GO from the scene GOs without deleting it
+		/*!***********************************************************************
+		 \brief
+		 Removes a GameObject from the current pool of GameObjects for loaded scene
+		 WITHOUT deleting it
+		*************************************************************************/
+		void DetachGameObject(GameObject* gameObject);
+
+		/*!***********************************************************************
+		 \brief
+		 Is the GameObject pointer given currently in the pool of GameObjects for
+		 this scene?
+		*************************************************************************/
+		bool IsGameObjectInScene(GameObject* gameObject);
 
 		/*!***********************************************************************
 		 \brief
