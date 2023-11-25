@@ -1,3 +1,18 @@
+/*!************************************************************************
+ \file                EditorCollisionLayer.cpp
+ \author(s)           Justine Carlo Villa Ilao
+ \par DP email(s):    justine.c@digipen.edu
+ \par Course:         CSD2401A
+ \date                25-11-2023
+ \brief
+ This file contains the class EditorCollisionLayer which handles
+ the ImGui display of the CollisionLayerSystem of the game
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "pch.h"
 #include "EditorCollisionLayer.h"
 #include "LitterBox/Physics/ColliderManager.h"
@@ -8,6 +23,11 @@ namespace LB
 
 	static float const DropDownWidth = 150.f;
 
+	/*!***********************************************************************
+	  \brief
+	  This constructor initialises the pointer to the Singleton class of the
+	  EditorCollisionLayer
+	*************************************************************************/
 	EditorCollisionLayer::EditorCollisionLayer(std::string layerName) : Layer(layerName)
 	{
 		if (!COLLISIONLAYER)
@@ -20,6 +40,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function initializes the EditorCollisionLayer
+	*************************************************************************/
 	void EditorCollisionLayer::Initialize()
 	{
 
@@ -28,6 +52,13 @@ namespace LB
 	size_t currentItem{ 0 };
 	char LayerNameNew[64] = "New Layer Name";
 
+	/*!***********************************************************************
+	  \brief
+	  This function updates the ImGui window to contain the elements of
+	  the CollisionLayerSystem, allowing you to display the current layer
+	  and what it can collide with as well as editing the amount of layers
+	  currently being used within the game scene
+	*************************************************************************/
 	void EditorCollisionLayer::UpdateLayer()
 	{
 		if (ImGui::Begin(GetName().c_str()))
@@ -77,6 +108,10 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  This function is called when EditorCollisionLayer is destroyed
+	*************************************************************************/
 	void EditorCollisionLayer::Destroy()
 	{
 
