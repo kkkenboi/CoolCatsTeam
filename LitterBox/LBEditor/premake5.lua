@@ -38,7 +38,6 @@ project "LBEditor"
     {
         "xcopy \"%{wks.location}LBEditor\\Assets\" \"$(TargetDir)Assets\" /Y /I /E",
         "xcopy \"%{wks.location}LBEditor\\Editor\" \"$(TargetDir)Editor\" /Y /I /E",
-        "xcopy \"%{wks.location}LBEditor\\Logs\" \"$(TargetDir)Logs\" /Y /I /E",
         "xcopy \"%{wks.location}LBEditor\\imgui.ini\" \"$(TargetDir)\" /Y /I /E",
         "xcopy \"%{wks.location}LBEditor\\CSharpAssembly.dll\" \"$(TargetDir)\" /Y /I /E",
 
