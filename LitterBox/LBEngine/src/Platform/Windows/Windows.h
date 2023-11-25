@@ -35,6 +35,7 @@ namespace LB
 	struct WindowsData
 	{
 		std::string		m_Title{};
+		std::string		m_GameTitle{};
 		unsigned int	m_Width{}, m_Height{};
 		double			m_PosX{}, m_PosY{};
 		bool			m_FullscreenMode{ true };
@@ -47,10 +48,10 @@ namespace LB
 		 \brief
 		 Constructor for WindowsData
 		*************************************************************************/
-		WindowsData(const std::string& title = "LitterBox Engine",
+		WindowsData(const std::string& title = "LitterBox Engine", const std::string& gameTitle = "Purrfect Putt",
 			unsigned int width = 900,
 			unsigned int height = 900)
-			: m_Title(title), m_Width(width), m_Height(height), m_PtrToWindow{ nullptr }
+			: m_Title(title), m_GameTitle(gameTitle), m_Width(width), m_Height(height), m_PtrToWindow{ nullptr }
 		{
 		}
 
