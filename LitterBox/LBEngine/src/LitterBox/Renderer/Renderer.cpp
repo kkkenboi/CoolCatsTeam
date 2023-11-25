@@ -927,6 +927,12 @@ LB::CPText* text;
 LB::CPText* text2;
 textbutt* button;
 
+/*!***********************************************************************
+\brief
+ REsponsible for updating the opengl viewport. Meant to subscribe to an
+ event that is invoked everytime the window changes size. (Goes from fullscreen,
+ to windowed mode)
+*************************************************************************/
 void change_vp() {
 
 	float height{ 9.f / 16.f };
