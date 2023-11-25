@@ -25,7 +25,7 @@ namespace LB
 		CPCollider* coll{ nullptr };
 		/*!***********************************************************************
 		\brief
-		 State function gets the collider component of the game object
+		 Start function gets the collider component of the game object
 
 		 NOTE: The game object MUST HAVE the collider component, behaviour if not
 		 is undefined

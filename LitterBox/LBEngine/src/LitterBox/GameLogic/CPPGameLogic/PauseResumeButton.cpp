@@ -33,7 +33,7 @@ namespace LB
 	{
 		if (TIME->IsPaused())
 		{
-				Vec2<float> mouse_pos = INPUT->GetMousePos();
+			Vec2<float> mouse_pos = INPUT->GetMousePos();
 			if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
 			{
 				Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();

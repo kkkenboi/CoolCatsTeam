@@ -19,6 +19,8 @@
 #include "mono/metadata/image.h"
 #include "mono/jit/jit.h"
 
+#include <filesystem>
+
 namespace LB
 {
 	GameLogic* GAMELOGIC = nullptr;
@@ -37,7 +39,19 @@ namespace LB
 
 		SetSystemName("Game Logic System");
 
-		mono_set_assemblies_path("Editor;Library"); // Find the mscorlib.dll in the ./Editor/mono/4.5 sub folder
+		// Find the mscorlib.dll in the ./Editor/mono/4.5 sub folder
+		if (std::filesystem::exists("Library")) 
+		{
+			mono_set_assemblies_path("Library"); 
+		}
+		else if (std::filesystem::exists("Editor"))
+		{
+			mono_set_assemblies_path("Editor");
+		}
+		else
+		{
+			DebuggerLogError("[Mono] Mono assemblies could not be found!");
+		}
 
 		m_domain = mono_jit_init("LitterBoxEngine");
 		DebuggerAssert(m_domain, "[Mono] LitterBoxEngine domain could not be created!");

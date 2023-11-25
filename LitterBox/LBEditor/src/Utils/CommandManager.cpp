@@ -16,6 +16,7 @@
 #include "LitterBox/Scene/SceneManager.h"
 #include "LitterBox/Engine/Input.h"
 #include "CommandManager.h"
+#include "LitterBox/Core/Core.h"
 
 namespace LB
 {
@@ -77,6 +78,13 @@ namespace LB
 
 	void CommandManager::Undo()
 	{
+		// Commands only for editor mode
+		if (CORE->IsPlaying())
+		{
+			DebuggerLogWarning("Commands enabled for Editor mode only!");
+			return;
+		}
+		
 		if (history.empty()) return;
 
 		// Execute the undo of the command
@@ -89,6 +97,13 @@ namespace LB
 
 	void CommandManager::Redo()
 	{
+		// Commands only for editor mode
+		if (CORE->IsPlaying())
+		{
+			DebuggerLogWarning("Commands enabled for Editor mode only!");
+			return;
+		}
+
 		if (undoHistory.empty()) return;
 
 		// Execute the command again

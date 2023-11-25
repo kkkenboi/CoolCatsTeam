@@ -19,6 +19,7 @@
 
 #include <sstream>								// For formatting the message string
 #include <fstream>								// For file writing
+#include <filesystem>							// For folder path
 
 #include <csignal>								// For getting crash signals
 #include "spdlog/spdlog.h"						// For logging information to files
@@ -54,6 +55,8 @@ namespace LB
 		// Dump the crash log on...
 		signal(SIGSEGV, FlushCrashLog); // Segmentation fault
 		signal(SIGABRT, FlushCrashLog); // Application terminate / abort
+
+		InitializeLoggers();
 	}
 
 	/*!***********************************************************************
@@ -91,14 +94,18 @@ namespace LB
 	\brief
 	 Sets up the file loggers (Debug & Crash)
 	*************************************************************************/
-	void InitializeLoggers()
+	void Debugger::InitializeLoggers()
 	{
+		std::filesystem::path logFilePath{ getenv("APPDATA") };
+		m_debugLogLocation = (logFilePath / "PurrfectPutt" / "Logs" / "DebugLog.txt").string();
+		m_crashLogLocation = (logFilePath / "PurrfectPutt" / "Logs" / "CrashLog.txt").string();
+
 		//--------------------Loggers Setup---------------------
-		debugInfoLogger = spdlog::basic_logger_mt("DEBUG LOGGER", "Logs/DebugLog.txt");
+		debugInfoLogger = spdlog::basic_logger_mt("DEBUG LOGGER", m_debugLogLocation);
 		debugInfoLogger->set_pattern("[%L] %v");
 		debugInfoLogger->set_level(spdlog::level::debug);
 
-		crashInfoLogger = spdlog::basic_logger_mt("CRASH LOGGER", "Logs/CrashLog.txt");
+		crashInfoLogger = spdlog::basic_logger_mt("CRASH LOGGER", m_crashLogLocation);
 		crashInfoLogger->set_pattern("%v");
 		crashInfoLogger->set_level(spdlog::level::err);
 
@@ -107,7 +114,7 @@ namespace LB
 		consoleLogger->set_level(spdlog::level::debug);
 
 		// Clear the debug log for logging
-		std::ofstream logFile("Logs/DebugLog.txt", std::ios::trunc);
+		std::ofstream logFile(m_debugLogLocation, std::ios::trunc);
 		logFile.close();
 	}
 
@@ -131,7 +138,7 @@ namespace LB
 		FlushDebugLog();
 
 		// Clear the old crash log
-		std::ofstream logFile("Logs/CrashLog.txt", std::ios::trunc);
+		std::ofstream logFile(DEBUG->m_crashLogLocation, std::ios::trunc);
 		logFile.close();
 
 		crashInfoLogger->error("[{}] Unexpected application crash! Signal: {}", DEBUG->GetCurrentTimeStamp(), signal);

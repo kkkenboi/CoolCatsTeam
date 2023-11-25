@@ -167,6 +167,12 @@ namespace LB
 		void Initialize() override;
 
 		/*!***********************************************************************
+		 \brief
+		 Sets up the file loggers (Debug & Crash)
+		*************************************************************************/
+		void InitializeLoggers();
+
+		/*!***********************************************************************
 		\brief
 		 Decides whether the debug information should draw depending on whether
 		 debug mode is on
@@ -235,6 +241,8 @@ namespace LB
 		// Broadcast any of the following logs
 		Event<std::string const&> onDebugLog, onDebugWarning, onDebugError, onDebugAssert;
 
+		std::string m_debugLogLocation, m_crashLogLocation; // The folder to place the log files in
+
 	private:
 		bool m_debugModeOn { false };
 		KeyCode m_debugToggleKey, m_stepPhysicsKey;
@@ -243,13 +251,6 @@ namespace LB
 	};
 
 	//----------------------Funcs for event subscription--------------------------
-
-	/*!***********************************************************************
-	\brief
-	 Sets up the file loggers (Debug & Crash)
-	*************************************************************************/
-	void InitializeLoggers();
-
 	/*!***********************************************************************
 	\brief
 	 Prints the information stored in the debug log logger
