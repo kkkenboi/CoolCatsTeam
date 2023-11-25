@@ -119,7 +119,7 @@ namespace LB
         * Usage : SpawnGameObject("joe") where joe is the name of the prefab.
         * 
         **************************************************************************/  
-        void SpawnGameObject(std::string fileName, Vec2<float> pos = {0,0});
+        GameObject* SpawnGameObject(std::string fileName, Vec2<float> pos = {0,0});
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                      TEXTURE STUFF
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

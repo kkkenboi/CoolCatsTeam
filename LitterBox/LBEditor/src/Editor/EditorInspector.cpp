@@ -27,6 +27,8 @@
 
 #include "Utils/CommandManager.h"
 #include "Commands/TransformCommands.h"
+#include "Commands/GameObjectCommands.h"
+
 #include "LitterBox/Serialization/FileSystemManager.h"
 
 namespace LB
@@ -58,7 +60,6 @@ namespace LB
 		EDITORHIERACHY->onNewObjectSelected.Subscribe(LB::UpdateInspectedGO);
 		CORE->onPlayingModeToggle.Subscribe(LB::DeselectObject);
 		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::DeselectObject);
-		INPUT->SubscribeToKey(DeleteSelectedObject, KeyCode::KEY_DELETE, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Set default snap values
 		m_SnapTranslate[0] = 10.f, m_SnapTranslate[1] = 10.f;
@@ -930,14 +931,6 @@ namespace LB
 	{
 		UNREFERENCED_PARAMETER(newScene);
 		EDITORINSPECTOR->UpdateInspectedGO(nullptr);
-	}
-
-	void DeleteSelectedObject()
-	{
-		if (!EDITORINSPECTOR->IsGOInspected()) return;
-
-		GOMANAGER->RemoveGameObject(EDITORINSPECTOR->GetInspectedGO());
-		EDITORHIERACHY->onNewObjectSelected.Invoke(nullptr);
 	}
 
 	/*!***********************************************************************

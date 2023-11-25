@@ -17,6 +17,10 @@
 #include "pch.h"
 #include "EditorHierarchy.h"
 
+#include "EditorInspector.h"
+#include "Utils/CommandManager.h"
+#include "Commands/GameObjectCommands.h"
+
 namespace LB
 {
 	EditorHierarchy* EDITORHIERACHY = nullptr;
@@ -45,6 +49,8 @@ namespace LB
 	{
 		// Update scenes after startup through events
 		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::UpdateSceneLoaded);
+		
+		INPUT->SubscribeToKey(LB::DeleteSelectedObject, KeyCode::KEY_DELETE, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// But first after startup, load the active scene
 		UpdateSceneLoaded(SCENEMANAGER->GetCurrentScene());
@@ -68,18 +74,21 @@ namespace LB
 
 		if (ImGui::Button("Create Game Object"))
 		{
-			GameObject* newGO = FACTORY->SpawnGameObject();
+			//Spawn GO Command
+			std::shared_ptr<SpawnObjectCommand> spawnCommand = std::make_shared<SpawnObjectCommand>();
+			COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(spawnCommand));
 
-			newGO->GetComponent<CPTransform>()->SetParent(m_loadedScene->GetRoot());
-			m_loadedScene->GetRoot()->AddChild(newGO->GetComponent<CPTransform>());
+			// GameObject* newGO = FACTORY->SpawnGameObject();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Delete Selected"))
 		{
 			if (m_clickedItem)
 			{
-				GOMANAGER->RemoveGameObject(m_clickedItem->gameObj);
-				m_clickedItem = nullptr;
+				// Remove GO command
+				std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
+				COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
+
 				onNewObjectSelected.Invoke(nullptr);
 			}
 		}
@@ -222,5 +231,30 @@ namespace LB
 	void UpdateSceneLoaded(Scene* loadedScene)
 	{
 		EDITORHIERACHY->UpdateSceneLoaded(loadedScene);
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Deletes the clicked GameObject
+	*************************************************************************/
+	void EditorHierarchy::DeleteSelectedObject()
+	{
+		m_clickedItem = nullptr;
+
+		if (!EDITORINSPECTOR->IsGOInspected()) return;
+
+		std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
+		COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
+
+		onNewObjectSelected.Invoke(nullptr);
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Deletes the clicked GameObject
+	*************************************************************************/
+	void DeleteSelectedObject()
+	{
+		EDITORHIERACHY->DeleteSelectedObject();
 	}
 }
