@@ -611,32 +611,6 @@
                 "CPPScript": {
                     "Script": "PauseQuitGameNoScript"
                 }
-            },
-            {
-                "Name": "Test1",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Width": 200.0,
-                    "Height": 200.0,
-                    "Texture": "Mage_Asset"
-                },
-                "Collider": {
-                    "Layer": "Default",
-                    "Shape": 1,
-                    "Width": 200.0,
-                    "Height": 200.0,
-                    "Radius": 50.0
-                }
             }
         ]
     }
