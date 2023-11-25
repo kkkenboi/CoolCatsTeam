@@ -200,6 +200,11 @@ namespace LB
 
         if (!CORE->IsEditorMode())
         {
+            std::string title{this->m_Data.m_GameTitle};
+
+            // Set Window Title (Name + FPS)
+            glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
+
             if (INPUT->IsKeyTriggered(KeyCode::KEY_L))
             {
                 m_Data.m_FullscreenMode = !m_Data.m_FullscreenMode;
