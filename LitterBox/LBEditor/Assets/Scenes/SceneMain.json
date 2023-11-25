@@ -135,8 +135,8 @@
                 },
                 "AudioSource": {
                     "AudioClipName": "Clown-Horn_SFX",
-                    "Play On Awake": true,
-                    "Loop": true,
+                    "Play On Awake": false,
+                    "Loop": false,
                     "Volume": 1.0,
                     "Pitch": 1.0
                 }
@@ -500,6 +500,116 @@
                 },
                 "CPPScript": {
                     "Script": "PauseQuitGameScript"
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayTextureObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.1,
+                        "y": 9.18
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "HowToPlay"
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayPreviousMenuButton",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": -8.8
+                },
+                "Collider": {
+                    "Layer": "Default",
+                    "Shape": 1,
+                    "Width": 218.0,
+                    "Height": 165.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseHowToPlayBackScript"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmTexture",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.2,
+                        "y": 9.1
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "QuitMenu"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmYesObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Layer": "Default",
+                    "Shape": 1,
+                    "Width": 212.0,
+                    "Height": 84.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseQuitGameYesScript"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmNoObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Layer": "Default",
+                    "Shape": 1,
+                    "Width": 206.0,
+                    "Height": 91.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseQuitGameNoScript"
                 }
             }
         ]
