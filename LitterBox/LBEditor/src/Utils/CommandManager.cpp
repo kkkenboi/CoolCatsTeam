@@ -38,7 +38,7 @@ namespace LB
 
 		// Scene events
 		SCENEMANAGER->onSceneSaved.Subscribe(LB::UpdateCommandsSaved);
-		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::ClearHistory);
+		CORE->onPlayingModeToggle.Subscribe(LB::ClearHistory, 10);
 	}
 
 	void CommandManager::AddCommand(std::shared_ptr<ICommand> newCommand)
@@ -181,9 +181,9 @@ namespace LB
 		COMMAND->UpdateCommandsSaved();
 	}
 
-	void ClearHistory(Scene* newScene)
+	void ClearHistory(bool isPlaying)
 	{
-		UNREFERENCED_PARAMETER(newScene);
-		COMMAND->ClearHistory();
+		if (isPlaying)
+			COMMAND->ClearHistory();
 	}
 }
