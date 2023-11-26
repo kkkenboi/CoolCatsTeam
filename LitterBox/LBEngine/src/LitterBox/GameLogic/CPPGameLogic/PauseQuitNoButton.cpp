@@ -20,6 +20,10 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	 Initializes the GameObjects needed for the script
+	*************************************************************************/
 	void PauseQuitNoButton::Start()
 	{
 
@@ -70,6 +74,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Allows for button press and movement of other game objects into view
+	*************************************************************************/
 	void PauseQuitNoButton::Update() 
 	{
 		Vec2<float> mouse_pos = INPUT->GetMousePos();
@@ -107,6 +115,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Override destroy function
+	*************************************************************************/
 	void PauseQuitNoButton::Destroy()
 	{
 	

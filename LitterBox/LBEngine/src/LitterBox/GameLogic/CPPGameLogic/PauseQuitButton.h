@@ -21,10 +21,26 @@ namespace LB
 	class PauseQuitButton : public CPPBehaviour
 	{
 	public:
+		/*!***********************************************************************
+		\brief
+		 Initializes the GameObjects needed for the script
+		*************************************************************************/
 		void Start() override;
+		/*!***********************************************************************
+		\brief
+		 Allows for button press and movement of other game objects into view
+		*************************************************************************/
 		void Update() override;
+		/*!***********************************************************************
+		\brief
+		 Override destroy function
+		*************************************************************************/
 		void Destroy() override;
 
+		/*!***********************************************************************
+		\brief
+		 Returns the collider of the current game object
+		*************************************************************************/
 		CPCollider* GetCollider();
 	private:
 		CPCollider* mCollider;

@@ -20,6 +20,10 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	 Initializes the GameObjects needed for the script
+	*************************************************************************/
 	void PauseResumeButton::Start()
 	{
 		for (GameObject* GO : GOMANAGER->GetGameObjects())
@@ -43,6 +47,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Allows for button press and movement of other game objects into view
+	*************************************************************************/
 	void PauseResumeButton::Update()
 	{
 		if (TIME->IsPaused())
@@ -83,6 +91,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Override destroy function
+	*************************************************************************/
 	void PauseResumeButton::Destroy()
 	{
 
