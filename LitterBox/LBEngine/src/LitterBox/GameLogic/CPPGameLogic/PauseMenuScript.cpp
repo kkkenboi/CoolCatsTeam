@@ -1,11 +1,32 @@
+/*!************************************************************************
+ \file				PauseMenuScript.cpp
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:		CSD2401A
+ \date				26-11-2023
+ \brief
+ This file contains the functionality of the PauseMenuScript
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "LitterBox/Factory/GameObjectFactory.h"
+#include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Time.h"
 #include "PauseMenuScript.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Physics/ColliderManager.h"
+#include "LitterBox/Scene/SceneManager.h"
 
 namespace LB
 {
+
+	/*!***********************************************************************
+	\brief
+	 Initializes the GameObjects needed for the script
+	*************************************************************************/
 	void PauseMenuScript::Start()
 	{
 		//mIsPaused = TIME->IsPaused();
@@ -14,73 +35,261 @@ namespace LB
 		// Grab All The GOs associated with the Pause Menu
 		for (GameObject* GO : GOMANAGER->GetGameObjects())
 		{
+			// Pause Menu GOs
 			if (GO->GetName() == "PauseMenuTextureObject")
 			{
-				MenuTextureObject = GO;
+				MenuTexture = GO;
 			}
 			if (GO->GetName() == "PauseMenuResumeObject")
 			{
-				ResumeButtonObject = GO;
+				ResumeButton = GO;
 			}
 			if (GO->GetName() == "PauseMenuHowToPlayObject")
 			{
-				HowToPlayButtonObject = GO;
+				HowToPlayButton = GO;
 			}
 			if (GO->GetName() == "PauseMenuQuitObject")
 			{
-				QuitButtonObject = GO;
+				QuitButton = GO;
+			}
+
+			// How To Play GOs
+			if (GO->GetName() == "PauseMenuHowToPlayTextureObject")
+			{
+				HowToPlayTexture = GO;
+			}
+			if (GO->GetName() == "PauseMenuHowToPlayPreviousMenuButton")
+			{
+				HowToPlayBackButton = GO;
+			}
+
+			// Quit GOs
+						// Confirm Menu
+			if (GO->GetName() == "PauseMenuQuitConfirmTexture")
+			{
+				QuitTexture = GO;
+			}
+			if (GO->GetName() == "PauseMenuQuitConfirmYesObject")
+			{
+				QuitYesButton = GO;
+			}
+			if (GO->GetName() == "PauseMenuQuitConfirmNoObject")
+			{
+				QuitNoButton = GO;
 			}
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Allows for button press and movement of other game objects into view
+	*************************************************************************/
 	void PauseMenuScript::Update()
 	{
 		//DEBUG->DrawCircle(INPUT->GetMousePos(), 1.f, Vec4<float>(0.f, 0.f, 1.0f, 1.0f));
 		if (!TIME->IsPaused())
 		{
-			if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
-			{
-				
-				TIME->Pause(true);
-				// Move all the GOs to the Front of the Screen
+			if (MenuTexture) {
+				if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
+				{
 
-				MenuTextureObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
-				MenuTextureObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.67f, 11.50f});
+					TIME->Pause(true);
+					// Move all the GOs to the Front of the Screen
 
-				ResumeButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.66f, 585.23f});
-				ResumeButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(334.f, 78.f, 50.f);
+					MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
+					MenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.67f, 11.50f});
 
-				HowToPlayButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 487.13f});
-				HowToPlayButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(332.f, 74.f, 50.f);
+					ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.66f, 585.23f});
+					ResumeButton->GetComponent<CPCollider>()->SetWidthHeightRadius(334.f, 78.f, 50.f);
 
-				QuitButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.22f, 310.78f});
-				QuitButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(317.f, 77.f, 50.f);
+					HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 487.13f});
+					HowToPlayButton->GetComponent<CPCollider>()->SetWidthHeightRadius(332.f, 74.f, 50.f);
 
+					QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.22f, 310.78f});
+					QuitButton->GetComponent<CPCollider>()->SetWidthHeightRadius(317.f, 77.f, 50.f);
+
+				}
 			}
 		}
 
 		else
 		{
-			if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
+			if (OnPauseMenu)
 			{
-				TIME->Pause(false);
-				
-				MenuTextureObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
-				//MenuTextureObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
+				if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
+				{
+					TIME->Pause(false);
 
-				ResumeButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
-				//ResumeButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
-				
-				HowToPlayButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
-				//HowToPlayButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
-				
-				QuitButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
-				//QuitButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+					MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					//MenuTextureObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
 
+					ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					//ResumeButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+
+					HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					//HowToPlayButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+
+					QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					//QuitButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+
+				}
 			}
 		}
+
+		Vec2<float> mouse_pos = INPUT->GetMousePos();
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
+		{
+			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
+
+			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+
+			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
+
+			// Loop through the colliders found on mouse click
+			for (size_t i = 0; i < vec_colliders.size(); ++i)
+			{
+				// ResumeButton
+				if (ResumeButton)
+				{
+					if (vec_colliders[i] == ResumeButton->GetComponent<CPCollider>())
+					{
+						TIME->Pause(false);
+
+						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						MenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
+
+						ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						ResumeButton->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+
+						HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						HowToPlayButton->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+
+						QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						QuitButton->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+					}
+				}
+
+				// HowToPlay Button
+				if (HowToPlayButton)
+				{
+					if (vec_colliders[i] == HowToPlayButton->GetComponent<CPCollider>())
+					{
+						OnPauseMenu = false;
+
+						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+						// Move all the How To Play Objects into scene
+						HowToPlayTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{948.88f, 545.65f});
+						HowToPlayTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.80f, 10.90f});
+
+						HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{161.75f, 72.12f});
+						HowToPlayBackButton->GetComponent<CPCollider>()->SetWidthHeightRadius(265.f, 222.f, 50.f);
+
+					}
+				}
+
+				// HowToPlay Back Button
+				if (HowToPlayBackButton)
+				{
+					if (vec_colliders[i] == HowToPlayBackButton->GetComponent<CPCollider>())
+					{
+						OnPauseMenu = true;
+
+						if (MenuTexture) {
+							// If we found the block
+							// Move all the Pause Menu Objects away
+							// ==
+							MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
+							MenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.67f, 11.50f});
+
+							ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.66f, 585.23f});
+							ResumeButton->GetComponent<CPCollider>()->SetWidthHeightRadius(334.f, 78.f, 50.f);
+
+							HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 487.13f});
+							HowToPlayButton->GetComponent<CPCollider>()->SetWidthHeightRadius(332.f, 74.f, 50.f);
+
+							QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.22f, 310.78f});
+							QuitButton->GetComponent<CPCollider>()->SetWidthHeightRadius(317.f, 77.f, 50.f);
+
+							// Move all the How To Play Objects into scene
+							HowToPlayTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+							HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						}
+						else {
+							SCENEMANAGER->LoadScene("SceneMainMenu");
+						}
+					}
+				}
+
+				// Quit Button
+				if (QuitButton)
+				{
+					if (vec_colliders[i] == QuitButton->GetComponent<CPCollider>())
+					{
+						OnPauseMenu = false;
+
+						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+
+						QuitTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f});
+						QuitTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.20f, 11.10f});
+						QuitYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{715.f, 420.f});
+						QuitYesButton->GetComponent<CPCollider>()->SetWidthHeightRadius(252.f, 98.f, 50.f);
+						QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{1195.44f, 420.f});
+						QuitNoButton->GetComponent<CPCollider>()->SetWidthHeightRadius(256.f, 91.f, 50.f);
+					}
+				}
+
+				// QuitYes Button
+				if (QuitYesButton)
+				{
+					if (vec_colliders[i] == QuitYesButton->GetComponent<CPCollider>())
+					{
+						MessageQuit q;
+						CORE->BroadcastMessage(&q);
+					}
+				}
+
+				// QuitNoButton
+				if (QuitNoButton)
+				{
+					if (vec_colliders[i] == QuitNoButton->GetComponent<CPCollider>())
+					{
+						OnPauseMenu = true;
+
+						if (MenuTexture)
+							MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
+						if (ResumeButton)
+							ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.66f, 585.23f});
+						if (HowToPlayButton)
+							HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 487.13f});
+						if (QuitButton)
+							QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.22f, 310.78f});
+
+
+						QuitTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						QuitYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					}
+}
+			}
+		}
+
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Override destroy function
+	*************************************************************************/
 	void PauseMenuScript::Destroy()
 	{
 
