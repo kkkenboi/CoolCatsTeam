@@ -157,6 +157,9 @@ namespace LB {
 				else if (GameObj->GetName() == "StartGame") {
 					SCENEMANAGER->LoadScene("SceneMain");
 				}
+				else if (GameObj->GetName() == "Settings") {
+					WINDOWSSYSTEM->toggleFullScreen();
+				}
 			}
 		}
 		static bool trig{ false };

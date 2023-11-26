@@ -200,11 +200,31 @@ namespace LB
 		*************************************************************************/
 		static void FrameBufferCB(GLFWwindow* ptr_win, int width, int height);
 
+		/*!***********************************************************************
+		 \brief
+		 Sets the Window Focus callback
+		*************************************************************************/
 		static void FocusCB(GLFWwindow* window, int focused);
 
+		/*!***********************************************************************
+		 \brief
+		 Gets the width of the main monitor in pixels
+		*************************************************************************/
 		inline unsigned int GetScreenWidth() { return m_Data.m_VideoMode->width; }
+
+		/*!***********************************************************************
+		 \brief
+		 Gets the height of the main monitor in pixels
+		*************************************************************************/
 		inline unsigned int GetScreenHeight() { return m_Data.m_VideoMode->height; }
+		
+		/*!***********************************************************************
+		 \brief
+		 Checks if the current window context is in fullscreen mode or not
+		*************************************************************************/
 		inline bool			IsFullScreen() { return m_Data.m_FullscreenMode; }
+
+		void toggleFullScreen();
 
 		Event<> OnApplicationFocus;
 		Event<> OnApplicationUnFocus;
