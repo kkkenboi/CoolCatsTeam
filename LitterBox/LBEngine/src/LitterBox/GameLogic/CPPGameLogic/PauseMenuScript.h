@@ -20,8 +20,20 @@ namespace LB
 	class PauseMenuScript : public CPPBehaviour
 	{
 	public:
+		/*!***********************************************************************
+		\brief
+		 Initializes the GameObjects needed for the script
+		*************************************************************************/
 		void Start() override;
+		/*!***********************************************************************
+		\brief
+		 Allows for button press and movement of other game objects into view
+		*************************************************************************/
 		void Update() override;
+		/*!***********************************************************************
+		\brief
+		 Override destroy function
+		*************************************************************************/
 		void Destroy() override;
 	private:
 		GameObject* MenuTextureObject;
