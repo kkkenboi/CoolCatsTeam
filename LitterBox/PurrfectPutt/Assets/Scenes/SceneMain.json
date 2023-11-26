@@ -35,7 +35,10 @@
                     "Texture": "Felix"
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Player",
+                        "Layer ID": 3
+                    },
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
@@ -103,45 +106,6 @@
                 }
             },
             {
-                "Name": "ball",
-                "Transform": {
-                    "Position": {
-                        "x": 1113.5,
-                        "y": 287.42
-                    },
-                    "Scale": {
-                        "x": 0.3,
-                        "y": 0.3
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": false
-                },
-                "Render": {
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Texture": "GolfBall"
-                },
-                "Collider": {
-                    "Layer": "Default",
-                    "Shape": 0,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Radius": 50.0
-                },
-                "AudioSource": {
-                    "AudioClipName": "Clown-Horn_SFX",
-                    "Play On Awake": false,
-                    "Loop": false,
-                    "Volume": 1.0,
-                    "Pitch": 1.0
-                }
-            },
-            {
                 "Name": "NorthWall",
                 "Transform": {
                     "Position": {
@@ -161,7 +125,10 @@
                     "IsStatic": true
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 1500.0,
                     "Height": 100.0,
@@ -188,7 +155,10 @@
                     "IsStatic": true
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 1500.0,
                     "Height": 100.0,
@@ -215,7 +185,10 @@
                     "IsStatic": true
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 100.0,
                     "Height": 800.0,
@@ -242,7 +215,10 @@
                     "IsStatic": true
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 100.0,
                     "Height": 800.0,
@@ -274,7 +250,10 @@
                     "Texture": "Chaser"
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "GameEntity",
+                        "Layer ID": 1
+                    },
                     "Shape": 1,
                     "Width": 100.0,
                     "Height": 100.0,
@@ -282,81 +261,6 @@
                 },
                 "CPPScript": {
                     "Script": "Enemy"
-                }
-            },
-            {
-                "Name": "Flag",
-                "Transform": {
-                    "Position": {
-                        "x": 303.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Texture": "Flag"
-                }
-            },
-            {
-                "Name": "Text",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Text": {
-                    "Message": {
-                        "text": "Joe biden",
-                        "x": 182.0,
-                        "y": 150.0,
-                        "scale": 1.0,
-                        "Color": {
-                            "x": 0.81,
-                            "y": 0.28,
-                            "z": 0.28
-                        },
-                        "Font name": "KernlGrotesk"
-                    }
-                }
-            },
-            {
-                "Name": "Joe",
-                "Transform": {
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Text": {
-                    "Message": {
-                        "text": "Joe",
-                        "x": 470.0,
-                        "y": 274.0,
-                        "scale": 3.0,
-                        "Color": {
-                            "x": 0.07,
-                            "y": 0.1,
-                            "z": 0.93
-                        },
-                        "Font name": "TiltNeon-Regular"
-                    }
                 }
             },
             {
@@ -384,7 +288,10 @@
                     "Texture": "MageAttackSpriteSheet"
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "GameEntity",
+                        "Layer ID": 1
+                    },
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
@@ -444,7 +351,10 @@
                     "Rotation": 0.0
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 1.0,
                     "Height": 1.0,
@@ -468,7 +378,10 @@
                     "Rotation": 0.0
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 1.0,
                     "Height": 1.0,
@@ -492,7 +405,10 @@
                     "Rotation": 0.0
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 1.0,
                     "Height": 1.0,
@@ -535,7 +451,10 @@
                     "Rotation": -8.8
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 218.0,
                     "Height": 165.0,
@@ -578,7 +497,10 @@
                     "Rotation": 0.0
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 212.0,
                     "Height": 84.0,
@@ -602,7 +524,10 @@
                     "Rotation": 0.0
                 },
                 "Collider": {
-                    "Layer": "Default",
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 206.0,
                     "Height": 91.0,
