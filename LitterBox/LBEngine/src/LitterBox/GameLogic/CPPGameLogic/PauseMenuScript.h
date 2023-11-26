@@ -36,10 +36,22 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override;
 	private:
-		GameObject* MenuTextureObject;
-		GameObject* ResumeButtonObject;
-		GameObject* HowToPlayButtonObject;
-		GameObject* QuitButtonObject;
+		bool OnPauseMenu;
+
+		// Pause Menu
+		GameObject* MenuTexture{ nullptr };
+		GameObject* ResumeButton{ nullptr };
+		GameObject* HowToPlayButton{ nullptr };
+		GameObject* QuitButton{ nullptr };
+
+		// How to play
+		GameObject* HowToPlayTexture{ nullptr };
+		GameObject* HowToPlayBackButton{ nullptr };
+
+		// Quit
+		GameObject* QuitTexture{ nullptr };
+		GameObject* QuitYesButton{ nullptr };
+		GameObject* QuitNoButton{ nullptr };
 	};
 
 }
