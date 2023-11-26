@@ -43,6 +43,9 @@ namespace LB
 
 	void CommandManager::AddCommand(std::shared_ptr<ICommand> newCommand)
 	{
+		// If in play mode, don't register commands
+		if (CORE->IsPlaying()) return;
+
 		m_savedCommandIndex = 0; // Reset the saved command index
 
 		newCommand->Execute();
