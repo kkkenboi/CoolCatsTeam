@@ -42,7 +42,7 @@
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Radius": 50.0
+                    "Radius": 40.0
                 },
                 "CPPScript": {
                     "Script": "Player"
@@ -254,10 +254,10 @@
                         "Layer Name": "GameEntity",
                         "Layer ID": 1
                     },
-                    "Shape": 1,
+                    "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Radius": 50.0
+                    "Radius": 40.0
                 },
                 "CPPScript": {
                     "Script": "Enemy"
@@ -295,7 +295,7 @@
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Radius": 50.0
+                    "Radius": 40.0
                 },
                 "CPPScript": {
                     "Script": "Mage"

@@ -68,7 +68,7 @@ namespace LB
 
 	void UpdateCommandsSaved();
 
-	void ClearHistory(Scene* newScene);
+	void ClearHistory(bool isPlaying);
 
 	extern CommandManager* COMMAND;
 }
