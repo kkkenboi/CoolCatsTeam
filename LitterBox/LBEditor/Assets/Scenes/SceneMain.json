@@ -539,6 +539,25 @@
                     "Volume": 0.33,
                     "Pitch": 1.0
                 }
+            },
+            {
+                "Name": "UnderlineObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 10.0,
+                        "y": 10.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "Underline"
+                }
             }
         ]
     }

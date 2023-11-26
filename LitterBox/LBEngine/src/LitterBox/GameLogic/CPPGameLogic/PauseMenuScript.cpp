@@ -77,6 +77,12 @@ namespace LB
 			{
 				QuitNoButton = GO;
 			}
+
+			// Underline GO
+			if (GO->GetName() == "UnderlineObject")
+			{
+				Underline = GO;
+			}
 		}
 	}
 
@@ -136,26 +142,31 @@ namespace LB
 			}
 		}
 
+
 		Vec2<float> mouse_pos = INPUT->GetMousePos();
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
-		{
-			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
 
-			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+		Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
 
-			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
-			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
+		mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+
+		mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+		mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+		std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
 
 			// Loop through the colliders found on mouse click
-			for (size_t i = 0; i < vec_colliders.size(); ++i)
+		for (size_t i = 0; i < vec_colliders.size(); ++i)
+		{
+			// ResumeButton
+			if (ResumeButton)
 			{
-				// ResumeButton
-				if (ResumeButton)
+				if (vec_colliders[i] == ResumeButton->GetComponent<CPCollider>())
 				{
-					if (vec_colliders[i] == ResumeButton->GetComponent<CPCollider>())
+					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 564.87f});
+					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
 						TIME->Pause(false);
+						Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
 
 						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						MenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
@@ -170,13 +181,19 @@ namespace LB
 						QuitButton->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
 					}
 				}
+			}
 
-				// HowToPlay Button
-				if (HowToPlayButton)
+			// HowToPlay Button
+			if (HowToPlayButton)
+			{
+				if (vec_colliders[i] == HowToPlayButton->GetComponent<CPCollider>())
 				{
-					if (vec_colliders[i] == HowToPlayButton->GetComponent<CPCollider>())
+					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 459.31f});
+					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
 						OnPauseMenu = false;
+						Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
 
 						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
@@ -192,11 +209,14 @@ namespace LB
 
 					}
 				}
+			}
 
-				// HowToPlay Back Button
-				if (HowToPlayBackButton)
+			// HowToPlay Back Button
+			if (HowToPlayBackButton)
+			{
+				if (vec_colliders[i] == HowToPlayBackButton->GetComponent<CPCollider>())
 				{
-					if (vec_colliders[i] == HowToPlayBackButton->GetComponent<CPCollider>())
+					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
 						OnPauseMenu = true;
 
@@ -226,13 +246,19 @@ namespace LB
 						}
 					}
 				}
+			}
 
-				// Quit Button
-				if (QuitButton)
+			// Quit Button
+			if (QuitButton)
+			{
+				if (vec_colliders[i] == QuitButton->GetComponent<CPCollider>())
 				{
-					if (vec_colliders[i] == QuitButton->GetComponent<CPCollider>())
+					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 285.57f});
+					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
 						OnPauseMenu = false;
+						Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						
 
 						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
@@ -248,21 +274,27 @@ namespace LB
 						QuitNoButton->GetComponent<CPCollider>()->SetWidthHeightRadius(256.f, 91.f, 50.f);
 					}
 				}
+			}
 
-				// QuitYes Button
-				if (QuitYesButton)
+			// QuitYes Button
+			if (QuitYesButton)
+			{
+				if (vec_colliders[i] == QuitYesButton->GetComponent<CPCollider>())
 				{
-					if (vec_colliders[i] == QuitYesButton->GetComponent<CPCollider>())
+					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
 						MessageQuit q;
 						CORE->BroadcastMessage(&q);
 					}
 				}
+			}
 
-				// QuitNoButton
-				if (QuitNoButton)
+			// QuitNoButton
+			if (QuitNoButton)
+			{
+				if (vec_colliders[i] == QuitNoButton->GetComponent<CPCollider>())
 				{
-					if (vec_colliders[i] == QuitNoButton->GetComponent<CPCollider>())
+					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
 						OnPauseMenu = true;
 
@@ -280,9 +312,10 @@ namespace LB
 						QuitYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 					}
-}
+				}
 			}
 		}
+		
 
 	}
 

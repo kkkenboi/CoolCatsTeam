@@ -52,6 +52,9 @@ namespace LB
 		GameObject* QuitTexture{ nullptr };
 		GameObject* QuitYesButton{ nullptr };
 		GameObject* QuitNoButton{ nullptr };
+
+		// Underline
+		GameObject* Underline{nullptr};
 	};
 
 }
