@@ -536,6 +536,27 @@
                 "CPPScript": {
                     "Script": "PauseQuitGameNoScript"
                 }
+            },
+            {
+                "Name": "GameMusic",
+                "Transform": {
+                    "Position": {
+                        "x": 800.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "AudioSource": {
+                    "AudioClipName": "BGM",
+                    "Play On Awake": true,
+                    "Loop": true,
+                    "Volume": 0.33,
+                    "Pitch": 1.0
+                }
             }
         ]
     }
