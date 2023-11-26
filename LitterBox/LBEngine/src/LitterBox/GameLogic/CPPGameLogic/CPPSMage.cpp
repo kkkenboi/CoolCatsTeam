@@ -44,15 +44,6 @@ namespace LB
 		
 			//for the mage sprite sheet the x and y inc is the same
 			float x_inc{ 1.f / 4.f };
-			//float y_inc{ 110.f / (float)img_height };
-
-			////y increments 110 pixels at a time for 4 times
-			//for (int x{ 0 }; x < 17; ++x) {
-			//	mage_anim_frams[x].at(0) = { x * x_inc, 0.f };//bottom left
-			//	mage_anim_frams[x].at(1) = { (x + 1) * x_inc, 0.f };//bottom right
-			//	mage_anim_frams[x].at(2) = { (x + 1) * x_inc, 1.f };//top right
-			//	mage_anim_frams[x].at(3) = { x * x_inc, 1.f };//top left
-			//}
 
 			for(int y{0}; y < 4; ++y)
 				for (int x{ 0 }; x < 4; ++x) {
