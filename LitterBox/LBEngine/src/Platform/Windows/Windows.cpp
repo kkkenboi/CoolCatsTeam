@@ -81,13 +81,13 @@ namespace LB
         if (CORE->IsEditorMode())
         {
             // Create GLFW window
+            m_Data.m_Width = 1920;
+            m_Data.m_Height = 1080;
             m_Data.m_PtrToWindow = glfwCreateWindow(m_Data.m_Width, m_Data.m_Height, m_Data.m_Title.c_str(), NULL, NULL);
             if (!m_Data.m_PtrToWindow) {
                 DebuggerLogError("GLFW unable to create OpenGL context - abort program");
                 glfwTerminate();
             }
-            m_Data.m_Width = 1600;
-            m_Data.m_Height = 900;
 
             used_width = m_Data.m_Width;
             used_height = m_Data.m_Height;
