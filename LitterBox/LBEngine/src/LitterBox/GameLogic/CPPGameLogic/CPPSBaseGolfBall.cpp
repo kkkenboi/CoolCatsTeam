@@ -1,3 +1,18 @@
+/*!************************************************************************
+ \file				CPPSBaseGolfBall.cpp
+ \author(s)			Vanessa Chua Siew Jin
+ \par DP email(s):	vanessasiewjin@digipen.edu
+ \par Course:		CSD2401A
+ \date				25-11-2023
+ \brief
+ This file contains the Projectile Ball behaviour, Name of script will be changed in the
+ future.
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "CPPSBaseGolfBall.h"
 
 #include "LitterBox/Debugging/Debug.h"
@@ -8,6 +23,10 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	Enter the state of chasing where it will initialise the values
+	*************************************************************************/
 	void CPPSBaseGolfBall::Start()
 	{
 		mRender = GameObj->GetComponent<CPRender>();
@@ -56,10 +75,7 @@ namespace LB
 		
 	}
 
-	void CPPSBaseGolfBall::Destroy()
-	{
-
-	}
+	void CPPSBaseGolfBall::Destroy() { }
 
 	//Getter functions
 	/*!***********************************************************************

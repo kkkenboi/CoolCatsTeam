@@ -41,12 +41,12 @@ namespace LB
 		left_face.x = -left_face.x;
 
 		//--------------------------Variables initializaiton----------------------------
-		m_maxSpeed = 500.0f;
-		m_walkSpeed = 3000.0f;
+		m_maxSpeed = 30000.0f;
+		m_walkSpeed = 150000.0f;
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
-		m_shootForce = 3250.0f;
+		m_shootForce = 325000.0f;
 		m_shootRadius = 120.0f;
 
 		m_maxBalls = 3;
@@ -58,7 +58,7 @@ namespace LB
 		mGotAttacked = 0.5f;
 
 		// So that balls don't spawn on top each other
-		rb->addForce(Vec2<float>{10.0f, 0.0f});
+		rb->addForce(Vec2<float>{10.0f, 0.0f} * TIME->GetDeltaTime());
 
 		//---------------------------getting the uvs for the run------------------------
 		if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"]) != LB::ASSETMANAGER->Textures.end()) {
@@ -152,22 +152,22 @@ namespace LB
 		bool isMoving{ false };
 		if (INPUT->IsKeyPressed(KeyCode::KEY_W))
 		{
-			rb->addForce(Vec2<float>{0.f, m_walkSpeed});
+			rb->addForce(Vec2<float>{0.f, m_walkSpeed} * TIME->GetDeltaTime());
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_S))
 		{
-			rb->addForce(Vec2<float>{0.f, -m_walkSpeed});
+			rb->addForce(Vec2<float>{0.f, -m_walkSpeed} * TIME->GetDeltaTime());
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_A))
 		{
-			rb->addForce(Vec2<float>{-m_walkSpeed, 0.f});
+			rb->addForce(Vec2<float>{-m_walkSpeed, 0.f} * TIME->GetDeltaTime());
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_D))
 		{
-			rb->addForce(Vec2<float>{m_walkSpeed, 0.f});
+			rb->addForce(Vec2<float>{m_walkSpeed, 0.f} * TIME->GetDeltaTime());
 			isMoving = true;
 		}
 		rb->mVelocity.x = Clamp<float>(rb->mVelocity.x, -m_maxSpeed, m_maxSpeed);
@@ -235,7 +235,7 @@ namespace LB
 					{
 						continue;
 					}
-					vec_colliders[i]->rigidbody->addImpulse(force_to_apply);
+					vec_colliders[i]->rigidbody->addImpulse(force_to_apply* TIME->GetDeltaTime());
 				}
 			}
 		}
@@ -279,11 +279,12 @@ namespace LB
 	\brief
 	Destroy function (will delete the states)
 	*************************************************************************/
-	void CPPSPlayer::Destroy()
-	{
+	void CPPSPlayer::Destroy(){ }
 
-	}
-
+	/*!***********************************************************************
+	\brief
+	When on collision  with either Projectile, Mage, Chase, it will get hurt and --m_health,
+	*************************************************************************/
 	void CPPSPlayer::OnCollisionEnter(CollisionData colData) 
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||

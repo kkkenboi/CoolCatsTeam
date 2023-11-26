@@ -1,3 +1,17 @@
+/*!************************************************************************
+ \file				CPPSPlayerGolfBall.cpp
+ \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao
+ \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan@digipen.edu
+ \par Course:		CSD2401A
+ \date				25-11-2023
+ \brief
+ This file contains the CPPSPlayerGolfBall, behaviour of the player's golf ball
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #pragma once
 #include "CPPBehaviour.h"
 #include "Litterbox/Factory/Components.h"
