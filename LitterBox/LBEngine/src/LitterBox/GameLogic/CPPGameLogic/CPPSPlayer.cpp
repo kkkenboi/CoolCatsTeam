@@ -12,9 +12,9 @@
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
+#include "CPPSPlayer.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Physics/ColliderManager.h"
-#include "CPPSPlayer.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
 #include <array>
@@ -87,6 +87,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayer::Update()
 	{
+		if (TIME->IsPaused()) return;
 		//-----------------TESTING SPAWN-----------------------
 		//Spawn Mage
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
@@ -175,7 +176,7 @@ namespace LB
 
 		if (!isMoving)
 		{
-			rb->addForce(-rb->mVelocity * 5.0f);
+			rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
 
 			if (isWalkingAnim)
 			{
@@ -265,9 +266,9 @@ namespace LB
 		mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 		
 		Vec2<float> playerToMouseDir = mousePos - playerPos;
-		Vec2<float> TransformRight{ right_face };
+		Vec2<float> TransformRight{ 1,0 };
 
-		m_isFacingLeft = DotProduct(playerToMouseDir.Normalise(), TransformRight.Normalise()) < 0.0f;
+		m_isFacingLeft = DotProduct(playerToMouseDir.Normalise(), TransformRight) < 0.0f;
 
 		if (m_isFacingLeft)
 		{

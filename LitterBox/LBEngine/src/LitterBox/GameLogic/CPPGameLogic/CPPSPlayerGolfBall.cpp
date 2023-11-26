@@ -1,14 +1,32 @@
+/*!************************************************************************
+ \file				CPPSPlayerGolfBall.cpp
+ \author(s)			Vanessa Chua Siew Jin
+ \par DP email(s):	vanessasiewjin@digipen.edu
+ \par Course:		CSD2401A
+ \date				25-11-2023
+ \brief
+ This file contains the Golf Ball behaviour the player will hold
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "CPPSPlayerGolfBall.h"
 
+#include "CPPSPlayer.h"
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Engine/Time.h"
-#include "CPPSPlayer.h"
 
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	Starting behaviour for Ball where variables are initialized
+	*************************************************************************/
 	void CPPSPlayerGolfBall::Start()
 	{
 		mRender = GameObj->GetComponent<CPRender>();
@@ -31,6 +49,10 @@ namespace LB
 		mCurrentLifetime = mLifetime = 1.0f;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update behaviour for Ball where it has physics and lifetime
+	*************************************************************************/
 	void CPPSPlayerGolfBall::Update()
 	{
 		if (!mRigidBody)
@@ -51,6 +73,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Checking on collision with other colliders
+	*************************************************************************/
 	void CPPSPlayerGolfBall::OnCollisionEnter(CollisionData colData)
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
@@ -63,6 +89,10 @@ namespace LB
 
 	}
 
+	/*!***********************************************************************
+	\brief
+	Destroy
+	*************************************************************************/
 	void CPPSPlayerGolfBall::Destroy() { }
 
 	//Getter functions

@@ -31,6 +31,10 @@ namespace LB {
 	void CPPSChaser::Start()
 	{
 		//Intialise the components
+		// 		right_face = trans->GetScale();
+		rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
+		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
+		leftFace.x = -leftFace.x;
 		//GameObj = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider });
 		if (GameObj->HasComponent<CPRender>()) 
 		{
@@ -108,7 +112,12 @@ namespace LB {
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= TIME->GetDeltaTime();
 		}
-
+		Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
+		Vec2<float> TransformRight{ 1,0 };
+		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
+		{
+			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
+		} else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
 		mFSM.Update();
 	}
 	/*!***********************************************************************
@@ -258,7 +267,7 @@ namespace LB {
 		Direction = Normalise(Direction);
 
 		Direction = Direction * mEnemy->GetSpeedMag();
-		DebuggerLogFormat("%f, %f", Direction.x, Direction.y);
+		//DebuggerLogFormat("%f, %f", Direction.x, Direction.y);
 		mEnemy->GetRigidBody()->addForce(Direction * TIME->GetDeltaTime());
 	}
 	void ChaseState::Exit()
