@@ -67,11 +67,11 @@ namespace LB
 					PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
 					// Move all the How To Play Objects into scene
-					HowToPlayTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.66f, 449.39f});
-					HowToPlayTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{16.10f, 9.18f});
+					HowToPlayTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{948.88f, 545.65f});
+					HowToPlayTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.80f, 10.90f});
 
 					HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{161.75f, 72.12f});
-					HowToPlayBackButton->GetComponent<CPCollider>()->SetWidthHeightRadius(218.f, 165.f, 50.f);
+					HowToPlayBackButton->GetComponent<CPCollider>()->SetWidthHeightRadius(265.f, 222.f, 50.f);
 				}
 			}
 		}

@@ -44,17 +44,17 @@ namespace LB
 				TIME->Pause(true);
 				// Move all the GOs to the Front of the Screen
 
-				MenuTextureObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
-				MenuTextureObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{16.37f, 10.80f});
+				MenuTextureObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
+				MenuTextureObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.67f, 11.50f});
 
-				ResumeButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{807.f, 507.1f});
-				ResumeButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(270.f, 78.f, 50.f);
+				ResumeButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.66f, 585.23f});
+				ResumeButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(334.f, 78.f, 50.f);
 
-				HowToPlayButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{805.f, 412.f});
-				HowToPlayButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(270.f, 74.f, 50.f);
+				HowToPlayButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 487.13f});
+				HowToPlayButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(332.f, 74.f, 50.f);
 
-				QuitButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{804.f, 238.f});
-				QuitButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(266.f, 77.f, 50.f);
+				QuitButtonObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.22f, 310.78f});
+				QuitButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(317.f, 77.f, 50.f);
 
 			}
 		}

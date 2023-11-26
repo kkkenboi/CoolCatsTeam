@@ -76,13 +76,13 @@ namespace LB
 				if (vec_colliders[i] == mCollider)
 				{
 					if(PauseMenuTexture)
-						PauseMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
+						PauseMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
 					if (PauseMenuResumeButton)
-						PauseMenuResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{807.f, 507.1f});
+						PauseMenuResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.66f, 585.23f});
 					if (PauseMenuHowToPlayButton)
-						PauseMenuHowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{805.f, 412.f});
+						PauseMenuHowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 487.13f});
 					if (PauseMenuExitButton)
-						PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{804.f, 238.f});
+						PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.22f, 310.78f});
 
 
 					ConfirmMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
