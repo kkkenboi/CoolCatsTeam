@@ -26,22 +26,49 @@ namespace LB
 	{
 	public:
 		//std::array<std::array<LB::Vec2<float>, animCount>, frameCount> frames[animCount];
+		/*!************************************************************************
+		 * Getting the type component
+		 * 
+		**************************************************************************/
 		static ComponentTypeID GetType()
 		{
 			return C_CPAnimator;
 		}
 		
-		//load files in initialise
+		/*!************************************************************************
+		 * Initialise function where it will initialise the variables
+		 * load files in initialise
+		**************************************************************************/
 		void Initialise() override;
 
+		/*!************************************************************************
+		 * Update function where it update at every frame
+		 *
+		**************************************************************************/
 		void Update() override;
 
+		/*!************************************************************************
+		 * Destroy function
+		 *
+		**************************************************************************/
 		void Destroy() override;
 
+		/*!************************************************************************
+		 * Getting the size of the image
+		 *
+		**************************************************************************/
 		void SizeOfImage(std::string spriteSheet); //getting the size of width and height
 
+		/*!************************************************************************
+		 * Num of animation, rows
+		 *
+		**************************************************************************/
 		int NumOfAnim() const; //Number of animation
 
+		/*!************************************************************************
+		 * Num of Frames, cols
+		 *
+		**************************************************************************/
 		int NumOfFrames() const; //Number of frames
 
 		////serialisation, for images
@@ -50,15 +77,27 @@ namespace LB
 		////deserialisation, for images
 		//bool Deserialize(const Value& data) override;
 
-		//to set the animation
+	
+		/*!************************************************************************
+		 * Set Animation function, to set the animation
+		 *
+		**************************************************************************/
 		void SetAnimation(const std::string animationName, int animCount, float timer);
 
-		//start the animation
+		/*!************************************************************************
+		 * Start Animation function, to start the animation
+		 *
+		**************************************************************************/
 		void StartAnimation(const std::string& animationName);
 
 		//start indicates the animation playing
 		//void StartAnimation(const std::string& animationName);
 		//stop indicates the animation stopping
+
+		/*!************************************************************************
+		 * Stopt Animation function, to stop the animation
+		 *
+		**************************************************************************/
 		void StopAnimation(const std::string& animationName);
 
 
