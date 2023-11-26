@@ -975,10 +975,10 @@ void Renderer::RenderSystem::Initialize()
 	
 	//----------------------------------------------------FONTS AS WELL-----------------------------------------------
 	//cache some values
-	float midx = 1600.f * 0.5f;
-	float midy = 900.f * 0.5f;
-	float w = 1600.f;
-	float h = 900.f;
+	float midx = 1920.f * 0.5f;
+	float midy = 1080.f * 0.5f;
+	float w = 1920.f;
+	float h = 1080.f;
 
 	test2 = DBG_NEW LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
 

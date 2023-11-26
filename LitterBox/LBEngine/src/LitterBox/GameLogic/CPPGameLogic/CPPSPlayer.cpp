@@ -93,8 +93,8 @@ namespace LB
 		{
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 
 			GameObject* mageObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("Mage", *mageObject);
@@ -105,8 +105,8 @@ namespace LB
 		{
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 
 			GameObject* chaserObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserObject);
@@ -222,8 +222,8 @@ namespace LB
 
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 
 			for (size_t i = 0; i < vec_colliders.size(); ++i) {
 				Vec2<float> force_to_apply = mouse_pos - vec_colliders[i]->m_pos;
@@ -261,8 +261,8 @@ namespace LB
 		Vec2<float> mousePos = INPUT->GetMousePos();
 		
 		mousePos.y = mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-		mousePos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
-		mousePos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+		mousePos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+		mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 		
 		Vec2<float> playerToMouseDir = mousePos - playerPos;
 		Vec2<float> TransformRight{ right_face };

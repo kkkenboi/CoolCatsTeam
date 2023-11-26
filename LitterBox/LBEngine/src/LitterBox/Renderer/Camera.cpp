@@ -28,8 +28,8 @@ namespace Renderer {
 	{
 		float onear = 4.f;
 		float ofar = -6.f;
-		float hvf = 900.f;
-		float wvf = 1600.f;
+		float hvf = 1080.f;
+		float wvf = 1920.f;
 		float lvf = 0.f;
 		float rvf = wvf;
 
