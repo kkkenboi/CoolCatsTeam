@@ -75,6 +75,8 @@ namespace LB
 	private:
 		GameObject* mPlayer{ nullptr }; //Getting the player GameObject
 		GameObject* mProjectile{ nullptr }; //Getting the projectile GameObject
+		Vec2<float> leftFace;
+		Vec2<float> rightFace;
 
 		// Holds the different state and the current state
 		// that the Mage enemy is in

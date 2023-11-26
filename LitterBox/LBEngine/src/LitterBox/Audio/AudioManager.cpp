@@ -21,6 +21,7 @@
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Core/Core.h"
 #include "Platform/Windows/Windows.h"
+#include "LitterBox/Engine/Time.h"
 namespace LB
 {
 	AudioManager* AUDIOMANAGER = nullptr;
@@ -104,6 +105,11 @@ namespace LB
 	**************************************************************************/
 	void AudioManager::Update()
 	{
+		if (TIME->IsPaused())
+		{
+			Pause();
+		}
+		else UnPause();
 		//Store a vector of channels you wanna remove from the map
 		std::vector<std::map<int, FMOD::Channel*>::iterator> stoppedChannels;
 		//We loop through all our channels and see which is stopped
@@ -218,7 +224,7 @@ namespace LB
 		}
 		else
 		{
-			DebuggerLogWarningFormat("Unable to find channel %d!",channelID);
+			//DebuggerLogWarningFormat("Unable to find channel %d!",channelID);
 		}
 		return isPaused;
 	}
@@ -233,7 +239,7 @@ namespace LB
 		if (Channels.find(channelID) != Channels.end())
 		{
 			Channels[channelID]->stop();
-		} else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
+		} //else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 	}
 
 	/*!************************************************************************

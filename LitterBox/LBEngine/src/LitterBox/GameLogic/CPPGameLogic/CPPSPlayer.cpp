@@ -87,6 +87,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayer::Update()
 	{
+		if (TIME->IsPaused()) return;
 		//-----------------TESTING SPAWN-----------------------
 		//Spawn Mage
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
@@ -265,9 +266,9 @@ namespace LB
 		mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 		
 		Vec2<float> playerToMouseDir = mousePos - playerPos;
-		Vec2<float> TransformRight{ right_face };
+		Vec2<float> TransformRight{ 1,0 };
 
-		m_isFacingLeft = DotProduct(playerToMouseDir.Normalise(), TransformRight.Normalise()) < 0.0f;
+		m_isFacingLeft = DotProduct(playerToMouseDir.Normalise(), TransformRight) < 0.0f;
 
 		if (m_isFacingLeft)
 		{

@@ -37,6 +37,10 @@ namespace LB
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
 
+		rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
+		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
+		leftFace.x = -leftFace.x;
+
 		//--------------------------------get the mage animation--------------------------------
 		if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"]) != LB::ASSETMANAGER->Textures.end()) {
 			int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->width };
@@ -134,7 +138,13 @@ namespace LB
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= TIME->GetDeltaTime();
 		}
-
+		Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
+		Vec2<float> TransformRight{ 1,0 };
+		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
+		{
+			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
+		}
+		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
 		mFSM.Update();
 	}
 

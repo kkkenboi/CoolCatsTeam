@@ -21,6 +21,8 @@
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Engine/Time.h"
 
+#include "math.h"	//Only using it for atan2
+
 namespace LB
 {
 	/*!***********************************************************************
@@ -43,24 +45,33 @@ namespace LB
 		}
 
 		// Set direction (rotation)
-		CPTransform* trans = GameObj->GetComponent<CPTransform>();
-		Vec2<float> currPos = trans->GetPosition();
-		Vec2<float> shootDir = currPos - mPlayer->GetComponent<CPTransform>()->GetPosition();
-
-		trans->SetRotation(RadToDeg(DotProduct(shootDir.Normalise(), Vec2<float>{1.0f, 1.0f })));
-		trans->SetRotation(trans->GetRotation() + 90.0f);
+		//CPTransform* trans = GameObj->GetComponent<CPTransform>();
+		//Vec2<float> currPos = trans->GetPosition();
+		//Vec2<float> shootDir = mRigidBody->mVelocity;
+		//shootDir.Normalise();
+			//mPlayer->GetComponent<CPTransform>()->GetPosition() - currPos;
+		//trans->SetRotation(RadToDeg(atan2f(shootDir.y, shootDir.x)));
+		/*trans->SetRotation(RadToDeg(DotProduct(shootDir.Normalise(), Vec2<float>{1.0f, 1.0f })));
+		trans->SetRotation(trans->GetRotation() + 90.0f);*/
 
 		mRigidBody->mFriction = 1.0f;
 		mSpeedMagnitude = 1000.0f;
 		mVelocity = 1000.0f; //with direction
 		mSize = 1.0f;
 	}
-
+	
 	/*!***********************************************************************
 	\brief
 	Update is where the behaviour of the projectile will be updated every frame
 	*************************************************************************/
-	void CPPSBaseGolfBall::Update() { }
+	void CPPSBaseGolfBall::Update() 
+	{
+		//This sets the rotation for the sprite to always face the direction it's travelling
+		CPTransform* trans = GameObj->GetComponent<CPTransform>();
+		Vec2<float> shootDir = mRigidBody->mVelocity;
+		trans->SetRotation(RadToDeg(atan2f(shootDir.y, shootDir.x)));
+
+	}
 
 	/*!***********************************************************************
 	\brief
