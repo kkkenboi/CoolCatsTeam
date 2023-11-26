@@ -3,7 +3,7 @@
  \author(s)			Amadeus Chia Jinhan, 
  \par DP email(s):	amadeusjinhan.chia@digipen.edu,
  \par Course:       CSD2401A
- \date				02/11/2023
+ \date				22/11/2023
  \brief				This file contains the implementation of AssetManager 
                     functions. 
 
@@ -297,6 +297,11 @@ namespace LB
         JSONSerializer::SaveToJSON((appData / folderName / std::filesystem::path("MetaFiles.json")).string(), _metaFile);
     }
 
+    /*!************************************************************************
+     * \brief Function that compares with the meta file and puts all the new files
+     * into a vector of file paths and returns it
+     * \return std::vector<std::filesystem::path> Filepaths of all new files  
+    **************************************************************************/
     std::vector<std::filesystem::path> AssetManager::GetNewFiles()
     {
         //This will contain the paths to new files

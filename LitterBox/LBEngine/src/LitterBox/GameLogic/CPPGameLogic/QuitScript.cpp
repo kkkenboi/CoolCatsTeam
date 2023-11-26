@@ -127,8 +127,8 @@ namespace LB {
 			LB::Vec2<float> mouse{ INPUT->GetMousePos() };
 			mouse.y = mouse.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 
-			mouse.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+			mouse.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 			auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
 
 			DebuggerLogFormat("CLICK POS: %f, %f", mouse.x, mouse.y);
@@ -143,9 +143,9 @@ namespace LB {
 					//------------------------------------------Move over the quit confirmation game objects----------------------------
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
-						ConfirmMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
-						ConfirmMenuYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{590.52f, 350.69f});
-						ConfirmMenuNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{998.f, 347.f});
+						ConfirmMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f});
+						ConfirmMenuYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{715.f, 420.f});
+						ConfirmMenuNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{1200.f, 420.f});
 					}
 					//------------------------------------------Move over the quit confirmation game objects----------------------------
 				}
@@ -169,8 +169,8 @@ namespace LB {
 		//checking if mouse is over the button
 		LB::Vec2<float> mouse{ INPUT->GetMousePos() };
 		mouse.y = mouse.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-		mouse.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
-		mouse.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+		mouse.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+		mouse.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 		auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
 
 		for (const auto& collider : test) {

@@ -29,8 +29,8 @@ namespace LB
 
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 
-			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
 
 			// Loop through the colliders found on mouse click

@@ -141,6 +141,7 @@ namespace LB {
 				if (mHealth < 0)
 				{
 					GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
+					GameObj->RemoveComponent(C_CPCollider);
 					mShouldDestroy = true;
 				}
 			}

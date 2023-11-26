@@ -89,6 +89,7 @@ namespace LB
 				std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
 				COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
 
+				m_clickedItem = nullptr;
 				onNewObjectSelected.Invoke(nullptr);
 			}
 		}

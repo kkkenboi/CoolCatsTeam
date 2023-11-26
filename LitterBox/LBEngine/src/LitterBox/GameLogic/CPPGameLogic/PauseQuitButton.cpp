@@ -65,8 +65,8 @@ namespace LB
 
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 
-			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
 
 			// Loop through the colliders found on mouse click
@@ -80,9 +80,13 @@ namespace LB
 					PauseMenuHowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 					PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
-					ConfirmMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
-					ConfirmMenuYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{590.52f, 350.69f});
-					ConfirmMenuNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{998.f, 347.f});
+
+					ConfirmMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f});
+					ConfirmMenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.20f, 11.10f});
+					ConfirmMenuYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{715.f, 420.f});
+					ConfirmMenuYesButton->GetComponent<CPCollider>()->SetWidthHeightRadius(252.f, 98.f, 50.f);
+					ConfirmMenuNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{1195.44f, 420.f});
+					ConfirmMenuNoButton->GetComponent<CPCollider>()->SetWidthHeightRadius(256.f, 91.f, 50.f);
 				}
 			}
 		}
