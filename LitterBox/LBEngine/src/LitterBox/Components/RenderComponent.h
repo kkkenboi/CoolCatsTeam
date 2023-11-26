@@ -179,8 +179,8 @@ namespace LB
 		void UpdateTexture(int _texture, int width, int height)
 		{
 			texture = _texture;
-			w = width;
-			h = height;
+			w = (float)width;
+			h = (float)height;
 			uv[0] = { 0.f, 0.f };
 			uv[1] = { 1.f, 0.f };
 			uv[2] = { 1.f, 1.f };

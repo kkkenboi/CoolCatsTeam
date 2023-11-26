@@ -57,6 +57,7 @@ namespace LB
 		*************************************************************************/
 		virtual void OnCollisionEnter(CollisionData colData) 
 		{
+			UNREFERENCED_PARAMETER(colData);
 			// Purposely empty, supposed to be implemented
 			// by the scripts, if the script does not want
 			// to do anything, will just return
