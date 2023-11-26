@@ -29,26 +29,36 @@ namespace LB
 		void Update() override;
 		void Destroy() override;
 
+		/*!***********************************************************************
+		\brief
+		Getter function for rendering, EB, Collider and the player
+		*************************************************************************/
 		CPRender* GetRender();
 		CPRigidBody* GetRigidBody(); //for RigidBody for the golf ball
 		CPCollider* GetCollider(); //for collider for the golf ball
 		GameObject* GetHero();
 
+		/*!***********************************************************************
+		\brief
+		On collision function if it collides with any other colliders
+		*************************************************************************/
 		void OnCollisionEnter(CollisionData colData);
 
-		//timer to despawn the golfball
-		//destroy the golfball
 	private:
+		/*!***********************************************************************
+		\brief
+		Private variables for rendering, rb colliders, player
+		*************************************************************************/
 		CPRender* mRender{ nullptr }; //animation purpose
 		CPRigidBody* mRigidBody{ nullptr }; //Getting the RB of the enemy
 		CPCollider* mCollider{ nullptr }; //Getting the collider of the enemy
-		GameObject* mPlayer{ nullptr };
+		GameObject* mPlayer{ nullptr }; //Getting the game object of the player
 
 		//Stats of the ball should have
-		float mSpeedMagnitude{};
-		float mVelocity{};
-		float mSize{};
+		float mSpeedMagnitude{}; //speed of the golf ball
+		float mVelocity{}; //Velocity of the golf ball
+		float mSize{}; //the size of the golf ball
 
-		float mLifetime{ 1.5f }, mCurrentLifetime{ 1.5f };
+		float mLifetime{ 1.5f }, mCurrentLifetime{ 1.5f }; //life time for the golfball to despawn after a certain timing
 	};
 }

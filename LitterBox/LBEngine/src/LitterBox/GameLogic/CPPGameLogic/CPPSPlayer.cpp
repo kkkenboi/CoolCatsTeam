@@ -12,9 +12,9 @@
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
+#include "CPPSPlayer.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Physics/ColliderManager.h"
-#include "CPPSPlayer.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
 #include <array>
@@ -175,7 +175,7 @@ namespace LB
 
 		if (!isMoving)
 		{
-			rb->addForce(-rb->mVelocity * 5.0f);
+			rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
 
 			if (isWalkingAnim)
 			{

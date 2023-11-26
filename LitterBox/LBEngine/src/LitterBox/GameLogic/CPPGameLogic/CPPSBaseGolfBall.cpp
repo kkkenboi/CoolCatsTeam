@@ -25,7 +25,7 @@ namespace LB
 {
 	/*!***********************************************************************
 	\brief
-	Enter the state of chasing where it will initialise the values
+	Start function where variables will be initialised
 	*************************************************************************/
 	void CPPSBaseGolfBall::Start()
 	{
@@ -56,8 +56,16 @@ namespace LB
 		mSize = 1.0f;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update is where the behaviour of the projectile will be updated every frame
+	*************************************************************************/
 	void CPPSBaseGolfBall::Update() { }
 
+	/*!***********************************************************************
+	\brief
+	On collision to check what is this Projectile is colliding with
+	*************************************************************************/
 	void CPPSBaseGolfBall::OnCollisionEnter(CollisionData colData)
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "MainChar" ||
@@ -75,6 +83,10 @@ namespace LB
 		
 	}
 
+	/*!***********************************************************************
+	\brief
+	Destroy
+	*************************************************************************/
 	void CPPSBaseGolfBall::Destroy() { }
 
 	//Getter functions

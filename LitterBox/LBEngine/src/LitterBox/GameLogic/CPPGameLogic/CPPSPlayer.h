@@ -28,7 +28,10 @@ namespace LB
 		void Update() override;
 		void Destroy() override;
 
-		//on collision function
+		/*!***********************************************************************
+		\brief
+		On collision function if it collides with any other colliders
+		*************************************************************************/
 		void OnCollisionEnter(CollisionData colData) override;
 
 		//------------------Rendering,RB,Collider,Transform------------------
