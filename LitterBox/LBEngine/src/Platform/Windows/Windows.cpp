@@ -151,7 +151,8 @@ namespace LB
         glfwGetFramebufferSize(m_Data.m_PtrToWindow, &fb_width, &fb_height);
         FrameBufferCB(m_Data.m_PtrToWindow, fb_width, fb_height);
 
-        OnApplicationUnFocus.Subscribe(exit);
+        if(!CORE->IsEditorMode())
+            OnApplicationUnFocus.Subscribe(exit);
 
         SetSystemName("Windows System");
     }
