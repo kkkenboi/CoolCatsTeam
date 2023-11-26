@@ -255,6 +255,63 @@
                 "CPPScript": {
                     "Script": "PauseQuitGameNoScript"
                 }
+            },
+            {
+                "Name": "MenuMusic",
+                "Transform": {
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "AudioSource": {
+                    "AudioClipName": "YellowLineBGM",
+                    "Play On Awake": true,
+                    "Loop": true,
+                    "Volume": 0.49,
+                    "Pitch": 1.0
+                }
+            },
+            {
+                "Name": "PauseMenuHolderObject",
+                "Transform": {
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Script": "PauseMenuScript"
+                }
+            },
+            {
+                "Name": "Line",
+                "Transform": {
+                    "Position": {
+                        "x": -803.88,
+                        "y": 713.53
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 14.31
+                },
+                "Render": {
+                    "Width": 896.0,
+                    "Height": 728.0,
+                    "Texture": "Underline"
+                }
             }
         ]
     }

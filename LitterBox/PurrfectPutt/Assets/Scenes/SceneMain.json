@@ -109,8 +109,8 @@
                 "Name": "NorthWall",
                 "Transform": {
                     "Position": {
-                        "x": 800.0,
-                        "y": 835.0
+                        "x": 959.59,
+                        "y": 1011.08
                     },
                     "Scale": {
                         "x": 1.0,
@@ -130,8 +130,8 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 1500.0,
-                    "Height": 100.0,
+                    "Width": 1906.0,
+                    "Height": 151.0,
                     "Radius": 50.0
                 }
             },
@@ -139,7 +139,7 @@
                 "Name": "SouthWall",
                 "Transform": {
                     "Position": {
-                        "x": 800.0,
+                        "x": 964.15,
                         "y": 68.0
                     },
                     "Scale": {
@@ -160,8 +160,8 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 1500.0,
-                    "Height": 100.0,
+                    "Width": 1901.0,
+                    "Height": 146.0,
                     "Radius": 50.0
                 }
             },
@@ -169,8 +169,8 @@
                 "Name": "WestWall",
                 "Transform": {
                     "Position": {
-                        "x": 75.0,
-                        "y": 450.0
+                        "x": 65.87,
+                        "y": 541.53
                     },
                     "Scale": {
                         "x": 1.0,
@@ -190,8 +190,8 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 100.0,
-                    "Height": 800.0,
+                    "Width": 150.0,
+                    "Height": 1032.0,
                     "Radius": 50.0
                 }
             },
@@ -199,8 +199,8 @@
                 "Name": "EastWall",
                 "Transform": {
                     "Position": {
-                        "x": 1530.0,
-                        "y": 450.0
+                        "x": 1851.52,
+                        "y": 532.15
                     },
                     "Scale": {
                         "x": 1.0,
@@ -220,8 +220,8 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 100.0,
-                    "Height": 800.0,
+                    "Width": 154.0,
+                    "Height": 1059.0,
                     "Radius": 50.0
                 }
             },
@@ -359,9 +359,6 @@
                     "Width": 1.0,
                     "Height": 1.0,
                     "Radius": 1.0
-                },
-                "CPPScript": {
-                    "Script": "PauseResumeGameScript"
                 }
             },
             {
@@ -386,9 +383,6 @@
                     "Width": 1.0,
                     "Height": 1.0,
                     "Radius": 1.0
-                },
-                "CPPScript": {
-                    "Script": "PauseHowToPlayScript"
                 }
             },
             {
@@ -413,9 +407,6 @@
                     "Width": 1.0,
                     "Height": 1.0,
                     "Radius": 1.0
-                },
-                "CPPScript": {
-                    "Script": "PauseQuitGameScript"
                 }
             },
             {
@@ -459,9 +450,6 @@
                     "Width": 218.0,
                     "Height": 165.0,
                     "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Script": "PauseHowToPlayBackScript"
                 }
             },
             {
@@ -505,9 +493,6 @@
                     "Width": 212.0,
                     "Height": 84.0,
                     "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Script": "PauseQuitGameYesScript"
                 }
             },
             {
@@ -532,9 +517,46 @@
                     "Width": 206.0,
                     "Height": 91.0,
                     "Radius": 50.0
+                }
+            },
+            {
+                "Name": "GameMusic",
+                "Transform": {
+                    "Position": {
+                        "x": 800.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
                 },
-                "CPPScript": {
-                    "Script": "PauseQuitGameNoScript"
+                "AudioSource": {
+                    "AudioClipName": "BGM",
+                    "Play On Awake": true,
+                    "Loop": true,
+                    "Volume": 0.33,
+                    "Pitch": 1.0
+                }
+            },
+            {
+                "Name": "UnderlineObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 10.0,
+                        "y": 10.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "Underline"
                 }
             }
         ]

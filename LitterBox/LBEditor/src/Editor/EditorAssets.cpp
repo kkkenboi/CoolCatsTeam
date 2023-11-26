@@ -198,7 +198,7 @@ namespace LB
 							GameObject* prefab = FACTORY->SpawnGameObject({}, GOSpawnType::FREE_FLOATING);
 							JSONSerializer::DeserializeFromFile(FileName.c_str(), *prefab);
 							prefab->SetName(FileName.c_str());
-							prefab->GetComponent<CPRender>()->set_active();
+							if (prefab->HasComponent<CPRender>()) prefab->GetComponent<CPRender>()->set_active();
 							EDITORINSPECTOR->UpdateInspectedGO(prefab);
 							EDITORINSPECTOR->isPrefab = true;
 						}

@@ -165,6 +165,7 @@ namespace LB
     {
         WINDOWSSYSTEM->OnApplicationFocus.Subscribe(ReimportAssets);
         DebuggerLog("Assetmanager is initializing");
+        
         Textures["none"];
         //Load all assets here
         ImportAssets();
@@ -431,7 +432,7 @@ namespace LB
         }
         if (name == "none")
         {
-            return 0;
+            return -1;
         }
         return Textures.find(assetMap[name])->second.second;
     }
@@ -471,7 +472,7 @@ namespace LB
         }
         if (name == "none")
         {
-            return 0;
+            return -1;
         }
         return Textures.find(assetMap[name])->second.first->id;
     }
