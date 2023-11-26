@@ -72,7 +72,6 @@ namespace LB
 
 					HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{161.75f, 72.12f});
 					HowToPlayBackButton->GetComponent<CPCollider>()->SetWidthHeightRadius(218.f, 165.f, 50.f);
-			
 				}
 			}
 		}

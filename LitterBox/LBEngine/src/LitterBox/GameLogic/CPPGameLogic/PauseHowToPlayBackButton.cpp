@@ -1,6 +1,7 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Physics/ColliderManager.h"
+#include "LitterBox/Scene/SceneManager.h"
 #include "PauseHowToPlayBackButton.h"
 
 namespace LB
@@ -52,24 +53,29 @@ namespace LB
 			{
 				if (vec_colliders[i] == mCollider)
 				{
-					// If we found the block
-					// Move all the Pause Menu Objects away
-					PauseMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
-					PauseMenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{16.37f, 10.80f});
+					if (PauseMenuTexture) {
+						// If we found the block
+						// Move all the Pause Menu Objects away
+						PauseMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
+						PauseMenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{16.37f, 10.80f});
 
-					PauseMenuResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{807.f, 507.1f});
-					PauseMenuResumeButton->GetComponent<CPCollider>()->SetWidthHeightRadius(270.f, 78.f, 50.f);
+						PauseMenuResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{807.f, 507.1f});
+						PauseMenuResumeButton->GetComponent<CPCollider>()->SetWidthHeightRadius(270.f, 78.f, 50.f);
 
-					PauseMenuHowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{805.f, 412.f});
-					PauseMenuHowToPlayButton->GetComponent<CPCollider>()->SetWidthHeightRadius(270.f, 74.f, 50.f);
+						PauseMenuHowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{805.f, 412.f});
+						PauseMenuHowToPlayButton->GetComponent<CPCollider>()->SetWidthHeightRadius(270.f, 74.f, 50.f);
 
-					PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{804.f, 238.f});
-					PauseMenuExitButton->GetComponent<CPCollider>()->SetWidthHeightRadius(266.f, 77.f, 50.f);
+						PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{804.f, 238.f});
+						PauseMenuExitButton->GetComponent<CPCollider>()->SetWidthHeightRadius(266.f, 77.f, 50.f);
 
-					// Move all the How To Play Objects into scene
-					HowToPlayTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						// Move all the How To Play Objects into scene
+						HowToPlayTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
-					this->GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						this->GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					}
+					else {
+						SCENEMANAGER->LoadScene("SceneMainMenu");
+					}
 				}
 			}
 		}

@@ -24,7 +24,9 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 4
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "Chaser"
                 }
             },
             {
@@ -41,7 +43,9 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 4
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "Chaser"
                 }
             },
             {
@@ -58,7 +62,9 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Texture": 4
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "Chaser"
                 }
             }
         ]
