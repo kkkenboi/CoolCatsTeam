@@ -215,14 +215,15 @@ namespace LB
 	void CPPSMage::OnCollisionEnter(CollisionData colData)
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
-			int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
 
-			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 300.f)
 			{
 				if (mGotAttackedCooldown > 0.0f) {
 					return;
 				}
+				int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
+				AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+				AUDIOMANAGER->SetChannelPitch(Channel, 1.1f);
 				mGotAttackedCooldown = mGotAttacked;
 
 				--mHealth;
