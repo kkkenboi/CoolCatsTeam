@@ -1,3 +1,17 @@
+/*!************************************************************************
+ \file				PauseQuitNoButton.cpp
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:		CSD2401A
+ \date				26-11-2023
+ \brief
+ This file contains the functionality of the No button for the Quit
+ confirmation pop up
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "Platform/Windows/Windows.h"
 #include "PauseQuitNoButton.h"
 #include "LitterBox/Engine/Input.h"

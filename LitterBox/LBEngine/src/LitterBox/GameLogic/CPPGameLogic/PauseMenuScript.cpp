@@ -1,3 +1,16 @@
+/*!************************************************************************
+ \file				PauseMenuScript.cpp
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:		CSD2401A
+ \date				26-11-2023
+ \brief
+ This file contains the functionality of the PauseMenuScript
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Engine/Time.h"
 #include "PauseMenuScript.h"
@@ -6,6 +19,11 @@
 
 namespace LB
 {
+
+	/*!***********************************************************************
+	\brief
+	 Initializes the GameObjects needed for the script
+	*************************************************************************/
 	void PauseMenuScript::Start()
 	{
 		//mIsPaused = TIME->IsPaused();
@@ -33,6 +51,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Allows for button press and movement of other game objects into view
+	*************************************************************************/
 	void PauseMenuScript::Update()
 	{
 		//DEBUG->DrawCircle(INPUT->GetMousePos(), 1.f, Vec4<float>(0.f, 0.f, 1.0f, 1.0f));
@@ -81,6 +103,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Override destroy function
+	*************************************************************************/
 	void PauseMenuScript::Destroy()
 	{
 
