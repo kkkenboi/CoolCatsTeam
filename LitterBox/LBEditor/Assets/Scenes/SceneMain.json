@@ -359,9 +359,6 @@
                     "Width": 1.0,
                     "Height": 1.0,
                     "Radius": 1.0
-                },
-                "CPPScript": {
-                    "Script": "PauseResumeGameScript"
                 }
             },
             {
@@ -386,9 +383,6 @@
                     "Width": 1.0,
                     "Height": 1.0,
                     "Radius": 1.0
-                },
-                "CPPScript": {
-                    "Script": "PauseHowToPlayScript"
                 }
             },
             {
@@ -413,9 +407,6 @@
                     "Width": 1.0,
                     "Height": 1.0,
                     "Radius": 1.0
-                },
-                "CPPScript": {
-                    "Script": "PauseQuitGameScript"
                 }
             },
             {
@@ -459,9 +450,6 @@
                     "Width": 218.0,
                     "Height": 165.0,
                     "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Script": "PauseHowToPlayBackScript"
                 }
             },
             {
@@ -505,9 +493,6 @@
                     "Width": 212.0,
                     "Height": 84.0,
                     "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Script": "PauseQuitGameYesScript"
                 }
             },
             {
@@ -532,9 +517,6 @@
                     "Width": 206.0,
                     "Height": 91.0,
                     "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Script": "PauseQuitGameNoScript"
                 }
             },
             {
@@ -556,6 +538,25 @@
                     "Loop": true,
                     "Volume": 0.33,
                     "Pitch": 1.0
+                }
+            },
+            {
+                "Name": "UnderlineObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 10.0,
+                        "y": 10.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "Underline"
                 }
             }
         ]

@@ -51,6 +51,7 @@ namespace LB
 		Vec2<float> right_side{};
 
 		GameObject* hand{ nullptr };
+		GameObject* line{ nullptr };
 		//-------------Rotation matrix values to get the left of the button---------------
 
 		//------------------------For Quit Confirmation---------------------------

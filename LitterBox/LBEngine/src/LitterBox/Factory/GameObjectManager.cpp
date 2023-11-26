@@ -427,6 +427,9 @@ namespace LB
 		auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
 		if (it != m_GameObjects.end()) 
 		{
+			// Let anyone know gameobject has been destroyed
+			onGameObjectDestroy.Invoke(*it);
+
 			m_GameObjects.erase(it);
 			gameObject->Destroy();
 		}

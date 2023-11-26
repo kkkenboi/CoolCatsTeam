@@ -209,7 +209,7 @@ namespace LB
 		m_stepSoundCurrent += TIME->GetDeltaTime();
 		
 		//------------------Pushes balls away from the player in a circle------------------
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
 		{
 			// Play hit sound
 			int Channel = AUDIOMANAGER->PlaySound("Sward-Whoosh_1");
@@ -242,7 +242,7 @@ namespace LB
 		}
 
 		//------------------Spawn a golf ball----------------------
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
 			if (m_currentBalls >= m_maxBalls) return;
 			++m_currentBalls;
@@ -296,9 +296,21 @@ namespace LB
 				return;
 			}
 			mGotAttackedCooldown = mGotAttacked;
-
-			int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+			int Channel{ 0 };
+			switch (std::rand() % 3)
+			{
+			case 0:
+				Channel = AUDIOMANAGER->PlaySound("playerhurt1");
+				break;
+			case 1:
+				Channel = AUDIOMANAGER->PlaySound("playerhurt2");
+				break;
+			case 2:
+				Channel = AUDIOMANAGER->PlaySound("playerhurt3");
+				break;
+			}
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
+			AUDIOMANAGER->SetChannelPitch(Channel, 1.1f);
 
 			--m_health;
 

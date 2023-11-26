@@ -96,6 +96,18 @@ namespace LB
         *************************************************************************/
         void DeleteSelectedObject();
 
+        /*!***********************************************************************
+          \brief
+          Deselected but does not delete the clicked GameObject
+        *************************************************************************/
+        void DeselectSelectedObject();
+
+        /*!***********************************************************************
+          \brief
+          Returns the current GameObject clicked, if any
+        *************************************************************************/
+        CPTransform* GetClickedItem();
+
         Event<GameObject*> onNewObjectSelected;
 
     private:
@@ -118,6 +130,13 @@ namespace LB
       Deletes the clicked GameObject
     *************************************************************************/
     void DeleteSelectedObject();
+
+    /*!***********************************************************************
+      \brief
+      Checks if the gameobject deleted during gameplay is the same as the
+      one inspected.
+    *************************************************************************/
+    void CheckGameObjectDeleted(GameObject* deletedGO);
 
     extern EditorHierarchy* EDITORHIERACHY;
 }
