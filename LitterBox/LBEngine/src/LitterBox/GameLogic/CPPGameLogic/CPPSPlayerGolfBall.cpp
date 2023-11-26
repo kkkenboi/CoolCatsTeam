@@ -63,10 +63,7 @@ namespace LB
 
 	}
 
-	void CPPSPlayerGolfBall::Destroy()
-	{
-
-	}
+	void CPPSPlayerGolfBall::Destroy() { }
 
 	//Getter functions
 	/*!***********************************************************************

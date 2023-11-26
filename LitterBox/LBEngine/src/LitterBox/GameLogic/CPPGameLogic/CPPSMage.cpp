@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				CPPSMage.cpp
  \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao
- \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan\@digipen.edu
+ \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan@digipen.edu
  \par Course:		CSD2401A
  \date				25-11-2023
  \brief
@@ -14,14 +14,11 @@ it handls the logic for the Mage enemy
 **************************************************************************/
 
 #include "CPPSMage.h"
+#include "CPPSBaseGolfBall.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Debugging/Debug.h"
-
-#include "CPPSBaseGolfBall.h"
-
 #include "LitterBox/Engine/Time.h"
-
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Physics/PhysicsMath.h"
 
@@ -101,8 +98,8 @@ namespace LB
 
 		//initialise the variables for the Mage
 		mHealth = 3; //health
-		mSpeedMagnitude = 1000.f; //speed of movement
-		mBackOffSpeed = 500.f; //speed of movement
+		mSpeedMagnitude = 100000.f; //speed of movement
+		mBackOffSpeed = 50000.f; //speed of movement
 
 		//------------------CHASE STATE------------------
 		//a little hardcoding for now, min and max distance between enemy and player
@@ -249,13 +246,13 @@ namespace LB
 		Vec2<float> CurHeroPos = GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
 		Vec2<float> CurEnemyPos = GetRigidBody()->getPos(); //Getting the current Mage Position
 
-		float offset = 100.0f;
-		Vec2<float> Direction = (CurHeroPos - (Vec2<float>{ CurEnemyPos.x + offset, CurEnemyPos.y + offset })).Normalise();
+		//having offset where it will shoot at the side of the mage
+		float offset = 50.0f;
+		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> ShootingForce = Direction * mProjSpeed;
 
 
-		Vec2<float> PosToSpawn{ CurEnemyPos.x + offset, CurEnemyPos.y + offset };
-		//ASSETMANAGER->SpawnGameObject("Projectile", PosToSpawn);
+		Vec2<float> PosToSpawn{ CurEnemyPos.x, CurEnemyPos.y};
 		int Channel = AUDIOMANAGER->PlaySound("Fire, Whoosh, Flame, Fireball, Fast x4 SND11948 1");
 		AUDIOMANAGER->SetChannelVolume(Channel, 0.3f);
 
@@ -282,12 +279,23 @@ namespace LB
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Enter the state of Idle where it will initialise the values
+	*************************************************************************/
 	void MageIdleState::Enter()
 	{
+		//stopping the animation and playing idle
 		mEnemy->mRender->stop_anim();
 		mEnemy->mRender->play_repeat("mage_idle");
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	Update the state of Idle where it changes the state to chasing when it reaches on idle state
+	(May change in future)
+	*************************************************************************/
 	void MageIdleState::Update()
 	{
 		//DebuggerLog("Entered MageIdleState");
@@ -295,6 +303,10 @@ namespace LB
 		GetFSM().ChangeState("Chase");
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void MageIdleState::Exit() {	}
 
 	/*!***********************************************************************
@@ -307,10 +319,20 @@ namespace LB
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Enter the state of chasing where it will initialise the values
+	*************************************************************************/
 	void MageChaseState::Enter()
 	{
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	Update the state of chasing where it will be chasing the enemy when its nearby,
+	changes states when it reaches a condition
+	*************************************************************************/
 	void MageChaseState::Update()
 	{
 		//Calculating the distance between the Enemy and the player
@@ -322,7 +344,7 @@ namespace LB
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> NormalForce = Direction * mEnemy->mSpeedMagnitude;
 		
-		mEnemy->GetRigidBody()->addForce(NormalForce); //add force to move
+		mEnemy->GetRigidBody()->addForce(NormalForce * TIME->GetDeltaTime()); //add force to move
 
 		if (DistInBwn < mEnemy->mMinDistance) //checking the distance if its too close
 		{
@@ -338,6 +360,11 @@ namespace LB
 			}
 		}
 	}
+
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void MageChaseState::Exit() { }
 
 	/*!***********************************************************************
@@ -350,10 +377,20 @@ namespace LB
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Enter the state of Backing off where it will initialise the values
+	*************************************************************************/
 	void MageBackOffState::Enter()
 	{
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	Update the state of Backing off where it will be Back off where the enemy when its too nearby,
+	changes states when it reaches a condition
+	*************************************************************************/
 	void MageBackOffState::Update()
 	{
 		//Calculating the distance between the Enemy and the player
@@ -365,7 +402,7 @@ namespace LB
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> BackOffForce = (-Direction) * mEnemy->mBackOffSpeed; //opposite direction
 
-		mEnemy->GetRigidBody()->addForce(BackOffForce); //Adding force with back off force
+		mEnemy->GetRigidBody()->addForce(BackOffForce * TIME->GetDeltaTime()); //Adding force with back off force
 
 		if (DistInBwn >= mEnemy->mBackOffDistance) //if dist is far
 		{
@@ -381,6 +418,11 @@ namespace LB
 			}
 		}
 	}
+
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void MageBackOffState::Exit() { }
 
 	/*!***********************************************************************
@@ -393,16 +435,28 @@ namespace LB
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Enter the state of Hurt where it will initialise the values
+	*************************************************************************/
 	void MageHurtState::Enter()
 	{
 		this->Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update the state of Hurt where it will change back the state to idle
+	*************************************************************************/
 	void MageHurtState::Update()
 	{
 		GetFSM().ChangeState("Idle");
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void MageHurtState::Exit() { }
 
 	/*!***********************************************************************
@@ -415,6 +469,10 @@ namespace LB
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Enter the state of Shooting where it will initialise the values
+	*************************************************************************/
 	void MageShootingState::Enter()
 	{
 		mEnemy->mRender->stop_anim();
@@ -425,6 +483,10 @@ namespace LB
 		this->Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update the state of Shooting where it will be shooting the player when player is nearby
+	*************************************************************************/
 	void MageShootingState::Update()
 	{
 		mEnemy->mProjCooldownCurrent += TIME->GetDeltaTime();
@@ -442,5 +504,9 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void MageShootingState::Exit() { }
 }

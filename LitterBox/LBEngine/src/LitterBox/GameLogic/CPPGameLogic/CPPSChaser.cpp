@@ -84,7 +84,7 @@ namespace LB {
 		mGotAttacked = 0.5f;
 
 		mHealth = 3;
-		mSpeedMagnitude = 1000.f;
+		mSpeedMagnitude = 100000.f;
 
 		mInitialised = true;
 	}
@@ -259,7 +259,7 @@ namespace LB {
 
 		Direction = Direction * mEnemy->GetSpeedMag();
 		DebuggerLogFormat("%f, %f", Direction.x, Direction.y);
-		mEnemy->GetRigidBody()->addForce(Direction);
+		mEnemy->GetRigidBody()->addForce(Direction * TIME->GetDeltaTime());
 	}
 	void ChaseState::Exit()
 	{

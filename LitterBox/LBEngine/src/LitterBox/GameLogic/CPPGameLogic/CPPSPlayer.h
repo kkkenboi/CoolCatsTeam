@@ -27,25 +27,30 @@ namespace LB
 		void Start() override;
 		void Update() override;
 		void Destroy() override;
+
+		//on collision function
 		void OnCollisionEnter(CollisionData colData) override;
 
+		//------------------Rendering,RB,Collider,Transform------------------
 		CPRigidBody* rb{ nullptr };
 		CPCollider* col{ nullptr };
 		CPRender* rend{ nullptr };
 		CPTransform* trans{ nullptr };
 
-		float m_walkSpeed, m_maxSpeed, m_stepSoundInterval, m_stepSoundCurrent;
+		//------------------variables------------------
+		float m_walkSpeed, m_maxSpeed, m_stepSoundInterval, m_stepSoundCurrent; //walking Speed, max speed cap for walking, playing sound duration 
 
-		int m_maxBalls, m_currentBalls;
+		int m_maxBalls, m_currentBalls; //max golf balls that the player can hold, and the current count of how many balls it has spawn
 
-		int m_health;
-		float mGotAttacked, mGotAttackedCooldown;
+		int m_health; //health of the player
+		float mGotAttacked, mGotAttackedCooldown; //attacking and cooling down of the attack
 
-		float m_shootForce, m_shootRadius;
+		float m_shootForce, m_shootRadius; //shooting of the golf ball force and the radius to shoot
 
-		bool m_isFacingLeft;
+		bool m_isFacingLeft; //facing which direction
 
 	private:
+		//direction of where the player is facing
 		LB::Vec2<float> right_face;
 		LB::Vec2<float> left_face;
 	};

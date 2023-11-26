@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				CPPSMage.h
  \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao
- \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan\@digipen.edu
+ \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan@digipen.edu
  \par Course:		CSD2401A
  \date				25-11-2023
  \brief
@@ -67,13 +67,14 @@ namespace LB
 		float mMinDistance, mMaxDistance, mBackOffDistance;
 		float rangeDistance{};
 
+		//------------------Rendering,RB,Collider------------------
 		CPRender* mRender; //animation purpose
 		CPRigidBody* mRigidBody; //Getting the RB of the enemy
 		CPCollider* mCollider; //Getting the collider of the enemy
 
 	private:
-		GameObject* mPlayer{ nullptr }; //Getting the player
-		GameObject* mProjectile{ nullptr };
+		GameObject* mPlayer{ nullptr }; //Getting the player GameObject
+		GameObject* mProjectile{ nullptr }; //Getting the projectile GameObject
 
 		// Holds the different state and the current state
 		// that the Mage enemy is in
