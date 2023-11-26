@@ -136,7 +136,11 @@ namespace LB
 		bool										m_ToUpdate{};
 	};
 
-	// For event subscription
+	/*!***********************************************************************
+	 \brief
+	 For event subscription, updates the current scene loaded to add the 
+	 GameObjects to
+	*************************************************************************/
 	void UpdateLoadedScene(Scene* loadedScene);
 
 	extern FactorySystem* FACTORY;

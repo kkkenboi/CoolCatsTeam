@@ -30,16 +30,19 @@ namespace LB
 	class CPTransform : public IComponent
 	{
 	public:
+		/*!***********************************************************************
+		 \brief
+		 Returns this component type
+		*************************************************************************/
 		static ComponentTypeID GetType()
 		{
 			return C_CPTransform;
 		}
 
 		/*!***********************************************************************
-		\brief
+		 \brief
 		 Function will serialize data from an outer json file to get data.
-
-		\return
+		 \return
 		 returns true if serialization succeeds and false if not.
 		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override

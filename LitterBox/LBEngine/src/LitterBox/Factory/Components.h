@@ -42,12 +42,25 @@ namespace LB
 	class ComponentMaker
 	{
 	public:
+		/*!***********************************************************************
+		 \brief
+		 Constructor, what type of component to create
+		*************************************************************************/
 		ComponentMaker(ComponentTypeID typeId) : TypeID(typeId) {}
 
-		ComponentTypeID TypeID;
-		///Create the component
+		/*!***********************************************************************
+		 \brief
+		 Creates the component based on the typeID
+		*************************************************************************/
 		virtual IComponent* Create() = 0;
+
+		/*!***********************************************************************
+		 \brief
+		 Virtual destructor
+		*************************************************************************/
 		virtual ~ComponentMaker() {};
+
+		ComponentTypeID TypeID;
 	};
 
 	/*!***********************************************************************
@@ -59,8 +72,16 @@ namespace LB
 	class ComponentMakerType : public ComponentMaker
 	{
 	public:
+		/*!***********************************************************************
+		 \brief
+		 Child constructor from component maker
+		*************************************************************************/
 		ComponentMakerType(ComponentTypeID typeId) : ComponentMaker(typeId) {}
 
+		/*!***********************************************************************
+		 \brief
+		 Creates an instance of the component based on the typeID
+		*************************************************************************/
 		IComponent* Create() override
 		{
 			// Returns a constructor to the derived class of IComponent
@@ -70,4 +91,5 @@ namespace LB
 
 }
 
+// Marco for defining different makers for components
 #define CreateComponentMaker(ComponentType, ComponentTypeID) FACTORY->InitCM (ComponentTypeID, DBG_NEW ComponentMakerType<ComponentType>( ComponentTypeID ) );

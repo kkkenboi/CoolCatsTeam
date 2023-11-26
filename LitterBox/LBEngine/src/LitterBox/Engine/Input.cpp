@@ -88,20 +88,26 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-	 Check if key is pressed of not
-	 \return
-	 return true if it does, false if not
+	 Check if key is pressed or not (Held down in last frame and current frame)
 	*************************************************************************/
 	bool InputSystem::IsKeyPressed(KeyCode key)
 	{
 		return inputKeysCurr[(int)key];
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Check if key is triggered or not (ONLY held down in current frame)
+	*************************************************************************/
 	bool InputSystem::IsKeyTriggered(KeyCode key)
 	{
 		return inputKeysCurr[(int)key] && !inputKeysLast[(int)key];
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Check if key is released or not (Release current frame)
+	*************************************************************************/
 	bool InputSystem::IsKeyReleased(KeyCode key)
 	{
 		return !inputKeysCurr[(int)key] && inputKeysLast[(int)key];
