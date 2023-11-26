@@ -30,7 +30,7 @@
         "Shape": 0,
         "Width": 100.0,
         "Height": 100.0,
-        "Radius": 50.0
+        "Radius": 40.0
     },
     "CPPScript": {
         "Script": "Mage"
