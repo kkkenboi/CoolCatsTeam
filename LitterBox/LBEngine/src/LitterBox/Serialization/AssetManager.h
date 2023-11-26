@@ -3,7 +3,7 @@
  \author(s)			Amadeus Chia Jinhan, 
  \par DP email(s):	amadeusjinhan.chia@digipen.edu,
  \par Course:       CSD2401A
- \date				02/11/2023
+ \date				22/11/2023
  \brief				The AssetManager handles the loading of data from file
                     and stores them in maps of instances for use througout
                     the engine. This allows users to only have to load 
@@ -99,6 +99,11 @@ namespace LB
         **************************************************************************/
         void ImportAssets();
 
+        /*!************************************************************************
+        * \brief Function that compares with the meta file and puts all the new files
+        * into a vector of file paths and returns it
+        * \return std::vector<std::filesystem::path> Filepaths of all new files  
+        **************************************************************************/
         std::vector<std::filesystem::path> GetNewFiles();
 
         

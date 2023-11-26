@@ -56,17 +56,18 @@ namespace LB
 					if (PauseMenuTexture) {
 						// If we found the block
 						// Move all the Pause Menu Objects away
-						PauseMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
-						PauseMenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{16.37f, 10.80f});
+						// ==
+						PauseMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
+						PauseMenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.67f, 11.50f});
 
-						PauseMenuResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{807.f, 507.1f});
-						PauseMenuResumeButton->GetComponent<CPCollider>()->SetWidthHeightRadius(270.f, 78.f, 50.f);
+						PauseMenuResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.66f, 585.23f});
+						PauseMenuResumeButton->GetComponent<CPCollider>()->SetWidthHeightRadius(334.f, 78.f, 50.f);
 
-						PauseMenuHowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{805.f, 412.f});
-						PauseMenuHowToPlayButton->GetComponent<CPCollider>()->SetWidthHeightRadius(270.f, 74.f, 50.f);
+						PauseMenuHowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 487.13f});
+						PauseMenuHowToPlayButton->GetComponent<CPCollider>()->SetWidthHeightRadius(332.f, 74.f, 50.f);
 
-						PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{804.f, 238.f});
-						PauseMenuExitButton->GetComponent<CPCollider>()->SetWidthHeightRadius(266.f, 77.f, 50.f);
+						PauseMenuExitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.22f, 310.78f});
+						PauseMenuExitButton->GetComponent<CPCollider>()->SetWidthHeightRadius(317.f, 77.f, 50.f);
 
 						// Move all the How To Play Objects into scene
 						HowToPlayTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
