@@ -89,6 +89,28 @@ namespace LB {
 
 		right_side = right_side - hand_size;
 		//-------------Rotation matrix values to get the left of the button---------------
+
+
+		//get all the quit confirmation stuff
+		// Grab All The GOs associated with the Pause Menu
+		for (GameObject* GO : GOMANAGER->GetGameObjects())
+		{
+			std::cout << GO->GetName() << '\n';
+			// Confirm Menu
+			if (GO->GetName() == "PauseMenuQuitConfirmTexture")
+			{
+				std::cout << "Found\n";
+				ConfirmMenuTexture = GO;
+			}
+			if (GO->GetName() == "PauseMenuQuitConfirmYesObject")
+			{
+				ConfirmMenuYesButton = GO;
+			}
+			if (GO->GetName() == "PauseMenuQuitConfirmNoObject")
+			{
+				ConfirmMenuNoButton = GO;
+			}
+		}
 	}
 
 	/*!***********************************************************************
@@ -120,8 +142,17 @@ namespace LB {
 
 				DebuggerLogFormat("BUTTON CLICK");
 				if (GameObj->GetName() == "Quit") {
-					MessageQuit q;
-					CORE->BroadcastMessage(&q);
+					/*MessageQuit q;
+					CORE->BroadcastMessage(&q);*/
+					std::cout << "HERE\n";
+					//------------------------------------------Move over the quit confirmation game objects----------------------------
+					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
+					{
+						ConfirmMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{800.f, 450.f});
+						ConfirmMenuYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{590.52f, 350.69f});
+						ConfirmMenuNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{998.f, 347.f});
+					}
+					//------------------------------------------Move over the quit confirmation game objects----------------------------
 				}
 				else if (GameObj->GetName() == "StartGame") {
 					SCENEMANAGER->LoadScene("SceneMain");

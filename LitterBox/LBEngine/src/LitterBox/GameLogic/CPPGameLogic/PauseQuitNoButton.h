@@ -15,14 +15,14 @@ namespace LB
 	private:
 		CPCollider* mCollider;
 
-		GameObject* ConfirmMenuTexture;
-		GameObject* ConfirmMenuYesButton;
-		GameObject* ConfirmMenuNoButton;
+		GameObject* ConfirmMenuTexture{ nullptr };
+		GameObject* ConfirmMenuYesButton{ nullptr };
+		GameObject* ConfirmMenuNoButton{ nullptr };
 
-		GameObject* PauseMenuTexture;
-		GameObject* PauseMenuResumeButton;
-		GameObject* PauseMenuHowToPlayButton;
-		GameObject* PauseMenuExitButton;
+		GameObject* PauseMenuTexture{ nullptr };
+		GameObject* PauseMenuResumeButton{ nullptr };
+		GameObject* PauseMenuHowToPlayButton{ nullptr };
+		GameObject* PauseMenuExitButton{ nullptr };
 	};
 
 }

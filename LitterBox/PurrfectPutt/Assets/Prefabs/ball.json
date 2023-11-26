@@ -1,13 +1,13 @@
 {
-    "Name": "Projectile",
+    "Name": "ball",
     "Transform": {
         "Position": {
-            "x": 896.89,
-            "y": 556.02
+            "x": 1113.5,
+            "y": 287.42
         },
         "Scale": {
-            "x": 2.0,
-            "y": 2.0
+            "x": 0.3,
+            "y": 0.3
         },
         "Rotation": 0.0
     },
@@ -20,19 +20,19 @@
     "Render": {
         "Width": 100.0,
         "Height": 100.0,
-        "Texture": "FireBall_0000"
+        "Texture": "GolfBall"
     },
     "Collider": {
         "ColliderLayer": {
-            "Layer Name": "EnemyBall",
-            "Layer ID": 5
+            "Layer Name": "PlayerBall",
+            "Layer ID": 4
         },
         "Shape": 0,
-        "Width": 20.0,
-        "Height": 20.0,
-        "Radius": 20.0
+        "Width": 30.0,
+        "Height": 30.0,
+        "Radius": 30.0
     },
     "CPPScript": {
-        "Script": "Projectile"
+        "Script": "PlayerBall"
     }
 }

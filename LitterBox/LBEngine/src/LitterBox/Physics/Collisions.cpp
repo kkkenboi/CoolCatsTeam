@@ -975,6 +975,9 @@ namespace LB
 
 		// First we get the nearest VerticeIndex from the box to the circle's center
 		int nearestVerticeIndex = FindIndexClosestPointOnPolygon(vertices, circleCenter);
+		if (nearestVerticeIndex == -1)
+			return false;
+
 		LB::Vec2<float> nearestVertice = vertices[nearestVerticeIndex];
 
 		// Next we make a vector from the circle center to nearestVertice
