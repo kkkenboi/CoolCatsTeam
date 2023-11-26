@@ -24,6 +24,8 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Texture": "Main_Menu_M2"
                 }
             },
@@ -41,6 +43,10 @@
                     "Rotation": 14.31
                 },
                 "Collider": {
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 380.0,
                     "Height": 80.0,
@@ -64,6 +70,10 @@
                     "Rotation": 14.31
                 },
                 "Collider": {
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 250.0,
                     "Height": 60.0,
@@ -87,6 +97,10 @@
                     "Rotation": 14.31
                 },
                 "Collider": {
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 250.0,
                     "Height": 50.0,
@@ -110,6 +124,10 @@
                     "Rotation": 14.31
                 },
                 "Collider": {
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 150.0,
                     "Height": 100.0,
@@ -133,6 +151,10 @@
                     "Rotation": 14.31
                 },
                 "Collider": {
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
                     "Shape": 1,
                     "Width": 250.0,
                     "Height": 60.0,
@@ -156,7 +178,82 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Texture": "lefthand"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmTexture",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.2,
+                        "y": 9.1
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "QuitMenu"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmYesObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 212.0,
+                    "Height": 84.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseQuitGameYesScript"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmNoObject",
+                "Transform": {
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 206.0,
+                    "Height": 91.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "PauseQuitGameNoScript"
                 }
             }
         ]
