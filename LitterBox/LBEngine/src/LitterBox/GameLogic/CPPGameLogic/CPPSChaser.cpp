@@ -86,6 +86,7 @@ namespace LB {
 		}
 
 		mGotAttacked = 0.5f;
+		mGotAttackedCooldown = 0.0f;
 
 		mHealth = 3;
 		mSpeedMagnitude = 100000.f;
@@ -100,10 +101,6 @@ namespace LB {
 	void CPPSChaser::Update()
 	{
 		//DebuggerLog("In ChaserUpdate\n");
-		if (mInitialised == false)
-		{
-			return;
-		}
 		if (mShouldDestroy)
 		{
 			GOMANAGER->RemoveGameObject(this->GameObj);
@@ -135,11 +132,14 @@ namespace LB {
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
 
-			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 300.f)
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 200.f)
 			{
+				DebuggerLogWarningFormat("CHASER HIT! %f", mGotAttackedCooldown);
 				if (mGotAttackedCooldown > 0.0f) {
 					return;
 				}
+				DebuggerLogWarning("CHASER HIT ACTUAL!");
+
 				int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
 				AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
 				mGotAttackedCooldown = mGotAttacked;

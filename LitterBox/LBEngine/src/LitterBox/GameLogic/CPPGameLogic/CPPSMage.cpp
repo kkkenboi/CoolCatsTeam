@@ -216,7 +216,7 @@ namespace LB
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
 
-			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 300.f)
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 200.f)
 			{
 				if (mGotAttackedCooldown > 0.0f) {
 					return;
