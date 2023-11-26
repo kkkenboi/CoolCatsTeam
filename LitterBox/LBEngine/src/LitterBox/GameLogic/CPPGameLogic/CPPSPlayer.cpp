@@ -46,7 +46,7 @@ namespace LB
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
-		m_shootForce = 325000.0f;
+		m_shootForce = 4500.0f;
 		m_shootRadius = 120.0f;
 
 		m_maxBalls = 3;
@@ -236,7 +236,10 @@ namespace LB
 					{
 						continue;
 					}
-					vec_colliders[i]->rigidbody->addImpulse(force_to_apply* TIME->GetDeltaTime());
+					if (!TIME->IsPaused())
+					{
+						vec_colliders[i]->rigidbody->addImpulse(force_to_apply); //* TIME->GetDeltaTime());
+					}
 				}
 			}
 		}

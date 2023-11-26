@@ -422,7 +422,8 @@ namespace LB
 						std::filesystem::path tempPath{ str };
 						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 						{
-							m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, width, height);
+							if(str == "none") m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(-1, width, height);
+							else m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, width, height);
 						}
 					}
 					ImGui::EndCombo();

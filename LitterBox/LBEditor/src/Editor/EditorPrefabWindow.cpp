@@ -74,6 +74,8 @@ namespace LB
 			float yScale = prefabGO->GetComponent<CPTransform>()->GetScale().y*100;
 			//int prefabTexture = ASSETMANAGER->GetTextureUnit(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
 			//this sets the prefab texture
+			if (!prefabGO->HasComponent<CPRender>()) { ImGui::End(); return; }
+
 			int prefabTexture = ASSETMANAGER->GetTextureIndex(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
 			
 			//Getting the imgui draw list so we can apply transformations to the image
