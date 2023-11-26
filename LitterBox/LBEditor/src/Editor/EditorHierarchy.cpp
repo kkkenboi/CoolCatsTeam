@@ -54,6 +54,9 @@ namespace LB
 
 		// But first after startup, load the active scene
 		UpdateSceneLoaded(SCENEMANAGER->GetCurrentScene());
+
+		// On any scene gameobject destroy during gameplay, deselect any
+		GOMANAGER->onGameObjectDestroy.Subscribe(LB::CheckGameObjectDeleted);
 	}
 
 	/*!***********************************************************************
@@ -252,10 +255,42 @@ namespace LB
 
 	/*!***********************************************************************
 	  \brief
+	  Deselected but does not delete the clicked GameObject
+	*************************************************************************/
+	void EditorHierarchy::DeselectSelectedObject()
+	{
+		m_clickedItem = nullptr;
+		onNewObjectSelected.Invoke(nullptr);
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Returns the current GameObject clicked, if any
+	*************************************************************************/
+	CPTransform* EditorHierarchy::GetClickedItem()
+	{
+		return m_clickedItem;
+	}
+
+	/*!***********************************************************************
+	  \brief
 	  Deletes the clicked GameObject
 	*************************************************************************/
 	void DeleteSelectedObject()
 	{
 		EDITORHIERACHY->DeleteSelectedObject();
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Checks if the gameobject deleted during gameplay is the same as the
+	  one inspected.
+	*************************************************************************/
+	void CheckGameObjectDeleted(GameObject* deletedGO)
+	{
+		if (EDITORHIERACHY->GetClickedItem() && EDITORHIERACHY->GetClickedItem() == deletedGO->GetComponent<CPTransform>())
+		{
+			EDITORHIERACHY->DeselectSelectedObject();
+		}
 	}
 }
