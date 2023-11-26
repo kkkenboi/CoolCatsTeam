@@ -200,25 +200,14 @@ namespace LB
 
         if (!CORE->IsEditorMode())
         {
+            std::string title{this->m_Data.m_GameTitle};
+
+            // Set Window Title (Name + FPS)
+            glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
+
             if (INPUT->IsKeyTriggered(KeyCode::KEY_L))
             {
-                m_Data.m_FullscreenMode = !m_Data.m_FullscreenMode;
-
-                if (m_Data.m_FullscreenMode)
-                {
-                    glfwSetWindowMonitor(m_Data.m_PtrToWindow, m_Data.m_Monitor, 0, 0, m_Data.m_VideoMode->width, m_Data.m_VideoMode->height, NULL);
-                    used_width = m_Data.m_VideoMode->width;
-                    used_height = m_Data.m_VideoMode->height;
-                }
-                else
-                {
-                    glfwSetWindowMonitor(m_Data.m_PtrToWindow, NULL, m_Data.m_VideoMode->width/4, m_Data.m_VideoMode->height/4, m_Data.m_Width, m_Data.m_Height, NULL);
-
-                    used_width = m_Data.m_Width;
-                    used_height = m_Data.m_Height;
-                }
-
-                screenSizeChange.Invoke();
+                toggleFullScreen();
             }
         }
         else
@@ -364,11 +353,36 @@ namespace LB
         WINDOWSSYSTEM->Draw(WINDOWSSYSTEM->m_Data);
     }
 
+    /*!***********************************************************************
+     \brief
+     Sets the Window Focus callback
+    *************************************************************************/
     void WindowsSystem::FocusCB(GLFWwindow* window, int focused)
     {
         if (focused)
             WINDOWSSYSTEM->OnApplicationFocus.Invoke();
         else
             WINDOWSSYSTEM->OnApplicationUnFocus.Invoke();
+    }
+
+    void WindowsSystem::toggleFullScreen()
+    {
+        m_Data.m_FullscreenMode = !m_Data.m_FullscreenMode;
+
+        if (m_Data.m_FullscreenMode)
+        {
+            glfwSetWindowMonitor(m_Data.m_PtrToWindow, m_Data.m_Monitor, 0, 0, m_Data.m_VideoMode->width, m_Data.m_VideoMode->height, NULL);
+            used_width = m_Data.m_VideoMode->width;
+            used_height = m_Data.m_VideoMode->height;
+        }
+        else
+        {
+            glfwSetWindowMonitor(m_Data.m_PtrToWindow, NULL, m_Data.m_VideoMode->width / 4, m_Data.m_VideoMode->height / 4, m_Data.m_Width, m_Data.m_Height, NULL);
+
+            used_width = m_Data.m_Width;
+            used_height = m_Data.m_Height;
+        }
+
+        screenSizeChange.Invoke();
     }
 }

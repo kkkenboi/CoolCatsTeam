@@ -52,5 +52,13 @@ namespace LB
 
 		GameObject* hand{ nullptr };
 		//-------------Rotation matrix values to get the left of the button---------------
+
+		//------------------------For Quit Confirmation---------------------------
+		CPCollider* mCollider;
+
+		GameObject* ConfirmMenuTexture;
+		GameObject* ConfirmMenuYesButton;
+		GameObject* ConfirmMenuNoButton;
+		//------------------------For Quit Confirmation---------------------------
 	};
 }

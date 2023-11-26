@@ -14,10 +14,11 @@
 
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Physics/ColliderManager.h"
-//#include "EditorGameView.h"
 #include "CPPSPlayer.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Engine/Time.h"
 #include <array>
+#include <random>
 
 namespace LB
 {
@@ -31,16 +32,33 @@ namespace LB
 	void CPPSPlayer::Start()
 	{
 		rb = GameObj->GetComponent<CPRigidBody>();
-
 		rend = GameObj->GetComponent<CPRender>();
-
-
 		trans = GameObj->GetComponent<CPTransform>();
+		col = GameObj->GetComponent<CPCollider>();
+
 		right_face = trans->GetScale();
 		left_face = trans->GetScale();
 		left_face.x = -left_face.x;
 
-		DebuggerLogWarningFormat("Found run! %d", LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["run"]) != LB::ASSETMANAGER->Textures.end());
+		//--------------------------Variables initializaiton----------------------------
+		m_maxSpeed = 500.0f;
+		m_walkSpeed = 3000.0f;
+		m_stepSoundInterval = 0.2f;
+		m_stepSoundCurrent = 0.0f;
+
+		m_shootForce = 3250.0f;
+		m_shootRadius = 120.0f;
+
+		m_maxBalls = 3;
+		m_currentBalls = 0;
+
+		m_health = 3;
+
+		// 0.5 seconds of invincibility
+		mGotAttacked = 0.5f;
+
+		// So that balls don't spawn on top each other
+		rb->addForce(Vec2<float>{10.0f, 0.0f});
 
 		//---------------------------getting the uvs for the run------------------------
 		if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"]) != LB::ASSETMANAGER->Textures.end()) {
@@ -69,119 +87,192 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayer::Update()
 	{
-		//Animation and sounds
+		//-----------------TESTING SPAWN-----------------------
+		//Spawn Mage
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
+		{
+			Vec2<float> mouse_pos = INPUT->GetMousePos();
+			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+
+			GameObject* mageObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("Mage", *mageObject);
+			mageObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		}
+		//Spawn Chaser
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
+		{
+			Vec2<float> mouse_pos = INPUT->GetMousePos();
+			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+
+			GameObject* chaserObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserObject);
+			chaserObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		}
+
+		if (mGotAttackedCooldown > 0.0f) {
+			mGotAttackedCooldown -= TIME->GetDeltaTime();
+		}
+
+		//------------------Walking animation------------------
+		static bool isWalkingAnim{ false };
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
 		{
-			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_1");
 			rend->stop_anim();
 			rend->play_repeat("player_walk");
+
+			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A))
 		{
-			//trans->SetScale(left_face);
-			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_2");
 			rend->stop_anim();
 			rend->play_repeat("player_walk");
+
+			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D))
 		{
-			//trans->SetScale(right_face);
-			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_3");
 			rend->stop_anim();
 			rend->play_repeat("player_walk");
+
+			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S))
 		{
-			AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_4");
 			rend->stop_anim();
 			rend->play_repeat("player_walk");
+
+			isWalkingAnim = true;
 		}
 
-		// Movement WASD
+		//------------------Movement WASD------------------
+		bool isMoving{ false };
 		if (INPUT->IsKeyPressed(KeyCode::KEY_W))
 		{
-			rb->addForce(Vec2<float>{0.f, 5000.f});
+			rb->addForce(Vec2<float>{0.f, m_walkSpeed});
+			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_S))
 		{
-			rb->addForce(Vec2<float>{0.f, -5000.f});
+			rb->addForce(Vec2<float>{0.f, -m_walkSpeed});
+			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_A))
 		{
-			rb->addForce(Vec2<float>{-5000.f, 0.f});
+			rb->addForce(Vec2<float>{-m_walkSpeed, 0.f});
+			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_D))
 		{
-			rb->addForce(Vec2<float>{5000.f, 0.f});
+			rb->addForce(Vec2<float>{m_walkSpeed, 0.f});
+			isMoving = true;
+		}
+		rb->mVelocity.x = Clamp<float>(rb->mVelocity.x, -m_maxSpeed, m_maxSpeed);
+		rb->mVelocity.y = Clamp<float>(rb->mVelocity.y, -m_maxSpeed, m_maxSpeed);
+
+		if (!isMoving)
+		{
+			rb->addForce(-rb->mVelocity * 5.0f);
+
+			if (isWalkingAnim)
+			{
+				rend->stop_anim();
+				rend->play_repeat("player_idle");
+				isWalkingAnim = false;
+			}
 		}
 
-		// Rotation QE
-		if (INPUT->IsKeyPressed(KeyCode::KEY_Q))
+		//------------------Play step sound------------------
+		if (isMoving && m_stepSoundCurrent > m_stepSoundInterval)
 		{
-			rb->addRotation(0.15f);
+			m_stepSoundCurrent = 0.0f;
+			switch (std::rand() % 4)
+			{
+			case 0:
+				AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_1");
+				break;
+			case 1:
+				AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_2");
+				break;
+			case 2:
+				AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_3");
+				break;
+			case 3:
+				AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_4");
+				break;
+			}
 		}
-		if (INPUT->IsKeyPressed(KeyCode::KEY_E))
-		{
-			rb->addRotation(-0.15f);
-		}
+		m_stepSoundCurrent += TIME->GetDeltaTime();
 		
-		// Click check
+		//------------------Pushes balls away from the player in a circle------------------
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
-			DebuggerLogWarning("Mouse 1 is pressed!");
-		}
-
-		// Pushes everything away from the player in a circle
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_F))
-		{
+			// Play hit sound
 			int Channel = AUDIOMANAGER->PlaySound("Sward-Whoosh_1");
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.3f);
 
-		}
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_F))
-		{
+			// Pushes the ball
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
-			float effect_radius = 100.f;
-			float effect_magnitude = 1500.f;
 
-			DEBUG->DrawCircle(current_pos, effect_radius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
-
-			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, effect_radius);
+			DEBUG->DrawCircle(current_pos, m_shootRadius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
+			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, m_shootRadius);
 
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 			mouse_pos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
 			mouse_pos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
-			//std::cout << vec_colliders.size() << std::endl;
+
 			for (size_t i = 0; i < vec_colliders.size(); ++i) {
 				Vec2<float> force_to_apply = mouse_pos - vec_colliders[i]->m_pos;
-				force_to_apply = Normalise(force_to_apply) * effect_magnitude;
+				force_to_apply = Normalise(force_to_apply) * m_shootForce;
 
 				if (vec_colliders[i]->rigidbody != nullptr)
 				{
-					if (vec_colliders[i] == GameObj->GetComponent<CPCollider>())
+					if (vec_colliders[i] == GameObj->GetComponent<CPCollider>() || vec_colliders[i]->GetLayerName() != "PlayerBall")
 					{
 						continue;
 					}
 					vec_colliders[i]->rigidbody->addImpulse(force_to_apply);
 				}
-
 			}
 		}
-		//Player face mouse pos
+
+		//------------------Spawn a golf ball----------------------
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
+		{
+			if (m_currentBalls >= m_maxBalls) return;
+			++m_currentBalls;
+
+			//Spawn Game Object
+			GameObject* ballObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("ball", *ballObject);
+
+			Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
+			playerPos.x += m_isFacingLeft ? -50.0f : 50.0f;
+
+			ballObject->GetComponent<CPTransform>()->SetPosition(playerPos);
+		}
+
+		//------------------Player face mouse pos------------------
 		Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
 		Vec2<float> mousePos = INPUT->GetMousePos();
+		
 		mousePos.y = mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 		mousePos.y *= 900.f / (float)WINDOWSSYSTEM->GetHeight();
 		mousePos.x *= 1600.f / (float)WINDOWSSYSTEM->GetWidth();
+		
 		Vec2<float> playerToMouseDir = mousePos - playerPos;
 		Vec2<float> TransformRight{ right_face };
-		if (DotProduct(playerToMouseDir.Normalise(), TransformRight.Normalise()) < 0)
+
+		m_isFacingLeft = DotProduct(playerToMouseDir.Normalise(), TransformRight.Normalise()) < 0.0f;
+
+		if (m_isFacingLeft)
 		{
 			trans->SetScale(left_face);
 		} else trans->SetScale(right_face);
-
-		
 	}
 
 	/*!***********************************************************************
@@ -195,6 +286,25 @@ namespace LB
 
 	void CPPSPlayer::OnCollisionEnter(CollisionData colData) 
 	{
+		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
+			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
+			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
+		{
+			if (mGotAttackedCooldown > 0.0f) {
+				return;
+			}
+			mGotAttackedCooldown = mGotAttacked;
 
+			int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+
+			--m_health;
+
+			if (m_health < 0)
+			{
+				//GOMANAGER->RemoveGameObject(this->GameObj);
+			}
+
+		}
 	}
 }

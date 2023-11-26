@@ -16,6 +16,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "AssetManager.h"  
+#include "LitterBox/Core/Core.h"
 #pragma warning(push, 0)
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -552,7 +553,10 @@ namespace LB
             KeyBindNameMap[itr->name.GetString()] = itr->value.GetString();
         }
         //We regenerate the file again just incase the user made any changes
-        GenerateKeyBindsJson();
+        if (CORE->IsEditorMode())
+        {
+            GenerateKeyBindsJson();
+        }
     }
 
     /*!***********************************************************************
@@ -596,6 +600,7 @@ namespace LB
             Value val(elem.second.c_str(), alloc);
             _jsonFile.AddMember(key, val, alloc);
         }
+        DebuggerLog( FILESYSTEM->GetFilePath("KeyBinds.json").string());
         JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyBinds.json").string(), _jsonFile);
         //To test if the keycode and string to keycode function works
         //std::cout << KeyCodeToString(StringToKeyCode("KEY_J")) << '\n';
@@ -643,6 +648,8 @@ namespace LB
             Value key(elem.first.c_str(), alloc);
             _jsonFile.AddMember(key, elem.second, alloc);
         }
+        DebuggerLog(FILESYSTEM->GetFilePath("KeyCodeTable.json").string());
+
         JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyCodeTable.json").string(), _jsonFile);
     }
 }

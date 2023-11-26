@@ -36,36 +36,11 @@ namespace LB
 	void CPPSMage::Start()
 	{
 		//initialising the components of the mage, basically same as chase where I am getting the components
-		if (GameObj->HasComponent<CPRender>())
-		{
-			mRender = GameObj->GetComponent<CPRender>();
+		mRender = GameObj->GetComponent<CPRender>();
+		mRigidBody = GameObj->GetComponent<CPRigidBody>();
+		mCollider = GameObj->GetComponent<CPCollider>();
 
-		}
-		else
-		{
-			mRender = nullptr;
-			return;
-		}
-		if (GameObj->HasComponent<CPRigidBody>())
-		{
-			mRigidBody = GameObj->GetComponent<CPRigidBody>();
-		}
-		else
-		{
-			mRigidBody = nullptr;
-			return;
-		}
-		if (GameObj->HasComponent<CPCollider>())
-		{
-			mCollider = GameObj->GetComponent<CPCollider>();
-		}
-		else
-		{
-			mCollider = nullptr;
-			return;
-		}
-
-		//get the mage animation
+		//--------------------------------get the mage animation--------------------------------
 		if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["sheet"]) != LB::ASSETMANAGER->Textures.end()) {
 			int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["sheet"])->second.first->width };
 			int img_height{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["sheet"])->second.first->height };
@@ -74,19 +49,18 @@ namespace LB
 			float y_inc{ 110.f / (float)img_height };
 
 			//y increments 110 pixels at a time for 4 times
-			//for(int y{0}; y < 3; ++y)
-				for (int x{ 0 }; x < 17; ++x) {
-					mage_anim_frams[x].at(0) = { x * x_inc, 0.f };//bottom left
-					mage_anim_frams[x].at(1) = { (x + 1) * x_inc, 0.f };//bottom right
-					mage_anim_frams[x].at(2) = { (x + 1) * x_inc, 1.f };//top right
-					mage_anim_frams[x].at(3) = { x * x_inc, 1.f };//top left
-				}
-
+			for (int x{ 0 }; x < 17; ++x) {
+				mage_anim_frams[x].at(0) = { x * x_inc, 0.f };//bottom left
+				mage_anim_frams[x].at(1) = { (x + 1) * x_inc, 0.f };//bottom right
+				mage_anim_frams[x].at(2) = { (x + 1) * x_inc, 1.f };//top right
+				mage_anim_frams[x].at(3) = { x * x_inc, 1.f };//top left
+			}
 
 			Renderer::GRAPHICS->init_anim("mage_float", mage_anim_frams.data(), 0.5f, 17);
+			Renderer::GRAPHICS->init_anim("mage_idle", mage_anim_frams.data(), 1.f, 1);
 
 			mRender->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("sheet"), mRender->w, mRender->h);
-			mRender->play_repeat("mage_float");
+			mRender->play_repeat("mage_idle");
 		}
 
 		
@@ -119,25 +93,30 @@ namespace LB
 		//initialise the variables for the Mage
 		mHealth = 3; //health
 		mSpeedMagnitude = 1000.f; //speed of movement
-		mProjSpeed = 1500.0f; //pojectile speed
-		mNumOfProjectile = 3; //set to 3 projectiles
+		mBackOffSpeed = 500.f; //speed of movement
 
-		mHasShot = false; //a boolean to check if the enemy has shot
-
+		//------------------CHASE STATE------------------
 		//a little hardcoding for now, min and max distance between enemy and player
-		mMinDistance = 120.0f;
-		mMaxDistance = 1330.0f;
-		rangeDistance = mMaxDistance - mMinDistance;
+		mAttackCooldown = 2.0f;
+		mAttackCooldownCurrent = 0.0f;
 
+		mMinDistance = 400.0f;
+		mBackOffDistance = 800.0f;
+		mMaxDistance = 1500.0f;
+
+		//------------------SHOOTING STATE------------------
 		//timer set for shooting of projectils
-		mnextTimeToShoot = 0.0;
-		mcount = 0;
-		msetTimer = 0.0;
-		mfireRate = 2.0;
+		mNumOfProjectile = 3; //set to 3 projectiles
+		mNumOfProjectileCurrent = 0;
+		mProjCooldown = 0.35f;
+		mProjCooldownCurrent = 0.0f;
+		mProjSpeed = 1000.0f; //pojectile speed
+
+		// 0.5 seconds of invincibility
+		mGotAttacked = 0.5f;
 
 		//it has fully initialised
 		mInitialised = true;
-		
 	}
 
 	/*!***********************************************************************
@@ -150,6 +129,15 @@ namespace LB
 		{
 			return;
 		}
+		if (mShouldDestroy)
+		{
+			GOMANAGER->RemoveGameObject(this->GameObj);
+			return;
+		}
+		if (mGotAttackedCooldown > 0.0f) {
+			mGotAttackedCooldown -= TIME->GetDeltaTime();
+		}
+
 		mFSM.Update();
 	}
 
@@ -213,80 +201,33 @@ namespace LB
 		return mProjectile;
 	}
 
-
-	/*!***********************************************************************
-	\brief
-	Getter for the Projectile Speed
-	*************************************************************************/
-	float CPPSMage::GetProjSpeed()
-	{
-		return mProjSpeed;
-	}
-
-	/*!***********************************************************************
-	\brief
-	Getter for speed magnitude
-	*************************************************************************/
-	float CPPSMage::GetSpeedMag()
-	{
-		return mSpeedMagnitude;
-	}
-
-	/*!***********************************************************************
-	\brief
-	Getter for Back Off speed magnitude
-	*************************************************************************/
-	float CPPSMage::GetBackOffSpeedMag()
-	{
-		return mBackOffSpeed = mSpeedMagnitude / 2.0f;
-	}
-
-	/*!***********************************************************************
-	\brief
-	Getter for tooClose
-	*************************************************************************/
-	float CPPSMage::TooCloseDistance()
-	{
-		mTooClose = rangeDistance / 3.0f;
-		return mTooClose;
-	}
-
-	/*!***********************************************************************
-	\brief
-	Getter for range attack
-	*************************************************************************/
-	float CPPSMage::RangeAttackDistance()
-	{
-		mAttackRange = rangeDistance / 2.0f;
-		return mAttackRange;
-	}
-
 	/*!***********************************************************************
 	\brief
 	On collision to check who it is colliding with and what will happen
 	*************************************************************************/
 	void CPPSMage::OnCollisionEnter(CollisionData colData)
 	{
-		if (this->mFSM.GetCurrentState()->GetStateID() == "Chase")
-		{
-			if (colData.colliderOther->m_gameobj->GetName() == "ball") {
-				if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
+		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
+			int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
+			{
+				if (mGotAttackedCooldown > 0.0f) {
+					return;
+				}
+				mGotAttackedCooldown = mGotAttacked;
+
+				--mHealth;
+				mFSM.ChangeState("Hurt");
+
+				if (mHealth < 0)
 				{
-					--mHealth;
-					mFSM.ChangeState("Hurt");
+					GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
+					GOMANAGER->RemoveGameObject(this->GameObj);
 				}
 			}
 		}
-
-	}
-
-	/*!***********************************************************************
-	\brief
-	A bool to check if the mage has shot anything
-	*************************************************************************/
-	bool& CPPSMage::CheckHasShot()
-	{
-		return mHasShot;
 	}
 
 	/*!***********************************************************************
@@ -300,7 +241,7 @@ namespace LB
 
 		float offset = 100.0f;
 		Vec2<float> Direction = (CurHeroPos - (Vec2<float>{ CurEnemyPos.x + offset, CurEnemyPos.y + offset })).Normalise();
-		Vec2<float> ShootingForce = Direction * GetSpeedMag() * 3.0f;
+		Vec2<float> ShootingForce = Direction * mProjSpeed;
 
 
 		Vec2<float> PosToSpawn{ CurEnemyPos.x + offset, CurEnemyPos.y + offset };
@@ -319,51 +260,6 @@ namespace LB
 		mageProjectileObject->GetComponent<CPRigidBody>()->addImpulse(ShootingForce);
 	}
 
-	/*!***********************************************************************
-	\brief
-	Getter for num of projectile (will need to decrement later)
-	*************************************************************************/
-	int& CPPSMage::NumOfProj()
-	{
-		return mNumOfProjectile;
-	}
-	
-	/*!***********************************************************************
-	\brief
-	Getter for getting the next shot time
-	*************************************************************************/
-	double& CPPSMage::NextShot()
-	{
-		return mnextTimeToShoot;
-	}
-
-	/*!***********************************************************************
-	\brief
-	Setting how much time every interval
-	*************************************************************************/
-	double& CPPSMage::SetTime()
-	{
-		return msetTimer;
-	}
-
-	/*!***********************************************************************
-	\brief
-	Getter for setting fire rate
-	*************************************************************************/
-	double& CPPSMage::FireRate()
-	{
-		return mfireRate;
-	}
-
-	/*!***********************************************************************
-	\brief
-	Getter for getting the count
-	*************************************************************************/
-	int& CPPSMage::Count()
-	{
-		return mcount;
-	}
-
 	// States ===================
 
 	/*!***********************************************************************
@@ -378,20 +274,18 @@ namespace LB
 
 	void MageIdleState::Enter()
 	{
+		mEnemy->mRender->stop_anim();
+		mEnemy->mRender->play_repeat("mage_idle");
 		this->Update();
 	}
 	void MageIdleState::Update()
 	{
 		//DebuggerLog("Entered MageIdleState");
-		if (INPUT->IsKeyPressed(KeyCode::KEY_M)) //MAGE WILL CHASE WHEN THIS IS PRESSED
-		{
-			// Change the state to Chase
-			GetFSM().ChangeState("Chase");
-		}
+		//if (INPUT->IsKeyPressed(KeyCode::KEY_M)) //MAGE WILL CHASE WHEN THIS IS PRESSED
+		GetFSM().ChangeState("Chase");
 	}
-	void MageIdleState::Exit()
-	{
-	}
+
+	void MageIdleState::Exit() {	}
 
 	/*!***********************************************************************
 	\brief
@@ -405,12 +299,10 @@ namespace LB
 
 	void MageChaseState::Enter()
 	{
-		//DebuggerLog("Entered MageChaseState");
 		this->Update();
 	}
 	void MageChaseState::Update()
 	{
-		//DebuggerLog("Entered MageChaseState");
 		//Calculating the distance between the Enemy and the player
 		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
 		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
@@ -418,23 +310,25 @@ namespace LB
 
 		////Getting the direction of the player and the enemy
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
-		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
+		Vec2<float> NormalForce = Direction * mEnemy->mSpeedMagnitude;
 		
 		mEnemy->GetRigidBody()->addForce(NormalForce); //add force to move
 
-		if (DistInBwn < mEnemy->TooCloseDistance()) //checking the distance if its too close
+		if (DistInBwn < mEnemy->mMinDistance) //checking the distance if its too close
 		{
 			GetFSM().ChangeState("BackOff");//it will change the state to back off
 		}
-		else if (DistInBwn >= mEnemy->TooCloseDistance() && DistInBwn <= mEnemy->RangeAttackDistance()) //if distance bwn not too close and its on the attack range
+		else if (DistInBwn >= mEnemy->mMinDistance && DistInBwn <= mEnemy->mMaxDistance) //if distance bwn not too close and its on the attack range
 		{
-			GetFSM().ChangeState("Shooting"); //it will change the state to shooting
+			mEnemy->mAttackCooldownCurrent += TIME->GetDeltaTime();
+			if (mEnemy->mAttackCooldownCurrent > mEnemy->mAttackCooldown)
+			{
+				mEnemy->mAttackCooldownCurrent = 0.0f;
+				GetFSM().ChangeState("Shooting"); //it will change the state to shooting
+			}
 		}
-
 	}
-	void MageChaseState::Exit()
-	{
-	}
+	void MageChaseState::Exit() { }
 
 	/*!***********************************************************************
 	\brief
@@ -448,12 +342,10 @@ namespace LB
 
 	void MageBackOffState::Enter()
 	{
-		//DebuggerLog("Entered MageBackOffState");
 		this->Update();
 	}
 	void MageBackOffState::Update()
 	{
-		//DebuggerLog("Entered MageBackOffState");
 		//Calculating the distance between the Enemy and the player
 		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
 		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
@@ -461,22 +353,25 @@ namespace LB
 
 		//Getting the direction of the player and the enemy
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
-		Vec2<float> BackOffForce = (-Direction) * mEnemy->GetBackOffSpeedMag(); //opposite direction
+		Vec2<float> BackOffForce = (-Direction) * mEnemy->mBackOffSpeed; //opposite direction
 
 		mEnemy->GetRigidBody()->addForce(BackOffForce); //Adding force with back off force
 
-		if (DistInBwn >= mEnemy->TooCloseDistance()) //if dist is far
+		if (DistInBwn >= mEnemy->mBackOffDistance) //if dist is far
 		{
 			GetFSM().ChangeState("Chase"); //goes back to chasing state
 		}
-		else if (DistInBwn >= mEnemy->TooCloseDistance() && DistInBwn <= mEnemy->RangeAttackDistance()) //if its in between
+		else if (DistInBwn >= mEnemy->mMinDistance && DistInBwn <= mEnemy->mMaxDistance) //if its in between
 		{
-			GetFSM().ChangeState("Shooting"); //goes to shooting state
+			mEnemy->mAttackCooldownCurrent += TIME->GetDeltaTime();
+			if (mEnemy->mAttackCooldownCurrent > mEnemy->mAttackCooldown)
+			{
+				mEnemy->mAttackCooldownCurrent = 0.0f;
+				GetFSM().ChangeState("Shooting"); //it will change the state to shooting
+			}
 		}
 	}
-	void MageBackOffState::Exit()
-	{
-	}
+	void MageBackOffState::Exit() { }
 
 	/*!***********************************************************************
 	\brief
@@ -490,17 +385,15 @@ namespace LB
 
 	void MageHurtState::Enter()
 	{
-		//DebuggerLog("Entered MageHurtState");
 		this->Update();
 	}
+
 	void MageHurtState::Update()
 	{
-		//DebuggerLog("Entered MageHurtState");
 		GetFSM().ChangeState("Idle");
 	}
-	void MageHurtState::Exit()
-	{
-	}
+
+	void MageHurtState::Exit() { }
 
 	/*!***********************************************************************
 	\brief
@@ -514,43 +407,30 @@ namespace LB
 
 	void MageShootingState::Enter()
 	{
-		//DebuggerLog("Entered MageShootingState");
-		
+		mEnemy->mRender->stop_anim();
+		mEnemy->mRender->play_repeat("mage_float");
+
+		mEnemy->mNumOfProjectileCurrent = 0;
+		mEnemy->mProjCooldownCurrent = 0.0f;
 		this->Update();
 	}
 
 	void MageShootingState::Update()
 	{
-		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
-		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
-		//float DistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos);
+		mEnemy->mProjCooldownCurrent += TIME->GetDeltaTime();
+		if (mEnemy->mProjCooldownCurrent > mEnemy->mProjCooldown)
+		{
+			mEnemy->mProjCooldownCurrent = 0.0f;
 
-		////Getting the direction of the player and the enemy
-		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
-		Vec2<float> ShootingForce = Direction * (mEnemy->GetSpeedMag() * 10.0f);
+			++mEnemy->mNumOfProjectileCurrent;
+			mEnemy->SpawnProjectile();
 
-		//if (INPUT->IsKeyPressed(KeyCode::KEY_5))
-		//{
-			if (TIME->GetTime() >= mEnemy->NextShot())
+			if (mEnemy->mNumOfProjectileCurrent >= mEnemy->mNumOfProjectile)
 			{
-				mEnemy->SpawnProjectile();
-				//current time + 1/firerate
-				mEnemy->NextShot() = TIME->GetTime() + (double)(1 / mEnemy->FireRate());
-				//++mEnemy->FireRate();
-				DebuggerLog("SHOOOOTTTINGGG");
-				DebuggerLogFormat("Entered MageShootingState: %d", mEnemy->SetTime());
-				++mEnemy->Count();
-				if (mEnemy->Count() == mEnemy->NumOfProj())
-				{
-					mEnemy->Count() = 0;
-					GetFSM().ChangeState("Idle");	
-				}
+				GetFSM().ChangeState("Idle");	
 			}
-		//}
-		
+		}
 	}
 
-	void MageShootingState::Exit()
-	{
-	}
+	void MageShootingState::Exit() { }
 }

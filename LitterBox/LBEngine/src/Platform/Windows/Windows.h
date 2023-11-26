@@ -35,6 +35,7 @@ namespace LB
 	struct WindowsData
 	{
 		std::string		m_Title{};
+		std::string		m_GameTitle{};
 		unsigned int	m_Width{}, m_Height{};
 		double			m_PosX{}, m_PosY{};
 		bool			m_FullscreenMode{ true };
@@ -47,10 +48,10 @@ namespace LB
 		 \brief
 		 Constructor for WindowsData
 		*************************************************************************/
-		WindowsData(const std::string& title = "LitterBox Engine",
+		WindowsData(const std::string& title = "LitterBox Engine", const std::string& gameTitle = "Purrfect Putt",
 			unsigned int width = 900,
 			unsigned int height = 900)
-			: m_Title(title), m_Width(width), m_Height(height), m_PtrToWindow{ nullptr }
+			: m_Title(title), m_GameTitle(gameTitle), m_Width(width), m_Height(height), m_PtrToWindow{ nullptr }
 		{
 		}
 
@@ -199,11 +200,31 @@ namespace LB
 		*************************************************************************/
 		static void FrameBufferCB(GLFWwindow* ptr_win, int width, int height);
 
+		/*!***********************************************************************
+		 \brief
+		 Sets the Window Focus callback
+		*************************************************************************/
 		static void FocusCB(GLFWwindow* window, int focused);
 
+		/*!***********************************************************************
+		 \brief
+		 Gets the width of the main monitor in pixels
+		*************************************************************************/
 		inline unsigned int GetScreenWidth() { return m_Data.m_VideoMode->width; }
+
+		/*!***********************************************************************
+		 \brief
+		 Gets the height of the main monitor in pixels
+		*************************************************************************/
 		inline unsigned int GetScreenHeight() { return m_Data.m_VideoMode->height; }
+		
+		/*!***********************************************************************
+		 \brief
+		 Checks if the current window context is in fullscreen mode or not
+		*************************************************************************/
 		inline bool			IsFullScreen() { return m_Data.m_FullscreenMode; }
+
+		void toggleFullScreen();
 
 		Event<> OnApplicationFocus;
 		Event<> OnApplicationUnFocus;

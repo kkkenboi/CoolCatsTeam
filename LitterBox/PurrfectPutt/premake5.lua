@@ -39,7 +39,6 @@ project "PurrfectPutt"
         "xcopy \"%{wks.location}LBEditor\\Editor\" \"%{wks.location}PurrfectPutt\\Library\" /Y /I /E",
         "xcopy \"%{wks.location}PurrfectPutt\\Assets\" \"$(TargetDir)Assets\" /Y /I /E",
         "xcopy \"%{wks.location}PurrfectPutt\\Library\" \"$(TargetDir)Library\" /Y /I /E",
-        "xcopy \"%{wks.location}PurrfectPutt\\Logs\" \"$(TargetDir)Logs\" /Y /I /E",
         "xcopy \"%{wks.location}PurrfectPutt\\CSharpAssembly.dll\" \"$(TargetDir)\" /Y /I /E",
 
         "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/PurrfectPutt\"",

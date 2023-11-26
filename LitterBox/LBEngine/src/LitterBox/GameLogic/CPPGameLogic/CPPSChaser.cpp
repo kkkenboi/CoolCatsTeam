@@ -81,6 +81,8 @@ namespace LB {
 			}
 		}
 
+		mGotAttacked = 0.5f;
+
 		mHealth = 3;
 		mSpeedMagnitude = 1000.f;
 
@@ -98,6 +100,15 @@ namespace LB {
 		{
 			return;
 		}
+		if (mShouldDestroy)
+		{
+			GOMANAGER->RemoveGameObject(this->GameObj);
+			return;
+		}
+		if (mGotAttackedCooldown > 0.0f) {
+			mGotAttackedCooldown -= TIME->GetDeltaTime();
+		}
+
 		mFSM.Update();
 	}
 	/*!***********************************************************************
@@ -113,13 +124,24 @@ namespace LB {
 
 	void CPPSChaser::OnCollisionEnter(CollisionData colData)
 	{
-		if (this->mFSM.GetCurrentState()->GetStateID() == "Chase")
-		{
-			if (colData.colliderOther->m_gameobj->GetName() == "ball") {
-				if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
+		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
+			int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
+			{
+				if (mGotAttackedCooldown > 0.0f) {
+					return;
+				}
+				mGotAttackedCooldown = mGotAttacked;
+
+				--mHealth;
+				mFSM.ChangeState("Hurt");
+
+				if (mHealth < 0)
 				{
-					--mHealth;
-					mFSM.ChangeState("Hurt");
+					GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
+					mShouldDestroy = true;
 				}
 			}
 		}
@@ -199,11 +221,11 @@ namespace LB {
 	}
 	void IdleState::Update()
 	{
-		if (INPUT->IsKeyPressed(KeyCode::KEY_R)) 
-		{
-			// Change the state to Chase
-			GetFSM().ChangeState("Chase");
-		}
+		GetFSM().ChangeState("Chase");
+		//if (INPUT->IsKeyPressed(KeyCode::KEY_R)) 
+		//{
+		//	// Change the state to Chase
+		//}
 	}
 	void IdleState::Exit()
 	{

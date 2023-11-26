@@ -70,11 +70,13 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::Destroy()
 	{
-		// Save scene order
-		JSONSerializer::SerializeToFile("SceneOrder", *this);
-
-		// Auto-save current loaded scene if game is not playing
-		TrySaveScene();
+		if (CORE->IsEditorMode())
+		{
+			// Save scene order
+			JSONSerializer::SerializeToFile("SceneOrder", *this);\
+			// Auto-save current loaded scene if game is not playing
+			TrySaveScene();
+		}
 
 		m_currentScene->Destroy();
 		MEMORY->Deallocate(m_currentScene);
@@ -169,7 +171,7 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::SceneOnPlayToggle(bool isPlaying)
 	{
-		if (isPlaying)
+		if (isPlaying && CORE->IsEditorMode())
 		{
 			m_currentScene->Save();
 			onSceneSaved.Invoke();

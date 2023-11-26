@@ -43,61 +43,43 @@ namespace LB
 		//spawn function
 		void SpawnProjectile();
 
-		float GetSpeedMag();	//Getter function for the speed when chasing
-		float GetBackOffSpeedMag(); //Getter function for the speed when backingOff
-		float TooCloseDistance(); //Getter function if they get too close
-		float RangeAttackDistance(); //Getter function if the in range to shoot
-		float GetProjSpeed(); //Getter function for projectile speed
-
-		//timer to shoot in interval
-		double& NextShot(); //Getter function for next shot
-		double& SetTime(); //time that will keep incrementing from current time
-		double& FireRate(); //fire rate, intervals of shooting
-		int& Count(); //keeping track of the count when shooting
-
-		int& NumOfProj(); //total num of projectile
-
-
-		bool& CheckHasShot();//a boolean to check if it has shot
 		void OnCollisionEnter(CollisionData colData);
-		
-		//void Timer(double setTimer, int fireRate, int counter, FiniteStateMachine& fsm);
-
-	private:
-		CPRender* mRender; //animation purpose
-		CPRigidBody* mRigidBody; //Getting the RB of the enemy
-		CPCollider* mCollider; //Getting the collider of the enemy
-
-		GameObject* mPlayer{ nullptr }; //Getting the player
-		GameObject* mProjectile{ nullptr };
 
 		//stats of what the mage will have
 		int mHealth; //health of the mage
 		float mSpeedMagnitude{}; //normal speed when approaching towards the player
 		float mBackOffSpeed{}; //When player is nearby, it backs off
+
+		//------------------CHASE STATE------------------
+		float mAttackCooldown, mAttackCooldownCurrent;
 		float mTooClose{};
 
-		//shooting
-		int mNumOfProjectile{}; //the number of projectile the player will shoot
+		//------------------SHOOTING STATE------------------
 		float mAttackRange{};
-		float mProjSpeed{};
-		bool mHasShot{};
+		int mNumOfProjectile, mNumOfProjectileCurrent; //the number of projectile the player will shoot
+		float mProjCooldown, mProjCooldownCurrent;
+		float mProjSpeed;
 
-		double mnextTimeToShoot;
-		int mcount;
-		double msetTimer;
-		double mfireRate;
+		float mGotAttacked, mGotAttackedCooldown;
 
+		//------------------BACKOFF STATE------------------
 		//Boundaries between enemy and player
-		float mMaxDistance{};
-		float mMinDistance{};
+		float mMinDistance, mMaxDistance, mBackOffDistance;
 		float rangeDistance{};
+
+		CPRender* mRender; //animation purpose
+		CPRigidBody* mRigidBody; //Getting the RB of the enemy
+		CPCollider* mCollider; //Getting the collider of the enemy
+
+	private:
+		GameObject* mPlayer{ nullptr }; //Getting the player
+		GameObject* mProjectile{ nullptr };
 
 		// Holds the different state and the current state
 		// that the Mage enemy is in
 		FiniteStateMachine mFSM{}; //state machine of the mage enemy, I will have to add into it
 
-		bool mInitialised{ false }; //setting to false, later after everything has been initialised in the cpp, it will set to true
+		bool mInitialised{ false }, mShouldDestroy{ false }; //setting to false, later after everything has been initialised in the cpp, it will set to true
 	};
 
 	// States

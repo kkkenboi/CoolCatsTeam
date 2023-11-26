@@ -1,13 +1,13 @@
 {
-    "Name": "Projectile",
+    "Name": "Mage",
     "Transform": {
         "Position": {
-            "x": 896.89,
-            "y": 556.02
+            "x": 542.0,
+            "y": 450.0
         },
         "Scale": {
-            "x": 2.0,
-            "y": 2.0
+            "x": 1.25,
+            "y": 1.25
         },
         "Rotation": 0.0
     },
@@ -20,19 +20,19 @@
     "Render": {
         "Width": 100.0,
         "Height": 100.0,
-        "Texture": "FireBall_0000"
+        "Texture": "MageAttackSpriteSheet"
     },
     "Collider": {
         "ColliderLayer": {
-            "Layer Name": "EnemyBall",
-            "Layer ID": 5
+            "Layer Name": "GameEntity",
+            "Layer ID": 1
         },
         "Shape": 0,
-        "Width": 20.0,
-        "Height": 20.0,
-        "Radius": 20.0
+        "Width": 100.0,
+        "Height": 100.0,
+        "Radius": 50.0
     },
     "CPPScript": {
-        "Script": "Projectile"
+        "Script": "Mage"
     }
 }

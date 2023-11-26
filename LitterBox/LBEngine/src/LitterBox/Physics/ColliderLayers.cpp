@@ -30,6 +30,9 @@ namespace LB {
 		ColliderLayer DefaultLayer = AddLayer("Default");
 		ColliderLayer GameEntityLayer = AddLayer("GameEntity");
 		ColliderLayer UILayer = AddLayer("UI");
+		ColliderLayer PlayerLayer = AddLayer("Player");
+		ColliderLayer PlayerBallLayer = AddLayer("PlayerBall");
+		ColliderLayer EnemyBallLayer = AddLayer("EnemyBall");
 		
 		SetCollisionLayer(DefaultLayer, DefaultLayer, true);
 		SetCollisionLayer(DefaultLayer, GameEntityLayer, true);
@@ -37,6 +40,14 @@ namespace LB {
 
 		SetCollisionLayer(GameEntityLayer, GameEntityLayer, true);
 		SetCollisionLayer(UILayer, UILayer, true);
+
+		SetCollisionLayer(PlayerLayer, GameEntityLayer, true);
+
+		SetCollisionLayer(PlayerBallLayer, GameEntityLayer, true);
+		SetCollisionLayer(PlayerBallLayer, PlayerBallLayer, true);
+
+		SetCollisionLayer(EnemyBallLayer, PlayerLayer, true);
+
 		SetCollisionLayerAllTrue(DefaultLayer);
 	}
 

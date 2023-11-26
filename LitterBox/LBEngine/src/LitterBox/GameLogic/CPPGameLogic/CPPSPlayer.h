@@ -19,6 +19,7 @@ namespace LB
 {
 	class CPPSPlayer : public CPPBehaviour
 	{
+	public:
 		/*!***********************************************************************
 		\brief
 		Inherited Functions from CPPBehaviour that the user must implement
@@ -29,9 +30,22 @@ namespace LB
 		void OnCollisionEnter(CollisionData colData) override;
 
 		CPRigidBody* rb{ nullptr };
+		CPCollider* col{ nullptr };
 		CPRender* rend{ nullptr };
 		CPTransform* trans{ nullptr };
 
+		float m_walkSpeed, m_maxSpeed, m_stepSoundInterval, m_stepSoundCurrent;
+
+		int m_maxBalls, m_currentBalls;
+
+		int m_health;
+		float mGotAttacked, mGotAttackedCooldown;
+
+		float m_shootForce, m_shootRadius;
+
+		bool m_isFacingLeft;
+
+	private:
 		LB::Vec2<float> right_face;
 		LB::Vec2<float> left_face;
 	};
