@@ -75,7 +75,7 @@ namespace LB
 	  \return
 	  Returns true if the boxes collided and false if the boxes did not collide
 	*************************************************************************/
-	bool CollisionIntersection_PolygonPolygon_SAT(std::vector<Vec2<float>> const& verticesA, std::vector<Vec2<float>> const& verticesB, LB::Vec2<float>& normal_out, float& depth_out);
+	bool CollisionIntersection_PolygonPolygon_SAT(std::vector<Vec2<float>>& verticesA, std::vector<Vec2<float>>& verticesB, LB::Vec2<float>& normal_out, float& depth_out);
 
 
 	/*!***********************************************************************

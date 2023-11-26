@@ -762,6 +762,14 @@ namespace LB
 		normal_out.y = 0.f;
 		depth_out = 0.f;
 
+		// Epsilon Check (eg. Circles directly on top of each other)
+		float const epsilon = 0.001f;
+		if (centerA.x == centerB.x && centerA.y == centerB.y) 
+		{
+			centerA.x += epsilon;
+			centerA.y += epsilon;
+		}
+
 		// Has the distance between the two centers now			
 		float distance = PHY_MATH::Distance(centerA, centerB);
 		float radii = radiusA + radiusB;
@@ -786,10 +794,23 @@ namespace LB
 	  \return
 	  Returns true if the boxes collided and false if the boxes did not collide
 	*************************************************************************/
-	bool CollisionIntersection_PolygonPolygon_SAT(std::vector<Vec2<float>> const& verticesA, std::vector<Vec2<float>> const& verticesB, LB::Vec2<float>& normal_out, float& depth_out)
+	bool CollisionIntersection_PolygonPolygon_SAT(std::vector<Vec2<float>>& verticesA, std::vector<Vec2<float>>& verticesB, LB::Vec2<float>& normal_out, float& depth_out)
 	{
 		normal_out = LB::Vec2<float>{ 0.f,0.f };
 		depth_out = 100000000.f;
+
+		// Check case if Polygons are directly on top of each other
+		float const epsilon = 0.001f;
+		Vec2<float> verticesCenterA = FindCenterOfPolygonVertices(verticesA);
+		Vec2<float> verticesCenterB = FindCenterOfPolygonVertices(verticesB);
+		if (verticesCenterA.x == verticesCenterB.x && verticesCenterA.y == verticesCenterB.y) 
+		{
+			for (int i = 0; i < verticesA.size(); ++i)
+			{
+				verticesA[i].x += epsilon;
+				verticesA[i].y += epsilon;
+			}
+		}
 
 		// Loop through each edge of obj A
 		for (int i = 0; i < verticesA.size(); ++i)
@@ -917,6 +938,16 @@ namespace LB
 		{
 			return false;
 		}
+
+		// Check case if circle and polygon are directly on top of each other
+		const float epsilon = 0.001f;
+		Vec2<float> vertices_center = FindCenterOfPolygonVertices(vertices);
+		if (circleCenter.x == vertices_center.x && circleCenter.x == vertices_center.y) {
+			circleCenter.x += epsilon;
+			circleCenter.y += epsilon;
+		}
+
+
 		normal_out = LB::Vec2<float>{ 0.f, 0.f };
 		depth_out = 100000000.f;
 
