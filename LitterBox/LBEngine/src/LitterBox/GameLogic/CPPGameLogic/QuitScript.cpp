@@ -95,11 +95,9 @@ namespace LB {
 		// Grab All The GOs associated with the Pause Menu
 		for (GameObject* GO : GOMANAGER->GetGameObjects())
 		{
-			std::cout << GO->GetName() << '\n';
 			// Confirm Menu
 			if (GO->GetName() == "PauseMenuQuitConfirmTexture")
 			{
-				std::cout << "Found\n";
 				ConfirmMenuTexture = GO;
 			}
 			if (GO->GetName() == "PauseMenuQuitConfirmYesObject")
@@ -142,9 +140,6 @@ namespace LB {
 
 				DebuggerLogFormat("BUTTON CLICK");
 				if (GameObj->GetName() == "Quit") {
-					/*MessageQuit q;
-					CORE->BroadcastMessage(&q);*/
-					std::cout << "HERE\n";
 					//------------------------------------------Move over the quit confirmation game objects----------------------------
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
@@ -159,6 +154,9 @@ namespace LB {
 				}
 				else if (GameObj->GetName() == "Settings") {
 					WINDOWSSYSTEM->toggleFullScreen();
+				}
+				else if (GameObj->GetName() == "Controls") {
+					SCENEMANAGER->LoadScene("SceneHowTo");
 				}
 			}
 		}

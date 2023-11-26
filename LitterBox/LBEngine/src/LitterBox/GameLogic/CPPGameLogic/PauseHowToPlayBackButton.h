@@ -17,13 +17,13 @@ namespace LB
 		CPCollider* mCollider;
 
 		// How To Play Objects
-		GameObject* HowToPlayTexture;
+		GameObject* HowToPlayTexture{ nullptr };
 
 		// Pause Menu Objects
-		GameObject* PauseMenuTexture;
-		GameObject* PauseMenuResumeButton;
-		GameObject* PauseMenuHowToPlayButton;
-		GameObject* PauseMenuExitButton;
+		GameObject* PauseMenuTexture{ nullptr };
+		GameObject* PauseMenuResumeButton{ nullptr };
+		GameObject* PauseMenuHowToPlayButton{ nullptr };
+		GameObject* PauseMenuExitButton{ nullptr };
 	};
 
 }
