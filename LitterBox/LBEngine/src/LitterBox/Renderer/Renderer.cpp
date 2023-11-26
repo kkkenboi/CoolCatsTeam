@@ -302,6 +302,8 @@ void LB::CPRender::stop_anim()
 {
 	while (animation.size())
 		animation.pop();
+
+	frame = 0;
 }
 
 /*!***********************************************************************
