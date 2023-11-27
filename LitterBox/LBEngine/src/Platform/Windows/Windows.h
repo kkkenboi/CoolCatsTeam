@@ -224,6 +224,10 @@ namespace LB
 		*************************************************************************/
 		inline bool			IsFullScreen() { return m_Data.m_FullscreenMode; }
 
+		/*!***********************************************************************
+		 \brief
+		 Toggles the application between windowed and fullscreen mode.
+		*************************************************************************/
 		void toggleFullScreen();
 
 		Event<> OnApplicationFocus;

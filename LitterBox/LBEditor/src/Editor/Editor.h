@@ -33,7 +33,6 @@ namespace LB
 	class Editor
 	{
 	public:
-
 		/*!***********************************************************************
 		  \brief
 		  Constructor for the Editor class.
@@ -71,15 +70,24 @@ namespace LB
 		void Destroy();
 
 	private:
+		// Command manager will handle all editor commands
 		std::shared_ptr<CommandManager> commandManager;
 
 		LayerStack m_ImGuiLayers;
 	};
 
+	/*!***********************************************************************
+	  \brief
+	  Creates an instance of the editor, generally used by the main() function
+	  for the project.
+	*************************************************************************/
 	Editor* CreateEditor();
 
-	extern Editor* EDITOR;
-
+	extern Editor* EDITOR; // Singleton pointer
 }
 
+/*!***********************************************************************
+  \brief
+  Extern function to create an editor instance
+*************************************************************************/
 extern LB::Editor* LB::CreateEditor();

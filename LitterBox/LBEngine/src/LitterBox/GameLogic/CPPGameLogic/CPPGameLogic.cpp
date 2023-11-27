@@ -107,6 +107,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Loads the CPPScript instance based on the name of the script.
+	*************************************************************************/
 	void CPPGameLogic::StartScript(CPScriptCPP* script)
 	{
 			// If script already has an instance, ignore!

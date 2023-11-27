@@ -366,6 +366,10 @@ namespace LB
             WINDOWSSYSTEM->OnApplicationUnFocus.Invoke();
     }
 
+    /*!***********************************************************************
+     \brief
+     Toggles the application between windowed and fullscreen mode.
+    *************************************************************************/
     void WindowsSystem::toggleFullScreen()
     {
         m_Data.m_FullscreenMode = !m_Data.m_FullscreenMode;
