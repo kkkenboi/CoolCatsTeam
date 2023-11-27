@@ -63,7 +63,7 @@ namespace LB
 
 		//---------------------------getting the uvs for the run------------------------
 		if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"]) != LB::ASSETMANAGER->Textures.end()) {
-			int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width };
+			//int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width }; NOTREFERENCED
 
 			float x_inc{ 1.f / 10.f };
 
@@ -78,7 +78,7 @@ namespace LB
 		Renderer::GRAPHICS->init_anim("player_walk", frames.data(), 0.1f, 10);
 		Renderer::GRAPHICS->init_anim("player_idle", frames.data(), 1.f, 1);
 
-		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), rend->w, rend->h);
+		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), static_cast<int>(rend->w), static_cast<int>(rend->h));
 		rend->play_repeat("player_idle");
 	}
 
@@ -124,7 +124,7 @@ namespace LB
 		}
 
 		if (mGotAttackedCooldown > 0.0f) {
-			mGotAttackedCooldown -= TIME->GetDeltaTime();
+			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
 
 		/*!***********************************************************************
@@ -224,7 +224,7 @@ namespace LB
 				break;
 			}
 		}
-		m_stepSoundCurrent += TIME->GetDeltaTime();
+		m_stepSoundCurrent += static_cast<float>(TIME->GetDeltaTime());
 		
 		/*!***********************************************************************
 		\brief

@@ -107,7 +107,7 @@ namespace LB {
 			return;
 		}
 		if (mGotAttackedCooldown > 0.0f) {
-			mGotAttackedCooldown -= TIME->GetDeltaTime();
+			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
 		Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
 		Vec2<float> TransformRight{ 1,0 };
@@ -344,7 +344,7 @@ namespace LB {
 	*************************************************************************/
 	void HurtState::Update()
 	{
-		mEnemy->GetHurtTimer() -= TIME->GetDeltaTime();
+		mEnemy->GetHurtTimer() -= static_cast<float>(TIME->GetDeltaTime());
 		if (mEnemy->GetHurtTimer() <= 0.f) 
 		{
 			this->GetFSM().ChangeState("Chase");

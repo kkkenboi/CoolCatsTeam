@@ -178,10 +178,6 @@ namespace LB
     *************************************************************************/
     void WindowsSystem::Update()
     {
-        static float globalWidth = WINDOWSSYSTEM->GetWidth();
-        static float globalHeight = WINDOWSSYSTEM->GetHeight();
-
-
         if (glfwWindowShouldClose(this->m_Data.m_PtrToWindow))
         {
             MessageQuit q;
@@ -360,6 +356,7 @@ namespace LB
     *************************************************************************/
     void WindowsSystem::FocusCB(GLFWwindow* window, int focused)
     {
+        UNREFERENCED_PARAMETER(window);
         if (focused)
             WINDOWSSYSTEM->OnApplicationFocus.Invoke();
         else
