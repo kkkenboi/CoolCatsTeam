@@ -36,7 +36,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Executes the move postion command
-		 * 
 		**************************************************************************/
 		void Execute() override
 		{
@@ -45,7 +44,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Undos the move position command
-		 * 
 		**************************************************************************/
 		void Undo() override
 		{
@@ -54,7 +52,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Merges the move position commands in the command history together
-		 * 
 		 * \param incomingCommand Incomming command to check against
 		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
@@ -69,15 +66,16 @@ namespace LB
 		}
 
 		/*!************************************************************************
-		 * \brief Get the Type object
-		 * 
-		 * \return CommandType Move Command
+		 * \brief Get the command type, used for merging
 		**************************************************************************/
 		CommandType GetType() override
 		{
 			return CommandType::MOVE;
 		}
 
+		/*!************************************************************************
+		 * \brief What should be done when the command is removed from the manager
+		**************************************************************************/
 		void OnRemove() override { }
 
 	private:
@@ -90,7 +88,6 @@ namespace LB
 	public:
 		/*!************************************************************************
 		 * \brief Construct a new Scale Command object
-		 * 
 		 * \param transform Transform scale to manipulate
 		 * \param newScale New scale to set to
 		**************************************************************************/
@@ -98,7 +95,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Executes the scale command
-		 * 
 		**************************************************************************/
 		void Execute() override
 		{
@@ -107,7 +103,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Undos the scale command
-		 * 
 		**************************************************************************/
 		void Undo() override
 		{
@@ -116,7 +111,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Merges the scale command
-		 * 
 		 * \param incomingCommand Command to check
 		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
@@ -132,7 +126,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Get the Type object
-		 * 
 		 * \return CommandType Scale command
 		**************************************************************************/
 		CommandType GetType() override
@@ -141,8 +134,7 @@ namespace LB
 		}
 
 		/*!************************************************************************
-		 * \brief Removes the scale command
-		 * 
+		 * \brief What should be done when the command is removed from the manager
 		**************************************************************************/
 		void OnRemove() override { }
 
@@ -156,7 +148,6 @@ namespace LB
 	public:
 		/*!************************************************************************
 		 * \brief Construct a new Rotate Command object
-		 * 
 		 * \param transform Transform rotate to manipulate
 		 * \param newRotation New rotation to set to
 		**************************************************************************/
@@ -164,7 +155,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Executes the rotate command
-		 * 
 		**************************************************************************/
 		void Execute() override
 		{
@@ -173,7 +163,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Undos the rotate command
-		 * 
 		**************************************************************************/
 		void Undo() override
 		{
@@ -182,7 +171,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Merges the rotate commands
-		 * 
 		 * \param incomingCommand Command to check and possibly merge with
 		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
@@ -198,7 +186,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Get the Type object
-		 * 
 		 * \return CommandType Rotate command
 		**************************************************************************/
 		CommandType GetType() override
@@ -207,8 +194,7 @@ namespace LB
 		}
 
 		/*!************************************************************************
-		 * \brief Removes the command
-		 * 
+		 * \brief What should be done when the command is removed from the manager
 		**************************************************************************/
 		void OnRemove() override { }
 

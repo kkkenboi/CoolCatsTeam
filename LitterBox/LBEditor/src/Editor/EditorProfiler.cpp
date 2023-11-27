@@ -168,7 +168,10 @@ namespace LB
 			offset += frame.second[m_currentFrameHistoryIndex].timing;
 		}
 	}
-
+	/*!***********************************************************************
+	 \brief
+	 For event subscription, update the system frames with timing data.
+	*************************************************************************/
 	void UpdateSystemFrames() 
 	{
 		EDITORPROFILER->UpdateSystemFrames();

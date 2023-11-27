@@ -108,6 +108,7 @@ namespace LB
         *************************************************************************/
         CPTransform* GetClickedItem();
 
+        // Lets any subscribers know a new object has been selected in the hierarchy
         Event<GameObject*> onNewObjectSelected;
 
     private:
@@ -120,17 +121,13 @@ namespace LB
     /*!***********************************************************************
       \brief
       Updates the loaded scene.
-      \return
-      Nothing.
     *************************************************************************/
     void UpdateSceneLoaded(Scene* loadedScene);
-
     /*!***********************************************************************
       \brief
       Deletes the clicked GameObject
     *************************************************************************/
     void DeleteSelectedObject();
-
     /*!***********************************************************************
       \brief
       Checks if the gameobject deleted during gameplay is the same as the

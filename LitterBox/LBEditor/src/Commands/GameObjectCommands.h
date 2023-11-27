@@ -27,15 +27,13 @@ namespace LB
 	{
 	public:
 		/*!************************************************************************
-		* \brief Construct a new Remove Object Command object
-		* 
+		* \brief Construct a new Remove Object Command
 		* \param GOToRemove GameObject to be removed
 		**************************************************************************/
 		RemoveObjectCommand(GameObject* GOToRemove) : m_removedGO{ GOToRemove }, m_removedGOParent{ m_removedGO->GetComponent<CPTransform>()->GetParent() }, m_lastPos{m_removedGO->GetComponent<CPTransform>()->GetPosition()} { }
 
 		/*!************************************************************************
-		 * \brief Executes the remove object command
-		 * 
+		 * \brief Executes the remove gameobject command
 		**************************************************************************/
 		void Execute() override
 		{
@@ -56,7 +54,6 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Undoes the remove gameobject command
-		 * 
 		**************************************************************************/
 		void Undo() override
 		{
@@ -70,8 +67,8 @@ namespace LB
 		}
 
 		/*!************************************************************************
-		 * \brief This command can never merge
-		 * 
+		 * \brief Merges commands together, but this command in particular cannot
+		 * merge.
 		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
@@ -80,9 +77,7 @@ namespace LB
 		}
 
 		/*!************************************************************************
-		 * \brief Get the Type object
-		 * 
-		 * \return CommandType Type of the command, in this case it's DELETEGO
+		 * \brief Get the command type, used for merging
 		**************************************************************************/
 		CommandType GetType() override
 		{
@@ -90,8 +85,7 @@ namespace LB
 		}
 
 		/*!************************************************************************
-		 * \brief Removes the command from the command history
-		 * 
+		 * \brief What should be done when the command is removed from the manager
 		**************************************************************************/
 		void OnRemove() override
 		{
@@ -124,21 +118,18 @@ namespace LB
 	public:
 		/*!************************************************************************
 		 * \brief Construct a new Spawn Object Command object
-		 * 
 		**************************************************************************/
 		SpawnObjectCommand() { }
 
 		/*!************************************************************************
 		 * \brief Construct a new Spawn Object Command object
-		 * 
 		 * \param prefabData prefab to spawn
 		 * \param spawnPos position of prefab to spawn 
 		**************************************************************************/
 		SpawnObjectCommand(std::string const& prefabData, Vec2<float> const& spawnPos) : m_prefabData{ prefabData }, m_spawnPos{ spawnPos } { }
 
 		/*!************************************************************************
-		 * \brief Executes the spawn object command
-		 * 
+		 * \brief Executes the spawn gameobject command
 		**************************************************************************/
 		void Execute() override
 		{
@@ -165,8 +156,7 @@ namespace LB
 		}
 		
 		/*!************************************************************************
-		 * \brief Undos the spawn object command
-		 * 
+		 * \brief Undos the spawn gameobject command
 		**************************************************************************/
 		void Undo() override
 		{
@@ -186,8 +176,8 @@ namespace LB
 		}
 
 		/*!************************************************************************
-		 * \brief This command can never merge
-		 * 
+		 * \brief Merges commands together, but this command in particular cannot
+		 * merge.
 		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
@@ -196,9 +186,7 @@ namespace LB
 		}
 
 		/*!************************************************************************
-		 * \brief Get the Type object
-		 * 
-		 * \return CommandType Type of the command, in this case it's SPAWNGO
+		 * \brief Get the command type, used for merging
 		**************************************************************************/
 		CommandType GetType() override
 		{
@@ -206,8 +194,7 @@ namespace LB
 		}
 
 		/*!************************************************************************
-		 * \brief Removes the command from the command history
-		 * 
+		 * \brief What should be done when the command is removed from the manager
 		**************************************************************************/
 		void OnRemove() override
 		{
