@@ -101,6 +101,10 @@ namespace LB {
 	void CPPSChaser::Update()
 	{
 		//DebuggerLog("In ChaserUpdate\n");
+		if (INPUT->IsKeyPressed(KeyCode::KEY_0))
+		{
+			mShouldDestroy = true;
+		}
 		if (mShouldDestroy)
 		{
 			GOMANAGER->RemoveGameObject(this->GameObj);

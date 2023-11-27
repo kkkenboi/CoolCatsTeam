@@ -285,7 +285,7 @@
                 "Render": {
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "MageAttackSpriteSheet"
+                    "Texture": "Mage_Asset"
                 },
                 "Collider": {
                     "ColliderLayer": {
