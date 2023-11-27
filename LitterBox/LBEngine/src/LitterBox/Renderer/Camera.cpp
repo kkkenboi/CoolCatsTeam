@@ -123,11 +123,25 @@ namespace Renderer {
 		editor_world_NDC = editor_ortho * free_cam_coords;
 	}
 
+	/*!***********************************************************************
+	\brief
+	 get_free_cam is a getter for the free camera's matrix
+
+	\return
+	 The free camera's matrix
+	*************************************************************************/
 	glm::mat4 Camera::get_free_cam() const
 	{
 		return free_cam_coords;
 	}
 
+	/*!***********************************************************************
+	\brief
+	 get_cam_pos is a getter for the camera's position
+
+	\return
+	 The camera's position
+	*************************************************************************/
 	glm::vec3 Camera::get_cam_pos() const
 	{
 		return cam_pos;

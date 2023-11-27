@@ -33,6 +33,7 @@
 
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
+#include <limits>
 
 extern unsigned int svtcb;
 extern Renderer::RenderSystem* Renderer::GRAPHICS;
@@ -43,13 +44,12 @@ namespace LB
 
 	// Manipulate Variables
 	ImVec2 vpMinMax[2];
-
 	float outOfView[16]
 	{
-		FLT_MAX, 0.f, 0.f, 0.f,
-		FLT_MAX, 1.f, 0.f, 0.f,
-		FLT_MAX, 0.f, 1.f, 0.f,
-		FLT_MAX, 0.f, 0.f, 1.f
+		std::numeric_limits<float>::max(), 0.f, 0.f, 0.f,
+		std::numeric_limits<float>::max(), 1.f, 0.f, 0.f,
+		std::numeric_limits<float>::max(), 0.f, 1.f, 0.f,
+		std::numeric_limits<float>::max(), 0.f, 0.f, 1.f
 	};
 
 	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;

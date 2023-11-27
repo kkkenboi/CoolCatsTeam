@@ -30,6 +30,11 @@ namespace LB
 	class LBEngine
 	{
 	public:
+
+		/*!***********************************************************************
+		 \brief
+		 Sets the global pointer to this instance
+		*************************************************************************/
 		LBEngine();
 
 		/*!***********************************************************************
@@ -73,8 +78,8 @@ namespace LB
 		 Returns true if the game is in editor mode, m_editorMode is a bool
 		 to check if the editor is attached to the engine.
 		*************************************************************************/
-
 		bool IsEditorMode() const;
+
 		/*!***********************************************************************
 		 \brief
 		 Flips the state of m_editorMode which is a bool to check if the editor 
@@ -88,9 +93,6 @@ namespace LB
 		 to check if the the editor is attached to the engine.
 		*************************************************************************/
 		void SetEditorMode(bool newState);
-
-		// Event to let any subscribers know the editor mode has been toggled
-		Event<bool> onEditorModeToggle; 
 
 		/*!***********************************************************************
 		 \brief
@@ -110,16 +112,18 @@ namespace LB
 		 game is actually running (not editor)
 		*************************************************************************/
 		void SetPlayingMode(bool newState);
-		
+
+		// Event to let any subscribers know the editor mode has been toggled
+		Event<bool> onEditorModeToggle;
 		// Event to let any subscribers know the game has started/stopped
 		Event<bool> onPlayingModeToggle;
 
 	private:
 		std::vector<std::shared_ptr<ISystem>> m_systems; // Pointers to all systems currently loaded
 		
-		bool					m_running;				// Is the engine running?
-		bool					m_isPlaying{ false };	// Is the game running?
-		bool					m_editorMode{ false };	// Is the editor attached to the game engine?
+		bool					m_running { false };	 // Is the engine running?
+		bool					m_isPlaying{ false };	 // Is the game running?
+		bool					m_editorMode{ false };	 // Is the editor attached to the game engine?
 	};
 
 	extern LBEngine* CORE; // Global pointer to the singleton

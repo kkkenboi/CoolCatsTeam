@@ -25,6 +25,12 @@ namespace LB
 {
 	class Scene;
 
+
+	/*!***********************************************************************
+	 \brief
+	 Enum to determine the spawn type of the game object, either scene bounded
+	 or free floating within the scene.
+	*************************************************************************/
 	enum class GOSpawnType
 	{
 		SCENE_BOUNDED,	// GO is destroyed when scene is destroyed

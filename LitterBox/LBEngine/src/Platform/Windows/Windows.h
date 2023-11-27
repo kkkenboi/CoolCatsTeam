@@ -145,9 +145,6 @@ namespace LB
 		/*!***********************************************************************
 		 \brief
 		 Sends a message to other systems
-
-		 \return
-		 Nothing
 		*************************************************************************/
 		void SendMessage(Message* message);
 
@@ -224,7 +221,12 @@ namespace LB
 		*************************************************************************/
 		inline bool			IsFullScreen() { return m_Data.m_FullscreenMode; }
 
-		void toggleFullScreen();
+		/*!***********************************************************************
+		 \brief
+		 Toggles the screen view to fullscreen mode or windowed mode. This is
+		 mainly used when the window is running in Game Mode.
+		*************************************************************************/
+		void				toggleFullScreen();
 
 		Event<> OnApplicationFocus;
 		Event<> OnApplicationUnFocus;

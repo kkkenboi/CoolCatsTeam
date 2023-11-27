@@ -123,10 +123,25 @@ namespace Renderer {
 		*************************************************************************/
 		void free_cam_move(LB::Vec2<float> new_pos);
 
+		/*!***********************************************************************
+		\brief
+		 zoomed returns the X and Y zoom of the camera
+
+		\return
+		 X and Y zoom of the camera
+		*************************************************************************/
 		inline LB::Vec2<float> zoomed() { return LB::Vec2<float>{editor_ortho[0][0], editor_ortho[1][1]}; }
 
+		/*!***********************************************************************
+		\brief
+		 get_free_cam is a getter for the free camera's matrix
+		*************************************************************************/
 		glm::mat4 get_free_cam() const;
 
+		/*!***********************************************************************
+		\brief
+		 get_cam_pos is a getter for the camera's position 
+		*************************************************************************/
 		glm::vec3 get_cam_pos() const;
 	};
 	//----------------------------------------CAMERA-----------------------------------
