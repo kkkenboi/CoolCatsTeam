@@ -89,6 +89,10 @@ namespace LB
 	void CPPSPlayer::Update()
 	{
 		if (TIME->IsPaused()) return;
+		/*!***********************************************************************
+		\brief
+		When "8" is pressed on the key, it will spawn a mage
+		*************************************************************************/
 		//-----------------TESTING SPAWN-----------------------
 		//Spawn Mage
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
@@ -102,6 +106,10 @@ namespace LB
 			JSONSerializer::DeserializeFromFile("Mage", *mageObject);
 			mageObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 		}
+		/*!***********************************************************************
+		\brief
+		When "9" is pressed on the key, it will spawn a Chaser
+		*************************************************************************/
 		//Spawn Chaser
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
 		{
@@ -119,6 +127,10 @@ namespace LB
 			mGotAttackedCooldown -= TIME->GetDeltaTime();
 		}
 
+		/*!***********************************************************************
+		\brief
+		Movement animation of the player
+		*************************************************************************/
 		//------------------Walking animation------------------
 		static bool isWalkingAnim{ false };
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
@@ -150,6 +162,10 @@ namespace LB
 			isWalkingAnim = true;
 		}
 
+		/*!***********************************************************************
+		\brief
+		Movement of the player
+		*************************************************************************/
 		//------------------Movement WASD------------------
 		bool isMoving{ false };
 		if (INPUT->IsKeyPressed(KeyCode::KEY_W))
@@ -172,6 +188,7 @@ namespace LB
 			rb->addForce(Vec2<float>{m_walkSpeed, 0.f} * TIME->GetDeltaTime());
 			isMoving = true;
 		}
+		//clamping of the speed of the player movement
 		rb->mVelocity.x = Clamp<float>(rb->mVelocity.x, -m_maxSpeed, m_maxSpeed);
 		rb->mVelocity.y = Clamp<float>(rb->mVelocity.y, -m_maxSpeed, m_maxSpeed);
 
@@ -209,6 +226,10 @@ namespace LB
 		}
 		m_stepSoundCurrent += TIME->GetDeltaTime();
 		
+		/*!***********************************************************************
+		\brief
+		Shooting and spawnining of the golf balls
+		*************************************************************************/
 		//------------------Pushes balls away from the player in a circle------------------
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
 		{
@@ -261,6 +282,10 @@ namespace LB
 			ballObject->GetComponent<CPTransform>()->SetPosition(playerPos);
 		}
 
+		/*!***********************************************************************
+		\brief
+		Getting direction of where the mous is and making the player face to that direction
+		*************************************************************************/
 		//------------------Player face mouse pos------------------
 		Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
 		Vec2<float> mousePos = INPUT->GetMousePos();

@@ -128,6 +128,10 @@ namespace LB {
 		delete mFSM.GetState("Hurt");
 	}
 
+	/*!***********************************************************************
+	\brief
+	On Collision Enter to check who is it colliding with
+	*************************************************************************/
 	void CPPSChaser::OnCollisionEnter(CollisionData colData)
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
@@ -193,6 +197,10 @@ namespace LB {
 		return mPlayer;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Getter for player's health
+	*************************************************************************/
 	int& CPPSChaser::GetHealth()
 	{
 		return mHealth;
@@ -207,6 +215,10 @@ namespace LB {
 		return mSpeedMagnitude;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Getter for hurt timer
+	*************************************************************************/
 	float& CPPSChaser::GetHurtTimer()
 	{
 		return mHurtTimer;
@@ -225,10 +237,20 @@ namespace LB {
 	{
 		mEnemy = enemy_ptr;
 	}
+
+	/*!***********************************************************************
+	\brief
+	Entering of idle state
+	*************************************************************************/
 	void IdleState::Enter()
 	{
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	Update of idle state
+	*************************************************************************/
 	void IdleState::Update()
 	{
 		GetFSM().ChangeState("Chase");
@@ -237,6 +259,11 @@ namespace LB {
 		//	// Change the state to Chase
 		//}
 	}
+
+	/*!***********************************************************************
+	\brief
+	Exit of the Idle State
+	*************************************************************************/
 	void IdleState::Exit()
 	{
 	}
@@ -252,11 +279,21 @@ namespace LB {
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Entering of chase state
+	*************************************************************************/
 	void ChaseState::Enter()
 	{
 		DebuggerLog("Entered ChaseState");
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	Update of chase state where it gets the position of itself and the player so that
+	the chaser will go towards the player
+	*************************************************************************/
 	void ChaseState::Update()
 	{
 		// Calculate direction of force from enemy to player
@@ -270,6 +307,11 @@ namespace LB {
 		//DebuggerLogFormat("%f, %f", Direction.x, Direction.y);
 		mEnemy->GetRigidBody()->addForce(Direction * TIME->GetDeltaTime());
 	}
+
+	/*!***********************************************************************
+	\brief
+	Exiting of exit state
+	*************************************************************************/
 	void ChaseState::Exit()
 	{
 	}
@@ -285,6 +327,10 @@ namespace LB {
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Entering of Hurt state, initialising the values
+	*************************************************************************/
 	void HurtState::Enter()
 	{
 		std::cout << "Health: " << mEnemy->GetHealth();
@@ -292,6 +338,10 @@ namespace LB {
 		this->Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Updating of hurt state
+	*************************************************************************/
 	void HurtState::Update()
 	{
 		mEnemy->GetHurtTimer() -= TIME->GetDeltaTime();
@@ -306,6 +356,10 @@ namespace LB {
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit of Hurt state
+	*************************************************************************/
 	void HurtState::Exit()
 	{
 		mEnemy->GetHurtTimer() = 1.5f;
