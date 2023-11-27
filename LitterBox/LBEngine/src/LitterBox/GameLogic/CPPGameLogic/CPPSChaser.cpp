@@ -337,7 +337,7 @@ namespace LB {
 	*************************************************************************/
 	void HurtState::Enter()
 	{
-		std::cout << "Health: " << mEnemy->GetHealth();
+		//std::cout << "Health: " << mEnemy->GetHealth();
 		mEnemy->GetHurtTimer() = 1.5f;
 		this->Update();
 	}
