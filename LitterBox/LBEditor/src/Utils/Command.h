@@ -1,12 +1,12 @@
 /*!************************************************************************
  \file				Command.h
- \author(s)			
- \par DP email(s):	
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
  \par Course:       CSD2401A
  \date				22/11/2023
  \brief
 
- This file contains 
+ This file contains the abstract class for commands
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -17,6 +17,10 @@
 
 namespace LB
 {
+	/*!************************************************************************
+	 * \brief Command types that are available
+	 * 
+	**************************************************************************/
 	enum CommandType
 	{
 		MOVE,
@@ -26,6 +30,10 @@ namespace LB
 		DELETEGO
 	};
 
+	/*!************************************************************************
+	 * \brief Abstract base command class for commands
+	 * (ALL Commands must implement all of these functions!)
+	**************************************************************************/
 	class ICommand
 	{
 	public:
