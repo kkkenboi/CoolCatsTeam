@@ -78,12 +78,14 @@ group "Dependencies"
         filter "configurations:Editor"
             kind "StaticLib"
             runtime "Debug" -- uses the debug Runtime Library
+            defines { "_DEBUG" }
             symbols "On"
             architecture "x86_64"
     
         filter "configurations:Engine"
             kind "StaticLib" 
             runtime "Release" -- uses the release Runtime Library
+            defines { "_DEBUG" }
             optimize "On"
             architecture "x86_64"
     
@@ -127,12 +129,14 @@ group "Dependencies"
         filter "configurations:Editor"
             kind "StaticLib"
             runtime "Debug" -- uses the debug Runtime Library
+            defines { "_DEBUG" }
             symbols "On"
             architecture "x86_64"
     
         filter "configurations:Engine"
             kind "StaticLib" 
             runtime "Release" -- uses the release Runtime Library
+            defines { "_DEBUG" }
             optimize "On"
             architecture "x86_64"
     
@@ -214,12 +218,14 @@ group "Dependencies"
         filter "configurations:Editor"
             kind "StaticLib"
             runtime "Debug" -- uses the debug Runtime Library
+            defines { "_DEBUG" }
             symbols "On"
             architecture "x86_64"
     
         filter "configurations:Engine"
             kind "None" 
             runtime "Release" -- uses the release Runtime Library
+            defines { "_DEBUG" }
             optimize "On"
             architecture "x86_64"
     

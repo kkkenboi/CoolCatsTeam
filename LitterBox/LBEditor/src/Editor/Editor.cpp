@@ -93,6 +93,8 @@ namespace LB
 	/*!***********************************************************************
 	  \brief
 	  Calls Update, run is called every frame in the Main function.
+	  \return
+	  Nothing.
 	*************************************************************************/
 	void Editor::Run()
 	{
