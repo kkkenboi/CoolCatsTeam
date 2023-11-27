@@ -123,11 +123,19 @@ namespace Renderer {
 		editor_world_NDC = editor_ortho * free_cam_coords;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Returns the coordinates for the free camera
+	*************************************************************************/
 	glm::mat4 Camera::get_free_cam() const
 	{
 		return free_cam_coords;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Returns the camera position
+	*************************************************************************/
 	glm::vec3 Camera::get_cam_pos() const
 	{
 		return cam_pos;

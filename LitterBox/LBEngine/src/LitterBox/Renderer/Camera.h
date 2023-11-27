@@ -123,10 +123,25 @@ namespace Renderer {
 		*************************************************************************/
 		void free_cam_move(LB::Vec2<float> new_pos);
 
+		/*!***********************************************************************
+		 \brief
+		 Returns the x and y projection values of the game camera.
+
+		 NOTE: The values given are the horizontal and vertical bound of the
+		 projection matrix. (Which is 1 / distance)
+		*************************************************************************/
 		inline LB::Vec2<float> zoomed() { return LB::Vec2<float>{editor_ortho[0][0], editor_ortho[1][1]}; }
 
+		/*!***********************************************************************
+		 \brief
+		 Returns the coordinates for the free camera
+		*************************************************************************/
 		glm::mat4 get_free_cam() const;
 
+		/*!***********************************************************************
+		 \brief
+		 Returns the camera position
+		*************************************************************************/
 		glm::vec3 get_cam_pos() const;
 	};
 	//----------------------------------------CAMERA-----------------------------------

@@ -143,6 +143,11 @@ namespace Renderer {
 		float x{}, y{}, scale{};
 		LB::Vec3<float> color{};
 		std::string font_file_name_wo_ext{};
+
+		/*!***********************************************************************
+		 \brief
+		 Serializes all the rendering information
+		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc)
 		{
 			DebuggerLog("Serializing message");
@@ -163,6 +168,11 @@ namespace Renderer {
 			return true;
 
 		}
+
+		/*!***********************************************************************
+		 \brief
+		 Deserializes all the rendering information
+		*************************************************************************/
 		bool Deserialize(const Value& data)
 		{
 			bool HasText = data.HasMember("text");

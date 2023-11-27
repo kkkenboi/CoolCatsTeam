@@ -837,6 +837,10 @@ void Renderer::TextRenderer::Destroy_TextRend()
 	glDeleteBuffers(1, &tVbo);
 }
 
+/*!***********************************************************************
+\brief
+ Used by text renderer to update the text information
+*************************************************************************/
 void Renderer::TextRenderer::update_text()
 {
 	for (auto& text : active_msgs) {
@@ -1007,6 +1011,11 @@ void Renderer::RenderSystem::Initialize()
 	}
 }
 
+/*!***********************************************************************
+ \brief
+ Toggles the window for rendering, in editor mode, will render to the
+ Gameview instead.
+*************************************************************************/
 void Renderer::RenderSystem::turnOnEditorMode() {
 	//----For rendering scene onto texture for ImGUI-------------
 	//TODO make this only applicable in editor mode
@@ -1319,6 +1328,10 @@ void Renderer::RenderSystem::Destroy()
 	
 }
 
+/*!***********************************************************************
+ \brief
+ Frees all resources allocated by Render system
+*************************************************************************/
 Renderer::RenderSystem::~RenderSystem() 
 {
 	if (test2)
@@ -1465,6 +1478,10 @@ void LB::CPText::Update()
 	msg.y = pos.y;*/
 }
 
+/*!***********************************************************************
+ \brief
+ Serializes all the information needed for Text rendering
+*************************************************************************/
 bool LB::CPText::Serialize(Value& data, Document::AllocatorType& alloc)
 {
 	DebuggerLog("Serializing Text");
@@ -1478,6 +1495,10 @@ bool LB::CPText::Serialize(Value& data, Document::AllocatorType& alloc)
 	else return false;
 }
 
+/*!***********************************************************************
+ \brief
+ Deserializes all the information needed for Text rendering
+*************************************************************************/
 bool LB::CPText::Deserialize(const Value& data)
 {
 	bool HasMessage = data.HasMember("Message");

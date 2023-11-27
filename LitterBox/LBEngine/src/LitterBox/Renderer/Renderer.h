@@ -440,7 +440,12 @@ namespace Renderer {
 		 Pointer to the text object component
 		*************************************************************************/
 		inline void remove_text_component(LB::CPText* obj) { if(obj) active_msgs.remove(obj); }
-	
+
+
+		/*!***********************************************************************
+		\brief
+		 Used by text renderer to update the text information
+		*************************************************************************/
 		void update_text();
 	};
 
@@ -720,8 +725,17 @@ namespace Renderer {
 		*************************************************************************/
 		void Destroy() override;
 
+		/*!***********************************************************************
+		 \brief
+		 Frees all resources allocated by Render system
+		*************************************************************************/
 		~RenderSystem() override;
 
+		/*!***********************************************************************
+		 \brief
+		 Toggles the window for rendering, in editor mode, will render to the 
+		 Gameview instead.
+		*************************************************************************/
 		void turnOnEditorMode();
 
 		inline unsigned int get_game_view() { return editor_mode ? textureColorbuffer : -1; }
