@@ -362,9 +362,10 @@ namespace LB
     {   //!Note that the filename received here is the full file path
         //Texture name is the same. Could probably refactor in the future...
         //We need to check if we have too many textures
-        if(Textures.size() >= 32)
+        if(Textures.size() >= 31)
         {
             //Max textures reached
+            DebuggerLogWarning("Warning! Max textures reached!!");
             return false;
         }
         //This lets us keep track of the id

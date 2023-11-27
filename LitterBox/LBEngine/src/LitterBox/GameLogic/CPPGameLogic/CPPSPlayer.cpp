@@ -55,6 +55,7 @@ namespace LB
 		m_health = 3;
 
 		// 0.5 seconds of invincibility
+		mGotAttackedCooldown = 0;
 		mGotAttacked = 0.5f;
 
 		// So that balls don't spawn on top each other
