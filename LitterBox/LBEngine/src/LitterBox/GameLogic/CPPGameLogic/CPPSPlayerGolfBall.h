@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				CPPSPlayerGolfBall.cpp
- \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao
- \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin, Kenji Brannon Chong
+ \par DP email(s):	vanessasiewjin@digipen.edu, kenjibrannon.c@digipen.edu
  \par Course:		CSD2401A
  \date				25-11-2023
  \brief
