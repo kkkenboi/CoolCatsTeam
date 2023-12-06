@@ -101,13 +101,17 @@ namespace LB {
 	void CPPSChaser::Update()
 	{
 		//DebuggerLog("In ChaserUpdate\n");
+		if (INPUT->IsKeyPressed(KeyCode::KEY_0))
+		{
+			mShouldDestroy = true;
+		}
 		if (mShouldDestroy)
 		{
 			GOMANAGER->RemoveGameObject(this->GameObj);
 			return;
 		}
 		if (mGotAttackedCooldown > 0.0f) {
-			mGotAttackedCooldown -= TIME->GetDeltaTime();
+			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
 		Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
 		Vec2<float> TransformRight{ 1,0 };
@@ -333,7 +337,7 @@ namespace LB {
 	*************************************************************************/
 	void HurtState::Enter()
 	{
-		std::cout << "Health: " << mEnemy->GetHealth();
+		//std::cout << "Health: " << mEnemy->GetHealth();
 		mEnemy->GetHurtTimer() = 1.5f;
 		this->Update();
 	}
@@ -344,7 +348,7 @@ namespace LB {
 	*************************************************************************/
 	void HurtState::Update()
 	{
-		mEnemy->GetHurtTimer() -= TIME->GetDeltaTime();
+		mEnemy->GetHurtTimer() -= static_cast<float>(TIME->GetDeltaTime());
 		if (mEnemy->GetHurtTimer() <= 0.f) 
 		{
 			this->GetFSM().ChangeState("Chase");

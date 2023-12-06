@@ -70,14 +70,14 @@ project "LBEngine"
     filter "configurations:Editor"
         kind "StaticLib"
         runtime "Debug" -- uses the debug Runtime Library
-        defines { "_DEBUG" }
+        defines { "_MEMORY" }
         symbols "On"
         architecture "x86_64"
 
     filter "configurations:Engine"
         kind "StaticLib" -- Engine Library
         runtime "Release" -- uses the release Runtime Library
-        defines { "_DEBUG" }
+        defines { "_MEMORY" }
         optimize "On"
         architecture "x86_64"
 

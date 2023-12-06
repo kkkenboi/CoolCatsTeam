@@ -39,6 +39,9 @@ namespace LB
     WindowsSystem* WINDOWSSYSTEM = nullptr;
     bool previousState = false;
 
+    // TODO: refactor pausing on window close
+    bool wasPausedBeforeUnfocus = false;
+
     /*!***********************************************************************
      \brief
      Initialises the WindowsSystem with GLFW functions, specifying
@@ -178,10 +181,6 @@ namespace LB
     *************************************************************************/
     void WindowsSystem::Update()
     {
-        static float globalWidth = WINDOWSSYSTEM->GetWidth();
-        static float globalHeight = WINDOWSSYSTEM->GetHeight();
-
-
         if (glfwWindowShouldClose(this->m_Data.m_PtrToWindow))
         {
             MessageQuit q;
@@ -360,10 +359,22 @@ namespace LB
     *************************************************************************/
     void WindowsSystem::FocusCB(GLFWwindow* window, int focused)
     {
+        UNREFERENCED_PARAMETER(window);
         if (focused)
+        {
+            if (!wasPausedBeforeUnfocus)
+            {
+                TIME->Pause(false);
+            }
             WINDOWSSYSTEM->OnApplicationFocus.Invoke();
+        }
         else
+        {
+            wasPausedBeforeUnfocus = TIME->IsPaused();
+
+            if (!wasPausedBeforeUnfocus) TIME->Pause(true);
             WINDOWSSYSTEM->OnApplicationUnFocus.Invoke();
+        }
     }
 
     /*!***********************************************************************

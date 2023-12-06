@@ -66,14 +66,14 @@ project "LBEditor"
     filter "configurations:Editor"
         kind "ConsoleApp" -- Outputs a console
         runtime "Debug" -- uses the debug Runtime Library
-        defines { "_DEBUG" }
+        defines { "_MEMORY" }
         symbols "On"
         architecture "x86_64"
 
     filter "configurations:Engine"
         kind "None" 
         runtime "Release" -- uses the release Runtime Library
-        defines { "_DEBUG" }
+        defines { "_MEMORY" }
         optimize "On"
         architecture "x86_64"
 

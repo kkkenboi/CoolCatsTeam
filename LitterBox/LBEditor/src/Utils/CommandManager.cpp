@@ -202,7 +202,7 @@ namespace LB
 	*************************************************************************/
 	void CommandManager::UpdateCommandsSaved()
 	{
-		m_savedCommandIndex = history.size();
+		m_savedCommandIndex = static_cast<int>(history.size());
 	}
 
 	/*!***********************************************************************

@@ -22,6 +22,7 @@
 #include "stb_image.h"
 #include <chrono>
 #pragma warning(pop)
+#pragma warning(disable: 4996)
 
 namespace LB
 {
@@ -310,7 +311,7 @@ namespace LB
 
         //We want to also create/update the meta file everytime we import
         Document _metaFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("MetaFiles.json").string());
-        Document::AllocatorType& metaAlloc = _metaFile.GetAllocator();
+        //Document::AllocatorType& metaAlloc = _metaFile.GetAllocator(); NOTREFERENCED
 
         //This vector will contain the OLD meta file paths
         std::vector<std::filesystem::path> metaPaths;

@@ -63,7 +63,7 @@ namespace LB
 
 		if (mRigidBody->mVelocity.LengthSquared() < 50.0f)
 		{
-			mCurrentLifetime -= TIME->GetDeltaTime();
+			mCurrentLifetime -= static_cast<float>(TIME->GetDeltaTime());
 			if (mCurrentLifetime <= 0.0f)
 			{
 				CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();

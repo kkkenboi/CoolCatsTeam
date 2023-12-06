@@ -23,7 +23,7 @@
 #include <queue>
 
 
-const float deg_to_rads{ PI / 180.f };
+const float deg_to_rads{ static_cast<float>(PI) / 180.f };
 
 namespace LB
 {

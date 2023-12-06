@@ -43,8 +43,8 @@ namespace LB
 
 		//--------------------------------get the mage animation--------------------------------
 		if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"]) != LB::ASSETMANAGER->Textures.end()) {
-			int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->width };
-			int img_height{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->height };
+			//int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->width }; NOTREFERENCED
+			//int img_height{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->height }; NOTREFERENCED
 		
 			//for the mage sprite sheet the x and y inc is the same
 			float x_inc{ 1.f / 4.f };
@@ -60,7 +60,7 @@ namespace LB
 			Renderer::GRAPHICS->init_anim("mage_float", mage_anim_frams.data(), 0.25f, 16);
 			Renderer::GRAPHICS->init_anim("mage_idle", mage_anim_frams.data(), 1.f, 1);
 
-			mRender->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("mage_attack"), mRender->w, mRender->h);
+			mRender->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("mage_attack"), static_cast<int>(mRender->w), static_cast<int>(mRender->h));
 			mRender->play_repeat("mage_idle");
 		}
 
@@ -130,13 +130,17 @@ namespace LB
 		{
 			return;
 		}
+		if (INPUT->IsKeyPressed(KeyCode::KEY_0))
+		{
+			mShouldDestroy = true;
+		}
 		if (mShouldDestroy)
 		{
 			GOMANAGER->RemoveGameObject(this->GameObj);
 			return;
 		}
 		if (mGotAttackedCooldown > 0.0f) {
-			mGotAttackedCooldown -= TIME->GetDeltaTime();
+			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
 		Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
 		Vec2<float> TransformRight{ 1,0 };
@@ -249,7 +253,7 @@ namespace LB
 		Vec2<float> CurEnemyPos = GetRigidBody()->getPos(); //Getting the current Mage Position
 
 		//having offset where it will shoot at the side of the mage
-		float offset = 50.0f;
+		// float offset = 50.0f; NOTREFERENCED
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> ShootingForce = Direction * mProjSpeed;
 
@@ -346,7 +350,7 @@ namespace LB
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> NormalForce = Direction * mEnemy->mSpeedMagnitude;
 		
-		mEnemy->GetRigidBody()->addForce(NormalForce * TIME->GetDeltaTime()); //add force to move
+		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime())); //add force to move
 
 		if (DistInBwn < mEnemy->mMinDistance) //checking the distance if its too close
 		{
@@ -354,7 +358,7 @@ namespace LB
 		}
 		else if (DistInBwn >= mEnemy->mMinDistance && DistInBwn <= mEnemy->mMaxDistance) //if distance bwn not too close and its on the attack range
 		{
-			mEnemy->mAttackCooldownCurrent += TIME->GetDeltaTime();
+			mEnemy->mAttackCooldownCurrent += static_cast<float>(TIME->GetDeltaTime());
 			if (mEnemy->mAttackCooldownCurrent > mEnemy->mAttackCooldown)
 			{
 				mEnemy->mAttackCooldownCurrent = 0.0f;
@@ -404,7 +408,7 @@ namespace LB
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> BackOffForce = (-Direction) * mEnemy->mBackOffSpeed; //opposite direction
 
-		mEnemy->GetRigidBody()->addForce(BackOffForce * TIME->GetDeltaTime()); //Adding force with back off force
+		mEnemy->GetRigidBody()->addForce(BackOffForce * static_cast<float>(TIME->GetDeltaTime())); //Adding force with back off force
 
 		if (DistInBwn >= mEnemy->mBackOffDistance) //if dist is far
 		{
@@ -412,7 +416,7 @@ namespace LB
 		}
 		else if (DistInBwn >= mEnemy->mMinDistance && DistInBwn <= mEnemy->mMaxDistance) //if its in between
 		{
-			mEnemy->mAttackCooldownCurrent += TIME->GetDeltaTime();
+			mEnemy->mAttackCooldownCurrent += static_cast<float>(TIME->GetDeltaTime());
 			if (mEnemy->mAttackCooldownCurrent > mEnemy->mAttackCooldown)
 			{
 				mEnemy->mAttackCooldownCurrent = 0.0f;
@@ -491,7 +495,7 @@ namespace LB
 	*************************************************************************/
 	void MageShootingState::Update()
 	{
-		mEnemy->mProjCooldownCurrent += TIME->GetDeltaTime();
+		mEnemy->mProjCooldownCurrent += static_cast<float>(TIME->GetDeltaTime());
 		if (mEnemy->mProjCooldownCurrent > mEnemy->mProjCooldown)
 		{
 			mEnemy->mProjCooldownCurrent = 0.0f;

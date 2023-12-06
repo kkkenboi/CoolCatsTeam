@@ -866,7 +866,11 @@ Renderer::RenderSystem::RenderSystem() : shader_program{0},
 object_renderer{Renderer_Types::RT_OBJECT},
 bg_renderer{Renderer_Types::RT_BACKGROUND},
 ui_renderer{Renderer_Types::RT_UI},
-text_renderer{}
+text_renderer{},
+framebuffer{},
+svfb{},
+svtcb{},
+textureColorbuffer{}
 {
 	SetSystemName("Renderer System"); 
 	//singleton that shiet
