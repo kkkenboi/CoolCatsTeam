@@ -139,10 +139,6 @@ namespace LB
 	*************************************************************************/
 	bool EditorHierarchy::DrawItem(CPTransform* item)
 	{
-		//-------------------------Click Select Detection-------------------------
-		// IMGui click detection is weird, but checking click in 3 places does the trick!
-		bool isChildClicked{ false }, isItemClicked{ false }, isParentClicked{ false };
-
 		ImGui::PushID(item);
 
 		//-------------------------Item Display Flags-------------------------
@@ -157,51 +153,48 @@ namespace LB
 		}
 		//-------------------------Item Display Flags-------------------------
 
-		// First click check before going into the children
-		if (ImGui::IsItemClicked()) isParentClicked = true;
-
 		//-------------------------Tree Node Item Render-------------------------
+		bool isOpen{ ImGui::TreeNodeEx(item->gameObj->GetName().c_str(), flags) };
+		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) 
+		{
+			m_clickedItem = item;
+			onNewObjectSelected.Invoke(item->gameObj);
+		}
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* objData = ImGui::AcceptDragDropPayload("HIERARCHY_OBJ"))
+			{
+				// CPTransform* movedObj = (CPTransform*)objData->Data;
+
+				if (m_draggedItem->GetParent())
+					m_draggedItem->GetParent()->RemoveChild(m_draggedItem);
+
+				item->AddChild(m_draggedItem);
+				m_draggedItem = nullptr;
+			}
+		}
+		if (ImGui::BeginDragDropSource())
+		{
+			ImGui::SetDragDropPayload("HIERARCHY_OBJ", item, sizeof(item));
+			m_draggedItem = item;
+			ImGui::EndDragDropSource();
+		}
+
 		// If this GO has children GO,
-		if (ImGui::TreeNodeEx(item->gameObj->GetName().c_str(), flags))
+		if (isOpen)
 		{
 			// Recursively render each one
 			for (int index{ 0 }; index < item->GetChildCount(); ++index)
 			{
-				// Second click check from the children
-				isChildClicked = DrawItem(item->GetChild(index));
+				DrawItem(item->GetChild(index));
 			}
-
 			ImGui::TreePop();
 		}
 		//-------------------------Tree Node Item Render-------------------------
-
-		// Last click check after going into the children
-		if (ImGui::IsItemClicked()) isItemClicked = true;
-
-		//-------------------------Click Select Detection-------------------------
-		// If this child GO is clicked on,
-		if (isItemClicked && !isChildClicked)
-		{
-			// Update the item clicked (for highlighting in hierachy)
-			m_clickedItem = item;
-			// Tell the editor know a new GO has been selected
-			onNewObjectSelected.Invoke(item->gameObj);
-		}
-		// Else, ImGui::IsClicked selects the next item, so go back 1 item
-		else if (isParentClicked && !item->GetChildCount())
-		{
-			if (item->GetParent()->gameObj)
-			{
-				// Update the item clicked (for highlighting in hierachy)
-				m_clickedItem = item->GetParent();
-				// Tell the editor know a new GO has been selected
-				onNewObjectSelected.Invoke(item->GetParent()->gameObj);
-			}
-		}
-		//-------------------------Click Select Detection-------------------------
 		ImGui::PopID();
 
-		return isItemClicked;
+		return true;
 	}
 
 	/*!***********************************************************************
