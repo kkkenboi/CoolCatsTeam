@@ -151,7 +151,6 @@ namespace LB
 	bool EditorHierarchy::DrawItem(CPTransform* item, int index)
 	{
 		ImGui::PushID(item);
-
 		//-------------------------Item Display Flags-------------------------
 		ImGuiTreeNodeFlags flags =
 			ImGuiTreeNodeFlags_OpenOnArrow
@@ -165,7 +164,9 @@ namespace LB
 		//-------------------------Item Display Flags-------------------------
 
 		//-------------------------Tree Node Inbetween------------------------
-		ImGui::InvisibleButton("Spacer", ImVec2(ImGui::GetWindowContentRegionMax().x, 0.3f));
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
+		ImGui::InvisibleButton("Spacer", ImVec2(ImGui::GetWindowContentRegionMax().x, 4.0f));
+		ImGui::PopStyleVar();
 
 		if (ImGui::BeginDragDropTarget()) {
 			if (const ImGuiPayload* objData = ImGui::AcceptDragDropPayload("HIERARCHY_OBJ")) {
@@ -185,7 +186,10 @@ namespace LB
 		//-------------------------Tree Node Inbetween------------------------
 
 		//-------------------------Tree Node Item Render-------------------------
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
 		bool isOpen{ ImGui::TreeNodeEx(item->gameObj->GetName().c_str(), flags) };
+		ImGui::PopStyleVar();
+
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) 
 		{
 			m_clickedItem = item;
