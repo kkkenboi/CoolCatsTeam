@@ -181,6 +181,7 @@ namespace LB
 				m_parent->RemoveChild(this);
 
 			m_parent = newParent;
+			m_parent->AddChild(this);
 		}
 
 		/*!***********************************************************************
@@ -210,6 +211,9 @@ namespace LB
 		*************************************************************************/
 		void AddChild(CPTransform* newChild)
 		{
+			// Check if this object is already a child
+			if (std::find(m_children.begin(), m_children.end(), newChild) != m_children.end()) return;
+
 			m_children.push_back(newChild);
 		}
 

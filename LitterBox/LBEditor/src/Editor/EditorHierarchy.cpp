@@ -117,8 +117,19 @@ namespace LB
 			ImGuiTreeNodeFlags_DefaultOpen
 			| ((m_loadedScene->GetRoot()->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
 
+		bool isOpen{ ImGui::TreeNodeEx((m_loadedScene->GetName() + (COMMAND->UpToDate() ? "" : " (*)")).c_str(), flags) };
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* objData = ImGui::AcceptDragDropPayload("HIERARCHY_OBJ"))
+			{
+				m_draggedItem->SetParent(m_loadedScene->GetRoot());
+				m_draggedItem = nullptr;
+			}
+		}
+
 		// If this GO has children GO,
-		if (ImGui::TreeNodeEx((m_loadedScene->GetName() + (COMMAND->UpToDate() ? "" : " (*)")).c_str(), flags))
+		if (isOpen)
 		{
 			// Recursively render each one
 			for (int index{ 0 }; index < m_loadedScene->GetRoot()->GetChildCount(); ++index)
@@ -165,12 +176,7 @@ namespace LB
 		{
 			if (const ImGuiPayload* objData = ImGui::AcceptDragDropPayload("HIERARCHY_OBJ"))
 			{
-				// CPTransform* movedObj = (CPTransform*)objData->Data;
-
-				if (m_draggedItem->GetParent())
-					m_draggedItem->GetParent()->RemoveChild(m_draggedItem);
-
-				item->AddChild(m_draggedItem);
+				m_draggedItem->SetParent(item);
 				m_draggedItem = nullptr;
 			}
 		}
