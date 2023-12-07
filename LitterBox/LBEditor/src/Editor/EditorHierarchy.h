@@ -72,7 +72,7 @@ namespace LB
           \return
           Nothing.
         *************************************************************************/
-        bool DrawItem(CPTransform* item);
+        bool DrawItem(CPTransform* item, int index);
 
         /*!***********************************************************************
           \brief
@@ -113,6 +113,8 @@ namespace LB
 
     private:
         CPTransform* m_draggedItem{ nullptr };
+        int          m_draggedItemIndex{ -1 };
+
         CPTransform* m_clickedItem{ nullptr };
         Scene* m_loadedScene{ nullptr };
     };

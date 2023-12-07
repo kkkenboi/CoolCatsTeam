@@ -246,6 +246,26 @@ namespace LB
 
 		/*!***********************************************************************
 		\brief
+		 Repositions an object in the children list, commonly used in the editor
+		 hierarchy.
+		*************************************************************************/
+		void ReorderChild(int oldIndex, int newIndex)
+		{
+			// Swap epending on whether the old index is before or after the new index using 2 while loops
+			while (oldIndex > newIndex)
+			{
+				std::swap(m_children[oldIndex], m_children[oldIndex - 1]);
+				--oldIndex;
+			}
+			while (oldIndex < newIndex - 1)
+			{
+				std::swap(m_children[oldIndex], m_children[oldIndex + 1]);
+				++oldIndex;
+			}
+		}
+
+		/*!***********************************************************************
+		\brief
 		 Removes all GameObjects from the list of children
 		*************************************************************************/
 		void RemoveAllChildren()

@@ -134,7 +134,7 @@ namespace LB
 			// Recursively render each one
 			for (int index{ 0 }; index < m_loadedScene->GetRoot()->GetChildCount(); ++index)
 			{
-				DrawItem(m_loadedScene->GetRoot()->GetChild(index));
+				DrawItem(m_loadedScene->GetRoot()->GetChild(index), index);
 			}
 			ImGui::TreePop();
 		}
@@ -148,7 +148,7 @@ namespace LB
 	  \return
 	  Nothing.
 	*************************************************************************/
-	bool EditorHierarchy::DrawItem(CPTransform* item)
+	bool EditorHierarchy::DrawItem(CPTransform* item, int index)
 	{
 		ImGui::PushID(item);
 
@@ -163,6 +163,26 @@ namespace LB
 			flags |= ImGuiTreeNodeFlags_Selected;
 		}
 		//-------------------------Item Display Flags-------------------------
+
+		//-------------------------Tree Node Inbetween------------------------
+		ImGui::InvisibleButton("Spacer", ImVec2(ImGui::GetWindowContentRegionMax().x, 0.3f));
+
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* objData = ImGui::AcceptDragDropPayload("HIERARCHY_OBJ")) {
+				// If dragged to another parent
+				if (m_draggedItem->GetParent() != item->GetParent())
+				{
+					m_draggedItem->SetParent(item->GetParent());
+					m_draggedItem->GetParent()->ReorderChild(m_draggedItem->GetParent()->GetChildCount() - 1, index);
+				}
+				else
+				{
+					m_draggedItem->GetParent()->ReorderChild(m_draggedItemIndex, index);
+				}
+				ImGui::EndDragDropTarget();
+			}
+		}
+		//-------------------------Tree Node Inbetween------------------------
 
 		//-------------------------Tree Node Item Render-------------------------
 		bool isOpen{ ImGui::TreeNodeEx(item->gameObj->GetName().c_str(), flags) };
@@ -182,8 +202,9 @@ namespace LB
 		}
 		if (ImGui::BeginDragDropSource())
 		{
-			ImGui::SetDragDropPayload("HIERARCHY_OBJ", item, sizeof(item));
+			ImGui::SetDragDropPayload("HIERARCHY_OBJ", &index, sizeof(index));
 			m_draggedItem = item;
+			m_draggedItemIndex = index;
 			ImGui::EndDragDropSource();
 		}
 
@@ -193,7 +214,7 @@ namespace LB
 			// Recursively render each one
 			for (int index{ 0 }; index < item->GetChildCount(); ++index)
 			{
-				DrawItem(item->GetChild(index));
+				DrawItem(item->GetChild(index), index);
 			}
 			ImGui::TreePop();
 		}
