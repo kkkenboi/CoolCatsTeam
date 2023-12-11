@@ -107,7 +107,7 @@ namespace LB
 			CPTransform* parent{ m_parent };
 			while (parent) 
 			{
-				globalPos += m_parent->GetLocalPosition();
+				globalPos += parent->GetLocalPosition();
 				parent = parent->GetParent();
 			}
 			return globalPos;
@@ -142,7 +142,7 @@ namespace LB
 			CPTransform* parent{ m_parent };
 			while (parent)
 			{
-				globalScale += m_parent->GetLocalScale();
+				globalScale += parent->GetLocalScale();
 				parent = parent->GetParent();
 			}
 			return globalScale;
@@ -177,7 +177,7 @@ namespace LB
 			CPTransform* parent{ m_parent };
 			while (parent)
 			{
-				globalRotation += m_parent->GetLocalRotation();
+				globalRotation += parent->GetLocalRotation();
 				parent = parent->GetParent();
 			}
 			return globalRotation;
@@ -191,6 +191,8 @@ namespace LB
 		void SetRotation(float newRotation)
 		{
 			m_angle = newRotation;
+
+			// 
 		}
 
 		/*!***********************************************************************
