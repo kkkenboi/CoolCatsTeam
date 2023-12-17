@@ -68,6 +68,7 @@ namespace LB
 			ImVec2 min{ defaultUV };
 			ImVec2 max{ defaultUV };
 			ImTextureID textureID{ 0 };
+			int index{ 0 };
 			for (int row = 0; row < rowNum; row++)
 			{
 				ImGui::TableNextRow();
@@ -75,14 +76,14 @@ namespace LB
 				{
 					//check that we have valid tile at the image button
 					if (EDITORTMEDITOR->getNumOfTiles() &&
-						tiles.at(column + row * colNum) != 0) {
+						(index = tiles.at(column + row * colNum) - 1) >= 0) {
 						min = {
-							EDITORTMEDITOR->getMMUV(tiles.at(column + row * colNum)).first.first,
-							EDITORTMEDITOR->getMMUV(tiles.at(column + row * colNum)).second.second
+							EDITORTMEDITOR->getMMUV(index).first.first,
+							EDITORTMEDITOR->getMMUV(index).second.second
 						};
 						max = {
-							EDITORTMEDITOR->getMMUV(tiles.at(column + row * colNum)).second.first,
-							EDITORTMEDITOR->getMMUV(tiles.at(column + row * colNum)).first.second
+							EDITORTMEDITOR->getMMUV(index).second.first,
+							EDITORTMEDITOR->getMMUV(index).first.second
 						};
 						textureID = (ImTextureID)EDITORTMEDITOR->getTextureID();
 					}
