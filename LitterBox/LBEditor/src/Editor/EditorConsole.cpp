@@ -25,8 +25,6 @@ namespace LB
 	/*!***********************************************************************
 	  \brief
 	  Constructor for the EditorConsole class.
-	  \return
-	  Nothing.
 	*************************************************************************/
 	EditorConsole::EditorConsole(std::string layerName) : Layer(layerName)
 	{
@@ -51,8 +49,6 @@ namespace LB
 	/*!***********************************************************************
 	  \brief
 	  Updates the EditorConsole layer.
-	  \return
-	  Nothing.
 	*************************************************************************/
 	void EditorConsole::UpdateLayer()
 	{
@@ -96,8 +92,6 @@ namespace LB
 	/*!***********************************************************************
 	  \brief
 	  Destroys the EditorConsole layer.
-	  \return
-	  Nothing.
 	*************************************************************************/
 	void EditorConsole::Destroy()
 	{
@@ -110,8 +104,6 @@ namespace LB
 	/*!***********************************************************************
 	  \brief
 	  Add a log message to the console.
-	  \return
-	  Nothing.
 	*************************************************************************/
 	void EditorConsole::AddLogMessage(std::string const& log)
 	{
@@ -121,8 +113,6 @@ namespace LB
 	/*!***********************************************************************
 	  \brief
 	  Add a warning message to the console.
-	  \return
-	  Nothing.
 	*************************************************************************/
 	void EditorConsole::AddWarningMessage(std::string const& warning)
 	{
@@ -132,26 +122,27 @@ namespace LB
 	/*!***********************************************************************
 	  \brief
 	  Add an error message to the console.
-	  \return
-	  Nothing.
 	*************************************************************************/
 	void EditorConsole::AddErrorMessage(std::string const& error)
 	{
 		m_messages.emplace_back(error, EditorConsoleMsgType::ERROR);
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  For event subscription, calls the same function in the EditorConsole class.
+	*************************************************************************/
 	void AddLogMessage(std::string const& log)
 	{
 		EDITORCONSOLE->AddLogMessage(log);
 	}
-
 	void AddWarningMessage(std::string const& warning)
 	{
 		EDITORCONSOLE->AddWarningMessage(warning);
 	}
-
 	void AddErrorMessage(std::string const& error)
 	{
 		EDITORCONSOLE->AddErrorMessage(error);
 	}
+	/*************************************************************************/
 }

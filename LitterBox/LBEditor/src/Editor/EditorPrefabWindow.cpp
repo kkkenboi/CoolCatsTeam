@@ -74,6 +74,8 @@ namespace LB
 			float yScale = prefabGO->GetComponent<CPTransform>()->GetScale().y*100;
 			//int prefabTexture = ASSETMANAGER->GetTextureUnit(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
 			//this sets the prefab texture
+			if (!prefabGO->HasComponent<CPRender>()) { ImGui::End(); return; }
+
 			int prefabTexture = ASSETMANAGER->GetTextureIndex(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
 			
 			//Getting the imgui draw list so we can apply transformations to the image
@@ -81,8 +83,8 @@ namespace LB
 			float angle = prefabGO->GetComponent<CPTransform>()->GetRotation();
 			ImVec2 p = ImGui::GetCursorScreenPos();	//This cursor is not mouse cursor!! it's the gui cursor!!
 			//Some math for the rotation 
-			float cos_a = cosf((-DegToRad(angle)) + PI);
-			float sin_a = sinf((-DegToRad(angle)) + PI);
+			float cos_a = cosf((-DegToRad(angle)) + static_cast<float>(PI));
+			float sin_a = sinf((-DegToRad(angle)) + static_cast<float>(PI));
 			//ImVec2 center{ prefabGO->GetComponent<CPTransform>()->GetPosition().x+100,prefabGO->GetComponent<CPTransform>()->GetPosition().y+100 };
 			ImVec2 center{ p.x+ImGui::GetWindowWidth()/2,p.y + yScale/2};
 

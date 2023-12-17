@@ -1,12 +1,13 @@
 /*!************************************************************************
  \file				TransformCommands.h
- \author(s)
- \par DP email(s):
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
  \par Course:       CSD2401A
  \date				22/11/2023
  \brief
 
- This file contains
+ This file contains the command for manipulating transforms 
+ (Translate/Scale/Rotate)
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -25,18 +26,34 @@ namespace LB
 	class MoveCommand : public ICommand
 	{
 	public:
+		/*!************************************************************************
+		 * \brief Construct a new Move Command object
+		 * 
+		 * \param transform Transform to manipulate (Position)
+		 * \param newPos New position to set the transform to
+		**************************************************************************/
 		MoveCommand(CPTransform* transform, Vec2<float> newPos) : m_transform{ transform }, m_oldPos{ transform->GetPosition() }, m_newPos { newPos } { }
 
+		/*!************************************************************************
+		 * \brief Executes the move postion command
+		**************************************************************************/
 		void Execute() override
 		{
 			m_transform->SetPosition(m_newPos);
 		}
 
+		/*!************************************************************************
+		 * \brief Undos the move position command
+		**************************************************************************/
 		void Undo() override
 		{
 			m_transform->SetPosition(m_oldPos);
 		}
 
+		/*!************************************************************************
+		 * \brief Merges the move position commands in the command history together
+		 * \param incomingCommand Incomming command to check against
+		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
 			std::shared_ptr<MoveCommand> incomingMoveCommand = std::dynamic_pointer_cast<MoveCommand>(incomingCommand);
@@ -48,11 +65,17 @@ namespace LB
 			return false;
 		}
 
+		/*!************************************************************************
+		 * \brief Get the command type, used for merging
+		**************************************************************************/
 		CommandType GetType() override
 		{
 			return CommandType::MOVE;
 		}
 
+		/*!************************************************************************
+		 * \brief What should be done when the command is removed from the manager
+		**************************************************************************/
 		void OnRemove() override { }
 
 	private:
@@ -63,18 +86,33 @@ namespace LB
 	class ScaleCommand : public ICommand
 	{
 	public:
+		/*!************************************************************************
+		 * \brief Construct a new Scale Command object
+		 * \param transform Transform scale to manipulate
+		 * \param newScale New scale to set to
+		**************************************************************************/
 		ScaleCommand(CPTransform* transform, Vec2<float> newScale) : m_transform{ transform }, m_oldScale{ transform->GetScale() }, m_newScale{ newScale } { }
 
+		/*!************************************************************************
+		 * \brief Executes the scale command
+		**************************************************************************/
 		void Execute() override
 		{
 			m_transform->SetScale(m_newScale);
 		}
 
+		/*!************************************************************************
+		 * \brief Undos the scale command
+		**************************************************************************/
 		void Undo() override
 		{
 			m_transform->SetScale(m_oldScale);
 		}
 
+		/*!************************************************************************
+		 * \brief Merges the scale command
+		 * \param incomingCommand Command to check
+		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
 			std::shared_ptr<ScaleCommand> incomingScaleCommand = std::dynamic_pointer_cast<ScaleCommand>(incomingCommand);
@@ -86,11 +124,18 @@ namespace LB
 			return false;
 		}
 
+		/*!************************************************************************
+		 * \brief Get the Type object
+		 * \return CommandType Scale command
+		**************************************************************************/
 		CommandType GetType() override
 		{
 			return CommandType::SCALE;
 		}
 
+		/*!************************************************************************
+		 * \brief What should be done when the command is removed from the manager
+		**************************************************************************/
 		void OnRemove() override { }
 
 	private:
@@ -101,18 +146,33 @@ namespace LB
 	class RotateCommand : public ICommand
 	{
 	public:
+		/*!************************************************************************
+		 * \brief Construct a new Rotate Command object
+		 * \param transform Transform rotate to manipulate
+		 * \param newRotation New rotation to set to
+		**************************************************************************/
 		RotateCommand(CPTransform* transform, float newRotation) : m_transform{ transform }, m_oldRotation{ transform->GetRotation() }, m_newRotation{ newRotation } { }
 
+		/*!************************************************************************
+		 * \brief Executes the rotate command
+		**************************************************************************/
 		void Execute() override
 		{
 			m_transform->SetRotation(m_newRotation);
 		}
 
+		/*!************************************************************************
+		 * \brief Undos the rotate command
+		**************************************************************************/
 		void Undo() override
 		{
 			m_transform->SetRotation(m_oldRotation);
 		}
 
+		/*!************************************************************************
+		 * \brief Merges the rotate commands
+		 * \param incomingCommand Command to check and possibly merge with
+		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
 			std::shared_ptr<RotateCommand> incomingRotateCommand = std::dynamic_pointer_cast<RotateCommand>(incomingCommand);
@@ -124,11 +184,18 @@ namespace LB
 			return false;
 		}
 
+		/*!************************************************************************
+		 * \brief Get the Type object
+		 * \return CommandType Rotate command
+		**************************************************************************/
 		CommandType GetType() override
 		{
 			return CommandType::ROTATE;
 		}
 
+		/*!************************************************************************
+		 * \brief What should be done when the command is removed from the manager
+		**************************************************************************/
 		void OnRemove() override { }
 
 	private:

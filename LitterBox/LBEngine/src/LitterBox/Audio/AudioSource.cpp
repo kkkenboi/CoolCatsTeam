@@ -52,7 +52,7 @@ namespace LB
 				DebuggerLog("Play On Awake!");
 			}
 			//Timer stuff for delayed playing
-			if (timer > 0) timer -= TIME->GetDeltaTime();
+			if (timer > 0) timer -= static_cast<float>(TIME->GetDeltaTime());
 			if (timer <= 0 && playDelayed) //If play delayed is called
 			{
 				Play();//hasPlayed = true;
@@ -133,7 +133,7 @@ namespace LB
 		bool HasLoop = data.HasMember("Loop");
 		bool HasVolume = data.HasMember("Volume");
 		bool HasPitch = data.HasMember("Pitch");
-		if (HasClipName && HasPlayOnAwake && HasLoop && HasPitch)
+		if (HasClipName && HasPlayOnAwake && HasLoop && HasVolume && HasPitch)
 		{
 			const Value& _clipName = data["AudioClipName"];
 			const Value& _playOnAwake = data["Play On Awake"];
@@ -162,7 +162,7 @@ namespace LB
 			SetPitch(pitch);
 			SetVolume(volume);
 		}
-		else DebuggerLogWarningFormat("Unable to find %s !", AudioClipName);
+		//else DebuggerLogWarningFormat("Unable to find %s !", AudioClipName);
 		hasPlayed = true;
 	}
 

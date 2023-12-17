@@ -72,7 +72,7 @@ namespace LB
           \return
           Nothing.
         *************************************************************************/
-        bool DrawItem(CPTransform* item);
+        bool DrawItem(CPTransform* item, int index);
 
         /*!***********************************************************************
           \brief
@@ -96,10 +96,25 @@ namespace LB
         *************************************************************************/
         void DeleteSelectedObject();
 
+        /*!***********************************************************************
+          \brief
+          Deselected but does not delete the clicked GameObject
+        *************************************************************************/
+        void DeselectSelectedObject();
+
+        /*!***********************************************************************
+          \brief
+          Returns the current GameObject clicked, if any
+        *************************************************************************/
+        CPTransform* GetClickedItem();
+
+        // Lets any subscribers know a new object has been selected in the hierarchy
         Event<GameObject*> onNewObjectSelected;
 
     private:
         CPTransform* m_draggedItem{ nullptr };
+        int          m_draggedItemIndex{ -1 };
+
         CPTransform* m_clickedItem{ nullptr };
         Scene* m_loadedScene{ nullptr };
     };
@@ -108,16 +123,19 @@ namespace LB
     /*!***********************************************************************
       \brief
       Updates the loaded scene.
-      \return
-      Nothing.
     *************************************************************************/
     void UpdateSceneLoaded(Scene* loadedScene);
-
     /*!***********************************************************************
       \brief
       Deletes the clicked GameObject
     *************************************************************************/
     void DeleteSelectedObject();
+    /*!***********************************************************************
+      \brief
+      Checks if the gameobject deleted during gameplay is the same as the
+      one inspected.
+    *************************************************************************/
+    void CheckGameObjectDeleted(GameObject* deletedGO);
 
     extern EditorHierarchy* EDITORHIERACHY;
 }

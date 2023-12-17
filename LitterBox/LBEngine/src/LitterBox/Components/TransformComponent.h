@@ -30,16 +30,19 @@ namespace LB
 	class CPTransform : public IComponent
 	{
 	public:
+		/*!***********************************************************************
+		 \brief
+		 Returns this component type
+		*************************************************************************/
 		static ComponentTypeID GetType()
 		{
 			return C_CPTransform;
 		}
 
 		/*!***********************************************************************
-		\brief
+		 \brief
 		 Function will serialize data from an outer json file to get data.
-
-		\return
+		 \return
 		 returns true if serialization succeeds and false if not.
 		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
@@ -95,14 +98,19 @@ namespace LB
 
 		/*!***********************************************************************
 		\brief
-		 Getter function to get the position of the game object transform
-
-		\return
-		 2D vector of the position of the game object(Transform)
+		 Returns the global position of the GameObject, relative to the origin of
+		 the world (or the root basically)
 		*************************************************************************/
 		Vec2<float> GetPosition() const
 		{
-			return m_pos;
+			Vec2<float> globalPos{ m_pos };
+			CPTransform* parent{ m_parent };
+			while (parent) 
+			{
+				globalPos += parent->GetLocalPosition();
+				parent = parent->GetParent();
+			}
+			return globalPos;
 		}
 
 		/*!***********************************************************************
@@ -116,14 +124,28 @@ namespace LB
 
 		/*!***********************************************************************
 		\brief
-		 Getter function to get the scale of the game object transform
+		 Returns the local position of the GameObject, relative its parent
+		*************************************************************************/
+		Vec2<float> GetLocalPosition() const
+		{
+			return m_pos;
+		}
 
-		\return
-		 2D vector of the x and y scale of the game object(Transform)
+		/*!***********************************************************************
+		\brief
+		 Returns the global scale of the GameObject relative to its top parent
+		 GameObject
 		*************************************************************************/
 		Vec2<float> GetScale() const
 		{
-			return m_scale;
+			Vec2<float> globalScale{ m_scale };
+			CPTransform* parent{ m_parent };
+			while (parent)
+			{
+				globalScale += parent->GetLocalScale();
+				parent = parent->GetParent();
+			}
+			return globalScale;
 		}
 
 		/*!***********************************************************************
@@ -137,14 +159,28 @@ namespace LB
 
 		/*!***********************************************************************
 		\brief
-		 Getter function to get the rotation of the game object transform
+		 Returns the local scale of the GameObject (unaffected by the parent's scale)
+		*************************************************************************/
+		Vec2<float> GetLocalScale() const
+		{
+			return m_scale;
+		}
 
-		\return
-		 Clockwise angle in radians of the game object
+		/*!***********************************************************************
+		\brief
+		 Returns the global rotation of the GameObject relative to its top parent
+		 GameObject
 		*************************************************************************/
 		float GetRotation() const
 		{
-			return m_angle;
+			float globalRotation{ m_angle };
+			CPTransform* parent{ m_parent };
+			while (parent)
+			{
+				globalRotation += parent->GetLocalRotation();
+				parent = parent->GetParent();
+			}
+			return globalRotation;
 		}
 
 		/*!***********************************************************************
@@ -155,6 +191,17 @@ namespace LB
 		void SetRotation(float newRotation)
 		{
 			m_angle = newRotation;
+
+			// 
+		}
+
+		/*!***********************************************************************
+		\brief
+		 Returns the local rotation of the GameObject (unaffected by the parent's rotation)
+		*************************************************************************/
+		float GetLocalRotation() const
+		{
+			return m_angle;
 		}
 
 		/*!***********************************************************************
@@ -178,6 +225,7 @@ namespace LB
 				m_parent->RemoveChild(this);
 
 			m_parent = newParent;
+			m_parent->AddChild(this);
 		}
 
 		/*!***********************************************************************
@@ -207,6 +255,9 @@ namespace LB
 		*************************************************************************/
 		void AddChild(CPTransform* newChild)
 		{
+			// Check if this object is already a child
+			if (std::find(m_children.begin(), m_children.end(), newChild) != m_children.end()) return;
+
 			m_children.push_back(newChild);
 		}
 
@@ -239,6 +290,26 @@ namespace LB
 
 		/*!***********************************************************************
 		\brief
+		 Repositions an object in the children list, commonly used in the editor
+		 hierarchy.
+		*************************************************************************/
+		void ReorderChild(int oldIndex, int newIndex)
+		{
+			// Swap epending on whether the old index is before or after the new index using 2 while loops
+			while (oldIndex > newIndex)
+			{
+				std::swap(m_children[oldIndex], m_children[oldIndex - 1]);
+				--oldIndex;
+			}
+			while (oldIndex < newIndex - 1)
+			{
+				std::swap(m_children[oldIndex], m_children[oldIndex + 1]);
+				++oldIndex;
+			}
+		}
+
+		/*!***********************************************************************
+		\brief
 		 Removes all GameObjects from the list of children
 		*************************************************************************/
 		void RemoveAllChildren()
@@ -250,13 +321,8 @@ namespace LB
 		CPTransform* m_parent{ nullptr };		// Pointer to parent GameObject
 		std::vector<CPTransform*> m_children{};	// Pointers to all children GameObjects 
 
-		//---------------Global (World) Space---------------
+		//---------------Local (Relative To Parent) Space---------------
 		Vec2<float> m_pos{}, m_scale{ 1.0f, 1.0f };
 		float m_angle{};
-
-		// TODO: Children gameobjects in the future will have their position relative to their parent
-		//---------------Local (World) Space---------------
-		Vec2<float> m_localPos{}, m_localScale{ 1.0f, 1.0f };
-		float m_localAngle{};
 	};
 }

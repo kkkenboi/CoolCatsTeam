@@ -23,7 +23,7 @@
 #include <queue>
 
 
-const float deg_to_rads{ PI / 180.f };
+const float deg_to_rads{ static_cast<float>(PI) / 180.f };
 
 namespace LB
 {
@@ -181,10 +181,20 @@ namespace LB
 			texture = _texture;
 			w = (float)width;
 			h = (float)height;
-			uv[0] = { 0.f, 0.f };
-			uv[1] = { 1.f, 0.f };
-			uv[2] = { 1.f, 1.f };
-			uv[3] = { 0.f, 1.f };
+			if (_texture == -1)
+			{
+				uv[0] = { 0.f, 0.f };
+				uv[1] = { 0.f, 0.f };
+				uv[2] = { 0.f, 0.f };
+				uv[3] = { 0.f, 0.f };
+			}
+			else
+			{
+				uv[0] = { 0.f, 0.f };
+				uv[1] = { 1.f, 0.f };
+				uv[2] = { 1.f, 1.f };
+				uv[3] = { 0.f, 1.f };
+			}
 		}
 
 		/*!***********************************************************************

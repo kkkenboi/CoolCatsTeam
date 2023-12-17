@@ -184,7 +184,6 @@ namespace LB
 		 Assert prints out a debug line if a specific condition is not met.
 		*************************************************************************/
 		void Assert(const char* file, int line, bool expectedCondition, std::string const& message);
-
 		void AssertFormat(const char* file, int line, bool expectedCondition, const char* format, ...);
 
 		/*!***********************************************************************
@@ -192,7 +191,6 @@ namespace LB
 		 Log prints a given message and the file that called it and from which line.
 		*************************************************************************/
 		void Log(const char* file, int line, std::string const& message);
-
 		void LogFormat(const char* file, int line, const char* format, ...);
 
 		/*!***********************************************************************
@@ -201,7 +199,6 @@ namespace LB
 		 word WARNING! so you know it's serious.
 		*************************************************************************/
 		void LogWarning(const char* file, int line, std::string const& message);
-
 		void LogWarningFormat(const char* fil, int line, const char* format, ...);
 
 		/*!***********************************************************************
@@ -210,7 +207,6 @@ namespace LB
 		 word ERROR!! so you know it's even more serious.
 		*************************************************************************/
 		void LogError(const char* file, int line, std::string const& message);
-
 		void LogErrorFormat(const char* file, int line, const char* format, ...);
 
 		/*!***********************************************************************

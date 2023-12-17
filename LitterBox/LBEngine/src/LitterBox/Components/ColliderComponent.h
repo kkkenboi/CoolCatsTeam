@@ -22,6 +22,10 @@
 
 namespace LB {
 
+	/*!***********************************************************************
+	\brief
+	 All collider types
+	*************************************************************************/
 	enum SHAPETYPE
 	{
 		COL_CIRCLE = 0,
@@ -29,6 +33,10 @@ namespace LB {
 		COL_NONE = 2
 	};
 
+	/*!***********************************************************************
+	\brief
+	 AABB Collider information
+	*************************************************************************/
 	struct AABB
 	{
 		LB::Vec2<float> m_c; // Center of the AABB
@@ -37,6 +45,10 @@ namespace LB {
 		LB::Vec2<float> m_max;
 	};
 
+	/*!***********************************************************************
+	\brief
+	 Line information
+	*************************************************************************/
 	struct LineSegment
 	{
 		LB::Vec2<float>	m_pt0;
@@ -44,7 +56,10 @@ namespace LB {
 		LB::Vec2<float>	m_normal;
 	};
 
-
+	/*!***********************************************************************
+	\brief
+	 Collider component that all GameObjects will use to enable collisions.
+	*************************************************************************/
 	class CPCollider : public IComponent
 	{
 	public:

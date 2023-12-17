@@ -22,6 +22,7 @@
 #include "stb_image.h"
 #include <chrono>
 #pragma warning(pop)
+#pragma warning(disable: 4996)
 
 namespace LB
 {
@@ -165,6 +166,7 @@ namespace LB
     {
         WINDOWSSYSTEM->OnApplicationFocus.Subscribe(ReimportAssets);
         DebuggerLog("Assetmanager is initializing");
+        
         Textures["none"];
         //Load all assets here
         ImportAssets();
@@ -309,7 +311,7 @@ namespace LB
 
         //We want to also create/update the meta file everytime we import
         Document _metaFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("MetaFiles.json").string());
-        Document::AllocatorType& metaAlloc = _metaFile.GetAllocator();
+        //Document::AllocatorType& metaAlloc = _metaFile.GetAllocator(); NOTREFERENCED
 
         //This vector will contain the OLD meta file paths
         std::vector<std::filesystem::path> metaPaths;
@@ -361,9 +363,10 @@ namespace LB
     {   //!Note that the filename received here is the full file path
         //Texture name is the same. Could probably refactor in the future...
         //We need to check if we have too many textures
-        if(Textures.size() >= 32)
+        if(Textures.size() >= 31)
         {
             //Max textures reached
+            DebuggerLogWarning("Warning! Max textures reached!!");
             return false;
         }
         //This lets us keep track of the id
@@ -431,7 +434,7 @@ namespace LB
         }
         if (name == "none")
         {
-            return 0;
+            return -1;
         }
         return Textures.find(assetMap[name])->second.second;
     }
@@ -471,7 +474,7 @@ namespace LB
         }
         if (name == "none")
         {
-            return 0;
+            return -1;
         }
         return Textures.find(assetMap[name])->second.first->id;
     }

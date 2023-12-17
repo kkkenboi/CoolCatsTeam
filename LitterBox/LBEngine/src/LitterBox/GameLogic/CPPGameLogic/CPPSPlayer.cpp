@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				CPPSPlayer.cpp
- \author(s)			Vanessa Chua Siew Jin
- \par DP email(s):	vanessasiewjin@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao
+ \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan\@digipen.edu
  \par Course:		CSD2401A
  \date				03-11-2023
  \brief
@@ -12,9 +12,9 @@
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
+#include "CPPSPlayer.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Physics/ColliderManager.h"
-#include "CPPSPlayer.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
 #include <array>
@@ -41,12 +41,12 @@ namespace LB
 		left_face.x = -left_face.x;
 
 		//--------------------------Variables initializaiton----------------------------
-		m_maxSpeed = 500.0f;
-		m_walkSpeed = 3000.0f;
+		m_maxSpeed = 30000.0f;
+		m_walkSpeed = 150000.0f;
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
-		m_shootForce = 3250.0f;
+		m_shootForce = 4500.0f;
 		m_shootRadius = 120.0f;
 
 		m_maxBalls = 3;
@@ -55,14 +55,15 @@ namespace LB
 		m_health = 3;
 
 		// 0.5 seconds of invincibility
+		mGotAttackedCooldown = 0;
 		mGotAttacked = 0.5f;
 
 		// So that balls don't spawn on top each other
-		rb->addForce(Vec2<float>{10.0f, 0.0f});
+		rb->addForce(Vec2<float>{10.0f, 0.0f} * TIME->GetDeltaTime());
 
 		//---------------------------getting the uvs for the run------------------------
 		if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"]) != LB::ASSETMANAGER->Textures.end()) {
-			int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width };
+			//int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width }; NOTREFERENCED
 
 			float x_inc{ 1.f / 10.f };
 
@@ -77,7 +78,7 @@ namespace LB
 		Renderer::GRAPHICS->init_anim("player_walk", frames.data(), 0.1f, 10);
 		Renderer::GRAPHICS->init_anim("player_idle", frames.data(), 1.f, 1);
 
-		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), rend->w, rend->h);
+		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), static_cast<int>(rend->w), static_cast<int>(rend->h));
 		rend->play_repeat("player_idle");
 	}
 
@@ -87,6 +88,11 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayer::Update()
 	{
+		if (TIME->IsPaused()) return;
+		/*!***********************************************************************
+		\brief
+		When "8" is pressed on the key, it will spawn a mage
+		*************************************************************************/
 		//-----------------TESTING SPAWN-----------------------
 		//Spawn Mage
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
@@ -100,6 +106,10 @@ namespace LB
 			JSONSerializer::DeserializeFromFile("Mage", *mageObject);
 			mageObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 		}
+		/*!***********************************************************************
+		\brief
+		When "9" is pressed on the key, it will spawn a Chaser
+		*************************************************************************/
 		//Spawn Chaser
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
 		{
@@ -114,9 +124,13 @@ namespace LB
 		}
 
 		if (mGotAttackedCooldown > 0.0f) {
-			mGotAttackedCooldown -= TIME->GetDeltaTime();
+			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
 
+		/*!***********************************************************************
+		\brief
+		Movement animation of the player
+		*************************************************************************/
 		//------------------Walking animation------------------
 		static bool isWalkingAnim{ false };
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
@@ -148,34 +162,39 @@ namespace LB
 			isWalkingAnim = true;
 		}
 
+		/*!***********************************************************************
+		\brief
+		Movement of the player
+		*************************************************************************/
 		//------------------Movement WASD------------------
 		bool isMoving{ false };
 		if (INPUT->IsKeyPressed(KeyCode::KEY_W))
 		{
-			rb->addForce(Vec2<float>{0.f, m_walkSpeed});
+			rb->addForce(Vec2<float>{0.f, m_walkSpeed} * TIME->GetDeltaTime());
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_S))
 		{
-			rb->addForce(Vec2<float>{0.f, -m_walkSpeed});
+			rb->addForce(Vec2<float>{0.f, -m_walkSpeed} * TIME->GetDeltaTime());
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_A))
 		{
-			rb->addForce(Vec2<float>{-m_walkSpeed, 0.f});
+			rb->addForce(Vec2<float>{-m_walkSpeed, 0.f} * TIME->GetDeltaTime());
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_D))
 		{
-			rb->addForce(Vec2<float>{m_walkSpeed, 0.f});
+			rb->addForce(Vec2<float>{m_walkSpeed, 0.f} * TIME->GetDeltaTime());
 			isMoving = true;
 		}
+		//clamping of the speed of the player movement
 		rb->mVelocity.x = Clamp<float>(rb->mVelocity.x, -m_maxSpeed, m_maxSpeed);
 		rb->mVelocity.y = Clamp<float>(rb->mVelocity.y, -m_maxSpeed, m_maxSpeed);
 
 		if (!isMoving)
 		{
-			rb->addForce(-rb->mVelocity * 5.0f);
+			rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
 
 			if (isWalkingAnim)
 			{
@@ -205,10 +224,14 @@ namespace LB
 				break;
 			}
 		}
-		m_stepSoundCurrent += TIME->GetDeltaTime();
+		m_stepSoundCurrent += static_cast<float>(TIME->GetDeltaTime());
 		
+		/*!***********************************************************************
+		\brief
+		Shooting and spawnining of the golf balls
+		*************************************************************************/
 		//------------------Pushes balls away from the player in a circle------------------
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
 		{
 			// Play hit sound
 			int Channel = AUDIOMANAGER->PlaySound("Sward-Whoosh_1");
@@ -235,13 +258,16 @@ namespace LB
 					{
 						continue;
 					}
-					vec_colliders[i]->rigidbody->addImpulse(force_to_apply);
+					if (!TIME->IsPaused())
+					{
+						vec_colliders[i]->rigidbody->addImpulse(force_to_apply); //* TIME->GetDeltaTime());
+					}
 				}
 			}
 		}
 
 		//------------------Spawn a golf ball----------------------
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
 			if (m_currentBalls >= m_maxBalls) return;
 			++m_currentBalls;
@@ -256,6 +282,10 @@ namespace LB
 			ballObject->GetComponent<CPTransform>()->SetPosition(playerPos);
 		}
 
+		/*!***********************************************************************
+		\brief
+		Getting direction of where the mous is and making the player face to that direction
+		*************************************************************************/
 		//------------------Player face mouse pos------------------
 		Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
 		Vec2<float> mousePos = INPUT->GetMousePos();
@@ -265,9 +295,9 @@ namespace LB
 		mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 		
 		Vec2<float> playerToMouseDir = mousePos - playerPos;
-		Vec2<float> TransformRight{ right_face };
+		Vec2<float> TransformRight{ 1,0 };
 
-		m_isFacingLeft = DotProduct(playerToMouseDir.Normalise(), TransformRight.Normalise()) < 0.0f;
+		m_isFacingLeft = DotProduct(playerToMouseDir.Normalise(), TransformRight) < 0.0f;
 
 		if (m_isFacingLeft)
 		{
@@ -279,11 +309,12 @@ namespace LB
 	\brief
 	Destroy function (will delete the states)
 	*************************************************************************/
-	void CPPSPlayer::Destroy()
-	{
+	void CPPSPlayer::Destroy(){ }
 
-	}
-
+	/*!***********************************************************************
+	\brief
+	When on collision  with either Projectile, Mage, Chase, it will get hurt and --m_health,
+	*************************************************************************/
 	void CPPSPlayer::OnCollisionEnter(CollisionData colData) 
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
@@ -294,9 +325,21 @@ namespace LB
 				return;
 			}
 			mGotAttackedCooldown = mGotAttacked;
-
-			int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+			int Channel{ 0 };
+			switch (std::rand() % 3)
+			{
+			case 0:
+				Channel = AUDIOMANAGER->PlaySound("playerhurt1");
+				break;
+			case 1:
+				Channel = AUDIOMANAGER->PlaySound("playerhurt2");
+				break;
+			case 2:
+				Channel = AUDIOMANAGER->PlaySound("playerhurt3");
+				break;
+			}
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
+			AUDIOMANAGER->SetChannelPitch(Channel, 1.1f);
 
 			--m_health;
 

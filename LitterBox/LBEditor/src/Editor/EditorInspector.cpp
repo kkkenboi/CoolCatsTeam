@@ -254,7 +254,7 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				Vec2<float> pos = m_inspectedGO->GetComponent<CPTransform>()->GetPosition();
+				Vec2<float> pos = m_inspectedGO->GetComponent<CPTransform>()->GetLocalPosition();
 				ImGui::Text("%-17s X", "Position");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
@@ -270,7 +270,7 @@ namespace LB
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
 				}
 
-				Vec2<float> scale = m_inspectedGO->GetComponent<CPTransform>()->GetScale();
+				Vec2<float> scale = m_inspectedGO->GetComponent<CPTransform>()->GetLocalScale();
 				ImGui::Text("%-17s X", "Scale");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
@@ -286,7 +286,7 @@ namespace LB
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(scaleCommand));
 				}
 
-				float rotation = m_inspectedGO->GetComponent<CPTransform>()->GetRotation();
+				float rotation = m_inspectedGO->GetComponent<CPTransform>()->GetLocalRotation();
 				ImGui::Text("%-19s", "Angle");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(extendedWidth);
@@ -422,7 +422,8 @@ namespace LB
 						std::filesystem::path tempPath{ str };
 						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 						{
-							m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, width, height);
+							if(str == "none") m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(-1, static_cast<int>(width), static_cast<int>(height));
+							else m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, static_cast<int>(width), static_cast<int>(height));
 						}
 					}
 					ImGui::EndCombo();

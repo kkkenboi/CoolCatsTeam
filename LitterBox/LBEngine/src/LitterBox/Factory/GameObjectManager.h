@@ -256,6 +256,9 @@ namespace LB
 		*************************************************************************/
 		void DestroyAllDDOLGOs();
 
+		// Let any subscribers know that a GO is destroyed
+		Event<GameObject*> onGameObjectDestroy;
+
 	private:
 		// All game objects in the current loaded scene are added to this vector
 		std::vector<GameObject*> m_GameObjects;

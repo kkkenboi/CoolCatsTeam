@@ -94,6 +94,12 @@ namespace LB
 		Initialize();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Calls Update, run is called every frame in the Main function.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void Editor::Run()
 	{
 		Update();
@@ -280,6 +286,10 @@ namespace LB
 		m_ImGuiLayers.Destroy();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Calls Destroy when the editor is deleted to free up all resources.
+	*************************************************************************/
 	Editor::~Editor()
 	{
 		Destroy();

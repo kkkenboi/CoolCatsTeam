@@ -68,11 +68,8 @@ namespace LB
 	*************************************************************************/
 	void FactorySystem::Update()
 	{
-
 		if (m_ToUpdate)
 		{
-
-
 			// Send all of the game objects to the GameObjectManager's vector or something
 			// Send message to the GameObjectManager to add objects to its pool of game objects
 			// What about pools?
@@ -184,6 +181,7 @@ namespace LB
 
 		return gameObj;
 	}
+
 	/*!***********************************************************************
 	 \brief
 	 Spawns a GameObject with the exact same components as the provided GameObject
@@ -227,8 +225,6 @@ namespace LB
 		return clone;
 	}
 
-
-
 	/*!***********************************************************************
 	 \brief
 	 Creates a empty GameObject with no components
@@ -270,7 +266,10 @@ namespace LB
 		m_loadedScene = loadedScene;
 	}
 
-	// Same function but for Event Subscription
+	/*!***********************************************************************
+	 \brief
+	 Same function but for Event Subscription
+	*************************************************************************/
 	void UpdateLoadedScene(Scene* loadedScene)
 	{
 		FACTORY->UpdateLoadedScene(loadedScene);

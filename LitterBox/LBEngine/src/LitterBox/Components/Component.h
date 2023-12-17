@@ -23,6 +23,10 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	 \brief
+	 List of all component types in the engine
+	*************************************************************************/
 	enum ComponentTypeID
 	{
 		C_CPNone = 0,
@@ -76,8 +80,12 @@ namespace LB
 		*************************************************************************/
 		virtual void Destroy() {}
 
+		/*!***********************************************************************
+		 \brief
+		 Virtual destructor in case any components has a destructor to call
+		*************************************************************************/
 		virtual ~IComponent() {}
 
-		GameObject* gameObj{ nullptr };
+		GameObject* gameObj{ nullptr }; // Every component has a reference to its object it is part of
 	};
 }

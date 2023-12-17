@@ -59,6 +59,11 @@ namespace LB
 		*************************************************************************/
 		void SceneOnPlayToggle(bool isPlaying);
 
+		/*!***********************************************************************
+		 \brief
+		 The actual scene loading happens at the end of each frame, this function
+		 checks if a new scene needs to be loaded then.
+		*************************************************************************/
 		void CheckSceneToLoad();
 
 		/*!***********************************************************************
@@ -121,7 +126,12 @@ namespace LB
 		bool m_isReloading{ false };		// Is the scene reloading?
 	};
 
-	// For event subscription
+	// 
+	/*!***********************************************************************
+	 \brief
+	 Global functions for event subscriptions! The same function name can found
+	 in the class.
+	*************************************************************************/
 	void SceneOnPlayToggle(bool isPlaying);
 	void CheckSceneToLoad();
 	void TrySaveScene();

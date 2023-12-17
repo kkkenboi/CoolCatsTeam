@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				EditorToolBar.h
- \author(s)			
- \par DP email(s):	
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
  \par Course:		CSD2401A
  \date				16/10/23
  \brief

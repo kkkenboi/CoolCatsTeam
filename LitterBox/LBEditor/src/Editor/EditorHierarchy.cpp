@@ -54,6 +54,9 @@ namespace LB
 
 		// But first after startup, load the active scene
 		UpdateSceneLoaded(SCENEMANAGER->GetCurrentScene());
+
+		// On any scene gameobject destroy during gameplay, deselect any
+		GOMANAGER->onGameObjectDestroy.Subscribe(LB::CheckGameObjectDeleted);
 	}
 
 	/*!***********************************************************************
@@ -114,13 +117,24 @@ namespace LB
 			ImGuiTreeNodeFlags_DefaultOpen
 			| ((m_loadedScene->GetRoot()->GetChildCount() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
 
+		bool isOpen{ ImGui::TreeNodeEx((m_loadedScene->GetName() + (COMMAND->UpToDate() ? "" : " (*)")).c_str(), flags) };
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* objData = ImGui::AcceptDragDropPayload("HIERARCHY_OBJ"))
+			{
+				m_draggedItem->SetParent(m_loadedScene->GetRoot());
+				m_draggedItem = nullptr;
+			}
+		}
+
 		// If this GO has children GO,
-		if (ImGui::TreeNodeEx((m_loadedScene->GetName() + (COMMAND->UpToDate() ? "" : " (*)")).c_str(), flags))
+		if (isOpen)
 		{
 			// Recursively render each one
 			for (int index{ 0 }; index < m_loadedScene->GetRoot()->GetChildCount(); ++index)
 			{
-				DrawItem(m_loadedScene->GetRoot()->GetChild(index));
+				DrawItem(m_loadedScene->GetRoot()->GetChild(index), index);
 			}
 			ImGui::TreePop();
 		}
@@ -134,14 +148,9 @@ namespace LB
 	  \return
 	  Nothing.
 	*************************************************************************/
-	bool EditorHierarchy::DrawItem(CPTransform* item)
+	bool EditorHierarchy::DrawItem(CPTransform* item, int index)
 	{
-		//-------------------------Click Select Detection-------------------------
-		// IMGui click detection is weird, but checking click in 3 places does the trick!
-		bool isChildClicked{ false }, isItemClicked{ false }, isParentClicked{ false };
-
 		ImGui::PushID(item);
-
 		//-------------------------Item Display Flags-------------------------
 		ImGuiTreeNodeFlags flags =
 			ImGuiTreeNodeFlags_OpenOnArrow
@@ -154,51 +163,69 @@ namespace LB
 		}
 		//-------------------------Item Display Flags-------------------------
 
-		// First click check before going into the children
-		if (ImGui::IsItemClicked()) isParentClicked = true;
+		//-------------------------Tree Node Inbetween------------------------
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
+		ImGui::InvisibleButton("Spacer", ImVec2(ImGui::GetWindowContentRegionMax().x, 4.0f));
+		ImGui::PopStyleVar();
+
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* objData = ImGui::AcceptDragDropPayload("HIERARCHY_OBJ")) {
+				// If dragged to another parent
+				if (m_draggedItem->GetParent() != item->GetParent())
+				{
+					m_draggedItem->SetParent(item->GetParent());
+					m_draggedItem->GetParent()->ReorderChild(m_draggedItem->GetParent()->GetChildCount() - 1, index);
+				}
+				else
+				{
+					m_draggedItem->GetParent()->ReorderChild(m_draggedItemIndex, index);
+				}
+				ImGui::EndDragDropTarget();
+			}
+		}
+		//-------------------------Tree Node Inbetween------------------------
 
 		//-------------------------Tree Node Item Render-------------------------
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
+		bool isOpen{ ImGui::TreeNodeEx(item->gameObj->GetName().c_str(), flags) };
+		ImGui::PopStyleVar();
+
+		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) 
+		{
+			m_clickedItem = item;
+			onNewObjectSelected.Invoke(item->gameObj);
+		}
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* objData = ImGui::AcceptDragDropPayload("HIERARCHY_OBJ"))
+			{
+				m_draggedItem->SetParent(item);
+				m_draggedItem = nullptr;
+			}
+		}
+		if (ImGui::BeginDragDropSource())
+		{
+			ImGui::SetDragDropPayload("HIERARCHY_OBJ", &index, sizeof(index));
+			m_draggedItem = item;
+			m_draggedItemIndex = index;
+			ImGui::EndDragDropSource();
+		}
+
 		// If this GO has children GO,
-		if (ImGui::TreeNodeEx(item->gameObj->GetName().c_str(), flags))
+		if (isOpen)
 		{
 			// Recursively render each one
 			for (int index{ 0 }; index < item->GetChildCount(); ++index)
 			{
-				// Second click check from the children
-				isChildClicked = DrawItem(item->GetChild(index));
+				DrawItem(item->GetChild(index), index);
 			}
-
 			ImGui::TreePop();
 		}
 		//-------------------------Tree Node Item Render-------------------------
-
-		// Last click check after going into the children
-		if (ImGui::IsItemClicked()) isItemClicked = true;
-
-		//-------------------------Click Select Detection-------------------------
-		// If this child GO is clicked on,
-		if (isItemClicked && !isChildClicked)
-		{
-			// Update the item clicked (for highlighting in hierachy)
-			m_clickedItem = item;
-			// Tell the editor know a new GO has been selected
-			onNewObjectSelected.Invoke(item->gameObj);
-		}
-		// Else, ImGui::IsClicked selects the next item, so go back 1 item
-		else if (isParentClicked && !item->GetChildCount())
-		{
-			if (item->GetParent()->gameObj)
-			{
-				// Update the item clicked (for highlighting in hierachy)
-				m_clickedItem = item->GetParent();
-				// Tell the editor know a new GO has been selected
-				onNewObjectSelected.Invoke(item->GetParent()->gameObj);
-			}
-		}
-		//-------------------------Click Select Detection-------------------------
 		ImGui::PopID();
 
-		return isItemClicked;
+		return true;
 	}
 
 	/*!***********************************************************************
@@ -252,10 +279,42 @@ namespace LB
 
 	/*!***********************************************************************
 	  \brief
+	  Deselected but does not delete the clicked GameObject
+	*************************************************************************/
+	void EditorHierarchy::DeselectSelectedObject()
+	{
+		m_clickedItem = nullptr;
+		onNewObjectSelected.Invoke(nullptr);
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Returns the current GameObject clicked, if any
+	*************************************************************************/
+	CPTransform* EditorHierarchy::GetClickedItem()
+	{
+		return m_clickedItem;
+	}
+
+	/*!***********************************************************************
+	  \brief
 	  Deletes the clicked GameObject
 	*************************************************************************/
 	void DeleteSelectedObject()
 	{
 		EDITORHIERACHY->DeleteSelectedObject();
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Checks if the gameobject deleted during gameplay is the same as the
+	  one inspected.
+	*************************************************************************/
+	void CheckGameObjectDeleted(GameObject* deletedGO)
+	{
+		if (EDITORHIERACHY->GetClickedItem() && EDITORHIERACHY->GetClickedItem() == deletedGO->GetComponent<CPTransform>())
+		{
+			EDITORHIERACHY->DeselectSelectedObject();
+		}
 	}
 }

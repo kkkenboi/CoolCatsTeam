@@ -31,6 +31,10 @@ namespace LB {
 	void CPPSChaser::Start()
 	{
 		//Intialise the components
+		// 		right_face = trans->GetScale();
+		rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
+		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
+		leftFace.x = -leftFace.x;
 		//GameObj = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider });
 		if (GameObj->HasComponent<CPRender>()) 
 		{
@@ -82,9 +86,10 @@ namespace LB {
 		}
 
 		mGotAttacked = 0.5f;
+		mGotAttackedCooldown = 0.0f;
 
 		mHealth = 3;
-		mSpeedMagnitude = 1000.f;
+		mSpeedMagnitude = 100000.f;
 
 		mInitialised = true;
 	}
@@ -96,9 +101,9 @@ namespace LB {
 	void CPPSChaser::Update()
 	{
 		//DebuggerLog("In ChaserUpdate\n");
-		if (mInitialised == false)
+		if (INPUT->IsKeyPressed(KeyCode::KEY_0))
 		{
-			return;
+			mShouldDestroy = true;
 		}
 		if (mShouldDestroy)
 		{
@@ -106,9 +111,14 @@ namespace LB {
 			return;
 		}
 		if (mGotAttackedCooldown > 0.0f) {
-			mGotAttackedCooldown -= TIME->GetDeltaTime();
+			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
-
+		Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
+		Vec2<float> TransformRight{ 1,0 };
+		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
+		{
+			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
+		} else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
 		mFSM.Update();
 	}
 	/*!***********************************************************************
@@ -122,17 +132,24 @@ namespace LB {
 		delete mFSM.GetState("Hurt");
 	}
 
+	/*!***********************************************************************
+	\brief
+	On Collision Enter to check who is it colliding with
+	*************************************************************************/
 	void CPPSChaser::OnCollisionEnter(CollisionData colData)
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
-			int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
 
-			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 200.f)
 			{
+				DebuggerLogWarningFormat("CHASER HIT! %f", mGotAttackedCooldown);
 				if (mGotAttackedCooldown > 0.0f) {
 					return;
 				}
+				DebuggerLogWarning("CHASER HIT ACTUAL!");
+
+				int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
+				AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
 				mGotAttackedCooldown = mGotAttacked;
 
 				--mHealth;
@@ -184,6 +201,10 @@ namespace LB {
 		return mPlayer;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Getter for player's health
+	*************************************************************************/
 	int& CPPSChaser::GetHealth()
 	{
 		return mHealth;
@@ -198,6 +219,10 @@ namespace LB {
 		return mSpeedMagnitude;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Getter for hurt timer
+	*************************************************************************/
 	float& CPPSChaser::GetHurtTimer()
 	{
 		return mHurtTimer;
@@ -216,10 +241,20 @@ namespace LB {
 	{
 		mEnemy = enemy_ptr;
 	}
+
+	/*!***********************************************************************
+	\brief
+	Entering of idle state
+	*************************************************************************/
 	void IdleState::Enter()
 	{
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	Update of idle state
+	*************************************************************************/
 	void IdleState::Update()
 	{
 		GetFSM().ChangeState("Chase");
@@ -228,6 +263,11 @@ namespace LB {
 		//	// Change the state to Chase
 		//}
 	}
+
+	/*!***********************************************************************
+	\brief
+	Exit of the Idle State
+	*************************************************************************/
 	void IdleState::Exit()
 	{
 	}
@@ -243,11 +283,21 @@ namespace LB {
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Entering of chase state
+	*************************************************************************/
 	void ChaseState::Enter()
 	{
 		DebuggerLog("Entered ChaseState");
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	Update of chase state where it gets the position of itself and the player so that
+	the chaser will go towards the player
+	*************************************************************************/
 	void ChaseState::Update()
 	{
 		// Calculate direction of force from enemy to player
@@ -258,9 +308,14 @@ namespace LB {
 		Direction = Normalise(Direction);
 
 		Direction = Direction * mEnemy->GetSpeedMag();
-		DebuggerLogFormat("%f, %f", Direction.x, Direction.y);
-		mEnemy->GetRigidBody()->addForce(Direction);
+		//DebuggerLogFormat("%f, %f", Direction.x, Direction.y);
+		mEnemy->GetRigidBody()->addForce(Direction * TIME->GetDeltaTime());
 	}
+
+	/*!***********************************************************************
+	\brief
+	Exiting of exit state
+	*************************************************************************/
 	void ChaseState::Exit()
 	{
 	}
@@ -276,16 +331,24 @@ namespace LB {
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Entering of Hurt state, initialising the values
+	*************************************************************************/
 	void HurtState::Enter()
 	{
-		std::cout << "Health: " << mEnemy->GetHealth();
+		//std::cout << "Health: " << mEnemy->GetHealth();
 		mEnemy->GetHurtTimer() = 1.5f;
 		this->Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Updating of hurt state
+	*************************************************************************/
 	void HurtState::Update()
 	{
-		mEnemy->GetHurtTimer() -= TIME->GetDeltaTime();
+		mEnemy->GetHurtTimer() -= static_cast<float>(TIME->GetDeltaTime());
 		if (mEnemy->GetHurtTimer() <= 0.f) 
 		{
 			this->GetFSM().ChangeState("Chase");
@@ -297,6 +360,10 @@ namespace LB {
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit of Hurt state
+	*************************************************************************/
 	void HurtState::Exit()
 	{
 		mEnemy->GetHurtTimer() = 1.5f;

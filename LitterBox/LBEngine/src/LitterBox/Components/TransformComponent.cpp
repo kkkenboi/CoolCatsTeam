@@ -19,7 +19,6 @@ namespace LB
 {
 	/*!***********************************************************************
 	 * \brief Deserializes json data into a Transform Component
-	 * 
 	**************************************************************************/
 	bool CPTransform::Deserialize(const Value& data)
 	{	//Same thing, we check if it has all the members

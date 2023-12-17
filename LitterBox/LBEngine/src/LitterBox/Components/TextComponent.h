@@ -51,8 +51,22 @@ namespace LB {
 		*************************************************************************/
 		void Update() override;
 
+		/*!***********************************************************************
+		\brief
+		 Serializes all the information needed for rendering text
+		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc);
+
+		/*!***********************************************************************
+		\brief
+		 Deserializes (loads) all the information needed for rendering text
+		*************************************************************************/
 		bool Deserialize(const Value& data);
+
+		/*!***********************************************************************
+		\brief
+		Returns the type of this component for identification
+		*************************************************************************/
 		static ComponentTypeID GetType()
 		{
 			return C_CPText;
@@ -136,6 +150,10 @@ namespace LB {
 		*************************************************************************/
 		inline Renderer::message& get_msg();
 
+		/*!***********************************************************************
+		 \brief
+		 Updates the text displayed
+		*************************************************************************/
 		void set_msg(char* _msg)
 		{
 			msg.text = _msg;

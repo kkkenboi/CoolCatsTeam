@@ -1,3 +1,18 @@
+/*!************************************************************************
+ \file				CPPSBaseGolfBall.cpp
+ \author(s)			Vanessa Chua Siew Jin
+ \par DP email(s):	vanessasiewjin@digipen.edu
+ \par Course:		CSD2401A
+ \date				25-11-2023
+ \brief
+ This file contains the Projectile Ball behaviour, Name of script will be changed in the
+ future.
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "CPPSBaseGolfBall.h"
 
 #include "LitterBox/Debugging/Debug.h"
@@ -6,8 +21,14 @@
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Engine/Time.h"
 
+#include "math.h"	//Only using it for atan2
+
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	Start function where variables will be initialised
+	*************************************************************************/
 	void CPPSBaseGolfBall::Start()
 	{
 		mRender = GameObj->GetComponent<CPRender>();
@@ -24,21 +45,38 @@ namespace LB
 		}
 
 		// Set direction (rotation)
-		CPTransform* trans = GameObj->GetComponent<CPTransform>();
-		Vec2<float> currPos = trans->GetPosition();
-		Vec2<float> shootDir = currPos - mPlayer->GetComponent<CPTransform>()->GetPosition();
-
-		trans->SetRotation(RadToDeg(DotProduct(shootDir.Normalise(), Vec2<float>{1.0f, 1.0f })));
-		trans->SetRotation(trans->GetRotation() + 90.0f);
+		//CPTransform* trans = GameObj->GetComponent<CPTransform>();
+		//Vec2<float> currPos = trans->GetPosition();
+		//Vec2<float> shootDir = mRigidBody->mVelocity;
+		//shootDir.Normalise();
+			//mPlayer->GetComponent<CPTransform>()->GetPosition() - currPos;
+		//trans->SetRotation(RadToDeg(atan2f(shootDir.y, shootDir.x)));
+		/*trans->SetRotation(RadToDeg(DotProduct(shootDir.Normalise(), Vec2<float>{1.0f, 1.0f })));
+		trans->SetRotation(trans->GetRotation() + 90.0f);*/
 
 		mRigidBody->mFriction = 1.0f;
 		mSpeedMagnitude = 1000.0f;
 		mVelocity = 1000.0f; //with direction
 		mSize = 1.0f;
 	}
+	
+	/*!***********************************************************************
+	\brief
+	Update is where the behaviour of the projectile will be updated every frame
+	*************************************************************************/
+	void CPPSBaseGolfBall::Update() 
+	{
+		//This sets the rotation for the sprite to always face the direction it's travelling
+		CPTransform* trans = GameObj->GetComponent<CPTransform>();
+		Vec2<float> shootDir = mRigidBody->mVelocity;
+		trans->SetRotation(RadToDeg(atan2f(shootDir.y, shootDir.x)));
 
-	void CPPSBaseGolfBall::Update() { }
+	}
 
+	/*!***********************************************************************
+	\brief
+	On collision to check what is this Projectile is colliding with
+	*************************************************************************/
 	void CPPSBaseGolfBall::OnCollisionEnter(CollisionData colData)
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "MainChar" ||
@@ -56,10 +94,11 @@ namespace LB
 		
 	}
 
-	void CPPSBaseGolfBall::Destroy()
-	{
-
-	}
+	/*!***********************************************************************
+	\brief
+	Destroy
+	*************************************************************************/
+	void CPPSBaseGolfBall::Destroy() { }
 
 	//Getter functions
 	/*!***********************************************************************

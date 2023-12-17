@@ -1,12 +1,12 @@
 /*!************************************************************************
  \file				GameObjectCommands.cpp
- \author(s)
- \par DP email(s):
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
  \par Course:       CSD2401A
  \date				22/11/2023
  \brief
 
- This file contains
+ This file contains the commands for manipulating game objects (removing/creating)
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -26,8 +26,15 @@ namespace LB
 	class RemoveObjectCommand : public ICommand
 	{
 	public:
+		/*!************************************************************************
+		* \brief Construct a new Remove Object Command
+		* \param GOToRemove GameObject to be removed
+		**************************************************************************/
 		RemoveObjectCommand(GameObject* GOToRemove) : m_removedGO{ GOToRemove }, m_removedGOParent{ m_removedGO->GetComponent<CPTransform>()->GetParent() }, m_lastPos{m_removedGO->GetComponent<CPTransform>()->GetPosition()} { }
 
+		/*!************************************************************************
+		 * \brief Executes the remove gameobject command
+		**************************************************************************/
 		void Execute() override
 		{
 			GOMANAGER->DetachGameObject(m_removedGO);
@@ -45,6 +52,9 @@ namespace LB
 			m_removedGO->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 		}
 
+		/*!************************************************************************
+		 * \brief Undoes the remove gameobject command
+		**************************************************************************/
 		void Undo() override
 		{
 			GOMANAGER->AddGameObject(m_removedGO);
@@ -56,17 +66,27 @@ namespace LB
 			m_removedGO->GetComponent<CPTransform>()->SetPosition(Vec2<float>{m_lastPos});
 		}
 
+		/*!************************************************************************
+		 * \brief Merges commands together, but this command in particular cannot
+		 * merge.
+		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
 			UNREFERENCED_PARAMETER(incomingCommand);
 			return false; // This command can never merge
 		}
 
+		/*!************************************************************************
+		 * \brief Get the command type, used for merging
+		**************************************************************************/
 		CommandType GetType() override
 		{
 			return DELETEGO;
 		}
 
+		/*!************************************************************************
+		 * \brief What should be done when the command is removed from the manager
+		**************************************************************************/
 		void OnRemove() override
 		{
 			// If the most recent command was this, don't destroy! 
@@ -96,10 +116,21 @@ namespace LB
 	class SpawnObjectCommand : public ICommand
 	{
 	public:
+		/*!************************************************************************
+		 * \brief Construct a new Spawn Object Command object
+		**************************************************************************/
 		SpawnObjectCommand() { }
 
+		/*!************************************************************************
+		 * \brief Construct a new Spawn Object Command object
+		 * \param prefabData prefab to spawn
+		 * \param spawnPos position of prefab to spawn 
+		**************************************************************************/
 		SpawnObjectCommand(std::string const& prefabData, Vec2<float> const& spawnPos) : m_prefabData{ prefabData }, m_spawnPos{ spawnPos } { }
 
+		/*!************************************************************************
+		 * \brief Executes the spawn gameobject command
+		**************************************************************************/
 		void Execute() override
 		{
 			// If the object already exists (Meaning the command has undoed and redoed)
@@ -123,7 +154,10 @@ namespace LB
 
 			m_spawnedGOParent = m_spawnedGO->GetComponent<CPTransform>()->GetParent();
 		}
-
+		
+		/*!************************************************************************
+		 * \brief Undos the spawn gameobject command
+		**************************************************************************/
 		void Undo() override
 		{
 			// Remove object from inspection if inspected
@@ -141,17 +175,27 @@ namespace LB
 			GOMANAGER->DetachGameObject(m_spawnedGO);
 		}
 
+		/*!************************************************************************
+		 * \brief Merges commands together, but this command in particular cannot
+		 * merge.
+		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
 			UNREFERENCED_PARAMETER(incomingCommand);
 			return false; // This command can never merge
 		}
 
+		/*!************************************************************************
+		 * \brief Get the command type, used for merging
+		**************************************************************************/
 		CommandType GetType() override
 		{
 			return SPAWNGO;
 		}
 
+		/*!************************************************************************
+		 * \brief What should be done when the command is removed from the manager
+		**************************************************************************/
 		void OnRemove() override
 		{
 			// TODO: Refactor spawn and delete logic

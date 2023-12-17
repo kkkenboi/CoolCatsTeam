@@ -137,7 +137,10 @@ namespace LB
 			DebuggerLogErrorFormat("Tried to save scene %s while in play mode!", m_currentScene->GetName().c_str());
 		}
 	}
-
+	/*!***********************************************************************
+	 \brief
+	 For event subscription, same function as above
+	*************************************************************************/
 	void TrySaveScene()
 	{
 		if (INPUT->IsKeyPressed(KeyCode::KEY_LEFTCONTROL))
@@ -179,13 +182,20 @@ namespace LB
 		else
 			ReloadScene();
 	}
-
-	// For event subscription
+	/*!***********************************************************************
+	 \brief
+	 For event subscription, same function as above
+	*************************************************************************/
 	void SceneOnPlayToggle(bool isPlaying)
 	{
 		SCENEMANAGER->SceneOnPlayToggle(isPlaying);
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 The actual scene loading happens at the end of each frame, this function
+	 checks if a new scene needs to be loaded then.
+	*************************************************************************/
 	void SceneManager::CheckSceneToLoad()
 	{
 		if (!m_nextScene) return;
@@ -218,7 +228,10 @@ namespace LB
 		if (CORE->IsPlaying())
 			LB::StartScripts(true);
 	}
-
+	/*!***********************************************************************
+	 \brief
+	 For event subscription, same function as above
+	*************************************************************************/
 	void CheckSceneToLoad()
 	{
 		SCENEMANAGER->CheckSceneToLoad();

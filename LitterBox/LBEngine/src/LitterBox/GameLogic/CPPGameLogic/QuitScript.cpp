@@ -70,6 +70,10 @@ namespace LB {
 				screen = e;
 				continue;
 			}
+			if (e->GetName() == "Line") {
+				line = e;
+				continue;
+			}
 			//get pointer to hand object
 			if (e->GetName() != "Hand") {
 				continue;
@@ -177,10 +181,15 @@ namespace LB {
 			if (coll == collider) {
 
 				hand->GetComponent<CPTransform>()->SetPosition(right_side);
+				float yOffset = coll->m_heightUnscaled / 2.f;
+				line->GetComponent<CPTransform>()->SetPosition(coll->GetTransform()->GetPosition() - Vec2<float>{0,yOffset});
+
 			}
 		}
 	}
-	void QuitScript::Destroy()
-	{
-	}
+	/*!***********************************************************************
+	\brief
+	 Empty by design
+	*************************************************************************/
+	void QuitScript::Destroy() { }
 }

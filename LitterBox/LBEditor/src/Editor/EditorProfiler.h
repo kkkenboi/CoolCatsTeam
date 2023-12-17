@@ -80,6 +80,10 @@ namespace LB
 		int m_framesHistorySize, m_currentFrameHistoryIndex;			// How many frames data to hold
 	};
 
+	/*!***********************************************************************
+	 \brief
+	 For event subscription, update the system frames with timing data.
+	*************************************************************************/
 	void UpdateSystemFrames();
 
 	extern EditorProfiler* EDITORPROFILER;

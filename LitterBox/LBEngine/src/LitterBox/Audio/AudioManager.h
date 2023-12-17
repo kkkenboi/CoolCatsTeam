@@ -86,7 +86,7 @@ namespace LB
 		 * 
 		 * \param channelID Channel ID to check for
 		**************************************************************************/
-		bool IsPaused(int channelID);
+		bool IsPaused(int ChannelID);
 
 
 		/*!***********************************************************************
@@ -112,21 +112,21 @@ namespace LB
 		 * 
 		 * \param channelID Channel ID to stop playing from (grab the ID from playing sound)
 		**************************************************************************/
-		void StopChannel(int channelID);
+		void StopChannel(int ChannelID);
 
 		/*!************************************************************************
 		 * \brief Function to PAUSE a specific channel from playing
 		 * (Grab the channel id from the PlaySound function)
 		 * \param channelID Channel ID to PAUSE the sound from
 		**************************************************************************/
-		void PauseChannel(int channelID);
+		void PauseChannel(int ChannelID);
 
 		/*!************************************************************************
 		 * \brief Function to UNPAUSE a specific channel from playing
 		 * (Grab the channel id from the PlaySound function)
 		 * \param channelID Channel ID to UNPAUSE the sound from
 		**************************************************************************/
-		void UnPauseChannel(int channelID);
+		void UnPauseChannel(int ChannelID);
 
 		/*!************************************************************************
 		 * \brief Set the Channel Pitch object
@@ -134,7 +134,7 @@ namespace LB
 		 * \param channelID Channel ID to set the pitch for
 		 * \param _pitch Pitch to set
 		**************************************************************************/
-		void SetChannelPitch(int channelID, float _pitch);
+		void SetChannelPitch(int ChannelID, float _pitch);
 
 		/*!************************************************************************
 		 * \brief Set the Channel Volume object

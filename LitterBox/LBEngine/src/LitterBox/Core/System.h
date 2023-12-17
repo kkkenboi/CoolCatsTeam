@@ -30,7 +30,6 @@ namespace LB
 	class ISystem
 	{
 	public:
-
 		/*!***********************************************************************
 		 \brief
 		 Systems can receive all message sent to the Engine's CORE. 
@@ -67,6 +66,10 @@ namespace LB
 		*************************************************************************/
 		virtual void Destroy() {}
 
+		/*!***********************************************************************
+		 \brief
+		 Virtual destructor in case any system has a destructor to call
+		*************************************************************************/
 		virtual ~ISystem() {}
 
 		/*!***********************************************************************
@@ -76,7 +79,7 @@ namespace LB
 		void SetSystemName(std::string newName) { systemName = newName; }
 
 	private:
-		std::string systemName{};
+		std::string systemName{}; // Name of system for logging information like frame time
 	};
 }
 

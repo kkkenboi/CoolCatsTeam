@@ -38,10 +38,15 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Creates and loads the instances of each script when the scene starts
+		 Start for CPPGamelogic manager. Creates and loads the instances of each 
+		 script when the scene starts
 		*************************************************************************/
 		void Start();
 
+		/*!***********************************************************************
+		 \brief
+		 Loads the CPPScript instance based on the name of the script.
+		*************************************************************************/
 		void StartScript(CPScriptCPP* script);
 
 		/*!***********************************************************************

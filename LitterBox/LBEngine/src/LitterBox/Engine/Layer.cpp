@@ -24,10 +24,7 @@ namespace LB
 	 \brief
 	 Creates a layer with supplied name
 	*************************************************************************/
-	Layer::Layer(std::string layerName) : m_Layer{ layerName }
-	{
-
-	}
+	Layer::Layer(std::string layerName) : m_Layer{ layerName } {}
 
 	/*!***********************************************************************
 	 \brief

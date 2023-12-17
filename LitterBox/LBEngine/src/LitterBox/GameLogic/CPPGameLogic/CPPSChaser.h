@@ -47,21 +47,22 @@ namespace LB
 		float& GetHurtTimer();
 
 	private:
-
-
+		//private variables
 		CPRender* mRender;
 		CPRigidBody* mRigidBody;
 		CPCollider* mCollider;
-
+		//getting the player object
 		GameObject* mPlayer{ nullptr };
+		Vec2<float> rightFace;
+		Vec2<float> leftFace;
 
 		// Holds the different state and the current state
 		// that the Chaser enemy is in
 		FiniteStateMachine mFSM{};
 
-		int mHealth{};
-		float mSpeedMagnitude{};
-		float mHurtTimer{};
+		int mHealth{}; //health of the chaser
+		float mSpeedMagnitude{}; //speed
+		float mHurtTimer{}; //hurt timer
 
 		float mGotAttacked, mGotAttackedCooldown;
 

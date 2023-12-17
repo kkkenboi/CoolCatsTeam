@@ -21,6 +21,7 @@
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Core/Core.h"
 #include "Platform/Windows/Windows.h"
+#include "LitterBox/Engine/Time.h"
 namespace LB
 {
 	AudioManager* AUDIOMANAGER = nullptr;
@@ -104,6 +105,11 @@ namespace LB
 	**************************************************************************/
 	void AudioManager::Update()
 	{
+		if (TIME->IsPaused())
+		{
+			Pause();
+		}
+		else UnPause();
 		//Store a vector of channels you wanna remove from the map
 		std::vector<std::map<int, FMOD::Channel*>::iterator> stoppedChannels;
 		//We loop through all our channels and see which is stopped
@@ -209,16 +215,16 @@ namespace LB
 	* 
 	* \param channelID Channel ID to check for
 	**************************************************************************/	
-	bool AudioManager::IsPaused(int channelID)
+	bool AudioManager::IsPaused(int ChannelID)
 	{
 		bool isPaused{ false };
-		if (Channels.find(channelID) != Channels.end())
+		if (Channels.find(ChannelID) != Channels.end())
 		{
-			Channels[channelID]->getPaused(&isPaused);
+			Channels[ChannelID]->getPaused(&isPaused);
 		}
 		else
 		{
-			DebuggerLogWarningFormat("Unable to find channel %d!",channelID);
+			//DebuggerLogWarningFormat("Unable to find channel %d!",channelID);
 		}
 		return isPaused;
 	}
@@ -228,12 +234,12 @@ namespace LB
 	* 
 	* \param channelID Channel ID to stop playing from (grab the ID from playing sound)
 	**************************************************************************/
-	void AudioManager::StopChannel(int channelID)
+	void AudioManager::StopChannel(int ChannelID)
 	{
-		if (Channels.find(channelID) != Channels.end())
+		if (Channels.find(ChannelID) != Channels.end())
 		{
-			Channels[channelID]->stop();
-		} else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
+			Channels[ChannelID]->stop();
+		} //else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 	}
 
 	/*!************************************************************************
@@ -241,11 +247,11 @@ namespace LB
 	* (Grab the channel id from the PlaySound function)
 	* \param channelID Channel ID to PAUSE the sound from
 	**************************************************************************/	
-	void AudioManager::PauseChannel(int channelID)
+	void AudioManager::PauseChannel(int ChannelID)
 	{
-		if (!IsPaused(channelID))
+		if (!IsPaused(ChannelID))
 		{
-			Channels[channelID]->setPaused(true);
+			Channels[ChannelID]->setPaused(true);
 		}
 	}
 
@@ -254,11 +260,11 @@ namespace LB
 	* (Grab the channel id from the PlaySound function)
 	* \param channelID Channel ID to UNPAUSE the sound from
 	**************************************************************************/	
-	void AudioManager::UnPauseChannel(int channelID)
+	void AudioManager::UnPauseChannel(int ChannelID)
 	{
-		if (IsPaused(channelID))
+		if (IsPaused(ChannelID))
 		{
-			Channels[channelID]->setPaused(false);
+			Channels[ChannelID]->setPaused(false);
 		}
 	}
 
@@ -269,11 +275,11 @@ namespace LB
 	* \param channelID Channel ID to set the pitch for
 	* \param _pitch Pitch to set
 	**************************************************************************/
-	void AudioManager::SetChannelPitch(int channelID,float _pitch)
+	void AudioManager::SetChannelPitch(int ChannelID,float _pitch)
 	{
-		if (Channels.find(channelID) != Channels.end())
+		if (Channels.find(ChannelID) != Channels.end())
 		{
-			Channels[channelID]->setPitch(_pitch);
+			Channels[ChannelID]->setPitch(_pitch);
 		}// else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 
 	}
@@ -284,11 +290,11 @@ namespace LB
 	* \param ChannelID Channel ID to set the volume for
 	* \param _vol Volume to set
 	**************************************************************************/
-	void AudioManager::SetChannelVolume(int channelID, float _vol)
+	void AudioManager::SetChannelVolume(int ChannelID, float _vol)
 	{
-		if (Channels.find(channelID) != Channels.end())
+		if (Channels.find(ChannelID) != Channels.end())
 		{
-			Channels[channelID]->setVolume(_vol);
+			Channels[ChannelID]->setVolume(_vol);
 		}// else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 	}
 

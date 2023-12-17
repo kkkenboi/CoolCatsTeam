@@ -76,7 +76,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Gets all the components of the GameObject
-
 	 \return
 	 Map to the GameObject's components
 	*************************************************************************/
@@ -88,7 +87,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Sets all of the components of one GameObject to another map
-
 	 \return
 	 Nothing
 	*************************************************************************/
@@ -100,7 +98,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Adds a component to the GameObject
-
 	 \return
 	 Nothing
 	*************************************************************************/
@@ -113,7 +110,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Removes a component from the GameObject
-
 	 \return
 	 Nothing
 	*************************************************************************/
@@ -126,7 +122,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Serializes the GameObject data into a file
-
 	 \return
 	 True if serialized, else false
 	*************************************************************************/
@@ -188,7 +183,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Deserializes the GameObject data from a file
-
 	 \return
 	 True if deserialised, else false
 	*************************************************************************/
@@ -290,7 +284,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Initialises all of the components in the GameObject
-
 	 \return
 	 Nothing
 	*************************************************************************/
@@ -305,7 +298,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Gets the ID of the GameObject
-
 	 \return
 	 ID of the GameObject
 	 *************************************************************************/
@@ -317,9 +309,6 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Sets the ID of the GameObject
-
-	 \return
-	 Nothing
 	*************************************************************************/
 	void GameObject::SetID(int ID)
 	{
@@ -388,9 +377,6 @@ namespace LB
 	 \brief
 	 Destroys all of the GameObjects and signifies end of lifecycle of
 	 GameObjectManager
-
-	 \return
-	 Nothing
 	*************************************************************************/
 	void GameObjectManager::Destroy()
 	{
@@ -402,9 +388,8 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Gets all of the current GameObjects the GameObjectManager is managing
-
 	 \return
-	 All current GameObjects
+	 All current GameObjects in the scene
 	*************************************************************************/
 	std::vector<GameObject*> const& GameObjectManager::GetGameObjects() const
 	{
@@ -413,20 +398,25 @@ namespace LB
 	/*!***********************************************************************
 	 \brief
 	 Adds a GameObject to the current pool of GameObjects
-
-	 \return
-	 Nothing
 	*************************************************************************/
 	void GameObjectManager::AddGameObject(GameObject* gameObject)
 	{
 		m_GameObjects.push_back(gameObject);
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Removes a GameObject from the current pool of GameObjects for loaded scene
+	 and deletes it
+	*************************************************************************/
 	void GameObjectManager::RemoveGameObject(GameObject* gameObject)
 	{
 		auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
 		if (it != m_GameObjects.end()) 
 		{
+			// Let anyone know gameobject has been destroyed
+			onGameObjectDestroy.Invoke(*it);
+
 			m_GameObjects.erase(it);
 			gameObject->Destroy();
 		}
