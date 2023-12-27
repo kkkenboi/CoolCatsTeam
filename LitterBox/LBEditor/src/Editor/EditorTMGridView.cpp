@@ -59,24 +59,41 @@ namespace LB
 			ImGui::EndCombo();
 		}
 
+		//Just an arbitrary way of calculating button size
+		//each image button in the editormapview is a square
+		//which may be an issue with aspect ratios
 		ImVec2 buttonSize{ ImGui::GetContentRegionAvail() };
 		buttonSize.y /= (float)rowNum;
 		buttonSize.x = buttonSize.y;
 
+		//NOTE: for the table the flags that need to be enabled are
+		//the scroll for X and Y axis otherwise you cannot create the map
 		if (ImGui::BeginTable("table1", colNum, ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX))
 		{
+			//caching the min and max UVs so if the image button's
+			//value is 0 then we just print the same UV to make sure
+			//no part of the image is loaded
 			ImVec2 min{ defaultUV };
 			ImVec2 max{ defaultUV };
 			ImTextureID textureID{ 0 };
+			//just a variable to store the value of the image button in
+			//tiles vector
 			int index{ 0 };
+			//creating the table. NOTE: The editor has a fixed size for now
+			//TODO: let player adjust the map size when they want
 			for (int row = 0; row < rowNum; row++)
 			{
+				//going through it each row
 				ImGui::TableNextRow();
 				for (int column = 0; column < colNum; column++)
 				{
 					//check that we have valid tile at the image button
+					//also need to check that there are UVs already created
 					if (EDITORTMEDITOR->getNumOfTiles() &&
 						(index = tiles.at(column + row * colNum) - 1) >= 0) {
+						//getting the min max UVs and placing them in the
+						//order that ImGui Follows. Which is flipped Y axis
+						//to OpenGL
 						min = {
 							EDITORTMEDITOR->getMMUV(index).first.first,
 							EDITORTMEDITOR->getMMUV(index).second.second
@@ -85,6 +102,8 @@ namespace LB
 							EDITORTMEDITOR->getMMUV(index).second.first,
 							EDITORTMEDITOR->getMMUV(index).first.second
 						};
+						//We also set the texture data because if not then
+						//The tile becomes fully blue instead of black
 						textureID = (ImTextureID)EDITORTMEDITOR->getTextureID();
 					}
 					else {
@@ -96,12 +115,12 @@ namespace LB
 
 					ImGui::TableSetColumnIndex(column);
 					//set the button to the texture object selected in EditorTMEditor
-					ImGui::PushID(column + row * colNum);
+					ImGui::PushID(column + row * colNum); //IMPORTANT: this needs to be done otherwise only first button works
 					if (ImGui::ImageButton("Button", textureID, buttonSize, min, max))
 					{
 						tiles.at(column + row * colNum) = tileSelected;
 					}
-					ImGui::PopID();
+					ImGui::PopID();//IMPORTANT: this needs to be done otherwise only first button works
 				}
 			}
 			ImGui::EndTable();

@@ -1263,6 +1263,40 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 		break;
 	}
 }
+
+void Renderer::RenderSystem::swap_object_type(Renderer_Types curr_type, Renderer_Types new_type, LB::CPRender* obj)
+{
+	//remove the object from it's current layer
+	switch (curr_type) {
+	case Renderer_Types::RT_OBJECT:
+		object_renderer.remove_render_object(obj);
+		break;
+	case Renderer_Types::RT_BACKGROUND:
+		bg_renderer.remove_render_object(obj);
+		break;
+	case Renderer_Types::RT_UI:
+		ui_renderer.remove_render_object(obj);
+		break;
+	}
+	//add the object to the new layer
+	switch (new_type) {
+	case Renderer_Types::RT_OBJECT:
+		object_renderer.create_render_object(obj);
+		break;
+	case Renderer_Types::RT_BACKGROUND:
+		bg_renderer.create_render_object(obj);
+		break;
+	case Renderer_Types::RT_UI:
+		ui_renderer.create_render_object(obj);
+		break;
+	}
+
+	//change labeling of render object
+	obj->set_r_type(new_type);
+
+	//finish
+}
+
 /*!***********************************************************************
 \brief
  change_object_state is a way for the CPRender object to tell it's renderer

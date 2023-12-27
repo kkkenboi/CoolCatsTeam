@@ -631,6 +631,25 @@ namespace Renderer {
 
 		/*!***********************************************************************
 		\brief
+		 swap_object_type is a function that allows the player to change a render
+		 object's layer.
+
+		 NOTE: Not recommended for making objects appear behind or infront of one
+		 another as there is too much overhead. Use the z-axis for that.
+
+		\param curr_type
+		 The layer that the object is currently on.
+
+		\param new_type
+		 The new layer you want the object to be on.
+
+		 \param obj
+		 Poitner to the render object that you want to alter
+		*************************************************************************/
+		void swap_object_type(Renderer_Types curr_type, Renderer_Types new_type, LB::CPRender* obj);
+
+		/*!***********************************************************************
+		\brief
 		 get_shader returns the handle to the shader program loaded into GPU
 
 		\return
