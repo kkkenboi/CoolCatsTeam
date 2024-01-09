@@ -47,7 +47,7 @@ namespace LB
 	public:
 		float						w;
 		float						h;
-		float						rotation;
+		float						rotation, z_val;
 		int							texture;
 		bool						activated;
 		Vec2<float>					scal;

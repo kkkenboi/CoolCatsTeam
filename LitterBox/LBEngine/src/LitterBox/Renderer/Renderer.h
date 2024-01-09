@@ -102,7 +102,7 @@ namespace Renderer {
 	 the screen.
 	*************************************************************************/
 	struct Vertex {
-		LB::Vec2<float> pos{ 0.5f, 0.5f };
+		LB::Vec3<float> pos{ 0.5f, 0.5f, 1.f };
 		LB::Vec2<float> tex{ 0.f,0.f };
 		LB::Vec3<float> color{ 1.f,0.f,0.f };
 		float texIndex{ -1.f };
@@ -465,6 +465,10 @@ namespace Renderer {
 		unsigned int textureColorbuffer;
 		//-------for the game view-------------
 
+		//-------for depth testing-------
+		unsigned int rbo;
+		//-------for depth testing-------
+
 		//-------for scene view--------
 		unsigned int svfb;
 		unsigned int svtcb;
@@ -646,7 +650,7 @@ namespace Renderer {
 		 \param obj
 		 Poitner to the render object that you want to alter
 		*************************************************************************/
-		void swap_object_type(Renderer_Types curr_type, Renderer_Types new_type, LB::CPRender* obj);
+		void swap_object_type(Renderer_Types new_type, LB::CPRender* obj);
 
 		/*!***********************************************************************
 		\brief
