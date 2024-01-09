@@ -13,14 +13,22 @@
 **************************************************************************/
 
 #include <string>
+#include "LitterBox/Serialization/Serializer.h"
 
 namespace LB
 {
 	//will need to show it in inspector
-	struct SpriteSheetData //storing spritesheet data
+	class SpriteSheetData //storing spritesheet data
 	{
-		std::string m_PNGName;
+	public:
+		SpriteSheetData(std::string name, int rows, int cols) : m_name{ name }, m_rows{ rows }, m_cols{ cols } {};
+
+		std::string m_name; //PNG name
 		int m_rows; //number of animation
 		int m_cols; //number of frames
+
+		//used by serializer
+		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
+		bool Deserialize(const Value& data); //to load
 	};
 }

@@ -82,11 +82,9 @@ namespace LB
 		int NumOfFramesWithFourPoints(); //Number of frames
 
 
-		////serialisation, for images
-		//bool Serialize(Value& data, Document::AllocatorType& alloc) override;
+		bool Serialize(Value& data, Document::AllocatorType& alloc);
 
-		////deserialisation, for images
-		//bool Deserialize(const Value& data) override;
+		bool Deserialize(const Value& data);
 
 	
 		/*!************************************************************************

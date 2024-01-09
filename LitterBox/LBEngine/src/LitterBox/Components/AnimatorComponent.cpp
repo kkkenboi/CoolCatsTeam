@@ -55,13 +55,13 @@ namespace LB
 		//empty for now
 	}
 
-	bool Serialize(Value& data, Document::AllocatorType& alloc)
+	bool CPAnimator::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		//apparently i cant right now 7/1/2024
 		return false;
 	}
 
-	bool Deserialize(const Value& data)
+	bool CPAnimator::Deserialize(const Value& data)
 	{
 		//apparently i cant right now 7/1/2024
 		return false;
