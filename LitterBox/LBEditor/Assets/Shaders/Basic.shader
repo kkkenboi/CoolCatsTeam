@@ -2,7 +2,7 @@
 #version 330 core
 #extension GL_ARB_separate_shader_objects : enable
 
-layout(location = 0) in vec2 position;
+layout(location = 0) in vec3 position;
 layout(location = 1) in vec2 texCoord;
 layout(location = 2) in vec3 aCol;
 layout(location = 3) in float texIndex;
@@ -14,22 +14,21 @@ layout(location = 1) out vec2 v_TexCoord;
 
 out float tIO;
 
-uniform float z_val;
 uniform mat4 cam;
 
 void main()
 {
 	vec4 mdl_points[4];
-	mdl_points[0] = vec4(-0.5, -0.5, 0.0, 1.0);
-	mdl_points[1] = vec4(0.5f, -0.5f, 0.f, 1.f);
-	mdl_points[2] = vec4(0.5f, 0.5f, 0.f, 1.f);
-	mdl_points[3] = vec4(-0.5f, 0.5f, 0.f, 1.f);
+	mdl_points[0] = vec4(-0.5, -0.5, 1.0, 1.0);
+	mdl_points[1] = vec4(0.5f, -0.5f, 1.0, 1.0);
+	mdl_points[2] = vec4(0.5f, 0.5f, 1.0, 1.0);
+	mdl_points[3] = vec4(-0.5f, 0.5f, 1.0, 1.0);
 	
 	mat4 translate;
 	translate[0] = vec4(1.0, 0.0, 0.0, 0.0);
 	translate[1] = vec4(0.0, 1.0, 0.0, 0.0);
 	translate[2] = vec4(0.0, 0.0, 1.0, 0.0);
-	translate[3] = vec4(position.x, position.y, 0.0, 1.0);
+	translate[3] = vec4(position.x, position.y, position.z, 1.0);
 	
 	mat4 rot;
 	rot[0] = vec4(cos(mat_data.z), sin(mat_data.z), 0.0, 0.0);
@@ -59,7 +58,7 @@ void main()
 		break;
 	}
 	pos = cam * translate * rot * scale * pos;
-	gl_Position = vec4(pos.x, pos.y, z_val, 1.0);//vec4(position, z_val, 1.0);
+	gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);
 
 	vCol = aCol;
 	v_TexCoord = texCoord;
@@ -81,6 +80,8 @@ uniform sampler2D u_SamplerID[32];
 
 void main()
 {
+	
+
 	if(tIO >= 0.0) {
 		//TODO set 32 cases to accomodate for texture amounts
 		switch(int(tIO)) {
@@ -183,6 +184,8 @@ void main()
 			break;
 		} 
 		//color = texture(u_SamplerID[int(tIO)], v_TexCoord);
+		if(color.w <= 0.0)
+			discard;
 	}
 	else {
 		color = vec4(v_Color,1.0);
