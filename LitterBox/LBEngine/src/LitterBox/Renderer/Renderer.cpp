@@ -39,6 +39,21 @@ extern LB::WindowsSystem* LB::WINDOWSSYSTEM;
 //---------------------------------DEFINES-------------------------------
 
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
+
+
+
+Renderer::Renderer_Types& Renderer::operator++(Renderer_Types& rt) {
+	using utype = std::underlying_type_t<Renderer_Types>;
+	//increase rt forward
+	rt =
+		//check rt is not last
+		rt != Renderer_Types::Last ?
+		static_cast<Renderer_Types>(static_cast<utype>(rt) + 1) :
+		//else wrap around
+		static_cast<Renderer_Types>(0);
+	return rt;
+}
+
 /*!***********************************************************************
 \brief
  shader_parse opens a file located at shader_file_name, copies and
@@ -390,7 +405,7 @@ LB::CPRender::~CPRender() {
 Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 	vao{}, vbo{}, ibo{},
 	quad_buff{ nullptr }, index_buff{},
-	quad_buff_size{}, active_objs{}
+	quad_buff_size{}, active_objs{}, active{true}
 {
 	//create vertex
 	//quad_buff_size = 3000;

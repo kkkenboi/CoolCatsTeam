@@ -262,6 +262,7 @@ namespace Renderer {
 		std::vector<index> index_buff;
 		unsigned int quad_buff_size;
 		unsigned int furthest_index{ 0 };
+		bool active;
 
 		std::list<const LB::CPRender*> active_objs;
 		//TODO figure out parsing in shader file paths
@@ -348,6 +349,18 @@ namespace Renderer {
 		 invoked.
 		*************************************************************************/
 		void Destroy_Renderer();
+
+		/*!***********************************************************************
+		\brief
+		 Getter function to return the state of the Rendering layer.
+		*************************************************************************/
+		inline const bool getActive() const { return active; }
+
+		/*!***********************************************************************
+		\brief
+		 Setter function to toggle the active state of the Renderering Layer
+		*************************************************************************/
+		void toggleActive() { active = !active; }
 	};
 
 	/*!***********************************************************************

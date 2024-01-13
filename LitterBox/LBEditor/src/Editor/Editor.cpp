@@ -32,6 +32,7 @@
 #include "EditorCollisionLayer.h"
 #include "EditorTMGridView.h"
 #include "EditorTMEditor.h"
+#include "EditorRenderLayer.h"
 
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
@@ -90,6 +91,7 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorCollisionLayer>("Collision Layers"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorTMGridView>("Tile Map Grid View"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorTMEditor>("Tile Map Editor"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorRenderLayer>("Render Layers"));
 
 		Initialize();
 	}
@@ -196,6 +198,7 @@ namespace LB
 		ImGuiID animationID{};
 		ImGuiID prefabID{};
 		ImGuiID collisionLayerID{};
+		ImGuiID renderLayerID{};
 
 		// Docking Section
 		ImGuiID maindockspaceID = ImGui::GetID("MainDockspace");
@@ -243,6 +246,8 @@ namespace LB
 			ImGui::DockBuilderDockWindow("Animation Editor", animationID);
 			ImGui::DockBuilderDockWindow("Prefab Viewer", prefabID);
 			ImGui::DockBuilderDockWindow("Collision Layers", collisionLayerID);
+			ImGui::DockBuilderDockWindow("Render Layers", renderLayerID);
+
 
 			ImGui::DockBuilderFinish(maindockspaceID);
 		}

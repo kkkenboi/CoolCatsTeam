@@ -448,6 +448,13 @@ namespace LB
 					}
 				}
 
+				//this is the layer selector
+				ImGui::Text("%-19s", "Layer");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				//TODO: Add ability to get c string based on render layer
+				//if(ImGui::BeginCombo("##Layer", ))
+
 				// Delete Component
 				if (ImGui::Button("Delete Render Component"))
 				{

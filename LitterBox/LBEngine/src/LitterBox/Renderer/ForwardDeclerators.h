@@ -16,6 +16,8 @@
 **************************************************************************/
 #pragma once
 #include "LitterBox/Serialization/Serializer.h"
+#include <utility>
+
 namespace Renderer {
 
 	//----------------------------------------ANIMATION--------------------------------
@@ -116,8 +118,11 @@ namespace Renderer {
 		RT_OBJECT,
 		RT_BACKGROUND,
 		RT_DEBUG,
-		RT_UI
+		RT_UI,
+		Last
 	};
+
+	Renderer_Types& operator++(Renderer_Types& rt);
 
 	//NOTE: because index data type is unsigned short
 	//the maximum number of vectors allowed is 65535
