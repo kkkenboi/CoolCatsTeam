@@ -199,8 +199,8 @@ namespace LB
 							JSONSerializer::DeserializeFromFile(FileName.c_str(), *prefab);
 							prefab->SetName(FileName.c_str());
 							if (prefab->HasComponent<CPRender>()) prefab->GetComponent<CPRender>()->set_active();
-							EDITORINSPECTOR->UpdateInspectedGO(prefab);
-							EDITORINSPECTOR->isPrefab = true;
+							InspectorGameObject::Instance()->UpdateInspectedGO(prefab);
+							InspectorGameObject::Instance()->isPrefab = true;
 						}
 					}
 				}

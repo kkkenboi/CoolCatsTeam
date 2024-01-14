@@ -27,6 +27,8 @@ namespace LB
 	class Layer
 	{
 	public:
+		Layer() : m_Layer{"Unnamed layer"} {}
+
 		/*!***********************************************************************
 		 \brief
 		 Creates a layer with supplied name
