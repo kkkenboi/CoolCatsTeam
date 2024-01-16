@@ -18,10 +18,27 @@
 #include "LitterBox/Core/Singleton.h"
 #include "Litterbox/Engine/Layer.h"
 
+#include "LitterBox/Animation/SpriteSheet.h"
+
 namespace LB
 {
 	class InspectorSpriteSheet : public Layer, public Singleton<InspectorSpriteSheet>
 	{
+    public:
+        /*!***********************************************************************
+          \brief
 
+        *************************************************************************/
+        void Initialize() override;
+
+        /*!***********************************************************************
+          \brief
+
+        *************************************************************************/
+        void UpdateLayer() override;
+
+    private:
+        char m_spriteSheetName[256]{};
+        SpriteSheet* m_inspectedSheet;
 	};
 }

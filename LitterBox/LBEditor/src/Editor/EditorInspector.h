@@ -32,7 +32,6 @@ namespace LB
     class EditorInspector : public Layer
     {
     public:
-
         /*!***********************************************************************
           \brief
           Constructor for the EditorInspector class.

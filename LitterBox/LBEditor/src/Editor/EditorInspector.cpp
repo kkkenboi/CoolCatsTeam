@@ -21,6 +21,7 @@
 #include "EditorInspector.h"
 #include "EditorSceneView.h"
 #include "EditorAssets.h"
+
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Components/RigidBodyComponent.h"
@@ -54,6 +55,7 @@ namespace LB
 	void EditorInspector::Initialize()
 	{
 		InspectorGameObject::Instance()->Initialize();
+		InspectorSpriteSheet::Instance()->Initialize();
 	}
 
 	/*!***********************************************************************
