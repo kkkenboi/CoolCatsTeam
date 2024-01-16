@@ -80,6 +80,8 @@ namespace LB
 		*************************************************************************/
 		virtual void Destroy() {}
 
+		virtual void ToggleActive(bool isActive) {}
+
 		/*!***********************************************************************
 		 \brief
 		 Virtual destructor in case any components has a destructor to call
