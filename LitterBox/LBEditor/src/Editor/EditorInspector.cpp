@@ -448,12 +448,61 @@ namespace LB
 					}
 				}
 
+				//store the name of the layer enum
+				static std::string renderdroplayer{};
+
 				//this is the layer selector
 				ImGui::Text("%-19s", "Layer");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);
+
+				//create the string based on the layer enum
+				switch (m_inspectedGO->GetComponent<CPRender>()->get_r_type())
+				{
+				case Renderer::Renderer_Types::RT_OBJECT:
+					renderdroplayer = "Object layer";
+					break;
+				case Renderer::Renderer_Types::RT_BACKGROUND:
+					renderdroplayer = "Background layer";
+					break;
+				case Renderer::Renderer_Types::RT_UI:
+					renderdroplayer = "UI layer";
+					break;
+				}
+
 				//TODO: Add ability to get c string based on render layer
-				//if(ImGui::BeginCombo("##Layer", ))
+				if (ImGui::BeginCombo("##Layer", renderdroplayer.c_str()))
+				{
+					//loop through each enum
+					for (auto layer{ Renderer::Renderer_Types::RT_OBJECT };
+						layer != Renderer::Renderer_Types::Last;
+						++layer)
+					{
+						//skip the debug enum
+						if (layer == Renderer::Renderer_Types::RT_DEBUG)
+							continue;
+
+						//get the string for the layer
+						switch (layer)
+						{
+						case Renderer::Renderer_Types::RT_OBJECT:
+							renderdroplayer = "Object layer";
+							break;
+						case Renderer::Renderer_Types::RT_BACKGROUND:
+							renderdroplayer = "Background layer";
+							break;
+						case Renderer::Renderer_Types::RT_UI:
+							renderdroplayer = "UI layer";
+							break;
+						}
+
+						if (ImGui::Selectable(renderdroplayer.c_str()))
+						{
+							Renderer::GRAPHICS->swap_object_type(layer, m_inspectedGO->GetComponent<CPRender>());
+						}
+					}
+					ImGui::EndCombo();
+				}
 
 				// Delete Component
 				if (ImGui::Button("Delete Render Component"))
