@@ -16,6 +16,7 @@
 #include "pch.h"
 #include "EditorRenderLayer.h"
 #include "LitterBox/Renderer/ForwardDeclerators.h"
+#include "LitterBox/Renderer/Renderer.h"
 
 namespace LB {
 	EditorRenderLayer* RENDERLAYER = nullptr;
@@ -57,10 +58,57 @@ namespace LB {
 	{
 		if (ImGui::Begin(GetName().c_str()))
 		{
+			static std::string dropdowntitle{};
+			//loop through all possible layers
 			for (auto layer{ Renderer::Renderer_Types::RT_OBJECT };
-				layer != Renderer::Renderer_Types::Last; ++layer)
+				layer != Renderer::Renderer_Types::Last; 
+				++layer)
 			{
-				ImGui::Text("Render Layer");
+				//NOTE: important to know which layers are present in
+				//RenderSystem and exclude. Otherwise the loop will 
+				//mess up and exceptions.
+				if (layer == Renderer::Renderer_Types::RT_DEBUG)
+					continue;
+
+				//we need a c style string based on which layer we want to list
+				//so we use this switch case and a static std::string for it
+				switch (layer)
+				{
+				case Renderer::Renderer_Types::RT_OBJECT:
+					dropdowntitle = "Object layer";
+					break;
+				case Renderer::Renderer_Types::RT_BACKGROUND:
+					dropdowntitle = "Background layer";
+					break;
+				case Renderer::Renderer_Types::RT_UI:
+					dropdowntitle = "UI layer";
+					break;
+				}
+
+				//check box to toggle the layer list
+				ImGui::Checkbox(("##" + dropdowntitle).c_str(), const_cast<bool*>(&Renderer::GRAPHICS->get_layer_active(layer)));
+				ImGui::SameLine();
+				
+				if (ImGui::TreeNode(dropdowntitle.c_str()))
+				{
+					//TODO: ADD A BACKGROUND GAME OBJECT WITH A NAME IN THE GAME
+					//OTHERWISE THIS SHIT WON'T WORK
+					if (layer == Renderer::Renderer_Types::RT_BACKGROUND) {
+						ImGui::TreePop();
+						continue;
+					}
+					const auto& obj_list = Renderer::GRAPHICS->get_layer_objs(layer);
+					for (auto& e : obj_list)
+					{
+						if (ImGui::Checkbox(e->gameObj->GetName().c_str(), &const_cast<CPRender*>(e)->activated))
+						{
+							//needs to retoggle the activation member variable because the set_active function toggles it as well
+							const_cast<CPRender*>(e)->activated = !e->activated;
+							const_cast<CPRender*>(e)->set_active();
+						}
+					}
+					ImGui::TreePop();
+				}
 			}
 		}
 		ImGui::End();

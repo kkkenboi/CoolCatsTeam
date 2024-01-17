@@ -354,13 +354,29 @@ namespace Renderer {
 		\brief
 		 Getter function to return the state of the Rendering layer.
 		*************************************************************************/
-		inline const bool getActive() const { return active; }
+		inline const bool& getActive() const { return active; }
 
 		/*!***********************************************************************
 		\brief
 		 Setter function to toggle the active state of the Renderering Layer
 		*************************************************************************/
 		void toggleActive() { active = !active; }
+
+		/*!***********************************************************************
+		\brief
+		 Setter function to set the active state of the Renderering Layer
+		*************************************************************************/
+		void setActive(bool activity) { active = activity; }
+
+		/*!***********************************************************************
+		\brief
+		 getObjectList will return a const reference to the list of active objects
+		 in the renderer
+
+		\return
+		 List of active CPRender objects in the renderer layer
+		*************************************************************************/
+		 const std::list<const LB::CPRender*>& getObjectList() const { return active_objs; }
 	};
 
 	/*!***********************************************************************
@@ -748,7 +764,23 @@ namespace Renderer {
 		*************************************************************************/
 		inline auto get_game_cam_mat() { return cam.world_NDC; }
 
+		/*!***********************************************************************
+		\brief
+		 get_cam_proj_mat is a getter function that will return the matrix of the
+		 orthographic projection used for the game.
+
+		\return
+		 returns the 4x4 matrix of the game ortho projection
+		*************************************************************************/
 		inline auto get_cam_proj_mat() { return cam.ortho; }
+		/*!***********************************************************************
+		\brief
+		 get_cam is a getter function that will return the camera object with all
+		 the relevant matrices needed for a camera
+
+		\return
+		 returns the camera object
+		*************************************************************************/
 		inline auto get_cam() { return cam; }
 
 		/*!***********************************************************************
@@ -774,9 +806,51 @@ namespace Renderer {
 		*************************************************************************/
 		void turnOnEditorMode();
 
+		/*!***********************************************************************
+		 \brief
+		 get_game_view returns the ID of the texture that the game view is
+		 written to.
+
+		\return
+		 texture ID to display the game view
+		*************************************************************************/
 		inline unsigned int get_game_view() { return editor_mode ? textureColorbuffer : -1; }
+		/*!***********************************************************************
+		 \brief
+		 get_scene_view returns the ID of the texture that the scene view is
+		 written to.
+
+		\return
+		 Texture ID to display the scene view
+		*************************************************************************/
 		inline unsigned int get_scene_view() { return editor_mode ? svtcb : -1; }
+		/*!***********************************************************************
+		 \brief
+		 get_sv_framebuff returns the ID of the framebuffer that the game view is
+		 written to.
+
+		\return
+		 FrameBuffer ID of the scene view frame buffer
+		*************************************************************************/
 		inline unsigned int get_sv_framebuff() { return editor_mode ? svfb : -1; }
+	
+		/*!***********************************************************************
+		\brief
+		 get_layer_objs() gets the list of active objects in a specified layer
+
+		\return
+		 returns the list of active objects in a specified layer
+		*************************************************************************/
+		const std::list<const LB::CPRender*>& get_layer_objs(Renderer_Types layer) const;
+	
+		/*!***********************************************************************
+		\brief
+		 get_layer_active() gets the active state of a specified layer
+
+		\return
+		 returns the list of active objects in a specified layer
+		*************************************************************************/
+		const bool& get_layer_active(Renderer_Types layer) const;
 	};
 
 	//A pointer to the system object in the core engine
