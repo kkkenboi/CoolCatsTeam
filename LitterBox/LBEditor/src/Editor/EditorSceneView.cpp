@@ -147,8 +147,8 @@ namespace LB
 
 			//INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 
-			EDITORINSPECTOR->SetGizmosMode(ImGuizmo::WORLD);
-			EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::UNIVERSAL);
+			InspectorGameObject::Instance()->SetGizmosMode(ImGuizmo::WORLD);
+			InspectorGameObject::Instance()->SetGizmosOperation(ImGuizmo::UNIVERSAL);
 	}
 
 	/*!***********************************************************************
@@ -203,11 +203,11 @@ namespace LB
 			SetObjectPicked(CheckMousePosGameObj(m_mousePosInWorld));
 		}
 		// ----------------------------------------------
-		if (EDITORINSPECTOR->GetInspectedGO() && !EDITORINSPECTOR->isPrefab) // TODO: Less magic prefab editting implementation bools
+		if (InspectorGameObject::Instance()->GetInspectedGO() && !InspectorGameObject::Instance()->isPrefab) // TODO: Less magic prefab editting implementation bools
 		{
-			auto trans = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetPosition();
-			auto rot = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetRotation();
-			auto scale = EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->GetScale();
+			auto trans = InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>()->GetPosition();
+			auto rot = InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>()->GetRotation();
+			auto scale = InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>()->GetScale();
 			
 			glm::mat4 transform{ 1.0f };
 
@@ -221,26 +221,26 @@ namespace LB
 			// At all times, when a GizmosOperation is set, it means that there will be snapping applied onto the object
 			// If the GizmosOperation is set to Universal, there will be no snapping.
 			// Object can still be moved/edited freely through the EditorInspector interface.
-			switch (EDITORINSPECTOR->GetGizmosOperation())
+			switch (InspectorGameObject::Instance()->GetGizmosOperation())
 			{
 			case ImGuizmo::TRANSLATE:
 				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
-					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
-					&EDITORINSPECTOR->GetSnapTranslate());
+					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
+					&InspectorGameObject::Instance()->GetSnapTranslate());
 				break;
 			case ImGuizmo::ROTATE:
 				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
-					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
-					&EDITORINSPECTOR->GetSnapRotate());
+					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
+					&InspectorGameObject::Instance()->GetSnapRotate());
 				break;
 			case ImGuizmo::SCALE:
 				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
-					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
-					&EDITORINSPECTOR->GetSnapScale());
+					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
+					&InspectorGameObject::Instance()->GetSnapScale());
 				break;
 			case ImGuizmo::UNIVERSAL: // No snapping is applied
 				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
-					EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), glm::value_ptr(transform), NULL,
+					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					NULL);
 				break;
 			}
@@ -258,17 +258,17 @@ namespace LB
 				// Set the new values to translate, rotate and scale 
 				if (!(finalTrans == trans))
 				{
-					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalTrans);
+					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>(), finalTrans);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
 				}
 				if (fabs(finalScale.x - scale.x) > EPSILON_F || fabs(finalScale.y - scale.y) > EPSILON_F)
 				{
-					std::shared_ptr<ScaleCommand> scaleCommand = std::make_shared<ScaleCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalScale);
+					std::shared_ptr<ScaleCommand> scaleCommand = std::make_shared<ScaleCommand>(InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>(), finalScale);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(scaleCommand));
 				}
 				if (fabs(finalRot - rot) > EPSILON_F)
 				{
-					std::shared_ptr<RotateCommand> rotateCommand = std::make_shared<RotateCommand>(EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>(), finalRot);
+					std::shared_ptr<RotateCommand> rotateCommand = std::make_shared<RotateCommand>(InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>(), finalRot);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(rotateCommand));
 				}
 				/*EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetPosition(finalTrans);
@@ -276,11 +276,11 @@ namespace LB
 				EDITORINSPECTOR->GetInspectedGO()->GetComponent<CPTransform>()->SetScale(finalScale);*/
 			}
 		}
-		if (!EDITORINSPECTOR->GetInspectedGO())
+		if (!InspectorGameObject::Instance()->GetInspectedGO())
 		{
 			ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
-				EDITORINSPECTOR->GetGizmosOperation(), EDITORINSPECTOR->GetGizmosMode(), outOfView, NULL,
-				&EDITORINSPECTOR->GetSnapTranslate());
+				InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), outOfView, NULL,
+				&InspectorGameObject::Instance()->GetSnapTranslate());
 		}
 
 		ImGui::EndChild();
@@ -296,7 +296,7 @@ namespace LB
 	*************************************************************************/
 	void EditorSceneView::SetObjectPicked(GameObject* obj)
 	{
-		EDITORINSPECTOR->UpdateInspectedGO(obj);
+		InspectorGameObject::Instance()->UpdateInspectedGO(obj);
 		EDITORHIERACHY->UpdateClickedItem(obj ? obj->GetComponent<CPTransform>() : nullptr);
 	}
 

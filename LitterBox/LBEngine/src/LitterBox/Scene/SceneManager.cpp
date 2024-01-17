@@ -73,7 +73,7 @@ namespace LB
 		if (CORE->IsEditorMode())
 		{
 			// Save scene order
-			JSONSerializer::SerializeToFile("SceneOrder", *this);\
+			JSONSerializer::SerializeToFile("SceneOrder", *this);
 			// Auto-save current loaded scene if game is not playing
 			TrySaveScene();
 		}

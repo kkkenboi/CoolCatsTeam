@@ -89,7 +89,7 @@ namespace LB
 			if (m_clickedItem)
 			{
 				// Remove GO command
-				std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
+				std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(InspectorGameObject::Instance()->GetInspectedGO());
 				COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
 
 				m_clickedItem = nullptr;
@@ -269,9 +269,9 @@ namespace LB
 	{
 		m_clickedItem = nullptr;
 
-		if (!EDITORINSPECTOR->IsGOInspected()) return;
+		if (!InspectorGameObject::Instance()->IsGOInspected()) return;
 
-		std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(EDITORINSPECTOR->GetInspectedGO());
+		std::shared_ptr<RemoveObjectCommand> removeCommand = std::make_shared<RemoveObjectCommand>(InspectorGameObject::Instance()->GetInspectedGO());
 		COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(removeCommand));
 
 		onNewObjectSelected.Invoke(nullptr);

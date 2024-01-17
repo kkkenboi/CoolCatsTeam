@@ -1,104 +1,75 @@
 /*!************************************************************************
- \file				EditorInspector.cpp
- \author(s)			Kenji Brannon Chong, Ang Jiawei Jarrett
- \par DP email(s):	kenjibrannon.c@digipen.edu, a.jiaweijarrett@digipen.edu
+ \file				InspectorGameObject.cpp
+ \author(s)			Ang Jiawei Jarrett
+ \par DP email(s):	a.jiaweijarrett@digipen.edu
  \par Course:       CSD2401A
  \date				11/10/2023
  \brief
 
- This file contains functions defintions for the inspector layer of the
- Editor. This is a generic window that displays any information of the item
- selected by the user.
+ This file contains 
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-#include "pch.h"
-
-#include "EditorHierarchy.h"
-#include "EditorInspector.h"
-#include "EditorSceneView.h"
-#include "EditorAssets.h"
+#include "InspectorGameObject.h"
+#include "Editor/EditorInspector.h"
+#include "Inspector/InspectorGameObject.h"
+#include "Editor/EditorHierarchy.h"
+#include "Editor/EditorAssets.h"
 
 #include "LitterBox/Core/Core.h"
-#include "LitterBox/Components/RenderComponent.h"
-#include "LitterBox/Components/RigidBodyComponent.h"
-#include "LitterBox/Components/TransformComponent.h"
-#include "LitterBox/Components/AudioSourceComponent.h"
+#include "Utils/CommandManager.h"
+#include "Commands/TransformCommands.h"
+#include "Commands/GameObjectCommands.h"
 
 namespace LB
 {
-	EditorInspector* EDITORINSPECTOR{ nullptr };
+	std::shared_ptr<InspectorGameObject> InspectorGO;
 
 	/*!***********************************************************************
 	  \brief
-	  Constructor for the EditorInspector class.
+	  Initializes the EditorInspector layer.
 	  \return
 	  Nothing.
 	*************************************************************************/
-	EditorInspector::EditorInspector(std::string layerName) : Layer(layerName)
+	void InspectorGameObject::Initialize()
 	{
-		if (!EDITORINSPECTOR)
-			EDITORINSPECTOR = this;
-		else
-			DebuggerLogError("Editor Inspector already exist!");
+		EDITORHIERACHY->onNewObjectSelected.Subscribe(LB::UpdateInspectedGO);
+		CORE->onPlayingModeToggle.Subscribe(LB::DeselectObject);
+		SCENEMANAGER->onNewSceneLoad.Subscribe(LB::DeselectObject);
+
+		InspectorGO = InspectorGameObject::Instance();
+
+		// Set default snap values
+		m_SnapTranslate[0] = 10.f, m_SnapTranslate[1] = 10.f;
+		m_SnapRotate = 10.f;
+		m_SnapScale[0] = 0.1f, m_SnapScale[1] = 0.1f;
+
 	}
 
 	/*!***********************************************************************
 	  \brief
-	  Initializes the EditorInspector class.
+	  Updates the EditorInspector layer.
 	  \return
 	  Nothing.
 	*************************************************************************/
-	void EditorInspector::Initialize()
+	void InspectorGameObject::UpdateLayer()
 	{
-		InspectorGameObject::Instance()->Initialize();
-		InspectorSpriteSheet::Instance()->Initialize();
-	}
+		// If no game object is selected, don't render the inspector (as there's nothing to inspect)
+		if (!m_inspectedGO) return;
 
-	/*!***********************************************************************
-	 \brief
-	 Updates the EditorInspector layer.
-	*************************************************************************/
-	void EditorInspector::UpdateLayer()
-	{
-		ImGui::Begin(GetName().c_str(), 0, 0);
+		float normalWidth = 75.f;
+		float extendedWidth = 173.f;
+		float dropdownWidth = 150.f;
 
-		if (m_currentWindow)
+		//------------------------------------------ADD COMPONENT WINDOW------------------------------------------
+		if (ImGui::Button("Add Component"))
 		{
-			m_currentWindow->UpdateLayer();
+			ImGui::OpenPopup("Add Component");
 		}
-		//----------------------------------------INSPECT COMPONENTS WINDOW---------------------------------------
-
-		ImGui::End();
-	}
-
-	template<typename T>
-	void EditorInspector::SetWindow()
-	{
-		m_currentWindow = T::Instance();
-	}
-
-	void EditorInspector::SetWindowGameObject()
-	{
-		SetWindow<InspectorGameObject>();
-	}
-
-	void EditorInspector::SetWindowSpriteSheet()
-	{
-		SetWindow<InspectorSpriteSheet>();
-	}
-
-	void EditorInspector::ClearWindow()
-	{
-		m_currentWindow.reset();
-	}
-}
-
-
-if (!isPrefab)
+		if (!isPrefab)
 		{
 			ImGui::SameLine();
 			if (ImGui::Button("Create Prefab"))
@@ -112,21 +83,21 @@ if (!isPrefab)
 					DebuggerLog("Creating Prefab!");
 					std::filesystem::path prefab("Prefabs");
 					std::filesystem::path assetFileName(GetInspectedGO()->GetName());
-					JSONSerializer::SerializeToFile((EDITORASSETS->defaultDirectory/prefab / assetFileName).string(), *GetInspectedGO());
+					JSONSerializer::SerializeToFile((EDITORASSETS->defaultDirectory / prefab / assetFileName).string(), *GetInspectedGO());
 				}
 			}
 		}
-	/*	if (isPrefab)
-		{
-			ImGui::SameLine();
-			if (ImGui::Button("Save"))
+		/*	if (isPrefab)
 			{
-				DebuggerLogFormat("Saving Prefab %s ",GetInspectedGO()->GetName().c_str());
-				JSONSerializer::SerializeToFile(GetInspectedGO()->GetName(), *GetInspectedGO());
-			}
-		}*/
+				ImGui::SameLine();
+				if (ImGui::Button("Save"))
+				{
+					DebuggerLogFormat("Saving Prefab %s ",GetInspectedGO()->GetName().c_str());
+					JSONSerializer::SerializeToFile(GetInspectedGO()->GetName(), *GetInspectedGO());
+				}
+			}*/
 
-		// Upon clicking to add a component to the Inspected Game Object
+			// Upon clicking to add a component to the Inspected Game Object
 		if (ImGui::BeginPopup("Add Component"))
 		{
 
@@ -270,7 +241,7 @@ if (!isPrefab)
 				bool posYChanged = ImGui::DragFloat("##PosY", &pos.y, 1.0f, 0.0f, 0.0f, "%.2f");
 				if (posXChanged || posYChanged)
 				{
-					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>( m_inspectedGO->GetComponent<CPTransform>(), pos );
+					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(m_inspectedGO->GetComponent<CPTransform>(), pos);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
 				}
 
@@ -303,79 +274,79 @@ if (!isPrefab)
 
 				//DebuggerLogFormat("Snap Mode: %d", EDITORINSPECTOR->GetSnapMode());
 				// Choose snapping in translate, rotate and scale
-				ImGui::Checkbox("Snap Values?", &EDITORINSPECTOR->ToggleSnapMode());
+				ImGui::Checkbox("Snap Values?", &InspectorGameObject::Instance()->ToggleSnapMode());
 
-				if (EDITORINSPECTOR->GetSnapMode())
+				if (InspectorGameObject::Instance()->GetSnapMode())
 				{
-					if (ImGui::RadioButton("Translate", EDITORINSPECTOR->GetGizmosOperation() == ImGuizmo::TRANSLATE))
+					if (ImGui::RadioButton("Translate", InspectorGO->GetGizmosOperation() == ImGuizmo::TRANSLATE))
 					{
-						EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::TRANSLATE);
+						InspectorGO->SetGizmosOperation(ImGuizmo::TRANSLATE);
 					}
 					ImGui::SameLine();
 					ImGui::Text("%6s", "X");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(normalWidth);
-					ImGui::DragFloat("##SnapTransX", &EDITORINSPECTOR->SetSnapTranslate(), 1.f, 0.0f, 0.0f, "%.2f");
+					ImGui::DragFloat("##SnapTransX", &InspectorGO->SetSnapTranslate(), 1.f, 0.0f, 0.0f, "%.2f");
 					ImGui::SameLine();
 					ImGui::Text("Y");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(normalWidth);
-					ImGui::DragFloat("##SnapTransY", &EDITORINSPECTOR->SetSnapTranslate()+1, 1.f, 0.0f, 0.0f, "%.2f");
+					ImGui::DragFloat("##SnapTransY", &InspectorGO->SetSnapTranslate() + 1, 1.f, 0.0f, 0.0f, "%.2f");
 
-					if (EDITORINSPECTOR->GetSnapTranslate() < 0.f)
+					if (InspectorGO->GetSnapTranslate() < 0.f)
 					{
-						EDITORINSPECTOR->SetSnapTranslate() = 0.f;
+						InspectorGO->SetSnapTranslate() = 0.f;
 					}
-					if (*(&(EDITORINSPECTOR->SetSnapTranslate()) + 1) < 0.f)
+					if (*(&(InspectorGO->SetSnapTranslate()) + 1) < 0.f)
 					{
-						*(&(EDITORINSPECTOR->SetSnapTranslate()) + 1) = 0.f;
+						*(&(InspectorGO->SetSnapTranslate()) + 1) = 0.f;
 					}
 
-					if (ImGui::RadioButton("Scale", EDITORINSPECTOR->GetGizmosOperation() == ImGuizmo::SCALE))
+					if (ImGui::RadioButton("Scale", InspectorGO->GetGizmosOperation() == ImGuizmo::SCALE))
 					{
-						EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::SCALE);
+						InspectorGO->SetGizmosOperation(ImGuizmo::SCALE);
 					}
 					ImGui::SameLine();
 					ImGui::Text("%10s", "X");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(normalWidth);
-					ImGui::DragFloat("##SnapScaleX", &EDITORINSPECTOR->SetSnapScale(), 0.1f, 0.0f, 0.0f, "%.2f");
+					ImGui::DragFloat("##SnapScaleX", &InspectorGO->SetSnapScale(), 0.1f, 0.0f, 0.0f, "%.2f");
 					ImGui::SameLine();
 					ImGui::Text("Y");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(normalWidth);
-					ImGui::DragFloat("##SnapScaleY", &EDITORINSPECTOR->SetSnapScale() + 1, 0.1f, 0.0f, 0.0f, "%.2f");
+					ImGui::DragFloat("##SnapScaleY", &InspectorGO->SetSnapScale() + 1, 0.1f, 0.0f, 0.0f, "%.2f");
 
-					if (EDITORINSPECTOR->GetSnapScale() < 0.f)
+					if (InspectorGO->GetSnapScale() < 0.f)
 					{
-						EDITORINSPECTOR->SetSnapScale() = 0.f;
+						InspectorGO->SetSnapScale() = 0.f;
 					}
-					if (*(&(EDITORINSPECTOR->GetSnapScale()) + 1) < 0.f)
+					if (*(&(InspectorGO->GetSnapScale()) + 1) < 0.f)
 					{
-						*(&(EDITORINSPECTOR->SetSnapScale()) + 1) = 0.f;
+						*(&(InspectorGO->SetSnapScale()) + 1) = 0.f;
 					}
 
-					if (ImGui::RadioButton("Rotate", EDITORINSPECTOR->GetGizmosOperation() == ImGuizmo::ROTATE))
+					if (ImGui::RadioButton("Rotate", InspectorGO->GetGizmosOperation() == ImGuizmo::ROTATE))
 					{
-						EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::ROTATE);
+						InspectorGO->SetGizmosOperation(ImGuizmo::ROTATE);
 					}
 					ImGui::SameLine();
 					ImGui::Text("%9s", "Deg");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(extendedWidth);
-					ImGui::DragFloat("##SnapRotate", &EDITORINSPECTOR->SetSnapRotate(), 1.f, 0.0f, 0.0f, "%.2f");
-					if (EDITORINSPECTOR->GetSnapRotate() < 0.f)
+					ImGui::DragFloat("##SnapRotate", &InspectorGO->SetSnapRotate(), 1.f, 0.0f, 0.0f, "%.2f");
+					if (InspectorGO->GetSnapRotate() < 0.f)
 					{
-						EDITORINSPECTOR->SetSnapRotate() = 0.f;
+						InspectorGO->SetSnapRotate() = 0.f;
 					}
-					if (EDITORINSPECTOR->GetSnapRotate() > 180.f)
+					if (InspectorGO->GetSnapRotate() > 180.f)
 					{
-						EDITORINSPECTOR->SetSnapRotate() = 180.f;
+						InspectorGO->SetSnapRotate() = 180.f;
 					}
 				}
 				else
 				{
-					EDITORINSPECTOR->SetGizmosOperation(ImGuizmo::UNIVERSAL);
+					InspectorGO->SetGizmosOperation(ImGuizmo::UNIVERSAL);
 				}
 			}
 		}
@@ -395,27 +366,27 @@ if (!isPrefab)
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				bool heightChanged = ImGui::DragFloat("##SpriteHeight", &height, 1.0f, 0.0f, 0.0f, "%.2f");
-				
+
 				//for z value
 				ImGui::SameLine();
 				ImGui::Text("z-axis");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				bool zChanged = ImGui::DragFloat("##z-axis", &z, 1.0f, 0.0f, 0.0f, "%.2f");
-				
+
 				if (widthChanged || heightChanged || zChanged)
 				{
 					m_inspectedGO->GetComponent<CPRender>()->w = width;
 					m_inspectedGO->GetComponent<CPRender>()->h = height;
 					m_inspectedGO->GetComponent<CPRender>()->z_val = z;
 				}
-				
-			/*	if (widthChanged || heightChanged)
-				{
-					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(m_inspectedGO->GetComponent<CPTransform>(), pos);
-					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
-				}*/
-				// Interface Buttons
+
+				/*	if (widthChanged || heightChanged)
+					{
+						std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(m_inspectedGO->GetComponent<CPTransform>(), pos);
+						COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
+					}*/
+					// Interface Buttons
 				ImGui::Text("%-19s", "Image");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);
@@ -436,7 +407,7 @@ if (!isPrefab)
 						std::filesystem::path tempPath{ str };
 						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 						{
-							if(str == "none") m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(-1, static_cast<int>(width), static_cast<int>(height));
+							if (str == "none") m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(-1, static_cast<int>(width), static_cast<int>(height));
 							else m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, static_cast<int>(width), static_cast<int>(height));
 						}
 					}
@@ -450,62 +421,6 @@ if (!isPrefab)
 						const char* textureName = (const char*)textureData->Data;
 						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
 					}
-				}
-
-				//store the name of the layer enum
-				static std::string renderdroplayer{};
-
-				//this is the layer selector
-				ImGui::Text("%-19s", "Layer");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(dropdownWidth);
-
-				//create the string based on the layer enum
-				switch (m_inspectedGO->GetComponent<CPRender>()->get_r_type())
-				{
-				case Renderer::Renderer_Types::RT_OBJECT:
-					renderdroplayer = "Object layer";
-					break;
-				case Renderer::Renderer_Types::RT_BACKGROUND:
-					renderdroplayer = "Background layer";
-					break;
-				case Renderer::Renderer_Types::RT_UI:
-					renderdroplayer = "UI layer";
-					break;
-				}
-
-				//TODO: Add ability to get c string based on render layer
-				if (ImGui::BeginCombo("##Layer", renderdroplayer.c_str()))
-				{
-					//loop through each enum
-					for (auto layer{ Renderer::Renderer_Types::RT_OBJECT };
-						layer != Renderer::Renderer_Types::Last;
-						++layer)
-					{
-						//skip the debug enum
-						if (layer == Renderer::Renderer_Types::RT_DEBUG)
-							continue;
-
-						//get the string for the layer
-						switch (layer)
-						{
-						case Renderer::Renderer_Types::RT_OBJECT:
-							renderdroplayer = "Object layer";
-							break;
-						case Renderer::Renderer_Types::RT_BACKGROUND:
-							renderdroplayer = "Background layer";
-							break;
-						case Renderer::Renderer_Types::RT_UI:
-							renderdroplayer = "UI layer";
-							break;
-						}
-
-						if (ImGui::Selectable(renderdroplayer.c_str()))
-						{
-							Renderer::GRAPHICS->swap_object_type(layer, m_inspectedGO->GetComponent<CPRender>());
-						}
-					}
-					ImGui::EndCombo();
 				}
 
 				// Delete Component
@@ -692,7 +607,7 @@ if (!isPrefab)
 
 				if (ImGui::Button("Add Vertice"))
 				{
-					m_inspectedGO->GetComponent<CPCollider>()->AddVertice(Vec2<float>{0.f,0.f});
+					m_inspectedGO->GetComponent<CPCollider>()->AddVertice(Vec2<float>{0.f, 0.f});
 				}
 
 				char labelX[50]{};
@@ -702,7 +617,7 @@ if (!isPrefab)
 					Vec2<float> untransformedVerts = m_inspectedGO->GetComponent<CPCollider>()->m_untransformedVerts[i];
 					ImGui::Text("%s %-8d", "Vertice", i);
 					ImGui::SameLine();
-					
+
 					ImGui::Text("X");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(normalWidth);
@@ -748,7 +663,7 @@ if (!isPrefab)
 				}
 			}
 		}
-		
+
 		if (m_inspectedGO->HasComponent<CPAudioSource>())
 		{
 			if (ImGui::CollapsingHeader("Audio Source Component", ImGuiTreeNodeFlags_DefaultOpen))
@@ -788,7 +703,7 @@ if (!isPrefab)
 						const char* audioClipName = reinterpret_cast<const char*>(audioData->Data);
 						//DebuggerLogWarningFormat("clip name : %s", std::string(audioClipName).c_str());
 						m_inspectedGO->GetComponent<CPAudioSource>()->UpdateAudio(std::string(audioClipName));
-						
+
 					}
 				}
 				ImGui::Text("%-19s", "Play On Awake");
@@ -867,14 +782,14 @@ if (!isPrefab)
 				ImGui::Text("%-19s", "Text");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);
-				if (m_inspectedGO) 
-				strcpy_s(m_textBuffer, sizeof(m_textBuffer), m_inspectedGO->GetComponent<CPText>()->get_msg().text.c_str());
+				if (m_inspectedGO)
+					strcpy_s(m_textBuffer, sizeof(m_textBuffer), m_inspectedGO->GetComponent<CPText>()->get_msg().text.c_str());
 				if (ImGui::InputText("##TextMessage", m_textBuffer, 256))
 				{
 					m_inspectedGO->GetComponent<CPText>()->set_msg(m_textBuffer);
 				}
 				Vec3<float> col = m_inspectedGO->GetComponent<CPText>()->get_msg().color;
-				static ImVec4 color = ImVec4(col.x, col .y,col.z, 1.f);
+				static ImVec4 color = ImVec4(col.x, col.y, col.z, 1.f);
 				ImGui::Text("Text Color:");
 				ImGui::SameLine();
 				ImGui::ColorEdit3("##TextColor", (float*)&color);
@@ -916,8 +831,216 @@ if (!isPrefab)
 				{
 					m_inspectedGO->RemoveComponent(C_CPText);
 				}
-
-
 			}
-			
 		}
+		//----------------------------------------INSPECT COMPONENTS WINDOW---------------------------------------
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Update the currently inspected game object.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void InspectorGameObject::UpdateInspectedGO(GameObject* newInspectedGO)
+	{
+		// Make the inspector show the GO
+		EDITORINSPECTOR->SetWindowGameObject();
+
+		if (isPrefab && m_inspectedGO)
+		{
+			GOMANAGER->RemoveDDOLGameObject(m_inspectedGO);
+			isPrefab = false;
+		}
+
+		m_inspectedGO = newInspectedGO;
+
+		// If GO was deselected, don't update name
+		if (!newInspectedGO) return;
+		strcpy_s(m_inspectedName, sizeof(m_inspectedName), newInspectedGO->GetName().c_str());
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the currently inspected game object.
+	  \return
+	  A pointer to the currently inspected GameObject.
+	*************************************************************************/
+	GameObject* InspectorGameObject::GetInspectedGO()
+	{
+		return m_inspectedGO;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Check if a game object is currently being inspected.
+	  \return
+	  True if a game object is being inspected, false otherwise.
+	*************************************************************************/
+	bool InspectorGameObject::IsGOInspected()
+	{
+		return m_inspectedGO != nullptr;
+	}
+
+	// For event subscription
+	/*!***********************************************************************
+	  \brief
+	  To get the original function, UpdateInspectedGO called as an event.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void UpdateInspectedGO(GameObject* newInspectedGO)
+	{
+		InspectorGO->UpdateInspectedGO(newInspectedGO);
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  To get the original function, DeselectObject called as an event.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void DeselectObject(bool isPlaying)
+	{
+		if (!isPlaying)
+			InspectorGO->UpdateInspectedGO(nullptr);
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  To get the original function, DeselectObject called as an event, overloaded.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void DeselectObject(Scene* newScene)
+	{
+		UNREFERENCED_PARAMETER(newScene);
+		InspectorGO->UpdateInspectedGO(nullptr);
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the current gizmos mode.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	ImGuizmo::MODE InspectorGameObject::GetGizmosMode() const
+	{
+		return m_CurrentGizmosMode;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Sets the current gizmos mode.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void InspectorGameObject::SetGizmosMode(ImGuizmo::MODE mode)
+	{
+		m_CurrentGizmosMode = mode;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the current gizmos operation.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	ImGuizmo::OPERATION InspectorGameObject::GetGizmosOperation() const
+	{
+		return m_CurrentGizmosOperation;
+	}
+
+	void InspectorGameObject::SetGizmosOperation(ImGuizmo::OPERATION operation)
+	{
+		m_CurrentGizmosOperation = operation;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Gets the snap mode.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	bool const& InspectorGameObject::GetSnapMode() const
+	{
+		return m_SnapMode;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Toggles snap mode.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	bool& InspectorGameObject::ToggleSnapMode()
+	{
+		return m_SnapMode;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the snap value of translate.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float const& InspectorGameObject::GetSnapTranslate() const
+	{
+		return m_SnapTranslate[0];
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the snap value of rotate.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float const& InspectorGameObject::GetSnapRotate() const
+	{
+		return m_SnapRotate;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Get the snap value of scale.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float const& InspectorGameObject::GetSnapScale() const
+	{
+		return m_SnapScale[0];
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Set the snap value of translate through ImGui.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float& InspectorGameObject::SetSnapTranslate()
+	{
+		return m_SnapTranslate[0];
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Set the snap value of rotate through ImGui.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float& InspectorGameObject::SetSnapRotate()
+	{
+		return m_SnapRotate;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Set the snap value of scale through ImGui.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	float& InspectorGameObject::SetSnapScale()
+	{
+		return m_SnapScale[0];
+	}
+}

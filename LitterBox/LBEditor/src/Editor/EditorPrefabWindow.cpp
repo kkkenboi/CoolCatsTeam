@@ -61,14 +61,14 @@ namespace LB
 		ImGui::Begin(GetName().c_str());
 		if(ImGui::Button("Save"))
 		{
-			DebuggerLogFormat("Saving %s prefab", EDITORINSPECTOR->GetInspectedGO()->GetName().c_str());
+			DebuggerLogFormat("Saving %s prefab", InspectorGameObject::Instance()->GetInspectedGO()->GetName().c_str());
 			//Save the prefab to file by it's name
-			JSONSerializer::SerializeToFile(EDITORINSPECTOR->GetInspectedGO()->GetName(), *EDITORINSPECTOR->GetInspectedGO());
+			JSONSerializer::SerializeToFile(InspectorGameObject::Instance()->GetInspectedGO()->GetName(), *InspectorGameObject::Instance()->GetInspectedGO());
 		}
-		if (EDITORINSPECTOR->isPrefab)
+		if (InspectorGameObject::Instance()->isPrefab)
 		{
 			//We cache the obj so it's shorter to type
-			GameObject* prefabGO = EDITORINSPECTOR->GetInspectedGO();
+			GameObject* prefabGO = InspectorGameObject::Instance()->GetInspectedGO();
 			//We make the scale a bit bigger just so that we can see 
 			float xScale = prefabGO->GetComponent<CPTransform>()->GetScale().x*100;
 			float yScale = prefabGO->GetComponent<CPTransform>()->GetScale().y*100;
