@@ -70,6 +70,7 @@ namespace LB
 		{
 			m_currentWindow->UpdateLayer();
 		}
+		//----------------------------------------INSPECT COMPONENTS WINDOW---------------------------------------
 
 		ImGui::End();
 	}

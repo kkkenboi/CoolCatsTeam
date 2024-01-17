@@ -23,7 +23,7 @@
 namespace LB {
 	class EditorTMGridView : public Layer
 	{
-		int colNum, rowNum, tileSelected;
+		int colNum, rowNum, tileSelected, tmpRow, tmpCol;
 		std::vector<int> tiles;
 		std::vector<char*> tiles_names;
 

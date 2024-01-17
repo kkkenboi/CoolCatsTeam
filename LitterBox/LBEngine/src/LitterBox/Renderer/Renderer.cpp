@@ -39,6 +39,21 @@ extern LB::WindowsSystem* LB::WINDOWSSYSTEM;
 //---------------------------------DEFINES-------------------------------
 
 //-----------------------------------------HELPER FUNCTIONS--------------------------------
+
+
+
+Renderer::Renderer_Types& Renderer::operator++(Renderer_Types& rt) {
+	using utype = std::underlying_type_t<Renderer_Types>;
+	//increase rt forward
+	rt =
+		//check rt is not last
+		rt != Renderer_Types::Last ?
+		static_cast<Renderer_Types>(static_cast<utype>(rt) + 1) :
+		//else wrap around
+		static_cast<Renderer_Types>(0);
+	return rt;
+}
+
 /*!***********************************************************************
 \brief
  shader_parse opens a file located at shader_file_name, copies and
@@ -390,7 +405,7 @@ LB::CPRender::~CPRender() {
 Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 	vao{}, vbo{}, ibo{},
 	quad_buff{ nullptr }, index_buff{},
-	quad_buff_size{}, active_objs{}
+	quad_buff_size{}, active_objs{}, active{true}
 {
 	//create vertex
 	//quad_buff_size = 3000;
@@ -1032,7 +1047,6 @@ void Renderer::RenderSystem::Initialize()
 *************************************************************************/
 void Renderer::RenderSystem::turnOnEditorMode() {
 	//----For rendering scene onto texture for ImGUI-------------
-	//TODO make this only applicable in editor mode
 	//TODO make the monitor dimensions based on the window instead of primary monitor
 	if (!editor_mode) {
 		GLFWvidmode dimensions;
@@ -1118,15 +1132,26 @@ void Renderer::RenderSystem::Update()
 	//NOTE: for the depth buffer, because OpenGL is left handed
 	//the higher the z-axis value, the further away it is from the camera
 	glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
-	glBindVertexArray(bg_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
-	glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
-	glBindVertexArray(object_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
-	glClear(GL_DEPTH_BUFFER_BIT);//we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
-	glBindVertexArray(ui_renderer.get_vao());
-	glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
-
+	//need to check if the specific layer is activated and render if it is
+	if (bg_renderer.getActive())
+	{
+		glBindVertexArray(bg_renderer.get_vao());
+		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+	}
+	//need to check if the specific layer is activated and render if it is
+	if (object_renderer.getActive())
+	{
+		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
+		glBindVertexArray(object_renderer.get_vao());
+		glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+	}
+	//need to check if the specific layer is activated and render if it is
+	if (ui_renderer.getActive())
+	{
+		glClear(GL_DEPTH_BUFFER_BIT);//we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
+		glBindVertexArray(ui_renderer.get_vao());
+		glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+	}
 	//print all messages here
 	text_renderer.update_text();
 	//print all messages here
@@ -1140,12 +1165,18 @@ void Renderer::RenderSystem::Update()
 		glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
 		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
-		glBindVertexArray(bg_renderer.get_vao());
-		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
-		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
-		glBindVertexArray(object_renderer.get_vao());
-		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
-		glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+		if (bg_renderer.getActive())
+		{
+			glBindVertexArray(bg_renderer.get_vao());
+			glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+		}
+		//need to check if the specific layer is activated and render if it is
+		if (object_renderer.getActive())
+		{
+			glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
+			glBindVertexArray(object_renderer.get_vao());
+			glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+		}
 		//UI and TEXT don't get rendered in scene view
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
@@ -1397,6 +1428,31 @@ void Renderer::RenderSystem::fcam_zoom(float zoom)
 void Renderer::RenderSystem::Destroy()
 {
 	
+}
+
+
+const std::list<const LB::CPRender*>& Renderer::RenderSystem::get_layer_objs(Renderer_Types layer) const
+{
+	switch (layer) {
+	case Renderer_Types::RT_OBJECT:
+		return object_renderer.getObjectList();
+	case Renderer_Types::RT_BACKGROUND:
+		return bg_renderer.getObjectList();
+	case Renderer_Types::RT_UI:
+		return ui_renderer.getObjectList();
+	}
+}
+
+const bool& Renderer::RenderSystem::get_layer_active(Renderer_Types layer) const
+{
+	switch (layer) {
+	case Renderer_Types::RT_OBJECT:
+		return object_renderer.getActive();
+	case Renderer_Types::RT_BACKGROUND:
+		return bg_renderer.getActive();
+	case Renderer_Types::RT_UI:
+		return ui_renderer.getActive();
+	}
 }
 
 /*!***********************************************************************
