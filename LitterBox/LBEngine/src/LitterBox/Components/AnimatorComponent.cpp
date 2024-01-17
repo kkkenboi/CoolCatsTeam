@@ -14,6 +14,7 @@
 
 #include "LitterBox/Components/AnimatorComponent.h"
 
+
 namespace LB
 {
 	//Getting the size of the spriteSheet
@@ -25,6 +26,12 @@ namespace LB
 	void CPAnimator::Initialise()
 	{
 		//empty for now
+		numOfSidesOnFrame = 4; //4 corners of the UV frames
+		anim_frames = 
+			std::vector
+			<std::vector<LB::Vec2<float>>>(
+				numOfSidesOnFrame, std::vector<LB::Vec2<float>>(NumOfFramesWithFourPoints())); //x,y
+		//numOfFrames, std::vector<LB::Vec2<float>>(numOfSidesOnFrame));
 	}
 
 	/*!***********************************************************************
@@ -34,6 +41,9 @@ namespace LB
 	void CPAnimator::Update()
 	{
 		//empty for now
+		anim_frames.resize(numOfFrames); //resizing the number of frames due to what is set?
+
+
 	}
 
 	/*!***********************************************************************
@@ -45,32 +55,44 @@ namespace LB
 		//empty for now
 	}
 
-	/*!***********************************************************************
-	\brief
-	 Getting the size of the sprite sheet
-	*************************************************************************/
-	void CPAnimator::SizeOfImage(std::string spriteSheet) //getting the size of the SpriteSheet
+	bool CPAnimator::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
-		spriteWidth = LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[spriteSheet])->second.first->width;
-		spriteHeight = LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[spriteSheet])->second.first->height;
+		//apparently i cant right now 7/1/2024
+		return false;
 	}
+
+	bool CPAnimator::Deserialize(const Value& data)
+	{
+		//apparently i cant right now 7/1/2024
+		return false;
+	}
+
+	///*!***********************************************************************
+	//\brief
+	// Getting the size of the sprite sheet
+	//*************************************************************************/
+	//void CPAnimator::SizeOfImage(std::string spriteSheet) //getting the size of the SpriteSheet
+	//{
+	//	spriteWidth = LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[spriteSheet])->second.first->width;
+	//	spriteHeight = LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[spriteSheet])->second.first->height;
+	//}
 
 	/*!***********************************************************************
 	\brief
 	 Getter function for num Of animations
 	*************************************************************************/
-	int CPAnimator::NumOfAnim() const //Row of the spritesheet
+	int CPAnimator::NumOfAnim() //Row of the spritesheet
 	{
-		return animCount;
+		return numOfAnim;
 	}
 
 	/*!***********************************************************************
 	\brief
 	 Getter function for num of Frames
 	*************************************************************************/
-	int CPAnimator::NumOfFrames() const //Columns of the spritesheet
+	int CPAnimator::NumOfFramesWithFourPoints() //Columns of the spritesheet
 	{
-		return frameCount;
+		return numOfAnim * numOfAnim; //e.g. 31
 	}
 
 	/*!***********************************************************************
@@ -86,38 +108,45 @@ namespace LB
 	\brief
 	 This function sets the animation
 	*************************************************************************/
-	void CPAnimator::SetAnimation(const std::string animationName, int count, float timer) //I want it to allow the user to set the name of the animation
-	{
-		(void)timer;
-		frames.resize(count, std::vector<LB::Vec2<float>>(frameCount));
-		std::vector<LB::Vec2<float>*> pointers(frames.size());
+	//void CPAnimator::SetAnimation(const std::string animationName, int count, float timer) //I want it to allow the user to set the name of the animation
+	//{
+	//	(void)timer;
+	//	//frames.resize(count, std::vector<LB::Vec2<float>>(frameCount));
+	//	std::vector<LB::Vec2<float>*> pointers(frames.size());
 
-		for (size_t i = 0; i < frames.size(); ++i) 
-		{
-			pointers[i] = frames[i].data();  // Get the pointer to the data of each inner vector
-		}
+	//	for (size_t i = 0; i < frames.size(); ++i) 
+	//	{
+	//		pointers[i] = frames[i].data();  // Get the pointer to the data of each inner vector
+	//	}
 
-		//Renderer::GRAPHICS->init_anim(animationName, pointers.data(), timer, frameCount);
-	}
+	//	//Renderer::GRAPHICS->init_anim(animationName, pointers.data(), timer, frameCount);
+	//}
 
 	/*!***********************************************************************
 	\brief
 	 Starting of the animation
 	*************************************************************************/
-	void CPAnimator::StartAnimation(const std::string& animationName)
+	void CPAnimator::SetAnimation(const std::string& animationName, float speedOfAnim, int numOfFrame)
 	{
-		(void)animationName;
-		float x_inc{ (float)spriteWidth / (animCount * (float)spriteWidth) };
-		float y_inc{ (float)spriteHeight / (frameCount * (float)spriteHeight) };
+		//(void)animationName;
+		if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[animationName]) != LB::ASSETMANAGER->Textures.end()) {
 
-		for (unsigned int y{ 0 }; y < animCount; ++y)
-			for (unsigned int x{ 0 }; x < frameCount; ++x)
+			float x_inc{ 1.f / 4.f };
+
+			for (int y{ 0 }; y < 4; ++y)
 			{
-				frames[y][x] = { x * x_inc, y * y_inc };//bottom left
-				frames[y][x] = { (x + 1) * x_inc, y * y_inc };//bottom right
-				frames[y][x] = { (x + 1) * x_inc, (y + 1) * y_inc };//top right
-				frames[y][x] = { x * x_inc, (y + 1) * y_inc };//top left
+				for (int x{ 0 }; x < 4; ++x) 
+				{
+					anim_frames[x + y * 4].at(0) = { x * x_inc, 1.f - (y + 1) * x_inc };//bottom left
+					anim_frames[x + y * 4].at(1) = { (x + 1) * x_inc, 1.f - (y + 1) * x_inc };//bottom right
+					anim_frames[x + y * 4].at(2) = { (x + 1) * x_inc, 1.f - y * x_inc };//top right
+					anim_frames[x + y * 4].at(3) = { x * x_inc, 1.f - y * x_inc };//top left
+				}
+
 			}
+
+			//Renderer::GRAPHICS->init_anim(animationName, anim_frames.data(), speedOfAnim, numOfFrame);
+		}
 	}
 
 	//serialisation, for images

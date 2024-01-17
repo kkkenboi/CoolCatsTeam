@@ -35,7 +35,7 @@ namespace LB
 	class CPRender : public IComponent
 	{
 	private:
-		const Renderer::Renderer_Types					renderer_id;
+		Renderer::Renderer_Types					renderer_id;
 		unsigned int									quad_id;
 		unsigned int									frame;
 		float											time_elapsed;
@@ -47,7 +47,7 @@ namespace LB
 	public:
 		float						w;
 		float						h;
-		float						rotation;
+		float						rotation, z_val;
 		int							texture;
 		bool						activated;
 		Vec2<float>					scal;
@@ -133,6 +133,9 @@ namespace LB
 		 The rendering type of the component default is RT_OBJECT
 		*************************************************************************/
 		inline const Renderer::Renderer_Types get_r_type() const { return renderer_id; }
+
+		inline void set_r_type(Renderer::Renderer_Types type) { renderer_id = type; }
+
 		/*!***********************************************************************
 		\brief
 		 Overloaded comparison operator for the lambda function for removing

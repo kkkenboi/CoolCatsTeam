@@ -379,6 +379,7 @@ namespace LB
 		{
 			float width = m_inspectedGO->GetComponent<CPRender>()->w;
 			float height = m_inspectedGO->GetComponent<CPRender>()->h;
+			float z = m_inspectedGO->GetComponent<CPRender>()->z_val;
 			if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				ImGui::Text("%-17s Width", "Sprite Size");
@@ -390,10 +391,19 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				bool heightChanged = ImGui::DragFloat("##SpriteHeight", &height, 1.0f, 0.0f, 0.0f, "%.2f");
-				if (widthChanged || heightChanged)
+				
+				//for z value
+				ImGui::SameLine();
+				ImGui::Text("z-axis");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				bool zChanged = ImGui::DragFloat("##z-axis", &z, 1.0f, 0.0f, 0.0f, "%.2f");
+				
+				if (widthChanged || heightChanged || zChanged)
 				{
 					m_inspectedGO->GetComponent<CPRender>()->w = width;
 					m_inspectedGO->GetComponent<CPRender>()->h = height;
+					m_inspectedGO->GetComponent<CPRender>()->z_val = z;
 				}
 				
 			/*	if (widthChanged || heightChanged)
@@ -437,6 +447,7 @@ namespace LB
 						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
 					}
 				}
+
 				// Delete Component
 				if (ImGui::Button("Delete Render Component"))
 				{

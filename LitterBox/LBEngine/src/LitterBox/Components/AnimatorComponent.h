@@ -13,7 +13,10 @@
 **************************************************************************/
 #pragma once
 #include "LitterBox/Components/Component.h"
+#include "LitterBox/GameLogic/StateMachine.h"
+#include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox//Renderer/Renderer.h"
 //#include <array>
 
 namespace LB
@@ -34,6 +37,13 @@ namespace LB
 		{
 			return C_CPAnimator;
 		}
+
+		std::vector<std::vector<LB::Vec2<float>>> anim_frames;
+		unsigned int numOfSidesOnFrame;
+		unsigned int numOfAnim;
+		unsigned int numOfFrames;
+		CPRender* mRender;
+		//unsigned int numOfAnim; //rows, cols
 		
 		/*!************************************************************************
 		 * Initialise function where it will initialise the variables
@@ -57,38 +67,37 @@ namespace LB
 		 * Getting the size of the image
 		 *
 		**************************************************************************/
-		void SizeOfImage(std::string spriteSheet); //getting the size of width and height
+		//void SizeOfImage(std::string spriteSheet); //getting the size of width and height
 
 		/*!************************************************************************
 		 * Num of animation, rows
 		 *
 		**************************************************************************/
-		int NumOfAnim() const; //Number of animation
+		int NumOfAnim(); //Number of animation
 
 		/*!************************************************************************
 		 * Num of Frames, cols
 		 *
 		**************************************************************************/
-		int NumOfFrames() const; //Number of frames
+		int NumOfFramesWithFourPoints(); //Number of frames
 
-		////serialisation, for images
-		//bool Serialize(Value& data, Document::AllocatorType& alloc) override;
 
-		////deserialisation, for images
-		//bool Deserialize(const Value& data) override;
+		bool Serialize(Value& data, Document::AllocatorType& alloc);
+
+		bool Deserialize(const Value& data);
 
 	
 		/*!************************************************************************
 		 * Set Animation function, to set the animation
 		 *
 		**************************************************************************/
-		void SetAnimation(const std::string animationName, int animCount, float timer);
+		//void SetAnimation(const std::string animationName, int animCount, float timer);
 
 		/*!************************************************************************
-		 * Start Animation function, to start the animation
+		 * Set Animation function, to set the animation
 		 *
 		**************************************************************************/
-		void StartAnimation(const std::string& animationName);
+		void SetAnimation(const std::string& animationName, float speedOfAnim, int numOfFrame);
 
 		//start indicates the animation playing
 		//void StartAnimation(const std::string& animationName);
@@ -102,7 +111,7 @@ namespace LB
 
 
 	private:
-		unsigned int animCount, frameCount; //rows, cols
+		
 		unsigned int spriteWidth, spriteHeight; //size of sprite
 		std::string animName; //animations name
 		//std::array<std::array<LB::Vec2<float>, 4>, 12>

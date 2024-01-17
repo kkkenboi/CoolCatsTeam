@@ -102,7 +102,7 @@ namespace Renderer {
 	 the screen.
 	*************************************************************************/
 	struct Vertex {
-		LB::Vec2<float> pos{ 0.5f, 0.5f };
+		LB::Vec3<float> pos{ 0.5f, 0.5f, 1.f };
 		LB::Vec2<float> tex{ 0.f,0.f };
 		LB::Vec3<float> color{ 1.f,0.f,0.f };
 		float texIndex{ -1.f };
@@ -465,6 +465,10 @@ namespace Renderer {
 		unsigned int textureColorbuffer;
 		//-------for the game view-------------
 
+		//-------for depth testing-------
+		unsigned int rbo;
+		//-------for depth testing-------
+
 		//-------for scene view--------
 		unsigned int svfb;
 		unsigned int svtcb;
@@ -628,6 +632,25 @@ namespace Renderer {
 		 Poitner to a render object that was just created
 		*************************************************************************/
 		void remove_object(Renderer_Types r_type, const LB::CPRender* obj);
+
+		/*!***********************************************************************
+		\brief
+		 swap_object_type is a function that allows the player to change a render
+		 object's layer.
+
+		 NOTE: Not recommended for making objects appear behind or infront of one
+		 another as there is too much overhead. Use the z-axis for that.
+
+		\param curr_type
+		 The layer that the object is currently on.
+
+		\param new_type
+		 The new layer you want the object to be on.
+
+		 \param obj
+		 Poitner to the render object that you want to alter
+		*************************************************************************/
+		void swap_object_type(Renderer_Types new_type, LB::CPRender* obj);
 
 		/*!***********************************************************************
 		\brief

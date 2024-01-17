@@ -25,9 +25,12 @@
 #include "LitterBox/Factory/Components.h"
 #include "LitterBox/Components/CameraComponent.h"
 
+#include "../../dependencies/glm/glm/ext/matrix_clip_space.hpp"
+
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Physics/ColliderManager.h"
+
 
 //---------------------------------DEFINES-------------------------------
 constexpr Renderer::index inactive_idx{ 0,0,0,0,0 };
@@ -226,7 +229,7 @@ LB::CPRender::CPRender(
 	renderer_id{ rend_type }, position{ pos }, scal{ scale }, w{ width }, h{ height },
 	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ texture },
 	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }, rotation{ 0.f }, transform{ nullptr },
-	indices{}
+	indices{}, z_val{1.f}
 {
 	if (!Renderer::GRAPHICS) {
 		DebuggerLogError("GRAPHICS SYSTEM NOT INITIALIZED");
@@ -420,31 +423,31 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 	//attribute 0 will be position data
 	glEnableVertexArrayAttrib(vao, 0);
 	glVertexArrayVertexBuffer(vao, 1, vbo, 0, sizeof(Vertex));
-	glVertexArrayAttribFormat(vao, 0, 2, GL_FLOAT, GL_FALSE, 0);
+	glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 0, 1);
 	//texture coordinates
 	glEnableVertexArrayAttrib(vao, 1);
-	glVertexArrayVertexBuffer(vao, 2, vbo, sizeof(LB::Vec2<float>), sizeof(Vertex));
+	glVertexArrayVertexBuffer(vao, 2, vbo, sizeof(LB::Vec3<float>), sizeof(Vertex));
 	glVertexArrayAttribFormat(vao, 1, 2, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 1, 2);
 	//color coordinates
 	glEnableVertexArrayAttrib(vao, 2);
-	glVertexArrayVertexBuffer(vao, 3, vbo, sizeof(LB::Vec2<float>) * 2U, sizeof(Vertex));
+	glVertexArrayVertexBuffer(vao, 3, vbo, sizeof(LB::Vec2<float>) + sizeof(LB::Vec3<float>), sizeof(Vertex));
 	glVertexArrayAttribFormat(vao, 2, 3, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 2, 3);
 	//texture index
 	glEnableVertexArrayAttrib(vao, 3);
-	glVertexArrayVertexBuffer(vao, 4, vbo, sizeof(LB::Vec2<float>) * 2U + sizeof(LB::Vec3<float>), sizeof(Vertex));
+	glVertexArrayVertexBuffer(vao, 4, vbo, sizeof(LB::Vec2<float>) + sizeof(LB::Vec3<float>) * 2U, sizeof(Vertex));
 	glVertexArrayAttribFormat(vao, 3, 1, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 3, 4);
 	//width height data
 	glEnableVertexArrayAttrib(vao, 4);
-	glVertexArrayVertexBuffer(vao, 5, vbo, sizeof(LB::Vec2<float>) * 2U + sizeof(LB::Vec3<float>) + sizeof(float), sizeof(Vertex));
+	glVertexArrayVertexBuffer(vao, 5, vbo, sizeof(LB::Vec2<float>) + sizeof(LB::Vec3<float>) * 2U + sizeof(float), sizeof(Vertex));
 	glVertexArrayAttribFormat(vao, 4, 3, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 4, 5);
 	//scaling and rotation data
 	glEnableVertexArrayAttrib(vao, 5);
-	glVertexArrayVertexBuffer(vao, 6, vbo, sizeof(LB::Vec2<float>) * 2U + sizeof(LB::Vec3<float>) * 2U + sizeof(float), sizeof(Vertex));
+	glVertexArrayVertexBuffer(vao, 6, vbo, sizeof(LB::Vec2<float>) + sizeof(LB::Vec3<float>) * 3U + sizeof(float), sizeof(Vertex));
 	glVertexArrayAttribFormat(vao, 5, 3, GL_FLOAT, GL_FALSE, 0);
 	glVertexArrayAttribBinding(vao, 5, 6);
 
@@ -487,10 +490,10 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 	}
 	
 	//set position of quad
-	quad_buff[i].data[0].pos = { -0.5f, -0.5f };//bottom left
-	quad_buff[i].data[1].pos = { 0.5f, -0.5f  };//bottom right
-	quad_buff[i].data[2].pos = { 0.5f, 0.5f   };//top right
-	quad_buff[i].data[3].pos = { -0.5f, 0.5f  };//top left
+	quad_buff[i].data[0].pos = { -0.5f, -0.5f, 1.f };//bottom left
+	quad_buff[i].data[1].pos = { 0.5f, -0.5f, 1.f };//bottom right
+	quad_buff[i].data[2].pos = { 0.5f, 0.5f, 1.f };//top right
+	quad_buff[i].data[3].pos = { -0.5f, 0.5f, 1.f };//top left
 
 	quad_buff[i].data[0].tex = { 0.f, 0.f };
 	quad_buff[i].data[1].tex = { 1.f, 0.f };
@@ -559,6 +562,7 @@ void Renderer::Renderer::update_buff()
 		for (int i{ 0 }; i < 4; ++i) {
 			quad_buff[obj_index].data[i].pos.x = e->position.x;//pos.x;
 			quad_buff[obj_index].data[i].pos.y = e->position.y;//pos.y;
+			quad_buff[obj_index].data[i].pos.z = e->z_val;//pos.z;
 
 			quad_buff[obj_index].data[i].widHeightType.x = e->w;
 			quad_buff[obj_index].data[i].widHeightType.y = e->h;
@@ -768,8 +772,8 @@ tShader{}, tVao{}, tVbo{}, ft{}, font{}, active_msgs{}
 	shader_source shd_pgm{ shader_parser("Assets/Shaders/text.shader") };
 	tShader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 /*!***********************************************************************
 \brief
@@ -870,7 +874,8 @@ text_renderer{},
 framebuffer{},
 svfb{},
 svtcb{},
-textureColorbuffer{}
+textureColorbuffer{},
+rbo{}
 {
 	SetSystemName("Renderer System"); 
 	//singleton that shiet
@@ -951,6 +956,8 @@ void change_vp() {
 	glViewport(0, (int)(diff * 0.5f), LB::WINDOWSSYSTEM->GetWidth(), (int)height);
 }
 
+glm::mat4 cameraMat{ glm::perspective(glm::radians(90.f), 1920.f/1080.f, 0.1f, 10.f) };
+
 /*!***********************************************************************
 \brief
  Initialize function from base class ISystem.
@@ -991,6 +998,7 @@ void Renderer::RenderSystem::Initialize()
 	float h = 1080.f;
 
 	test2 = DBG_NEW LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
+	test2->z_val = 2.f;
 
 	test2->texture = LB::ASSETMANAGER->GetTextureUnit("bg");
 	test2->uv[0].x = 0.f;
@@ -1004,7 +1012,9 @@ void Renderer::RenderSystem::Initialize()
 	//----------------------------------------------------FONTS AS WELL-----------------------------------------------
 	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDepthFunc(GL_LESS);
 
 	//turnOnEditorMode();
 	//delete text;
@@ -1032,6 +1042,7 @@ void Renderer::RenderSystem::turnOnEditorMode() {
 		glGenFramebuffers(1, &framebuffer);
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
+		//create the texture that the frame buffer writes too
 		glGenTextures(1, &textureColorbuffer);
 		glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
@@ -1040,6 +1051,13 @@ void Renderer::RenderSystem::turnOnEditorMode() {
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
 
+		//ATTEMPTING SOMETHING COOL
+		//using the same render buffer, for depth testing, for both frame buffers
+		glGenRenderbuffers(1, &rbo);
+		glNamedRenderbufferStorage(rbo, GL_DEPTH_COMPONENT32, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight());
+		glNamedFramebufferRenderbuffer(framebuffer, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo);
+
+		//create the texture that the frame buffer writes too
 		glGenFramebuffers(1, &svfb);
 		glBindFramebuffer(GL_FRAMEBUFFER, svfb);
 
@@ -1050,6 +1068,8 @@ void Renderer::RenderSystem::turnOnEditorMode() {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, svtcb, 0);
+
+		glNamedFramebufferRenderbuffer(svfb, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo);
 
 		imgui_ready = true;
 		editor_mode = true;
@@ -1081,6 +1101,7 @@ void Renderer::RenderSystem::Update()
 	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
 	if (uni_loc == -1)
 		DebuggerLogError("Unable to find uniform location");
+	//glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cameraMat[0][0]);
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 
 	if(editor_mode)
@@ -1094,10 +1115,15 @@ void Renderer::RenderSystem::Update()
 	object_renderer.update_buff();
 	ui_renderer.update_buff();
 
+	//NOTE: for the depth buffer, because OpenGL is left handed
+	//the higher the z-axis value, the further away it is from the camera
+	glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 	glBindVertexArray(bg_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+	glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 	glBindVertexArray(object_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+	glClear(GL_DEPTH_BUFFER_BIT);//we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 	glBindVertexArray(ui_renderer.get_vao());
 	glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 
@@ -1113,9 +1139,12 @@ void Renderer::RenderSystem::Update()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
+		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 		glBindVertexArray(bg_renderer.get_vao());
 		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 		glBindVertexArray(object_renderer.get_vao());
+		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 		glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 		//UI and TEXT don't get rendered in scene view
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -1263,6 +1292,44 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 		break;
 	}
 }
+
+void Renderer::RenderSystem::swap_object_type(Renderer_Types new_type, LB::CPRender* obj)
+{
+	//simple check to reduce overheads
+	if (obj->get_r_type() == new_type)
+		return;
+
+	//remove the object from it's current layer
+	switch (obj->get_r_type()) {
+	case Renderer_Types::RT_OBJECT:
+		object_renderer.remove_render_object(obj);
+		break;
+	case Renderer_Types::RT_BACKGROUND:
+		bg_renderer.remove_render_object(obj);
+		break;
+	case Renderer_Types::RT_UI:
+		ui_renderer.remove_render_object(obj);
+		break;
+	}
+	//add the object to the new layer
+	switch (new_type) {
+	case Renderer_Types::RT_OBJECT:
+		object_renderer.create_render_object(obj);
+		break;
+	case Renderer_Types::RT_BACKGROUND:
+		bg_renderer.create_render_object(obj);
+		break;
+	case Renderer_Types::RT_UI:
+		ui_renderer.create_render_object(obj);
+		break;
+	}
+
+	//change labeling of render object
+	obj->set_r_type(new_type);
+
+	//finish
+}
+
 /*!***********************************************************************
 \brief
  change_object_state is a way for the CPRender object to tell it's renderer
