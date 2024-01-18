@@ -14,15 +14,14 @@ it handls the logic for the Mage enemy
 **************************************************************************/
 
 #pragma once
-#include "CPPBehaviour.h"
+#include "CPPSBaseEnemy.h"
 #include "CPPSBaseGolfBall.h"
-#include "Litterbox/Factory/Components.h"
 #include "LitterBox/GameLogic/StateMachine.h"
 
 namespace LB
 {
 	// Use GameObj to access the gameobj of the class
-	class CPPSMage : public CPPBehaviour
+	class CPPSMage : public CPPSBaseEnemy
 	{
 	public:
 		/*!***********************************************************************
