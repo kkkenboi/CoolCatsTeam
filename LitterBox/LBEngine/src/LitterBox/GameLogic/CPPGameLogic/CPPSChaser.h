@@ -13,14 +13,13 @@ it handls the logic for the chaser enemy
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 #pragma once
-#include "CPPBehaviour.h"
-#include "Litterbox/Factory/Components.h"
+#include "CPPSBaseEnemy.h"
 #include "LitterBox/GameLogic/StateMachine.h"
 
 namespace LB 
 {
 	// Use GameObj to access the gameobj of the class
-	class CPPSChaser : public CPPBehaviour 
+	class CPPSChaser : public CPPSBaseEnemy 
 	{
 	public:
 		/*!***********************************************************************
@@ -38,30 +37,30 @@ namespace LB
 		\brief
 		Getters for the individual components of the Chaser
 		*************************************************************************/
-		CPRender* GetRender();
-		CPRigidBody* GetRigidBody();
-		CPCollider* GetCollider();
-		GameObject* GetHero();
-		int& GetHealth();
-		float& GetSpeedMag();	//Getter function for the speed of the chaser
+		//CPRender* GetRender();
+		//CPRigidBody* GetRigidBody();
+		//CPCollider* GetCollider();
+		//GameObject* GetHero();
+		//int& GetHealth();
+		//float& GetSpeedMag();	//Getter function for the speed of the chaser
 		float& GetHurtTimer();
 
 	private:
 		//private variables
-		CPRender* mRender;
+	/*	CPRender* mRender;
 		CPRigidBody* mRigidBody;
-		CPCollider* mCollider;
+		CPCollider* mCollider;*/
 		//getting the player object
-		GameObject* mPlayer{ nullptr };
-		Vec2<float> rightFace;
-		Vec2<float> leftFace;
+		//GameObject* mPlayer{ nullptr };
+		//Vec2<float> rightFace;
+		//Vec2<float> leftFace;
 
 		// Holds the different state and the current state
 		// that the Chaser enemy is in
 		FiniteStateMachine mFSM{};
 
-		int mHealth{}; //health of the chaser
-		float mSpeedMagnitude{}; //speed
+		//int mHealth{}; //health of the chaser
+		//float mSpeedMagnitude{}; //speed
 		float mHurtTimer{}; //hurt timer
 
 		float mGotAttacked, mGotAttackedCooldown;

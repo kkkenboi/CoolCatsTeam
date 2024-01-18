@@ -15,26 +15,31 @@ namespace LB
 
 		//Getter functions
 		//Animator once we have it
-		virtual CPRender* GetRender();
-		virtual CPRigidBody* GetRigidBody();
-		virtual CPCollider* GetCollider();
-		GameObject* GetHero();
+		 CPRender* GetRender();
+		 CPRigidBody* GetRigidBody();
+		 CPCollider* GetCollider();
+		 GameObject* GetHero();
 
 		//Accessor functions
 		int& GetHealth();
 		float& GetSpeedMag();
 		
-
-	private:
 		int mHealth{};		//normal health of the enemy
 		float mSpeedMagnitude{};	//movespeed of the enemy
-		GameObject* mPlayer{ nullptr }; //Caching the player obj
-		Vec2<float> leftFace;
-		Vec2<float> rightFace;
-		
+
 		CPRender* mRender;
 		CPRigidBody* mRigidBody;
 		CPCollider* mCollider;
+	protected:
+		GameObject* mPlayer{ nullptr }; //Caching the player obj
+		Vec2<float> leftFace;
+		Vec2<float> rightFace;
+
+		Vec2<float> DirToPlayer;
+		Vec2<float> TransformRight{ 1,0 };
+
+	
+		
 	};
 }
 

@@ -536,7 +536,7 @@
                     "AudioClipName": "BGM",
                     "Play On Awake": true,
                     "Loop": true,
-                    "Volume": 0.33,
+                    "Volume": 0.1,
                     "Pitch": 1.0
                 }
             },
