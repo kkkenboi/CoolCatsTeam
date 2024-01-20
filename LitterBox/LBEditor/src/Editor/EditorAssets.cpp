@@ -191,6 +191,10 @@ namespace LB
 							else
 								DebuggerLogWarningFormat("Tried to load new scene from Assets %s while a scene is running.", directory.path().filename().stem().string().c_str());
 						}
+						else if (directory.path().filename().string().find("SpriteSheet") != std::string::npos) //NEED CHANGE
+						{
+							EDITORINSPECTOR->SetWindowSpriteSheet();
+						}
 						else //that means it's a prefab instead
 						{
 							DebuggerLog(directory.path().filename().string());
@@ -211,6 +215,12 @@ namespace LB
 						ImGui::SetDragDropPayload("TEXTURE", FileName.c_str(), FileName.size()+1);
 						ImGui::EndDragDropSource();
 					}
+					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+					{
+
+					}
+
+					//if
 				}
 				if (directory.path().extension().string() == ".wav")
 				{

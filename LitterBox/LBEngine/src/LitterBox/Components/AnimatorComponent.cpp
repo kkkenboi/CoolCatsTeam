@@ -148,16 +148,4 @@ namespace LB
 			//Renderer::GRAPHICS->init_anim(animationName, anim_frames.data(), speedOfAnim, numOfFrame);
 		}
 	}
-
-	//serialisation, for images
-	//bool CPAnimator::Serialize(Value& data, Document::AllocatorType& alloc)
-	//{
-	//	return false;
-	//}
-
-	////deserialisation, for images
-	//bool CPAnimator::Deserialize(const Value& data)
-	//{
-	//	return false;
-	//}
 }
