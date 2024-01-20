@@ -20,19 +20,18 @@
 **************************************************************************/
 
 #pragma once
-#include "pch.h"
-#include "LitterBox/Core/System.h"
-#include "LitterBox/Serialization/Serializer.h"
 #include <initializer_list>
 #include <type_traits>
 
-// For CPP Game Logic
-class CPPBehaviour;
+#include "pch.h"
+#include "LitterBox/Core/System.h"
+#include "LitterBox/Serialization/Serializer.h"
+#include "LitterBox/Components/ComponentTypeID.h"
 
 namespace LB
 {
 	class IComponent; // Forward Declaration
-	enum ComponentTypeID : int;
+	class CPPBehaviour;
 
 	/*!***********************************************************************
 	 \brief
@@ -68,7 +67,7 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Gets a specified component within the GameObject
+		 Gets the first occurrence of a specified component within the GameObject
 		*************************************************************************/
 		template <typename T>
 		T* GetComponent() 
@@ -78,16 +77,43 @@ namespace LB
 			{
 				return static_cast<T*>(m_Components.find(T::GetType())->second);
 			}
+			// Get a script
 			else if (std::is_base_of<CPPBehaviour, T>::value)
 			{
-				//return static_cast<T*>(m_Components[C_CPScriptCPP].)
-				return static_cast<T*>(m_Components.find(T::GetType())->second);
+				auto rangeResult = m_Components.equal_range(C_CPScriptCPP);
+
+				const std::type_info& id = typeid(T);
+				auto script = std::find_if(rangeResult.first, rangeResult.second, [&id](const auto& pair) {
+					return typeid(pair.second) == id;
+					});
+
+				if (script != rangeResult.second) return dynamic_cast<T*>(script->second);
 			}
 
 			DebuggerAssertFormat(std::is_base_of<IComponent, T>::value, "Tried to get invalid component of type %s", typeid(T).name());
-
+			return nullptr;
 		}
 
+		/*!***********************************************************************
+		 \brief
+		 Gets ALL occurrences of a specified component within the GameObject
+		*************************************************************************/
+		template <typename T>
+		auto GetComponents()
+		{
+			// Get an IComponent
+			if (std::is_base_of<IComponent, T>::value)
+			{
+				return m_Components.equal_range(T::GetType());
+			}
+			else if (std::is_base_of<CPPBehaviour, T>::value)
+			{
+				return m_Components.equal_range(T::GetType());
+			}
+
+			DebuggerLogErrorFormat("Tried to get invalid component of type %s", typeid(T).name());
+			return m_Components.equal_range(T::GetType());
+		}
 
 		/*!***********************************************************************
 		 \brief

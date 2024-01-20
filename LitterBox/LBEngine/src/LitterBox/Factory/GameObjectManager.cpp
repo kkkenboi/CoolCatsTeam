@@ -23,6 +23,8 @@
 #include "GameObjectFactory.h"
 #include <algorithm>			// For std::find
 
+#include "LitterBox/Components/CPPScriptComponent.h"
+
 namespace LB
 {
 	/***************************************************************************************************
@@ -30,7 +32,7 @@ namespace LB
 	* Game Object
 	*
 	***************************************************************************************************/
-	
+
 	/*!***********************************************************************
 	 \brief
 	 Creates a GameObject
