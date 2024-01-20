@@ -53,16 +53,16 @@ namespace LB
 
 		/*!***********************************************************************
 		\brief
-		 Called when the GameObject is destroyed (E.g. when the scene stops)
+		 Called when a collision happens with this gameobject, empty by design.
+		 If something needs to happen, the script with override this function.
 		*************************************************************************/
 		virtual void OnCollisionEnter(CollisionData colData) 
 		{
 			UNREFERENCED_PARAMETER(colData);
-			// Purposely empty, supposed to be implemented
-			// by the scripts, if the script does not want
-			// to do anything, will just return
 		}
 
 		GameObject* GameObj{nullptr};
 	};
+
+
 }

@@ -26,6 +26,9 @@
 #include <initializer_list>
 #include <type_traits>
 
+// For CPP Game Logic
+class CPPBehaviour;
+
 namespace LB
 {
 	class IComponent; // Forward Declaration
@@ -70,10 +73,27 @@ namespace LB
 		template <typename T>
 		T* GetComponent() 
 		{ 
+			// Get an IComponent
+			if (std::is_base_of<IComponent, T>::value)
+			{
+				return static_cast<T*>(m_Components.find(T::GetType())->second);
+			}
+			else if (std::is_base_of<CPPBehaviour, T>::value)
+			{
+				//return static_cast<T*>(m_Components[C_CPScriptCPP].)
+				return static_cast<T*>(m_Components.find(T::GetType())->second);
+			}
+
 			DebuggerAssertFormat(std::is_base_of<IComponent, T>::value, "Tried to get invalid component of type %s", typeid(T).name());
 
-			return static_cast<T*>(m_Components[T::GetType()]);
 		}
+
+
+		/*!***********************************************************************
+		 \brief
+		 Gets all the components of the GameObject
+		*************************************************************************/
+		std::unordered_multimap<ComponentTypeID, IComponent*> GetAllComponents();
 
 		/*!***********************************************************************
 		 \brief
@@ -89,15 +109,9 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Gets all the components of the GameObject
-		*************************************************************************/
-		std::unordered_map<ComponentTypeID, IComponent*> GetComponents();
-
-		/*!***********************************************************************
-		 \brief
 		 Sets all of the components of one GameObject to another map
 		*************************************************************************/
-		void SetComponents(const std::unordered_map<ComponentTypeID, IComponent*>& );
+		void SetComponents(const std::unordered_multimap<ComponentTypeID, IComponent*>& );
 
 		/*!***********************************************************************
 		 \brief
@@ -168,9 +182,9 @@ namespace LB
 	private:
 		std::string											m_name{ "Game Object" };
 
-		std::unordered_map<ComponentTypeID, IComponent*>	m_Components;
-		int													m_ID;
-		bool												m_active;
+		std::unordered_multimap<ComponentTypeID, IComponent*>	m_Components;
+		int														m_ID;
+		bool													m_active;
 	};
 
 	/*!***********************************************************************

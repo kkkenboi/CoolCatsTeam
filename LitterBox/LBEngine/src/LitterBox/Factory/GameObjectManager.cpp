@@ -79,7 +79,7 @@ namespace LB
 	 \return
 	 Map to the GameObject's components
 	*************************************************************************/
-	std::unordered_map<ComponentTypeID, IComponent*> GameObject::GetComponents()
+	std::unordered_multimap<ComponentTypeID, IComponent*> GameObject::GetAllComponents()
 	{
 		return m_Components;
 	}
@@ -90,7 +90,7 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void GameObject::SetComponents(const std::unordered_map<ComponentTypeID, IComponent*>& otherMap)
+	void GameObject::SetComponents(const std::unordered_multimap<ComponentTypeID, IComponent*>& otherMap)
 	{
 		this->m_Components = otherMap;
 	}
@@ -104,7 +104,7 @@ namespace LB
 	void GameObject::AddComponent(ComponentTypeID id, IComponent* component)
 	{
 		component->gameObj = this;
-		m_Components[id] = component;
+		m_Components.insert({ id, component });
 	}
 
 	/*!***********************************************************************
@@ -115,7 +115,7 @@ namespace LB
 	*************************************************************************/
 	void GameObject::RemoveComponent(ComponentTypeID id)
 	{
-		m_Components[id]->Destroy();
+		m_Components.find(id)->second->Destroy();
 		m_Components.erase(id);
 	}
 	
@@ -135,7 +135,7 @@ namespace LB
 		{
 			//data.SetObject();
 			Value TransformComponent;
-			m_Components[C_CPTransform]->Serialize(TransformComponent, alloc);
+			m_Components.find(C_CPTransform)->second->Serialize(TransformComponent, alloc);
 			data.AddMember("Transform", TransformComponent, alloc);
 		}
 		//We will return false if we fail to serialise a transform because
@@ -144,37 +144,37 @@ namespace LB
 		if (m_Components.find(C_CPRigidBody) != m_Components.end())
 		{
 			Value RigidBodyComponent;
-			m_Components[C_CPRigidBody]->Serialize(RigidBodyComponent, alloc);
+			m_Components.find(C_CPRigidBody)->second->Serialize(RigidBodyComponent, alloc);
 			data.AddMember("RigidBody", RigidBodyComponent, alloc);
 		}
 		if (m_Components.find(C_CPRender) != m_Components.end())
 		{
 			Value RenderComponent;
-			m_Components[C_CPRender]->Serialize(RenderComponent, alloc);
+			m_Components.find(C_CPRender)->second->Serialize(RenderComponent, alloc);
 			data.AddMember("Render", RenderComponent, alloc);
 		}
 		if (m_Components.find(C_CPCollider) != m_Components.end())
 		{
 			Value ColliderComponent;
-			m_Components[C_CPCollider]->Serialize(ColliderComponent, alloc);
+			m_Components.find(C_CPCollider)->second->Serialize(ColliderComponent, alloc);
 			data.AddMember("Collider", ColliderComponent, alloc);
 		}
 		if (m_Components.find(C_CPScriptCPP) != m_Components.end())
 		{
 			Value CPPScriptComponent;
-			m_Components[C_CPScriptCPP]->Serialize(CPPScriptComponent, alloc);
+			m_Components.find(C_CPScriptCPP)->second->Serialize(CPPScriptComponent, alloc);
 			data.AddMember("CPPScript", CPPScriptComponent, alloc);
 		}
 		if (m_Components.find(C_CPAudioSource) != m_Components.end())
 		{
 			Value AudioSourceComponent;
-			m_Components[C_CPAudioSource]->Serialize(AudioSourceComponent, alloc);
+			m_Components.find(C_CPAudioSource)->second->Serialize(AudioSourceComponent, alloc);
 			data.AddMember("AudioSource", AudioSourceComponent, alloc);
 		}
 		if (m_Components.find(C_CPText) != m_Components.end())
 		{
 			Value TextComponent;
-			m_Components[C_CPText]->Serialize(TextComponent, alloc);
+			m_Components.find(C_CPText)->second->Serialize(TextComponent, alloc);
 			data.AddMember("Text", TextComponent, alloc);
 		}
 		return true;
@@ -211,7 +211,7 @@ namespace LB
 					AddComponent(C_CPTransform, FACTORY->GetCMs()[C_CPTransform]->Create());
 				}
 				const Value& transformValue = data["Transform"];
-				m_Components[C_CPTransform]->Deserialize(transformValue);
+				m_Components.find(C_CPTransform)->second->Deserialize(transformValue);
 			}
 			//ALL GO's MUST HAVE TRANSFORM!
 			else return false;
@@ -223,7 +223,7 @@ namespace LB
 					AddComponent(C_CPRigidBody, FACTORY->GetCMs()[C_CPRigidBody]->Create());
 				}
 				const Value& rigidBodyValue = data["RigidBody"];
-				m_Components[C_CPRigidBody]->Deserialize(rigidBodyValue);
+				m_Components.find(C_CPRigidBody)->second->Deserialize(rigidBodyValue);
 			}
 			if (HasRender)
 			{
@@ -233,7 +233,7 @@ namespace LB
 					AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 				}
 				const Value& renderValue = data["Render"];
-				m_Components[C_CPRender]->Deserialize(renderValue);
+				m_Components.find(C_CPRender)->second->Deserialize(renderValue);
 			}
 			if (HasCPPScript)
 			{
@@ -243,7 +243,7 @@ namespace LB
 					AddComponent(C_CPScriptCPP, FACTORY->GetCMs()[C_CPScriptCPP]->Create());
 				}
 				const Value& cppScriptValue = data["CPPScript"];
-				m_Components[C_CPScriptCPP]->Deserialize(cppScriptValue);
+				m_Components.find(C_CPScriptCPP)->second->Deserialize(cppScriptValue);
 			}
 			if (HasCollider)
 			{
@@ -253,7 +253,7 @@ namespace LB
 					AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
 				}
 				const Value& colliderValue = data["Collider"];
-				m_Components[C_CPCollider]->Deserialize(colliderValue);
+				m_Components.find(C_CPCollider)->second->Deserialize(colliderValue);
 				DebuggerLogFormat("coll size %d", this->GetComponent<CPCollider>()->m_widthUnscaled);
 			}
 			if (HasAudio)
@@ -264,7 +264,7 @@ namespace LB
 					AddComponent(C_CPAudioSource, FACTORY->GetCMs()[C_CPAudioSource]->Create());
 				}
 				const Value& audioSourceValue = data["AudioSource"];
-				m_Components[C_CPAudioSource]->Deserialize(audioSourceValue);
+				m_Components.find(C_CPAudioSource)->second->Deserialize(audioSourceValue);
 			}
 			if (HasText)
 			{
@@ -274,7 +274,7 @@ namespace LB
 					AddComponent(C_CPText, FACTORY->GetCMs()[C_CPText]->Create());
 				}
 				const Value& textValue = data["Text"];
-				m_Components[C_CPText]->Deserialize(textValue);
+				m_Components.find(C_CPText)->second->Deserialize(textValue);
 			}
 		}
 		this->StartComponents();

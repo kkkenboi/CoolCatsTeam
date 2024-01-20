@@ -74,6 +74,8 @@ namespace LB
 		void Destroy() override;
 
 	private:
+		std::map<std::string, CPPBehaviour*> m_scriptRegistry;
+
 		std::vector<CPScriptCPP*> m_sceneScripts{};	// List of all scripts currently active in the scene
 	};
 
