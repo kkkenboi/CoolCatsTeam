@@ -27,6 +27,7 @@
 #include "CPPSBaseGolfBall.h"
 #include "CPPSPlayerGolfBall.h"
 #include "PauseMenuScript.h"
+#include "CPPSAimUI.h"
 
 namespace LB
 {
@@ -63,7 +64,8 @@ namespace LB
 			newScript->GetName() == "Mage" ||
 			newScript->GetName() == "Projectile" ||
 			newScript->GetName() == "PlayerBall" ||
-			newScript->GetName() == "PauseMenuScript")
+			newScript->GetName() == "PauseMenuScript"||
+			newScript->GetName() == "AimScript")
 		{
 			m_sceneScripts.push_back(newScript);
 
@@ -142,6 +144,10 @@ namespace LB
 			}
 			else if (script->GetName() == "PauseMenuScript") {
 				script->SetInstance(DBG_NEW PauseMenuScript);
+			}
+			else if (script->GetName() == "AimScript")
+			{
+				script->SetInstance(DBG_NEW CPPSAimUI);
 			}
 			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 	}
