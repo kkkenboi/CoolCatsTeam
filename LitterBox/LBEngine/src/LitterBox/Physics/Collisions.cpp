@@ -99,6 +99,9 @@ namespace LB
 		if(m_collisionlayer.GetName().empty())
 		this->m_collisionlayer = COLLIDERS->GetLayerSystem().GetDefaultLayer();
 
+		// Set the initial grid number to default 1 so it checks with everything
+		this->m_grid_frames.push_back(1);
+
 		// Update the length and width of the RigidBody depending
 		// on the Collider
 
@@ -335,15 +338,24 @@ namespace LB
 		{
 			for (size_t i = 0; i < this->m_transformedVerts.size(); ++i)
 			{
-				if (!this->m_collided)
+				// Testing AABB Boxes
+				if (1)
 				{
-					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
-						, Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
+					DEBUG->DrawBox(this->m_aabb.m_c, this->m_width, this->m_height, Vec4<float>{0.f, 0.f, 1.0f, 1.0f}, this->m_rotation);
 				}
 				else
 				{
-					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
-						, Vec4<float> { 0.5f, 0.f, 0.f, 1.0f });
+					// Original code
+					if (!this->m_collided)
+					{
+						DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
+							, Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
+					}
+					else
+					{
+						DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
+							, Vec4<float> { 0.5f, 0.f, 0.f, 1.0f });
+					}
 				}
 			}
 		}
@@ -464,6 +476,24 @@ namespace LB
 		return gameObj;
 	}
 
+
+	std::vector<int> CPCollider::GetGridFrames()
+	{
+		return m_grid_frames;
+	}
+
+	void CPCollider::ChangeGridFrame(std::vector<int> frames) 
+	{
+		m_grid_frames = frames;
+	}
+
+	void CPCollider::UpdateGridFrame()
+	{
+		COLLIDERS->GetGridSystem().UpdateGridFrame(this);
+	}
+
+	//void CPCollider::ChangeGridFrame(int frame);
+
 	/*!***********************************************************************
 	  \brief
 	  This serializes some of the data members of CPCollider
@@ -541,6 +571,7 @@ namespace LB
 		this->UpdateColliderBoxVertices();
 		this->UpdateColliderAABB();
 
+		this->UpdateGridFrame();
 	}
 
 	/*!***********************************************************************

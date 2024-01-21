@@ -599,6 +599,11 @@ namespace LB
 					ImGui::EndCombo();
 				}
 
+				ImGui::Text("%-19s", "Grid");
+				for (size_t grids = 0; grids < m_inspectedGO->GetComponent<CPCollider>()->GetGridFrames().size(); ++grids)
+				{
+					ImGui::Text("%d", m_inspectedGO->GetComponent<CPCollider>()->GetGridFrames()[grids]);
+				}
 
 				float width = m_inspectedGO->GetComponent<CPCollider>()->m_widthUnscaled;
 				ImGui::Text("%-19s", "Width");
