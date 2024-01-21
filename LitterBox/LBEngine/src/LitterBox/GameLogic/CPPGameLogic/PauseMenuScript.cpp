@@ -22,6 +22,7 @@
 
 namespace LB
 {
+	REGISTER_SCRIPT(PauseMenuScript);
 
 	/*!***********************************************************************
 	\brief

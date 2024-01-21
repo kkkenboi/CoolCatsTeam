@@ -109,6 +109,16 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
+	 Returns the registry containing all the script types stored by the
+	 GameLogic manager.
+	*************************************************************************/
+	std::map<std::type_index, ScriptFactoryBase*>& CPPGameLogic::GetRegistry()
+	{
+		return m_scriptRegistry;
+	}
+
+	/*!***********************************************************************
+	 \brief
 	 Loads the CPPScript instance based on the name of the script.
 	*************************************************************************/
 	void CPPGameLogic::StartScript(CPScriptCPP* script)

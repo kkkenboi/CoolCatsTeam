@@ -22,7 +22,10 @@
 
 extern const float deg_to_rads;
 
-namespace LB {
+namespace LB 
+{
+	REGISTER_SCRIPT(QuitScript);
+
 	/*!***********************************************************************
 	\brief
 	 Start function gets collider of object and gets the position that is left

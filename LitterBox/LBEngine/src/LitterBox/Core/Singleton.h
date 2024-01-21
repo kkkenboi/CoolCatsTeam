@@ -33,7 +33,7 @@ namespace LB
         static void InitializeSingleton(Args&&... args)
         {
             if (m_instance) {
-                DebuggerLogError("Tried to initialize singleton of type %s that already exists!", typeid(m_instance).name);
+                DebuggerLogFormat("Tried to initialize singleton of type %s that already exists!", typeid(m_instance).name());
                 return;
             }
             m_instance = std::make_shared<T>(std::forward<Args>(args)...);
