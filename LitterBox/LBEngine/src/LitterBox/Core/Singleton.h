@@ -30,7 +30,7 @@ namespace LB
         }
 
         template <typename... Args>
-        static void Initialize(Args&&... args)
+        static void InitializeSingleton(Args&&... args)
         {
             if (m_instance) {
                 DebuggerLogError("Tried to initialize singleton of type %s that already exists!", typeid(m_instance).name);

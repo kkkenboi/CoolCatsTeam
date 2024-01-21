@@ -14,11 +14,28 @@
 **************************************************************************/
 
 #pragma once
-#include "LitterBox/Core/System.h"		// For ISystem
+#include "LitterBox/Core/System.h" // For ISystem
 #include "LitterBox/Components/CPPScriptComponent.h"
+
+#include <typeindex> // For TypeIndex
 
 namespace LB
 {
+	class ScriptFactoryBase {
+	public:
+		virtual ~ScriptFactoryBase() = default;
+	};
+
+	template <typename T>
+	class ScriptFactory : public ScriptFactoryBase
+	{
+	public:
+		T* Create()
+		{
+			return DBG_NEW T();
+		}
+	};
+
 	class CPScriptCPP;
 
 	/*!***********************************************************************
@@ -27,7 +44,7 @@ namespace LB
 	 should be active or nonactive after certain interactions and updates their
 	 ingame stats as well
 	*************************************************************************/
-	class CPPGameLogic : public ISystem
+	class CPPGameLogic : public ISystem, public Singleton<CPPGameLogic>
 	{
 	public:
 		/*!***********************************************************************
@@ -42,6 +59,17 @@ namespace LB
 		 script when the scene starts
 		*************************************************************************/
 		void Start();
+
+		/*!***********************************************************************
+		 \brief
+		 Adds a script to the registry of CPPGameLogic manager so that it knows
+		 that the script exists.
+		*************************************************************************/
+		template <typename T>
+		void RegisterScript()
+		{
+			m_scriptRegistry[typeid(T)] = DBG_NEW ScriptFactory<T>();
+		}
 
 		/*!***********************************************************************
 		 \brief
@@ -74,7 +102,7 @@ namespace LB
 		void Destroy() override;
 
 	private:
-		std::map<std::string, CPPBehaviour*> m_scriptRegistry;
+		std::map<std::type_index, ScriptFactoryBase*> m_scriptRegistry;
 
 		std::vector<CPScriptCPP*> m_sceneScripts{};	// List of all scripts currently active in the scene
 	};
@@ -90,4 +118,12 @@ namespace LB
 	 A global pointer to our game so that it can be accessed from anywhere.
 	*************************************************************************/
 	extern CPPGameLogic* CPPGAMELOGIC;
+
+	#define REGISTER_SCRIPT(scriptClass) \
+				struct scriptClass##Registrar { \
+					scriptClass##Registrar() { \
+						CPPGameLogic::Instance()->RegisterScript<scriptClass>(); \
+					} \
+				} scriptClass##Registration; \
+
 }

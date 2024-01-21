@@ -61,8 +61,17 @@ namespace LB
 			UNREFERENCED_PARAMETER(colData);
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Gets a component or script from this GameObject. This function makes it
+		 easier to get a component without needing to do GameObj->GetComponent().
+		*************************************************************************/
+		template <typename T>
+		T* GetComponent()
+		{
+			return GameObj->GetComponent<T>();
+		}
+
 		GameObject* GameObj{nullptr};
 	};
-
-
 }
