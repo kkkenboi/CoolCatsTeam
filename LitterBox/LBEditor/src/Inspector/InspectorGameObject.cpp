@@ -707,13 +707,13 @@ namespace LB
 				ImGui::Text("%-17s", "Script Name");
 				ImGui::SameLine();
 
-				if (ImGui::BeginCombo("##ScriptCombo", "Select script")) 
+				if (ImGui::BeginCombo("##ScriptCombo", m_inspectedGO->GetComponent<CPScriptCPP>()->GetScriptType().name()))
 				{
 					for (auto const& script : CPPGameLogic::Instance()->GetRegistry())
 					{
 						if (ImGui::Selectable(script.first.name()))
 						{
-
+							m_inspectedGO->GetComponent<CPScriptCPP>()->SetScriptType(script.first);
 						}
 					}
 					ImGui::EndCombo();

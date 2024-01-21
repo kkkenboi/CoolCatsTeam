@@ -45,7 +45,7 @@
                     "Radius": 40.0
                 },
                 "CPPScript": {
-                    "Script": "Player"
+                    "Script": "class LB::CPPSPlayer"
                 }
             },
             {
@@ -260,7 +260,7 @@
                     "Radius": 40.0
                 },
                 "CPPScript": {
-                    "Script": "Enemy"
+                    "Script": "class LB::CPPSChaser"
                 }
             },
             {
@@ -298,7 +298,7 @@
                     "Radius": 40.0
                 },
                 "CPPScript": {
-                    "Script": "Mage"
+                    "Script": "class LB::CPPSMage"
                 }
             },
             {
@@ -315,7 +315,7 @@
                     "Rotation": 0.0
                 },
                 "CPPScript": {
-                    "Script": "PauseMenuScript"
+                    "Script": "class LB::PauseMenuScript"
                 }
             },
             {

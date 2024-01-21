@@ -21,8 +21,17 @@
 
 namespace LB
 {
+	#define REGISTER_SCRIPT(scriptClass) \
+		struct scriptClass##Registrar { \
+			scriptClass##Registrar() { \
+				CPPGameLogic::Instance()->RegisterScript<scriptClass>(); \
+			} \
+		} scriptClass##Registration; \
+
 	class ScriptFactoryBase {
 	public:
+		virtual CPPBehaviour* CreateInstance() = 0;
+
 		virtual ~ScriptFactoryBase() = default;
 	};
 
@@ -30,10 +39,18 @@ namespace LB
 	class ScriptFactory : public ScriptFactoryBase
 	{
 	public:
-		T* Create()
+		CPPBehaviour* CreateInstance() override
 		{
 			return DBG_NEW T();
 		}
+	};
+
+	class ScriptTypeID
+	{
+	public:
+		ScriptTypeID() : m_type{ typeid(void) } {}
+		ScriptTypeID(std::type_index type) : m_type{ type } {}
+		std::type_index m_type { typeid(void) };
 	};
 
 	class CPScriptCPP;
@@ -60,6 +77,8 @@ namespace LB
 		*************************************************************************/
 		void Start();
 
+		void RegisterAll();
+
 		/*!***********************************************************************
 		 \brief
 		 Adds a script to the registry of CPPGameLogic manager so that it knows
@@ -69,6 +88,7 @@ namespace LB
 		void RegisterScript()
 		{
 			m_scriptRegistry[typeid(T)] = DBG_NEW ScriptFactory<T>();
+			m_scriptTypeRegistry[typeid(T).name()] = ScriptTypeID{ typeid(T) };
 		}
 
 		/*!***********************************************************************
@@ -77,6 +97,14 @@ namespace LB
 		 GameLogic manager.
 		*************************************************************************/
 		std::map<std::type_index, ScriptFactoryBase*>& GetRegistry();
+
+
+		/*!***********************************************************************
+		 \brief
+		 Returns the registry containing all the script types stored by the
+		 GameLogic manager.
+		*************************************************************************/
+		std::map<std::string, ScriptTypeID>& GetTypeRegistry();
 
 		/*!***********************************************************************
 		 \brief
@@ -110,6 +138,7 @@ namespace LB
 
 	private:
 		std::map<std::type_index, ScriptFactoryBase*> m_scriptRegistry;
+		std::map<std::string, ScriptTypeID> m_scriptTypeRegistry;
 
 		std::vector<CPScriptCPP*> m_sceneScripts{};	// List of all scripts currently active in the scene
 	};
@@ -125,12 +154,4 @@ namespace LB
 	 A global pointer to our game so that it can be accessed from anywhere.
 	*************************************************************************/
 	extern CPPGameLogic* CPPGAMELOGIC;
-
-	#define REGISTER_SCRIPT(scriptClass) \
-				struct scriptClass##Registrar { \
-					scriptClass##Registrar() { \
-						CPPGameLogic::Instance()->RegisterScript<scriptClass>(); \
-					} \
-				} scriptClass##Registration; \
-
 }
