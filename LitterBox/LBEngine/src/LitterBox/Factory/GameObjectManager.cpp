@@ -86,6 +86,11 @@ namespace LB
 		return m_Components;
 	}
 
+	void* GameObject::GetScript()
+	{
+		return static_cast<CPScriptCPP*>(m_Components.find(C_CPScriptCPP)->second)->GetInstance();
+	}
+
 	/*!***********************************************************************
 	 \brief
 	 Sets all of the components of one GameObject to another map

@@ -31,6 +31,7 @@
 namespace LB
 {
 	class IComponent; // Forward Declaration
+	class CPScriptCPP;
 	class CPPBehaviour;
 
 	/*!***********************************************************************
@@ -73,26 +74,32 @@ namespace LB
 		T* GetComponent() 
 		{ 
 			// Get an IComponent
-			if (std::is_base_of<IComponent, T>::value)
+			if constexpr (std::is_base_of<IComponent, T>::value)
 			{
 				return static_cast<T*>(m_Components.find(T::GetType())->second);
 			}
 			// Get a script
-			else if (std::is_base_of<CPPBehaviour, T>::value)
+			else if constexpr (std::is_base_of<CPPBehaviour, T>::value)
 			{
-				auto rangeResult = m_Components.equal_range(C_CPScriptCPP);
+				// TODO: REFACTOR TO CHECK!!
+				return static_cast<T*>(GetScript());
 
-				const std::type_info& id = typeid(T);
-				auto script = std::find_if(rangeResult.first, rangeResult.second, [&id](const auto& pair) {
-					return typeid(pair.second) == id;
-					});
+				//auto rangeResult = m_Components.equal_range(C_CPScriptCPP);
 
-				if (script != rangeResult.second) return dynamic_cast<T*>(script->second);
+				//const std::type_info& id = typeid(T);
+
+				//auto script = std::find_if(rangeResult.first, rangeResult.second, [&id](const auto& pair) {
+				//	return typeid(pair.second) == id;
+				//	});
+
+				//if (script != rangeResult.second) return dynamic_cast<T*>(script->second);
 			}
 
 			DebuggerAssertFormat(std::is_base_of<IComponent, T>::value, "Tried to get invalid component of type %s", typeid(T).name());
 			return nullptr;
 		}
+
+		void* GetScript();
 
 		/*!***********************************************************************
 		 \brief
