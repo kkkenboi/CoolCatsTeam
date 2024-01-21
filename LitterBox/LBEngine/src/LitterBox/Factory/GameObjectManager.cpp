@@ -349,6 +349,10 @@ namespace LB
 	void GameObject::SetActive(bool active)
 	{
 		m_active = active;
+		for (auto const& component : m_Components)
+		{
+			component.second->ToggleActive(active);
+		}
 	}
 
 	/***************************************************************************************************

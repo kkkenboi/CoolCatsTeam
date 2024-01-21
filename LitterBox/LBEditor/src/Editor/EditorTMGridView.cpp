@@ -25,7 +25,7 @@ namespace LB
 
 	EditorTMGridView::EditorTMGridView(std::string layerName) : Layer(layerName),
 		rowNum{10}, colNum{20}, tileSelected{0},
-		tiles{}, tiles_names{}
+		tiles{}, tiles_names{}, tmpRow{rowNum}, tmpCol{colNum}
 	{
 		if (!EDITORTMGRIDVIEW)
 			EDITORTMGRIDVIEW = this;
@@ -57,6 +57,45 @@ namespace LB
 			}
 
 			ImGui::EndCombo();
+		}
+
+		//bool to keep track of grid changes
+		static bool confirmation{false};
+		//padding from tile selection
+		ImGui::SameLine();
+		ImGui::Text("%-19s", " ");
+
+		//Setting the rows
+		ImGui::SameLine();
+		ImGui::Text("Rows:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(75.f);
+		if (ImGui::DragInt("##row", &tmpRow))
+			confirmation = !confirmation ? true : false;
+		
+		//Setting the columns
+		ImGui::SameLine();
+		ImGui::Text("Columns:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(75.f);
+		if (ImGui::DragInt("##column", &tmpCol))
+			confirmation = !confirmation ? true : false;
+
+		//confirmation button
+		if (confirmation) {
+			ImGui::SameLine();
+			if (ImGui::Button("Confirm")) {
+				rowNum = tmpRow;
+				colNum = tmpCol;
+				tiles.resize(rowNum * colNum, 0);
+				confirmation = false;
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Cancel")) {
+				tmpRow = rowNum;
+				tmpCol = colNum;
+				confirmation = false;
+			}
 		}
 
 		//Just an arbitrary way of calculating button size

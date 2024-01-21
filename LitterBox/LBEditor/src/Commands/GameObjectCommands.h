@@ -40,7 +40,7 @@ namespace LB
 			GOMANAGER->DetachGameObject(m_removedGO);
 
 			// Remove object from inspection if inspected
-			if (EDITORINSPECTOR->IsGOInspected() && EDITORINSPECTOR->GetInspectedGO() == m_removedGO)
+			if (InspectorGameObject::Instance()->IsGOInspected() && InspectorGameObject::Instance()->GetInspectedGO() == m_removedGO)
 			{
 				EDITORHIERACHY->onNewObjectSelected.Invoke(nullptr);
 			}
@@ -161,7 +161,7 @@ namespace LB
 		void Undo() override
 		{
 			// Remove object from inspection if inspected
-			if (EDITORINSPECTOR->IsGOInspected() && EDITORINSPECTOR->GetInspectedGO() == m_spawnedGO)
+			if (InspectorGameObject::Instance()->IsGOInspected() && InspectorGameObject::Instance()->GetInspectedGO() == m_spawnedGO)
 			{
 				EDITORHIERACHY->onNewObjectSelected.Invoke(nullptr);
 			}
