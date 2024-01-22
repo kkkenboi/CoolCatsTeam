@@ -14,7 +14,10 @@ namespace LB
 		void Destroy() override;
 
 		void GenerateWave();
+		void SpawnRandomEnemy();
 
+		void SpawnMageEnemy();
+		void SpawnChaserEnemy();
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy
 		//Each wave also has a certain value
@@ -31,5 +34,6 @@ namespace LB
 		//We try to store references to the enemies
 		GameObject* mageEnemy;
 		GameObject* chaserEnemy;
+		Vec2<float> mouse_pos;
 	};
 }

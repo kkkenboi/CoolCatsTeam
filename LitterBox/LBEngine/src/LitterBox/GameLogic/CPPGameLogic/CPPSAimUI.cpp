@@ -2,6 +2,7 @@
 
 namespace LB
 {
+	REGISTER_SCRIPT(CPPSAimUI);
 	void CPPSAimUI::Start()
 	{
 		//Grabbing the current obj's transform
