@@ -110,6 +110,12 @@ namespace LB
 		bool Deserialize(const Value& data) override;
 		
 		/*!***********************************************************************
+		 \brief
+		 Toggles the ACTUAL active state for this component
+		*************************************************************************/
+		void ToggleActive(bool isActive) override;
+
+		/*!***********************************************************************
 		\brief
 		 Gets the quad_id of the component that was given to it during construction.
 

@@ -220,9 +220,17 @@ namespace LB
 		// Individual Component Sections
 		ImGui::Text("%-17s", "Name");
 		ImGui::SameLine();
+		ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.8f);
 		if (ImGui::InputText("##Name", m_inspectedName, 256))
 		{
 			m_inspectedGO->SetName(m_inspectedName);
+		}
+		ImGui::SameLine();
+		bool isActive = m_inspectedGO->IsActive();
+		ImGui::Checkbox("Active", &isActive);
+		if (isActive != m_inspectedGO->IsActive())
+		{
+			m_inspectedGO->SetActive(isActive);
 		}
 
 		if (m_inspectedGO->HasComponent<CPTransform>())

@@ -62,7 +62,28 @@ namespace LB
 		*************************************************************************/
 		virtual void Destroy() {}
 
+		/*!***********************************************************************
+		 \brief
+		 Toggles the ACTUAL active state for this component
+		*************************************************************************/
 		virtual void ToggleActive(bool isActive) {}
+
+		/*!***********************************************************************
+		 \brief
+		 Toggles the FLAG for the active state for this component
+		*************************************************************************/
+		void ToggleActiveFlag(bool isActive)
+		{
+			m_active = isActive;
+			if (m_active && gameObj->IsActive())
+			{
+				ToggleActive(true);
+			}
+			else
+			{
+				ToggleActive(false);
+			}
+		}
 
 		/*!***********************************************************************
 		 \brief
@@ -71,5 +92,6 @@ namespace LB
 		virtual ~IComponent() {}
 
 		GameObject* gameObj{ nullptr }; // Every component has a reference to its object it is part of
+		bool m_active{ true };
 	};
 }

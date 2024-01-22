@@ -65,4 +65,14 @@ namespace LB
 		}
 		return false;
 	}
+
+	/*!***********************************************************************
+	 \brief
+	 Toggles the ACTUAL active state for this component
+	*************************************************************************/
+	void CPRender::ToggleActive(bool isActive)
+	{
+		if (isActive && !activated) set_active();
+		else if (!isActive && activated) set_active();
+	}
 }
