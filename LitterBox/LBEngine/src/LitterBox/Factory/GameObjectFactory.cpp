@@ -194,7 +194,7 @@ namespace LB
 			clone->SetID(FACTORY->GetLastObjID());
 		}
 		//We loop through all the components in the prefab
-		for (auto& elem : prefab->GetComponents())
+		for (auto& elem : prefab->GetAllComponents())
 		{	//Then we add it to our clone
 			clone->AddComponent(elem.first,FACTORY->GetCMs()[elem.first]->Create());
 		}
@@ -219,7 +219,7 @@ namespace LB
 		}
 
 		//This copies the data from our prefab components over to the clone
-		clone->SetComponents(prefab->GetComponents());
+		clone->SetComponents(prefab->GetAllComponents());
 		//Then we initialise the data for the clone
 		clone->StartComponents();
 		return clone;

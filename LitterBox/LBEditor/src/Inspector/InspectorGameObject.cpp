@@ -15,11 +15,11 @@
 
 #include "InspectorGameObject.h"
 #include "Editor/EditorInspector.h"
-#include "Inspector/InspectorGameObject.h"
 #include "Editor/EditorHierarchy.h"
 #include "Editor/EditorAssets.h"
 
 #include "LitterBox/Core/Core.h"
+#include "LitterBox/GameLogic/CPPGameLogic/CPPGameLogic.h"
 #include "Utils/CommandManager.h"
 #include "Commands/TransformCommands.h"
 #include "Commands/GameObjectCommands.h"
@@ -706,11 +706,24 @@ namespace LB
 			{
 				ImGui::Text("%-17s", "Script Name");
 				ImGui::SameLine();
-				strcpy_s(m_nameBuffer1, sizeof(m_nameBuffer1), m_inspectedGO->GetComponent<CPScriptCPP>()->GetName().c_str());
-				if (ImGui::InputText("##ScriptName", m_nameBuffer1, 256))
+
+				if (ImGui::BeginCombo("##ScriptCombo", m_inspectedGO->GetComponent<CPScriptCPP>()->GetScriptType().name()))
 				{
-					m_inspectedGO->GetComponent<CPScriptCPP>()->SetName(m_nameBuffer1);
+					for (auto const& script : CPPGameLogic::Instance()->GetRegistry())
+					{
+						if (ImGui::Selectable(script.first.name()))
+						{
+							m_inspectedGO->GetComponent<CPScriptCPP>()->SetScriptType(script.first);
+						}
+					}
+					ImGui::EndCombo();
 				}
+
+				//strcpy_s(m_nameBuffer1, sizeof(m_nameBuffer1), m_inspectedGO->GetComponent<CPScriptCPP>()->GetName().c_str());
+				//if (ImGui::InputText("##ScriptName", m_nameBuffer1, 256))
+				//{
+				//	m_inspectedGO->GetComponent<CPScriptCPP>()->SetName(m_nameBuffer1);
+				//}
 
 				// Delete Component
 				if (ImGui::Button("Delete CPP Script Component"))

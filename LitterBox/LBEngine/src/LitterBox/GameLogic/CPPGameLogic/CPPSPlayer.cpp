@@ -13,6 +13,7 @@
 **************************************************************************/
 
 #include "CPPSPlayer.h"
+
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Engine/Input.h"
@@ -22,6 +23,8 @@
 
 namespace LB
 {
+	REGISTER_SCRIPT(CPPSPlayer);
+
 	//This array is for the animation frames
 	std::array<std::array<LB::Vec2<float>, 4>, 10> frames;
 

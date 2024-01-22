@@ -53,7 +53,7 @@
                     "Radius": 50.0
                 },
                 "CPPScript": {
-                    "Script": "Quit"
+                    "Script": "class LB::QuitScript"
                 }
             },
             {
@@ -80,7 +80,7 @@
                     "Radius": 50.0
                 },
                 "CPPScript": {
-                    "Script": "Quit"
+                    "Script": "class LB::QuitScript"
                 }
             },
             {
@@ -107,7 +107,7 @@
                     "Radius": 50.0
                 },
                 "CPPScript": {
-                    "Script": "Quit"
+                    "Script": "class LB::QuitScript"
                 }
             },
             {
@@ -134,7 +134,7 @@
                     "Radius": 50.0
                 },
                 "CPPScript": {
-                    "Script": "Quit"
+                    "Script": "class LB::QuitScript"
                 }
             },
             {
@@ -161,7 +161,7 @@
                     "Radius": 50.0
                 },
                 "CPPScript": {
-                    "Script": "Quit"
+                    "Script": "class LB::QuitScript"
                 }
             },
             {
@@ -226,7 +226,7 @@
                     "Radius": 50.0
                 },
                 "CPPScript": {
-                    "Script": "PauseQuitGameYesScript"
+                    "Script": "void"
                 }
             },
             {
@@ -253,7 +253,7 @@
                     "Radius": 50.0
                 },
                 "CPPScript": {
-                    "Script": "PauseQuitGameNoScript"
+                    "Script": "void"
                 }
             },
             {
@@ -291,7 +291,7 @@
                     "Rotation": 0.0
                 },
                 "CPPScript": {
-                    "Script": "PauseMenuScript"
+                    "Script": "class LB::PauseMenuScript"
                 }
             },
             {

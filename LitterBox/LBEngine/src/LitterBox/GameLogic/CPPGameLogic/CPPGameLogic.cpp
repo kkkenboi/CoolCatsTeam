@@ -18,17 +18,6 @@
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Time.h"
 
-// Include scripts here
-#include "CPPSPlayer.h"
-#include "Butt.h"
-#include "CPPSChaser.h"
-#include "QuitScript.h"
-#include "CPPSMage.h"
-#include "CPPSBaseGolfBall.h"
-#include "CPPSPlayerGolfBall.h"
-#include "PauseMenuScript.h"
-#include "CPPSAimUI.h"
-
 namespace LB
 {
 	CPPGameLogic* CPPGAMELOGIC = nullptr;
@@ -48,6 +37,8 @@ namespace LB
 
 		SetSystemName("CPP Game Logic System");
 
+		RegisterAll();
+
 		CORE->onPlayingModeToggle.Subscribe(StartScripts);
 	}
 
@@ -57,29 +48,37 @@ namespace LB
 	*************************************************************************/
 	void CPPGameLogic::Load(CPScriptCPP* newScript)
 	{
-		if (newScript->GetName() == "Player" || 
-			newScript->GetName() == "Enemy" || 
-			newScript->GetName() == "Butt" ||
-			newScript->GetName() == "Quit" ||
-			newScript->GetName() == "Mage" ||
-			newScript->GetName() == "Projectile" ||
-			newScript->GetName() == "PlayerBall" ||
-			newScript->GetName() == "PauseMenuScript"||
-			newScript->GetName() == "AimScript")
+		m_sceneScripts.push_back(newScript);
+
+		// If scene is already running, start the script immediately
+		if (CORE->IsPlaying())
 		{
-			m_sceneScripts.push_back(newScript);
-
-			// If scene is already running, start the script immediately
-			if (CORE->IsPlaying())
-			{
-				StartScript(newScript);
-				newScript->Start();
-			}
-
-			return;
+			StartScript(newScript);
+			newScript->Start();
 		}
 
-		DebuggerLogWarningFormat("Tried to load invalid CPP Script %s.", newScript->GetName().c_str());
+		//if (newScript->GetType() == "Player" || 
+		//	newScript->GetType() == "Enemy" || 
+		//	newScript->GetType() == "Butt" ||
+		//	newScript->GetType() == "Quit" ||
+		//	newScript->GetType() == "Mage" ||
+		//	newScript->GetType() == "Projectile" ||
+		//	newScript->GetType() == "PlayerBall" ||
+		//	newScript->GetType() == "PauseMenuScript")
+		//{
+		//	m_sceneScripts.push_back(newScript);
+
+		//	// If scene is already running, start the script immediately
+		//	if (CORE->IsPlaying())
+		//	{
+		//		StartScript(newScript);
+		//		newScript->Start();
+		//	}
+
+		//	return;
+		//}
+
+		//DebuggerLogWarningFormat("Tried to load invalid CPP Script %s.", newScript->GetType().c_str());
 	}
 
 	/*!***********************************************************************
@@ -111,6 +110,26 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
+	 Returns the registry containing all the scripts stored by the
+	 GameLogic manager.
+	*************************************************************************/
+	std::map<std::type_index, ScriptFactoryBase*>& CPPGameLogic::GetRegistry()
+	{
+		return m_scriptRegistry;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Returns the registry containing all the script types stored by the
+	 GameLogic manager.
+	*************************************************************************/
+	std::map<std::string, ScriptTypeID>& CPPGameLogic::GetTypeRegistry()
+	{
+		return m_scriptTypeRegistry;
+	}
+
+	/*!***********************************************************************
+	 \brief
 	 Loads the CPPScript instance based on the name of the script.
 	*************************************************************************/
 	void CPPGameLogic::StartScript(CPScriptCPP* script)
@@ -118,38 +137,36 @@ namespace LB
 			// If script already has an instance, ignore!
 			if (script->GetInstance()) return;
 
-			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
-			// Very basic RTTR for now
-			if (script->GetName() == "Player")
-			{
-				script->SetInstance(DBG_NEW CPPSPlayer);
-			}
-			else if (script->GetName() == "Enemy") {
-				script->SetInstance(DBG_NEW CPPSChaser);
-			}
-			else if (script->GetName() == "Butt") {
-				script->SetInstance(DBG_NEW Butt);
-			}
-			else if (script->GetName() == "Quit") {
-				script->SetInstance(DBG_NEW QuitScript);
-			}
-			else if (script->GetName() == "Mage") {
-				script->SetInstance(DBG_NEW CPPSMage);
-			}
-			else if (script->GetName() == "Projectile") {
-				script->SetInstance(DBG_NEW CPPSBaseGolfBall);
-			}
-			else if (script->GetName() == "PlayerBall") {
-				script->SetInstance(DBG_NEW CPPSPlayerGolfBall);
-			}
-			else if (script->GetName() == "PauseMenuScript") {
-				script->SetInstance(DBG_NEW PauseMenuScript);
-			}
-			else if (script->GetName() == "AimScript")
-			{
-				script->SetInstance(DBG_NEW CPPSAimUI);
-			}
-			//--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
+			script->SetInstance(m_scriptRegistry[script->GetScriptType()]->CreateInstance());
+
+			////--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
+			//// Very basic RTTR for now
+			//if (script->GetType() == "Player")
+			//{
+			//	script->SetInstance(DBG_NEW CPPSPlayer);
+			//}
+			//else if (script->GetType() == "Enemy") {
+			//	script->SetInstance(DBG_NEW CPPSChaser);
+			//}
+			//else if (script->GetType() == "Butt") {
+			//	script->SetInstance(DBG_NEW Butt);
+			//}
+			//else if (script->GetType() == "Quit") {
+			//	script->SetInstance(DBG_NEW QuitScript);
+			//}
+			//else if (script->GetType() == "Mage") {
+			//	script->SetInstance(DBG_NEW CPPSMage);
+			//}
+			//else if (script->GetType() == "Projectile") {
+			//	script->SetInstance(DBG_NEW CPPSBaseGolfBall);
+			//}
+			//else if (script->GetType() == "PlayerBall") {
+			//	script->SetInstance(DBG_NEW CPPSPlayerGolfBall);
+			//}
+			//else if (script->GetType() == "PauseMenuScript") {
+			//	script->SetInstance(DBG_NEW PauseMenuScript);
+			//}
+			////--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 	}
 
 	/*!***********************************************************************

@@ -20,16 +20,19 @@
 **************************************************************************/
 
 #pragma once
+#include <initializer_list>
+#include <type_traits>
+
 #include "pch.h"
 #include "LitterBox/Core/System.h"
 #include "LitterBox/Serialization/Serializer.h"
-#include <initializer_list>
-#include <type_traits>
+#include "LitterBox/Components/ComponentTypeID.h"
 
 namespace LB
 {
 	class IComponent; // Forward Declaration
-	enum ComponentTypeID : int;
+	class CPScriptCPP;
+	class CPPBehaviour;
 
 	/*!***********************************************************************
 	 \brief
@@ -65,15 +68,65 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Gets a specified component within the GameObject
+		 Gets the first occurrence of a specified component within the GameObject
 		*************************************************************************/
 		template <typename T>
 		T* GetComponent() 
 		{ 
-			DebuggerAssertFormat(std::is_base_of<IComponent, T>::value, "Tried to get invalid component of type %s", typeid(T).name());
+			// Get an IComponent
+			if constexpr (std::is_base_of<IComponent, T>::value)
+			{
+				return static_cast<T*>(m_Components.find(T::GetType())->second);
+			}
+			// Get a script
+			else if constexpr (std::is_base_of<CPPBehaviour, T>::value)
+			{
+				// TODO: REFACTOR TO CHECK!!
+				return static_cast<T*>(GetScript());
 
-			return static_cast<T*>(m_Components[T::GetType()]);
+				//auto rangeResult = m_Components.equal_range(C_CPScriptCPP);
+
+				//const std::type_info& id = typeid(T);
+
+				//auto script = std::find_if(rangeResult.first, rangeResult.second, [&id](const auto& pair) {
+				//	return typeid(pair.second) == id;
+				//	});
+
+				//if (script != rangeResult.second) return dynamic_cast<T*>(script->second);
+			}
+
+			DebuggerAssertFormat(std::is_base_of<IComponent, T>::value, "Tried to get invalid component of type %s", typeid(T).name());
+			return nullptr;
 		}
+
+		void* GetScript();
+
+		/*!***********************************************************************
+		 \brief
+		 Gets ALL occurrences of a specified component within the GameObject
+		*************************************************************************/
+		template <typename T>
+		auto GetComponents()
+		{
+			// Get an IComponent
+			if (std::is_base_of<IComponent, T>::value)
+			{
+				return m_Components.equal_range(T::GetType());
+			}
+			else if (std::is_base_of<CPPBehaviour, T>::value)
+			{
+				return m_Components.equal_range(T::GetType());
+			}
+
+			DebuggerLogErrorFormat("Tried to get invalid component of type %s", typeid(T).name());
+			return m_Components.equal_range(T::GetType());
+		}
+
+		/*!***********************************************************************
+		 \brief
+		 Gets all the components of the GameObject
+		*************************************************************************/
+		std::unordered_multimap<ComponentTypeID, IComponent*> GetAllComponents();
 
 		/*!***********************************************************************
 		 \brief
@@ -89,15 +142,9 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
-		 Gets all the components of the GameObject
-		*************************************************************************/
-		std::unordered_map<ComponentTypeID, IComponent*> GetComponents();
-
-		/*!***********************************************************************
-		 \brief
 		 Sets all of the components of one GameObject to another map
 		*************************************************************************/
-		void SetComponents(const std::unordered_map<ComponentTypeID, IComponent*>& );
+		void SetComponents(const std::unordered_multimap<ComponentTypeID, IComponent*>& );
 
 		/*!***********************************************************************
 		 \brief
@@ -168,9 +215,9 @@ namespace LB
 	private:
 		std::string											m_name{ "Game Object" };
 
-		std::unordered_map<ComponentTypeID, IComponent*>	m_Components;
-		int													m_ID;
-		bool												m_active;
+		std::unordered_multimap<ComponentTypeID, IComponent*>	m_Components;
+		int														m_ID;
+		bool													m_active;
 	};
 
 	/*!***********************************************************************

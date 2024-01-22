@@ -33,6 +33,6 @@
         "Radius": 40.0
     },
     "CPPScript": {
-        "Script": "Mage"
+        "Script": "class LB::CPPSMage"
     }
 }
