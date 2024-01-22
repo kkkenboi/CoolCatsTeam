@@ -33,6 +33,6 @@
         "Radius": 40.0
     },
     "CPPScript": {
-        "Script": "Enemy"
+        "Script": "class LB::CPPSChaser"
     }
 }

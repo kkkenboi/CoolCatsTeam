@@ -15,6 +15,7 @@ it handles the logic for the Mage enemy
 
 #include "CPPSMage.h"
 #include "CPPSBaseGolfBall.h"
+
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Debugging/Debug.h"
@@ -24,6 +25,8 @@ it handles the logic for the Mage enemy
 
 namespace LB
 {
+	REGISTER_SCRIPT(CPPSMage);
+
 	//animation array
 	std::array<std::array<LB::Vec2<float>, 4>, 33> mage_anim_frams;
 	/*!***********************************************************************

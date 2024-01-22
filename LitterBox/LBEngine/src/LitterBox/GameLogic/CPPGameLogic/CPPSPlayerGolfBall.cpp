@@ -23,6 +23,8 @@
 
 namespace LB
 {
+	REGISTER_SCRIPT(CPPSPlayerGolfBall);
+
 	/*!***********************************************************************
 	\brief
 	Starting behaviour for Ball where variables are initialized

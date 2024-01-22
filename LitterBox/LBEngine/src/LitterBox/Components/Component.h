@@ -20,28 +20,10 @@
 #pragma once
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Serialization/Serializer.h"
+#include "ComponentTypeID.h"
 
 namespace LB
 {
-	/*!***********************************************************************
-	 \brief
-	 List of all component types in the engine
-	*************************************************************************/
-	enum ComponentTypeID
-	{
-		C_CPNone = 0,
-		C_CPRigidBody,
-		C_CPTransform,
-		C_CPRender,
-		C_CPScript,
-		C_CPScriptCPP,
-		C_CPCollider,
-		C_CPCamera,
-		C_CPAudioSource,
-		C_CPText,
-		C_CPAnimator
-	};
-
 	/*!***********************************************************************
 	 \brief
 	 IComponent class provides an interface for other components to build off

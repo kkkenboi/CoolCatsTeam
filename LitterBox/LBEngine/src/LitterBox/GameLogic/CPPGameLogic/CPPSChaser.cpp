@@ -14,6 +14,7 @@ it handls the logic for the chaser enemy
 **************************************************************************/
 
 #include "CPPSChaser.h"
+
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Debugging/Debug.h"
@@ -22,7 +23,9 @@ it handls the logic for the chaser enemy
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Physics/PhysicsMath.h"
 
-namespace LB {
+namespace LB 
+{
+	REGISTER_SCRIPT(CPPSChaser);
 
 	/*!***********************************************************************
 	\brief

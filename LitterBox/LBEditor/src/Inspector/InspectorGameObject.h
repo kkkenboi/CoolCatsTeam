@@ -164,7 +164,7 @@ namespace LB
         bool isPrefab = false;
     private:
         GameObject* m_inspectedGO{ nullptr };
-        char m_inspectedName[256]{}, m_nameBuffer1[64]{}, m_textBuffer[256]{};
+        char m_inspectedName[256]{}, m_textBuffer[256]{};
 
         // Manipulate Variables
         float m_SnapTranslate[2]{};

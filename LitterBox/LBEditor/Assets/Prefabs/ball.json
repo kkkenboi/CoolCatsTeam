@@ -33,6 +33,6 @@
         "Radius": 30.0
     },
     "CPPScript": {
-        "Script": "PlayerBall"
+        "Script": "class LB::CPPSPlayerGolfBall"
     }
 }
