@@ -26,19 +26,6 @@ namespace LB
 	class InspectorSpriteSheet : public Layer, public Singleton<InspectorSpriteSheet>
 	{
     public:
-
-        std::vector< //tiles
-            std::pair< //uv
-            std::pair<float, float>,  //min x,y
-            std::pair<float, float> //max x,y
-            >
-        > tiles{};
-
-        void createUV(int rows, int cols);
-
-
-        //function for generating appropriate size preview
-        void calPreviewSize(float width, float height, float previewLimit);
         /*!***********************************************************************
           \brief
 
@@ -51,20 +38,32 @@ namespace LB
         *************************************************************************/
         void UpdateLayer() override;
 
-        //void calPreviewSize(float width, float height, float previewLimit);
+        void LoadSpriteSheet(std::string name);
 
+        //void calPreviewSize(float width, float height, float previewLimit);
         void PreviewTexture();
 
         void SpilttingTheSprites();
+        void createUV(int rows, int cols);
 
-        ImVec4 m_buttonOffColor{ 0.05f, 0.2f, 0.4f, 1.0f };
-        ImVec4 m_buttonOnColor{ 0.2f, 0.6f, 1.0f, 1.0f };
+        //function for generating appropriate size preview
+        void calPreviewSize(float width, float height, float previewLimit);
 
         inline unsigned int getNumOfTiles() { return tiles.size(); }
         inline int getTextureID() { return textureID; }
         inline auto getMMUV(int index) { return tiles.at(index); }
 
     private:
+        ImVec4 m_buttonOffColor{ 0.05f, 0.2f, 0.4f, 1.0f };
+        ImVec4 m_buttonOnColor{ 0.2f, 0.6f, 1.0f, 1.0f };
+
+        std::vector< //tiles
+            std::pair< //uv
+            std::pair<float, float>,  //min x,y
+            std::pair<float, float> //max x,y
+            >
+        > tiles{};
+
         char m_spriteSheetName[256]{};
         SpriteSheet* m_inspectedSheet;
 

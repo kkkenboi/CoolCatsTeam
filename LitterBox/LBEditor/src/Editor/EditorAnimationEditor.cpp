@@ -17,6 +17,7 @@
 #include "pch.h"
 #include "EditorAnimationEditor.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Animation/SpriteSheet.h" //Since it uses sprite sheet to animate
 
 /*!***********************************************************************
 \brief

@@ -16,16 +16,31 @@
 
 namespace LB
 {
+	// SPRITE
+
+	bool Sprite::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+		return true; //ama will do
+	}
+
+	bool Sprite::Deserialize(const Value& data)
+	{
+		return false; //ama will do
+	}
+
+	// SPRITESHEET
+
 	SpriteSheet::SpriteSheet(std::string const& name, std::string const& PNGName) : m_name{name}, m_pngName{PNGName} { }
 
 	bool SpriteSheet::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
-		return true;
+
+		return true; //ama will do
 	}
 
 	bool SpriteSheet::Deserialize(const Value& data)
 	{
-		return false;
+		return false; //ama will do
 	}
 
 	void SpriteSheet::Slice(Vec2<int> pos, int width, int height)

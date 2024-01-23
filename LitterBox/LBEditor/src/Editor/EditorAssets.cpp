@@ -193,6 +193,7 @@ namespace LB
 						}
 						else if (directory.path().filename().string().find("SpriteSheet") != std::string::npos) //NEED CHANGE
 						{
+							INSPECTORSPRITESHEET->LoadSpriteSheet(directory.path().filename().string());
 							EDITORINSPECTOR->SetWindowSpriteSheet();
 						}
 						else //that means it's a prefab instead

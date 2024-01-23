@@ -22,6 +22,8 @@ namespace LB
 	static float dropdownWidth = 150.f;
 	static float normalWidth = 75.f;
 
+	InspectorSpriteSheet* INSPECTORSPRITESHEET = nullptr;
+
     /*!***********************************************************************
      \brief
 
@@ -29,19 +31,18 @@ namespace LB
     void InspectorSpriteSheet::Initialize()
     {
 		std::string layerName;
-		//Layer(layerName);
 		textureID = 0;
 		slotID = 0;
 		textureAspect = 0.0f;
 		textureSize = ImVec2(0.0f, 0.0f);
-		/*if (!INSPECTORSPRITESHEET)
+		if (!INSPECTORSPRITESHEET)
 		{
 			INSPECTORSPRITESHEET = this;
 		}
 		else
 		{
-			DebuggerLogError("Editor Tile Map Editor already exists!");
-		}*/
+			DebuggerLogError("Spritesheet already exists!");
+		}
     }
 
     /*!***********************************************************************
@@ -55,11 +56,8 @@ namespace LB
         ImGui::SameLine();
         if (ImGui::InputText("##Name", m_spriteSheetName, 256))
         {
-
+			//I guess this is where it will save the 
         }
-
-		// Until we are ready
-		//return;
 
 		//arbitrary number can be changed anytime
 		textureSize.x = ImGui::GetContentRegionAvail().x;
@@ -90,6 +88,15 @@ namespace LB
 
 		SpilttingTheSprites(); //helping to split the size of the spritesheet
     }
+
+	void InspectorSpriteSheet::LoadSpriteSheet(std::string name)
+	{
+		// Load from AssetManager
+		SpriteSheet newSpriteSheet{};
+		JSONSerializer::DeserializeFromFile(name.c_str(), newSpriteSheet);
+
+		//m_inspectedSheet = 
+	}
 
 	void InspectorSpriteSheet::createUV(int rows, int cols) {
 		if (rows <= 0 || cols <= 0) {
@@ -233,48 +240,20 @@ namespace LB
 				for (int c = 0; c < m_col; ++c)
 				{
 					ImGui::TableSetColumnIndex(c);
+					int tileNum = (c + r * m_row) + 1;
+					ImGui::PushID(tileNum);
+					ImGui::Text("Sprite %i", tileNum);
 					if (ImGui::ImageButton((ImTextureID)textureID, ImVec2{ normalWidth, normalWidth }
 						, ImVec2{ tiles[r + c * m_row].first.first, tiles[r + c * m_row].second.second }
 						, ImVec2{ tiles[r + c * m_row].second.first, tiles[r + c * m_row].first.second }))
 					{
-						DebuggerLogFormat("Tile %i is selected", r + c * m_row);
-						/*if (isSelected.at(tileIndex) == true)
-						{
-							isSelected.at(tileIndex) = false;
-						}
-						else
-						{
-							isSelected.at(tileIndex) = true;
-						}*/
-						//isSelected.at(tileIndex) = !isSelected.at(tileIndex);
+
+						DebuggerLogFormat("Sprite %i is selected", tileNum);
 					}
+					ImGui::PopID();
 				}
-				//draw image with the UVs
-				//ImGui::SameLine();
-				//The min max is mixed up because ImGui uses a different texel coordinate
-				//system from openGL so we do the mixing anytime we use ImGui.
-				//The format of the min max UV coordinates uses OpenGL texel coordinates instead
-
-				//this is so nick can choose while tile he wants
-				//ImGui::ImageButton((ImTextureID)textureID, ImVec2{ normalWidth, normalWidth }
-				//	, ImVec2{ min_max.first.first, min_max.second.second }
-				//, ImVec2{ min_max.second.first, min_max.first.second });
-
-				//!!!Amadeus need to serialise this part
-				//This is where nick will choose a tile
-				//static bool isSelected = false;
-				//std::vector<bool> isSelected(totalNumOfTiles, false);
-				//Vec4<float> btncolour = isSelected.at(tileIndex) ? Vec4<float>(0.5f, 0.5f, 0.5f, 1.0f) : Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f);
-				//int chosenTile = 0;
-
-				//label the tile
-				
-				//button colour
-				//ImGui::PushStyleColor(ImGuiCol_Button, isSelected.at(tileIndex) ? m_buttonOnColor : m_buttonOffColor);
-				//this is so nick can choose while tile he wants
 			}
 			ImGui::EndTable();
 		}
-
 	}
 }

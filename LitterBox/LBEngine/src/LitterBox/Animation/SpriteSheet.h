@@ -21,6 +21,9 @@ namespace LB
 	{
 		Sprite(int index, Vec2<int> pos, int width, int height) : m_index{ index }, m_pos{ pos }, m_width{ width }, m_height{ height } { }
 
+		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
+		bool Deserialize(const Value& data); //to load
+
 		int m_index;
 		Vec2<int> m_pos;
 		int m_width, m_height;
@@ -29,6 +32,7 @@ namespace LB
 	class SpriteSheet
 	{
 	public:
+		SpriteSheet() : m_name{ "Unnamed Sheet" }, m_pngName{ "No PNG" } {}
 		SpriteSheet(std::string const& name, std::string const& PNGName);
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
@@ -51,6 +55,6 @@ namespace LB
 
 	private:
 		std::string m_name, m_pngName;
-		std::vector<Sprite> m_sprites;
+		std::vector<Sprite> m_sprites; //store width and height of each sprite
 	};
 }
