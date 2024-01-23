@@ -22,8 +22,6 @@
 
 namespace LB
 {
-	REGISTER_SCRIPT(PauseMenuScript);
-
 	/*!***********************************************************************
 	\brief
 	 Initializes the GameObjects needed for the script

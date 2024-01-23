@@ -22,6 +22,7 @@
 #include "CPPSBaseGolfBall.h"
 #include "CPPSPlayerGolfBall.h"
 #include "PauseMenuScript.h"
+#include "CPPSPlayerHUD.h"
 
 namespace LB 
 {
@@ -30,13 +31,14 @@ namespace LB
 
 	void CPPGameLogic::RegisterAll()
 	{
-		CPPGameLogic::Instance()->RegisterScript<CPPSPlayer>();
-		CPPGameLogic::Instance()->RegisterScript<CPPSChaser>();
-		CPPGameLogic::Instance()->RegisterScript<Butt>();
-		CPPGameLogic::Instance()->RegisterScript<QuitScript>();
-		CPPGameLogic::Instance()->RegisterScript<CPPSMage>();
-		CPPGameLogic::Instance()->RegisterScript<CPPSBaseGolfBall>();
-		CPPGameLogic::Instance()->RegisterScript<CPPSPlayerGolfBall>();
-		CPPGameLogic::Instance()->RegisterScript<PauseMenuScript>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSPlayer>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSChaser>();
+		//CPPGameLogic::Instance()->RegisterScript<Butt>();
+		//CPPGameLogic::Instance()->RegisterScript<QuitScript>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSMage>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSBaseGolfBall>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSPlayerGolfBall>();
+		//CPPGameLogic::Instance()->RegisterScript<PauseMenuScript>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSPlayerHUD>();
 	}
 }

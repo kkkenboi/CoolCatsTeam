@@ -2,6 +2,8 @@
 
 #include "pch.h"
 #include "CPPBehaviour.h"
+#include "LitterBox/Components/CPPScriptComponent.h"
+
 
 namespace LB
 {
@@ -16,13 +18,18 @@ namespace LB
 		//void InitialiseHUD(int maxHearts, int currentHearts, int maxBalls);
 
 	private:
-		bool displayUpgrade;
+		int m_currentHealth;
+		int m_maxHealth;
+		int m_currentBalls;
+		int m_maxBalls;
+		bool m_displayUpgrade;
 
 		GameObject* mainChar;
 
-		std::stack<GameObject*> m_TotalHeartDisplay;
+		std::vector<GameObject*> m_TotalHeartDisplay;
 		std::stack<GameObject*> m_TotalBallsDisplay;
 		std::stack<GameObject*> m_TotalUpgradeDisplay;
 	};
+	REGISTER_SCRIPT(CPPSPlayerHUD)
 }
 
