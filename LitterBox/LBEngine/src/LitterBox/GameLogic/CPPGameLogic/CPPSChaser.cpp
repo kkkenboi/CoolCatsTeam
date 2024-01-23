@@ -25,8 +25,6 @@ it handls the logic for the chaser enemy
 
 namespace LB 
 {
-	REGISTER_SCRIPT(CPPSChaser);
-
 	/*!***********************************************************************
 	\brief
 	Start function (Basically initializes everything)

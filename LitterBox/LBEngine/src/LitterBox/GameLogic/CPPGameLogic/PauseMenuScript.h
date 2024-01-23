@@ -56,5 +56,5 @@ namespace LB
 		// Underline
 		GameObject* Underline{nullptr};
 	};
-
+	REGISTER_SCRIPT(PauseMenuScript)
 }

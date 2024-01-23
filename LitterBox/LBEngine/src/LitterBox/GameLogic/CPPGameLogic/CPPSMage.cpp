@@ -25,8 +25,6 @@ it handles the logic for the Mage enemy
 
 namespace LB
 {
-	REGISTER_SCRIPT(CPPSMage);
-
 	//animation array
 	std::array<std::array<LB::Vec2<float>, 4>, 33> mage_anim_frams;
 	/*!***********************************************************************

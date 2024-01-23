@@ -24,7 +24,6 @@ extern const float deg_to_rads;
 
 namespace LB 
 {
-	REGISTER_SCRIPT(QuitScript);
 
 	/*!***********************************************************************
 	\brief
