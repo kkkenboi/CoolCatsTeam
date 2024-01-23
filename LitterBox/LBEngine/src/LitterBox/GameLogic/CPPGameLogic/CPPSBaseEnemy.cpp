@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CPPSBaseEnemy.h"
+#include "CPPGameManager.h"
+#include "LitterBox/Engine/Input.h"
 
 namespace LB
 {
@@ -16,6 +18,15 @@ namespace LB
 				break;
 			}
 		}
+		//Grabbing GameManager reference
+		for (GameObject* GO : GOs)
+		{
+			if (GO->GetName() == "GameManager")
+			{
+				mGameManager = GO;
+				break;
+			}
+		}
 
 		rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
 		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
@@ -23,12 +34,20 @@ namespace LB
 	}
 	void CPPSBaseEnemy::Update()
 	{
+		//All enemies must always face player (?) Might not work for charger who knows
 		DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
 		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
 		{
 			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
 		}
 		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
+
+		//All enemies will sepuku if you press K
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_K))
+		{
+			Die();
+		}
+		
 	}
 	void CPPSBaseEnemy::Destroy()
 	{
@@ -61,5 +80,13 @@ namespace LB
 	float& CPPSBaseEnemy::GetSpeedMag()
 	{
 		return mSpeedMagnitude;
+	}
+	void CPPSBaseEnemy::Die()
+	{
+		//If the enemy dies, regardless we MUST reduce the enemy count
+		mGameManager->GetComponent<CPPSGameManager>()->ReduceEnemyCount();
+		GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
+		GameObj->RemoveComponent(C_CPCollider);
+		mShouldDestroy = true;
 	}
 }

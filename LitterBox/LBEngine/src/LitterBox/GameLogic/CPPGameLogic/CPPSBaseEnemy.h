@@ -30,16 +30,16 @@ namespace LB
 		CPRender* mRender;
 		CPRigidBody* mRigidBody;
 		CPCollider* mCollider;
+		virtual void Die();
 	protected:
 		GameObject* mPlayer{ nullptr }; //Caching the player obj
+		GameObject* mGameManager{ nullptr }; //Caching the game manager
 		Vec2<float> leftFace;
 		Vec2<float> rightFace;
 
 		Vec2<float> DirToPlayer;
 		Vec2<float> TransformRight{ 1,0 };
-
-	
-		
+		bool mShouldDestroy{ false };
 	};
 }
 

@@ -43,6 +43,7 @@ namespace LB
 		void SpawnProjectile();
 
 		void OnCollisionEnter(CollisionData colData) override;
+		void Die() override;
 
 		//stats of what the mage will have
 		// inherited now
@@ -82,7 +83,7 @@ namespace LB
 		// that the Mage enemy is in
 		FiniteStateMachine mFSM{}; //state machine of the mage enemy, I will have to add into it
 
-		bool mInitialised{ false }, mShouldDestroy{ false }; //setting to false, later after everything has been initialised in the cpp, it will set to true
+		bool mInitialised{ false }; //setting to false, later after everything has been initialised in the cpp, it will set to true
 	};
 	REGISTER_SCRIPT(CPPSMage)
 

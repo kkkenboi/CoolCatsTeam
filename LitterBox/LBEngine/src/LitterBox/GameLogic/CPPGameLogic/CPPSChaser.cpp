@@ -104,10 +104,11 @@ namespace LB
 	{
 		CPPSBaseEnemy::Update();
 		//DebuggerLog("In ChaserUpdate\n");
-		if (INPUT->IsKeyPressed(KeyCode::KEY_0))
+		//Kill command moved to base enemy
+	/*	if (INPUT->IsKeyPressed(KeyCode::KEY_0))
 		{
 			mShouldDestroy = true;
-		}
+		}*/
 		if (mShouldDestroy)
 		{
 			GOMANAGER->RemoveGameObject(this->GameObj);
@@ -160,12 +161,20 @@ namespace LB
 
 				if (mHealth < 0)
 				{
-					GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
-					GameObj->RemoveComponent(C_CPCollider);
-					mShouldDestroy = true;
+					Die();
 				}
 			}
 		}
+	}
+
+	void CPPSChaser::Die()
+	{
+		//We access the base class first
+		CPPSBaseEnemy::Die();
+	/*	GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
+		GameObj->RemoveComponent(C_CPCollider);
+		mShouldDestroy = true;*/
+		//Code to play death anim goes here
 	}
 
 	/*!***********************************************************************

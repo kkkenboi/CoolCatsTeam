@@ -44,6 +44,17 @@ namespace LB
 		{
 			SpawnMageEnemy();
 		}
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_G))
+		{
+			GenerateWave();
+		}
+		//Really really really scuffed way of doing this
+		if (currentEnemyCount == 0)
+		{
+			//Spawn Upgrades, Do level transition blablabla
+			currentWave++;
+			GenerateWave();
+		}
 	}
 	void CPPSGameManager::Destroy()
 	{
@@ -66,6 +77,8 @@ namespace LB
 			SpawnCredits -= EnemyList[enemyIndex].second;
 			//EnemyList[enemyIndex].first; //should call the function
 			(this->*EnemyList[enemyIndex].first)();
+			//Most important god damn line of code
+			currentEnemyCount++;
 		}
 		
 	}
@@ -84,18 +97,31 @@ namespace LB
 		//chaserClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
 
+	void CPPSGameManager::ReduceEnemyCount()
+	{
+		DebuggerLogFormat("Enemy count : %d", currentEnemyCount);
+		currentEnemyCount--;
+		if (currentEnemyCount < 0)
+		{
+			//By right we should never have this
+			DebuggerLogWarning("Enemy Count Error! Please check enemy count logic");
+		}
+	}
+
 	void CPPSGameManager::GenerateWave()
 	{
 		//We only want the credits to be affected AFTER the first level
 		if (currentWave > 1)
-		{	//Formula => 12/(0.5f + e^(-x/5 + 4))
-			SpawnCredits = 12 / (0.5f + expf(-(currentWave / 5) + 4));
+		{	//Formula => 12/(0.5f + e^(-x*10/5 + 4))
+			
+			SpawnCredits = 12 / (0.5f + expf(-((currentWave*10) / 5) + 4));
 		}
+
 		//Center of the map is 969 x 540 (game manager's position)
-		while (SpawnCredits > 2) //As long as it is more than the current lowest spawn amount
-		{
+		do {
 			SpawnRandomEnemy();
-		}
+		} while ((SpawnCredits-2) >= 0); //As long as it is more than the current lowest spawn amount
+		
 
 	}
 

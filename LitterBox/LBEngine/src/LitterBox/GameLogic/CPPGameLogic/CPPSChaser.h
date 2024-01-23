@@ -31,7 +31,7 @@ namespace LB
 		void Destroy() override;
 
 		void OnCollisionEnter(CollisionData colData) override;
-
+		void Die() override;
 
 		/*!***********************************************************************
 		\brief
@@ -65,7 +65,7 @@ namespace LB
 
 		float mGotAttacked, mGotAttackedCooldown;
 
-		bool mInitialised{ false }, mShouldDestroy{ false };
+		bool mInitialised{ false };
 	};
 	REGISTER_SCRIPT(CPPSChaser)
 
