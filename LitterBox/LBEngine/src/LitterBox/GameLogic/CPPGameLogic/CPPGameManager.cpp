@@ -4,7 +4,6 @@
 #include <random>
 namespace LB
 {
-	REGISTER_SCRIPT(CPPSGameManager);
 	void CPPSGameManager::Start()
 	{
 		//loading the gameobjects with data

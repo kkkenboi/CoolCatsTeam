@@ -37,4 +37,5 @@ namespace LB
 		GameObject* chaserEnemy;
 		Vec2<float> mouse_pos;
 	};
+	REGISTER_SCRIPT(CPPSGameManager)
 }

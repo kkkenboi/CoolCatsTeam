@@ -18,5 +18,7 @@ namespace LB
 		Vec2<float> MousePos;
 		Vec2<float> DirToMouse;
 	};
+	REGISTER_SCRIPT(CPPSAimUI)
+
 }
 
