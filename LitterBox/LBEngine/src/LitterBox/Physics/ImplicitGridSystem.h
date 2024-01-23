@@ -16,6 +16,10 @@ namespace LB {
 
 		int GetColumns();
 
+		int& GetRowsRef();
+
+		int& GetColumnsRef();
+
 		float GetCellWidth();
 
 		float GetCellHeight();
@@ -25,6 +29,9 @@ namespace LB {
 		bool CheckGridFrames(CPCollider* colliderA, CPCollider* colliderB);
 
 		void DrawGridLines();
+
+		void NeedsUpdate();
+
 	private:
 		// Row major
 		int m_rows;

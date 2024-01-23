@@ -4,7 +4,7 @@ namespace LB
 {
 	void ColliderImplicitGridSystem::Initialize()
 	{
-		m_rows = 3;
+		m_rows = 2;
 		m_columns = 2;
 
 		m_screensize.x = (float)WINDOWSSYSTEM->GetWidth();
@@ -34,8 +34,8 @@ namespace LB
 			else {
 				m_cell_height = m_screensize.y;
 			}
-			std::cout << "Cell Width: " << m_cell_width << '\n';
-			std::cout << "Cell Height: " << m_cell_height << '\n';
+			//std::cout << "Cell Width: " << m_cell_width << '\n';
+			//std::cout << "Cell Height: " << m_cell_height << '\n';
 
 			// Create the vector of AABB's here
 			m_grids.clear();
@@ -48,8 +48,8 @@ namespace LB
 					temp_aabb.m_c = LB::Vec2<float>{ (m_cell_width / 2) * j, (m_cell_height / 2) * i};
 					temp_aabb.m_max = LB::Vec2<float>{m_cell_width * (j + 1), m_cell_height * (i + 1)};
 					temp_aabb.m_min = LB::Vec2<float>{ m_cell_width * (j), m_cell_height * (i) };
-					std::cout << "Grid " << j + (i * m_columns) << " Min: " << temp_aabb.m_min.x << ", " << temp_aabb.m_min.y << '\n';
-					std::cout << "Grid " << j + (i * m_columns) << " Max: " << temp_aabb.m_max.x << ", " << temp_aabb.m_max.y << '\n';
+					//std::cout << "Grid " << j + (i * m_columns) << " Min: " << temp_aabb.m_min.x << ", " << temp_aabb.m_min.y << '\n';
+					//std::cout << "Grid " << j + (i * m_columns) << " Max: " << temp_aabb.m_max.x << ", " << temp_aabb.m_max.y << '\n';
 
 					m_grids.push_back(temp_aabb);
 				}
@@ -132,6 +132,17 @@ namespace LB
 		return m_columns;
 	}
 
+	int& ColliderImplicitGridSystem::GetRowsRef()
+	{
+		return m_rows;
+	}
+
+	int& ColliderImplicitGridSystem::GetColumnsRef()
+	{
+		return m_columns;
+	}
+
+
 	float ColliderImplicitGridSystem::GetCellWidth()
 	{
 		return m_cell_width;
@@ -140,6 +151,11 @@ namespace LB
 	float ColliderImplicitGridSystem::GetCellHeight()
 	{
 		return m_cell_height;
+	}
+
+	void ColliderImplicitGridSystem::NeedsUpdate()
+	{
+		m_needs_update = true;
 	}
 	
 }

@@ -338,24 +338,16 @@ namespace LB
 		{
 			for (size_t i = 0; i < this->m_transformedVerts.size(); ++i)
 			{
-				// Testing AABB Boxes
-				if (1)
+				// Original code
+				if (!this->m_collided)
 				{
-					DEBUG->DrawBox(this->m_aabb.m_c, this->m_width, this->m_height, Vec4<float>{0.f, 0.f, 1.0f, 1.0f}, this->m_rotation);
+					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
+						, Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
 				}
 				else
 				{
-					// Original code
-					if (!this->m_collided)
-					{
-						DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
-							, Vec4<float> { 0.f, 0.f, 1.0f, 1.0f });
-					}
-					else
-					{
-						DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
-							, Vec4<float> { 0.5f, 0.f, 0.f, 1.0f });
-					}
+					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
+						, Vec4<float> { 0.5f, 0.f, 0.f, 1.0f });
 				}
 			}
 		}
