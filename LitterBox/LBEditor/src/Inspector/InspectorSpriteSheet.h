@@ -38,39 +38,42 @@ namespace LB
         *************************************************************************/
         void UpdateLayer() override;
 
+        void SaveSpriteSheet();
+
         void LoadSpriteSheet(std::string name);
 
+        ////void calPreviewSize(float width, float height, float previewLimit);
+        //void PreviewTexture();
+
+        //void SpilttingTheSprites();
+        //void createUV(int rows, int cols);
+
+        ////function for generating appropriate size preview
         //void calPreviewSize(float width, float height, float previewLimit);
-        void PreviewTexture();
 
-        void SpilttingTheSprites();
-        void createUV(int rows, int cols);
-
-        //function for generating appropriate size preview
-        void calPreviewSize(float width, float height, float previewLimit);
-
-        inline unsigned int getNumOfTiles() { return tiles.size(); }
-        inline int getTextureID() { return textureID; }
-        inline auto getMMUV(int index) { return tiles.at(index); }
+        //inline unsigned int getNumOfTiles() { return tiles.size(); }
+        //inline int getTextureID() { return textureID; }
+        //inline auto getMMUV(int index) { return tiles.at(index); }
 
     private:
-        ImVec4 m_buttonOffColor{ 0.05f, 0.2f, 0.4f, 1.0f };
-        ImVec4 m_buttonOnColor{ 0.2f, 0.6f, 1.0f, 1.0f };
+        //ImVec4 m_buttonOffColor{ 0.05f, 0.2f, 0.4f, 1.0f };
+        //ImVec4 m_buttonOnColor{ 0.2f, 0.6f, 1.0f, 1.0f };
 
-        std::vector< //tiles
-            std::pair< //uv
-            std::pair<float, float>,  //min x,y
-            std::pair<float, float> //max x,y
-            >
-        > tiles{};
+        //std::vector< //tiles
+        //    std::pair< //uv
+        //    std::pair<float, float>,  //min x,y
+        //    std::pair<float, float> //max x,y
+        //    >
+        //> tiles{};
 
-        char m_spriteSheetName[256]{};
-        SpriteSheet* m_inspectedSheet;
+        SpriteSheet m_inspectedSheet;
 
-        int m_row{ 0 }, m_col{0};
+        char m_name[256]{};
+        int m_slotID;
+        /*int m_row{ 0 }, m_col{0};
         int textureID, slotID;
         float textureAspect;
-        ImVec2 textureSize;
+        ImVec2 textureSize;*/
 	};
 
     extern InspectorSpriteSheet* INSPECTORSPRITESHEET;

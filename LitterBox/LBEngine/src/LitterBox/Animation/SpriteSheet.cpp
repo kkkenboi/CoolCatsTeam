@@ -20,12 +20,45 @@ namespace LB
 
 	bool Sprite::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
-		return true; //ama will do
+		data.SetObject();
+		Value indexValue;
+		data.AddMember("Index", m_index, alloc);
+		Value positionValue;
+		if (m_pos.Serialize(positionValue, alloc)) 
+		{
+			data.AddMember("Position", positionValue, alloc);
+		}
+		Value sizeValue;
+		if (m_size.Serialize(sizeValue, alloc))
+		{
+			data.AddMember("Size", sizeValue, alloc);
+		}
+
+		return true; 
 	}
 
 	bool Sprite::Deserialize(const Value& data)
 	{
-		return false; //ama will do
+		bool HasIndex = data.HasMember("Index");
+		bool HasPosition = data.HasMember("Position");
+		bool HasSize = data.HasMember("Size");
+		
+		if (data.IsObject())
+		{
+			if (HasIndex && HasPosition && HasSize)
+			{
+				const Value& indexValue = data["Index"];
+				const Value& positionValue = data["Position"];
+				const Value& sizeValue = data["Size"];
+
+				m_index = indexValue.GetInt();
+				m_pos.Deserialize(positionValue);
+				m_size.Deserialize(sizeValue);
+
+				return true;
+			}
+		}
+		return false;
 	}
 
 	// SPRITESHEET
@@ -34,13 +67,62 @@ namespace LB
 
 	bool SpriteSheet::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
+		data.SetObject();
+		Value nameValue(m_name.c_str(), alloc);
+		data.AddMember("Name", nameValue, alloc);
 
-		return true; //ama will do
+		Value pngValue(m_pngName.c_str(), alloc);
+		data.AddMember("PNG", nameValue, alloc);
+
+		Value spriteArray(rapidjson::kArrayType);
+		for (auto& sprite : m_sprites)
+		{
+			Value spriteValue;
+			if (sprite.Serialize(spriteValue, alloc))
+			{
+				spriteArray.PushBack(spriteValue, alloc);
+			}
+		}
+		data.AddMember("Sprites", spriteArray, alloc);
+
+		return true;
 	}
 
 	bool SpriteSheet::Deserialize(const Value& data)
 	{
-		return false; //ama will do
+		// Make sure sprites vector is clear
+		m_sprites.clear();
+
+		bool HasName = data.HasMember("Name");
+		bool HasPNG = data.HasMember("PNG");
+		bool HasSprites = data.HasMember("Sprites");
+
+		if (data.IsObject())
+		{
+			if (HasName)
+			{
+				const Value& nameValue = data["Name"];
+				m_name = nameValue.GetString();
+			}
+			if (HasPNG)
+			{
+				const Value& pngValue = data["PNG"];
+				m_name = pngValue.GetString();
+			}
+			if (HasSprites)
+			{
+				Sprite newSprite{};
+				const Value& spritesValue = data["Sprites"].GetArray();
+				for (rapidjson::SizeType i{}; i < spritesValue.Size(); ++i)
+				{
+					newSprite.Deserialize(spritesValue[i]);
+					m_sprites.push_back(newSprite);
+				}
+			}
+			return true;
+		}
+
+		return false; 
 	}
 
 	void SpriteSheet::Slice(Vec2<int> pos, int width, int height)

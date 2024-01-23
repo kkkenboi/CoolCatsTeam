@@ -261,8 +261,6 @@ namespace LB
 	*************************************************************************/
 	bool SceneManager::Deserialize(const Value& data)
 	{
-		DebuggerLogWarning("Ran!!");
-
 		bool HasScene = data.HasMember("SceneOrder");
 		if (data.IsObject())
 		{

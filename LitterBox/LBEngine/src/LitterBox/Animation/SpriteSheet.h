@@ -19,14 +19,15 @@ namespace LB
 {
 	struct Sprite
 	{
-		Sprite(int index, Vec2<int> pos, int width, int height) : m_index{ index }, m_pos{ pos }, m_width{ width }, m_height{ height } { }
+		Sprite() : m_index{ 0 }, m_pos{}, m_size{} {}
+		Sprite(int index, Vec2<int> pos, Vec2<int> size) : m_index{ index }, m_pos{ pos }, m_size{ size } { }
+		Sprite(int index, Vec2<int> pos, int width, int height) : m_index{ index }, m_pos{ pos }, m_size{ Vec2<int>{width, height} } { }
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
 		bool Deserialize(const Value& data); //to load
 
 		int m_index;
-		Vec2<int> m_pos;
-		int m_width, m_height;
+		Vec2<int> m_pos, m_size;
 	};
 
 	class SpriteSheet
