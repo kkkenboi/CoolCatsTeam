@@ -42,8 +42,9 @@ namespace LB
 
         void LoadSpriteSheet(std::string name);
 
-        ////void calPreviewSize(float width, float height, float previewLimit);
         //void PreviewTexture();
+
+        ////void calPreviewSize(float width, float height, float previewLimit);
 
         //void SpilttingTheSprites();
         //void createUV(int rows, int cols);
@@ -69,7 +70,8 @@ namespace LB
         SpriteSheet m_inspectedSheet;
 
         char m_name[256]{};
-        int m_slotID;
+        int m_textureID{ 0 }; // For ImGUI to display
+
         /*int m_row{ 0 }, m_col{0};
         int textureID, slotID;
         float textureAspect;

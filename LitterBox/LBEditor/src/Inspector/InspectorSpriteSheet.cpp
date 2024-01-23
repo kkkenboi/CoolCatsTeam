@@ -51,34 +51,37 @@ namespace LB
     void InspectorSpriteSheet::UpdateLayer()
     {
         // Name
-        ImGui::Text("%-17s", "Name");
+        ImGui::Text("%-17s", "Sprite");
         ImGui::SameLine();
-        if (ImGui::InputText("##Name", m_name, 256))
-        {
-			//I guess this is where it will save the 
-        }
 
-		if (ImGui::BeginCombo("##Texture", ASSETMANAGER->GetTextureName(m_slotID).c_str()))
+		if (ImGui::BeginCombo("##Texture", m_inspectedSheet.GetPNGRef().c_str()))
 		{
 			for (auto& [str, tex] : ASSETMANAGER->Textures)
 			{
 				std::filesystem::path tempPath{ str };
 				if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 				{
-					m_slotID = tex.second;
+					m_textureID = tex.first->id;
+					m_inspectedSheet.SetPNGRef(ASSETMANAGER->GetTextureName(tex.second).c_str());
 					break;
 				}
 			}
 
 			ImGui::EndCombo();
 		}
+		if (ImGui::Button("Save"))
+		{
+			SaveSpriteSheet();
+		}
+
+
+		ImGui::Image((ImTextureID)m_textureID, ImVec2(500, 500), ImVec2(0, 1), ImVec2(1, 0));
 
 		//arbitrary number can be changed anytime
 		// textureSize.x = ImGui::GetContentRegionAvail().x;
 
 		//if (textureSize.x)
         // Preview with slices
-		//	PreviewTexture();
 
 
         // Slice information
@@ -113,6 +116,7 @@ namespace LB
 	void InspectorSpriteSheet::LoadSpriteSheet(std::string name)
 	{
 		JSONSerializer::DeserializeFromFile(name.c_str(), m_inspectedSheet);
+		m_textureID = ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef());
 	}
 
 	//void InspectorSpriteSheet::createUV(int rows, int cols) {

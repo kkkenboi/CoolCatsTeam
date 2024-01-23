@@ -72,7 +72,7 @@ namespace LB
 		data.AddMember("Name", nameValue, alloc);
 
 		Value pngValue(m_pngName.c_str(), alloc);
-		data.AddMember("PNG", nameValue, alloc);
+		data.AddMember("PNG", pngValue, alloc);
 
 		Value spriteArray(rapidjson::kArrayType);
 		for (auto& sprite : m_sprites)
@@ -107,7 +107,7 @@ namespace LB
 			if (HasPNG)
 			{
 				const Value& pngValue = data["PNG"];
-				m_name = pngValue.GetString();
+				m_pngName = pngValue.GetString();
 			}
 			if (HasSprites)
 			{
