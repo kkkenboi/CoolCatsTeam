@@ -21,6 +21,8 @@
 #include "LitterBox/GameLogic/CPPGameLogic/CPPGameLogic.h"
 #include "LitterBox/GameLogic/CPPGameLogic/CPPBehaviour.h"
 
+#include <typeindex>
+
 namespace LB
 {
 	/*!***********************************************************************
@@ -73,18 +75,18 @@ namespace LB
 		\brief
 		 Returns the name of the script (not file name)
 		*************************************************************************/
-		std::string const& GetName() const
+		std::type_index GetScriptType() const
 		{
-			return m_name;
+			return m_type;
 		}
 
 		/*!***********************************************************************
 		\brief
 		 Sets the name of the script (not file name)
 		*************************************************************************/
-		void SetName(std::string const& newName)
+		void SetScriptType(std::type_index const& newType)
 		{
-			m_name = newName;
+			m_type = newType;
 		}
 
 		/*!***********************************************************************
@@ -106,7 +108,7 @@ namespace LB
 		{
 
 			data.SetObject();
-			Value scriptName(m_name.c_str(), alloc);
+			Value scriptName(m_type.name(), alloc);
 			data.AddMember("Script", scriptName, alloc);
 			return true;
 		}
@@ -115,20 +117,7 @@ namespace LB
 		\brief
 		 Loads the name of the script for creation
 		*************************************************************************/
-		bool Deserialize(const Value& data) override
-		{
-			bool HasScript = data.HasMember("Script");
-			if (data.IsObject())
-			{
-				if (HasScript)
-				{
-					const Value& nameValue = data["Script"];
-					m_name = nameValue.GetString();
-					return true;
-				}
-			}
-			return false;
-		}
+		bool Deserialize(const Value& data) override;
 
 		/*!***********************************************************************
 		\brief
@@ -149,7 +138,7 @@ namespace LB
 		}
 
 	private:
-		std::string m_name{ "CPPScript" };		// Name of the script to load (not filename)
+		std::type_index m_type{ typeid(void) };
 		CPPBehaviour* m_instance{ nullptr };	// Pointer to the script object
 	};
 }

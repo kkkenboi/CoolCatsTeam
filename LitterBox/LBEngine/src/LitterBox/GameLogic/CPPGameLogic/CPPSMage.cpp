@@ -15,6 +15,7 @@ it handles the logic for the Mage enemy
 
 #include "CPPSMage.h"
 #include "CPPSBaseGolfBall.h"
+
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Debugging/Debug.h"
@@ -32,6 +33,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSMage::Start()
 	{
+
 		//initialising the components of the mage, basically same as chase where I am getting the components
 		mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();

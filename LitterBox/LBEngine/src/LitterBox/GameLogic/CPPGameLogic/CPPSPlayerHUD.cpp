@@ -1,0 +1,94 @@
+#include "CPPSPlayerHUD.h"
+#include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/GameLogic/CPPGameLogic/CPPSPlayer.h"
+#include "LitterBox/Factory/GameObjectFactory.h"
+#include "LitterBox/Serialization/AssetManager.h"
+
+namespace LB {
+	//Vec2 heartDisplayStartingPos   { 126.f, 960.f };
+	//Vec2 ballDisplayStartingPos    { 126.f, 830.f };
+	Vec2 upgradeDisplayStartingPos { 1150.f, 110.f };
+
+	//Vec2 heartDisplayScale  { 0.3f, 0.3f };
+	//Vec2 ballDisplayScale   { 0.3f, 0.3f };
+	//Vec2 upgradeDisplayScale{ 0.3f, 0.3f };
+	Vec2 displayScale{ 0.3f, 0.3f };
+
+	//Vec2 heartDisplayOffset{ 130.f, 130.f };
+	//Vec2 ballDisplayOffset{ 130.f, 130.f };
+	//Vec2 upgradeDisplayOffset{ 130.f, 130.f };
+	Vec2 displayOffset { 130.f, 130.f };
+
+	void CPPSPlayerHUD::Start()
+	{
+		// Create no. of hearts and balls based on the player's info
+		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		{
+			// Find out which object is the player
+			if (gameObj->GetName() == "MainChar")
+			{
+				mainChar = gameObj;
+			}
+		}
+
+		// Initialise health and balls values
+		m_maxHealth = mainChar->GetComponent<CPPSPlayer>()->m_maxHealth;
+		m_currentHealth = mainChar->GetComponent<CPPSPlayer>()->m_currentHealth;
+		m_maxBalls = mainChar->GetComponent<CPPSPlayer>()->m_maxBalls;
+		m_currentBalls = mainChar->GetComponent<CPPSPlayer>()->m_currentBalls;
+
+		// Create game objects to display the health and balls
+		for (int i{ 1 }; i <= m_maxHealth; i++)
+		{
+			GameObject* healthObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
+			Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
+			healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * (i - 1), startPos.y));
+			m_currentHealth = 2;
+			// Set the texture for lost health
+			if (i > m_currentHealth)
+			{
+				healthObject->GetComponent<CPRender>()->texture = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Broken Heart"]].second;
+			}
+
+			m_TotalHeartDisplay.push_back(healthObject);
+		}
+
+		for (int i{}; i < m_maxBalls; i++)
+		{
+			GameObject* ballObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
+			Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
+			ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * i, startPos.y));
+
+			m_TotalBallsDisplay.push(ballObject);
+		}
+
+		// Check if the heart/balls are not active
+
+		//else if (gameObj->GetName() == "BallDisplay")
+		//{
+		//	m_BallsDisplay = gameObj;
+		//}
+
+		//else if (gameObj->GetName() == "UpgradeDisplay")
+		//{
+		//	m_UpgradeDisplay = gameObj;
+		//}
+
+	}
+
+	void CPPSPlayerHUD::Update()
+	{
+		// HUD subcribes to player losing health/losing balls
+		// 
+		// If Player takes damage, decrement m_currentHealth, invokes OnHealthLoss<Bool> Event
+		// Event calls the HUD function, decrementing the  decrements script's health, update HUD's
+
+	}
+
+	void CPPSPlayerHUD::Destroy()
+	{
+
+	}
+}
