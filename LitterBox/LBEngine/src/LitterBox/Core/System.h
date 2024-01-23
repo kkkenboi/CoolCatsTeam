@@ -89,3 +89,6 @@ namespace LB
 
 // Add LB-side memory allocation/ deallocation
 #include "LitterBox/Debugging/Memory.h"
+
+// Add Singleton capability
+#include "LitterBox/Core/Singleton.h"

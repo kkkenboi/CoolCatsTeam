@@ -14,11 +14,46 @@
 **************************************************************************/
 
 #pragma once
-#include "LitterBox/Core/System.h"		// For ISystem
+#include "LitterBox/Core/System.h" // For ISystem
 #include "LitterBox/Components/CPPScriptComponent.h"
+
+#include <typeindex> // For TypeIndex
 
 namespace LB
 {
+
+	#define REGISTER_SCRIPT(scriptClass) \
+		struct scriptClass##Registrar { \
+			scriptClass##Registrar() { \
+				CPPGameLogic::Instance()->RegisterScript<scriptClass>(); \
+			} \
+		}; static scriptClass##Registrar scriptClass##Registration; \
+
+	class ScriptFactoryBase {
+	public:
+		virtual CPPBehaviour* CreateInstance() = 0;
+
+		virtual ~ScriptFactoryBase() = default;
+	};
+
+	template <typename T>
+	class ScriptFactory : public ScriptFactoryBase
+	{
+	public:
+		CPPBehaviour* CreateInstance() override
+		{
+			return DBG_NEW T();
+		}
+	};
+
+	class ScriptTypeID
+	{
+	public:
+		ScriptTypeID() : m_type{ typeid(void) } {}
+		ScriptTypeID(std::type_index type) : m_type{ type } {}
+		std::type_index m_type { typeid(void) };
+	};
+
 	class CPScriptCPP;
 
 	/*!***********************************************************************
@@ -27,7 +62,7 @@ namespace LB
 	 should be active or nonactive after certain interactions and updates their
 	 ingame stats as well
 	*************************************************************************/
-	class CPPGameLogic : public ISystem
+	class CPPGameLogic : public ISystem, public Singleton<CPPGameLogic>
 	{
 	public:
 		/*!***********************************************************************
@@ -42,6 +77,35 @@ namespace LB
 		 script when the scene starts
 		*************************************************************************/
 		void Start();
+
+		void RegisterAll();
+
+		/*!***********************************************************************
+		 \brief
+		 Adds a script to the registry of CPPGameLogic manager so that it knows
+		 that the script exists.
+		*************************************************************************/
+		template <typename T>
+		void RegisterScript()
+		{
+			m_scriptRegistry[typeid(T)] = DBG_NEW ScriptFactory<T>();
+			m_scriptTypeRegistry[typeid(T).name()] = ScriptTypeID{ typeid(T) };
+		}
+
+		/*!***********************************************************************
+		 \brief
+		 Returns the registry containing all the script types stored by the
+		 GameLogic manager.
+		*************************************************************************/
+		std::map<std::type_index, ScriptFactoryBase*>& GetRegistry();
+
+
+		/*!***********************************************************************
+		 \brief
+		 Returns the registry containing all the script types stored by the
+		 GameLogic manager.
+		*************************************************************************/
+		std::map<std::string, ScriptTypeID>& GetTypeRegistry();
 
 		/*!***********************************************************************
 		 \brief
@@ -74,6 +138,9 @@ namespace LB
 		void Destroy() override;
 
 	private:
+		std::map<std::type_index, ScriptFactoryBase*> m_scriptRegistry;
+		std::map<std::string, ScriptTypeID> m_scriptTypeRegistry;
+
 		std::vector<CPScriptCPP*> m_sceneScripts{};	// List of all scripts currently active in the scene
 	};
 

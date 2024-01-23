@@ -84,6 +84,7 @@ namespace LB
 
 		bool mInitialised{ false }, mShouldDestroy{ false }; //setting to false, later after everything has been initialised in the cpp, it will set to true
 	};
+	REGISTER_SCRIPT(CPPSMage)
 
 	// States
 	//STATES : IDLE, CHASING, BACKOFF, HURT, SHOOTING
