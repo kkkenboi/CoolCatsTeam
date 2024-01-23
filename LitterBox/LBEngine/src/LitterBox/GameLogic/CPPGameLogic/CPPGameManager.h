@@ -24,7 +24,8 @@ namespace LB
 		//Spawn enemy and deduct the values
 		GameObject* mPlayer;
 		//Pairs of enemy to value cost for the game manager to spawn
-		std::vector<std::pair<GameObject*, float>> EnemyPrefabList;
+		//std::vector<std::pair<GameObject*, float>> EnemyPrefabList;
+		std::vector < std::pair<void(CPPSGameManager::*)(), int>> EnemyList;
 
 	private:
 		//Formula made in desmos, curve is a sexy sexy S curve.

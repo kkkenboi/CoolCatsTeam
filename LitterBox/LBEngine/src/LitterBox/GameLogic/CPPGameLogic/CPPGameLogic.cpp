@@ -101,11 +101,16 @@ namespace LB
 	*************************************************************************/
 	void CPPGameLogic::Start()
 	{
-		for (CPScriptCPP* script : m_sceneScripts)
+		for (int index{ 0 }; index < m_sceneScripts.size(); ++index)
 		{
-			StartScript(script);
-			script->Start();
+			StartScript(m_sceneScripts[index]);
+			m_sceneScripts[index]->Start();
 		}
+		//for (CPScriptCPP* script : m_sceneScripts)
+		//{
+		//	StartScript(script);
+		//	script->Start();
+		//}
 	}
 
 	/*!***********************************************************************

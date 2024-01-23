@@ -9,13 +9,20 @@ namespace LB
 	{
 		//loading the gameobjects with data
 		//then adding it to our pair list
-		EnemyPrefabList.emplace_back(std::make_pair(chaserEnemy, 2));
-		EnemyPrefabList.emplace_back(std::make_pair(mageEnemy, 5));
+		//EnemyPrefabList.emplace_back(std::make_pair(chaserEnemy, 2));
+		//EnemyPrefabList.emplace_back(std::make_pair(mageEnemy, 5));
+
+		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChaserEnemy, 2));
+		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnMageEnemy, 5));
+		//in the future
+		//EnemyList.emplace_back(std::make_pair(SpawnChargerEnemy, 8));
+
 		//In the future, Charger enemy will be 8 credits probably
 		//For the first level we just make it such that it's always 2 melee enemies
 		if (currentWave == 1) 
 		{
 			SpawnCredits = 4;
+			GenerateWave();
 		}
 	}
 	void CPPSGameManager::Update()
@@ -47,16 +54,19 @@ namespace LB
 	void CPPSGameManager::SpawnRandomEnemy()
 	{
 		//First we get a random number generator
-		std::default_random_engine rngesus;
+		std::random_device rngesus;
 		//Then we get a random index from the vector list from 0 to maxsize-1
-		std::uniform_int_distribution<int> distribution(0, EnemyPrefabList.size() - 1);
+		std::uniform_int_distribution<int> distribution(0, EnemyList.size() - 1);
 		int enemyIndex = distribution(rngesus);	//then we generate the number
 		//now we check if we can afford to spawn the enemy
-		if (SpawnCredits - EnemyPrefabList[enemyIndex].second >= 0)
+		DebuggerLogFormat("Index : %d, Credits : %d, Cost : %d",
+			enemyIndex, SpawnCredits,EnemyList[enemyIndex].second);
+		if (SpawnCredits - EnemyList[enemyIndex].second >= 0)
 		{
 			//then we deduct the cost and spawn the enemy
-			SpawnCredits -= EnemyPrefabList[enemyIndex].second;
-
+			SpawnCredits -= EnemyList[enemyIndex].second;
+			//EnemyList[enemyIndex].first; //should call the function
+			(this->*EnemyList[enemyIndex].first)();
 		}
 		
 	}
@@ -65,14 +75,14 @@ namespace LB
 	{
 		GameObject* mageClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Mage", *mageClone);
-		mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
 
 	void CPPSGameManager::SpawnChaserEnemy()
 	{
 		GameObject* chaserClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserClone);
-		chaserClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		//chaserClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
 
 	void CPPSGameManager::GenerateWave()
@@ -85,7 +95,7 @@ namespace LB
 		//Center of the map is 969 x 540 (game manager's position)
 		while (SpawnCredits > 2) //As long as it is more than the current lowest spawn amount
 		{
-
+			SpawnRandomEnemy();
 		}
 
 	}
