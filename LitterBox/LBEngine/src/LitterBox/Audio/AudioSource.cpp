@@ -113,6 +113,7 @@ namespace LB
 	{
 		DebuggerLog("Serializing Audio Source");
 		data.SetObject();
+		data.AddMember("Active", m_active, alloc);
 		data.AddMember("AudioClipName", Value(AudioClipName.c_str(), alloc), alloc);
 		data.AddMember("Play On Awake", playOnAwake,alloc);
 		data.AddMember("Loop", loop, alloc);

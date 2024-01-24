@@ -1613,6 +1613,7 @@ bool LB::CPText::Serialize(Value& data, Document::AllocatorType& alloc)
 {
 	DebuggerLog("Serializing Text");
 	data.SetObject();
+	data.AddMember("Active", m_active, alloc);
 	Value messageValue;
 	if (msg.Serialize(messageValue, alloc))
 	{

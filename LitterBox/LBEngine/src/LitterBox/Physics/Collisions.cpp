@@ -494,6 +494,7 @@ namespace LB
 	{
 		DebuggerLog("Serializing Collider");
 		data.SetObject();
+		data.AddMember("Active", m_active, alloc);
 		Value collisionValue;
 		m_collisionlayer.Serialize(collisionValue, alloc);
 		//Value collisionValue(m_collisionlayer.GetName().c_str(), alloc);

@@ -106,6 +106,7 @@ namespace LB
 		{
 			DebuggerLog("Serialising RB");
 			data.SetObject();
+			data.AddMember("Active", m_active, alloc);
 			data.AddMember("Width", mWidth, alloc);
 			data.AddMember("Height", mHeight, alloc);
 			data.AddMember("Density", mDensity, alloc);

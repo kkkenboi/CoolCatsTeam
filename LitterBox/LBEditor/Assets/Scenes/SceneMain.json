@@ -1,5 +1,6 @@
 {
     "Root": {
+        "Active": true,
         "Position": {
             "x": 0.0,
             "y": 0.0
@@ -14,6 +15,7 @@
                 "Name": "MainChar",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 1246.55,
                         "y": 272.79
@@ -25,17 +27,20 @@
                     "Rotation": 0.0
                 },
                 "RigidBody": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Density": 10.0,
                     "IsStatic": false
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Felix"
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Player",
                         "Layer ID": 3
@@ -46,6 +51,7 @@
                     "Radius": 40.0
                 },
                 "CPPScript": {
+                    "Active": true,
                     "Script": "class LB::CPPSPlayer"
                 }
             },
@@ -53,6 +59,7 @@
                 "Name": "Bush_1",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 337.0,
                         "y": 613.0
@@ -64,6 +71,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Bush_1"
@@ -73,6 +81,7 @@
                 "Name": "Bush_2",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 1147.0,
                         "y": 450.0
@@ -84,6 +93,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Bush_1"
@@ -93,6 +103,7 @@
                 "Name": "Bush_3",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 896.0,
                         "y": 221.0
@@ -104,6 +115,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Bush_1"
@@ -113,6 +125,7 @@
                 "Name": "NorthWall",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 959.59,
                         "y": 1011.08
@@ -124,12 +137,14 @@
                     "Rotation": 0.0
                 },
                 "RigidBody": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Density": 10.0,
                     "IsStatic": true
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -144,6 +159,7 @@
                 "Name": "SouthWall",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 964.15,
                         "y": 68.0
@@ -155,12 +171,14 @@
                     "Rotation": 0.0
                 },
                 "RigidBody": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Density": 10.0,
                     "IsStatic": true
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -175,6 +193,7 @@
                 "Name": "WestWall",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 65.87,
                         "y": 541.53
@@ -186,12 +205,14 @@
                     "Rotation": 0.0
                 },
                 "RigidBody": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Density": 10.0,
                     "IsStatic": true
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -206,6 +227,7 @@
                 "Name": "EastWall",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 1851.52,
                         "y": 532.15
@@ -217,12 +239,14 @@
                     "Rotation": 0.0
                 },
                 "RigidBody": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Density": 10.0,
                     "IsStatic": true
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -237,6 +261,7 @@
                 "Name": "EnemyChaser1",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 456.23,
                         "y": 640.78
@@ -248,17 +273,20 @@
                     "Rotation": 0.0
                 },
                 "RigidBody": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Density": 10.0,
                     "IsStatic": false
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Chaser"
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "GameEntity",
                         "Layer ID": 1
@@ -269,6 +297,7 @@
                     "Radius": 40.0
                 },
                 "CPPScript": {
+                    "Active": true,
                     "Script": "class LB::CPPSChaser"
                 }
             },
@@ -276,6 +305,7 @@
                 "Name": "Mage",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 542.0,
                         "y": 450.0
@@ -287,17 +317,20 @@
                     "Rotation": 0.0
                 },
                 "RigidBody": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Density": 10.0,
                     "IsStatic": false
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Mage_Asset"
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "GameEntity",
                         "Layer ID": 1
@@ -308,6 +341,7 @@
                     "Radius": 40.0
                 },
                 "CPPScript": {
+                    "Active": true,
                     "Script": "class LB::CPPSMage"
                 }
             },
@@ -315,6 +349,7 @@
                 "Name": "PauseMenuHolderObject",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -326,6 +361,7 @@
                     "Rotation": 0.0
                 },
                 "CPPScript": {
+                    "Active": true,
                     "Script": "class LB::PauseMenuScript"
                 }
             },
@@ -333,6 +369,7 @@
                 "Name": "PauseMenuTextureObject",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -344,6 +381,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Pause Menu"
@@ -353,6 +391,7 @@
                 "Name": "PauseMenuResumeObject",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -364,6 +403,7 @@
                     "Rotation": 0.0
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -378,6 +418,7 @@
                 "Name": "PauseMenuHowToPlayObject",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -389,6 +430,7 @@
                     "Rotation": 0.0
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -403,6 +445,7 @@
                 "Name": "PauseMenuQuitObject",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -414,6 +457,7 @@
                     "Rotation": 0.0
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -428,6 +472,7 @@
                 "Name": "PauseMenuHowToPlayTextureObject",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -439,6 +484,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "HowToPlay"
@@ -448,6 +494,7 @@
                 "Name": "PauseMenuHowToPlayPreviousMenuButton",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -459,6 +506,7 @@
                     "Rotation": -8.8
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -473,6 +521,7 @@
                 "Name": "PauseMenuQuitConfirmTexture",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -484,6 +533,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "QuitMenu"
@@ -493,6 +543,7 @@
                 "Name": "PauseMenuQuitConfirmYesObject",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -504,6 +555,7 @@
                     "Rotation": 0.0
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -518,6 +570,7 @@
                 "Name": "PauseMenuQuitConfirmNoObject",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -529,6 +582,7 @@
                     "Rotation": 0.0
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -543,6 +597,7 @@
                 "Name": "GameMusic",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 800.0,
                         "y": 450.0
@@ -554,6 +609,7 @@
                     "Rotation": 0.0
                 },
                 "AudioSource": {
+                    "Active": true,
                     "AudioClipName": "BGM",
                     "Play On Awake": true,
                     "Loop": true,
@@ -565,6 +621,7 @@
                 "Name": "UnderlineObject",
                 "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 10000.0,
                         "y": 10000.0
@@ -576,6 +633,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Underline"

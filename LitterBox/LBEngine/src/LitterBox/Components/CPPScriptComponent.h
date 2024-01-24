@@ -108,6 +108,7 @@ namespace LB
 		{
 
 			data.SetObject();
+			data.AddMember("Active", m_active, alloc);
 			Value scriptName(m_type.name(), alloc);
 			data.AddMember("Script", scriptName, alloc);
 			return true;

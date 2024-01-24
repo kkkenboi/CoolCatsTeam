@@ -23,9 +23,10 @@ namespace LB
 	bool CPRender::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
-		Value textureName(ASSETMANAGER->GetTextureName(texture).c_str(),alloc);
+		data.AddMember("Active", m_active, alloc);
 		data.AddMember("Width", w, alloc);
 		data.AddMember("Height", h, alloc);
+		Value textureName(ASSETMANAGER->GetTextureName(texture).c_str(),alloc);
 		data.AddMember("Texture", textureName, alloc);
 		return true;
 	}

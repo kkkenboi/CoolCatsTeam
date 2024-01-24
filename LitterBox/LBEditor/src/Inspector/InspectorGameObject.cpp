@@ -507,6 +507,15 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("RigidBody", ImGuiTreeNodeFlags_DefaultOpen))
 			{
+				isActive = m_inspectedGO->GetComponent<CPRigidBody>()->m_active;
+				ImGui::PushID("RBActive");
+				ImGui::Checkbox("Active", &isActive);
+				ImGui::PopID();
+				if (isActive != m_inspectedGO->GetComponent<CPRigidBody>()->m_active)
+				{
+					m_inspectedGO->GetComponent<CPRigidBody>()->ToggleActiveFlag(isActive);
+				}
+
 				// Interface Buttons
 				float mass = m_inspectedGO->GetComponent<CPRigidBody>()->mMass;
 				ImGui::Text("%-19s", "Mass");
@@ -599,6 +608,15 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 			{
+				isActive = m_inspectedGO->GetComponent<CPCollider>()->m_active;
+				ImGui::PushID("ColliderActive");
+				ImGui::Checkbox("Active", &isActive);
+				ImGui::PopID();
+				if (isActive != m_inspectedGO->GetComponent<CPCollider>()->m_active)
+				{
+					m_inspectedGO->GetComponent<CPCollider>()->ToggleActiveFlag(isActive);
+				}
+
 				// Interface Buttons
 				ImGui::Text("%-19s", "Layer");
 				ImGui::SameLine();
@@ -726,6 +744,15 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("CPP Script", ImGuiTreeNodeFlags_DefaultOpen))
 			{
+				isActive = m_inspectedGO->GetComponent<CPScriptCPP>()->m_active;
+				ImGui::PushID("CPPScriptActive");
+				ImGui::Checkbox("Active", &isActive);
+				ImGui::PopID();
+				if (isActive != m_inspectedGO->GetComponent<CPScriptCPP>()->m_active)
+				{
+					m_inspectedGO->GetComponent<CPScriptCPP>()->ToggleActiveFlag(isActive);
+				}
+
 				ImGui::Text("%-17s", "Script Name");
 				ImGui::SameLine();
 
@@ -759,6 +786,15 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("Audio Source Component", ImGuiTreeNodeFlags_DefaultOpen))
 			{
+				isActive = m_inspectedGO->GetComponent<CPAudioSource>()->m_active;
+				ImGui::PushID("AudioActive");
+				ImGui::Checkbox("Active", &isActive);
+				ImGui::PopID();
+				if (isActive != m_inspectedGO->GetComponent<CPAudioSource>()->m_active)
+				{
+					m_inspectedGO->GetComponent<CPAudioSource>()->ToggleActiveFlag(isActive);
+				}
+
 				// Interface Buttons
 				ImGui::Text("%-19s", "Audio Clip Name");
 				ImGui::SameLine();
@@ -846,6 +882,15 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("Text Component", ImGuiTreeNodeFlags_DefaultOpen))
 			{
+				isActive = m_inspectedGO->GetComponent<CPText>()->m_active;
+				ImGui::PushID("TextActive");
+				ImGui::Checkbox("Active", &isActive);
+				ImGui::PopID();
+				if (isActive != m_inspectedGO->GetComponent<CPText>()->m_active)
+				{
+					m_inspectedGO->GetComponent<CPText>()->ToggleActiveFlag(isActive);
+				}
+
 				float textXPos = m_inspectedGO->GetComponent<CPText>()->get_msg().x;
 				float textYPos = m_inspectedGO->GetComponent<CPText>()->get_msg().y;
 				float textSize = m_inspectedGO->GetComponent<CPText>()->get_msg().scale;

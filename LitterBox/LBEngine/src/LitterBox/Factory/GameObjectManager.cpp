@@ -142,7 +142,6 @@ namespace LB
 
 		if (m_Components.find(C_CPTransform) != m_Components.end())
 		{
-			//data.SetObject();
 			Value TransformComponent;
 			m_Components.find(C_CPTransform)->second->Serialize(TransformComponent, alloc);
 			data.AddMember("Transform", TransformComponent, alloc);
@@ -227,9 +226,9 @@ namespace LB
 				}
 				const Value& transformValue = data["Transform"];
 				m_Components.find(C_CPTransform)->second->Deserialize(transformValue);
+				m_Components.find(C_CPTransform)->second->m_active = data["Active"].GetBool();
 			}
-			//ALL GO's MUST HAVE TRANSFORM!
-			else return false;
+			else return false; //ALL GO's MUST HAVE TRANSFORM!
 			if (HasRigidBody)
 			{
 				if (m_Components.find(C_CPRigidBody) == m_Components.end())
