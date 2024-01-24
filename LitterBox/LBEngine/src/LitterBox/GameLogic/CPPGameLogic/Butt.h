@@ -45,4 +45,5 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override;
 	};
+	REGISTER_SCRIPT(Butt)
 }

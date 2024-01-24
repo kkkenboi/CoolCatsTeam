@@ -25,8 +25,6 @@
 
 namespace LB
 {
-	REGISTER_SCRIPT(CPPSBaseGolfBall);
-
 	/*!***********************************************************************
 	\brief
 	Start function where variables will be initialised

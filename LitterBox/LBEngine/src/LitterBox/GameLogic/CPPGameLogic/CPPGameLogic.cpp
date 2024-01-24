@@ -17,6 +17,7 @@
 #include "CPPGameLogic.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Time.h"
+#include "CPPSBaseGolfBall.h"
 
 namespace LB
 {

@@ -58,4 +58,6 @@ namespace LB
 		float mVelocity{}; //Velocity of the projectile
 		float mSize{}; //the size of the projectile
 	};
+
+	REGISTER_SCRIPT(CPPSBaseGolfBall)
 }

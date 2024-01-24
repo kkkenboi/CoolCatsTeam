@@ -68,6 +68,8 @@ namespace LB
 
 		bool mInitialised{ false }, mShouldDestroy{ false };
 	};
+	REGISTER_SCRIPT(CPPSChaser)
+
 
 	// States
 	/*!***********************************************************************

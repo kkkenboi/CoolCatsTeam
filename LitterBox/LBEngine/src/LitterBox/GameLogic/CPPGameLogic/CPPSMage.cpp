@@ -25,8 +25,6 @@ it handles the logic for the Mage enemy
 
 namespace LB
 {
-	REGISTER_SCRIPT(CPPSMage);
-
 	//animation array
 	std::array<std::array<LB::Vec2<float>, 4>, 33> mage_anim_frams;
 	/*!***********************************************************************
@@ -35,6 +33,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSMage::Start()
 	{
+
 		//initialising the components of the mage, basically same as chase where I am getting the components
 		mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();

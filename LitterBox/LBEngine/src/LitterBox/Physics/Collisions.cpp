@@ -99,6 +99,9 @@ namespace LB
 		if(m_collisionlayer.GetName().empty())
 		this->m_collisionlayer = COLLIDERS->GetLayerSystem().GetDefaultLayer();
 
+		// Set the initial grid number to default 1 so it checks with everything
+		this->m_grid_frames.push_back(1);
+
 		// Update the length and width of the RigidBody depending
 		// on the Collider
 
@@ -335,6 +338,7 @@ namespace LB
 		{
 			for (size_t i = 0; i < this->m_transformedVerts.size(); ++i)
 			{
+				// Original code
 				if (!this->m_collided)
 				{
 					DEBUG->DrawLine(this->m_transformedVerts[i], this->m_transformedVerts[(i + 1) % this->m_transformedVerts.size()]
@@ -464,6 +468,24 @@ namespace LB
 		return gameObj;
 	}
 
+
+	std::vector<int> CPCollider::GetGridFrames()
+	{
+		return m_grid_frames;
+	}
+
+	void CPCollider::ChangeGridFrame(std::vector<int> frames) 
+	{
+		m_grid_frames = frames;
+	}
+
+	void CPCollider::UpdateGridFrame()
+	{
+		COLLIDERS->GetGridSystem().UpdateGridFrame(this);
+	}
+
+	//void CPCollider::ChangeGridFrame(int frame);
+
 	/*!***********************************************************************
 	  \brief
 	  This serializes some of the data members of CPCollider
@@ -541,6 +563,7 @@ namespace LB
 		this->UpdateColliderBoxVertices();
 		this->UpdateColliderAABB();
 
+		this->UpdateGridFrame();
 	}
 
 	/*!***********************************************************************

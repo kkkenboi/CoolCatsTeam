@@ -21,12 +21,13 @@
 
 namespace LB
 {
+
 	#define REGISTER_SCRIPT(scriptClass) \
 		struct scriptClass##Registrar { \
 			scriptClass##Registrar() { \
 				CPPGameLogic::Instance()->RegisterScript<scriptClass>(); \
 			} \
-		} scriptClass##Registration{}; \
+		}; static scriptClass##Registrar scriptClass##Registration; \
 
 	class ScriptFactoryBase {
 	public:

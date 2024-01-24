@@ -22,23 +22,23 @@
 #include "CPPSBaseGolfBall.h"
 #include "CPPSPlayerGolfBall.h"
 #include "PauseMenuScript.h"
+#include "CPPSPlayerHUD.h"
 
 namespace LB 
 {
 	// I genuinely can't figure out why the struct method of registering is not working even though it 100% should.
 	// Due to time constraints we gonna have to use this worse method of registering scripts for the time being.
 
-	// Update: IT'S WORKING AGAIN, YOU DO NOT NEED TO REGISTER YOUR SCRIPT HERE, USE THE MACRO.
-
 	void CPPGameLogic::RegisterAll()
 	{
-		CPPGameLogic::Instance()->RegisterScript<CPPSPlayer>();
-		CPPGameLogic::Instance()->RegisterScript<CPPSChaser>();
-		CPPGameLogic::Instance()->RegisterScript<Butt>();
-		CPPGameLogic::Instance()->RegisterScript<QuitScript>();
-		CPPGameLogic::Instance()->RegisterScript<CPPSMage>();
-		CPPGameLogic::Instance()->RegisterScript<CPPSBaseGolfBall>();
-		CPPGameLogic::Instance()->RegisterScript<CPPSPlayerGolfBall>();
-		CPPGameLogic::Instance()->RegisterScript<PauseMenuScript>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSPlayer>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSChaser>();
+		//CPPGameLogic::Instance()->RegisterScript<Butt>();
+		//CPPGameLogic::Instance()->RegisterScript<QuitScript>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSMage>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSBaseGolfBall>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSPlayerGolfBall>();
+		//CPPGameLogic::Instance()->RegisterScript<PauseMenuScript>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSPlayerHUD>();
 	}
 }

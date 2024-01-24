@@ -33,6 +33,7 @@
 #include "EditorTMGridView.h"
 #include "EditorTMEditor.h"
 #include "EditorRenderLayer.h"
+#include "EditorCollisionGrid.h"
 
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
@@ -92,6 +93,7 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorTMGridView>("Tile Map Grid View"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorTMEditor>("Tile Map Editor"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorRenderLayer>("Render Layers"));
+		m_ImGuiLayers.AddLayer(std::make_shared<EditorCollisionGrid>("Collision Grid"));
 
 		Initialize();
 	}
@@ -199,6 +201,7 @@ namespace LB
 		ImGuiID prefabID{};
 		ImGuiID collisionLayerID{};
 		ImGuiID renderLayerID{};
+		ImGuiID collisionGridID{};
 
 		// Docking Section
 		ImGuiID maindockspaceID = ImGui::GetID("MainDockspace");
@@ -235,6 +238,8 @@ namespace LB
 			// Set the collision layer at the same location as the assets
 			collisionLayerID = assetsID;
 
+			collisionGridID = assetsID;
+
 			ImGui::DockBuilderDockWindow("ToolBar", toolbarID);
 			ImGui::DockBuilderDockWindow("Console", consoleID);
 			ImGui::DockBuilderDockWindow("Profiler", profilerID);
@@ -247,6 +252,7 @@ namespace LB
 			ImGui::DockBuilderDockWindow("Prefab Viewer", prefabID);
 			ImGui::DockBuilderDockWindow("Collision Layers", collisionLayerID);
 			ImGui::DockBuilderDockWindow("Render Layers", renderLayerID);
+			ImGui::DockBuilderDockWindow("Collision Grid", collisionGridID);
 
 
 			ImGui::DockBuilderFinish(maindockspaceID);
