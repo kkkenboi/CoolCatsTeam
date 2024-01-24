@@ -365,6 +365,15 @@ namespace LB
 			float z = m_inspectedGO->GetComponent<CPRender>()->z_val;
 			if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_DefaultOpen))
 			{
+				isActive = m_inspectedGO->GetComponent<CPRender>()->m_active;
+				ImGui::PushID("RenderActive");
+				ImGui::Checkbox("Active", &isActive);
+				ImGui::PopID();
+				if (isActive != m_inspectedGO->GetComponent<CPRender>()->m_active)
+				{
+					m_inspectedGO->GetComponent<CPRender>()->ToggleActiveFlag(isActive);
+				}
+
 				ImGui::Text("%-17s Width", "Sprite Size");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);

@@ -12,6 +12,7 @@
         "Children": [
             {
                 "Name": "MainChar",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 1246.55,
@@ -50,6 +51,7 @@
             },
             {
                 "Name": "Bush_1",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 337.0,
@@ -69,6 +71,7 @@
             },
             {
                 "Name": "Bush_2",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 1147.0,
@@ -88,6 +91,7 @@
             },
             {
                 "Name": "Bush_3",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 896.0,
@@ -107,6 +111,7 @@
             },
             {
                 "Name": "NorthWall",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 959.59,
@@ -137,6 +142,7 @@
             },
             {
                 "Name": "SouthWall",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 964.15,
@@ -167,6 +173,7 @@
             },
             {
                 "Name": "WestWall",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 65.87,
@@ -197,6 +204,7 @@
             },
             {
                 "Name": "EastWall",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 1851.52,
@@ -227,6 +235,7 @@
             },
             {
                 "Name": "EnemyChaser1",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 456.23,
@@ -265,6 +274,7 @@
             },
             {
                 "Name": "Mage",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 542.0,
@@ -303,6 +313,7 @@
             },
             {
                 "Name": "PauseMenuHolderObject",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
@@ -320,6 +331,7 @@
             },
             {
                 "Name": "PauseMenuTextureObject",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
@@ -339,6 +351,7 @@
             },
             {
                 "Name": "PauseMenuResumeObject",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
@@ -363,6 +376,7 @@
             },
             {
                 "Name": "PauseMenuHowToPlayObject",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
@@ -387,6 +401,7 @@
             },
             {
                 "Name": "PauseMenuQuitObject",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
@@ -411,6 +426,7 @@
             },
             {
                 "Name": "PauseMenuHowToPlayTextureObject",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
@@ -430,6 +446,7 @@
             },
             {
                 "Name": "PauseMenuHowToPlayPreviousMenuButton",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
@@ -454,6 +471,7 @@
             },
             {
                 "Name": "PauseMenuQuitConfirmTexture",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
@@ -473,6 +491,7 @@
             },
             {
                 "Name": "PauseMenuQuitConfirmYesObject",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
@@ -497,6 +516,7 @@
             },
             {
                 "Name": "PauseMenuQuitConfirmNoObject",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
@@ -521,6 +541,7 @@
             },
             {
                 "Name": "GameMusic",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 800.0,
@@ -542,6 +563,7 @@
             },
             {
                 "Name": "UnderlineObject",
+                "Active": true,
                 "Transform": {
                     "Position": {
                         "x": 10000.0,
