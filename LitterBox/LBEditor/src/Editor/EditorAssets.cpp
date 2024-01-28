@@ -162,7 +162,13 @@ namespace LB
 				{
 					DebuggerLog("Clicked on " + FileName);
 					std::string fileExtension = directory.path().extension().string();
-					if (fileExtension != ".json" && fileExtension != ".wav" && fileExtension != ".png" && fileExtension!= ".shader" && fileExtension!=".otf"&&fileExtension!=".ttf")
+					if (fileExtension != ".prefab" && 
+						fileExtension != ".scene" && 
+						fileExtension != ".wav" && 
+						fileExtension != ".png" && 
+						fileExtension != ".shader" && 
+						fileExtension != ".otf" && 
+						fileExtension != ".ttf")
 					{
 						DebuggerLog("Invalid file extension " + fileExtension + " was clicked!");
 						ImGui::OpenPopup("Error!");
@@ -171,7 +177,7 @@ namespace LB
 				}
 
 				//IF IT'S A PREFAB
-				if (directory.path().extension().string() == ".json")
+				if (directory.path().extension().string() == ".prefab")
 				{
 					//PREFAB DRAG AND DROP TO SCENE
 					if (ImGui::BeginDragDropSource())
@@ -183,25 +189,26 @@ namespace LB
 					//PREFAB EDITOR STUFF
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
-						// To be changed to a better identifier for scene files
-						if (directory.path().filename().string().find("Scene") != std::string::npos)
-						{
-							if (!CORE->IsPlaying())
-								SCENEMANAGER->LoadScene(directory.path().filename().stem().string());
-							else
-								DebuggerLogWarningFormat("Tried to load new scene from Assets %s while a scene is running.", directory.path().filename().stem().string().c_str());
-						}
-						else //that means it's a prefab instead
-						{
-							DebuggerLog(directory.path().filename().string());
+						DebuggerLog(directory.path().filename().string());
 							
-							GameObject* prefab = FACTORY->SpawnGameObject({}, GOSpawnType::FREE_FLOATING);
-							JSONSerializer::DeserializeFromFile(FileName.c_str(), *prefab);
-							prefab->SetName(FileName.c_str());
-							if (prefab->HasComponent<CPRender>()) prefab->GetComponent<CPRender>()->set_active();
-							InspectorGameObject::Instance()->UpdateInspectedGO(prefab);
-							InspectorGameObject::Instance()->isPrefab = true;
-						}
+						GameObject* prefab = FACTORY->SpawnGameObject({}, GOSpawnType::FREE_FLOATING);
+						JSONSerializer::DeserializeFromFile(FileName.c_str(), *prefab);
+						prefab->SetName(FileName.c_str());
+						if (prefab->HasComponent<CPRender>()) prefab->GetComponent<CPRender>()->set_active();
+						InspectorGameObject::Instance()->UpdateInspectedGO(prefab);
+						InspectorGameObject::Instance()->isPrefab = true;
+						// To be changed to a better identifier for scene files
+					}
+				}
+				//IF IT IS A SCENE!!!
+				if (directory.path().extension().string() == ".scene")
+				{
+					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+					{
+						if (!CORE->IsPlaying())
+							SCENEMANAGER->LoadScene(directory.path().filename().stem().string());
+						else
+							DebuggerLogWarningFormat("Tried to load new scene from Assets %s while a scene is running.", directory.path().filename().stem().string().c_str());
 					}
 				}
 				if (directory.path().extension().string() == ".png")

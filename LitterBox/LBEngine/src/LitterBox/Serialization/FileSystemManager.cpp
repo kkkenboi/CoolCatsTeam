@@ -35,9 +35,13 @@ namespace LB
 		std::filesystem::path filePath{ fileName };
 		for (const auto& directory : std::filesystem::recursive_directory_iterator(currentPath))
 		{
-			if (std::filesystem::exists(directory / filePath))
+			/*if (std::filesystem::exists(directory / filePath))
 			{
 				return directory/filePath;
+			}*/
+			if (directory.path().filename().stem().string() == fileName)
+			{
+				return directory.path();
 			}
 		}
 		DebuggerLogErrorFormat("Unable to find %s!", fileName.c_str());

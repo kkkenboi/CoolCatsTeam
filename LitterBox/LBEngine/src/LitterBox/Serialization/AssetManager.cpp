@@ -538,7 +538,7 @@ namespace LB
         LoadKeyCodeTable();
         //Can probablyyyyy use the filesystem for this in the future
         //Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyBinds.json");
-        Document _jsonFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("KeyBinds.json").string());
+        Document _jsonFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("KeyBinds").string());
         //Then we get the keybinds json and go through each member
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
@@ -569,7 +569,7 @@ namespace LB
     void AssetManager::LoadKeyCodeTable()
     {
         //Document _jsonFile = JSONSerializer::GetJSONFile("Editor/Jason/KeyCodeTable.json");
-        Document _jsonFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("KeyCodeTable.json").string());
+        Document _jsonFile = JSONSerializer::GetJSONFile(FILESYSTEM->GetFilePath("KeyCodeTable").string());
         for (Value::ConstMemberIterator itr = _jsonFile.MemberBegin();
             itr != _jsonFile.MemberEnd(); ++itr)
         {
@@ -603,8 +603,8 @@ namespace LB
             Value val(elem.second.c_str(), alloc);
             _jsonFile.AddMember(key, val, alloc);
         }
-        DebuggerLog( FILESYSTEM->GetFilePath("KeyBinds.json").string());
-        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyBinds.json").string(), _jsonFile);
+        DebuggerLog( FILESYSTEM->GetFilePath("KeyBinds").string());
+        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyBinds").string(), _jsonFile);
         //To test if the keycode and string to keycode function works
         //std::cout << KeyCodeToString(StringToKeyCode("KEY_J")) << '\n';
     }
@@ -651,8 +651,8 @@ namespace LB
             Value key(elem.first.c_str(), alloc);
             _jsonFile.AddMember(key, elem.second, alloc);
         }
-        DebuggerLog(FILESYSTEM->GetFilePath("KeyCodeTable.json").string());
+        DebuggerLog(FILESYSTEM->GetFilePath("KeyCodeTable").string());
 
-        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyCodeTable.json").string(), _jsonFile);
+        JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyCodeTable").string(), _jsonFile);
     }
 }
