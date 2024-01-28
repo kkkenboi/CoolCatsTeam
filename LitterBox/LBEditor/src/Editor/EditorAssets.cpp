@@ -234,6 +234,30 @@ namespace LB
 						//Load the properties into the inspector
 					}
 				}
+
+
+				//IF USER RIGHT CLICKS
+				if (ImGui::BeginPopupContextItem())
+				{
+					ImGui::Text("This is a pop up for deleting an asset!");
+					if (ImGui::Button("Delete"))
+					{
+						ImGui::OpenPopup("Delete?");
+						if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_MenuBar))
+						{
+							ImGui::Text("Are you sure you want to delete this asset?");
+							ImGui::Separator();
+
+							if (ImGui::Button("Confirm")) { ImGui::CloseCurrentPopup(); }
+							ImGui::SameLine();
+							if (ImGui::Button("Cancel")) { ImGui::CloseCurrentPopup(); }
+
+							ImGui::SetItemDefaultFocus();
+							ImGui::EndPopup();
+						}
+					}
+					ImGui::EndPopup();
+				}
 				
 
 				//The name of the folder is without the file extension probably...
@@ -243,18 +267,13 @@ namespace LB
 				// Always center this window when appearing
 				ImVec2 center = ImGui::GetMainViewport()->GetCenter();
 				ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+				
+
 				if (ImGui::BeginPopupModal("Error!", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 				{
 					ImGui::Text("File type not recognised!");
 					ImGui::Separator();
-
-					////static int unused_i = 0;
-					////ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
-
-					////static bool dont_ask_me_next_time = false;
-					////ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-					////ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
-					////ImGui::PopStyleVar();
 
 					if (ImGui::Button("close")) { ImGui::CloseCurrentPopup(); }
 					ImGui::SetItemDefaultFocus();
