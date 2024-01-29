@@ -259,9 +259,11 @@ namespace LB
 
 						if (ImGui::Button("Confirm")) 
 						{ 
+							//CPP function to delete a file from it's file path.
+							//We're guaranteed to have a valid filepath so we don't have to check if it exists or not.
 							std::remove(directory.path().string().c_str());
-							ReimportAssets();
-							ImGui::ClosePopupToLevel(0, true); 
+							ReimportAssets();	//we have to reimport it to update the asset map
+							ImGui::ClosePopupToLevel(0, true);	//this closes ALL windows including the previous pop up
 						}
 						ImGui::SameLine();
 						if (ImGui::Button("Cancel")) {  ImGui::ClosePopupToLevel(0, true); }
