@@ -235,31 +235,42 @@ namespace LB
 					}
 				}
 
+				
+
 
 				//IF USER RIGHT CLICKS
 				if (ImGui::BeginPopupContextItem())
 				{
-					ImGui::Text("This is a pop up for deleting an asset!");
+					//Ui window pops out with the delete button
+					ImGui::Text("Options");
 					if (ImGui::Button("Delete"))
 					{
+						//This opens out the delete confirmation if they click delete
 						ImGui::OpenPopup("Delete?");
-						if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_MenuBar))
-						{
-							ImGui::Text("Are you sure you want to delete this asset?");
-							ImGui::Separator();
+					}
+					// Always center this window when appearing
+					ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+					ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+					//This opens up the confirmation window
+					if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+					{
+						ImGui::Text("Are you sure you want to delete this asset?\nThis action CANNOT be undone!");
+						ImGui::Separator();
 
-							if (ImGui::Button("Confirm")) { ImGui::CloseCurrentPopup(); }
-							ImGui::SameLine();
-							if (ImGui::Button("Cancel")) { ImGui::CloseCurrentPopup(); }
-
-							ImGui::SetItemDefaultFocus();
-							ImGui::EndPopup();
+						if (ImGui::Button("Confirm")) 
+						{ 
+							std::remove(directory.path().string().c_str());
+							ReimportAssets();
+							ImGui::ClosePopupToLevel(0, true); 
 						}
+						ImGui::SameLine();
+						if (ImGui::Button("Cancel")) {  ImGui::ClosePopupToLevel(0, true); }
+
+						ImGui::SetItemDefaultFocus();
+						ImGui::EndPopup();
 					}
 					ImGui::EndPopup();
 				}
-				
-
 				//The name of the folder is without the file extension probably...
 				ImGui::Text(directory.path().filename().stem().string().c_str());
 
