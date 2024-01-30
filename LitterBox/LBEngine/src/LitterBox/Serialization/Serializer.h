@@ -63,14 +63,14 @@ namespace LB
 			/// @param typeToSerialize Type of object that is being serialized
 			/// @return true on success, false on fail
 			//We need to load the json data from the json file
-			Document jsonFile = GetJSONFile(FILESYSTEM->GetFilePath(fileName + ".json").string());
+			Document jsonFile = GetJSONFile(FILESYSTEM->GetFilePath(fileName).string());
 			//Once it has the data, it needs to allocate memory with the allocator
 			Document::AllocatorType& allocator = jsonFile.GetAllocator();
 			//then we pray to god the T has a serialize function
 			if (typeToSerialize.Serialize(jsonFile, allocator))
 			{
 				//then we save it to file
-				SaveToJSON(FILESYSTEM->GetFilePath(fileName + ".json").string(), jsonFile);
+				SaveToJSON(FILESYSTEM->GetFilePath(fileName).string(), jsonFile);
 				return true;
 			}
 			
@@ -92,7 +92,7 @@ namespace LB
 			//Get the file, then deserialize! magic
 			DebuggerLog("Getting file from : " + fileName);
 			//std::cout << "Joe: " << fileDestinationMap[filePath] + fileName + ".json\n";
-			Document jsonFile = GetJSONFile(FILESYSTEM->GetFilePath(fileName+".json").string());
+			Document jsonFile = GetJSONFile(FILESYSTEM->GetFilePath(fileName).string());
 			typeToDeserialize.Deserialize(jsonFile);
 		}
 

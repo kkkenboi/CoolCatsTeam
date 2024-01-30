@@ -36,6 +36,7 @@ namespace LB
 
 
 	}
+
 	static inline ImVec2 operator+(const ImVec2& lhs, const ImVec2& rhs)
 	{
 		return ImVec2(lhs.x + rhs.x, lhs.y + rhs.y);
@@ -70,7 +71,8 @@ namespace LB
 			//We cache the obj so it's shorter to type
 			GameObject* prefabGO = InspectorGameObject::Instance()->GetInspectedGO();
 			//We make the scale a bit bigger just so that we can see 
-			float xScale = prefabGO->GetComponent<CPTransform>()->GetScale().x*100;
+			//Somehow the xScale has to be flipped so that the sprite is displayed correctly
+			float xScale = -prefabGO->GetComponent<CPTransform>()->GetScale().x*100;
 			float yScale = prefabGO->GetComponent<CPTransform>()->GetScale().y*100;
 			//int prefabTexture = ASSETMANAGER->GetTextureUnit(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
 			//this sets the prefab texture

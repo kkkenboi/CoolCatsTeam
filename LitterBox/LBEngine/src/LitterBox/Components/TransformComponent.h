@@ -143,7 +143,8 @@ namespace LB
 			CPTransform* parent{ m_parent };
 			while (parent)
 			{
-				globalScale += parent->GetLocalScale();
+				globalScale.x *= parent->GetLocalScale().x;
+				globalScale.y *= parent->GetLocalScale().y;
 				parent = parent->GetParent();
 			}
 			return globalScale;
