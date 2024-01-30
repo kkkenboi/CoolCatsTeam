@@ -18,9 +18,10 @@
 
 namespace LB
 {
-	static float textPreviewLim = 250.f;
-	static float dropdownWidth = 150.f;
-	static float normalWidth = 75.f;
+	//static float textPreviewLim = 250.f;
+	static float fullWidth;
+	static float columnWidth = 250.0f;
+	static float normalWidth = 150.f;
 
 	InspectorSpriteSheet* INSPECTORSPRITESHEET = nullptr;
 
@@ -74,17 +75,95 @@ namespace LB
 			SaveSpriteSheet();
 		}
 
+		fullWidth = ImGui::GetContentRegionAvail().x;
+		ImGui::Image((ImTextureID)m_textureID, ImVec2(fullWidth, fullWidth), ImVec2(0, 1), ImVec2(1, 0));
 
-		ImGui::Image((ImTextureID)m_textureID, ImVec2(500, 500), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Text("Slicer");
+		if (ImGui::BeginTable("SlicerTable", 3))
+		{
+			ImGui::TableNextColumn();
+			ImGui::Text("X");
+			ImGui::SetNextItemWidth(normalWidth);
+			if (ImGui::InputInt("##SliceX", &m_sliceX))
+			{
 
-		//arbitrary number can be changed anytime
-		// textureSize.x = ImGui::GetContentRegionAvail().x;
+			}
+			ImGui::TableNextColumn();
+			ImGui::Text("Y");
+			ImGui::SetNextItemWidth(normalWidth);
+			if (ImGui::InputInt("##SliceY", &m_sliceY))
+			{
 
-		//if (textureSize.x)
-        // Preview with slices
+			}
 
+			ImGui::TableNextRow();
 
-        // Slice information
+			ImGui::TableNextColumn();
+			ImGui::Text("Width");
+			ImGui::SetNextItemWidth(normalWidth);
+			if (ImGui::InputInt("##SliceW", &m_sliceWidth))
+			{
+
+			}
+			ImGui::TableNextColumn();
+			ImGui::Text("Height");
+			ImGui::SetNextItemWidth(normalWidth);
+			if (ImGui::InputInt("##SliceH", &m_sliceHeight))
+			{
+
+			}
+
+			ImGui::TableNextRow();
+
+			ImGui::TableSetColumnIndex(0);
+			columnWidth = ImGui::GetColumnWidth(0);
+			if (ImGui::Button("Slice", ImVec2(columnWidth, 25.0f)))
+			{
+
+			}
+			ImGui::EndTable();
+		}
+
+		ImGui::Dummy(ImVec2(0.0f, 35.0f));
+
+		ImGui::Text("Auto Slicer");
+		ImGui::Text("Rows");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(normalWidth);
+		if (ImGui::InputInt("##Rows", &m_row))
+		{
+
+		}
+		ImGui::SameLine();
+		ImGui::Text("Columns");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(normalWidth);
+		if (ImGui::InputInt("##Columns", &m_col))
+		{
+
+		}
+		ImGui::PushID("AutoSlicer");
+		if (ImGui::Button("Auto Slice", ImVec2(columnWidth, 25.0f)))
+		{
+
+		}
+		ImGui::PopID();
+
+		ImGui::Dummy(ImVec2(0.0f, 35.0f));
+
+		ImGui::Text("Sprites");
+		for (Sprite const& sprite : m_inspectedSheet.Sprites())
+		{
+			ImGui::Text("Slice %d:", sprite.m_index);
+			ImGui::InputInt("X", &m_spriteX);
+			ImGui::SameLine();
+			ImGui::InputInt("Y", &m_spriteY);
+			ImGui::SameLine();
+			ImGui::InputInt("Width", &m_spriteW);
+			ImGui::SameLine();
+			ImGui::InputInt("Height", &m_spriteH);
+		}
+
         /*if (ImGui::Button("Add Slice"))
         {
             m_inspectedSheet->Slice({ 0, 0 }, 0, 0);

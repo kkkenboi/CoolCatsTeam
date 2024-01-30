@@ -71,9 +71,12 @@ namespace LB
 
         char m_name[256]{};
         int m_textureID{ 0 }; // For ImGUI to display
+        int m_sliceX{ 0 }, m_sliceY{ 0 }, m_sliceWidth{ 0 }, m_sliceHeight{ 0 };
+        int m_row{ 0 }, m_col{0};
 
-        /*int m_row{ 0 }, m_col{0};
-        int textureID, slotID;
+        int m_spriteX, m_spriteY, m_spriteW, m_spriteH;
+
+        /*int textureID, slotID;
         float textureAspect;
         ImVec2 textureSize;*/
 	};
