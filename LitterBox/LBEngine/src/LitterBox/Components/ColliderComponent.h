@@ -105,6 +105,9 @@ namespace LB {
 		// Layer
 		ColliderLayer m_collisionlayer;
 
+		// Implicit Grid
+		std::vector<int> m_grid_frames;
+
 		/*!***********************************************************************
 		  \brief
 		  Constructor for the Collider class
@@ -209,6 +212,13 @@ namespace LB {
 		  This serializes some of the data members of CPCollider
 		*************************************************************************/
 		GameObject* GetGameObject();
+
+
+		std::vector<int> GetGridFrames();
+
+		void ChangeGridFrame(std::vector<int> frame);
+
+		void UpdateGridFrame();
 
 		/*!***********************************************************************
 		  \brief

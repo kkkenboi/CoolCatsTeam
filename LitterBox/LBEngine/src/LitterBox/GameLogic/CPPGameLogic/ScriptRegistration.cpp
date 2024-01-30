@@ -22,7 +22,8 @@
 #include "CPPSBaseGolfBall.h"
 #include "CPPSPlayerGolfBall.h"
 #include "PauseMenuScript.h"
-#include "CPPSPlayerHUD.h"
+#include "CPPSAimUI.h"
+#include "CPPGameManager.h"
 
 namespace LB 
 {

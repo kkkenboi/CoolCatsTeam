@@ -14,15 +14,14 @@ it handls the logic for the Mage enemy
 **************************************************************************/
 
 #pragma once
-#include "CPPBehaviour.h"
+#include "CPPSBaseEnemy.h"
 #include "CPPSBaseGolfBall.h"
-#include "Litterbox/Factory/Components.h"
 #include "LitterBox/GameLogic/StateMachine.h"
 
 namespace LB
 {
 	// Use GameObj to access the gameobj of the class
-	class CPPSMage : public CPPBehaviour
+	class CPPSMage : public CPPSBaseEnemy
 	{
 	public:
 		/*!***********************************************************************
@@ -33,21 +32,23 @@ namespace LB
 		void Update() override;
 		void Destroy() override;
 
-		//getter functions
-		CPRender* GetRender();
-		CPRigidBody* GetRigidBody();
-		CPCollider* GetCollider();
-		GameObject* GetHero();
+		//getter functions //inherited now
+		/*virtual CPRender* GetRender() override;
+		virtual CPRigidBody* GetRigidBody() override;
+		virtual CPCollider* GetCollider() override;
+		virtual GameObject* GetHero() override;*/
 		GameObject* GetProjectile();
 
 		//spawn function
 		void SpawnProjectile();
 
-		void OnCollisionEnter(CollisionData colData);
+		void OnCollisionEnter(CollisionData colData) override;
+		void Die() override;
 
 		//stats of what the mage will have
-		int mHealth; //health of the mage
-		float mSpeedMagnitude{}; //normal speed when approaching towards the player
+		// inherited now
+		//int mHealth; //health of the mage
+		//float mSpeedMagnitude{}; //normal speed when approaching towards the player
 		float mBackOffSpeed{}; //When player is nearby, it backs off
 
 		//------------------CHASE STATE------------------
@@ -68,21 +69,21 @@ namespace LB
 		float rangeDistance{};
 
 		//------------------Rendering,RB,Collider------------------
-		CPRender* mRender; //animation purpose
-		CPRigidBody* mRigidBody; //Getting the RB of the enemy
-		CPCollider* mCollider; //Getting the collider of the enemy
+		//CPRender* mRender; //animation purpose
+		//CPRigidBody* mRigidBody; //Getting the RB of the enemy
+		//CPCollider* mCollider; //Getting the collider of the enemy
 
 	private:
-		GameObject* mPlayer{ nullptr }; //Getting the player GameObject
+		//GameObject* mPlayer{ nullptr }; //Getting the player GameObject
 		GameObject* mProjectile{ nullptr }; //Getting the projectile GameObject
-		Vec2<float> leftFace;
-		Vec2<float> rightFace;
+		//Vec2<float> leftFace;
+		//Vec2<float> rightFace;
 
 		// Holds the different state and the current state
 		// that the Mage enemy is in
 		FiniteStateMachine mFSM{}; //state machine of the mage enemy, I will have to add into it
 
-		bool mInitialised{ false }, mShouldDestroy{ false }; //setting to false, later after everything has been initialised in the cpp, it will set to true
+		bool mInitialised{ false }; //setting to false, later after everything has been initialised in the cpp, it will set to true
 	};
 	REGISTER_SCRIPT(CPPSMage)
 

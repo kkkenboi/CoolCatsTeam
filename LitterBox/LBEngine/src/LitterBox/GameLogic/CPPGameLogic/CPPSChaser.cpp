@@ -31,13 +31,14 @@ namespace LB
 	*************************************************************************/
 	void CPPSChaser::Start()
 	{
+		CPPSBaseEnemy::Start();
 		//Intialise the components
 		// 		right_face = trans->GetScale();
-		rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
+	/*	rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
 		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
-		leftFace.x = -leftFace.x;
+		leftFace.x = -leftFace.x;*/
 		//GameObj = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider });
-		if (GameObj->HasComponent<CPRender>()) 
+		/*if (GameObj->HasComponent<CPRender>()) 
 		{
 			mRender = GameObj->GetComponent<CPRender>();
 		}
@@ -63,7 +64,7 @@ namespace LB
 		{
 			mCollider = nullptr;
 			return;
-		}
+		}*/
 
 		//mRender->UpdateTexture(ASSETMANAGER->GetTextureIndex("chaser"));
 
@@ -78,13 +79,13 @@ namespace LB
 
 		mFSM.SetCurrentState("Idle");
 
-		std::vector<GameObject*> GOs = GOMANAGER->GetGameObjects();
+	/*	std::vector<GameObject*> GOs = GOMANAGER->GetGameObjects();
 		for (GameObject* GO : GOs) {
 			if (GO->GetName() == "MainChar") {
 				mPlayer = GO;
 				break;
 			}
-		}
+		}*/
 
 		mGotAttacked = 0.5f;
 		mGotAttackedCooldown = 0.0f;
@@ -101,11 +102,13 @@ namespace LB
 	*************************************************************************/
 	void CPPSChaser::Update()
 	{
+		CPPSBaseEnemy::Update();
 		//DebuggerLog("In ChaserUpdate\n");
-		if (INPUT->IsKeyPressed(KeyCode::KEY_0))
+		//Kill command moved to base enemy
+	/*	if (INPUT->IsKeyPressed(KeyCode::KEY_0))
 		{
 			mShouldDestroy = true;
-		}
+		}*/
 		if (mShouldDestroy)
 		{
 			GOMANAGER->RemoveGameObject(this->GameObj);
@@ -114,12 +117,12 @@ namespace LB
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
-		Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
+	/*	Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
 		Vec2<float> TransformRight{ 1,0 };
 		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
 		{
 			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
-		} else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
+		} else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);*/
 		mFSM.Update();
 	}
 	/*!***********************************************************************
@@ -158,67 +161,75 @@ namespace LB
 
 				if (mHealth < 0)
 				{
-					GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
-					GameObj->RemoveComponent(C_CPCollider);
-					mShouldDestroy = true;
+					Die();
 				}
 			}
 		}
+	}
+
+	void CPPSChaser::Die()
+	{
+		//We access the base class first
+		CPPSBaseEnemy::Die();
+	/*	GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
+		GameObj->RemoveComponent(C_CPCollider);
+		mShouldDestroy = true;*/
+		//Code to play death anim goes here
 	}
 
 	/*!***********************************************************************
 	\brief
 	Getter for the render component 
 	*************************************************************************/
-	CPRender* CPPSChaser::GetRender()
+	/*CPRender* CPPSChaser::GetRender()
 	{
 		return mRender;
-	}
+	}*/
 
 	/*!***********************************************************************
 	\brief
 	Getter for the rigidbody component 
 	*************************************************************************/
-	CPRigidBody* CPPSChaser::GetRigidBody()
+	/*CPRigidBody* CPPSChaser::GetRigidBody()
 	{
 		return mRigidBody;
-	}
+	}*/
 
 	/*!***********************************************************************
 	\brief
 	Getter for the collider component 
 	*************************************************************************/
-	CPCollider* CPPSChaser::GetCollider()
+	/*CPCollider* CPPSChaser::GetCollider()
 	{
 		return mCollider;
-	}
+	}*/
 
 	/*!***********************************************************************
 	\brief
 	Getter for the player object 
 	*************************************************************************/
-	GameObject* CPPSChaser::GetHero()
+	/*GameObject* CPPSChaser::GetHero()
 	{
 		return mPlayer;
-	}
+	}*/
 
 	/*!***********************************************************************
 	\brief
 	Getter for player's health
 	*************************************************************************/
-	int& CPPSChaser::GetHealth()
+	/*int& CPPSChaser::GetHealth()
 	{
 		return mHealth;
-	}
+	}*/
 
 	/*!***********************************************************************
 	\brief
 	Getter for speed magnitude
 	*************************************************************************/
-	float& CPPSChaser::GetSpeedMag()
+	/*float& CPPSChaser::GetSpeedMag()
 	{
 		return mSpeedMagnitude;
-	}
+	}*/
 
 	/*!***********************************************************************
 	\brief

@@ -53,6 +53,9 @@ namespace LB
 
 		// Initialize the ColliderLayerSystem
 		m_layerSystem.Initialize();
+		
+		// Initialize the ColliderImplicitGridSystem
+		m_implicitgridSystem.Initialize();
 	}
 
 	/*!***********************************************************************
@@ -221,6 +224,11 @@ namespace LB
 	{
 		return m_layerSystem;
 	}
+
+	ColliderImplicitGridSystem& ColliderManager::GetGridSystem()
+	{
+		return m_implicitgridSystem;
+	}
 	
 
 	// ===
@@ -352,6 +360,10 @@ namespace LB
 *************************************************************************/
 	void ColliderManager::FixedUpdate()
 	{
+		// ==================
+		// Update Implicit Grid
+		// ==================
+		this->m_implicitgridSystem.CalculateCellWidthHeight();
 		
 		// ==================
 		// Update Collider Positions
@@ -398,7 +410,13 @@ namespace LB
 						continue;
 					}
 				}
-
+				
+				// Check if colliders are in the same grid frame
+				if (!this->GetGridSystem().CheckGridFrames(colA, colB))
+				{
+					continue;
+				}
+				
 				// Check if layers can be collided with, if cannot collide, continue
 				if (!this->GetLayerSystem().ShouldLayerCollide(colA->m_collisionlayer, colB->m_collisionlayer))
 				{
@@ -489,6 +507,9 @@ namespace LB
 					m_colliderPool[i]->DebugDraw();
 				}
 			}
+
+			// Draw ImplicitGrid
+			GetGridSystem().DrawGridLines();
 		}
 	}
 
