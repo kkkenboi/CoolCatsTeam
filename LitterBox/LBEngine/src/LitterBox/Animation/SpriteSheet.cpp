@@ -24,12 +24,12 @@ namespace LB
 		Value indexValue;
 		data.AddMember("Index", m_index, alloc);
 		Value positionValue;
-		if (m_pos.Serialize(positionValue, alloc)) 
+		if (m_min.Serialize(positionValue, alloc)) 
 		{
 			data.AddMember("Position", positionValue, alloc);
 		}
 		Value sizeValue;
-		if (m_size.Serialize(sizeValue, alloc))
+		if (m_max.Serialize(sizeValue, alloc))
 		{
 			data.AddMember("Size", sizeValue, alloc);
 		}
@@ -52,8 +52,8 @@ namespace LB
 				const Value& sizeValue = data["Size"];
 
 				m_index = indexValue.GetInt();
-				m_pos.Deserialize(positionValue);
-				m_size.Deserialize(sizeValue);
+				m_min.Deserialize(positionValue);
+				m_max.Deserialize(sizeValue);
 
 				return true;
 			}
@@ -73,6 +73,10 @@ namespace LB
 
 		Value pngValue(m_pngName.c_str(), alloc);
 		data.AddMember("PNG", pngValue, alloc);
+
+		// TO BE REFACTORED
+		data.AddMember("Rows", m_row, alloc);
+		data.AddMember("Cols", m_col, alloc);
 
 		Value spriteArray(rapidjson::kArrayType);
 		for (auto& sprite : m_sprites)
@@ -97,6 +101,10 @@ namespace LB
 		bool HasPNG = data.HasMember("PNG");
 		bool HasSprites = data.HasMember("Sprites");
 
+		// TO BE REFACTORED
+		bool HasRows = data.HasMember("Rows");
+		bool HasCols = data.HasMember("Cols");
+
 		if (data.IsObject())
 		{
 			if (HasName)
@@ -119,15 +127,26 @@ namespace LB
 					m_sprites.push_back(newSprite);
 				}
 			}
+			// TO BE REFACTORED
+			if (HasRows)
+			{
+				const Value& rowValue = data["Rows"];
+				m_row = rowValue.GetFloat();
+			}
+			if (HasCols)
+			{
+				const Value& colValue = data["Cols"];
+				m_col = colValue.GetFloat();
+			}
 			return true;
 		}
 
 		return false; 
 	}
 
-	void SpriteSheet::Slice(Vec2<int> pos, int width, int height)
+	void SpriteSheet::Slice(Vec2<float> min, Vec2<float> max)
 	{
-		m_sprites.emplace_back(Size(), pos, width, height);
+		m_sprites.emplace_back(Size(), min, max);
 	}
 
 	Sprite& SpriteSheet::At(int index)
@@ -145,7 +164,7 @@ namespace LB
 		return m_sprites[index];
 	}
 
-	std::vector<Sprite> const& SpriteSheet::Sprites() const
+	std::vector<Sprite>& SpriteSheet::Sprites()
 	{
 		return m_sprites;
 	}

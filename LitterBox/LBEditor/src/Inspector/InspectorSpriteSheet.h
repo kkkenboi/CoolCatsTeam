@@ -42,12 +42,8 @@ namespace LB
 
         void LoadSpriteSheet(std::string name);
 
-        //void PreviewTexture();
-
-        ////void calPreviewSize(float width, float height, float previewLimit);
-
-        //void SpilttingTheSprites();
-        //void createUV(int rows, int cols);
+        void SpilttingTheSprites();
+        void createUV(int rows, int cols);
 
         ////function for generating appropriate size preview
         //void calPreviewSize(float width, float height, float previewLimit);
@@ -76,9 +72,10 @@ namespace LB
 
         int m_spriteX, m_spriteY, m_spriteW, m_spriteH;
 
-        /*int textureID, slotID;
+
+        int textureID, slotID;
         float textureAspect;
-        ImVec2 textureSize;*/
+        ImVec2 textureSize;
 	};
 
     extern InspectorSpriteSheet* INSPECTORSPRITESHEET;

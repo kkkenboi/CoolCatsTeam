@@ -19,15 +19,15 @@ namespace LB
 {
 	struct Sprite
 	{
-		Sprite() : m_index{ 0 }, m_pos{}, m_size{} {}
-		Sprite(int index, Vec2<int> pos, Vec2<int> size) : m_index{ index }, m_pos{ pos }, m_size{ size } { }
-		Sprite(int index, Vec2<int> pos, int width, int height) : m_index{ index }, m_pos{ pos }, m_size{ Vec2<int>{width, height} } { }
+		Sprite() : m_index{ 0 }, m_min{}, m_max{} {}
+		Sprite(int index, Vec2<float> min, Vec2<float> max) : m_index{ index }, m_min{ min }, m_max{ max } { }
+		Sprite(int index, Vec2<float> min, float max_x, float max_y) : m_index{ index }, m_min{ min }, m_max{ Vec2<float>{max_x, max_y} } { }
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
 		bool Deserialize(const Value& data); //to load
 
 		int m_index;
-		Vec2<int> m_pos, m_size;
+		Vec2<float> m_min, m_max;
 	};
 
 	class SpriteSheet
@@ -39,12 +39,12 @@ namespace LB
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
 		bool Deserialize(const Value& data); //to load
 
-		void Slice(Vec2<int> pos, int width, int height);
+		void Slice(Vec2<float> min, Vec2<float> max);
 
 		Sprite& At(int index);
 		Sprite& operator[](int index);
 		Sprite const& operator[](int index) const;
-		std::vector<Sprite> const& Sprites() const;
+		std::vector<Sprite>& Sprites();
 
 		std::string const& GetPNGRef() const;
 		void SetPNGRef(std::string const& newPNG);
@@ -53,6 +53,9 @@ namespace LB
 		void SetName(std::string const& newName);
 
 		size_t Size();
+
+		// TO BE REFACTORED
+		int m_row, m_col;
 
 	private:
 		std::string m_name, m_pngName;

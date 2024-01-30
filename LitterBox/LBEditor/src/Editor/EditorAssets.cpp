@@ -45,7 +45,7 @@ namespace LB
 			try
 			{
 				std::filesystem::path fileToCopy{ paths[i] };
-				std::filesystem::copy_file(fileToCopy, EDITORASSETS->currentDirectory/fileToCopy.filename());
+				std::filesystem::copy_file(fileToCopy, EDITORASSETS->currentDirectory / fileToCopy.filename());
 				ReimportAssets();
 				//WINDOWSSYSTEM->OnApplicationFocus.Invoke();
 			}
@@ -91,7 +91,7 @@ namespace LB
 
 	/*!***********************************************************************
 	  \brief
-	  Updates the EditorAssets layer. Handles the bulk of the content browser 
+	  Updates the EditorAssets layer. Handles the bulk of the content browser
 	  \return
 	  Nothing.
 	*************************************************************************/
@@ -100,7 +100,7 @@ namespace LB
 		ImGui::Begin(GetName().c_str());
 		//float panelWidth = ImGui::GetContentRegionAvail().x;
 		ImGui::Text(folderPathName.c_str());	//this puts the text for the filepath "Assets/Textures/fhksjfh"
-		ImGui::SameLine(0,69.f);
+		ImGui::SameLine(0, 69.f);
 		ImGui::Text("Files");
 		ImGui::Columns(2, "Folders", true);		//We set 2 columns
 		ImGui::SetColumnWidth(0, 100.f);		//and make the width fixed at 100
@@ -147,13 +147,13 @@ namespace LB
 				std::string FileName = directory.path().filename().stem().string();
 				ImGui::PushID(FileName.c_str());
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-				
+
 				if (directory.path().extension().string() == ".png")
-				ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()))), {64,64}, {0,1}, {1,0});
+					ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()))), { 64,64 }, { 0,1 }, { 1,0 });
 				else if (directory.path().extension().string() == ".wav")
-				ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("wav"))), {64,64}, {0,1}, {1,0});
-				else 
-				ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("FileIcon"))), {64,64}, {0,1}, {1,0});
+					ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("wav"))), { 64,64 }, { 0,1 }, { 1,0 });
+				else
+					ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("FileIcon"))), { 64,64 }, { 0,1 }, { 1,0 });
 				//DebuggerLogFormat("Texture ID : %d", ASSETMANAGER->GetTextureIndex("cat"));
 				//DebuggerLogFormat("Cast Texture ID : %d", *(ImTextureID)ASSETMANAGER->GetTextureIndex("run"));
 				ImGui::PopStyleColor();
@@ -162,13 +162,14 @@ namespace LB
 				{
 					DebuggerLog("Clicked on " + FileName);
 					std::string fileExtension = directory.path().extension().string();
-					if (fileExtension != ".prefab" && 
-						fileExtension != ".scene" && 
-						fileExtension != ".wav" && 
-						fileExtension != ".png" && 
-						fileExtension != ".shader" && 
-						fileExtension != ".otf" && 
-						fileExtension != ".ttf")
+					if (fileExtension != ".prefab" &&
+						fileExtension != ".scene" &&
+						fileExtension != ".wav" &&
+						fileExtension != ".png" &&
+						fileExtension != ".shader" &&
+						fileExtension != ".otf" &&
+						fileExtension != ".ttf" &&
+						fileExtension != ".spritesheet")
 					{
 						DebuggerLog("Invalid file extension " + fileExtension + " was clicked!");
 						ImGui::OpenPopup("Error!");
@@ -183,29 +184,14 @@ namespace LB
 					if (ImGui::BeginDragDropSource())
 					{
 						//DebuggerLog(directory.path().extension().string());
-						ImGui::SetDragDropPayload("PREFAB", FileName.c_str(), FileName.size()+1);
+						ImGui::SetDragDropPayload("PREFAB", FileName.c_str(), FileName.size() + 1);
 						ImGui::EndDragDropSource();
 					}
 					//PREFAB EDITOR STUFF
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
-						// To be changed to a better identifier for scene files
-						if (directory.path().filename().string().find("Scene") != std::string::npos)
-						{
-							if (!CORE->IsPlaying())
-								SCENEMANAGER->LoadScene(directory.path().filename().stem().string());
-							else
-								DebuggerLogWarningFormat("Tried to load new scene from Assets %s while a scene is running.", directory.path().filename().stem().string().c_str());
-						}
-						else if (directory.path().filename().string().find("SpriteSheet") != std::string::npos) //NEED CHANGE
-						{
-							INSPECTORSPRITESHEET->LoadSpriteSheet(directory.path().filename().stem().string());
-							EDITORINSPECTOR->SetWindowSpriteSheet();
-						}
-						else //that means it's a prefab instead
-						{
-							DebuggerLog(directory.path().filename().string());
-							
+						DebuggerLog(directory.path().filename().string());
+
 						GameObject* prefab = FACTORY->SpawnGameObject({}, GOSpawnType::FREE_FLOATING);
 						JSONSerializer::DeserializeFromFile(FileName.c_str(), *prefab);
 						prefab->SetName(FileName.c_str());
@@ -230,21 +216,15 @@ namespace LB
 				{
 					if (ImGui::BeginDragDropSource())
 					{
-						ImGui::SetDragDropPayload("TEXTURE", FileName.c_str(), FileName.size()+1);
+						ImGui::SetDragDropPayload("TEXTURE", FileName.c_str(), FileName.size() + 1);
 						ImGui::EndDragDropSource();
 					}
-					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-					{
-
-					}
-
-					//if
 				}
 				if (directory.path().extension().string() == ".wav")
 				{
 					if (ImGui::BeginDragDropSource())
 					{
-						ImGui::SetDragDropPayload("AUDIO", FileName.c_str(), FileName.size()+1);
+						ImGui::SetDragDropPayload("AUDIO", FileName.c_str(), FileName.size() + 1);
 						ImGui::EndDragDropSource();
 					}
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
@@ -255,8 +235,14 @@ namespace LB
 						//Load the properties into the inspector
 					}
 				}
-
-				
+				if (directory.path().extension().string() == ".spritesheet")
+				{
+					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+					{
+						INSPECTORSPRITESHEET->LoadSpriteSheet(directory.path().filename().stem().string());
+						EDITORINSPECTOR->SetWindowSpriteSheet();
+					}
+				}
 
 
 				//IF USER RIGHT CLICKS
@@ -278,8 +264,8 @@ namespace LB
 						ImGui::Text("Are you sure you want to delete this asset?\nThis action CANNOT be undone!");
 						ImGui::Separator();
 
-						if (ImGui::Button("Confirm")) 
-						{ 
+						if (ImGui::Button("Confirm"))
+						{
 							//CPP function to delete a file from it's file path.
 							//We're guaranteed to have a valid filepath so we don't have to check if it exists or not.
 							std::remove(directory.path().string().c_str());
@@ -287,7 +273,7 @@ namespace LB
 							ImGui::ClosePopupToLevel(0, true);	//this closes ALL windows including the previous pop up
 						}
 						ImGui::SameLine();
-						if (ImGui::Button("Cancel")) {  ImGui::ClosePopupToLevel(0, true); }
+						if (ImGui::Button("Cancel")) { ImGui::ClosePopupToLevel(0, true); }
 
 						ImGui::SetItemDefaultFocus();
 						ImGui::EndPopup();
@@ -297,12 +283,12 @@ namespace LB
 				//The name of the folder is without the file extension probably...
 				ImGui::Text(directory.path().filename().stem().string().c_str());
 
-				
+
 				// Always center this window when appearing
 				ImVec2 center = ImGui::GetMainViewport()->GetCenter();
 				ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
-				
+
 
 				if (ImGui::BeginPopupModal("Error!", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 				{
@@ -322,5 +308,5 @@ namespace LB
 
 		ImGui::End();
 	}
-	
+
 }
