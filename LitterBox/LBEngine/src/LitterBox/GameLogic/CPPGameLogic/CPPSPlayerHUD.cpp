@@ -97,11 +97,9 @@ namespace LB {
 
 		for (size_t i{ 1 }; i <= m_maxBalls; i++)
 		{
-			std::cout << m_currentBalls << std::endl;
 			// Set the texture for lost health
 			if (i > m_currentBalls)
 			{
-				std::cout << "Should deactivate " << i << std::endl;
 				m_TotalBallsDisplay[i - 1]->GetComponent<CPRender>()->ToggleActive(false);
 			}
 			else
