@@ -12,7 +12,7 @@ namespace LB {
 	//Vec2 heartDisplayScale  { 0.3f, 0.3f };
 	//Vec2 ballDisplayScale   { 0.3f, 0.3f };
 	//Vec2 upgradeDisplayScale{ 0.3f, 0.3f };
-	Vec2 displayScale{ 0.3f, 0.3f };
+	Vec2 displayScale{ 1.f, 1.f };
 
 	//Vec2 heartDisplayOffset{ 130.f, 130.f };
 	//Vec2 ballDisplayOffset{ 130.f, 130.f };
@@ -64,19 +64,6 @@ namespace LB {
 
 			m_TotalBallsDisplay.push_back(ballObject);
 		}
-
-		// Check if the heart/balls are not active
-
-		//else if (gameObj->GetName() == "BallDisplay")
-		//{
-		//	m_BallsDisplay = gameObj;
-		//}
-
-		//else if (gameObj->GetName() == "UpgradeDisplay")
-		//{
-		//	m_UpgradeDisplay = gameObj;
-		//}
-
 	}
 
 	void CPPSPlayerHUD::Update()
@@ -114,22 +101,37 @@ namespace LB {
 
 	}
 
-
+	/*!***********************************************************************
+	 \brief
+	 Decreases the member variable for current health in the PlayerHUD
+	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseHealth()
 	{
 		--m_currentHealth;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Decreases the member variable for current balls in the PlayerHUD
+	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseBalls()
 	{
 		--m_currentBalls;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Increases the member variable for current health in the PlayerHUD
+	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseHealth()
 	{
 		++m_currentHealth;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Increases the member variable for current balls in the PlayerHUD
+	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseBalls()
 	{
 		++m_currentBalls;
@@ -170,7 +172,7 @@ namespace LB {
 
 	/*!***********************************************************************
 	 \brief
-	 For event subscription to decrease health when the player takes damage
+	 For event subscription to increase health when the player regens health
 	*************************************************************************/
 	void IncreaseHealth()
 	{
@@ -186,7 +188,7 @@ namespace LB {
 
 	/*!***********************************************************************
 	 \brief
-	 For event subscription to decrease ball when the player places one
+	 For event subscription to increaase ball when the ball expires
 	*************************************************************************/
 	void IncreaseBalls()
 	{

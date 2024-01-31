@@ -1,5 +1,6 @@
 {
     "Root": {
+        "Active": true,
         "Position": {
             "x": 0.0,
             "y": 0.0
@@ -12,7 +13,9 @@
         "Children": [
             {
                 "Name": "Cry 1",
+                "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 850.0,
                         "y": 400.0
@@ -24,6 +27,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Chaser"
@@ -31,7 +35,9 @@
             },
             {
                 "Name": "Big Sad",
+                "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 594.0,
                         "y": 450.0
@@ -43,6 +49,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Chaser"
@@ -50,7 +57,9 @@
             },
             {
                 "Name": "AHHH",
+                "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 1098.0,
                         "y": 450.0
@@ -62,6 +71,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Chaser"
