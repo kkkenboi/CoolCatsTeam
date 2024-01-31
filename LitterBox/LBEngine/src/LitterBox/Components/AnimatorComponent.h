@@ -17,6 +17,7 @@
 #include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox//Renderer/Renderer.h"
+#include "LitterBox/Animation/SpriteSheet.h"
 //#include <array>
 
 namespace LB

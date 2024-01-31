@@ -18,7 +18,6 @@
 #include "LitterBox/Core/Singleton.h"
 #include "Litterbox/Engine/Layer.h"
 #include "LitterBox/Serialization/AssetManager.h"
-
 #include "LitterBox/Animation/SpriteSheet.h"
 
 namespace LB

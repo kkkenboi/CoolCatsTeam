@@ -206,6 +206,10 @@ namespace LB
 		//tiles.clear();
 		m_inspectedSheet.Sprites().clear();
 
+		// TO BE REFACTORED
+		m_inspectedSheet.m_row = m_row;
+		m_inspectedSheet.m_col = m_col;
+
 		for (int y{ rows }; y > 0; --y)
 			for (int x{ 0 }; x < cols; ++x) {
 				//0,0 is bottom left of texture. Therefore, if the first texture is
@@ -223,32 +227,6 @@ namespace LB
 
 	void InspectorSpriteSheet::SpilttingTheSprites()
 	{
-		//add row and column input
-		//Inputs to split the tile map sprite sheet
-		//no real reason that its a static local variable. You can create member variables if you so please
-		//static int row{}, col{};
-		//tracks whether changes to the number of tiles has been made
-		//static bool changed{ false };
-		//ImGui::Text("%-17s", "Rows");
-		//ImGui::SameLine();
-		//ImGui::SetNextItemWidth(normalWidth);
-		/*if (ImGui::InputInt("##Rows", &row))
-			changed = true;
-		ImGui::Text("%-17s", "Columns");
-		ImGui::SameLine();
-		ImGui::SetNextItemWidth(normalWidth);
-		if (ImGui::InputInt("##Columns", &col))
-			changed = true;*/
-
-		//creating vertex of UV data
-		//print confirm button if we changed the row and col values
-		//if (changed && ImGui::Button("Confirm")) {
-		//	createUV(row, col);
-		//	m_row = row;
-		//	m_col = col;
-		//	changed = false;
-		//}
-
 		static bool changed{ false };
 
 		ImGui::Text("Auto Slicer");
@@ -301,17 +279,17 @@ namespace LB
 				for (int c = 0; c < m_inspectedSheet.m_col; ++c)
 				{
 					ImGui::TableSetColumnIndex(c);
-					int tileNum = (c + r * m_inspectedSheet.m_row) + 1;
+					int tileNum = (c + r * m_inspectedSheet.m_col) + 1;
 					ImGui::PushID(tileNum);
 					ImGui::Text("Sprite %i", tileNum);
 					if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef()), ImVec2{normalWidth, normalWidth}
-						, ImVec2{ m_inspectedSheet[r + c * m_inspectedSheet.m_row].m_min.x, m_inspectedSheet[r + c * m_inspectedSheet.m_row].m_max.y }
-						, ImVec2{ m_inspectedSheet[r + c * m_inspectedSheet.m_row].m_max.x, m_inspectedSheet[r + c * m_inspectedSheet.m_row].m_min.y }))
+						, ImVec2{ m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.y }
+						, ImVec2{ m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.y }))
 					{
 
-						DebuggerLogFormat("Sprite %i is selected Min %f %f Max %f %f", r + c * m_inspectedSheet.m_row,
-							m_inspectedSheet[r + c * m_inspectedSheet.m_row].m_min.x, m_inspectedSheet[r + c * m_inspectedSheet.m_row].m_max.y,
-							m_inspectedSheet[r + c * m_inspectedSheet.m_row].m_max.x, m_inspectedSheet[r + c * m_inspectedSheet.m_row].m_min.y);
+						DebuggerLogFormat("Sprite %i is selected Min %f %f Max %f %f", c + r * m_inspectedSheet.m_col,
+							m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.y,
+							m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.y);
 					}
 					ImGui::PopID();
 				}
