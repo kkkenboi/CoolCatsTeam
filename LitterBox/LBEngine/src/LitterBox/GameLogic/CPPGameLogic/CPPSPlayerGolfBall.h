@@ -60,6 +60,7 @@ namespace LB
 		float mSize{}; //the size of the golf ball
 
 		float mLifetime{ 1.5f }, mCurrentLifetime{ 1.5f }; //life time for the golfball to despawn after a certain timing
+		Event<> onBallDisappear;
 	};
 	REGISTER_SCRIPT(CPPSPlayerGolfBall)
 }

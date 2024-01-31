@@ -36,7 +36,7 @@ namespace LB {
 		m_currentHealth = mainChar->GetComponent<CPPSPlayer>()->m_currentHealth;
 		//std::cout << "Current Health: " << m_currentHealth << std::endl;
 		m_maxBalls = mainChar->GetComponent<CPPSPlayer>()->m_maxBalls;
-		m_currentBalls = mainChar->GetComponent<CPPSPlayer>()->m_currentBalls;
+		m_currentBalls = m_maxBalls - mainChar->GetComponent<CPPSPlayer>()->m_currentBalls;
 
 		// Create game objects to display the health and balls
 		for (int i{ 1 }; i <= m_maxHealth; i++)
@@ -97,9 +97,11 @@ namespace LB {
 
 		for (size_t i{ 1 }; i <= m_maxBalls; i++)
 		{
+			std::cout << m_currentBalls << std::endl;
 			// Set the texture for lost health
 			if (i > m_currentBalls)
 			{
+				std::cout << "Should deactivate " << i << std::endl;
 				m_TotalBallsDisplay[i - 1]->GetComponent<CPRender>()->ToggleActive(false);
 			}
 			else
@@ -188,14 +190,14 @@ namespace LB {
 	 \brief
 	 For event subscription to decrease ball when the player places one
 	*************************************************************************/
-	void IncreaseHealth()
+	void IncreaseBalls()
 	{
 		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
 		{
 			// Find out which object is the player
 			if (gameObj->GetName() == "PlayerHUD")
 			{
-				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseHealth();
+				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
 			}
 		}
 	}

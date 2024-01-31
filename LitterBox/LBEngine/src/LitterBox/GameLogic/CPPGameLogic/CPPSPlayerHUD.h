@@ -22,13 +22,13 @@ namespace LB
 		//void InitialiseHUD(int maxHearts, int currentHearts, int maxBalls);
 
 	private:
-		int m_currentHealth;
-		int m_maxHealth;
-		int m_currentBalls;
-		int m_maxBalls;
-		bool m_displayUpgrade;
+		int m_currentHealth{};
+		int m_maxHealth{};
+		int m_currentBalls{};
+		int m_maxBalls{};
+		bool m_displayUpgrade{false};
 
-		GameObject* mainChar;
+		GameObject* mainChar{nullptr};
 
 		std::vector<GameObject*> m_TotalHeartDisplay;
 		std::vector<GameObject*> m_TotalBallsDisplay;

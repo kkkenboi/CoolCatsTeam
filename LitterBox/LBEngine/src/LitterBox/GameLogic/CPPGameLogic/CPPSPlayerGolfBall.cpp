@@ -20,6 +20,7 @@
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Engine/Time.h"
+#include "CPPSPlayerHUD.h"
 
 namespace LB
 {
@@ -47,6 +48,7 @@ namespace LB
 		mSize = 1.0f;
 
 		mCurrentLifetime = mLifetime = 1.0f;
+		onBallDisappear.Subscribe(IncreaseBalls);
 	}
 
 	/*!***********************************************************************
@@ -93,7 +95,10 @@ namespace LB
 	\brief
 	Destroy
 	*************************************************************************/
-	void CPPSPlayerGolfBall::Destroy() { }
+	void CPPSPlayerGolfBall::Destroy() 
+	{
+		onBallDisappear.Invoke();
+	}
 
 	//Getter functions
 	/*!***********************************************************************
