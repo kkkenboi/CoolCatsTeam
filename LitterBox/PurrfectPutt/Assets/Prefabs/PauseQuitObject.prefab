@@ -12,12 +12,16 @@
         "Rotation": 0.0
     },
     "Collider": {
+        "ColliderLayer": {
+            "Layer Name": "Default",
+            "Layer ID": 0
+        },
         "Shape": 1,
         "Width": 266.0,
         "Height": 77.0,
         "Radius": 50.0
     },
     "CPPScript": {
-        "Script": "PauseQuitGameScript"
+        "Script": "class LB::QuitScript"
     }
 }

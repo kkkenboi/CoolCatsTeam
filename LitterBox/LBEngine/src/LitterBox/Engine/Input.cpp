@@ -157,7 +157,6 @@ namespace LB
 		// If mouse position is being controlled externally (like editor), don't use GLFW's
 		if (mousePosOverwritten) 
 		{
-			mousePosOverwritten = false;
 			return;
 		}
 
