@@ -24,6 +24,8 @@
 #include "PauseMenuScript.h"
 #include "CPPSAimUI.h"
 #include "CPPGameManager.h"
+#include "CPPSUpgrade.h"
+#include "CPPSUpgradeManager.h"
 
 namespace LB 
 {

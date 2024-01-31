@@ -2,6 +2,7 @@
 #include "CPPBehaviour.h"
 #include "LitterBox/Factory/Components.h"
 #include <vector>
+#include <random>
 namespace LB
 {
 	enum UpgradeType
@@ -12,7 +13,8 @@ namespace LB
 		MOREBALL,	//Increase ball count by 3	(capped a 9)
 		MOREHEALTH,	//Increase Max health by 1 (capped at 9)
 		MOVESPEED,	//Increase player movespeed
-		BOUNCY		//Ball decrease in size and mass, increases restitution
+		MAXCOUNT
+		
 	};
 
 	class CPPSUpgradeManager : public CPPBehaviour
@@ -26,8 +28,9 @@ namespace LB
 		void HideUpgrades();
 
 		//Really scuffed way of making upgrades
-		std::vector<GameObject*> UpgradesList;
+		std::vector<UpgradeType> UpgradesList;
 	private:
 	};
+	REGISTER_SCRIPT(CPPSUpgradeManager)
 
 }

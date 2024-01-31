@@ -13,7 +13,8 @@ namespace LB
 		void OnCollisionEnter(CollisionData);
 		void AssignUpgradeID(int);
 	private:
-		int upgradeID{};
+		
 	};
+	REGISTER_SCRIPT(CPPSUpgrade)
 }
 

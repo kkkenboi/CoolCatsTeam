@@ -611,6 +611,17 @@
                     },
                     "Rotation": 0.0
                 },
+                "RigidBody": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "Flag"
+                },
                 "Collider": {
                     "ColliderLayer": {
                         "Layer Name": "Default",
@@ -620,6 +631,26 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Radius": 98.0
+                },
+                "CPPScript": {
+                    "Script": "class LB::CPPSUpgrade"
+                }
+            },
+            {
+                "Name": "Upgrade Manager",
+                "Transform": {
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Script": "class LB::CPPSUpgradeManager"
                 }
             }
         ]
