@@ -18,9 +18,6 @@
 // Forward declaration of FiniteStateMachine class
 class FiniteStateMachine;
 
-// T here would be like a
-// scoped enum class type such as T = CHASERENEMY
-// which would have enums like IDLE, CHASE, etc...
 class State
 {
 public:
