@@ -52,6 +52,9 @@ namespace LB
 
 		bool m_isFacingLeft; //facing which direction
 
+		Event<> onTakingDamage;
+		Event<> onPlacingBall;
+
 	private:
 		//direction of where the player is facing
 		LB::Vec2<float> right_face;

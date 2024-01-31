@@ -14,6 +14,10 @@ namespace LB
 		void Update() override;
 		void Destroy() override;
 
+		void DecreaseHealth();
+		void DecreaseBalls();
+		void IncreaseHealth();
+		void IncreaseBalls();
 		//// Assuming that balls are max every time the player enters a new level
 		//void InitialiseHUD(int maxHearts, int currentHearts, int maxBalls);
 
@@ -27,9 +31,14 @@ namespace LB
 		GameObject* mainChar;
 
 		std::vector<GameObject*> m_TotalHeartDisplay;
-		std::stack<GameObject*> m_TotalBallsDisplay;
+		std::vector<GameObject*> m_TotalBallsDisplay;
 		std::stack<GameObject*> m_TotalUpgradeDisplay;
 	};
 	REGISTER_SCRIPT(CPPSPlayerHUD)
+
+	void DecreaseHealth();
+	void DecreaseBalls();
+	void IncreaseHealth();
+	void IncreaseBalls();
 }
 

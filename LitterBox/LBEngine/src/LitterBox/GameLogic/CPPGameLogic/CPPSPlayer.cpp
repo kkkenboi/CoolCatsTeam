@@ -20,6 +20,7 @@
 #include "LitterBox/Engine/Time.h"
 #include <array>
 #include <random>
+#include "CPPSPlayerHUD.h"
 
 namespace LB
 {
@@ -82,6 +83,9 @@ namespace LB
 
 		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), static_cast<int>(rend->w), static_cast<int>(rend->h));
 		rend->play_repeat("player_idle");
+
+		onTakingDamage.Subscribe(DecreaseHealth);
+		onPlacingBall.Subscribe(DecreaseBalls);
 	}
 
 	/*!***********************************************************************
@@ -273,6 +277,7 @@ namespace LB
 		{
 			if (m_currentBalls >= m_maxBalls) return;
 			++m_currentBalls;
+			onPlacingBall.Invoke();
 
 			//Spawn Game Object
 			GameObject* ballObject = FACTORY->SpawnGameObject();
@@ -344,6 +349,8 @@ namespace LB
 			AUDIOMANAGER->SetChannelPitch(Channel, 1.1f);
 
 			--m_currentHealth;
+			// Update the HUD as well
+			onTakingDamage.Invoke();
 
 			if (m_currentHealth < 0)
 			{
