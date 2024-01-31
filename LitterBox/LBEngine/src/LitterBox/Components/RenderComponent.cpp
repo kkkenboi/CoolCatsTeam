@@ -23,9 +23,10 @@ namespace LB
 	bool CPRender::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
-		Value textureName(ASSETMANAGER->GetTextureName(texture).c_str(),alloc);
+		data.AddMember("Active", m_active, alloc);
 		data.AddMember("Width", w, alloc);
 		data.AddMember("Height", h, alloc);
+		Value textureName(ASSETMANAGER->GetTextureName(texture).c_str(),alloc);
 		data.AddMember("Texture", textureName, alloc);
 		return true;
 	}
@@ -36,11 +37,13 @@ namespace LB
 	**************************************************************************/
 	bool CPRender::Deserialize(const Value& data)
 	{
+		bool HasActive = data.HasMember("Active");
 		bool HasTexture = data.HasMember("Texture");
 		bool HasWidth = data.HasMember("Width");
 		bool HasHeight = data.HasMember("Height");
 		if (data.IsObject())
 		{
+			if (HasActive) m_active = data["Active"].GetBool();
 			if (HasWidth) w = data["Width"].GetFloat();
 			if (HasHeight) h = data["Height"].GetFloat();
 			if (HasTexture)
@@ -64,5 +67,15 @@ namespace LB
 			}
 		}
 		return false;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Toggles the ACTUAL active state for this component
+	*************************************************************************/
+	void CPRender::ToggleActive(bool isActive)
+	{
+		if (isActive && !activated) set_active();
+		else if (!isActive && activated) set_active();
 	}
 }

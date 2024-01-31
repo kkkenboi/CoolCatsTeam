@@ -26,9 +26,14 @@ namespace LB
 	*************************************************************************/
 	bool CPScriptCPP::Deserialize(const Value& data)
 	{
+		bool HasActive = data.HasMember("Active");
 		bool HasScript = data.HasMember("Script");
 		if (data.IsObject())
 		{
+			if (HasActive)
+			{
+				m_active = data["Active"].GetBool();
+			}
 			if (HasScript)
 			{
 				const Value& nameValue = data["Script"];
