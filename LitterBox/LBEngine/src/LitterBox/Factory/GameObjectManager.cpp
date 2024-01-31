@@ -37,13 +37,13 @@ namespace LB
 	 \brief
 	 Creates a GameObject
 	*************************************************************************/
-	GameObject::GameObject() : m_Components{}, m_active{ false }, m_ID{} {}
+	GameObject::GameObject() : m_Components{}, m_active{ true }, m_ID{} {}
 
 	/*!***********************************************************************
 	 \brief
 	 Creates a GameObject with an ID
 	*************************************************************************/
-	GameObject::GameObject(int ID) : m_Components{}, m_active{ false }, m_ID{ ID } {}
+	GameObject::GameObject(int ID) : m_Components{}, m_active{ true }, m_ID{ ID } {}
 
 	/*!***********************************************************************
 	 \brief
@@ -138,9 +138,10 @@ namespace LB
 		Value gameObjName(m_name.c_str(), alloc);
 		data.AddMember("Name", gameObjName, alloc);
 
+		data.AddMember("Active", m_active, alloc);
+
 		if (m_Components.find(C_CPTransform) != m_Components.end())
 		{
-			//data.SetObject();
 			Value TransformComponent;
 			m_Components.find(C_CPTransform)->second->Serialize(TransformComponent, alloc);
 			data.AddMember("Transform", TransformComponent, alloc);
@@ -196,6 +197,7 @@ namespace LB
 	bool GameObject::Deserialize(const Value& data)
 	{
 		bool HasName = data.HasMember("Name");
+		bool HasActive = data.HasMember("Active");
 		bool HasTransform = data.HasMember("Transform");
 		bool HasRigidBody = data.HasMember("RigidBody");
 		bool HasRender = data.HasMember("Render");
@@ -210,6 +212,11 @@ namespace LB
 				const Value& nameValue = data["Name"];
 				m_name = nameValue.GetString();
 			}
+			if (HasActive)
+			{
+				const Value& activeValue = data["Active"];
+				m_active = activeValue.GetBool();
+			}
 			if (HasTransform)
 			{
 				if (m_Components.find(C_CPTransform) == m_Components.end())
@@ -220,8 +227,7 @@ namespace LB
 				const Value& transformValue = data["Transform"];
 				m_Components.find(C_CPTransform)->second->Deserialize(transformValue);
 			}
-			//ALL GO's MUST HAVE TRANSFORM!
-			else return false;
+			else return false; //ALL GO's MUST HAVE TRANSFORM!
 			if (HasRigidBody)
 			{
 				if (m_Components.find(C_CPRigidBody) == m_Components.end())
@@ -299,6 +305,15 @@ namespace LB
 		for (auto const& component : m_Components)
 		{
 			component.second->Initialise();
+
+			if (m_active && component.second->m_active)
+			{
+				component.second->ToggleActive(true);
+			}
+			else
+			{
+				component.second->ToggleActive(false);
+			}
 		}
 	}
 
@@ -358,7 +373,14 @@ namespace LB
 		m_active = active;
 		for (auto const& component : m_Components)
 		{
-			component.second->ToggleActive(active);
+			if (m_active && component.second->m_active)
+			{
+				component.second->ToggleActive(true);
+			}
+			else
+			{
+				component.second->ToggleActive(false);
+			}
 		}
 	}
 

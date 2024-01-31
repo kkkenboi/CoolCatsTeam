@@ -1,5 +1,6 @@
 {
     "Root": {
+        "Active": true,
         "Position": {
             "x": 0.0,
             "y": 0.0
@@ -12,7 +13,9 @@
         "Children": [
             {
                 "Name": "PauseMenuHowToPlayTextureObject",
+                "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 960.0,
                         "y": 540.0
@@ -24,6 +27,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
+                    "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "HowToPlay"
@@ -31,7 +35,9 @@
             },
             {
                 "Name": "PauseMenuHowToPlayPreviousMenuButton",
+                "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 200.0,
                         "y": 90.0
@@ -43,6 +49,7 @@
                     "Rotation": -8.8
                 },
                 "Collider": {
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -53,12 +60,15 @@
                     "Radius": 50.0
                 },
                 "CPPScript": {
-                    "Script": "PauseHowToPlayBackScript"
+                    "Active": true,
+                    "Script": "void"
                 }
             },
             {
                 "Name": "PauseMenuScriptHolder",
+                "Active": true,
                 "Transform": {
+                    "Active": true,
                     "Position": {
                         "x": 960.0,
                         "y": 540.0
@@ -70,7 +80,8 @@
                     "Rotation": 0.0
                 },
                 "CPPScript": {
-                    "Script": "PauseMenuScript"
+                    "Active": true,
+                    "Script": "void"
                 }
             }
         ]
