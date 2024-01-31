@@ -37,11 +37,13 @@ namespace LB
 	**************************************************************************/
 	bool CPRender::Deserialize(const Value& data)
 	{
+		bool HasActive = data.HasMember("Active");
 		bool HasTexture = data.HasMember("Texture");
 		bool HasWidth = data.HasMember("Width");
 		bool HasHeight = data.HasMember("Height");
 		if (data.IsObject())
 		{
+			if (HasActive) m_active = data["Active"].GetBool();
 			if (HasWidth) w = data["Width"].GetFloat();
 			if (HasHeight) h = data["Height"].GetFloat();
 			if (HasTexture)

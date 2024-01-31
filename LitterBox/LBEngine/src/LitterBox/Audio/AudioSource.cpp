@@ -129,11 +129,16 @@ namespace LB
 	bool CPAudioSource::Deserialize(const Value& data)
 	{
 		DebuggerLog("Deserializing Audio Source");
+		bool HasActive = data.HasMember("Active");
 		bool HasClipName = data.HasMember("AudioClipName");
 		bool HasPlayOnAwake = data.HasMember("Play On Awake");
 		bool HasLoop = data.HasMember("Loop");
 		bool HasVolume = data.HasMember("Volume");
 		bool HasPitch = data.HasMember("Pitch");
+		if (HasActive)
+		{
+			m_active = data["Active"].GetBool();
+		}
 		if (HasClipName && HasPlayOnAwake && HasLoop && HasVolume && HasPitch)
 		{
 			const Value& _clipName = data["AudioClipName"];

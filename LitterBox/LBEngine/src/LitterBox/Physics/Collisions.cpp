@@ -514,11 +514,16 @@ namespace LB
 	bool CPCollider::Deserialize(const Value& data)
 	{
 		DebuggerLog("Deserializing Collider");
+		bool HasActive = data.HasMember("Active");
 		bool HasLayer = data.HasMember("ColliderLayer");
 		bool HasShape = data.HasMember("Shape");
 		bool HasWidth = data.HasMember("Width");
 		bool HasHeight = data.HasMember("Height");
 		bool HasRadius = data.HasMember("Radius");
+		if (HasActive)
+		{
+			m_active = data["Active"].GetBool();
+		}
 		if (HasLayer)
 		{
 			const Value& layerValue = data["ColliderLayer"];

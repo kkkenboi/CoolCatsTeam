@@ -226,7 +226,6 @@ namespace LB
 				}
 				const Value& transformValue = data["Transform"];
 				m_Components.find(C_CPTransform)->second->Deserialize(transformValue);
-				m_Components.find(C_CPTransform)->second->m_active = data["Active"].GetBool();
 			}
 			else return false; //ALL GO's MUST HAVE TRANSFORM!
 			if (HasRigidBody)

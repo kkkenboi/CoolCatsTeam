@@ -1629,7 +1629,12 @@ bool LB::CPText::Serialize(Value& data, Document::AllocatorType& alloc)
 *************************************************************************/
 bool LB::CPText::Deserialize(const Value& data)
 {
+	bool HasActive = data.HasMember("Active");
 	bool HasMessage = data.HasMember("Message");
+	if (HasActive)
+	{
+		m_active = data["Active"].GetBool();
+	}
 	if (HasMessage)
 	{
 		const Value& messageValue = data["Message"];

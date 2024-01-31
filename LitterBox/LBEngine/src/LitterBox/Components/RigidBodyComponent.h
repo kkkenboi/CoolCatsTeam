@@ -121,12 +121,17 @@ namespace LB
 		bool Deserialize(const Value& data) override
 		{
 			DebuggerLog("Deserialising RB");
+			bool HasActive = data.HasMember("Active");
 			bool HasWidth = data.HasMember("Width");
 			bool HasHeight = data.HasMember("Height");
 			bool HasDensity = data.HasMember("Density");
 			bool HasStatic = data.HasMember("IsStatic");
 			if (data.IsObject())
 			{
+				if (HasActive)
+				{
+					m_active = data["Active"].GetBool();
+				}
 				if (HasWidth && HasHeight && HasDensity && HasStatic)
 				{
 					mWidth = data["Width"].GetFloat();
