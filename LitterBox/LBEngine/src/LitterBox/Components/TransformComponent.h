@@ -49,6 +49,7 @@ namespace LB
 		{
 			DebuggerLog("Serializing Transform");
 			data.SetObject();
+			data.AddMember("Active", m_active, alloc);
 			Value PositionValue;
 			if (m_pos.Serialize(PositionValue, alloc))
 			{
@@ -142,7 +143,8 @@ namespace LB
 			CPTransform* parent{ m_parent };
 			while (parent)
 			{
-				globalScale += parent->GetLocalScale();
+				globalScale.x *= parent->GetLocalScale().x;
+				globalScale.y *= parent->GetLocalScale().y;
 				parent = parent->GetParent();
 			}
 			return globalScale;

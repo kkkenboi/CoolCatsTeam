@@ -1,0 +1,19 @@
+{
+    "Name": "Ball HUD",
+    "Transform": {
+        "Position": {
+            "x": 126.0,
+            "y": 830.0
+        },
+        "Scale": {
+            "x": 0.8,
+            "y": 0.8
+        },
+        "Rotation": 0.0
+    },
+    "Render": {
+        "Width": 50.0,
+        "Height": 50.0,
+        "Texture": "GolfBall"
+    }
+}

@@ -1,0 +1,78 @@
+{
+    "Root": {
+        "Position": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "PauseMenuHowToPlayTextureObject",
+                "Transform": {
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 19.2,
+                        "y": 10.8
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "HowToPlay"
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayPreviousMenuButton",
+                "Transform": {
+                    "Position": {
+                        "x": 200.0,
+                        "y": 90.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": -8.8
+                },
+                "Collider": {
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 260.0,
+                    "Height": 200.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Script": "void"
+                }
+            },
+            {
+                "Name": "PauseMenuScriptHolder",
+                "Transform": {
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Script": "void"
+                }
+            }
+        ]
+    }
+}

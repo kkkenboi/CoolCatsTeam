@@ -22,7 +22,6 @@
 
 namespace LB
 {
-
 	/*!***********************************************************************
 	\brief
 	 Initializes the GameObjects needed for the script

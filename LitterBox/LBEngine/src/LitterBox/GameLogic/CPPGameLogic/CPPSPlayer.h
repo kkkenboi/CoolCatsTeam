@@ -45,16 +45,20 @@ namespace LB
 
 		int m_maxBalls, m_currentBalls; //max golf balls that the player can hold, and the current count of how many balls it has spawn
 
-		int m_health; //health of the player
+		int m_maxHealth, m_currentHealth; //health of the player
 		float mGotAttacked, mGotAttackedCooldown; //attacking and cooling down of the attack
 
 		float m_shootForce, m_shootRadius; //shooting of the golf ball force and the radius to shoot
 
 		bool m_isFacingLeft; //facing which direction
 
+		Event<> onTakingDamage;
+		Event<> onPlacingBall;
+
 	private:
 		//direction of where the player is facing
 		LB::Vec2<float> right_face;
 		LB::Vec2<float> left_face;
 	};
+	REGISTER_SCRIPT(CPPSPlayer)
 }

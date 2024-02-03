@@ -20,28 +20,10 @@
 #pragma once
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Serialization/Serializer.h"
+#include "ComponentTypeID.h"
 
 namespace LB
 {
-	/*!***********************************************************************
-	 \brief
-	 List of all component types in the engine
-	*************************************************************************/
-	enum ComponentTypeID
-	{
-		C_CPNone = 0,
-		C_CPRigidBody,
-		C_CPTransform,
-		C_CPRender,
-		C_CPScript,
-		C_CPScriptCPP,
-		C_CPCollider,
-		C_CPCamera,
-		C_CPAudioSource,
-		C_CPText,
-		C_CPAnimator
-	};
-
 	/*!***********************************************************************
 	 \brief
 	 IComponent class provides an interface for other components to build off
@@ -80,7 +62,28 @@ namespace LB
 		*************************************************************************/
 		virtual void Destroy() {}
 
+		/*!***********************************************************************
+		 \brief
+		 Toggles the ACTUAL active state for this component
+		*************************************************************************/
 		virtual void ToggleActive(bool isActive) {}
+
+		/*!***********************************************************************
+		 \brief
+		 Toggles the FLAG for the active state for this component
+		*************************************************************************/
+		void ToggleActiveFlag(bool isActive)
+		{
+			m_active = isActive;
+			if (m_active && gameObj->IsActive())
+			{
+				ToggleActive(true);
+			}
+			else
+			{
+				ToggleActive(false);
+			}
+		}
 
 		/*!***********************************************************************
 		 \brief
@@ -89,5 +92,6 @@ namespace LB
 		virtual ~IComponent() {}
 
 		GameObject* gameObj{ nullptr }; // Every component has a reference to its object it is part of
+		bool m_active{ true };
 	};
 }

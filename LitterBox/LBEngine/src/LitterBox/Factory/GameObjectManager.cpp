@@ -23,6 +23,8 @@
 #include "GameObjectFactory.h"
 #include <algorithm>			// For std::find
 
+#include "LitterBox/Components/CPPScriptComponent.h"
+
 namespace LB
 {
 	/***************************************************************************************************
@@ -30,18 +32,18 @@ namespace LB
 	* Game Object
 	*
 	***************************************************************************************************/
-	
+
 	/*!***********************************************************************
 	 \brief
 	 Creates a GameObject
 	*************************************************************************/
-	GameObject::GameObject() : m_Components{}, m_active{ false }, m_ID{} {}
+	GameObject::GameObject() : m_Components{}, m_active{ true }, m_ID{} {}
 
 	/*!***********************************************************************
 	 \brief
 	 Creates a GameObject with an ID
 	*************************************************************************/
-	GameObject::GameObject(int ID) : m_Components{}, m_active{ false }, m_ID{ ID } {}
+	GameObject::GameObject(int ID) : m_Components{}, m_active{ true }, m_ID{ ID } {}
 
 	/*!***********************************************************************
 	 \brief
@@ -79,9 +81,14 @@ namespace LB
 	 \return
 	 Map to the GameObject's components
 	*************************************************************************/
-	std::unordered_map<ComponentTypeID, IComponent*> GameObject::GetComponents()
+	std::unordered_multimap<ComponentTypeID, IComponent*> GameObject::GetAllComponents()
 	{
 		return m_Components;
+	}
+
+	void* GameObject::GetScript()
+	{
+		return static_cast<CPScriptCPP*>(m_Components.find(C_CPScriptCPP)->second)->GetInstance();
 	}
 
 	/*!***********************************************************************
@@ -90,7 +97,7 @@ namespace LB
 	 \return
 	 Nothing
 	*************************************************************************/
-	void GameObject::SetComponents(const std::unordered_map<ComponentTypeID, IComponent*>& otherMap)
+	void GameObject::SetComponents(const std::unordered_multimap<ComponentTypeID, IComponent*>& otherMap)
 	{
 		this->m_Components = otherMap;
 	}
@@ -104,7 +111,7 @@ namespace LB
 	void GameObject::AddComponent(ComponentTypeID id, IComponent* component)
 	{
 		component->gameObj = this;
-		m_Components[id] = component;
+		m_Components.insert({ id, component });
 	}
 
 	/*!***********************************************************************
@@ -115,7 +122,7 @@ namespace LB
 	*************************************************************************/
 	void GameObject::RemoveComponent(ComponentTypeID id)
 	{
-		m_Components[id]->Destroy();
+		m_Components.find(id)->second->Destroy();
 		m_Components.erase(id);
 	}
 	
@@ -131,11 +138,12 @@ namespace LB
 		Value gameObjName(m_name.c_str(), alloc);
 		data.AddMember("Name", gameObjName, alloc);
 
+		data.AddMember("Active", m_active, alloc);
+
 		if (m_Components.find(C_CPTransform) != m_Components.end())
 		{
-			//data.SetObject();
 			Value TransformComponent;
-			m_Components[C_CPTransform]->Serialize(TransformComponent, alloc);
+			m_Components.find(C_CPTransform)->second->Serialize(TransformComponent, alloc);
 			data.AddMember("Transform", TransformComponent, alloc);
 		}
 		//We will return false if we fail to serialise a transform because
@@ -144,37 +152,37 @@ namespace LB
 		if (m_Components.find(C_CPRigidBody) != m_Components.end())
 		{
 			Value RigidBodyComponent;
-			m_Components[C_CPRigidBody]->Serialize(RigidBodyComponent, alloc);
+			m_Components.find(C_CPRigidBody)->second->Serialize(RigidBodyComponent, alloc);
 			data.AddMember("RigidBody", RigidBodyComponent, alloc);
 		}
 		if (m_Components.find(C_CPRender) != m_Components.end())
 		{
 			Value RenderComponent;
-			m_Components[C_CPRender]->Serialize(RenderComponent, alloc);
+			m_Components.find(C_CPRender)->second->Serialize(RenderComponent, alloc);
 			data.AddMember("Render", RenderComponent, alloc);
 		}
 		if (m_Components.find(C_CPCollider) != m_Components.end())
 		{
 			Value ColliderComponent;
-			m_Components[C_CPCollider]->Serialize(ColliderComponent, alloc);
+			m_Components.find(C_CPCollider)->second->Serialize(ColliderComponent, alloc);
 			data.AddMember("Collider", ColliderComponent, alloc);
 		}
 		if (m_Components.find(C_CPScriptCPP) != m_Components.end())
 		{
 			Value CPPScriptComponent;
-			m_Components[C_CPScriptCPP]->Serialize(CPPScriptComponent, alloc);
+			m_Components.find(C_CPScriptCPP)->second->Serialize(CPPScriptComponent, alloc);
 			data.AddMember("CPPScript", CPPScriptComponent, alloc);
 		}
 		if (m_Components.find(C_CPAudioSource) != m_Components.end())
 		{
 			Value AudioSourceComponent;
-			m_Components[C_CPAudioSource]->Serialize(AudioSourceComponent, alloc);
+			m_Components.find(C_CPAudioSource)->second->Serialize(AudioSourceComponent, alloc);
 			data.AddMember("AudioSource", AudioSourceComponent, alloc);
 		}
 		if (m_Components.find(C_CPText) != m_Components.end())
 		{
 			Value TextComponent;
-			m_Components[C_CPText]->Serialize(TextComponent, alloc);
+			m_Components.find(C_CPText)->second->Serialize(TextComponent, alloc);
 			data.AddMember("Text", TextComponent, alloc);
 		}
 		return true;
@@ -189,6 +197,7 @@ namespace LB
 	bool GameObject::Deserialize(const Value& data)
 	{
 		bool HasName = data.HasMember("Name");
+		bool HasActive = data.HasMember("Active");
 		bool HasTransform = data.HasMember("Transform");
 		bool HasRigidBody = data.HasMember("RigidBody");
 		bool HasRender = data.HasMember("Render");
@@ -203,6 +212,11 @@ namespace LB
 				const Value& nameValue = data["Name"];
 				m_name = nameValue.GetString();
 			}
+			if (HasActive)
+			{
+				const Value& activeValue = data["Active"];
+				m_active = activeValue.GetBool();
+			}
 			if (HasTransform)
 			{
 				if (m_Components.find(C_CPTransform) == m_Components.end())
@@ -211,10 +225,9 @@ namespace LB
 					AddComponent(C_CPTransform, FACTORY->GetCMs()[C_CPTransform]->Create());
 				}
 				const Value& transformValue = data["Transform"];
-				m_Components[C_CPTransform]->Deserialize(transformValue);
+				m_Components.find(C_CPTransform)->second->Deserialize(transformValue);
 			}
-			//ALL GO's MUST HAVE TRANSFORM!
-			else return false;
+			else return false; //ALL GO's MUST HAVE TRANSFORM!
 			if (HasRigidBody)
 			{
 				if (m_Components.find(C_CPRigidBody) == m_Components.end())
@@ -223,7 +236,7 @@ namespace LB
 					AddComponent(C_CPRigidBody, FACTORY->GetCMs()[C_CPRigidBody]->Create());
 				}
 				const Value& rigidBodyValue = data["RigidBody"];
-				m_Components[C_CPRigidBody]->Deserialize(rigidBodyValue);
+				m_Components.find(C_CPRigidBody)->second->Deserialize(rigidBodyValue);
 			}
 			if (HasRender)
 			{
@@ -233,7 +246,7 @@ namespace LB
 					AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 				}
 				const Value& renderValue = data["Render"];
-				m_Components[C_CPRender]->Deserialize(renderValue);
+				m_Components.find(C_CPRender)->second->Deserialize(renderValue);
 			}
 			if (HasCPPScript)
 			{
@@ -243,7 +256,7 @@ namespace LB
 					AddComponent(C_CPScriptCPP, FACTORY->GetCMs()[C_CPScriptCPP]->Create());
 				}
 				const Value& cppScriptValue = data["CPPScript"];
-				m_Components[C_CPScriptCPP]->Deserialize(cppScriptValue);
+				m_Components.find(C_CPScriptCPP)->second->Deserialize(cppScriptValue);
 			}
 			if (HasCollider)
 			{
@@ -253,7 +266,7 @@ namespace LB
 					AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
 				}
 				const Value& colliderValue = data["Collider"];
-				m_Components[C_CPCollider]->Deserialize(colliderValue);
+				m_Components.find(C_CPCollider)->second->Deserialize(colliderValue);
 				DebuggerLogFormat("coll size %d", this->GetComponent<CPCollider>()->m_widthUnscaled);
 			}
 			if (HasAudio)
@@ -264,7 +277,7 @@ namespace LB
 					AddComponent(C_CPAudioSource, FACTORY->GetCMs()[C_CPAudioSource]->Create());
 				}
 				const Value& audioSourceValue = data["AudioSource"];
-				m_Components[C_CPAudioSource]->Deserialize(audioSourceValue);
+				m_Components.find(C_CPAudioSource)->second->Deserialize(audioSourceValue);
 			}
 			if (HasText)
 			{
@@ -274,7 +287,7 @@ namespace LB
 					AddComponent(C_CPText, FACTORY->GetCMs()[C_CPText]->Create());
 				}
 				const Value& textValue = data["Text"];
-				m_Components[C_CPText]->Deserialize(textValue);
+				m_Components.find(C_CPText)->second->Deserialize(textValue);
 			}
 		}
 		this->StartComponents();
@@ -292,6 +305,15 @@ namespace LB
 		for (auto const& component : m_Components)
 		{
 			component.second->Initialise();
+
+			if (m_active && component.second->m_active)
+			{
+				component.second->ToggleActive(true);
+			}
+			else
+			{
+				component.second->ToggleActive(false);
+			}
 		}
 	}
 
@@ -351,7 +373,14 @@ namespace LB
 		m_active = active;
 		for (auto const& component : m_Components)
 		{
-			component.second->ToggleActive(active);
+			if (m_active && component.second->m_active)
+			{
+				component.second->ToggleActive(true);
+			}
+			else
+			{
+				component.second->ToggleActive(false);
+			}
 		}
 	}
 

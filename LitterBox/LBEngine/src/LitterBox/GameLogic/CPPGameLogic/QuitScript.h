@@ -62,4 +62,5 @@ namespace LB
 		GameObject* ConfirmMenuNoButton;
 		//------------------------For Quit Confirmation---------------------------
 	};
+	REGISTER_SCRIPT(QuitScript)
 }

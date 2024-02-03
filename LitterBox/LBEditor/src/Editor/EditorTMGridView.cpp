@@ -107,7 +107,10 @@ namespace LB
 
 		//NOTE: for the table the flags that need to be enabled are
 		//the scroll for X and Y axis otherwise you cannot create the map
-		if (ImGui::BeginTable("table1", colNum, ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX))
+		if (ImGui::BeginTable("table1", colNum,	 ImGuiTableFlags_ScrollY 
+											|	 ImGuiTableFlags_ScrollX 
+											|	 ImGuiTableFlags_NoPadInnerX
+											))
 		{
 			//caching the min and max UVs so if the image button's
 			//value is 0 then we just print the same UV to make sure
@@ -155,7 +158,7 @@ namespace LB
 					ImGui::TableSetColumnIndex(column);
 					//set the button to the texture object selected in EditorTMEditor
 					ImGui::PushID(column + row * colNum); //IMPORTANT: this needs to be done otherwise only first button works
-					if (ImGui::ImageButton("Button", textureID, buttonSize, min, max))
+					if (ImGui::ImageButton(textureID, buttonSize, min, max, 0 ))
 					{
 						tiles.at(column + row * colNum) = tileSelected;
 					}

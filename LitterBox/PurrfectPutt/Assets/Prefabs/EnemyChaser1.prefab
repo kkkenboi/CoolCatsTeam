@@ -1,0 +1,38 @@
+{
+    "Name": "EnemyChaser1",
+    "Transform": {
+        "Position": {
+            "x": 456.23,
+            "y": 640.78
+        },
+        "Scale": {
+            "x": 1.25,
+            "y": 1.25
+        },
+        "Rotation": 0.0
+    },
+    "RigidBody": {
+        "Width": 100.0,
+        "Height": 100.0,
+        "Density": 10.0,
+        "IsStatic": false
+    },
+    "Render": {
+        "Width": 100.0,
+        "Height": 100.0,
+        "Texture": "Chaser"
+    },
+    "Collider": {
+        "ColliderLayer": {
+            "Layer Name": "GameEntity",
+            "Layer ID": 1
+        },
+        "Shape": 0,
+        "Width": 100.0,
+        "Height": 100.0,
+        "Radius": 40.0
+    },
+    "CPPScript": {
+        "Script": "class LB::CPPSChaser"
+    }
+}

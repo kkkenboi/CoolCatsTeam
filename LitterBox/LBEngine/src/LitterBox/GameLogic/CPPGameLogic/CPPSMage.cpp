@@ -15,6 +15,7 @@ it handles the logic for the Mage enemy
 
 #include "CPPSMage.h"
 #include "CPPSBaseGolfBall.h"
+
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Debugging/Debug.h"
@@ -32,14 +33,15 @@ namespace LB
 	*************************************************************************/
 	void CPPSMage::Start()
 	{
+		CPPSBaseEnemy::Start();
 		//initialising the components of the mage, basically same as chase where I am getting the components
-		mRender = GameObj->GetComponent<CPRender>();
+		/*mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
-		mCollider = GameObj->GetComponent<CPCollider>();
+		mCollider = GameObj->GetComponent<CPCollider>();*/
 
-		rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
+	/*	rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
 		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
-		leftFace.x = -leftFace.x;
+		leftFace.x = -leftFace.x;*/
 
 		//--------------------------------get the mage animation--------------------------------
 		if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"]) != LB::ASSETMANAGER->Textures.end()) {
@@ -83,13 +85,13 @@ namespace LB
 		//set current state of Mage to be on idle
 		mFSM.SetCurrentState("Idle");
 
-		std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
-		for (GameObject* GO : GOs) {
-			if (GO->GetName() == "MainChar") {
-				mPlayer = GO;
-				break;
-			}
-		}
+		//std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
+		//for (GameObject* GO : GOs) {
+		//	if (GO->GetName() == "MainChar") {
+		//		mPlayer = GO;
+		//		break;
+		//	}
+		//}
 
 		//initialise the variables for the Mage
 		mHealth = 3; //health
@@ -126,14 +128,16 @@ namespace LB
 	*************************************************************************/
 	void CPPSMage::Update()
 	{
+		CPPSBaseEnemy::Update();
 		if (mInitialised == false)
 		{
 			return;
 		}
-		if (INPUT->IsKeyPressed(KeyCode::KEY_0))
+		//Kill command moved to base enemy
+	/*	if (INPUT->IsKeyPressed(KeyCode::KEY_0))
 		{
 			mShouldDestroy = true;
-		}
+		}*/
 		if (mShouldDestroy)
 		{
 			GOMANAGER->RemoveGameObject(this->GameObj);
@@ -142,13 +146,13 @@ namespace LB
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
-		Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
+	/*	Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
 		Vec2<float> TransformRight{ 1,0 };
 		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
 		{
 			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
 		}
-		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
+		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);*/
 		mFSM.Update();
 	}
 
@@ -171,37 +175,37 @@ namespace LB
 	\brief
 	Getter for the render component
 	*************************************************************************/
-	CPRender* CPPSMage::GetRender()
-	{
-		return mRender;
-	}
+	//CPRender* CPPSMage::GetRender()
+	//{
+	//	return mRender;
+	//}
 
 	/*!***********************************************************************
 	\brief
 	Getter for the rigidbody component
 	*************************************************************************/
-	CPRigidBody* CPPSMage::GetRigidBody()
+	/*CPRigidBody* CPPSMage::GetRigidBody()
 	{
 		return mRigidBody;
-	}
+	}*/
 
 	/*!***********************************************************************
 	\brief
 	Getter for the collider component
 	*************************************************************************/
-	CPCollider* CPPSMage::GetCollider()
-	{
-		return mCollider;
-	}
+	//CPCollider* CPPSMage::GetCollider()
+	//{
+	//	return mCollider;
+	//}
 
 	/*!***********************************************************************
 	\brief
 	Getter for the player object
 	*************************************************************************/
-	GameObject* CPPSMage::GetHero()
-	{
-		return mPlayer;
-	}
+	//GameObject* CPPSMage::GetHero()
+	//{
+	//	return mPlayer;
+	//}
 
 	/*!***********************************************************************
 	\brief
@@ -235,12 +239,16 @@ namespace LB
 
 				if (mHealth < 0)
 				{
-					GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
-					GameObj->RemoveComponent(C_CPCollider);
-					mShouldDestroy = true;
+					Die();
 				}
 			}
 		}
+	}
+
+	void CPPSMage::Die()
+	{
+		CPPSBaseEnemy::Die();
+		//Code to play death anim goes here
 	}
 
 	/*!***********************************************************************

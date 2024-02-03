@@ -162,7 +162,13 @@ namespace LB
 				{
 					DebuggerLog("Clicked on " + FileName);
 					std::string fileExtension = directory.path().extension().string();
-					if (fileExtension != ".json" && fileExtension != ".wav" && fileExtension != ".png" && fileExtension!= ".shader" && fileExtension!=".otf"&&fileExtension!=".ttf")
+					if (fileExtension != ".prefab" && 
+						fileExtension != ".scene" && 
+						fileExtension != ".wav" && 
+						fileExtension != ".png" && 
+						fileExtension != ".shader" && 
+						fileExtension != ".otf" && 
+						fileExtension != ".ttf")
 					{
 						DebuggerLog("Invalid file extension " + fileExtension + " was clicked!");
 						ImGui::OpenPopup("Error!");
@@ -171,7 +177,7 @@ namespace LB
 				}
 
 				//IF IT'S A PREFAB
-				if (directory.path().extension().string() == ".json")
+				if (directory.path().extension().string() == ".prefab")
 				{
 					//PREFAB DRAG AND DROP TO SCENE
 					if (ImGui::BeginDragDropSource())
@@ -183,25 +189,26 @@ namespace LB
 					//PREFAB EDITOR STUFF
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
-						// To be changed to a better identifier for scene files
-						if (directory.path().filename().string().find("Scene") != std::string::npos)
-						{
-							if (!CORE->IsPlaying())
-								SCENEMANAGER->LoadScene(directory.path().filename().stem().string());
-							else
-								DebuggerLogWarningFormat("Tried to load new scene from Assets %s while a scene is running.", directory.path().filename().stem().string().c_str());
-						}
-						else //that means it's a prefab instead
-						{
-							DebuggerLog(directory.path().filename().string());
+						DebuggerLog(directory.path().filename().string());
 							
-							GameObject* prefab = FACTORY->SpawnGameObject({}, GOSpawnType::FREE_FLOATING);
-							JSONSerializer::DeserializeFromFile(FileName.c_str(), *prefab);
-							prefab->SetName(FileName.c_str());
-							if (prefab->HasComponent<CPRender>()) prefab->GetComponent<CPRender>()->set_active();
-							InspectorGameObject::Instance()->UpdateInspectedGO(prefab);
-							InspectorGameObject::Instance()->isPrefab = true;
-						}
+						GameObject* prefab = FACTORY->SpawnGameObject({}, GOSpawnType::FREE_FLOATING);
+						JSONSerializer::DeserializeFromFile(FileName.c_str(), *prefab);
+						prefab->SetName(FileName.c_str());
+						if (prefab->HasComponent<CPRender>()) prefab->GetComponent<CPRender>()->set_active();
+						InspectorGameObject::Instance()->UpdateInspectedGO(prefab);
+						InspectorGameObject::Instance()->isPrefab = true;
+						// To be changed to a better identifier for scene files
+					}
+				}
+				//IF IT IS A SCENE!!!
+				if (directory.path().extension().string() == ".scene")
+				{
+					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+					{
+						if (!CORE->IsPlaying())
+							SCENEMANAGER->LoadScene(directory.path().filename().stem().string());
+						else
+							DebuggerLogWarningFormat("Tried to load new scene from Assets %s while a scene is running.", directory.path().filename().stem().string().c_str());
 					}
 				}
 				if (directory.path().extension().string() == ".png")
@@ -227,8 +234,45 @@ namespace LB
 						//Load the properties into the inspector
 					}
 				}
+
 				
 
+
+				//IF USER RIGHT CLICKS
+				if (ImGui::BeginPopupContextItem())
+				{
+					//Ui window pops out with the delete button
+					ImGui::Text("Options");
+					if (ImGui::Button("Delete"))
+					{
+						//This opens out the delete confirmation if they click delete
+						ImGui::OpenPopup("Delete?");
+					}
+					// Always center this window when appearing
+					ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+					ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+					//This opens up the confirmation window
+					if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+					{
+						ImGui::Text("Are you sure you want to delete this asset?\nThis action CANNOT be undone!");
+						ImGui::Separator();
+
+						if (ImGui::Button("Confirm")) 
+						{ 
+							//CPP function to delete a file from it's file path.
+							//We're guaranteed to have a valid filepath so we don't have to check if it exists or not.
+							std::remove(directory.path().string().c_str());
+							ReimportAssets();	//we have to reimport it to update the asset map
+							ImGui::ClosePopupToLevel(0, true);	//this closes ALL windows including the previous pop up
+						}
+						ImGui::SameLine();
+						if (ImGui::Button("Cancel")) {  ImGui::ClosePopupToLevel(0, true); }
+
+						ImGui::SetItemDefaultFocus();
+						ImGui::EndPopup();
+					}
+					ImGui::EndPopup();
+				}
 				//The name of the folder is without the file extension probably...
 				ImGui::Text(directory.path().filename().stem().string().c_str());
 
@@ -236,18 +280,13 @@ namespace LB
 				// Always center this window when appearing
 				ImVec2 center = ImGui::GetMainViewport()->GetCenter();
 				ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+				
+
 				if (ImGui::BeginPopupModal("Error!", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 				{
 					ImGui::Text("File type not recognised!");
 					ImGui::Separator();
-
-					////static int unused_i = 0;
-					////ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
-
-					////static bool dont_ask_me_next_time = false;
-					////ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-					////ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
-					////ImGui::PopStyleVar();
 
 					if (ImGui::Button("close")) { ImGui::CloseCurrentPopup(); }
 					ImGui::SetItemDefaultFocus();

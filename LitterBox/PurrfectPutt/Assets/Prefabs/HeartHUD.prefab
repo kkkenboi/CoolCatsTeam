@@ -1,0 +1,19 @@
+{
+    "Name": "Heart HUD",
+    "Transform": {
+        "Position": {
+            "x": 126.0,
+            "y": 960.0
+        },
+        "Scale": {
+            "x": 0.8,
+            "y": 0.8
+        },
+        "Rotation": 0.0
+    },
+    "Render": {
+        "Width": 100.0,
+        "Height": 100.0,
+        "Texture": "Heart"
+    }
+}

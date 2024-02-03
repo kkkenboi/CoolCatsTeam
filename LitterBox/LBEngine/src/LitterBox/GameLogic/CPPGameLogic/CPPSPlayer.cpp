@@ -13,12 +13,14 @@
 **************************************************************************/
 
 #include "CPPSPlayer.h"
+
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Engine/Time.h"
 #include <array>
 #include <random>
+#include "CPPSPlayerHUD.h"
 
 namespace LB
 {
@@ -52,7 +54,8 @@ namespace LB
 		m_maxBalls = 3;
 		m_currentBalls = 0;
 
-		m_health = 3;
+		m_maxHealth = 3;
+		m_currentHealth = 3;
 
 		// 0.5 seconds of invincibility
 		mGotAttackedCooldown = 0;
@@ -80,6 +83,9 @@ namespace LB
 
 		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), static_cast<int>(rend->w), static_cast<int>(rend->h));
 		rend->play_repeat("player_idle");
+
+		onTakingDamage.Subscribe(DecreaseHealth);
+		onPlacingBall.Subscribe(DecreaseBalls);
 	}
 
 	/*!***********************************************************************
@@ -271,6 +277,7 @@ namespace LB
 		{
 			if (m_currentBalls >= m_maxBalls) return;
 			++m_currentBalls;
+			onPlacingBall.Invoke();
 
 			//Spawn Game Object
 			GameObject* ballObject = FACTORY->SpawnGameObject();
@@ -341,9 +348,11 @@ namespace LB
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 			AUDIOMANAGER->SetChannelPitch(Channel, 1.1f);
 
-			--m_health;
+			--m_currentHealth;
+			// Update the HUD as well
+			onTakingDamage.Invoke();
 
-			if (m_health < 0)
+			if (m_currentHealth < 0)
 			{
 				//GOMANAGER->RemoveGameObject(this->GameObj);
 			}
