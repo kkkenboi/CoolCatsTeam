@@ -35,8 +35,8 @@ namespace LB
 		////Manually Spawn Chaser Enemy
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_C))
 		{
-			//SpawnChaserEnemy();
-			SpawnRandomEnemy();
+			SpawnChaserEnemy();
+			//SpawnRandomEnemy();
 		}
 
 		////Manually Spawn Mage Enemy
@@ -114,7 +114,7 @@ namespace LB
 		if (currentWave > 1)
 		{	//Formula => 12/(0.5f + e^(-x*10/5 + 4))
 			
-			SpawnCredits = 12 / (0.5f + expf(-((currentWave*10) / 5) + 4));
+			SpawnCredits = static_cast<int>(12 / (0.5f + expf(static_cast<float>(-((currentWave * 10) / 5) + 4))));
 		}
 
 		//Center of the map is 969 x 540 (game manager's position)

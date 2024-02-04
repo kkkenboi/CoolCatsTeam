@@ -25,12 +25,14 @@ it handls the logic for the chaser enemy
 
 namespace LB 
 {
+	static int count{};
 	/*!***********************************************************************
 	\brief
 	Start function (Basically initializes everything)
 	*************************************************************************/
 	void CPPSChaser::Start()
 	{
+		std::cout << "Chaser Start called " << ++count << std::endl;
 		CPPSBaseEnemy::Start();
 		//Intialise the components
 		// 		right_face = trans->GetScale();
@@ -134,6 +136,9 @@ namespace LB
 		delete mFSM.GetState("Idle");
 		delete mFSM.GetState("Chase");
 		delete mFSM.GetState("Hurt");
+
+
+
 	}
 
 	/*!***********************************************************************
