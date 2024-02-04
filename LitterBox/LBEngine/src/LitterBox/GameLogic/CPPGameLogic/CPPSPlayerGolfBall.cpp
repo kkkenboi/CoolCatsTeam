@@ -21,6 +21,7 @@
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Engine/Time.h"
 #include "CPPSPlayerHUD.h"
+#include "LitterBox/Renderer/Renderer.h"
 
 namespace LB
 {
@@ -34,21 +35,27 @@ namespace LB
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
 
-		std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
+		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+		/*std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
 		for (GameObject* GO : GOs) {
 			if (GO->GetName() == "MainChar")
 			{
 				mPlayer = GO;
 				break;
 			}
-		}
+		}*/
 
 		mSpeedMagnitude = 1000.0f;
 		mVelocity = 1000.0f; //with direction
-		mSize = 1.0f;
+		if (currentBallUpgrades & BIGBALL) {
+			std::cout << "EMBIGGEN\n";
+			mSize = 2.0f;
+		}
+		else mSize = 1.0f;
 
 		mCurrentLifetime = mLifetime = 1.0f;
 		onBallDisappear.Subscribe(IncreaseBalls);
+
 	}
 
 	/*!***********************************************************************
@@ -84,11 +91,25 @@ namespace LB
 		if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
 		{
+			if (currentBallUpgrades & BOMB) {
+				Renderer::GRAPHICS->shaker_camera();
+			}
 			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
 
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 		}
 
+	}
+
+	void CPPSPlayerGolfBall::SetBallUpgrade(int upgradeType)
+	{	
+		//std::cout << "Upgrade type : " << upgradeType << '\n';
+		//std::cout << "Bitshifted Upgrade type : " << (1 << upgradeType) << '\n';
+		//std::cout << "curr upgrade : " << static_cast<int>(currentBallUpgrades) << '\n';
+		//std::cout << "result : " << (currentBallUpgrades & BOMB) << '\n';
+		//In order to set the upgrade type, we have to bit shift it.
+		currentBallUpgrades |= static_cast<BallUpgrades>(1 << upgradeType);
+		//currentBallUpgrades = static_cast<BallUpgrades>(static_cast<int>(currentBallUpgrades) | (1 << upgradeType));
 	}
 
 	/*!***********************************************************************

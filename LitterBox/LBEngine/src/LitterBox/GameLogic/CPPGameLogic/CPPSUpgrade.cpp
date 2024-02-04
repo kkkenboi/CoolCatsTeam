@@ -1,9 +1,13 @@
 #include "CPPSUpgrade.h"
-
+#include "CPPSPlayerGolfBall.h"
+#include "CPPSUpgradeManager.h"
 namespace LB
 {
 	void CPPSUpgrade::Start()
 	{
+		//Grabbing the ball reference
+		BallGameObj = GOMANAGER->FindGameObjectWithName("ball");
+
 	}
 	void CPPSUpgrade::Update()
 	{
@@ -19,7 +23,13 @@ namespace LB
 		if (colData.colliderOther->m_gameobj->GetName() == "ball")
 		{
 			std::cout << "Hit upgrade\n";
+			CPPSUpgradeManager::Instance()->SetBallUpgrade(currentBallUpgrades);
+		/*	BallGameObj = GOMANAGER->FindGameObjectWithName("ball");
+			BallGameObj->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(1);*/
 			this->GameObj->SetActive(false);
 		}
+	}
+	void CPPSUpgrade::AssignUpgradeID(int)
+	{
 	}
 }

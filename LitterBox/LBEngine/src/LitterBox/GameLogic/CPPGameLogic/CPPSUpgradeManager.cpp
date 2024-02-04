@@ -39,4 +39,15 @@ namespace LB
 	{
 	}
 
+	void CPPSUpgradeManager::SetBallUpgrade(int upgradeType)
+	{
+		//We just use it as ints for now to set ball upgrades
+		currentBallUpgrades |= (1 << upgradeType);
+	}
+
+	int CPPSUpgradeManager::GetBallUpgrades()
+	{
+		return currentBallUpgrades;
+	}
+
 }

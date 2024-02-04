@@ -246,6 +246,8 @@ namespace LB
 		*************************************************************************/
 		std::vector<GameObject*> const& GetGameObjects() const;
 
+		GameObject* FindGameObjectWithName(std::string);
+
 		/*!***********************************************************************
 		 \brief
 		 Adds a GameObject to the current pool of GameObjects for loaded scene

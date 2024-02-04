@@ -15,7 +15,6 @@
 #pragma once
 #include "CPPBehaviour.h"
 #include "Litterbox/Factory/Components.h"
-
 namespace LB
 {
 	class CPPSPlayerGolfBall : public CPPBehaviour
@@ -44,6 +43,22 @@ namespace LB
 		*************************************************************************/
 		void OnCollisionEnter(CollisionData colData);
 
+		//We don't actually need all of them, we only need the ball ones.
+		//But the rest are there so you don't wonder why there's jumps in the numbers
+		enum BallUpgrades {
+			DEFAULT = (1<< 0),
+			BOMB = (1 << 1),		//Ball explodes on contact
+			SPLIT = (1 << 2),		//Ball splits into 3 (not counted towards total ball count)
+			BIGBALL = (1 << 3),		//Ball increase size and mass
+			MOREBALL = (1 << 4),	//Increase ball count by 3	(capped a 9)
+			MOREHEALTH = (1<< 5),	//Increase Max health by 1 (capped at 9)
+			MOVESPEED = (1<<6)		//Increase player movespeed
+		};
+		
+
+		//Initially ball will have no upgrades
+		BallUpgrades currentBallUpgrades = DEFAULT;
+		void SetBallUpgrade(int);
 	private:
 		/*!***********************************************************************
 		\brief
@@ -54,6 +69,8 @@ namespace LB
 		CPCollider* mCollider{ nullptr }; //Getting the collider of the enemy
 		GameObject* mPlayer{ nullptr }; //Getting the game object of the player
 
+		
+
 		//Stats of the ball should have
 		float mSpeedMagnitude{}; //speed of the golf ball
 		float mVelocity{}; //Velocity of the golf ball
@@ -62,5 +79,15 @@ namespace LB
 		float mLifetime{ 1.5f }, mCurrentLifetime{ 1.5f }; //life time for the golfball to despawn after a certain timing
 		Event<> onBallDisappear;
 	};
+	//Just some operator overloads to make the ball upgrade enum flags easier to read and understand lol
+	inline CPPSPlayerGolfBall::BallUpgrades operator& (CPPSPlayerGolfBall::BallUpgrades lhs, CPPSPlayerGolfBall::BallUpgrades rhs) {
+		return static_cast<CPPSPlayerGolfBall::BallUpgrades>(static_cast<int>(lhs) & static_cast<int>(rhs));
+	}
+	inline CPPSPlayerGolfBall::BallUpgrades operator| (CPPSPlayerGolfBall::BallUpgrades lhs, CPPSPlayerGolfBall::BallUpgrades rhs) {
+		return static_cast<CPPSPlayerGolfBall::BallUpgrades>(static_cast<int>(lhs) | static_cast<int>(rhs));
+	}
+	inline CPPSPlayerGolfBall::BallUpgrades& operator|= (CPPSPlayerGolfBall::BallUpgrades& lhs, CPPSPlayerGolfBall::BallUpgrades rhs) {
+		return lhs = lhs | rhs;
+	}
 	REGISTER_SCRIPT(CPPSPlayerGolfBall)
 }
