@@ -41,8 +41,8 @@ namespace LB {
 		std::shared_ptr<GameObjectManager> gameManager = std::make_shared<GameObjectManager>();
 		std::shared_ptr<GameLogic> logic = std::make_shared<GameLogic>();
 
-		//std::shared_ptr<CPPGameLogic> cppLogic = std::make_shared<CPPGameLogic>();
 		CPPGameLogic::InitializeSingleton();
+		AnimationManager::InitializeSingleton();
 		
 		std::shared_ptr<RigidBodyManager> physics = std::make_shared<RigidBodyManager>();
 		std::shared_ptr<ColliderManager> colliders = std::make_shared<ColliderManager>();
@@ -63,6 +63,7 @@ namespace LB {
 		Engine->AddSystem(colliders);
 		Engine->AddSystem(logic);
 		Engine->AddSystem(CPPGameLogic::Instance());
+		Engine->AddSystem(AnimationManager::Instance());
 		Engine->AddSystem(audio);
 		Engine->AddSystem(memory);
 		Engine->AddSystem(graphics);

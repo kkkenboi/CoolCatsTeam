@@ -11,113 +11,74 @@
   disclosure of this file or its contents without the prior written consent
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
+
 #pragma once
 #include "LitterBox/Components/Component.h"
-#include "LitterBox/GameLogic/StateMachine.h"
 #include "LitterBox/Serialization/Serializer.h"
-#include "LitterBox/Serialization/AssetManager.h"
-#include "LitterBox//Renderer/Renderer.h"
-#include "LitterBox/Animation/SpriteSheet.h"
-//#include <array>
+#include "LitterBox/Animation/AnimationController.h"
 
 namespace LB
 {
 	/*!************************************************************************
-	 * Animator Component that inherits from IComponent
-	 *
+	\brief
+	 Animator Component that inherits from IComponent
 	**************************************************************************/
 	class CPAnimator : public IComponent
 	{
 	public:
-		//std::array<std::array<LB::Vec2<float>, animCount>, frameCount> frames[animCount];
 		/*!************************************************************************
-		 * Getting the type component
-		 * 
+		\brief
+		 Getting the type component
 		**************************************************************************/
 		static ComponentTypeID GetType()
 		{
 			return C_CPAnimator;
 		}
-
-		std::vector<std::vector<LB::Vec2<float>>> anim_frames;
-		unsigned int numOfSidesOnFrame;
-		unsigned int numOfAnim;
-		unsigned int numOfFrames;
-		CPRender* mRender;
-		//unsigned int numOfAnim; //rows, cols
 		
 		/*!************************************************************************
-		 * Initialise function where it will initialise the variables
-		 * load files in initialise
+		\brief
+		 Initialise function where it will initialise the variables
+		 load files in initialise
 		**************************************************************************/
 		void Initialise() override;
 
 		/*!************************************************************************
-		 * Update function where it update at every frame
-		 *
+		\brief
+		 Update function where it update at every frame
 		**************************************************************************/
 		void Update() override;
 
 		/*!************************************************************************
-		 * Destroy function
-		 *
+		\brief
+		 Destroy function
 		**************************************************************************/
 		void Destroy() override;
-
-		/*!************************************************************************
-		 * Getting the size of the image
-		 *
-		**************************************************************************/
-		//void SizeOfImage(std::string spriteSheet); //getting the size of width and height
-
-		/*!************************************************************************
-		 * Num of animation, rows
-		 *
-		**************************************************************************/
-		int NumOfAnim(); //Number of animation
-
-		/*!************************************************************************
-		 * Num of Frames, cols
-		 *
-		**************************************************************************/
-		int NumOfFramesWithFourPoints(); //Number of frames
-
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc);
 
 		bool Deserialize(const Value& data);
 
-	
-		/*!************************************************************************
-		 * Set Animation function, to set the animation
-		 *
-		**************************************************************************/
-		//void SetAnimation(const std::string animationName, int animCount, float timer);
+		void Play(std::string const& animName);
 
-		/*!************************************************************************
-		 * Set Animation function, to set the animation
-		 *
-		**************************************************************************/
-		void SetAnimation(const std::string& animationName, float speedOfAnim, int numOfFrame);
+		void Stop();
 
-		//start indicates the animation playing
-		//void StartAnimation(const std::string& animationName);
-		//stop indicates the animation stopping
+		//// Trigger setters
+		////BOOL
+		//void SetBool(std::string const& triggerName, bool state);
 
-		/*!************************************************************************
-		 * Stopt Animation function, to stop the animation
-		 *
-		**************************************************************************/
-		void StopAnimation(const std::string& animationName);
+		//bool GetBool(std::string const& triggerName);
+		//
+		////FLOAT
+		//void SetFloat(std::string const& triggerName, float value);
 
+		//float GetFloat(std::string const& triggerName);
+
+		////INT
+		//void SetInt(std::string const& triggerName, int value);
+		//
+		//int GetInt(std::string const& triggerName);
 
 	private:
-		
-		unsigned int spriteWidth, spriteHeight; //size of sprite
-		std::string animName; //animations name
-		//std::array<std::array<LB::Vec2<float>, 4>, 12>
-		std::vector<std::vector<LB::Vec2<float>>> frames;
-		AssetManager* assetManager;
-
+		AnimationController m_controller; //state machine
 	};
 }

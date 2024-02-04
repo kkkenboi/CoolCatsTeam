@@ -34,7 +34,7 @@ namespace LB
 	class SpriteSheet
 	{
 	public:
-		SpriteSheet() : m_name{ "Unnamed Sheet" }, m_pngName{ "No PNG" } {}
+		SpriteSheet() : m_name{ "Unnamed Sheet" }, m_pngName{ "No PNG" }, m_row{ 0 }, m_col{ 0 } {}
 		SpriteSheet(std::string const& name, std::string const& PNGName);
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
