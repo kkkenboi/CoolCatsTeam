@@ -851,6 +851,40 @@ namespace Renderer {
 		 returns the list of active objects in a specified layer
 		*************************************************************************/
 		const bool& get_layer_active(Renderer_Types layer) const;
+
+		/*!***********************************************************************
+		\brief
+		 shaker_camera is a function that moves the camera slightly to a random
+		 position.
+
+		 To make the camera shake just call this each frame.
+
+		\param
+		 intensity - float value that determins the range of random position.
+
+		\return
+		 returns the list of active objects in a specified layer
+		*************************************************************************/
+		void shaker_camera(float intsentiy = 100.f)
+		{
+			cam.move_cam(intsentiy);
+		}
+
+		/*!***********************************************************************
+		\brief
+		 reset_cam will reset the cam to the origin position.
+
+		 Honestly, can be done with shaker_cam(0.f).
+		 NOTE: If the camera has moved to a different position, then reset_cam will
+		 not move it back.
+
+		\return
+		 returns the list of active objects in a specified layer
+		*************************************************************************/
+		void reset_cam()
+		{
+			cam.move_cam(0.f);
+		}
 	};
 
 	//A pointer to the system object in the core engine

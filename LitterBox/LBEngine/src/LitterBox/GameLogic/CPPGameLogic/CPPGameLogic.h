@@ -88,7 +88,10 @@ namespace LB
 		template <typename T>
 		void RegisterScript()
 		{
-			m_scriptRegistry[typeid(T)] = DBG_NEW ScriptFactory<T>();
+			if (!m_scriptRegistry[typeid(T)])
+			{
+				m_scriptRegistry[typeid(T)] = DBG_NEW ScriptFactory<T>();
+			}
 			m_scriptTypeRegistry[typeid(T).name()] = ScriptTypeID{ typeid(T) };
 		}
 
@@ -142,6 +145,7 @@ namespace LB
 		std::map<std::string, ScriptTypeID> m_scriptTypeRegistry;
 
 		std::vector<CPScriptCPP*> m_sceneScripts{};	// List of all scripts currently active in the scene
+		bool m_sceneStarted { false };
 	};
 
 	/*!***********************************************************************
