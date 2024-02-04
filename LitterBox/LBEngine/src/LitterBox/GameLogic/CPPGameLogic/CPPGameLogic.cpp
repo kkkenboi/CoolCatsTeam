@@ -52,7 +52,7 @@ namespace LB
 		m_sceneScripts.push_back(newScript);
 
 		// If scene is already running, start the script immediately
-		if (CORE->IsPlaying())
+		if (CORE->IsPlaying() && !m_sceneStarted)
 		{
 			StartScript(newScript);
 			newScript->Start();
@@ -102,11 +102,15 @@ namespace LB
 	*************************************************************************/
 	void CPPGameLogic::Start()
 	{
+		m_sceneStarted = true;
+
 		for (int index{ 0 }; index < m_sceneScripts.size(); ++index)
 		{
 			StartScript(m_sceneScripts[index]);
 			m_sceneScripts[index]->Start();
 		}
+
+		m_sceneStarted = false;
 		//for (CPScriptCPP* script : m_sceneScripts)
 		//{
 		//	StartScript(script);
@@ -209,6 +213,13 @@ namespace LB
 	void CPPGameLogic::Destroy()
 	{
 		m_sceneScripts.clear();
+
+		for (auto it = m_scriptRegistry.begin(); it != m_scriptRegistry.end(); ++it)
+		{
+			delete it->second;
+		}
+
+		m_scriptRegistry.clear();
 	}
 	//-------------------------CPP GAME LOGIC MANAGER-------------------------
 
