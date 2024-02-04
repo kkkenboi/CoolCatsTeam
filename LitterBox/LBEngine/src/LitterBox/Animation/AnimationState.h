@@ -12,14 +12,15 @@
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
+#pragma once
+
 #include <vector>
 #include "LitterBox/Serialization/Serializer.h"
-#include "LitterBox/Components/AnimatorComponent.h"
 
 namespace LB
 {
 	// Forward declarations
-	class CPRender;
+	class CPAnimator;
 
 	struct KeyFrame
 	{

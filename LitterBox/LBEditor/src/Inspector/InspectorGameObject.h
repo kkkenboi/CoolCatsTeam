@@ -19,7 +19,6 @@
 #include <ImGuizmo.h>
 
 #include "LitterBox/Serialization/AssetManager.h"
-#include "LitterBox/Physics/ColliderManager.h"
 
 #include "LitterBox/Core/Singleton.h"
 #include "Litterbox/Engine/Layer.h"

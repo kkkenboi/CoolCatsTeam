@@ -43,16 +43,16 @@ namespace LB
 
 	std::vector<KeyFrame>& AnimationState::GetFrames()
 	{
-
+		return m_keyFrames;
 	}
 
 	bool AnimationState::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
-
+		return true;
 	}
 
 	bool AnimationState::Deserialize(const Value& data)
 	{
-
+		return false;
 	}
 }

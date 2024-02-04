@@ -58,6 +58,16 @@ namespace LB
 		return false;
 	}
 
+	std::string const& CPAnimator::GetControllerName()
+	{
+		return m_name;
+	}
+
+	void CPAnimator::SetControllerName(std::string const& name)
+	{
+		m_name = name;
+	}
+
 	///*!***********************************************************************
 	//\brief
 	// Getting the size of the sprite sheet

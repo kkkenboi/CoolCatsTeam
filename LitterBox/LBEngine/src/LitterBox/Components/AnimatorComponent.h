@@ -62,6 +62,10 @@ namespace LB
 
 		void Stop();
 
+		std::string const& GetControllerName();
+
+		void SetControllerName(std::string const& name);
+
 		//// Trigger setters
 		////BOOL
 		//void SetBool(std::string const& triggerName, bool state);
@@ -79,6 +83,7 @@ namespace LB
 		//int GetInt(std::string const& triggerName);
 
 	private:
+		std::string m_name{ "None" };
 		AnimationController m_controller; //state machine
 	};
 }

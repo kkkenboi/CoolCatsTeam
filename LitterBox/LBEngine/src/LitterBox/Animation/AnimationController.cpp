@@ -1,12 +1,12 @@
 /*!************************************************************************
- \file				AnimationManager.h
+ \file				AnimationController.cpp
  \author(s)			Vanessa Chua Siew Jin
  \par DP email(s):	vanessasiewjin@digipen.edu
  \par Course:		CSD2401A
- \date				01-02-2024
+ \date				7-1-2024
  \brief
 
- This header file
+ This source file
 
 
   Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
@@ -14,27 +14,32 @@
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-#pragma once
-
-#include "LitterBox/Core/System.h"
-#include "LitterBox/Components/AnimatorComponent.h"
+#include "AnimationController.h"
 
 namespace LB
 {
-	class AnimationManager : public ISystem, public Singleton<AnimationManager>
+	void AnimationController::Update()
 	{
-	public:
-		void Initialize() override;
 
-		void Update() override;
+	}
 
-		void Destroy() override;
+	void AnimationController::Play(std::string const& name)
+	{
 
-		void AddAnimator(CPAnimator* newAnimator);
+	}
 
-		void ClearAnimators();
+	void AnimationController::Stop()
+	{
 
-	private:
-		std::vector<CPAnimator*> m_animators;
-	};
+	}
+
+	bool AnimationController::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+		return true;
+	}
+
+	bool AnimationController::Deserialize(const Value& data)
+	{
+		return false;
+	}
 }

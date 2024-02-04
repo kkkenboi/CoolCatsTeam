@@ -19,8 +19,6 @@
 
 #include "Editor.h"
 #include "Litterbox/Engine/Layer.h"
-#include "LitterBox/Serialization/AssetManager.h"
-#include "LitterBox/Physics/ColliderManager.h"
 
 #include "Inspector/InspectorGameObject.h"
 #include "Inspector/InspectorSpriteSheet.h"
