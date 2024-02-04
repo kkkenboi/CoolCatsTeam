@@ -16,21 +16,137 @@
 
 namespace LB
 {
+	// SPRITE
+
+	bool Sprite::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+		data.SetObject();
+		Value indexValue;
+		data.AddMember("Index", m_index, alloc);
+		Value positionValue;
+		if (m_min.Serialize(positionValue, alloc)) 
+		{
+			data.AddMember("Position", positionValue, alloc);
+		}
+		Value sizeValue;
+		if (m_max.Serialize(sizeValue, alloc))
+		{
+			data.AddMember("Size", sizeValue, alloc);
+		}
+
+		return true; 
+	}
+
+	bool Sprite::Deserialize(const Value& data)
+	{
+		bool HasIndex = data.HasMember("Index");
+		bool HasPosition = data.HasMember("Position");
+		bool HasSize = data.HasMember("Size");
+		
+		if (data.IsObject())
+		{
+			if (HasIndex && HasPosition && HasSize)
+			{
+				const Value& indexValue = data["Index"];
+				const Value& positionValue = data["Position"];
+				const Value& sizeValue = data["Size"];
+
+				m_index = indexValue.GetInt();
+				m_min.Deserialize(positionValue);
+				m_max.Deserialize(sizeValue);
+
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// SPRITESHEET
+
 	SpriteSheet::SpriteSheet(std::string const& name, std::string const& PNGName) : m_name{name}, m_pngName{PNGName} { }
 
 	bool SpriteSheet::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
+		data.SetObject();
+		Value nameValue(m_name.c_str(), alloc);
+		data.AddMember("Name", nameValue, alloc);
+
+		Value pngValue(m_pngName.c_str(), alloc);
+		data.AddMember("PNG", pngValue, alloc);
+
+		// TO BE REFACTORED
+		data.AddMember("Rows", m_row, alloc);
+		data.AddMember("Cols", m_col, alloc);
+
+		Value spriteArray(rapidjson::kArrayType);
+		for (auto& sprite : m_sprites)
+		{
+			Value spriteValue;
+			if (sprite.Serialize(spriteValue, alloc))
+			{
+				spriteArray.PushBack(spriteValue, alloc);
+			}
+		}
+		data.AddMember("Sprites", spriteArray, alloc);
+
 		return true;
 	}
 
 	bool SpriteSheet::Deserialize(const Value& data)
 	{
-		return false;
+		// Make sure sprites vector is clear
+		m_sprites.clear();
+
+		bool HasName = data.HasMember("Name");
+		bool HasPNG = data.HasMember("PNG");
+		bool HasSprites = data.HasMember("Sprites");
+
+		// TO BE REFACTORED
+		bool HasRows = data.HasMember("Rows");
+		bool HasCols = data.HasMember("Cols");
+
+		if (data.IsObject())
+		{
+			if (HasName)
+			{
+				const Value& nameValue = data["Name"];
+				m_name = nameValue.GetString();
+			}
+			if (HasPNG)
+			{
+				const Value& pngValue = data["PNG"];
+				m_pngName = pngValue.GetString();
+			}
+			if (HasSprites)
+			{
+				Sprite newSprite{};
+				const Value& spritesValue = data["Sprites"].GetArray();
+				for (rapidjson::SizeType i{}; i < spritesValue.Size(); ++i)
+				{
+					newSprite.Deserialize(spritesValue[i]);
+					m_sprites.push_back(newSprite);
+				}
+			}
+			// TO BE REFACTORED
+			if (HasRows)
+			{
+				const Value& rowValue = data["Rows"];
+				m_row = rowValue.GetFloat();
+			}
+			if (HasCols)
+			{
+				const Value& colValue = data["Cols"];
+				m_col = colValue.GetFloat();
+			}
+			return true;
+		}
+
+		return false; 
 	}
 
-	void SpriteSheet::Slice(Vec2<int> pos, int width, int height)
+	void SpriteSheet::Slice(Vec2<float> min, Vec2<float> max)
 	{
-		m_sprites.emplace_back(Size(), pos, width, height);
+		m_sprites.emplace_back(Size(), min, max);
 	}
 
 	Sprite& SpriteSheet::At(int index)
@@ -48,7 +164,7 @@ namespace LB
 		return m_sprites[index];
 	}
 
-	std::vector<Sprite> const& SpriteSheet::Sprites() const
+	std::vector<Sprite>& SpriteSheet::Sprites()
 	{
 		return m_sprites;
 	}

@@ -1,9 +1,9 @@
 {
-    "Name": "EnemyChaser1",
+    "Name": "Mage",
     "Transform": {
         "Position": {
-            "x": 456.23,
-            "y": 640.78
+            "x": 542.0,
+            "y": 450.0
         },
         "Scale": {
             "x": 1.25,
@@ -20,7 +20,7 @@
     "Render": {
         "Width": 100.0,
         "Height": 100.0,
-        "Texture": "Chaser"
+        "Texture": "MageAttackSpriteSheet"
     },
     "Collider": {
         "ColliderLayer": {
@@ -33,6 +33,6 @@
         "Radius": 40.0
     },
     "CPPScript": {
-        "Script": "Enemy"
+        "Script": "class LB::CPPSMage"
     }
 }

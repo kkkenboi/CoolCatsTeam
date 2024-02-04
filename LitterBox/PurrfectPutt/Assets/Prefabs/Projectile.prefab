@@ -33,6 +33,6 @@
         "Radius": 20.0
     },
     "CPPScript": {
-        "Script": "Projectile"
+        "Script": "class LB::CPPSBaseGolfBall"
     }
 }

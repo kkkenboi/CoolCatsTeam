@@ -17,7 +17,7 @@
 
 #include "LitterBox/Core/Singleton.h"
 #include "Litterbox/Engine/Layer.h"
-
+#include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Animation/SpriteSheet.h"
 
 namespace LB
@@ -37,8 +37,46 @@ namespace LB
         *************************************************************************/
         void UpdateLayer() override;
 
+        void SaveSpriteSheet();
+
+        void LoadSpriteSheet(std::string name);
+
+        void SpilttingTheSprites();
+        void createUV(int rows, int cols);
+
+        ////function for generating appropriate size preview
+        //void calPreviewSize(float width, float height, float previewLimit);
+
+        //inline unsigned int getNumOfTiles() { return tiles.size(); }
+        //inline int getTextureID() { return textureID; }
+        //inline auto getMMUV(int index) { return tiles.at(index); }
+
     private:
-        char m_spriteSheetName[256]{};
-        SpriteSheet* m_inspectedSheet;
+        //ImVec4 m_buttonOffColor{ 0.05f, 0.2f, 0.4f, 1.0f };
+        //ImVec4 m_buttonOnColor{ 0.2f, 0.6f, 1.0f, 1.0f };
+
+        //std::vector< //tiles
+        //    std::pair< //uv
+        //    std::pair<float, float>,  //min x,y
+        //    std::pair<float, float> //max x,y
+        //    >
+        //> tiles{};
+
+        SpriteSheet m_inspectedSheet;
+
+        char m_name[256]{};
+        int m_textureID{ 0 }; // For ImGUI to display
+        int m_sliceX{ 0 }, m_sliceY{ 0 }, m_sliceWidth{ 0 }, m_sliceHeight{ 0 };
+        int m_row{ 0 }, m_col{0};
+
+        int m_spriteX, m_spriteY, m_spriteW, m_spriteH;
+
+
+        int textureID, slotID;
+        float textureAspect;
+        ImVec2 textureSize;
 	};
+
+    extern InspectorSpriteSheet* INSPECTORSPRITESHEET;
+
 }
