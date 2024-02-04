@@ -23,7 +23,7 @@ namespace LB
 		if (colData.colliderOther->m_gameobj->GetName() == "ball")
 		{
 			std::cout << "Hit upgrade\n";
-			CPPSUpgradeManager::Instance()->SetBallUpgrade(currentBallUpgrades);
+			CPPSUpgradeManager::Instance()->SetBallUpgrade(assignedUpgradeType);
 		/*	BallGameObj = GOMANAGER->FindGameObjectWithName("ball");
 			BallGameObj->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(1);*/
 			this->GameObj->SetActive(false);
