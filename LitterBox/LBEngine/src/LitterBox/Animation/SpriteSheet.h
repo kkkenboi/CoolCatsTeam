@@ -13,6 +13,8 @@
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
+#pragma once
+
 #include <string>
 #include "LitterBox/Serialization/Serializer.h"
 

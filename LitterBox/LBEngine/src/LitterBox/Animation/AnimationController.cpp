@@ -18,19 +18,24 @@
 
 namespace LB
 {
-	void AnimationController::Update()
+	void AnimationController::Initialize()
 	{
 
 	}
 
-	void AnimationController::Play(std::string const& name)
+	void AnimationController::Update()
 	{
+		m_current->Update();
+	}
 
+	void AnimationController::Play()
+	{
+		m_current->Start();
 	}
 
 	void AnimationController::Stop()
 	{
-
+		m_current->Stop();
 	}
 
 	bool AnimationController::Serialize(Value& data, Document::AllocatorType& alloc)

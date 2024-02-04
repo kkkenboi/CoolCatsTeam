@@ -21,12 +21,17 @@
 
 namespace LB
 {
+	// Forward declarations
+	class CPAnimator;
+
 	class AnimationController
 	{
 	public:
+		void Initialize();
+
 		void Update();
 
-		void Play(std::string const& name);
+		void Play();
 
 		void Stop();
 
@@ -34,7 +39,10 @@ namespace LB
 		bool Deserialize(const Value& data); //to load
 
 	private:
-		std::vector<AnimationState> m_states;
-		AnimationState* m_begin;
+		CPAnimator* m_animator;
+
+		AnimationState* m_current;
+
+		//std::vector<AnimationState> m_states;
 	};
 }

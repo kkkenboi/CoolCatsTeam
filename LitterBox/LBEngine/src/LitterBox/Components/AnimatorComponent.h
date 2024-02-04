@@ -58,7 +58,7 @@ namespace LB
 
 		bool Deserialize(const Value& data);
 
-		void Play(std::string const& animName);
+		void Play();
 
 		void Stop();
 

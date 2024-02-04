@@ -16,27 +16,53 @@
 
 #include <vector>
 #include "LitterBox/Serialization/Serializer.h"
+#include "LitterBox/Animation/SpriteSheet.h"
+#include "LitterBox/Components/Component.h"
 
 namespace LB
 {
-	// Forward declarations
-	class CPAnimator;
-
 	struct KeyFrame
 	{
 		int m_frame;
 		float m_time;
+
+		bool Serialize(Value& data, Document::AllocatorType& alloc)
+		{
+			data.SetObject();
+
+			data.AddMember("Frame", m_frame, alloc);
+			data.AddMember("Time", m_time, alloc);
+
+			return true;
+		}
+
+		bool Deserialize(const Value& data)
+		{
+			bool HasFrame = data.HasMember("Frame");
+			bool HasTime = data.HasMember("Time");
+
+			if (HasFrame && HasTime)
+			{
+				m_frame = data["Frame"].GetInt();
+				m_time = data["Time"].GetFloat();
+
+				return true;
+			}
+			return true;
+		}
 	};
 
 	class AnimationState
 	{
 	public:
-		void Initialize(CPAnimator* animator);
+		void Initialize(IComponent* render);
 
+		void Start();
 		void Update();
+		void Stop();
 
-		void AddFrame();
-		void RemoveFrame();
+		void AddFrame(KeyFrame& newFrame);
+		void RemoveFrame(int index);
 
 		std::vector<KeyFrame>& GetFrames();
 
@@ -44,10 +70,14 @@ namespace LB
 		bool Deserialize(const Value& data); //to load
 
 	private:
-		std::vector<KeyFrame> m_keyFrames;
+		IComponent* m_render;
 		double m_timeElapsed;
 
-		//CPAnimator* m_animator;
+		SpriteSheet* m_spriteSheet;
+
+		std::string m_name;
+		std::vector<KeyFrame> m_keyFrames;
+
 		//std::vector<AnimationTransition> m_transitions;
 	};
 

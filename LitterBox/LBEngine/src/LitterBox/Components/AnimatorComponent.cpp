@@ -37,6 +37,16 @@ namespace LB
 		m_controller.Update();
 	}
 
+	void CPAnimator::Play()
+	{
+		m_controller.Play();
+	}
+
+	void CPAnimator::Stop()
+	{
+		m_controller.Stop();
+	}
+
 	/*!***********************************************************************
 	\brief
 	 Destroy
