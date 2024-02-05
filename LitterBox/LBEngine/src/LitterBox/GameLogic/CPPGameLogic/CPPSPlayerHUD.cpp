@@ -76,11 +76,15 @@ namespace LB {
 		for (size_t i{ 1 }; i <= m_maxHealth; i++)
 		{
 			// Set the texture for lost health
+			//std::cout << "Current Heart png: " << ASSETMANAGER->GetTextureName(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->texture) << " for heart number " << i << std::endl;
 			if (i > m_currentHealth)
 			{
 				m_TotalHeartDisplay[i-1]->GetComponent<CPRender>()->texture = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Broken Heart"]].second;
+				
 			}
 		}
+
+		//std::cout << "Max Health: " << m_maxHealth << " " << "Current Health: " << m_currentHealth << std::endl;
 
 		for (size_t i{ 1 }; i <= m_maxBalls; i++)
 		{
@@ -107,7 +111,10 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseHealth()
 	{
-		--m_currentHealth;
+		if (m_currentHealth)
+		{
+			--m_currentHealth;
+		}
 	}
 
 	/*!***********************************************************************
@@ -116,7 +123,10 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseBalls()
 	{
-		--m_currentBalls;
+		if (m_currentBalls)
+		{
+			--m_currentBalls;
+		}
 	}
 
 	/*!***********************************************************************
@@ -125,7 +135,23 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseHealth()
 	{
-		++m_currentHealth;
+		if (m_currentHealth >= m_maxHealth)
+		{
+			++m_currentHealth;
+		}
+	}
+
+
+	/*!***********************************************************************
+	 \brief
+	 Increases the member variable for current balls in the PlayerHUD
+	*************************************************************************/
+	void CPPSPlayerHUD::IncreaseBalls()
+	{
+		if (m_currentBalls <= m_maxBalls)
+		{
+			++m_currentBalls;
+		}
 	}
 
 	/*!***********************************************************************
@@ -144,15 +170,6 @@ namespace LB {
 	void CPPSPlayerHUD::IncreaseMaxBalls(int amount)
 	{
 		m_maxBalls += amount;
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Increases the member variable for current balls in the PlayerHUD
-	*************************************************************************/
-	void CPPSPlayerHUD::IncreaseBalls()
-	{
-		++m_currentBalls;
 	}
 
 	/*!***********************************************************************

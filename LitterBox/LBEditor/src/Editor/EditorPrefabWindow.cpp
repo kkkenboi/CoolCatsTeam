@@ -64,7 +64,7 @@ namespace LB
 		{
 			DebuggerLogFormat("Saving %s prefab", InspectorGameObject::Instance()->GetInspectedGO()->GetName().c_str());
 			//Save the prefab to file by it's name
-			JSONSerializer::SerializeToFile(InspectorGameObject::Instance()->GetInspectedGO()->GetName(), *InspectorGameObject::Instance()->GetInspectedGO());
+			JSONSerializer::SerializeToFile(InspectorGameObject::Instance()->GetInspectedGO()->GetName() + ".prefab", *InspectorGameObject::Instance()->GetInspectedGO());
 		}
 		if (InspectorGameObject::Instance()->isPrefab)
 		{
