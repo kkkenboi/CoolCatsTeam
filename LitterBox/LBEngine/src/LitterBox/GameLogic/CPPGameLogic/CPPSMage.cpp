@@ -234,13 +234,9 @@ namespace LB
 				AUDIOMANAGER->SetChannelPitch(Channel, 1.1f);
 				mGotAttackedCooldown = mGotAttacked;
 
-				--mHealth;
+				
 				mFSM.ChangeState("Hurt");
-
-				if (mHealth < 0)
-				{
-					Die();
-				}
+				CPPSBaseEnemy::Hurt();
 			}
 		}
 	}
