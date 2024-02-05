@@ -1009,7 +1009,7 @@
                     "Active": true,
                     "Width": 110.0,
                     "Height": 110.0,
-                    "Texture": "pine",
+                    "Texture": "mage_attack",
                     "Sprites": {
                         "Name": "testSpriteSheet",
                         "PNG": "mage_attack",
@@ -1230,21 +1230,6 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSFPS"
-                },
-                "Text": {
-                    "Active": true,
-                    "Message": {
-                        "text": "FPS: ",
-                        "x": 1670.0,
-                        "y": 1025.0,
-                        "scale": 1.0,
-                        "Color": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "Font name": "TiltNeon-Regular"
-                    }
                 }
             }
         ]

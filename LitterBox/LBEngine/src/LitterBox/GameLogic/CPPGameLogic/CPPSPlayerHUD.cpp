@@ -81,27 +81,31 @@ namespace LB {
 
 		if (m_decreaseHealth)
 		{
-			--m_currentHealth;
-			m_decreaseHealth = false;
+			// Doing this for now to stop it from going beyond 0
+			if (m_currentHealth)
+			{
+				--m_currentHealth;
+				m_decreaseHealth = false;
+			}
 		}
 
 		if (m_decreaseBalls)
 		{
+			// Balls doesn't need the same check as the health since there's its own check in CPPSPlayer
 			--m_currentBalls;
 			m_decreaseBalls = false;
 		}
 
-		for (size_t i{ 1 }; i <= m_maxHealth; i++)
+		for (size_t i{ 1 }; i <= m_maxHealth; ++i)
 		{
 			// Set the texture for lost health
-			//std::cout << "Current Heart png: " << ASSETMANAGER->GetTextureName(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->texture) << " for heart number " << i << std::endl;
 			if (i > m_currentHealth)
 			{
 				m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"), 
 																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->w), 
 																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
 			}
-			else
+			else if ( i <= m_currentHealth)
 			{
 				m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Heart"),
 																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->w),
@@ -246,6 +250,7 @@ namespace LB {
 			if (gameObj->GetName() == "PlayerHUD")
 			{
 				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseHealth();
+				break;
 			}
 		}
 	}
@@ -262,6 +267,7 @@ namespace LB {
 			if (gameObj->GetName() == "PlayerHUD")
 			{
 				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
+				break;
 			}
 		}
 	}
