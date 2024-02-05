@@ -60,6 +60,7 @@ namespace LB
 
         //Then we get all the file types 
         std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
+        std::vector<std::filesystem::path> SpriteSheetFilePaths = FILESYSTEM->GetFilesOfType(".spritesheet");
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
         //then we check if there's any NEW assets
         for (const auto& textureFP : TextureFilePaths)
@@ -78,6 +79,20 @@ namespace LB
                 //then we also need to update our json by adding the new member
                 Value metaKey(Value(textureFP.string().c_str(), metaAlloc), metaAlloc);
                 _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(textureFP), metaAlloc);
+            }
+        }
+        for (const auto& spriteSheetFP : SpriteSheetFilePaths)
+        {
+            if (ASSETMANAGER->metaFileMap.find(spriteSheetFP.string()) == ASSETMANAGER->metaFileMap.end())
+            {
+                DebuggerLogFormat("FOUND NEW TEXTURE : %s, IMPORTING NOW!", spriteSheetFP.stem().string().c_str());
+                ASSETMANAGER->metaFileMap[spriteSheetFP.string()] = FILESYSTEM->GetFileTime(spriteSheetFP);
+                ASSETMANAGER->assetMap[spriteSheetFP.filename().stem().string()] = spriteSheetFP.string();
+                //Once we write to the meta file, we can load the sprite sheet 
+                Value metaKey(Value(spriteSheetFP.string().c_str(), metaAlloc), metaAlloc);
+                _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(spriteSheetFP), metaAlloc);
+
+                JSONSerializer::DeserializeFromFile(spriteSheetFP.filename().stem().string(), ASSETMANAGER->SpriteSheets[spriteSheetFP.filename().stem().string()]);
             }
         }
         //AUDIOMANAGER->StopAllChannels();
@@ -119,6 +134,10 @@ namespace LB
                 {
                     ASSETMANAGER->SoundMap[deletedFile.string()]->release();
                 }
+                if (deletedFile.filename().extension().string() == ".spritesheet")
+                {
+                    ASSETMANAGER->SpriteSheets.erase(deletedFile.string());
+                }
                 DebuggerLogFormat("%s can't be found anymore! Removing...", deletedFile.filename().string().c_str());
                 //Then we set the time to some impossible time and continue the loop
                 ASSETMANAGER->metaFileMap[metaData.first] = -1;
@@ -139,6 +158,12 @@ namespace LB
                     ASSETMANAGER->RemoveTexture(metaFP.filename().stem().string());
 
                     ASSETMANAGER->AddTexture(metaFP.string(), metaFP.string());
+                }
+                if (metaFP.filename().extension().string() == ".spritesheet")
+                {
+                    DebuggerLogFormat("SpriteSheet file name : %s", metaFP.string().c_str());
+                    //I think we don't have to remove it, we can just straight up edit it 
+                    JSONSerializer::DeserializeFromFile(metaFP.filename().stem().string(), ASSETMANAGER->SpriteSheets[metaFP.filename().stem().string()]);
                 }
                 if (metaFP.filename().extension().string() == ".wav")
                 {
@@ -246,6 +271,7 @@ namespace LB
         Document::AllocatorType& metaAlloc = _metaFile.GetAllocator();
 
         std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
+        std::vector<std::filesystem::path> SpriteSheetPaths = FILESYSTEM->GetFilesOfType(".spritesheet");
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
         std::vector<std::filesystem::path> ttfFontPaths = FILESYSTEM->GetFilesOfType(".ttf");
         std::vector<std::filesystem::path> otfFontPaths = FILESYSTEM->GetFilesOfType(".otf");
@@ -277,6 +303,17 @@ namespace LB
             //Texture ID is a bit fucked, but it's 
             //"C://User//joe.png" : "C://User//joe.png"
             AddTexture(t.string(), t.string());
+        }
+        for (const auto& s : SpriteSheetPaths)
+        {
+            Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
+            long long fileTime = FILESYSTEM->GetFileTime(s);
+            _metaFile.AddMember(metaKey, fileTime, metaAlloc);
+
+            assetMap[s.filename().stem().string()] = s.string();
+            metaFileMap[s.string()] = fileTime;
+
+            JSONSerializer::DeserializeFromFile(s.filename().stem().string(), SpriteSheets[s.filename().stem().string()]);
         }
         //Then we do the same for sounds
         for (const auto& s : SoundFilePaths)
@@ -419,6 +456,24 @@ namespace LB
         }
     }
 
+
+    SpriteSheet AssetManager::GetSpriteSheet(std::string& name)
+    {
+        if (SpriteSheets.find(name) != SpriteSheets.end()) {
+            return SpriteSheets[name];
+        }
+        DebuggerLogErrorFormat("Unable to find %s in SpriteSheets!", name.c_str());
+        return SpriteSheet();   //SFNIAE
+    }
+
+    Sprite AssetManager::GetSprite(std::string& spriteSheetName, int index)
+    {
+        if (GetSpriteSheet(spriteSheetName).GetName() != "") {
+            return GetSpriteSheet(spriteSheetName)[index];
+        }
+        DebuggerLogErrorFormat("Unable to find %s in Sprite!", spriteSheetName.c_str());
+        return Sprite();
+    }
 
     /*!***********************************************************************
     * \brief Gets the texture unit ID

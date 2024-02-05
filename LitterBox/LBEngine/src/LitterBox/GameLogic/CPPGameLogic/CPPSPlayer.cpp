@@ -14,6 +14,8 @@
 
 #include "CPPSPlayer.h"
 
+#include "CPPSPlayerGolfBall.h"
+#include "CPPSUpgradeManager.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Engine/Input.h"
@@ -287,6 +289,7 @@ namespace LB
 			playerPos.x += m_isFacingLeft ? -50.0f : 50.0f;
 
 			ballObject->GetComponent<CPTransform>()->SetPosition(playerPos);
+			ballObject->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(CPPSUpgradeManager::Instance()->GetBallUpgrades());
 		}
 
 		/*!***********************************************************************

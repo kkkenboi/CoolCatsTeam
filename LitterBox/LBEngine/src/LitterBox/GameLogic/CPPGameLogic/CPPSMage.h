@@ -52,20 +52,20 @@ namespace LB
 		float mBackOffSpeed{}; //When player is nearby, it backs off
 
 		//------------------CHASE STATE------------------
-		float mAttackCooldown, mAttackCooldownCurrent;
+		float mAttackCooldown{}, mAttackCooldownCurrent{};
 		float mTooClose{};
 
 		//------------------SHOOTING STATE------------------
 		float mAttackRange{};
-		int mNumOfProjectile, mNumOfProjectileCurrent; //the number of projectile the player will shoot
-		float mProjCooldown, mProjCooldownCurrent;
-		float mProjSpeed;
+		int mNumOfProjectile{}, mNumOfProjectileCurrent{}; //the number of projectile the player will shoot
+		float mProjCooldown{}, mProjCooldownCurrent{};
+		float mProjSpeed{};
 
-		float mGotAttacked, mGotAttackedCooldown;
+		float mGotAttacked{}, mGotAttackedCooldown{};
 
 		//------------------BACKOFF STATE------------------
 		//Boundaries between enemy and player
-		float mMinDistance, mMaxDistance, mBackOffDistance;
+		float mMinDistance{}, mMaxDistance{}, mBackOffDistance{};
 		float rangeDistance{};
 
 		//------------------Rendering,RB,Collider------------------
