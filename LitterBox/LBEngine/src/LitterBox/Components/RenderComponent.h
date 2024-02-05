@@ -185,24 +185,24 @@ namespace LB
 		 NOTE: the texture slot may or may not be bound. The ounus is on the
 		 developer to ensure the _texture argument is a valid texture
 		*************************************************************************/
-		void UpdateTexture(int _texture, int width, int height)
+		void UpdateTexture(int _texture, int width, int height, Vec2<float>min = {0.f, 0.f}, Vec2<float>max = {1.f, 1.f})
 		{
 			texture = _texture;
 			w = (float)width;
 			h = (float)height;
 			if (_texture == -1)
 			{
-				uv[0] = { 0.f, 0.f };
-				uv[1] = { 0.f, 0.f };
-				uv[2] = { 0.f, 0.f };
-				uv[3] = { 0.f, 0.f };
+				uv[0] = min;//{ 0.f, 0.f };
+				uv[1] = min;//{ 0.f, 0.f };
+				uv[2] = min;//{ 0.f, 0.f };
+				uv[3] = min;//{ 0.f, 0.f };
 			}
 			else
 			{
-				uv[0] = { 0.f, 0.f };
-				uv[1] = { 1.f, 0.f };
-				uv[2] = { 1.f, 1.f };
-				uv[3] = { 0.f, 1.f };
+				uv[0] = min;//{ 0.f, 0.f };
+				uv[1] = { max.x, min.y };//{ 1.f, 0.f };
+				uv[2] = max;//{ 1.f, 1.f };
+				uv[3] = { min.x, max.y };//{ 0.f, 1.f };
 			}
 		}
 
