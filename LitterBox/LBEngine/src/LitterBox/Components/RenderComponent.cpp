@@ -54,6 +54,10 @@ namespace LB
 			if (HasActive) m_active = data["Active"].GetBool();
 			if (HasWidth) w = data["Width"].GetFloat();
 			if (HasHeight) h = data["Height"].GetFloat();
+			if (HasSpriteIndex)
+			{
+				spriteIndex = data["SpriteIndex"].GetInt();
+			}
 			if (HasTexture)
 			{
 				//Because we have 2 versions, for now we keep this
@@ -77,10 +81,11 @@ namespace LB
 			{
 				const Value& spriteSheetValue = data["Sprites"];
 				ssheet.Deserialize(spriteSheetValue);
-			}
-			if (HasSpriteIndex)
-			{
-				spriteIndex = data["SpriteIndex"].GetInt();
+				if (spriteIndex != -1)
+				{
+					UpdateTexture(ASSETMANAGER->GetTextureUnit(ssheet.GetPNGRef()), static_cast<int>(w), static_cast<int>(h),
+						ssheet[spriteIndex].m_min,ssheet[spriteIndex].m_max);
+				}
 			}
 			return true;
 		}

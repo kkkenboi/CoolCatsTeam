@@ -517,6 +517,7 @@ namespace LB
 							{
 								sprite_confirm = false;
 								m_inspectedGO->GetComponent<CPRender>()->ssheet = selectedsheet;
+								m_inspectedGO->GetComponent<CPRender>()->spriteIndex = tile.m_index;
 								m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
 																						ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
 																						ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
