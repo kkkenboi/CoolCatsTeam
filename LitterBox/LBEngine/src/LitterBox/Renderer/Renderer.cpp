@@ -1136,14 +1136,13 @@ void Renderer::RenderSystem::Update()
 
 	//NOTE: for the depth buffer, because OpenGL is left handed
 	//the higher the z-axis value, the further away it is from the camera
-	glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 	//need to check if the specific layer is activated and render if it is
 	if (bg_renderer.getActive())
 	{
+		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 		glBindVertexArray(bg_renderer.get_vao());
 		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 	}
-	//need to check if the specific layer is activated and render if it is
 	if (object_renderer.getActive())
 	{
 		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
@@ -1153,7 +1152,7 @@ void Renderer::RenderSystem::Update()
 	//need to check if the specific layer is activated and render if it is
 	if (ui_renderer.getActive())
 	{
-		glClear(GL_DEPTH_BUFFER_BIT);//we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
+		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 		glBindVertexArray(ui_renderer.get_vao());
 		glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 	}
