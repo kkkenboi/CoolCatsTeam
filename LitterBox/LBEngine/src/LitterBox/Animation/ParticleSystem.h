@@ -7,6 +7,7 @@
 #include <ctime>
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Core/Core.h"
 
 #pragma once
 
@@ -26,7 +27,7 @@ namespace LB {
 		float mLifetimeRemaining;
 
 
-		// Texture here
+		GameObject* mGameObj;
 
 		bool mIsActive;
 	};
@@ -41,16 +42,21 @@ namespace LB {
 		void Destroy() override;
 
 		void Emit(CPParticle emitter);
-
+		std::vector<std::pair<std::string, EmitterType>>& GetVectorEmits();
+		std::string GetEmitterType(EmitterType EmitType);
+		void AddEmitter(CPParticle* emitter);
+		void UpdateParticles();
+		void UpdateEmitters();
 	private:
 
 		// Postion, Velocity, Variation, Texture, SizeBegin
 
-		std::array<CPParticle, 100> mEmitterPool;
-		std::array<std::pair<Particle, GameObject*>, 1000> mParticlePool;
+		std::array<CPParticle*, 100> mEmitterPool;
+		std::array<Particle, 1000> mParticlePool;
 		int mEmitterPoolIndex;
 		int mParticlePoolIndex;
 
+		std::vector<std::pair<std::string, EmitterType>> mEmitterTypes;
 	};
 
 	

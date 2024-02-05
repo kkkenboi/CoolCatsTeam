@@ -30,6 +30,8 @@
 #include "LitterBox/Components/TransformComponent.h"
 #include "LitterBox/Components/AudioSourceComponent.h"
 #include "LitterBox/Components/AnimatorComponent.h"
+#include "LitterBox/Components/ParticleComponent.h"
+#include "LitterBox/Animation/ParticleSystem.h"
 
 namespace LB
 {
@@ -230,6 +232,23 @@ namespace LB
 					m_inspectedGO->AddComponent(C_CPAnimator, FACTORY->GetCMs()[C_CPAnimator]->Create());
 					m_inspectedGO->GetComponent<CPAnimator>()->Initialise();
 					DebuggerLog("Animator component Added!");
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::Separator();
+			if (ImGui::MenuItem("Particle Component"))
+			{
+				if (m_inspectedGO->HasComponent<CPParticle>())
+				{
+					DebuggerLogWarning("Particle Component already exists.");
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					m_inspectedGO->AddComponent(C_CPParticle, FACTORY->GetCMs()[C_CPParticle]->Create());
+					m_inspectedGO->GetComponent<CPParticle>()->Initialise();
+					DebuggerLog("Particle component Added!");
 					ImGui::CloseCurrentPopup();
 				}
 			}
@@ -1093,6 +1112,84 @@ namespace LB
 				{
 					m_inspectedGO->RemoveComponent(C_CPAnimator);
 				}
+			}
+		}
+		if (m_inspectedGO->HasComponent<CPParticle>()) 
+		{
+			if (ImGui::CollapsingHeader("Particle", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				isActive = m_inspectedGO->GetComponent<CPParticle>()->m_active;
+				ImGui::PushID("ParticleActive");
+				ImGui::Checkbox("Active", &isActive);
+				ImGui::PopID();
+				if (isActive != m_inspectedGO->GetComponent<CPParticle>()->m_active)
+				{
+					m_inspectedGO->GetComponent<CPParticle>()->ToggleActiveFlag(isActive);
+				}
+
+
+				ImGui::Text("%-17s", "Emitter Type");
+				ImGui::SameLine();
+				if (ImGui::BeginCombo("##ParticleType", m_inspectedGO->GetComponent<CPParticle>()->GetEmitterType().c_str()))
+				{
+
+					for (auto& [str, type] : ParticleManager::Instance()->GetVectorEmits())
+					{
+						if (ImGui::Selectable(str.c_str()))
+						{
+							m_inspectedGO->GetComponent<CPParticle>()->mEmitterType = type;
+						}
+					}
+					ImGui::EndCombo();
+				}
+				// Emitter Rate
+				ImGui::Text("%-17s", "Emitter Rate");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##EmitterRate", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterRate, 1.0f, 0.0f, 0.0f, "%.2f");
+				// Emitter Velocity
+				Vec2<float>& velocity = m_inspectedGO->GetComponent<CPParticle>()->mEmitterVelocity;
+				ImGui::Text("%-17s X", "Velocity");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##VelocityX", &velocity.x, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::SameLine();
+				ImGui::Text("Y");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##VelocityY", &velocity.y, 1.0f, 0.0f, 0.0f, "%.2f");
+				// Emitter Size
+				ImGui::Text("%-17s Begin", "Emitter Size");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##SizeBegin", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeBegin, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::SameLine();
+				ImGui::Text("End");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##SizeEnd", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeEnd, 1.0f, 0.0f, 0.0f, "%.2f");
+				// Emitter Lifetime
+				ImGui::Text("%-17s", "Emitter Lifetime");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##EmitterLifeTime", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetime, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::Text("Lifetime Left: %.2f", m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeRemaining);
+				// Emitter Active
+				bool& isEmitterActive = m_inspectedGO->GetComponent<CPParticle>()->mIsActive;
+				ImGui::PushID("EmitterActive");
+				ImGui::Checkbox("Emitter Active", &isEmitterActive);
+				ImGui::PopID();
+				if (isEmitterActive != m_inspectedGO->GetComponent<CPParticle>()->mIsActive)
+				{
+					m_inspectedGO->GetComponent<CPParticle>()->mIsActive = isEmitterActive;
+
+					if (m_inspectedGO->GetComponent<CPParticle>()->mIsActive == true)
+					{
+						m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeRemaining = m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetime;
+					}
+				}
+			
 			}
 		}
 		//----------------------------------------INSPECT COMPONENTS WINDOW---------------------------------------

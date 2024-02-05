@@ -2,8 +2,10 @@
 #include "Component.h"
 #include "TransformComponent.h"
 #include "LitterBox/Components/RenderComponent.h"
+#include "LitterBox/Engine/Time.h"
 
 namespace LB {
+
 	enum EmitterType
 	{
 		TRAIL = 0,
@@ -19,6 +21,7 @@ namespace LB {
 		static ComponentTypeID GetType();
 
 		// CPParticle stuff
+		std::string GetEmitterType();
 		
 
 	public:

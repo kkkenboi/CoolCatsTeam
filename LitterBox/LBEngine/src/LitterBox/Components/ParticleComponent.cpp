@@ -1,6 +1,8 @@
 #include "ParticleComponent.h"
+#include "Litterbox/Animation/ParticleSystem.h"
 
 namespace LB {
+
 	void CPParticle::Initialise() 
 	{
 		mTransform = gameObj->GetComponent<CPTransform>();
@@ -23,8 +25,11 @@ namespace LB {
 		mEmitterSizeEnd = 1.f;
 
 		mEmitterLifetime = 1.f;
+		mEmitterLifetimeRemaining = 1.f;
 
 		mIsActive = false;
+
+		ParticleManager::Instance()->AddEmitter(this);
 	}
 
 	void CPParticle::Update()
@@ -34,8 +39,25 @@ namespace LB {
 			mRender = gameObj->GetComponent<CPRender>();
 		}
 
+		//std::cout << "Testing\n";
+
 		mEmitterPos = mTransform->GetPosition();
 		
+		if (mEmitterLifetimeRemaining > 0.f)
+		{
+			mEmitterLifetimeRemaining -= TIME->GetDeltaTime();
+		}
+
+		if (mEmitterLifetimeRemaining <= 0.f) 
+		{
+			mIsActive = false;
+			mEmitterLifetimeRemaining = 0.f;
+		}
+
+		if (mIsActive)
+		{
+			ParticleManager::Instance()->Emit(*this);
+		}
 	}
 
 	void CPParticle::Destroy()
@@ -46,5 +68,18 @@ namespace LB {
 	ComponentTypeID CPParticle::GetType() 
 	{
 		return C_CPParticle;
+	}
+
+	std::string CPParticle::GetEmitterType()
+	{
+		switch (mEmitterType)
+		{
+		case TRAIL:
+			return "Trail";
+		case RADIAL:
+			return "Radial";
+		default:
+			return "ERROR!";
+		}
 	}
 }
