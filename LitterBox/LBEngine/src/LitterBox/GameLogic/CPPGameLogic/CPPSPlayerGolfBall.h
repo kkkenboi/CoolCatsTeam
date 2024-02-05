@@ -57,8 +57,13 @@ namespace LB
 		
 
 		//Initially ball will have no upgrades
+		//This value will be set by the upgrade manager
 		BallUpgrades currentBallUpgrades = DEFAULT;
 		void SetBallUpgrade(int);
+
+		//Upgrade functions
+		void Explode();
+		void Split();
 	private:
 		/*!***********************************************************************
 		\brief
@@ -76,8 +81,14 @@ namespace LB
 		float mVelocity{}; //Velocity of the golf ball
 		float mSize{}; //the size of the golf ball
 
+		//Upgrade stats
+		float mExplosionRadius{100.f};
+		//Player shoot force is 4500, we lower it slightly 
+		float explosionForceMag{2000.f};
+
 		float mLifetime{ 1.5f }, mCurrentLifetime{ 1.5f }; //life time for the golfball to despawn after a certain timing
 		Event<> onBallDisappear;
+		bool canSplit{ false };	//for the upgrade to decide if the ball can split or not
 	};
 	//Just some operator overloads to make the ball upgrade enum flags easier to read and understand lol
 	inline CPPSPlayerGolfBall::BallUpgrades operator& (CPPSPlayerGolfBall::BallUpgrades lhs, CPPSPlayerGolfBall::BallUpgrades rhs) {

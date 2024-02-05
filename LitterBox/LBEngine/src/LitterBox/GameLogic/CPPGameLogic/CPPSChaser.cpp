@@ -32,7 +32,6 @@ namespace LB
 	*************************************************************************/
 	void CPPSChaser::Start()
 	{
-		std::cout << "Chaser Start called " << ++count << std::endl;
 		CPPSBaseEnemy::Start();
 		//Intialise the components
 		// 		right_face = trans->GetScale();
@@ -163,13 +162,10 @@ namespace LB
 				
 				mGotAttackedCooldown = mGotAttacked;
 
-				--mHealth;
+				
 				mFSM.ChangeState("Hurt");
-
-				if (mHealth < 0)
-				{
-					Die();
-				}
+				CPPSBaseEnemy::Hurt();
+				
 			}
 		}
 

@@ -31,6 +31,7 @@ namespace LB
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
 		virtual void Die();
+		virtual void Hurt();
 	protected:
 		GameObject* mPlayer{ nullptr }; //Caching the player obj
 		GameObject* mGameManager{ nullptr }; //Caching the game manager

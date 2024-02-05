@@ -1,17 +1,20 @@
 {
-    "Name": "Heart HUD",
+    "Name": "HeartHUD",
+    "Active": true,
     "Transform": {
+        "Active": true,
         "Position": {
             "x": 126.0,
             "y": 960.0
         },
         "Scale": {
-            "x": 0.8,
-            "y": 0.8
+            "x": 1.2,
+            "y": 1.2
         },
         "Rotation": 0.0
     },
     "Render": {
+        "Active": true,
         "Width": 100.0,
         "Height": 100.0,
         "Texture": "Heart"

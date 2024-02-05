@@ -12,10 +12,10 @@ namespace LB
 
 		void OnCollisionEnter(CollisionData);
 		void AssignUpgradeID(int);
-
+		//Upgrade assigned by the upgrade managaer
 		int assignedUpgradeType{ 0 };
 	private:
-		GameObject* BallGameObj{ nullptr };
+		//GameObject* BallGameObj{ nullptr };
 	};
 	REGISTER_SCRIPT(CPPSUpgrade)
 }

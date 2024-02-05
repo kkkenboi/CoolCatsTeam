@@ -6,7 +6,7 @@ namespace LB
 	void CPPSUpgrade::Start()
 	{
 		//Grabbing the ball reference
-		BallGameObj = GOMANAGER->FindGameObjectWithName("ball");
+		//BallGameObj = GOMANAGER->FindGameObjectWithName("ball");
 
 	}
 	void CPPSUpgrade::Update()
@@ -23,13 +23,16 @@ namespace LB
 		if (colData.colliderOther->m_gameobj->GetName() == "ball")
 		{
 			std::cout << "Hit upgrade\n";
+
 			CPPSUpgradeManager::Instance()->SetBallUpgrade(assignedUpgradeType);
 		/*	BallGameObj = GOMANAGER->FindGameObjectWithName("ball");
 			BallGameObj->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(1);*/
 			this->GameObj->SetActive(false);
 		}
 	}
-	void CPPSUpgrade::AssignUpgradeID(int)
+	void CPPSUpgrade::AssignUpgradeID(int upgradeType)
 	{
+		//Called by the upgrade 
+		assignedUpgradeType = upgradeType;
 	}
 }

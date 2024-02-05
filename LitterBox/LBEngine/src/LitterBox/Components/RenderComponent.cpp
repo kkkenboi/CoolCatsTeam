@@ -28,6 +28,12 @@ namespace LB
 		data.AddMember("Height", h, alloc);
 		Value textureName(ASSETMANAGER->GetTextureName(texture).c_str(),alloc);
 		data.AddMember("Texture", textureName, alloc);
+		Value SpriteSheetValue;
+		if (ssheet.Serialize(SpriteSheetValue, alloc)) 
+		{
+			data.AddMember("Sprites", SpriteSheetValue, alloc);
+		}
+		data.AddMember("SpriteIndex", spriteIndex, alloc);
 		return true;
 	}
 
@@ -41,6 +47,8 @@ namespace LB
 		bool HasTexture = data.HasMember("Texture");
 		bool HasWidth = data.HasMember("Width");
 		bool HasHeight = data.HasMember("Height");
+		bool HasSpriteSheet = data.HasMember("Sprites");
+		bool HasSpriteIndex = data.HasMember("SpriteIndex");
 		if (data.IsObject())
 		{
 			if (HasActive) m_active = data["Active"].GetBool();
@@ -63,8 +71,18 @@ namespace LB
 				UpdateTexture(ASSETMANAGER->GetTextureUnit(textureName), static_cast<int>(w), static_cast<int>(h));
 
 				//texture = ASSETMANAGER->GetTextureUnit(textureValue.GetString());
-				return true;
+				/*return true;*/
 			}
+			if (HasSpriteSheet)
+			{
+				const Value& spriteSheetValue = data["Sprites"];
+				ssheet.Deserialize(spriteSheetValue);
+			}
+			if (HasSpriteIndex)
+			{
+				spriteIndex = data["SpriteIndex"].GetInt();
+			}
+			return true;
 		}
 		return false;
 	}

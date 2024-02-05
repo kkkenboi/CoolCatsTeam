@@ -6,176 +6,176 @@
     "Sprites": [
         {
             "Index": 0,
-            "Position": {
+            "Min": {
                 "x": 0.0,
                 "y": 0.75
             },
-            "Size": {
+            "Max": {
                 "x": 0.25,
                 "y": 1.0
             }
         },
         {
             "Index": 1,
-            "Position": {
+            "Min": {
                 "x": 0.25,
                 "y": 0.75
             },
-            "Size": {
+            "Max": {
                 "x": 0.5,
                 "y": 1.0
             }
         },
         {
             "Index": 2,
-            "Position": {
+            "Min": {
                 "x": 0.5,
                 "y": 0.75
             },
-            "Size": {
+            "Max": {
                 "x": 0.75,
                 "y": 1.0
             }
         },
         {
             "Index": 3,
-            "Position": {
+            "Min": {
                 "x": 0.75,
                 "y": 0.75
             },
-            "Size": {
+            "Max": {
                 "x": 1.0,
                 "y": 1.0
             }
         },
         {
             "Index": 4,
-            "Position": {
+            "Min": {
                 "x": 0.0,
                 "y": 0.5
             },
-            "Size": {
+            "Max": {
                 "x": 0.25,
                 "y": 0.75
             }
         },
         {
             "Index": 5,
-            "Position": {
+            "Min": {
                 "x": 0.25,
                 "y": 0.5
             },
-            "Size": {
+            "Max": {
                 "x": 0.5,
                 "y": 0.75
             }
         },
         {
             "Index": 6,
-            "Position": {
+            "Min": {
                 "x": 0.5,
                 "y": 0.5
             },
-            "Size": {
+            "Max": {
                 "x": 0.75,
                 "y": 0.75
             }
         },
         {
             "Index": 7,
-            "Position": {
+            "Min": {
                 "x": 0.75,
                 "y": 0.5
             },
-            "Size": {
+            "Max": {
                 "x": 1.0,
                 "y": 0.75
             }
         },
         {
             "Index": 8,
-            "Position": {
+            "Min": {
                 "x": 0.0,
                 "y": 0.25
             },
-            "Size": {
+            "Max": {
                 "x": 0.25,
                 "y": 0.5
             }
         },
         {
             "Index": 9,
-            "Position": {
+            "Min": {
                 "x": 0.25,
                 "y": 0.25
             },
-            "Size": {
+            "Max": {
                 "x": 0.5,
                 "y": 0.5
             }
         },
         {
             "Index": 10,
-            "Position": {
+            "Min": {
                 "x": 0.5,
                 "y": 0.25
             },
-            "Size": {
+            "Max": {
                 "x": 0.75,
                 "y": 0.5
             }
         },
         {
             "Index": 11,
-            "Position": {
+            "Min": {
                 "x": 0.75,
                 "y": 0.25
             },
-            "Size": {
+            "Max": {
                 "x": 1.0,
                 "y": 0.5
             }
         },
         {
             "Index": 12,
-            "Position": {
+            "Min": {
                 "x": 0.0,
                 "y": 0.0
             },
-            "Size": {
+            "Max": {
                 "x": 0.25,
                 "y": 0.25
             }
         },
         {
             "Index": 13,
-            "Position": {
+            "Min": {
                 "x": 0.25,
                 "y": 0.0
             },
-            "Size": {
+            "Max": {
                 "x": 0.5,
                 "y": 0.25
             }
         },
         {
             "Index": 14,
-            "Position": {
+            "Min": {
                 "x": 0.5,
                 "y": 0.0
             },
-            "Size": {
+            "Max": {
                 "x": 0.75,
                 "y": 0.25
             }
         },
         {
             "Index": 15,
-            "Position": {
+            "Min": {
                 "x": 0.75,
                 "y": 0.0
             },
-            "Size": {
+            "Max": {
                 "x": 1.0,
                 "y": 0.25
             }

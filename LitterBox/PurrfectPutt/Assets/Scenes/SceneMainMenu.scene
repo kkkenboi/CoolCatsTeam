@@ -260,7 +260,7 @@
                 },
                 "CPPScript": {
                     "Active": true,
-                    "Script": "void"
+                    "Script": "class LB::Butt"
                 }
             },
             {
@@ -291,7 +291,7 @@
                 },
                 "CPPScript": {
                     "Active": true,
-                    "Script": "void"
+                    "Script": "class LB::Butt"
                 }
             },
             {

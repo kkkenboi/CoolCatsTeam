@@ -236,13 +236,9 @@ namespace LB
 				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageHurtSounds, 0.7f, 1.1f);
 				mGotAttackedCooldown = mGotAttacked;
 
-				--mHealth;
+				
 				mFSM.ChangeState("Hurt");
-
-				if (mHealth < 0)
-				{
-					Die();
-				}
+				CPPSBaseEnemy::Hurt();
 			}
 		}
 	}
