@@ -19,6 +19,7 @@
 #pragma once
 #include "TransformComponent.h"
 #include "LitterBox/Renderer/ForwardDeclerators.h"
+#include "LitterBox/Animation/SpriteSheet.h"
 //#include "LitterBox/Serialization/AssetManager.h"
 #include <queue>
 
@@ -36,11 +37,13 @@ namespace LB
 	{
 	private:
 		Renderer::Renderer_Types					renderer_id;
-		unsigned int									quad_id;
-		unsigned int									frame;
-		float											time_elapsed;
-		std::queue<std::pair<const  Renderer::Animation*, bool>>	animation;
-		Renderer::index									indices;
+		unsigned int								quad_id;
+		unsigned int								frame;
+		float										time_elapsed;
+		std::queue<std::pair
+			<const  Renderer::Animation*, bool>
+		>											animation;
+		Renderer::index								indices;
 		bool initialized{ false };
 		bool destroyed{ false };
 
@@ -49,12 +52,12 @@ namespace LB
 		float						h;
 		float						rotation, z_val;
 		int							texture;
-		bool						activated;
 		Vec2<float>					scal;
 		Vec2<float>					position;
 		Vec3<float>					col;
 		std::array<Vec2<float>, 4>	uv; //bot left, bot right, top right, top left
-
+		SpriteSheet					ssheet;
+		bool						activated;
 
 
 		CPTransform* transform;

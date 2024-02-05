@@ -244,7 +244,7 @@ LB::CPRender::CPRender(
 	renderer_id{ rend_type }, position{ pos }, scal{ scale }, w{ width }, h{ height },
 	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ texture },
 	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }, rotation{ 0.f }, transform{ nullptr },
-	indices{}, z_val{1.f}
+	indices{}, z_val{ 1.f }, ssheet{}
 {
 	if (!Renderer::GRAPHICS) {
 		DebuggerLogError("GRAPHICS SYSTEM NOT INITIALIZED");

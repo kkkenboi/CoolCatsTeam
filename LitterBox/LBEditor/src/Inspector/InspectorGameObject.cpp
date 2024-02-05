@@ -464,6 +464,46 @@ namespace LB
 					}
 				}
 
+
+				//-------------For sprite sheet---------------
+				ImGui::Text("%-19s", "SpriteSheet");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				//int inspectedTextureID = m_inspectedGO->GetComponent<CPRender>()->texture;
+				const char* spritesheet = m_inspectedGO->GetComponent<CPRender>()->ssheet.GetPNGRef().c_str();
+				//This allows you to drag into the text
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* spritesheet = ImGui::AcceptDragDropPayload("SPRITE SHEET"))
+					{
+						const char* textureName = (const char*)spritesheet->Data;
+						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
+					}
+				}
+				if (ImGui::BeginCombo("##Sprite Sheet", spritesheet))
+				{
+					for (auto& [str, tex] : ASSETMANAGER->Textures)
+					{
+						std::filesystem::path tempPath{ str };
+						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
+						{
+							if (str == "none") m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(-1, static_cast<int>(width), static_cast<int>(height));
+							else m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, static_cast<int>(width), static_cast<int>(height));
+						}
+					}
+					ImGui::EndCombo();
+				}
+				////This allows you to drag into the combo
+				//if (ImGui::BeginDragDropTarget())
+				//{
+				//	if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("TEXTURE"))
+				//	{
+				//		const char* textureName = (const char*)textureData->Data;
+				//		m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
+				//	}
+				//}
+				//-------------For sprite sheet---------------
+
 				//store the name of the layer enum
 				static std::string renderdroplayer{};
 
