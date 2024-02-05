@@ -77,4 +77,12 @@ namespace LB
 		GameObj->RemoveComponent(C_CPCollider);
 		mShouldDestroy = true;
 	}
+	void CPPSBaseEnemy::Hurt()
+	{
+		--mHealth;
+		if (mHealth < 0)
+		{
+			Die();
+		}
+	}
 }
