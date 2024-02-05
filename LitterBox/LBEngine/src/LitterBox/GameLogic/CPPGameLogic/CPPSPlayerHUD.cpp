@@ -76,11 +76,15 @@ namespace LB {
 		for (size_t i{ 1 }; i <= m_maxHealth; i++)
 		{
 			// Set the texture for lost health
+			//std::cout << "Current Heart png: " << ASSETMANAGER->GetTextureName(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->texture) << " for heart number " << i << std::endl;
 			if (i > m_currentHealth)
 			{
 				m_TotalHeartDisplay[i-1]->GetComponent<CPRender>()->texture = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Broken Heart"]].second;
+				
 			}
 		}
+
+		//std::cout << "Max Health: " << m_maxHealth << " " << "Current Health: " << m_currentHealth << std::endl;
 
 		for (size_t i{ 1 }; i <= m_maxBalls; i++)
 		{
@@ -107,7 +111,10 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseHealth()
 	{
-		--m_currentHealth;
+		if (m_currentHealth)
+		{
+			--m_currentHealth;
+		}
 	}
 
 	/*!***********************************************************************
@@ -116,7 +123,10 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseBalls()
 	{
-		--m_currentBalls;
+		if (m_currentBalls)
+		{
+			--m_currentBalls;
+		}
 	}
 
 	/*!***********************************************************************
@@ -125,8 +135,12 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseHealth()
 	{
-		++m_currentHealth;
+		if (m_currentHealth >= m_maxHealth)
+		{
+			++m_currentHealth;
+		}
 	}
+
 
 	/*!***********************************************************************
 	 \brief
@@ -134,9 +148,29 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseBalls()
 	{
-		++m_currentBalls;
+		if (m_currentBalls <= m_maxBalls)
+		{
+			++m_currentBalls;
+		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Increases the member variable for max health in the PlayerHUD
+	*************************************************************************/
+	void CPPSPlayerHUD::IncreaseMaxHealth(int amount)
+	{
+		m_maxHealth += amount;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Increases the member variable for max balls in the PlayerHUD
+	*************************************************************************/
+	void CPPSPlayerHUD::IncreaseMaxBalls(int amount)
+	{
+		m_maxBalls += amount;
+	}
 
 	/*!***********************************************************************
 	 \brief
@@ -188,7 +222,7 @@ namespace LB {
 
 	/*!***********************************************************************
 	 \brief
-	 For event subscription to increaase ball when the ball expires
+	 For event subscription to increase ball count when the ball expires
 	*************************************************************************/
 	void IncreaseBalls()
 	{
@@ -198,6 +232,38 @@ namespace LB {
 			if (gameObj->GetName() == "PlayerHUD")
 			{
 				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
+			}
+		}
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 For event subscription to increase the max balls in PlayerHUD
+	*************************************************************************/
+	void IncreaseMaxHealth(int amount)
+	{
+		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		{
+			// Find out which object is the player
+			if (gameObj->GetName() == "PlayerHUD")
+			{
+				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(amount);
+			}
+		}
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 For event subscription to increase the max health in PlayerHUD
+	*************************************************************************/
+	void IncreaseMaxBalls(int amount)
+	{
+		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		{
+			// Find out which object is the player
+			if (gameObj->GetName() == "PlayerHUD")
+			{
+				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(amount);
 			}
 		}
 	}

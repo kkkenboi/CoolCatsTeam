@@ -17,10 +17,14 @@
 #include "CPPSPlayer.h"
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Physics/ColliderManager.h"
+
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Engine/Time.h"
 #include "CPPSPlayerHUD.h"
+#include "LitterBox/Renderer/Renderer.h"
+#include "CPPSBaseEnemy.h"
 
 namespace LB
 {
@@ -34,21 +38,27 @@ namespace LB
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
 
-		std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
+		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+		/*std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
 		for (GameObject* GO : GOs) {
 			if (GO->GetName() == "MainChar")
 			{
 				mPlayer = GO;
 				break;
 			}
-		}
+		}*/
 
 		mSpeedMagnitude = 1000.0f;
 		mVelocity = 1000.0f; //with direction
-		mSize = 1.0f;
+		if (currentBallUpgrades & BIGBALL) {
+			std::cout << "EMBIGGEN\n";
+			mSize = 2.0f;
+		}
+		else mSize = 1.0f;
 
 		mCurrentLifetime = mLifetime = 1.0f;
 		onBallDisappear.Subscribe(IncreaseBalls);
+
 	}
 
 	/*!***********************************************************************
@@ -68,6 +78,7 @@ namespace LB
 			mCurrentLifetime -= static_cast<float>(TIME->GetDeltaTime());
 			if (mCurrentLifetime <= 0.0f)
 			{
+				if (currentBallUpgrades & BOMB) Explode();
 				CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
 				--player->m_currentBalls;
 				GOMANAGER->RemoveGameObject(this->GameObj);
@@ -81,6 +92,16 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayerGolfBall::OnCollisionEnter(CollisionData colData)
 	{
+		
+		if (currentBallUpgrades & BOMB) {
+
+			//Renderer::GRAPHICS->shaker_camera();
+			Explode();
+			CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
+			--player->m_currentBalls;
+			GOMANAGER->RemoveGameObject(this->GameObj);
+			return;
+		}
 		if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
 		{
@@ -89,6 +110,41 @@ namespace LB
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 		}
 
+	}
+
+	void CPPSPlayerGolfBall::SetBallUpgrade(int upgradeType)
+	{	
+		//std::cout << "Upgrade type : " << upgradeType << '\n';
+		//std::cout << "Bitshifted Upgrade type : " << (1 << upgradeType) << '\n';
+		//std::cout << "curr upgrade : " << static_cast<int>(currentBallUpgrades) << '\n';
+		//std::cout << "result : " << (currentBallUpgrades & BOMB) << '\n';
+		//In order to set the upgrade type, we have to bit shift it.
+		currentBallUpgrades |= static_cast<BallUpgrades>(1 << upgradeType);
+		//currentBallUpgrades = static_cast<BallUpgrades>(static_cast<int>(currentBallUpgrades) | (1 << upgradeType));
+	}
+
+
+	//Function to handle when the ball explodes
+	void CPPSPlayerGolfBall::Explode()
+	{
+		std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
+		//We loop through all the colliders that were in the radius
+		for (CPCollider* col : explosionColliders) {
+				if (col->gameObj->GetName() == "MainChar") continue;
+				Vec2<float> explosionForce = col->m_pos - this->GameObj->GetComponent<CPTransform>()->GetPosition();
+				explosionForce = explosionForce.Normalise() * explosionForceMag;
+				if (col->HasRB()) {
+					col->gameObj->GetComponent<CPRigidBody>()->addImpulse(explosionForce);
+					/*if (col->gameObj->HasComponent<CPPSBaseEnemy>()) {
+					col->gameObj->GetComponent<CPPSBaseEnemy>()->Hurt();
+					std::cout << "enemy hurt\n";
+					}*/
+				}
+		}
+	}
+
+	void CPPSPlayerGolfBall::Split()
+	{
 	}
 
 	/*!***********************************************************************

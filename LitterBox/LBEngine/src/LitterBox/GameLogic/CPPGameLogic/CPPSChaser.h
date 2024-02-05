@@ -63,7 +63,8 @@ namespace LB
 		//float mSpeedMagnitude{}; //speed
 		float mHurtTimer{}; //hurt timer
 
-		float mGotAttacked, mGotAttackedCooldown;
+		//for the ball collision
+		float mGotAttacked{}, mGotAttackedCooldown{};
 
 		bool mInitialised{ false };
 	};

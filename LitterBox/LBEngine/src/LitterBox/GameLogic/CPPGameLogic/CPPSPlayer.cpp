@@ -14,6 +14,8 @@
 
 #include "CPPSPlayer.h"
 
+#include "CPPSPlayerGolfBall.h"
+#include "CPPSUpgradeManager.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Engine/Input.h"
@@ -214,21 +216,7 @@ namespace LB
 		if (isMoving && m_stepSoundCurrent > m_stepSoundInterval)
 		{
 			m_stepSoundCurrent = 0.0f;
-			switch (std::rand() % 4)
-			{
-			case 0:
-				AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_1");
-				break;
-			case 1:
-				AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_2");
-				break;
-			case 2:
-				AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_3");
-				break;
-			case 3:
-				AUDIOMANAGER->PlaySound("Footsteps-Grass-Far-Small_4");
-				break;
-			}
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds);
 		}
 		m_stepSoundCurrent += static_cast<float>(TIME->GetDeltaTime());
 		
@@ -240,8 +228,7 @@ namespace LB
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
 		{
 			// Play hit sound
-			int Channel = AUDIOMANAGER->PlaySound("Sward-Whoosh_1");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.3f);
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSlashSounds,0.3f);
 
 			// Pushes the ball
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
@@ -287,6 +274,7 @@ namespace LB
 			playerPos.x += m_isFacingLeft ? -50.0f : 50.0f;
 
 			ballObject->GetComponent<CPTransform>()->SetPosition(playerPos);
+			ballObject->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(CPPSUpgradeManager::Instance()->GetBallUpgrades());
 		}
 
 		/*!***********************************************************************
@@ -329,25 +317,15 @@ namespace LB
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
 		{
 			if (mGotAttackedCooldown > 0.0f) {
+				if (colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
+				{
+					AUDIOMANAGER->ChanceToPlayGroupSound(AUDIOMANAGER->ChaserAttackSounds);
+				}
 				return;
 			}
 			mGotAttackedCooldown = mGotAttacked;
-			int Channel{ 0 };
-			switch (std::rand() % 3)
-			{
-			case 0:
-				Channel = AUDIOMANAGER->PlaySound("playerhurt1");
-				break;
-			case 1:
-				Channel = AUDIOMANAGER->PlaySound("playerhurt2");
-				break;
-			case 2:
-				Channel = AUDIOMANAGER->PlaySound("playerhurt3");
-				break;
-			}
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
-			AUDIOMANAGER->SetChannelPitch(Channel, 1.1f);
 
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.5f, 1.1f);
 			--m_currentHealth;
 			// Update the HUD as well
 			onTakingDamage.Invoke();
@@ -356,6 +334,8 @@ namespace LB
 			{
 				//GOMANAGER->RemoveGameObject(this->GameObj);
 			}
+
+			
 
 		}
 	}

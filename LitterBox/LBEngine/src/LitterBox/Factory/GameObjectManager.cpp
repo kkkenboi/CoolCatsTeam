@@ -428,6 +428,23 @@ namespace LB
 	{
 		return m_GameObjects;
 	}
+
+	/*!***********************************************************************
+	 \brief
+	 Searches through all the game objects and returns the one that matches the name
+	 \return
+	 GameObject with the matching name. Nullptr if the GO can't be found
+	*************************************************************************/
+	GameObject* GameObjectManager::FindGameObjectWithName(std::string name)
+	{
+		for (GameObject* GO : m_GameObjects) {
+			if (GO->GetName() == name) {
+				return GO;
+			}
+		}
+		DebuggerLogWarningFormat("[GO Manager] Unable to find GO named %s", name.c_str());
+		return nullptr;
+	}
 	/*!***********************************************************************
 	 \brief
 	 Adds a GameObject to the current pool of GameObjects

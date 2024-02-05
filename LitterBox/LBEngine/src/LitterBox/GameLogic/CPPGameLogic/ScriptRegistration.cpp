@@ -24,6 +24,9 @@
 #include "PauseMenuScript.h"
 #include "CPPSAimUI.h"
 #include "CPPGameManager.h"
+#include "CPPSUpgrade.h"
+#include "CPPSUpgradeManager.h"
+#include "CPPSFPS.h"
 
 namespace LB 
 {
@@ -40,6 +43,7 @@ namespace LB
 		//CPPGameLogic::Instance()->RegisterScript<CPPSBaseGolfBall>();
 		//CPPGameLogic::Instance()->RegisterScript<CPPSPlayerGolfBall>();
 		//CPPGameLogic::Instance()->RegisterScript<PauseMenuScript>();
+		//CPPGameLogic::Instance()->RegisterScript<CPPSPlayerHUD>();
 		//CPPGameLogic::Instance()->RegisterScript<CPPSPlayerHUD>();
 	}
 }

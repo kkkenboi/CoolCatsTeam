@@ -74,6 +74,7 @@ namespace LB
 		MageBackOffState* BACKOFFSTATE = DBG_NEW MageBackOffState(this, mFSM, "BackOff");
 		MageHurtState* HURTSTATE = DBG_NEW MageHurtState(this, mFSM, "Hurt");
 		MageShootingState* SHOOTINGSTATE = DBG_NEW MageShootingState(this, mFSM, "Shooting");
+		//MageShootingState* DEATHSTATE = DBG_NEW MageShootingState(this, mFSM, "Death");
 
 		//STATES : IDLE, CHASING, BACKOFF, HURT, SHOOTING
 		mFSM.AddState(IDLESTATE);
@@ -81,6 +82,7 @@ namespace LB
 		mFSM.AddState(BACKOFFSTATE);
 		mFSM.AddState(HURTSTATE);
 		mFSM.AddState(SHOOTINGSTATE);
+		//mFSM.AddState(DEATHSTATE);
 
 		//set current state of Mage to be on idle
 		mFSM.SetCurrentState("Idle");
@@ -168,6 +170,7 @@ namespace LB
 		delete mFSM.GetState("BackOff");
 		delete mFSM.GetState("Hurt");
 		delete mFSM.GetState("Shooting");
+		//delete mFSM.GetState("Death");
 	}
 
 	//Getter functions
@@ -229,24 +232,20 @@ namespace LB
 				if (mGotAttackedCooldown > 0.0f) {
 					return;
 				}
-				int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
-				AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
-				AUDIOMANAGER->SetChannelPitch(Channel, 1.1f);
+
+				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageHurtSounds, 0.7f, 1.1f);
 				mGotAttackedCooldown = mGotAttacked;
 
-				--mHealth;
+				
 				mFSM.ChangeState("Hurt");
-
-				if (mHealth < 0)
-				{
-					Die();
-				}
+				CPPSBaseEnemy::Hurt();
 			}
 		}
 	}
 
 	void CPPSMage::Die()
 	{
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageDeathSounds);
 		CPPSBaseEnemy::Die();
 		//Code to play death anim goes here
 	}
@@ -494,6 +493,8 @@ namespace LB
 
 		mEnemy->mNumOfProjectileCurrent = 0;
 		mEnemy->mProjCooldownCurrent = 0.0f;
+
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageAttackSounds, 1.f);
 		this->Update();
 	}
 

@@ -19,6 +19,7 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Scene/SceneManager.h"
+#include "LitterBox/Renderer/Renderer.h"
 
 namespace LB
 {
@@ -38,6 +39,7 @@ namespace LB
 			if (GO->GetName() == "PauseMenuTextureObject")
 			{
 				MenuTexture = GO;
+				GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuResumeObject")
 			{
@@ -56,6 +58,7 @@ namespace LB
 			if (GO->GetName() == "PauseMenuHowToPlayTextureObject")
 			{
 				HowToPlayTexture = GO;
+				GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuHowToPlayPreviousMenuButton")
 			{
@@ -67,6 +70,7 @@ namespace LB
 			if (GO->GetName() == "PauseMenuQuitConfirmTexture")
 			{
 				QuitTexture = GO;
+				GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuQuitConfirmYesObject")
 			{

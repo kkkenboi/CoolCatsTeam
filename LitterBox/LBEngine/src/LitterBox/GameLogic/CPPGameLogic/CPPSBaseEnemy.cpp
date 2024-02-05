@@ -10,23 +10,11 @@ namespace LB
 		mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
+
 		//Grabbing the player GO reference
-		std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
-		for (GameObject* GO : GOs) {
-			if (GO->GetName() == "MainChar") {
-				mPlayer = GO;
-				break;
-			}
-		}
+		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 		//Grabbing GameManager reference
-		for (GameObject* GO : GOs)
-		{
-			if (GO->GetName() == "GameManager")
-			{
-				mGameManager = GO;
-				break;
-			}
-		}
+		mGameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 
 		rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
 		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
@@ -88,5 +76,13 @@ namespace LB
 		GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
 		GameObj->RemoveComponent(C_CPCollider);
 		mShouldDestroy = true;
+	}
+	void CPPSBaseEnemy::Hurt()
+	{
+		--mHealth;
+		if (mHealth < 0)
+		{
+			Die();
+		}
 	}
 }

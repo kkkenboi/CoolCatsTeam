@@ -50,7 +50,15 @@
                     "Active": true,
                     "Width": 200.0,
                     "Height": 100.0,
-                    "Texture": "Aim"
+                    "Texture": "Aim",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 },
                 "CPPScript": {
                     "Active": true,
@@ -83,7 +91,15 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "Felix"
+                    "Texture": "Felix",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 },
                 "Collider": {
                     "Active": true,
@@ -120,7 +136,15 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "Bush_1"
+                    "Texture": "Bush_1",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -142,7 +166,15 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "Bush_1"
+                    "Texture": "Bush_1",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -164,7 +196,15 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "Bush_1"
+                    "Texture": "Bush_1",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -329,7 +369,15 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "Chaser"
+                    "Texture": "Chaser",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 },
                 "Collider": {
                     "Active": true,
@@ -371,9 +419,194 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Texture": "Mage_Asset"
+                    "Width": 110.0,
+                    "Height": 110.0,
+                    "Texture": "mage_attack",
+                    "Sprites": {
+                        "Name": "testSpriteSheet",
+                        "PNG": "mage_attack",
+                        "Rows": 4,
+                        "Cols": 4,
+                        "Sprites": [
+                            {
+                                "Index": 0,
+                                "Min": {
+                                    "x": 0.0,
+                                    "y": 0.75
+                                },
+                                "Max": {
+                                    "x": 0.25,
+                                    "y": 1.0
+                                }
+                            },
+                            {
+                                "Index": 1,
+                                "Min": {
+                                    "x": 0.25,
+                                    "y": 0.75
+                                },
+                                "Max": {
+                                    "x": 0.5,
+                                    "y": 1.0
+                                }
+                            },
+                            {
+                                "Index": 2,
+                                "Min": {
+                                    "x": 0.5,
+                                    "y": 0.75
+                                },
+                                "Max": {
+                                    "x": 0.75,
+                                    "y": 1.0
+                                }
+                            },
+                            {
+                                "Index": 3,
+                                "Min": {
+                                    "x": 0.75,
+                                    "y": 0.75
+                                },
+                                "Max": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                }
+                            },
+                            {
+                                "Index": 4,
+                                "Min": {
+                                    "x": 0.0,
+                                    "y": 0.5
+                                },
+                                "Max": {
+                                    "x": 0.25,
+                                    "y": 0.75
+                                }
+                            },
+                            {
+                                "Index": 5,
+                                "Min": {
+                                    "x": 0.25,
+                                    "y": 0.5
+                                },
+                                "Max": {
+                                    "x": 0.5,
+                                    "y": 0.75
+                                }
+                            },
+                            {
+                                "Index": 6,
+                                "Min": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                },
+                                "Max": {
+                                    "x": 0.75,
+                                    "y": 0.75
+                                }
+                            },
+                            {
+                                "Index": 7,
+                                "Min": {
+                                    "x": 0.75,
+                                    "y": 0.5
+                                },
+                                "Max": {
+                                    "x": 1.0,
+                                    "y": 0.75
+                                }
+                            },
+                            {
+                                "Index": 8,
+                                "Min": {
+                                    "x": 0.0,
+                                    "y": 0.25
+                                },
+                                "Max": {
+                                    "x": 0.25,
+                                    "y": 0.5
+                                }
+                            },
+                            {
+                                "Index": 9,
+                                "Min": {
+                                    "x": 0.25,
+                                    "y": 0.25
+                                },
+                                "Max": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                }
+                            },
+                            {
+                                "Index": 10,
+                                "Min": {
+                                    "x": 0.5,
+                                    "y": 0.25
+                                },
+                                "Max": {
+                                    "x": 0.75,
+                                    "y": 0.5
+                                }
+                            },
+                            {
+                                "Index": 11,
+                                "Min": {
+                                    "x": 0.75,
+                                    "y": 0.25
+                                },
+                                "Max": {
+                                    "x": 1.0,
+                                    "y": 0.5
+                                }
+                            },
+                            {
+                                "Index": 12,
+                                "Min": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Max": {
+                                    "x": 0.25,
+                                    "y": 0.25
+                                }
+                            },
+                            {
+                                "Index": 13,
+                                "Min": {
+                                    "x": 0.25,
+                                    "y": 0.0
+                                },
+                                "Max": {
+                                    "x": 0.5,
+                                    "y": 0.25
+                                }
+                            },
+                            {
+                                "Index": 14,
+                                "Min": {
+                                    "x": 0.5,
+                                    "y": 0.0
+                                },
+                                "Max": {
+                                    "x": 0.75,
+                                    "y": 0.25
+                                }
+                            },
+                            {
+                                "Index": 15,
+                                "Min": {
+                                    "x": 0.75,
+                                    "y": 0.0
+                                },
+                                "Max": {
+                                    "x": 1.0,
+                                    "y": 0.25
+                                }
+                            }
+                        ]
+                    },
+                    "SpriteIndex": 0
                 },
                 "Collider": {
                     "Active": true,
@@ -430,7 +663,15 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "Pause Menu"
+                    "Texture": "Pause Menu",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -533,7 +774,15 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "HowToPlay"
+                    "Texture": "HowToPlay",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -582,7 +831,15 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "QuitMenu"
+                    "Texture": "QuitMenu",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -682,7 +939,15 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "Underline"
+                    "Texture": "Underline",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -703,6 +968,283 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSPlayerHUD"
+                }
+            },
+            {
+                "Name": "Upgrade Manager",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSUpgradeManager"
+                }
+            },
+            {
+                "Name": "Upgrade",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1523.25,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 110.0,
+                    "Height": 110.0,
+                    "Texture": "pine",
+                    "Sprites": {
+                        "Name": "testSpriteSheet",
+                        "PNG": "mage_attack",
+                        "Rows": 4,
+                        "Cols": 4,
+                        "Sprites": [
+                            {
+                                "Index": 0,
+                                "Min": {
+                                    "x": 0.0,
+                                    "y": 0.75
+                                },
+                                "Max": {
+                                    "x": 0.25,
+                                    "y": 1.0
+                                }
+                            },
+                            {
+                                "Index": 1,
+                                "Min": {
+                                    "x": 0.25,
+                                    "y": 0.75
+                                },
+                                "Max": {
+                                    "x": 0.5,
+                                    "y": 1.0
+                                }
+                            },
+                            {
+                                "Index": 2,
+                                "Min": {
+                                    "x": 0.5,
+                                    "y": 0.75
+                                },
+                                "Max": {
+                                    "x": 0.75,
+                                    "y": 1.0
+                                }
+                            },
+                            {
+                                "Index": 3,
+                                "Min": {
+                                    "x": 0.75,
+                                    "y": 0.75
+                                },
+                                "Max": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                }
+                            },
+                            {
+                                "Index": 4,
+                                "Min": {
+                                    "x": 0.0,
+                                    "y": 0.5
+                                },
+                                "Max": {
+                                    "x": 0.25,
+                                    "y": 0.75
+                                }
+                            },
+                            {
+                                "Index": 5,
+                                "Min": {
+                                    "x": 0.25,
+                                    "y": 0.5
+                                },
+                                "Max": {
+                                    "x": 0.5,
+                                    "y": 0.75
+                                }
+                            },
+                            {
+                                "Index": 6,
+                                "Min": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                },
+                                "Max": {
+                                    "x": 0.75,
+                                    "y": 0.75
+                                }
+                            },
+                            {
+                                "Index": 7,
+                                "Min": {
+                                    "x": 0.75,
+                                    "y": 0.5
+                                },
+                                "Max": {
+                                    "x": 1.0,
+                                    "y": 0.75
+                                }
+                            },
+                            {
+                                "Index": 8,
+                                "Min": {
+                                    "x": 0.0,
+                                    "y": 0.25
+                                },
+                                "Max": {
+                                    "x": 0.25,
+                                    "y": 0.5
+                                }
+                            },
+                            {
+                                "Index": 9,
+                                "Min": {
+                                    "x": 0.25,
+                                    "y": 0.25
+                                },
+                                "Max": {
+                                    "x": 0.5,
+                                    "y": 0.5
+                                }
+                            },
+                            {
+                                "Index": 10,
+                                "Min": {
+                                    "x": 0.5,
+                                    "y": 0.25
+                                },
+                                "Max": {
+                                    "x": 0.75,
+                                    "y": 0.5
+                                }
+                            },
+                            {
+                                "Index": 11,
+                                "Min": {
+                                    "x": 0.75,
+                                    "y": 0.25
+                                },
+                                "Max": {
+                                    "x": 1.0,
+                                    "y": 0.5
+                                }
+                            },
+                            {
+                                "Index": 12,
+                                "Min": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Max": {
+                                    "x": 0.25,
+                                    "y": 0.25
+                                }
+                            },
+                            {
+                                "Index": 13,
+                                "Min": {
+                                    "x": 0.25,
+                                    "y": 0.0
+                                },
+                                "Max": {
+                                    "x": 0.5,
+                                    "y": 0.25
+                                }
+                            },
+                            {
+                                "Index": 14,
+                                "Min": {
+                                    "x": 0.5,
+                                    "y": 0.0
+                                },
+                                "Max": {
+                                    "x": 0.75,
+                                    "y": 0.25
+                                }
+                            },
+                            {
+                                "Index": 15,
+                                "Min": {
+                                    "x": 0.75,
+                                    "y": 0.0
+                                },
+                                "Max": {
+                                    "x": 1.0,
+                                    "y": 0.25
+                                }
+                            }
+                        ]
+                    },
+                    "SpriteIndex": 4
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 85.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSUpgrade"
+                }
+            },
+            {
+                "Name": "FPS",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1568.06,
+                        "y": 868.59
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSFPS"
+                },
+                "Text": {
+                    "Active": true,
+                    "Message": {
+                        "text": "FPS: ",
+                        "x": 1670.0,
+                        "y": 1025.0,
+                        "scale": 1.0,
+                        "Color": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "Font name": "TiltNeon-Regular"
+                    }
                 }
             }
         ]

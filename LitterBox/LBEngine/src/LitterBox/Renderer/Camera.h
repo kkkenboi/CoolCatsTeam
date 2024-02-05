@@ -92,6 +92,16 @@ namespace Renderer {
 
 		/*!***********************************************************************
 		\brief
+		 Function to reset camera to starting position.
+		*************************************************************************/
+		void reset_cam()
+		{
+			pos.x = 0.f;
+			pos.y = 0.f;
+		}
+
+		/*!***********************************************************************
+		\brief
 		 Function to update the orthographic camera/game camera position. Which
 		 means the camera can be moved around the x and y axis.
 

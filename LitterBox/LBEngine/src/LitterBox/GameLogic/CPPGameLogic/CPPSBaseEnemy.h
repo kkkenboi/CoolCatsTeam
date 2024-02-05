@@ -27,10 +27,11 @@ namespace LB
 		int mHealth{};		//normal health of the enemy
 		float mSpeedMagnitude{};	//movespeed of the enemy
 
-		CPRender* mRender;
-		CPRigidBody* mRigidBody;
-		CPCollider* mCollider;
+		CPRender* mRender{nullptr};
+		CPRigidBody* mRigidBody{ nullptr };
+		CPCollider* mCollider{ nullptr };
 		virtual void Die();
+		virtual void Hurt();
 	protected:
 		GameObject* mPlayer{ nullptr }; //Caching the player obj
 		GameObject* mGameManager{ nullptr }; //Caching the game manager
