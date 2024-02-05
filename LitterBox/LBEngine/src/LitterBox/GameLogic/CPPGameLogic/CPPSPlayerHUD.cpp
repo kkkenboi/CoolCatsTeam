@@ -38,6 +38,7 @@ namespace LB {
 		m_maxBalls = mainChar->GetComponent<CPPSPlayer>()->m_maxBalls;
 		m_currentBalls = m_maxBalls - mainChar->GetComponent<CPPSPlayer>()->m_currentBalls;
 
+		// Fixes things
 		if (!m_TotalHeartDisplay.size())
 		{
 			// Create game objects to display the health and balls
@@ -51,7 +52,9 @@ namespace LB {
 				// Set the texture for lost health
 				if (i > m_currentHealth)
 				{
-					healthObject->GetComponent<CPRender>()->texture = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Broken Heart"]].second;
+					healthObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"),
+						static_cast<int>(healthObject->GetComponent<CPRender>()->w),
+						static_cast<int>(healthObject->GetComponent<CPRender>()->h));
 				}
 
 				m_TotalHeartDisplay.push_back(healthObject);
@@ -76,14 +79,33 @@ namespace LB {
 		// If Player takes damage, decrement m_currentHealth, invokes OnHealthLoss<Bool> Event
 		// Event calls the HUD function, decrementing the  decrements script's health, update HUD's
 
+		if (m_decreaseHealth)
+		{
+			--m_currentHealth;
+			m_decreaseHealth = false;
+		}
+
+		if (m_decreaseBalls)
+		{
+			--m_currentBalls;
+			m_decreaseBalls = false;
+		}
+
 		for (size_t i{ 1 }; i <= m_maxHealth; i++)
 		{
 			// Set the texture for lost health
 			//std::cout << "Current Heart png: " << ASSETMANAGER->GetTextureName(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->texture) << " for heart number " << i << std::endl;
 			if (i > m_currentHealth)
 			{
-				m_TotalHeartDisplay[i-1]->GetComponent<CPRender>()->texture = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Broken Heart"]].second;
-				
+				m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"), 
+																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->w), 
+																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
+			}
+			else
+			{
+				m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Heart"),
+																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->w),
+																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
 			}
 		}
 
@@ -114,10 +136,11 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseHealth()
 	{
-		if (m_currentHealth)
-		{
-			--m_currentHealth;
-		}
+		m_decreaseHealth = true;
+		//if (m_currentHealth)
+		//{
+		//	--m_currentHealth;
+		//}
 	}
 
 	/*!***********************************************************************
@@ -126,10 +149,12 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseBalls()
 	{
-		if (m_currentBalls)
-		{
-			--m_currentBalls;
-		}
+		m_decreaseBalls = true;
+
+		//if (m_currentBalls)
+		//{
+		//	--m_currentBalls;
+		//}
 	}
 
 	/*!***********************************************************************
@@ -187,6 +212,7 @@ namespace LB {
 			if (gameObj->GetName() == "PlayerHUD")
 			{
 				gameObj->GetComponent<CPPSPlayerHUD>()->DecreaseHealth();
+				break;
 			}
 		}
 	}
@@ -203,6 +229,7 @@ namespace LB {
 			if (gameObj->GetName() == "PlayerHUD")
 			{
 				gameObj->GetComponent<CPPSPlayerHUD>()->DecreaseBalls();
+				break;
 			}
 		}
 	}
@@ -251,6 +278,7 @@ namespace LB {
 			if (gameObj->GetName() == "PlayerHUD")
 			{
 				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(amount);
+				break;
 			}
 		}
 	}
@@ -267,6 +295,7 @@ namespace LB {
 			if (gameObj->GetName() == "PlayerHUD")
 			{
 				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(amount);
+				break;
 			}
 		}
 	}
