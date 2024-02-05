@@ -3,13 +3,13 @@
  \author(s)			Amadeus Chia Jinhan, 
  \par DP email(s):	amadeusjinhan.chia@digipen.edu,
  \par Course:       CSD2401A
- \date				22/11/2023
+ \date				04/02/2024
  \brief				The AssetManager handles the loading of data from file
                     and stores them in maps of instances for use througout
                     the engine. This allows users to only have to load 
                     data once and then create copies of the data.
 
- Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
@@ -30,7 +30,7 @@
 
 #include <memory>
 #include "LitterBox/Engine/Input.h"
-
+#include "LitterBox/Animation/SpriteSheet.h"
 
 namespace LB
 {   
@@ -159,6 +159,10 @@ namespace LB
          * "SpriteName" : texturePair
          **************************************************************************/
         std::map<std::string, std::pair<std::shared_ptr<TextureData>,int>> Textures;
+
+        std::map<std::string, SpriteSheet> SpriteSheets;
+        SpriteSheet GetSpriteSheet(std::string& name);
+        Sprite GetSprite(std::string& spriteSheetName, int index);
 
         /*!***********************************************************************
         * \brief Gets the texture unit ID

@@ -130,13 +130,30 @@ namespace LB {
 
 	/*!***********************************************************************
 	 \brief
+	 Increases the member variable for max health in the PlayerHUD
+	*************************************************************************/
+	void CPPSPlayerHUD::IncreaseMaxHealth(int amount)
+	{
+		m_maxHealth += amount;
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Increases the member variable for max balls in the PlayerHUD
+	*************************************************************************/
+	void CPPSPlayerHUD::IncreaseMaxBalls(int amount)
+	{
+		m_maxBalls += amount;
+	}
+
+	/*!***********************************************************************
+	 \brief
 	 Increases the member variable for current balls in the PlayerHUD
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseBalls()
 	{
 		++m_currentBalls;
 	}
-
 
 	/*!***********************************************************************
 	 \brief
@@ -188,7 +205,7 @@ namespace LB {
 
 	/*!***********************************************************************
 	 \brief
-	 For event subscription to increaase ball when the ball expires
+	 For event subscription to increase ball count when the ball expires
 	*************************************************************************/
 	void IncreaseBalls()
 	{
@@ -198,6 +215,38 @@ namespace LB {
 			if (gameObj->GetName() == "PlayerHUD")
 			{
 				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
+			}
+		}
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 For event subscription to increase the max balls in PlayerHUD
+	*************************************************************************/
+	void IncreaseMaxHealth(int amount)
+	{
+		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		{
+			// Find out which object is the player
+			if (gameObj->GetName() == "PlayerHUD")
+			{
+				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(amount);
+			}
+		}
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 For event subscription to increase the max health in PlayerHUD
+	*************************************************************************/
+	void IncreaseMaxBalls(int amount)
+	{
+		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		{
+			// Find out which object is the player
+			if (gameObj->GetName() == "PlayerHUD")
+			{
+				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(amount);
 			}
 		}
 	}

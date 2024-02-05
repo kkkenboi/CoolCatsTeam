@@ -34,15 +34,16 @@ namespace LB
 		mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
-
-		std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
+		//Getting the player GO reference
+		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+		/*std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
 		for (GameObject* GO : GOs) {
 			if (GO->GetName() == "MainChar") 
 			{
 				mPlayer = GO;
 				break;
 			}
-		}
+		}*/
 
 		// Set direction (rotation)
 		//CPTransform* trans = GameObj->GetComponent<CPTransform>();
