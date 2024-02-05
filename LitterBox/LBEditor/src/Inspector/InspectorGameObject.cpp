@@ -24,6 +24,13 @@
 #include "Commands/TransformCommands.h"
 #include "Commands/GameObjectCommands.h"
 
+#include "LitterBox/Components/RenderComponent.h"
+#include "LitterBox/Physics/ColliderManager.h"
+#include "LitterBox/Components/RigidBodyComponent.h"
+#include "LitterBox/Components/TransformComponent.h"
+#include "LitterBox/Components/AudioSourceComponent.h"
+#include "LitterBox/Components/AnimatorComponent.h"
+
 namespace LB
 {
 	std::shared_ptr<InspectorGameObject> InspectorGO;
@@ -206,6 +213,23 @@ namespace LB
 					m_inspectedGO->AddComponent(C_CPText, FACTORY->GetCMs()[C_CPText]->Create());
 					m_inspectedGO->GetComponent<CPText>()->Initialise();
 					DebuggerLog("Text component Added!");
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::Separator();
+			if (ImGui::MenuItem("Animator Component"))
+			{
+				if (m_inspectedGO->HasComponent<CPAnimator>())
+				{
+					DebuggerLogWarning("Animator Component already exists.");
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					m_inspectedGO->AddComponent(C_CPAnimator, FACTORY->GetCMs()[C_CPAnimator]->Create());
+					m_inspectedGO->GetComponent<CPAnimator>()->Initialise();
+					DebuggerLog("Animator component Added!");
 					ImGui::CloseCurrentPopup();
 				}
 			}
@@ -781,7 +805,6 @@ namespace LB
 				}
 			}
 		}
-
 		if (m_inspectedGO->HasComponent<CPAudioSource>())
 		{
 			if (ImGui::CollapsingHeader("Audio Source Component", ImGuiTreeNodeFlags_DefaultOpen))
@@ -966,6 +989,34 @@ namespace LB
 				if (ImGui::Button("Delete Text Component"))
 				{
 					m_inspectedGO->RemoveComponent(C_CPText);
+				}
+			}
+		}
+		if (m_inspectedGO->HasComponent<CPAnimator>())
+		{
+			if (ImGui::CollapsingHeader("Animator", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				isActive = m_inspectedGO->GetComponent<CPAnimator>()->m_active;
+				ImGui::PushID("AnimatorActive");
+				ImGui::Checkbox("Active", &isActive);
+				ImGui::PopID();
+				if (isActive != m_inspectedGO->GetComponent<CPAnimator>()->m_active)
+				{
+					m_inspectedGO->GetComponent<CPAnimator>()->ToggleActiveFlag(isActive);
+				}
+
+				ImGui::Text("%-17s", "Controller Name");
+				ImGui::SameLine();
+				strcpy_s(m_textBuffer, sizeof(m_textBuffer), m_inspectedGO->GetComponent<CPAnimator>()->GetControllerName().c_str());
+				ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.8f);
+				if (ImGui::InputText("##ControllerName", m_textBuffer, 256))
+				{
+					m_inspectedGO->GetComponent<CPAnimator>()->SetControllerName(m_textBuffer);
+				}
+
+				if (ImGui::Button("Delete Animator Component"))
+				{
+					m_inspectedGO->RemoveComponent(C_CPAnimator);
 				}
 			}
 		}

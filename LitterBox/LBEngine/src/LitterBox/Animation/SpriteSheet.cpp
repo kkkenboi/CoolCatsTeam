@@ -23,15 +23,15 @@ namespace LB
 		data.SetObject();
 		Value indexValue;
 		data.AddMember("Index", m_index, alloc);
-		Value positionValue;
-		if (m_min.Serialize(positionValue, alloc)) 
+		Value minValue;
+		if (m_min.Serialize(minValue, alloc))
 		{
-			data.AddMember("Position", positionValue, alloc);
+			data.AddMember("Min", minValue, alloc);
 		}
-		Value sizeValue;
-		if (m_max.Serialize(sizeValue, alloc))
+		Value maxValue;
+		if (m_max.Serialize(maxValue, alloc))
 		{
-			data.AddMember("Size", sizeValue, alloc);
+			data.AddMember("Max", maxValue, alloc);
 		}
 
 		return true; 
@@ -40,20 +40,20 @@ namespace LB
 	bool Sprite::Deserialize(const Value& data)
 	{
 		bool HasIndex = data.HasMember("Index");
-		bool HasPosition = data.HasMember("Position");
-		bool HasSize = data.HasMember("Size");
+		bool HasMin = data.HasMember("Min");
+		bool HasMax = data.HasMember("Max");
 		
 		if (data.IsObject())
 		{
-			if (HasIndex && HasPosition && HasSize)
+			if (HasIndex && HasMin && HasMax)
 			{
 				const Value& indexValue = data["Index"];
-				const Value& positionValue = data["Position"];
-				const Value& sizeValue = data["Size"];
+				const Value& minValue = data["Min"];
+				const Value& maxValue = data["Max"];
 
 				m_index = indexValue.GetInt();
-				m_min.Deserialize(positionValue);
-				m_max.Deserialize(sizeValue);
+				m_min.Deserialize(minValue);
+				m_max.Deserialize(maxValue);
 
 				return true;
 			}

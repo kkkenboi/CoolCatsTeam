@@ -95,7 +95,7 @@ namespace LB
 				//if (script != rangeResult.second) return dynamic_cast<T*>(script->second);
 			}
 
-			DebuggerAssertFormat(std::is_base_of<IComponent, T>::value, "Tried to get invalid component of type %s", typeid(T).name());
+			DebuggerLogErrorFormat("Tried to get invalid component of type %s", typeid(T).name());
 			return nullptr;
 		}
 

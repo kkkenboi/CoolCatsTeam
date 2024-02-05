@@ -46,6 +46,7 @@ namespace LB
 		CreateComponentMaker(CPScriptCPP,	C_CPScriptCPP);
 		CreateComponentMaker(CPAudioSource, C_CPAudioSource);
 		CreateComponentMaker(CPText, 		C_CPText);
+		CreateComponentMaker(CPAnimator,	C_CPAnimator);
 
 		DebuggerLog("Factory Initialised");
 	}
