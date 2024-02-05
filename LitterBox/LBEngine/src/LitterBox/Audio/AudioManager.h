@@ -68,6 +68,17 @@ namespace LB
 		int PlaySound(std::string soundName);
 
 		/*!***********************************************************************
+		* \brief Function to play sound using the Sound File name
+		* Returns the channel ID and store into the vector that the sound is playing in
+		* \param soundName Name of the sound e.g "Explosion" without file extension
+		**************************************************************************/
+		void PlayGroupSounds(std::vector<std::string> groupSoundNames);
+
+		void PlayRandomisedSound(std::vector<std::string> groupSoundNames, float volume = 1.0f, float pitch = 1.0f);
+
+		void ChanceToPlayGroupSound(std::vector<std::string> groupSoundNames, float volume = 1.0f, float pitch = 1.0f);
+
+		/*!***********************************************************************
 		 * \brief Function to play sound. Stops currently playing sound if there's one
 		 *
 		 * \param soundName Name of the sound e.g "Explosion" without file extension
@@ -153,9 +164,71 @@ namespace LB
 		 **************************************************************************/
 		FMOD_RESULT result;
 		std::vector<CPAudioSource*> AudioSources;
+
+		//PLAYER SOUND
+		std::vector<std::string> PlayerHurtSounds = { "The Cat Hurt_1",
+													  "The Cat Hurt_2",
+													  "The Cat Hurt_3",
+													  "The Cat Hurt_4",
+													  "The Cat Hurt_5",
+													  "The Cat Hurt_6" };
+
+		std::vector<std::string> PlayerFootStepsSounds = { "Footsteps-Grass-Far-Small_1",
+													 "Footsteps-Grass-Far-Small_2",
+													 "Footsteps-Grass-Far-Small_3",
+													 "Footsteps-Grass-Far-Small_4" };
+
+		std::vector<std::string> PlayerSlashSounds = { "Sward-Whoosh_1",
+													   "Sward-Whoosh_2",
+													   "Sward-Whoosh_3",
+													   "Sward-Whoosh_4",
+													   "Sward-Whoosh_5" };
+
+		std::vector<std::string> ChaserAttackSounds = { "Wolf Attack_1",
+														"Wolf Attack_2",
+														"Wolf Attack_3",
+														"Wolf Attack_4",
+														"Wolf Attack_5" };
+
+		std::vector<std::string> ChaserHurtSounds = { "Wolf Hurt_1",
+													  "Wolf Hurt_2",
+													  "Wolf Hurt_3",
+													  "Wolf Hurt_4",
+												  	  "Wolf Hurt_5" };
+
+		std::vector<std::string> ChaserDeathSounds = { "Wolf Death_1",
+													   "Wolf Death_2",
+													   "Wolf Death_3",
+													   "Wolf Death_4"};
+		
+		std::vector<std::string> MageHurtSounds = { "Mage Hurt_1",
+													"Mage Hurt_2",
+													"Mage Hurt_3",
+													"Mage Hurt_4",
+													"Mage Hurt_5" };
+
+		std::vector<std::string> MageAttackSounds = { "Mage Attack_1",
+													  "Mage Attack_2",
+													  "Mage Attack_3",
+													  "Mage Attack_4",
+													  "Mage Attack_5"
+													  "Mage Attack_6",
+													  "Mage Attack_7",
+													  "Mage Attack_8",
+													  "Mage Attack_9",
+													  "Mage Attack_10",
+													  "Mage Attack_11" };
+
+		std::vector<std::string> MageDeathSounds = { "Mage Death_1",
+													 "Mage Death_2",
+													 "Mage Death_3",
+												 	 "Mage Death_4",
+													 "Mage Death_5" };
+
 	private:
 		int channelID{ 0 };
 		std::map<int, FMOD::Channel*> Channels;
+
 	};
 
 	/*!***********************************************************************

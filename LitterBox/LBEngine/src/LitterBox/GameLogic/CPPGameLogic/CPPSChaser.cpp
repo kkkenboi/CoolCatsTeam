@@ -147,6 +147,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSChaser::OnCollisionEnter(CollisionData colData)
 	{
+
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
 
 			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 200.f)
@@ -157,8 +158,9 @@ namespace LB
 				}
 				DebuggerLogWarning("CHASER HIT ACTUAL!");
 
-				int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
-				AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+				//int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
+				//AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+				
 				mGotAttackedCooldown = mGotAttacked;
 
 				--mHealth;
@@ -170,11 +172,13 @@ namespace LB
 				}
 			}
 		}
+
 	}
 
 	void CPPSChaser::Die()
 	{
 		//We access the base class first
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserDeathSounds);
 		CPPSBaseEnemy::Die();
 	/*	GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
 		GameObj->RemoveComponent(C_CPCollider);
@@ -307,6 +311,7 @@ namespace LB
 	void ChaseState::Enter()
 	{
 		DebuggerLog("Entered ChaseState");
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds);
 		this->Update();
 	}
 
@@ -356,6 +361,7 @@ namespace LB
 	{
 		//std::cout << "Health: " << mEnemy->GetHealth();
 		mEnemy->GetHurtTimer() = 1.5f;
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserHurtSounds);
 		this->Update();
 	}
 

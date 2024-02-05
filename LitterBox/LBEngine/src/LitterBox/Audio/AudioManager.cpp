@@ -181,6 +181,51 @@ namespace LB
 	}
 
 	/*!***********************************************************************
+	 * \brief Function to play sound using the Sound File name
+	 * Returns the channel ID that the sound is playing in
+	 * \param soundName Name of the sound e.g "Explosion" without file extension
+	**************************************************************************/
+	void AudioManager::PlayGroupSounds(std::vector<std::string> groupSoundNames)
+	{
+	//after random int 0 - vector size
+		int randomIndex{};
+		PlaySound(groupSoundNames[randomIndex]);
+	}
+
+	void AudioManager::PlayRandomisedSound(std::vector<std::string> groupSoundNames, float volume, float pitch)
+	{
+		if (!groupSoundNames.empty()) //there there is smt, then play
+		{
+			int Channel{ 0 };
+			int randomIndex = std::rand() % groupSoundNames.size();
+			Channel = PlaySound(groupSoundNames[randomIndex]);
+			SetChannelVolume(Channel, volume);
+			SetChannelPitch(Channel, pitch);
+		}
+		else
+		{
+			DebuggerLogError("No Sounds stored, therefore cannot be played");
+		}
+	}
+
+	void AudioManager::ChanceToPlayGroupSound(std::vector<std::string> groupSoundNames, float volume, float pitch)
+	{
+		//calculate a percentage random
+		//if percentage is > 50, play sound, else dont play sound
+		float randomPercentage = static_cast<float>(std::rand() % 101);
+		//DebuggerLogFormat("Percentage: %d", randomPercentage);
+		if (randomPercentage < 10.0f)
+		{
+			PlayRandomisedSound(groupSoundNames, volume, pitch);
+		}
+		else
+		{
+			return;
+		}
+		
+	}
+
+	/*!***********************************************************************
 	 * \brief Function to play sound. Stops currently playing sound if there's one
 	 * 
 	 * \param soundName Name of the sound e.g "Explosion" without file extension
