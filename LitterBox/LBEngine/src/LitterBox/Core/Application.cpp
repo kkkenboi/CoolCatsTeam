@@ -61,6 +61,7 @@ namespace LB {
 		Engine->AddSystem(assetManager);
 		Engine->AddSystem(physics);
 		Engine->AddSystem(colliders);
+		Engine->AddSystem(ParticleManager::Instance());
 		Engine->AddSystem(logic);
 		Engine->AddSystem(CPPGameLogic::Instance());
 		Engine->AddSystem(AnimationManager::Instance());

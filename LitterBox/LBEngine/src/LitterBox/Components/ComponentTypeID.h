@@ -32,6 +32,7 @@ namespace LB
 		C_CPCamera,
 		C_CPAudioSource,
 		C_CPText,
-		C_CPAnimator
+		C_CPAnimator,
+		C_CPParticle
 	};
 }

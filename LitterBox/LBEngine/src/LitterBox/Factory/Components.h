@@ -33,6 +33,7 @@
 #include "LitterBox/Components/AudioSourceComponent.h"
 #include "LitterBox/Components/TextComponent.h"
 #include "LitterBox/Components/AnimatorComponent.h"
+#include "LitterBox/Components/ParticleComponent.h"
 
 namespace LB
 {

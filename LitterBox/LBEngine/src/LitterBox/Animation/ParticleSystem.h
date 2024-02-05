@@ -1,37 +1,58 @@
 #include "LitterBox/Utils/Math.h"
+#include "LitterBox/Components/ParticleComponent.h"
+#include "LitterBox/Components/RenderComponent.h"
+#include "LitterBox/Factory/GameObjectFactory.h"
+#include "LitterBox/Factory/GameObjectManager.h"
+#include <cstdlib>
+#include <ctime>
+#include "LitterBox/Engine/Time.h"
+#include "LitterBox/Serialization/AssetManager.h"
+
 #pragma once
 
 namespace LB {
-	class Particle 
-	{
+
+	class Particle {
 	public:
-	private:
 		Vec2<float> mPosition;
 		Vec2<float> mVelocity;
 		float mRotation;
-		
+
+		float mSize;
 		float mSizeBegin;
 		float mSizeEnd;
 
-		float mLifetime = 1.0f;
-		float mLifetimeRemain = 0.f;
+		float mLifetime;
+		float mLifetimeRemaining;
 
-		bool mIsActive = false;
+
+		// Texture here
+
+		bool mIsActive;
 	};
 
-	class ParticleSystem 
+	class ParticleManager : public ISystem, public Singleton<ParticleManager>
 	{
 	public:
-		void UpdateParticles();
-		void RenderParticles();
+
+		// ISystem stuff
+		void Initialize() override;
+		void Update() override;
+		void Destroy() override;
+
+		void Emit(CPParticle emitter);
 
 	private:
-		Vec2<float> mEmitterPos;
-		float mEmitterRate;
 
-		std::array<Particle*, 1000> mParticlePool;
+		// Postion, Velocity, Variation, Texture, SizeBegin
+
+		std::array<CPParticle, 100> mEmitterPool;
+		std::array<std::pair<Particle, GameObject*>, 1000> mParticlePool;
+		int mEmitterPoolIndex;
+		int mParticlePoolIndex;
 
 	};
 
-	extern ParticleSystem PARTICLES;
+	
+	float RandomRange(float min, float max);
 }

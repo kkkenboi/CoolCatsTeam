@@ -34,6 +34,7 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Animation/AnimationManager.h"
+#include "LitterBox/Animation/ParticleSystem.h"
 #include "Core.h"
 
 namespace LB {
