@@ -173,6 +173,11 @@ namespace LB
 		//delete mFSM.GetState("Death");
 	}
 
+	void CPPSMage::Hurt()
+	{
+		CPPSBaseEnemy::Hurt();
+	}
+
 	//Getter functions
 	/*!***********************************************************************
 	\brief
@@ -238,7 +243,7 @@ namespace LB
 
 				
 				mFSM.ChangeState("Hurt");
-				CPPSBaseEnemy::Hurt();
+				Hurt();
 			}
 		}
 	}

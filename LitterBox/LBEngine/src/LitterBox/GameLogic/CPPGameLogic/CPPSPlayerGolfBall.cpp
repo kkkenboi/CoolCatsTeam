@@ -50,11 +50,11 @@ namespace LB
 
 		mSpeedMagnitude = 1000.0f;
 		mVelocity = 1000.0f; //with direction
-		if (currentBallUpgrades & BIGBALL) {
+	/*	if (currentBallUpgrades & BIGBALL) {
 			std::cout << "EMBIGGEN\n";
 			mSize = 2.0f;
 		}
-		else mSize = 1.0f;
+		else mSize = 1.0f;*/
 
 		mCurrentLifetime = mLifetime = 1.0f;
 		onBallDisappear.Subscribe(IncreaseBalls);
@@ -78,9 +78,10 @@ namespace LB
 			mCurrentLifetime -= static_cast<float>(TIME->GetDeltaTime());
 			if (mCurrentLifetime <= 0.0f)
 			{
-				if (currentBallUpgrades & BOMB) Explode();
-				CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
-				--player->m_currentBalls;
+				//if (currentBallUpgrades & BOMB) Explode();
+				mPlayer->GetComponent<CPPSPlayer>()->m_currentBalls--;
+				//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
+				//--player->m_currentBalls;
 				GOMANAGER->RemoveGameObject(this->GameObj);
 			}
 		}
@@ -97,18 +98,20 @@ namespace LB
 
 			//Renderer::GRAPHICS->shaker_camera();
 			Explode();
-			CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
-			--player->m_currentBalls;
-			GOMANAGER->RemoveGameObject(this->GameObj);
+			mPlayer->GetComponent<CPPSPlayer>()->m_currentBalls--;
+			//CPPSPlayer* player = mPlayer->GetComponent<CPPSPlayer>();
+			//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
+			//--player->m_currentBalls;
+			//GOMANAGER->RemoveGameObject(this->GameObj);
 			return;
 		}
-		if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
-			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
-		{
-			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
+		//if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
+		//	colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
+		//{
+		//	int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
 
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
-		}
+		//	AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
+		//}
 
 	}
 
@@ -127,20 +130,20 @@ namespace LB
 	//Function to handle when the ball explodes
 	void CPPSPlayerGolfBall::Explode()
 	{
-		std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
-		//We loop through all the colliders that were in the radius
-		for (CPCollider* col : explosionColliders) {
-				if (col->gameObj->GetName() == "MainChar") continue;
-				Vec2<float> explosionForce = col->m_pos - this->GameObj->GetComponent<CPTransform>()->GetPosition();
-				explosionForce = explosionForce.Normalise() * explosionForceMag;
-				if (col->HasRB()) {
-					col->gameObj->GetComponent<CPRigidBody>()->addImpulse(explosionForce);
-					/*if (col->gameObj->HasComponent<CPPSBaseEnemy>()) {
-					col->gameObj->GetComponent<CPPSBaseEnemy>()->Hurt();
-					std::cout << "enemy hurt\n";
-					}*/
-				}
-		}
+		//std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
+		////We loop through all the colliders that were in the radius
+		//for (CPCollider* col : explosionColliders) {
+		//		if (col->gameObj->GetName() == "MainChar") continue;
+		//		Vec2<float> explosionForce = col->m_pos - this->GameObj->GetComponent<CPTransform>()->GetPosition();
+		//		explosionForce = explosionForce.Normalise() * explosionForceMag;
+		//		if (col->HasRB()) {
+		//			col->gameObj->GetComponent<CPRigidBody>()->addImpulse(explosionForce);
+		//			/*if (col->gameObj->HasComponent<CPPSBaseEnemy>()) {
+		//			col->gameObj->GetComponent<CPPSBaseEnemy>()->Hurt();
+		//			std::cout << "enemy hurt\n";
+		//			}*/
+		//		}
+		//}
 	}
 
 	void CPPSPlayerGolfBall::Split()
