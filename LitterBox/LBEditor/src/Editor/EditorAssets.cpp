@@ -162,14 +162,16 @@ namespace LB
 				{
 					DebuggerLog("Clicked on " + FileName);
 					std::string fileExtension = directory.path().extension().string();
-					if (fileExtension != ".prefab" &&
-						fileExtension != ".scene" &&
-						fileExtension != ".wav" &&
-						fileExtension != ".png" &&
-						fileExtension != ".shader" &&
-						fileExtension != ".otf" &&
-						fileExtension != ".ttf" &&
-						fileExtension != ".spritesheet")
+					if (!(fileExtension == ".prefab"	||
+						  fileExtension == ".scene"		||
+						  fileExtension == ".wav"		||
+						  fileExtension == ".png"		||
+						  fileExtension == ".shader"	||
+						  fileExtension == ".otf"		||
+						  fileExtension == ".ttf"		||
+						  fileExtension == ".spritesheet" ||
+						  fileExtension == ".controller"  ||
+						  fileExtension == ".anim"))
 					{
 						DebuggerLog("Invalid file extension " + fileExtension + " was clicked!");
 						ImGui::OpenPopup("Error!");
@@ -241,6 +243,13 @@ namespace LB
 					{
 						INSPECTORSPRITESHEET->LoadSpriteSheet(directory.path().filename().stem().string());
 						EDITORINSPECTOR->SetWindowSpriteSheet();
+					}
+				}
+				if (directory.path().extension().string() == ".controller")
+				{
+					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+					{
+						
 					}
 				}
 

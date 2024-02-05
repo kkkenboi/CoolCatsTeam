@@ -13,7 +13,7 @@
 **************************************************************************/
 
 #include "LitterBox/Components/AnimatorComponent.h"
-
+#include "LitterBox/Animation/AnimationManager.h"
 
 namespace LB
 {
@@ -25,13 +25,7 @@ namespace LB
 	*************************************************************************/
 	void CPAnimator::Initialise()
 	{
-		//empty for now
-		numOfSidesOnFrame = 4; //4 corners of the UV frames
-		anim_frames = 
-			std::vector
-			<std::vector<LB::Vec2<float>>>(
-				numOfSidesOnFrame, std::vector<LB::Vec2<float>>(NumOfFramesWithFourPoints())); //x,y
-		//numOfFrames, std::vector<LB::Vec2<float>>(numOfSidesOnFrame));
+		AnimationManager::Instance()->AddAnimator(this);
 	}
 
 	/*!***********************************************************************
@@ -40,10 +34,17 @@ namespace LB
 	*************************************************************************/
 	void CPAnimator::Update()
 	{
-		//empty for now
-		anim_frames.resize(numOfFrames); //resizing the number of frames due to what is set?
+		m_controller.Update();
+	}
 
+	void CPAnimator::Play()
+	{
+		m_controller.Play();
+	}
 
+	void CPAnimator::Stop()
+	{
+		m_controller.Stop();
 	}
 
 	/*!***********************************************************************
@@ -67,6 +68,16 @@ namespace LB
 		return false;
 	}
 
+	std::string const& CPAnimator::GetControllerName()
+	{
+		return m_name;
+	}
+
+	void CPAnimator::SetControllerName(std::string const& name)
+	{
+		m_name = name;
+	}
+
 	///*!***********************************************************************
 	//\brief
 	// Getting the size of the sprite sheet
@@ -76,33 +87,6 @@ namespace LB
 	//	spriteWidth = LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[spriteSheet])->second.first->width;
 	//	spriteHeight = LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[spriteSheet])->second.first->height;
 	//}
-
-	/*!***********************************************************************
-	\brief
-	 Getter function for num Of animations
-	*************************************************************************/
-	int CPAnimator::NumOfAnim() //Row of the spritesheet
-	{
-		return numOfAnim;
-	}
-
-	/*!***********************************************************************
-	\brief
-	 Getter function for num of Frames
-	*************************************************************************/
-	int CPAnimator::NumOfFramesWithFourPoints() //Columns of the spritesheet
-	{
-		return numOfAnim * numOfAnim; //e.g. 31
-	}
-
-	/*!***********************************************************************
-	\brief
-	 Thihs function will stop the animation
-	*************************************************************************/
-	void CPAnimator::StopAnimation(const std::string& animationName)
-	{
-		(void)animationName;
-	}
 
 	/*!***********************************************************************
 	\brief
@@ -122,30 +106,30 @@ namespace LB
 	//	//Renderer::GRAPHICS->init_anim(animationName, pointers.data(), timer, frameCount);
 	//}
 
-	/*!***********************************************************************
-	\brief
-	 Starting of the animation
-	*************************************************************************/
-	void CPAnimator::SetAnimation(const std::string& animationName, float speedOfAnim, int numOfFrame)
-	{
-		//(void)animationName;
-		if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[animationName]) != LB::ASSETMANAGER->Textures.end()) {
+	///*!***********************************************************************
+	//\brief
+	// Starting of the animation
+	//*************************************************************************/
+	//void CPAnimator::SetAnimation(const std::string& animationName, float speedOfAnim, int numOfFrame)
+	//{
+	//	//(void)animationName;
+	//	if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[animationName]) != LB::ASSETMANAGER->Textures.end()) {
 
-			float x_inc{ 1.f / 4.f };
+	//		float x_inc{ 1.f / 4.f };
 
-			for (int y{ 0 }; y < 4; ++y)
-			{
-				for (int x{ 0 }; x < 4; ++x) 
-				{
-					anim_frames[x + y * 4].at(0) = { x * x_inc, 1.f - (y + 1) * x_inc };//bottom left
-					anim_frames[x + y * 4].at(1) = { (x + 1) * x_inc, 1.f - (y + 1) * x_inc };//bottom right
-					anim_frames[x + y * 4].at(2) = { (x + 1) * x_inc, 1.f - y * x_inc };//top right
-					anim_frames[x + y * 4].at(3) = { x * x_inc, 1.f - y * x_inc };//top left
-				}
+	//		for (int y{ 0 }; y < 4; ++y)
+	//		{
+	//			for (int x{ 0 }; x < 4; ++x) 
+	//			{
+	//				anim_frames[x + y * 4].at(0) = { x * x_inc, 1.f - (y + 1) * x_inc };//bottom left
+	//				anim_frames[x + y * 4].at(1) = { (x + 1) * x_inc, 1.f - (y + 1) * x_inc };//bottom right
+	//				anim_frames[x + y * 4].at(2) = { (x + 1) * x_inc, 1.f - y * x_inc };//top right
+	//				anim_frames[x + y * 4].at(3) = { x * x_inc, 1.f - y * x_inc };//top left
+	//			}
 
-			}
+	//		}
 
-			//Renderer::GRAPHICS->init_anim(animationName, anim_frames.data(), speedOfAnim, numOfFrame);
-		}
-	}
+	//		//Renderer::GRAPHICS->init_anim(animationName, anim_frames.data(), speedOfAnim, numOfFrame);
+	//	}
+	//}
 }

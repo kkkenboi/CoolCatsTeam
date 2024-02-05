@@ -1,5 +1,5 @@
 /*!************************************************************************
- \file				SpriteSheet.h
+ \file				AnimationController.h
  \author(s)			Vanessa Chua Siew Jin
  \par DP email(s):	vanessasiewjin@digipen.edu
  \par Course:		CSD2401A
@@ -16,7 +16,33 @@
 
 #pragma once
 
+#include "LitterBox/GameLogic/StateMachine.h"
+#include "AnimationState.h"
+
 namespace LB
 {
-	
+	// Forward declarations
+	class CPAnimator;
+
+	class AnimationController
+	{
+	public:
+		void Initialize();
+
+		void Update();
+
+		void Play();
+
+		void Stop();
+
+		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
+		bool Deserialize(const Value& data); //to load
+
+	private:
+		CPAnimator* m_animator;
+
+		AnimationState* m_current;
+
+		//std::vector<AnimationState> m_states;
+	};
 }

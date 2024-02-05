@@ -16,17 +16,7 @@
 **************************************************************************/
 
 #include "pch.h"
-
-#include "EditorHierarchy.h"
 #include "EditorInspector.h"
-#include "EditorSceneView.h"
-#include "EditorAssets.h"
-
-#include "LitterBox/Core/Core.h"
-#include "LitterBox/Components/RenderComponent.h"
-#include "LitterBox/Components/RigidBodyComponent.h"
-#include "LitterBox/Components/TransformComponent.h"
-#include "LitterBox/Components/AudioSourceComponent.h"
 
 namespace LB
 {

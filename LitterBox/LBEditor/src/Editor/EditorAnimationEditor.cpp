@@ -26,35 +26,14 @@ Constructor of the Animation Editor
 
 namespace LB
 {
-	EditorAnimationEditor* EDITORANINMATIONEDITOR = nullptr;
-
-	//variable defines
-	//I don't know what this is for.
-	//taken from EditorInspector in the Section that
-	//draws the ImGui components for CPRender
-	static float dropdownWidth = 150.f;
-	static float normalWidth = 75.f;
-
-	//height constraint of texture preview
-	static float textPreviewLim = 250.f;
-
-	EditorAnimationEditor::EditorAnimationEditor(std::string layerName) :
-		Layer(layerName),
-		textureID{ 0 },
-		slotID{ 0 },
-		textureAspect{ 0.f },
-		textureSize{ 0.f,0.f },
-		tiles{}
+	EditorAnimationEditor::EditorAnimationEditor(std::string layerName) : Layer(layerName)
 	{
-		if (!EDITORANINMATIONEDITOR)
-			EDITORANINMATIONEDITOR = this;
-		else
-			DebuggerLogError("Editor Tile Map Editor already exists!");
+
 	}
 
 	//test listing for list box
-	const char* list[] = { "First texture", "Second texture" };
-	int currItem{ 0 };
+	//const char* list[] = { "First texture", "Second texture" };
+	//int currItem{ 0 };
 
 	/*!***********************************************************************
 	\brief
@@ -64,28 +43,29 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
-		ImGui::BeginChild("AnimatorEditor");
+		//ImGui::BeginChild("AnimatorEditor");
 
-		
-		//----------------------------------TAKEN FROM EDITOR INSPECTOR CPRENDER--------------------------------
-		//--------------------TEXTURE SELECTOR--------------------
+		//
+		////----------------------------------TAKEN FROM EDITOR INSPECTOR CPRENDER--------------------------------
+		//// 
+		////--------------------TEXTURE SELECTOR--------------------
 
-		ImGui::Separator();
-		//TODO figure out the preview option
-		ImGui::Image((ImTextureID)textureID, textureSize, ImVec2(0, 1), ImVec2(1, 0));
+		//ImGui::Separator();
+		////TODO figure out the preview option
+		//ImGui::Image((ImTextureID)textureID, textureSize, ImVec2(0, 1), ImVec2(1, 0));
 
-		ImGui::Separator();
+		//ImGui::Separator();
 
-		if (!textureID) {
-			ImGui::EndChild();
+		//if (!textureID) {
+		//	ImGui::EndChild();
 
-			ImGui::End();
-			return;
-		}
+		//	ImGui::End();
+		//	return;
+		//}
 
-		//SpilttingTheSprites(); //helping to split the size of the spritesheet
+		////SpilttingTheSprites(); //helping to split the size of the spritesheet
 
-		ImGui::EndChild();
+		//ImGui::EndChild();
 
 		ImGui::End();
 
@@ -170,13 +150,13 @@ namespace LB
 		//}
 	//}
 
-	void EditorAnimationEditor::SettingAnimation()
-	{
-		if (tiles.empty())
-		{
-			return;
-		}
+	//void EditorAnimationEditor::SettingAnimation()
+	//{
+	//	if (tiles.empty())
+	//	{
+	//		return;
+	//	}
 
-	}
+	//}
 }
 

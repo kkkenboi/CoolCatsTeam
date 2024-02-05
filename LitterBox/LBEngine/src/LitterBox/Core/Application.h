@@ -33,6 +33,7 @@
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Audio/AudioManager.h"
+#include "LitterBox/Animation/AnimationManager.h"
 #include "Core.h"
 
 namespace LB {
