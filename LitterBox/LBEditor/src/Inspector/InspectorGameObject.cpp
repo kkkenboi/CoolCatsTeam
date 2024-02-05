@@ -509,6 +509,7 @@ namespace LB
 				{
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(dropdownWidth);
+					std::cout << selectedsheet.Sprites().at(1).m_min.x << " " << selectedsheet.Sprites().at(1).m_min.y << std::endl;
 					if (ImGui::BeginCombo("##Sprite Sheet tile", "Tile"))
 					{
 						for (auto& tile : selectedsheet.Sprites())
