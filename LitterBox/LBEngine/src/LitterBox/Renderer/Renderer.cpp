@@ -1330,6 +1330,7 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 
 void Renderer::RenderSystem::swap_object_type(Renderer_Types new_type, LB::CPRender* obj)
 {
+	unsigned int newid{ 0 };
 	//simple check to reduce overheads
 	if (obj->get_r_type() == new_type)
 		return;
@@ -1349,13 +1350,13 @@ void Renderer::RenderSystem::swap_object_type(Renderer_Types new_type, LB::CPRen
 	//add the object to the new layer
 	switch (new_type) {
 	case Renderer_Types::RT_OBJECT:
-		object_renderer.create_render_object(obj);
+		newid = object_renderer.create_render_object(obj);
 		break;
 	case Renderer_Types::RT_BACKGROUND:
-		bg_renderer.create_render_object(obj);
+		newid = bg_renderer.create_render_object(obj);
 		break;
 	case Renderer_Types::RT_UI:
-		ui_renderer.create_render_object(obj);
+		newid = ui_renderer.create_render_object(obj);
 		break;
 	}
 
@@ -1363,6 +1364,7 @@ void Renderer::RenderSystem::swap_object_type(Renderer_Types new_type, LB::CPRen
 	obj->set_r_type(new_type);
 
 	//finish
+	obj->set_index(newid);
 }
 
 /*!***********************************************************************

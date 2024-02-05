@@ -129,6 +129,15 @@ namespace LB
 		inline const unsigned int get_index() const { return quad_id; }
 		/*!***********************************************************************
 		\brief
+		 Set the index of the render object.
+		 NOTE: Do not touch this ever. Only here because layering system is annoying.
+
+		\param
+		 The new index we want to give the obj
+		*************************************************************************/
+		void set_index(unsigned int idx) { quad_id = idx; }
+		/*!***********************************************************************
+		\brief
 		 Gets the number of animations queued for the specific game object.
 
 		\return

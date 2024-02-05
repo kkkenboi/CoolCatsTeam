@@ -38,31 +38,34 @@ namespace LB {
 		m_maxBalls = mainChar->GetComponent<CPPSPlayer>()->m_maxBalls;
 		m_currentBalls = m_maxBalls - mainChar->GetComponent<CPPSPlayer>()->m_currentBalls;
 
-		// Create game objects to display the health and balls
-		for (int i{ 1 }; i <= m_maxHealth; i++)
+		if (!m_TotalHeartDisplay.size())
 		{
-			GameObject* healthObject = FACTORY->SpawnGameObject();
-			JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
-			Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
-			healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * (i - 1), startPos.y));
-			//m_currentHealth = 2;
-			// Set the texture for lost health
-			if (i > m_currentHealth)
+			// Create game objects to display the health and balls
+			for (int i{ 1 }; i <= m_maxHealth; i++)
 			{
-				healthObject->GetComponent<CPRender>()->texture = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Broken Heart"]].second;
+				GameObject* healthObject = FACTORY->SpawnGameObject();
+				JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
+				Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
+				healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * (i - 1), startPos.y));
+				//m_currentHealth = 2;
+				// Set the texture for lost health
+				if (i > m_currentHealth)
+				{
+					healthObject->GetComponent<CPRender>()->texture = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Broken Heart"]].second;
+				}
+
+				m_TotalHeartDisplay.push_back(healthObject);
 			}
 
-			m_TotalHeartDisplay.push_back(healthObject);
-		}
+			for (int i{}; i < m_maxBalls; i++)
+			{
+				GameObject* ballObject = FACTORY->SpawnGameObject();
+				JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
+				Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
+				ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * i, startPos.y));
 
-		for (int i{}; i < m_maxBalls; i++)
-		{
-			GameObject* ballObject = FACTORY->SpawnGameObject();
-			JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
-			Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
-			ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * i, startPos.y));
-
-			m_TotalBallsDisplay.push_back(ballObject);
+				m_TotalBallsDisplay.push_back(ballObject);
+			}
 		}
 	}
 
