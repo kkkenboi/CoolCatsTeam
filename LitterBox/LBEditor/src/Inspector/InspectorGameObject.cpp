@@ -482,7 +482,7 @@ namespace LB
 						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
 					}
 				}*/
-				if (ImGui::BeginCombo("##Sprite Sheet", spritesheet))
+				if (ImGui::BeginCombo("##Sprite Sheet", (selectedsheet.GetName() == "Unnamed Sheet" ? spritesheet : selectedsheet.GetPNGRef().c_str())))
 				{
 					if (ImGui::Selectable("None"))
 					{
@@ -509,14 +509,19 @@ namespace LB
 				{
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(dropdownWidth);
-					std::cout << selectedsheet.Sprites().at(1).m_min.x << " " << selectedsheet.Sprites().at(1).m_min.y << std::endl;
 					if (ImGui::BeginCombo("##Sprite Sheet tile", "Tile"))
 					{
 						for (auto& tile : selectedsheet.Sprites())
 						{
 							if (ImGui::Selectable(std::to_string(tile.m_index).c_str()))
 							{
-
+								sprite_confirm = false;
+								m_inspectedGO->GetComponent<CPRender>()->ssheet = selectedsheet;
+								m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
+																						ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
+																						ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
+																						tile.m_min, tile.m_max);
+								selectedsheet = SpriteSheet{};
 							}
 						}
 						ImGui::EndCombo();

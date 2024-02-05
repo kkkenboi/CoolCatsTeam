@@ -591,6 +591,11 @@ void Renderer::Renderer::update_buff()
 			quad_buff[obj_index].data[i].color.z = e->col.z;
 			if (quad_buff[obj_index].data[i].texIndex != (float)e->texture)
 				quad_buff[obj_index].data[i].texIndex = (float)e->texture;
+			//update uv
+			for (int i{ 0 }; i < 4; ++i) {
+				quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+				quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+			}
 		}
 	}
 	
