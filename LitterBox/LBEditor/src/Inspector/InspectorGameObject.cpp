@@ -464,6 +464,80 @@ namespace LB
 					}
 				}
 
+
+				//-------------For sprite sheet---------------
+				static bool sprite_confirm{ false };
+				static SpriteSheet selectedsheet{};
+				ImGui::Text("%-19s", "SpriteSheet");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+				//int inspectedTextureID = m_inspectedGO->GetComponent<CPRender>()->texture;
+				const char* spritesheet = m_inspectedGO->GetComponent<CPRender>()->ssheet.GetPNGRef().c_str();
+				//This allows you to drag into the text
+				/*if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* spritesheet = ImGui::AcceptDragDropPayload("SPRITE SHEET"))
+					{
+						const char* textureName = (const char*)spritesheet->Data;
+						m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
+					}
+				}*/
+				if (ImGui::BeginCombo("##Sprite Sheet", (selectedsheet.GetName() == "Unnamed Sheet" ? spritesheet : selectedsheet.GetPNGRef().c_str())))
+				{
+					if (ImGui::Selectable("None"))
+					{
+						sprite_confirm = false;
+						selectedsheet = SpriteSheet{};
+					}
+					for (auto& [str, sheet] : ASSETMANAGER->SpriteSheets)
+					{
+						std::filesystem::path tempPath{ sheet.GetPNGRef() };
+						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
+						{
+							//if (str == "none") m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(-1, static_cast<int>(width), static_cast<int>(height));
+							//else m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, static_cast<int>(width), static_cast<int>(height));
+							if (str != m_inspectedGO->GetComponent<CPRender>()->ssheet.GetName())
+							{
+								sprite_confirm = true;
+								selectedsheet = sheet;
+							}
+						}
+					}
+					ImGui::EndCombo();
+				}
+				if (sprite_confirm)
+				{
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(dropdownWidth);
+					if (ImGui::BeginCombo("##Sprite Sheet tile", "Tile"))
+					{
+						for (auto& tile : selectedsheet.Sprites())
+						{
+							if (ImGui::Selectable(std::to_string(tile.m_index).c_str()))
+							{
+								sprite_confirm = false;
+								m_inspectedGO->GetComponent<CPRender>()->ssheet = selectedsheet;
+								m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
+																						ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
+																						ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
+																						tile.m_min, tile.m_max);
+								selectedsheet = SpriteSheet{};
+							}
+						}
+						ImGui::EndCombo();
+					}
+				}
+				////This allows you to drag into the combo
+				//if (ImGui::BeginDragDropTarget())
+				//{
+				//	if (const ImGuiPayload* textureData = ImGui::AcceptDragDropPayload("TEXTURE"))
+				//	{
+				//		const char* textureName = (const char*)textureData->Data;
+				//		m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->width, ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].first->height);
+				//	}
+				//}
+				//-------------For sprite sheet---------------
+
 				//store the name of the layer enum
 				static std::string renderdroplayer{};
 

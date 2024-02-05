@@ -19,6 +19,7 @@
 #pragma once
 #include "TransformComponent.h"
 #include "LitterBox/Renderer/ForwardDeclerators.h"
+#include "LitterBox/Animation/SpriteSheet.h"
 //#include "LitterBox/Serialization/AssetManager.h"
 #include <queue>
 
@@ -36,11 +37,13 @@ namespace LB
 	{
 	private:
 		Renderer::Renderer_Types					renderer_id;
-		unsigned int									quad_id;
-		unsigned int									frame;
-		float											time_elapsed;
-		std::queue<std::pair<const  Renderer::Animation*, bool>>	animation;
-		Renderer::index									indices;
+		unsigned int								quad_id;
+		unsigned int								frame;
+		float										time_elapsed;
+		std::queue<std::pair
+			<const  Renderer::Animation*, bool>
+		>											animation;
+		Renderer::index								indices;
 		bool initialized{ false };
 		bool destroyed{ false };
 
@@ -49,12 +52,12 @@ namespace LB
 		float						h;
 		float						rotation, z_val;
 		int							texture;
-		bool						activated;
 		Vec2<float>					scal;
 		Vec2<float>					position;
 		Vec3<float>					col;
 		std::array<Vec2<float>, 4>	uv; //bot left, bot right, top right, top left
-
+		SpriteSheet					ssheet;
+		bool						activated;
 
 
 		CPTransform* transform;
@@ -185,24 +188,24 @@ namespace LB
 		 NOTE: the texture slot may or may not be bound. The ounus is on the
 		 developer to ensure the _texture argument is a valid texture
 		*************************************************************************/
-		void UpdateTexture(int _texture, int width, int height)
+		void UpdateTexture(int _texture, int width, int height, Vec2<float>min = {0.f, 0.f}, Vec2<float>max = {1.f, 1.f})
 		{
 			texture = _texture;
 			w = (float)width;
 			h = (float)height;
 			if (_texture == -1)
 			{
-				uv[0] = { 0.f, 0.f };
-				uv[1] = { 0.f, 0.f };
-				uv[2] = { 0.f, 0.f };
-				uv[3] = { 0.f, 0.f };
+				uv[0] = min;//{ 0.f, 0.f };
+				uv[1] = min;//{ 0.f, 0.f };
+				uv[2] = min;//{ 0.f, 0.f };
+				uv[3] = min;//{ 0.f, 0.f };
 			}
 			else
 			{
-				uv[0] = { 0.f, 0.f };
-				uv[1] = { 1.f, 0.f };
-				uv[2] = { 1.f, 1.f };
-				uv[3] = { 0.f, 1.f };
+				uv[0] = min;//{ 0.f, 0.f };
+				uv[1] = { max.x, min.y };//{ 1.f, 0.f };
+				uv[2] = max;//{ 1.f, 1.f };
+				uv[3] = { min.x, max.y };//{ 0.f, 1.f };
 			}
 		}
 

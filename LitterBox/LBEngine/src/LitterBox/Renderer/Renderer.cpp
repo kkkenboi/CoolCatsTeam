@@ -244,7 +244,7 @@ LB::CPRender::CPRender(
 	renderer_id{ rend_type }, position{ pos }, scal{ scale }, w{ width }, h{ height },
 	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ texture },
 	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }, rotation{ 0.f }, transform{ nullptr },
-	indices{}, z_val{1.f}
+	indices{}, z_val{ 1.f }, ssheet{}
 {
 	if (!Renderer::GRAPHICS) {
 		DebuggerLogError("GRAPHICS SYSTEM NOT INITIALIZED");
@@ -591,6 +591,11 @@ void Renderer::Renderer::update_buff()
 			quad_buff[obj_index].data[i].color.z = e->col.z;
 			if (quad_buff[obj_index].data[i].texIndex != (float)e->texture)
 				quad_buff[obj_index].data[i].texIndex = (float)e->texture;
+			//update uv
+			for (int i{ 0 }; i < 4; ++i) {
+				quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+				quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+			}
 		}
 	}
 	
@@ -1131,14 +1136,13 @@ void Renderer::RenderSystem::Update()
 
 	//NOTE: for the depth buffer, because OpenGL is left handed
 	//the higher the z-axis value, the further away it is from the camera
-	glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 	//need to check if the specific layer is activated and render if it is
 	if (bg_renderer.getActive())
 	{
+		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 		glBindVertexArray(bg_renderer.get_vao());
 		glDrawElements(GL_TRIANGLES, (GLsizei)(bg_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 	}
-	//need to check if the specific layer is activated and render if it is
 	if (object_renderer.getActive())
 	{
 		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
@@ -1148,7 +1152,7 @@ void Renderer::RenderSystem::Update()
 	//need to check if the specific layer is activated and render if it is
 	if (ui_renderer.getActive())
 	{
-		glClear(GL_DEPTH_BUFFER_BIT);//we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
+		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 		glBindVertexArray(ui_renderer.get_vao());
 		glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 	}

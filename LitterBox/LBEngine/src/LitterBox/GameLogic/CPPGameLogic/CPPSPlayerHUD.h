@@ -18,6 +18,8 @@ namespace LB
 		void DecreaseBalls();
 		void IncreaseHealth();
 		void IncreaseBalls();
+		void IncreaseMaxHealth(int amount);
+		void IncreaseMaxBalls(int amount);
 		//// Assuming that balls are max every time the player enters a new level
 		//void InitialiseHUD(int maxHearts, int currentHearts, int maxBalls);
 
