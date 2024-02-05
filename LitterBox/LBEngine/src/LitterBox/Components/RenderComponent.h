@@ -57,6 +57,7 @@ namespace LB
 		Vec3<float>					col;
 		std::array<Vec2<float>, 4>	uv; //bot left, bot right, top right, top left
 		SpriteSheet					ssheet;
+		int							spriteIndex{ -1 };
 		bool						activated;
 
 
