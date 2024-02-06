@@ -1009,7 +1009,7 @@
                     "Active": true,
                     "Width": 110.0,
                     "Height": 110.0,
-                    "Texture": "pine",
+                    "Texture": "mage_attack",
                     "Sprites": {
                         "Name": "testSpriteSheet",
                         "PNG": "mage_attack",

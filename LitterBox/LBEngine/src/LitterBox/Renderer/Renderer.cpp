@@ -1124,7 +1124,6 @@ void Renderer::RenderSystem::Update()
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 
 	if(editor_mode)
-		////TODO change this so it only prints to the frame buffer in editor view
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
