@@ -2,6 +2,7 @@
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "CPPSUpgrade.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Serialization/AssetManager.h"
 namespace LB
 {
 	void CPPSUpgradeManager::Start()
@@ -34,9 +35,9 @@ namespace LB
 		}
 		if (!isSpawned) {
 			isSpawned = true;
-			GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(MOREHEALTH);
+			GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(MOREBALL);
 			GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(BOMB);
-			GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(MOREBALL);
+			GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(MOREHEALTH);
 		}
 	}
 
@@ -56,11 +57,26 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("Upgrade", *rightUpgrade);
 
 
-		leftUpgrade->SetName("leftUpgrade");
+		leftUpgrade->SetName("leftUpgrade");	//health
 		leftUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[0]);
-		middleUpgrade->SetName("middleUpgrade");
+		SpriteSheet selectedsheet = ASSETMANAGER->SpriteSheets["Upgrades"];
+		leftUpgrade->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
+			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
+			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
+			selectedsheet.Sprites()[0].m_min, selectedsheet.Sprites()[0].m_max);
+
+		middleUpgrade->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
+			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
+			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
+			selectedsheet.Sprites()[1].m_min, selectedsheet.Sprites()[1].m_max);
+		middleUpgrade->SetName("middleUpgrade"); //bomb
 		middleUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[1]);
-		rightUpgrade->SetName("rightUpgrade");
+
+		rightUpgrade->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
+			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
+			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
+			selectedsheet.Sprites()[2].m_min, selectedsheet.Sprites()[2].m_max);
+		rightUpgrade->SetName("rightUpgrade");	//more ball
 		rightUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[2]);
 		//
 		//CPPSUpgrade* test = GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPPSUpgrade>();

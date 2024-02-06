@@ -21,7 +21,7 @@ namespace LB
 		if (currentWave == 1) 
 		{
 			SpawnCredits = 4;
-			GenerateWave();
+			//GenerateWave();
 		}
 	}
 	void CPPSGameManager::Update()
@@ -47,9 +47,10 @@ namespace LB
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_G))
 		{
 			GenerateWave();
+			GameStart = true;
 		}
 		//Really really really scuffed way of doing this
-		if (currentEnemyCount == 0)
+		if (currentEnemyCount == 0 && GameStart)
 		{
 			//Spawn Upgrades, Do level transition blablabla
 			currentWave++;
