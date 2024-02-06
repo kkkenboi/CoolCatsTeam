@@ -3,6 +3,7 @@
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Renderer/Renderer.h"
+#include "LitterBox/Components/TextComponent.h"
 
 namespace LB
 {

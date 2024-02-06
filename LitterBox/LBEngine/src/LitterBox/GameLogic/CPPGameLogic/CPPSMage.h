@@ -31,6 +31,8 @@ namespace LB
 		void Start() override;
 		void Update() override;
 		void Destroy() override;
+		void Hurt() override;
+
 
 		//getter functions //inherited now
 		/*virtual CPRender* GetRender() override;

@@ -19,10 +19,10 @@ uniform mat4 cam;
 void main()
 {
 	vec4 mdl_points[4];
-	mdl_points[0] = vec4(-0.5, -0.5, 0.0, 1.0);
-	mdl_points[1] = vec4(0.5f, -0.5f, 0.0, 1.0);
-	mdl_points[2] = vec4(0.5f, 0.5f, 0.0, 1.0);
-	mdl_points[3] = vec4(-0.5f, 0.5f, 0.0, 1.0);
+	mdl_points[0] = vec4(-0.5, -0.5, 1.0, 1.0);
+	mdl_points[1] = vec4(0.5f, -0.5f, 1.0, 1.0);
+	mdl_points[2] = vec4(0.5f, 0.5f, 1.0, 1.0);
+	mdl_points[3] = vec4(-0.5f, 0.5f, 1.0, 1.0);
 	
 	mat4 translate;
 	translate[0] = vec4(1.0, 0.0, 0.0, 0.0);
