@@ -1158,6 +1158,28 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##VelocityY", &velocity.y, 1.0f, 0.0f, 0.0f, "%.2f");
+
+				// Emitter X Min and Max Variation
+				ImGui::Text("%-17s Min", "Vel Variation X");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##MinX", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMinX, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::SameLine();
+				ImGui::Text("Max");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##MaxX", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMaxX, 1.0f, 0.0f, 0.0f, "%.2f");
+				// Emitter Y Min and Max Variation
+				ImGui::Text("%-17s Min", "Vel Variation Y");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##MinY", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMinY, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::SameLine();
+				ImGui::Text("Max");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##MaxY", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMaxY, 1.0f, 0.0f, 0.0f, "%.2f");
+				
 				// Emitter Size
 				ImGui::Text("%-17s Begin", "Emitter Size");
 				ImGui::SameLine();
@@ -1186,7 +1208,7 @@ namespace LB
 
 					if (m_inspectedGO->GetComponent<CPParticle>()->mIsActive == true)
 					{
-						m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeRemaining = m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetime;
+						m_inspectedGO->GetComponent<CPParticle>()->RestartLifetime();
 					}
 				}
 			

@@ -20,7 +20,7 @@ namespace LB
 	// Spawns a particle from an emitters configs
 	void ParticleManager::Emit(CPParticle emitter) 
 	{
-		std::cout << "Emitting\n";
+		//std::cout << "Emitting\n";
 		// Gets a particle from the particle pool to instantiate
 		Particle& particle = mParticlePool[mParticlePoolIndex];
 		particle.mIsActive = true;
@@ -29,8 +29,8 @@ namespace LB
 
 		// Velocity
 		particle.mVelocity = emitter.mEmitterVelocity;
-		particle.mVelocity.x += RandomRange(emitter.mEmitterVariationMin, emitter.mEmitterVariationMax);
-		particle.mVelocity.y += RandomRange(emitter.mEmitterVariationMin, emitter.mEmitterVariationMax);
+		particle.mVelocity.x += RandomRange(emitter.mEmitterVariationMinX, emitter.mEmitterVariationMaxX);
+		particle.mVelocity.y += RandomRange(emitter.mEmitterVariationMinY, emitter.mEmitterVariationMaxY);
 
 		// Texture
 		 
@@ -47,11 +47,18 @@ namespace LB
 		
 		// Create a GameObject that follows the Particle's current stats
 		particle.mGameObj = FACTORY->SpawnGameObject();
+		particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
 		particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+		particle.mGameObj->GetComponent<CPRender>()->Initialise();
 		// Get the texture ID from the emitter
 		int textureID = emitter.mRender->texture;
 		std::string textureName = ASSETMANAGER->GetTextureName(textureID);
-		particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(textureName), static_cast<int>(emitter.mRender->w), static_cast<int>(emitter.mRender->h));
+		//std::cout << emitter.mRender->w << '\n';
+		//std::cout << emitter.mRender->h << '\n';
+		//std::cout << ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second << std::endl;
+		//std::cout << ASSETMANAGER->GetTextureName(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second) << std::endl;
+		particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter.mRender->w), static_cast<int>(emitter.mRender->h));
+
 	}
 
 
@@ -66,7 +73,11 @@ namespace LB
 
 	void ParticleManager::Destroy() 
 	{
-
+		// Loop through the EmitterPool and make them all nullptr
+		for (int i = 0; i < mEmitterPool.size(); ++i) 
+		{
+			mEmitterPool[i] = nullptr;
+		}
 	}
 
 	std::string ParticleManager::GetEmitterType(EmitterType EmitType)
@@ -93,6 +104,14 @@ namespace LB
 			if (mEmitterPool[i] == nullptr) {
 				mEmitterPool[i] = newEmitter;
 				return;
+			}
+		}
+	}
+
+	void ParticleManager::RemoveEmitter(CPParticle* findEmitter) {
+		for (int i = 0; i < mEmitterPool.size(); ++i) {
+			if (mEmitterPool[i] == findEmitter) {
+				mEmitterPool[i] = nullptr;
 			}
 		}
 	}
@@ -133,6 +152,7 @@ namespace LB
 
 			// Update the GameObject itself
 			particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+			particle.mGameObj->GetComponent<CPTransform>()->SetRotation(particle.mRotation);
 			particle.mGameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{particle.mSize, particle.mSize});
 		}
 	}
@@ -143,14 +163,14 @@ namespace LB
 		{
 			if (emitter != nullptr)
 			{
-				std::cout << "Here!\n";
+				//std::cout << "Here!\n";
 				emitter->Update();
 			}
 		}
 	}
 
 	float RandomRange(float min, float max) {
-		return (min + static_cast<float>(rand())) / static_cast<float>(RAND_MAX / (max - min));
+		return min + static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * (max - min);
 	}
 
 }

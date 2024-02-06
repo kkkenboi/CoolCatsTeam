@@ -22,6 +22,8 @@ namespace LB {
 
 		// CPParticle stuff
 		std::string GetEmitterType();
+
+		void RestartLifetime();
 		
 
 	public:
@@ -33,11 +35,15 @@ namespace LB {
 		Vec2<float> mEmitterPos;
 		
 		float mEmitterRate;
+		float mTimeSinceLastEmit;
 
 		// Velocities
 		Vec2<float> mEmitterVelocity;
-		float mEmitterVariationMin;
-		float mEmitterVariationMax;
+		float mEmitterVariationMinX;
+		float mEmitterVariationMaxX;
+		float mEmitterVariationMinY;
+		float mEmitterVariationMaxY;
+
 		// Left : -X, 0
 		// Right : X, 0
 		// Up : 0, Y
