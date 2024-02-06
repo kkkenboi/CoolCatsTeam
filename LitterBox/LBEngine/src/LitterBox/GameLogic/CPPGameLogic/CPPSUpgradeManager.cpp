@@ -32,6 +32,12 @@ namespace LB
 		{
 			HideUpgrades();
 		}
+		if (!isSpawned) {
+			isSpawned = true;
+			GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(MOREHEALTH);
+			GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(BOMB);
+			GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(MOREBALL);
+		}
 	}
 
 	void CPPSUpgradeManager::Destroy()
@@ -56,10 +62,17 @@ namespace LB
 		middleUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[1]);
 		rightUpgrade->SetName("rightUpgrade");
 		rightUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[2]);
+		//
+		//CPPSUpgrade* test = GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPPSUpgrade>();
+		//if (test == nullptr) std::cout << "joemam\n";
+		//->AssignUpgradeID(UpgradesList[0]);
+		// GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[0]);
+		//GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[0]);
+		//GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[0]);
 
 		//Then we assign the upgrade types to the upgrades 
 		//probably can't hard code the upgrade list because it reduces over time. 
-		//Might need to use like a stack or something and pop/push values in and out
+		//Might need to use like a stack or something and pop/push valuesS in and out
 		/*leftUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID((int)(UpgradesList[0]));*/
 		//middleUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[1]);
 		//rightUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[2]);
@@ -88,16 +101,21 @@ namespace LB
 	{
 		//This gets called by the upgrade when it gets hit
 		//We just use it as ints for now to set ball upgrades
+		std::cout << "upgrade type set " << upgradeType << '\n';
 		currentBallUpgrades |= (1 << upgradeType);
 		//Then we loop through and remove the upgrade that we got from the list
-		for (std::vector<UpgradeType>::iterator it = UpgradesList.begin(); it != UpgradesList.end();)
+		/*for (std::vector<UpgradeType>::iterator it = UpgradesList.end(); it != UpgradesList.begin();)
 		{
 			if (*it == static_cast<UpgradeType>(upgradeType))
 			{
-				UpgradesList.erase(it);
+				auto itToRemove = it--;
+				UpgradesList.erase(itToRemove);
 			}
-			else ++it;
-		}
+			else
+			{
+				--it;
+			}
+		}*/
 	}
 
 	int CPPSUpgradeManager::GetBallUpgrades()

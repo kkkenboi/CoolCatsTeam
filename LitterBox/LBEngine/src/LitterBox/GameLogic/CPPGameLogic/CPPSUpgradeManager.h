@@ -46,6 +46,7 @@ namespace LB
 		GameObject* leftUpgrade{ nullptr };
 		GameObject* middleUpgrade{ nullptr };
 		GameObject* rightUpgrade{ nullptr };
+		bool isSpawned{ false };
 	};
 	REGISTER_SCRIPT(CPPSUpgradeManager)
 

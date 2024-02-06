@@ -192,7 +192,27 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseMaxHealth(int amount)
 	{
+		// Create game objects to display the health and balls
+		for (int i{ 1 }; i <= amount; i++)
+		{
+			GameObject* healthObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
+			Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
+			healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * (m_maxHealth + i - 1), startPos.y));
+			//m_currentHealth = 2;
+			// Set the texture for lost health
+			if (i > m_currentHealth)
+			{
+				healthObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"),
+					static_cast<int>(healthObject->GetComponent<CPRender>()->w),
+					static_cast<int>(healthObject->GetComponent<CPRender>()->h));
+			}
+
+			m_TotalHeartDisplay.push_back(healthObject);
+		}
+
 		m_maxHealth += amount;
+		m_currentHealth += amount;
 	}
 
 	/*!***********************************************************************
@@ -201,7 +221,19 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseMaxBalls(int amount)
 	{
+		for (int i{}; i < amount; i++)
+		{
+			GameObject* ballObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
+			Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
+			ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * (m_maxBalls + i), startPos.y));
+
+			m_TotalBallsDisplay.push_back(ballObject);
+		}
+
 		m_maxBalls += amount;
+		m_currentBalls += amount;
+		mainChar->GetComponent<CPPSPlayer>()->m_maxBalls += amount;
 	}
 
 	/*!***********************************************************************

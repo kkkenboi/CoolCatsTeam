@@ -25,6 +25,9 @@
 #include "CPPSPlayerHUD.h"
 #include "LitterBox/Renderer/Renderer.h"
 #include "CPPSBaseEnemy.h"
+#include "CPPSMage.h"
+#include "CPPSChaser.h"
+
 
 namespace LB
 {
@@ -105,13 +108,13 @@ namespace LB
 			//GOMANAGER->RemoveGameObject(this->GameObj);
 			return;
 		}
-		//if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
-		//	colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
-		//{
-		//	int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
+		if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
+			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
+		{
+			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
 
-		//	AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
-		//}
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
+		}
 
 	}
 
@@ -130,20 +133,24 @@ namespace LB
 	//Function to handle when the ball explodes
 	void CPPSPlayerGolfBall::Explode()
 	{
-		//std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
-		////We loop through all the colliders that were in the radius
-		//for (CPCollider* col : explosionColliders) {
-		//		if (col->gameObj->GetName() == "MainChar") continue;
-		//		Vec2<float> explosionForce = col->m_pos - this->GameObj->GetComponent<CPTransform>()->GetPosition();
-		//		explosionForce = explosionForce.Normalise() * explosionForceMag;
-		//		if (col->HasRB()) {
-		//			col->gameObj->GetComponent<CPRigidBody>()->addImpulse(explosionForce);
-		//			/*if (col->gameObj->HasComponent<CPPSBaseEnemy>()) {
-		//			col->gameObj->GetComponent<CPPSBaseEnemy>()->Hurt();
-		//			std::cout << "enemy hurt\n";
-		//			}*/
-		//		}
-		//}
+		std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
+		//We loop through all the colliders that were in the radius
+		for (CPCollider* col : explosionColliders) {
+				if (col->gameObj->GetName() == "MainChar") continue;
+				Vec2<float> explosionForce = col->m_pos - this->GameObj->GetComponent<CPTransform>()->GetPosition();
+				explosionForce = explosionForce.Normalise() * explosionForceMag;
+				if (col->HasRB()) {
+					col->gameObj->GetComponent<CPRigidBody>()->addImpulse(explosionForce);
+					if (col->gameObj->GetName() == "Mage") {
+						std::cout << "mage hurt by explosion\n";
+						col->gameObj->GetComponent<CPPSMage>()->Hurt();
+					}
+					if (col->gameObj->GetName() == "EnemyChaser1") {
+						std::cout << "chaser hurt by explosion\n";
+						col->gameObj->GetComponent<CPPSChaser>()->Hurt();
+					}
+				}
+		}
 	}
 
 	void CPPSPlayerGolfBall::Split()
