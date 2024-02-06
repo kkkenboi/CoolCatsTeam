@@ -127,7 +127,11 @@ namespace LB
 			if (particle.mLifetimeRemaining <= 0.f)
 			{
 				particle.mIsActive = false;
-				GOMANAGER->RemoveGameObject(particle.mGameObj);
+				if (particle.mGameObj != nullptr)
+				{
+					GOMANAGER->RemoveGameObject(particle.mGameObj);
+				}
+				particle.mGameObj = nullptr;
 				continue;
 			}
 
@@ -151,9 +155,11 @@ namespace LB
 			}
 
 			// Update the GameObject itself
-			particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
-			particle.mGameObj->GetComponent<CPTransform>()->SetRotation(particle.mRotation);
-			particle.mGameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{particle.mSize, particle.mSize});
+			if (particle.mGameObj != nullptr && particle.mGameObj->IsActive() == true) {
+				particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+				particle.mGameObj->GetComponent<CPTransform>()->SetRotation(particle.mRotation);
+				particle.mGameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{particle.mSize, particle.mSize});
+			}
 		}
 	}
 
