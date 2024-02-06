@@ -45,6 +45,7 @@ namespace LB {
 		std::vector<std::pair<std::string, EmitterType>>& GetVectorEmits();
 		std::string GetEmitterType(EmitterType EmitType);
 		void AddEmitter(CPParticle* emitter);
+		void RemoveEmitter(CPParticle* emitter);
 		void UpdateParticles();
 		void UpdateEmitters();
 	private:

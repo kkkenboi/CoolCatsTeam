@@ -15,11 +15,13 @@ namespace LB {
 		mEmitterType = TRAIL;
 		
 		mEmitterPos = mTransform->GetPosition();
-		mEmitterRate = 0.5f;
+		mEmitterRate = 0.05f;
 
 		mEmitterVelocity = Vec2<float>{ 0.f, 0.f };
-		float mEmitterVariationMin = 0.f;
-		float mEmitterVariationMax = 0.f;
+		float mEmitterVariationMinX = 0.f;
+		float mEmitterVariationMaxX = 0.f;
+		float mEmitterVariationMinY = 0.f;
+		float mEmitterVariationMaxY = 0.f;
 
 		mEmitterSizeBegin = 1.f;
 		mEmitterSizeEnd = 1.f;
@@ -43,26 +45,33 @@ namespace LB {
 
 		mEmitterPos = mTransform->GetPosition();
 		
-		if (mEmitterLifetimeRemaining > 0.f)
+		if (mEmitterLifetimeRemaining > 0.f && mIsActive)
 		{
 			mEmitterLifetimeRemaining -= TIME->GetDeltaTime();
+			mTimeSinceLastEmit += TIME->GetDeltaTime();
 		}
 
 		if (mEmitterLifetimeRemaining <= 0.f) 
 		{
 			mIsActive = false;
-			mEmitterLifetimeRemaining = 0.f;
+			mEmitterLifetimeRemaining = mEmitterLifetime;
 		}
 
 		if (mIsActive)
 		{
-			ParticleManager::Instance()->Emit(*this);
+			if (mTimeSinceLastEmit >= mEmitterRate) {
+				if (mRender != nullptr) {
+					ParticleManager::Instance()->Emit(*this);
+				}
+				mTimeSinceLastEmit = 0.f;
+			}
 		}
 	}
 
 	void CPParticle::Destroy()
 	{
-
+		// Remove it from the EmitterPool
+		ParticleManager::Instance()->RemoveEmitter(this);
 	}
 
 	ComponentTypeID CPParticle::GetType() 
@@ -81,5 +90,10 @@ namespace LB {
 		default:
 			return "ERROR!";
 		}
+	}
+
+	void CPParticle::RestartLifetime() 
+	{
+		mEmitterLifetimeRemaining = mEmitterLifetime;
 	}
 }

@@ -10,7 +10,7 @@ namespace LB
 		void Update() override;
 		void Destroy() override;
 
-		void OnCollisionEnter(CollisionData);
+		void OnCollisionEnter(CollisionData) override;
 		void AssignUpgradeID(int);
 		//Upgrade assigned by the upgrade managaer
 		int assignedUpgradeType{ 0 };

@@ -24,11 +24,13 @@ namespace LB
 		//void InitialiseHUD(int maxHearts, int currentHearts, int maxBalls);
 
 	private:
-		int m_currentHealth{};
 		int m_maxHealth{};
-		int m_currentBalls{};
 		int m_maxBalls{};
+		int m_currentHealth{};
+		int m_currentBalls{};
 		bool m_displayUpgrade{false};
+		bool m_decreaseHealth{ false };
+		bool m_decreaseBalls{ false };
 
 		GameObject* mainChar{nullptr};
 

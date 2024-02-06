@@ -29,6 +29,7 @@ namespace LB
 		void Start() override;
 		void Update() override;
 		void Destroy() override;
+		void Hurt() override;
 
 		void OnCollisionEnter(CollisionData colData) override;
 		void Die() override;

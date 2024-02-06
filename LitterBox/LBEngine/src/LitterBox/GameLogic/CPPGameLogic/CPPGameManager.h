@@ -27,13 +27,13 @@ namespace LB
 		//Pairs of enemy to value cost for the game manager to spawn
 		//std::vector<std::pair<GameObject*, float>> EnemyPrefabList;
 		std::vector < std::pair<void(CPPSGameManager::*)(), int>> EnemyList;
-
+		bool GameStart{ false };
 	private:
 		//Formula made in desmos, curve is a sexy sexy S curve.
 		//Formula => 12/(0.5f + e^(-x/5 + 4))
 		int SpawnCredits{}; //Spawn credits allowed for the game manager 
 		int currentWave{ 1 };	//starting wave is always 1
-		int currentEnemyCount{ 2 }; //Really scuffed way of tracking enemies imo
+		int currentEnemyCount{ 0 }; //Really scuffed way of tracking enemies imo
 		//We try to store references to the enemies
 		GameObject* mageEnemy;
 		GameObject* chaserEnemy;

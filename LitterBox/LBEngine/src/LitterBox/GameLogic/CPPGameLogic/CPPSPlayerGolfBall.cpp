@@ -25,6 +25,9 @@
 #include "CPPSPlayerHUD.h"
 #include "LitterBox/Renderer/Renderer.h"
 #include "CPPSBaseEnemy.h"
+#include "CPPSMage.h"
+#include "CPPSChaser.h"
+
 
 namespace LB
 {
@@ -50,11 +53,11 @@ namespace LB
 
 		mSpeedMagnitude = 1000.0f;
 		mVelocity = 1000.0f; //with direction
-		if (currentBallUpgrades & BIGBALL) {
+	/*	if (currentBallUpgrades & BIGBALL) {
 			std::cout << "EMBIGGEN\n";
 			mSize = 2.0f;
 		}
-		else mSize = 1.0f;
+		else mSize = 1.0f;*/
 
 		mCurrentLifetime = mLifetime = 1.0f;
 		onBallDisappear.Subscribe(IncreaseBalls);
@@ -78,9 +81,10 @@ namespace LB
 			mCurrentLifetime -= static_cast<float>(TIME->GetDeltaTime());
 			if (mCurrentLifetime <= 0.0f)
 			{
-				if (currentBallUpgrades & BOMB) Explode();
-				CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
-				--player->m_currentBalls;
+				//if (currentBallUpgrades & BOMB) Explode();
+				mPlayer->GetComponent<CPPSPlayer>()->m_currentBalls--;
+				//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
+				//--player->m_currentBalls;
 				GOMANAGER->RemoveGameObject(this->GameObj);
 			}
 		}
@@ -97,9 +101,11 @@ namespace LB
 
 			//Renderer::GRAPHICS->shaker_camera();
 			Explode();
-			CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
-			--player->m_currentBalls;
-			GOMANAGER->RemoveGameObject(this->GameObj);
+			mPlayer->GetComponent<CPPSPlayer>()->m_currentBalls--;
+			//CPPSPlayer* player = mPlayer->GetComponent<CPPSPlayer>();
+			//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
+			//--player->m_currentBalls;
+			//GOMANAGER->RemoveGameObject(this->GameObj);
 			return;
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
@@ -135,10 +141,14 @@ namespace LB
 				explosionForce = explosionForce.Normalise() * explosionForceMag;
 				if (col->HasRB()) {
 					col->gameObj->GetComponent<CPRigidBody>()->addImpulse(explosionForce);
-					/*if (col->gameObj->HasComponent<CPPSBaseEnemy>()) {
-					col->gameObj->GetComponent<CPPSBaseEnemy>()->Hurt();
-					std::cout << "enemy hurt\n";
-					}*/
+					if (col->gameObj->GetName() == "Mage") {
+						std::cout << "mage hurt by explosion\n";
+						col->gameObj->GetComponent<CPPSMage>()->Hurt();
+					}
+					if (col->gameObj->GetName() == "EnemyChaser1") {
+						std::cout << "chaser hurt by explosion\n";
+						col->gameObj->GetComponent<CPPSChaser>()->Hurt();
+					}
 				}
 		}
 	}

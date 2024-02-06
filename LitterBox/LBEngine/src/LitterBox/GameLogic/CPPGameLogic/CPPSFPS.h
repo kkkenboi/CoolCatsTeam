@@ -22,6 +22,7 @@ namespace LB
 		std::string fpsBuffer{};
 		char finalFps[256];
 		bool m_GamePaused{ false };
+		bool m_ShowFPS{ false };
 	};
 	REGISTER_SCRIPT(CPPSFPS)
 }

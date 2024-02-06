@@ -263,9 +263,10 @@ namespace LB
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
 			if (m_currentBalls >= m_maxBalls) return;
+			
 			++m_currentBalls;
 			onPlacingBall.Invoke();
-
+			
 			//Spawn Game Object
 			GameObject* ballObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("ball", *ballObject);
