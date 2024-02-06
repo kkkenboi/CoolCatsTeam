@@ -34,10 +34,19 @@ namespace LB
 		//then the upgrade tells the upgrade manager which upgrades
 		//have been picked, and the upgrade manager tells the 
 		//ball what upgrades it has when it spawns
+		//note: maybe use a stack instead, randomise the values before putting in
+		//then use push and pop 
 		std::vector<UpgradeType> UpgradesList;
 		//Default is 0 for no upgrades
 		int currentBallUpgrades{0};
 	private:
+		//Temporary upgrade positions for now, in the future these will be calculated 
+		//and placed at the "end point" of the bigger map
+		std::vector<Vec2<float>> UpgradePositions{ {650.f,785.f}, {950.f,785.f} ,{1250.f,785.f} };
+		GameObject* leftUpgrade{ nullptr };
+		GameObject* middleUpgrade{ nullptr };
+		GameObject* rightUpgrade{ nullptr };
+		bool isSpawned{ false };
 	};
 	REGISTER_SCRIPT(CPPSUpgradeManager)
 

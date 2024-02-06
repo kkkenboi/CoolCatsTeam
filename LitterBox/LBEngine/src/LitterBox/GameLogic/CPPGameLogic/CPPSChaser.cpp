@@ -140,6 +140,11 @@ namespace LB
 
 	}
 
+	void CPPSChaser::Hurt()
+	{
+		CPPSBaseEnemy::Hurt();
+	}
+
 	/*!***********************************************************************
 	\brief
 	On Collision Enter to check who is it colliding with
@@ -164,7 +169,7 @@ namespace LB
 
 				
 				mFSM.ChangeState("Hurt");
-				CPPSBaseEnemy::Hurt();
+				Hurt();
 				
 			}
 		}
@@ -337,6 +342,8 @@ namespace LB
 	void ChaseState::Exit()
 	{
 	}
+
+
 
 	// HURT STATE FUNCTIONS !!!
 	/*!***********************************************************************
