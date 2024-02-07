@@ -39,11 +39,16 @@ namespace LB
 		void Destroy() {}
 		
 	private:
-		bool m_stateLoaded{ false }, m_controllerLoaded{ false };
+		//----------------------------------------------Animation State----------------------------------------------
+		bool m_stateLoaded{ false }, m_controllerLoaded{ false }, m_previewPlaying{ false };
+		int m_previewIndex{ 0 };
+		float m_previewTimeElapsed{ 0.0f };
+		std::string stateFileName;
 
 		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
 		AnimationState m_currentState{};
 
+		//----------------------------------------------Animation Controller----------------------------------------------
 		AnimationController m_currentController{};
 	};
 }

@@ -64,6 +64,9 @@ namespace LB
 		std::string const& GetName() const;
 		void SetName(std::string const& name);
 
+		std::string const& GetSpriteSheetName() const;
+		void SetSpriteSheetName(std::string const& name);
+
 		void AddFrame(KeyFrame& newFrame);
 		void RemoveFrame(int index);
 
@@ -83,7 +86,7 @@ namespace LB
 		double m_timeElapsed;
 		int m_index;
 
-		std::string m_name;
+		std::string m_name{ "Unnamed State" }, m_spriteSheetName{"None"};
 		std::vector<KeyFrame> m_keyFrames;
 
 		//std::vector<AnimationTransition> m_transitions;

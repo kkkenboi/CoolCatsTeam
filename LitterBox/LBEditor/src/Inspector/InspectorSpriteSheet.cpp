@@ -246,17 +246,14 @@ namespace LB
 				for (int c = 0; c < m_inspectedSheet.m_col; ++c) //go thru cols
 				{
 					ImGui::TableSetColumnIndex(c);
-					int tileNum = (c + r * m_inspectedSheet.m_col) + 1;
+					int tileNum = (c + r * m_inspectedSheet.m_col);
 					ImGui::PushID(tileNum);
 					ImGui::Text("Sprite %i", tileNum);
 					if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef()), ImVec2{normalWidth, normalWidth}
-						, ImVec2{ m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.y }
-						, ImVec2{ m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.y }))
+						, ImVec2{ m_inspectedSheet[tileNum].m_min.x, m_inspectedSheet[tileNum].m_max.y }
+						, ImVec2{ m_inspectedSheet[tileNum].m_max.x, m_inspectedSheet[tileNum].m_min.y }))
 					{
 
-						DebuggerLogFormat("Sprite %i is selected Min %f %f Max %f %f", c + r * m_inspectedSheet.m_col,
-							m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.y,
-							m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.y);
 					}
 					ImGui::PopID();
 				}

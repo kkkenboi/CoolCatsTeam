@@ -28,7 +28,7 @@ namespace LB
 {
 	static float columnWidth = 250.0f;
 	static float normalWidth = 150.f;
-	static float smallWidth = 50.f;
+	static float smallWidth = 100.f;
 
 	EditorAnimationEditor::EditorAnimationEditor(std::string layerName) : Layer(layerName)
 	{
@@ -50,6 +50,7 @@ namespace LB
 
 		if (m_stateLoaded)
 		{
+			//----------------------------------------------SPRITESHEET SELECTION----------------------------------------------
 			ImGui::Text("Spritesheet");
 			ImGui::SetNextItemWidth(columnWidth);
 			if (ImGui::BeginCombo("##Spritesheet", (m_currentState.m_spriteSheet ? m_currentState.m_spriteSheet->GetName().c_str() : "None") ))
@@ -70,7 +71,7 @@ namespace LB
 			//display details of each tile here
 			if (m_currentState.m_spriteSheet)
 			{
-				if (ImGui::BeginTable("SlicedSpriteSheet", m_currentState.m_spriteSheet->m_col))
+				if (ImGui::BeginTable("SlicedSpriteSheet", m_currentState.m_spriteSheet->m_col, ImGuiTableFlags_SizingFixedFit))
 				{
 					//Creating a table to place the sprites evenly by its row and cols
 					for (int r = { 0 }; r < m_currentState.m_spriteSheet->m_row; ++r) //go thru rows
@@ -80,14 +81,15 @@ namespace LB
 						{
 							ImGui::TableSetColumnIndex(c);
 
-							int tileNum = (c + r * m_currentState.m_spriteSheet->m_col) + 1;
+							int tileNum = (c + r * m_currentState.m_spriteSheet->m_col);
 							ImGui::PushID(tileNum);
 							ImGui::Text("Frame %i", tileNum);
 							if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_currentState.m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth, smallWidth }
-								, ImVec2{ (*m_currentState.m_spriteSheet)[c + r * m_currentState.m_spriteSheet->m_row].m_min.x, (*m_currentState.m_spriteSheet)[c + r * m_currentState.m_spriteSheet->m_row].m_max.y }
-								, ImVec2{ (*m_currentState.m_spriteSheet)[c + r * m_currentState.m_spriteSheet->m_row].m_max.x, (*m_currentState.m_spriteSheet)[c + r * m_currentState.m_spriteSheet->m_row].m_min.y }))
+								, ImVec2{ (*m_currentState.m_spriteSheet)[tileNum].m_min.x, (*m_currentState.m_spriteSheet)[tileNum].m_max.y }
+								, ImVec2{ (*m_currentState.m_spriteSheet)[tileNum].m_max.x, (*m_currentState.m_spriteSheet)[tileNum].m_min.y }))
 							{
-
+								m_currentKeyFrame.m_frame = tileNum;
+								m_currentState.AddFrame(m_currentKeyFrame);
 							}
 							ImGui::PopID();
 						}
@@ -96,30 +98,58 @@ namespace LB
 				}
 			}
 
+			//----------------------------------------------ADD FRAME----------------------------------------------
 			ImGui::Text("Frame");
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(normalWidth);
 			if (ImGui::InputInt("##FrameIndex", &m_currentKeyFrame.m_frame))
 			{
-
+				if (m_currentKeyFrame.m_frame < 0) m_currentKeyFrame.m_frame = 0;
 			}
 			ImGui::SameLine();
-			ImGui::Text("Time");
+			ImGui::Text("Duration");
 			ImGui::SameLine();
 			
 			ImGui::SetNextItemWidth(normalWidth);
 			if (ImGui::DragFloat("##FrameTime", &m_currentKeyFrame.m_time))
 			{
-
+				if (m_currentKeyFrame.m_time < 0.0f) m_currentKeyFrame.m_time = 0.0f;
 			}
-
-			ImGui::Dummy(ImVec2(0.0f, 35.0f));
 
 			if (ImGui::Button("Add KeyFrame"))
 			{
 				m_currentState.AddFrame(m_currentKeyFrame);
 			}
 
+			ImGui::Dummy(ImVec2(0.0f, 35.0f));
+
+			//----------------------------------------------ANIM PREVIEW----------------------------------------------
+			if (ImGui::Button("Preview"))
+			{
+				m_previewPlaying = true;
+			}
+			if (m_previewPlaying)
+			{
+				m_previewTimeElapsed += TIME->GetDeltaTime();
+			}
+			if (m_currentState.GetFrameCount())
+			{
+				ImGui::Image((ImTextureID)ASSETMANAGER->GetTextureIndex(m_currentState.m_spriteSheet->GetPNGRef()), ImVec2{ normalWidth, normalWidth }
+					, ImVec2{ (*m_currentState.m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.x, (*m_currentState.m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.y }
+					, ImVec2{ (*m_currentState.m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.x, (*m_currentState.m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.y });
+
+				if (m_previewTimeElapsed > m_currentState[m_previewIndex].m_time)
+				{
+					++m_previewIndex;
+					m_previewTimeElapsed = 0.0f;
+				}
+				if (m_previewIndex >= m_currentState.GetFrameCount()) {
+					m_previewPlaying = false;
+					m_previewIndex = 0;
+				}
+			}
+
+			//----------------------------------------------KEYFRAME LIST----------------------------------------------
 			ImGui::Text("Frames");
 			for (int index{ 0 }; index < m_currentState.GetFrameCount(); ++index)
 			{
@@ -132,19 +162,30 @@ namespace LB
 				ImGui::SetNextItemWidth(normalWidth);
 				if (ImGui::InputInt("##FrameIndex", &m_tempKeyFrame.m_frame))
 				{
+					if (m_tempKeyFrame.m_frame < 0) m_tempKeyFrame.m_frame = 0;
 					m_currentState[index].m_frame = m_tempKeyFrame.m_frame;
 				}
 				ImGui::SameLine();
 
-				ImGui::Text("Time");
+				ImGui::Text("Duration");
 				ImGui::SameLine();
 				m_tempKeyFrame.m_time = m_currentState[index].m_time;
 				
 				ImGui::SetNextItemWidth(normalWidth);
 				if (ImGui::DragFloat("##FrameTime", &m_tempKeyFrame.m_time))
 				{
+					if (m_tempKeyFrame.m_time < 0.0f) m_tempKeyFrame.m_time = 0.0f;
 					m_currentState[index].m_time = m_tempKeyFrame.m_time;
 				}
+				ImGui::SameLine();
+
+				ImGui::Text("Delete");
+				ImGui::SameLine();
+				if (ImGui::Button("X"))
+				{
+					m_currentState.GetFrames().erase(m_currentState.GetFrames().begin() + index);
+				}
+
 				ImGui::PopID();
 			}
 		}
@@ -160,7 +201,7 @@ namespace LB
 	{
 		if (m_stateLoaded)
 		{
-			JSONSerializer::SerializeToFile(m_currentState.GetName(), m_currentState);
+			JSONSerializer::SerializeToFile(stateFileName.c_str(), m_currentState);
 		}
 		else if (m_controllerLoaded)
 		{
@@ -170,7 +211,13 @@ namespace LB
 
 	void EditorAnimationEditor::LoadState(std::string const& name)
 	{
-		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentState);
+		stateFileName = name;
+		JSONSerializer::DeserializeFromFile(stateFileName.c_str(), m_currentState);
+
+		if (m_currentState.GetSpriteSheetName() != "None")
+		{
+			m_currentState.m_spriteSheet = &ASSETMANAGER->SpriteSheets[m_currentState.GetSpriteSheetName()];
+		}
 		m_stateLoaded = true;
 		m_controllerLoaded = false;
 	}

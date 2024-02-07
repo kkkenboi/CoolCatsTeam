@@ -1,4 +1,70 @@
 {
-    "Name": "",
-    "Frames": []
+    "Name": "Mage Attack",
+    "SpriteSheet Name": null,
+    "Frames": [
+        {
+            "Frame": 0,
+            "Time": 0.05
+        },
+        {
+            "Frame": 1,
+            "Time": 0.05
+        },
+        {
+            "Frame": 2,
+            "Time": 0.05
+        },
+        {
+            "Frame": 3,
+            "Time": 0.05
+        },
+        {
+            "Frame": 4,
+            "Time": 0.05
+        },
+        {
+            "Frame": 5,
+            "Time": 0.05
+        },
+        {
+            "Frame": 6,
+            "Time": 0.05
+        },
+        {
+            "Frame": 7,
+            "Time": 0.05
+        },
+        {
+            "Frame": 8,
+            "Time": 0.05
+        },
+        {
+            "Frame": 9,
+            "Time": 0.05
+        },
+        {
+            "Frame": 10,
+            "Time": 0.05
+        },
+        {
+            "Frame": 11,
+            "Time": 0.05
+        },
+        {
+            "Frame": 12,
+            "Time": 0.05
+        },
+        {
+            "Frame": 13,
+            "Time": 0.05
+        },
+        {
+            "Frame": 14,
+            "Time": 0.05
+        },
+        {
+            "Frame": 15,
+            "Time": 0.05
+        }
+    ]
 }
