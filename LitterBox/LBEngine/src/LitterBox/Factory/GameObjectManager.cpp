@@ -68,7 +68,7 @@ namespace LB
 		for (auto const& component : m_Components)
 		{
 			component.second->Destroy();
-			delete component.second;
+			Memory::Instance()->Deallocate(component.second);
 		}
 
 		delete this;
@@ -123,6 +123,7 @@ namespace LB
 	void GameObject::RemoveComponent(ComponentTypeID id)
 	{
 		m_Components.find(id)->second->Destroy();
+		Memory::Instance()->Deallocate(m_Components.find(id)->second);
 		m_Components.erase(id);
 	}
 	

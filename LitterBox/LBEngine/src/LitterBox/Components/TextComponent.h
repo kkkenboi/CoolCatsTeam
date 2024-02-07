@@ -162,5 +162,10 @@ namespace LB {
 		{
 			msg.text = _msg;
 		}
+
+		void ToggleActive(bool flag)
+		{
+			
+		}
 	};
 }

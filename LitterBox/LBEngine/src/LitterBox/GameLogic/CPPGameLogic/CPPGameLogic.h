@@ -15,6 +15,7 @@
 
 #pragma once
 #include "LitterBox/Core/System.h" // For ISystem
+#include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Components/CPPScriptComponent.h"
 
 #include <typeindex> // For TypeIndex
@@ -42,7 +43,7 @@ namespace LB
 	public:
 		CPPBehaviour* CreateInstance() override
 		{
-			return DBG_NEW T();
+			return Memory::Instance()->Allocate<T>();
 		}
 	};
 
@@ -91,6 +92,7 @@ namespace LB
 			if (!m_scriptRegistry[typeid(T)])
 			{
 				m_scriptRegistry[typeid(T)] = DBG_NEW ScriptFactory<T>();
+
 			}
 			m_scriptTypeRegistry[typeid(T).name()] = ScriptTypeID{ typeid(T) };
 		}
@@ -153,10 +155,4 @@ namespace LB
 	 For event subscription for when the scene starts
 	*************************************************************************/
 	void StartScripts(bool isPlaying);
-
-	/*!***********************************************************************
-	 \brief
-	 A global pointer to our game so that it can be accessed from anywhere.
-	*************************************************************************/
-	extern CPPGameLogic* CPPGAMELOGIC;
 }

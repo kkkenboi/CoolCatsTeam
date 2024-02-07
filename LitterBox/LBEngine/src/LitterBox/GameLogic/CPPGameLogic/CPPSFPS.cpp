@@ -7,25 +7,27 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	Start function to initialise a FPS object and set it's scale
+	*************************************************************************/
 	void CPPSFPS::Start()
 	{
-		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		//{
-		//	// Find out which object is the FPS
-		//	if (gameObj->GetName() == "FPS")
-		//	{
-		//		m_FPSObject = gameObj;
-		//	}
-		//}
-
 		// Based on the FPS prefab, create the object, position is already set in the prefab
 		m_FPSObject = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("FPS", *m_FPSObject);
 
 		// Set it to 0.f when not active ( wanted to do ToggleActive but didn't work )
-		m_FPSObject->GetComponent<CPText>()->get_msg().scale = 0.0f;
+		m_FPSObject->GetComponent<CPText>()->get_msg().scale = 1.0f;
+		//m_FPSObject->GetComponent<CPText>()->ToggleActive(false);
 	}
 
+
+	/*!***********************************************************************
+	\brief
+	Update function to check for the current game state and also if the user
+	wants to hide the FPS using key 'J'. 
+	*************************************************************************/
 	void CPPSFPS::Update()
 	{
 		// Update game paused state
@@ -37,10 +39,19 @@ namespace LB
 			}
 
 		}
+		else
+		{
+			if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
+			{
+				m_GamePaused = false;
+			}
+		}
+
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_J))
 		{
 			m_ShowFPS = !m_ShowFPS;
 		}
+
 		// If game is not paused, update the text shown based on the actual FPS
 		if (!m_GamePaused)
 		{
@@ -51,11 +62,11 @@ namespace LB
 
 			m_FPSObject->GetComponent<CPText>()->set_msg(finalFps);
 		}
+
 		// If key J is pressed, show the FPS.
 		if (m_ShowFPS)
 		{
 			m_FPSObject->GetComponent<CPText>()->get_msg().scale = 1.0f;
-			//m_FPSObject->GetComponent<CPText>()->ToggleActive(true);
 		}
 		else if (!m_ShowFPS)
 		{
@@ -64,6 +75,11 @@ namespace LB
 
 	}
 
+
+	/*!***********************************************************************
+	\brief
+	Inherited Destroy function to destroy any future variables we new'ed.
+	*************************************************************************/
 	void CPPSFPS::Destroy()
 	{
 		
