@@ -37,6 +37,11 @@ namespace LB
 
 		void Stop();
 
+		std::string const& GetCurrentSpriteSheet();
+		int IsNextFrame();
+
+		std::vector<AnimationState>& GetStates();
+
 		std::string const& GetName() const;
 		void SetName(std::string const& name);
 
@@ -44,10 +49,9 @@ namespace LB
 		bool Deserialize(const Value& data); //to load
 
 	private:
-		std::string m_name;
-
 		AnimationState* m_current;
 
+		std::string m_name;
 		std::vector<AnimationState> m_states;
 	};
 }

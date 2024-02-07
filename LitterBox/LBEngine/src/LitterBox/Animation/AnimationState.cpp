@@ -22,14 +22,18 @@ namespace LB
 {
 	void AnimationState::Start()
 	{
-		//reinterpret_cast<CPRender*>(m_render)->play_repeat(m_name);
+		m_playing = true;
+		m_lastIndex = m_index = 0;
 	}
 
 	void AnimationState::Update()
 	{
+		if (!m_playing) return;
+
 		m_timeElapsed += TIME->GetDeltaTime();
 		if (m_keyFrames[m_index].m_time >= m_timeElapsed)
 		{
+			m_lastIndex = m_index;
 			m_index = (m_index + 1 % m_keyFrames.size());
 			m_timeElapsed = 0.0;
 		}
@@ -37,7 +41,17 @@ namespace LB
 
 	void AnimationState::Stop()
 	{
-		//reinterpret_cast<CPRender*>(m_render)->stop_anim();
+		m_playing = false;
+	}
+
+	bool AnimationState::IsNextFrame()
+	{
+		return m_lastIndex != m_index;
+	}
+
+	int AnimationState::GetCurrentFrame() const
+	{
+		return m_index;
 	}
 
 	void AnimationState::AddFrame(KeyFrame& newFrame)
@@ -132,7 +146,7 @@ namespace LB
 				const Value& nameValue = data["Name"];
 				m_name = nameValue.GetString();
 			}
-			if (HasName)
+			if (HasSSName)
 			{
 				const Value& ssNameValue = data["SpriteSheet Name"];
 				m_spriteSheetName = ssNameValue.GetString();

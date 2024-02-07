@@ -272,6 +272,8 @@ namespace LB
 
         std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
         std::vector<std::filesystem::path> SpriteSheetPaths = FILESYSTEM->GetFilesOfType(".spritesheet");
+        std::vector<std::filesystem::path> AnimControllerPaths = FILESYSTEM->GetFilesOfType(".controller");
+        std::vector<std::filesystem::path> AnimStatePaths = FILESYSTEM->GetFilesOfType(".anim");
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
         std::vector<std::filesystem::path> ttfFontPaths = FILESYSTEM->GetFilesOfType(".ttf");
         std::vector<std::filesystem::path> otfFontPaths = FILESYSTEM->GetFilesOfType(".otf");
@@ -304,6 +306,7 @@ namespace LB
             //"C://User//joe.png" : "C://User//joe.png"
             AddTexture(t.string(), t.string());
         }
+        // Then we do the same for spritesheets
         for (const auto& s : SpriteSheetPaths)
         {
             Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
@@ -314,6 +317,30 @@ namespace LB
             metaFileMap[s.string()] = fileTime;
 
             JSONSerializer::DeserializeFromFile(s.filename().stem().string(), SpriteSheets[s.filename().stem().string()]);
+        }
+        // Then we do the same for animation controllers
+        for (const auto& s : AnimControllerPaths)
+        {
+            Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
+            long long fileTime = FILESYSTEM->GetFileTime(s);
+            _metaFile.AddMember(metaKey, fileTime, metaAlloc);
+
+            assetMap[s.filename().stem().string()] = s.string();
+            metaFileMap[s.string()] = fileTime;
+
+            JSONSerializer::DeserializeFromFile(s.filename().stem().string(), AnimControllers[s.filename().stem().string()]);
+        }
+        // Then we do the same for animation states
+        for (const auto& s : AnimStatePaths)
+        {
+            Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
+            long long fileTime = FILESYSTEM->GetFileTime(s);
+            _metaFile.AddMember(metaKey, fileTime, metaAlloc);
+
+            assetMap[s.filename().stem().string()] = s.string();
+            metaFileMap[s.string()] = fileTime;
+
+            JSONSerializer::DeserializeFromFile(s.filename().stem().string(), AnimStates[s.filename().stem().string()]);
         }
         //Then we do the same for sounds
         for (const auto& s : SoundFilePaths)

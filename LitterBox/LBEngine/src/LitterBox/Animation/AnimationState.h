@@ -55,10 +55,15 @@ namespace LB
 	class AnimationState
 	{
 	public:
+		//----------------------------------------------CONTROLS----------------------------------------------
 		void Start();
 		void Update();
 		void Stop();
 
+		bool IsNextFrame();
+		int GetCurrentFrame() const;
+
+		//----------------------------------------------CREATION----------------------------------------------
 		std::string const& GetName() const;
 		void SetName(std::string const& name);
 
@@ -68,6 +73,7 @@ namespace LB
 		void AddFrame(KeyFrame& newFrame);
 		void RemoveFrame(int index);
 
+		//----------------------------------------------ACCESSORS----------------------------------------------
 		KeyFrame& operator[](int index);
 		KeyFrame const& operator[](int index) const;
 
@@ -79,8 +85,10 @@ namespace LB
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
 		bool Deserialize(const Value& data); //to load
 	private:
+		bool m_playing;
+
 		double m_timeElapsed;
-		int m_index;
+		int m_index, m_lastIndex;
 
 		std::string m_name{ "Unnamed State" }, m_spriteSheetName{ "None" };
 		std::vector<KeyFrame> m_keyFrames;

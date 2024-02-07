@@ -48,6 +48,7 @@ namespace LB
 			Save();
 		}
 
+		//----------------------------------------------ANIMATION STATE EDITING----------------------------------------------
 		if (m_stateLoaded)
 		{
 			//----------------------------------------------STATE NAME----------------------------------------------
@@ -200,9 +201,47 @@ namespace LB
 				ImGui::PopID();
 			}
 		}
+		//----------------------------------------------ANIMATION CONTROLLER EDITING----------------------------------------------
 		else if (m_controllerLoaded)
 		{
+			//----------------------------------------------CONTROLLER NAME----------------------------------------------
+			ImGui::Text("%-17s", "Name");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(columnWidth);
+			if (ImGui::InputText("##Name", m_nameBuffer, 256))
+			{
+				m_currentController.SetName(m_nameBuffer);
+			}
 
+			//----------------------------------------------ADD STATE----------------------------------------------
+			ImGui::Text("%-17s", "State");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(columnWidth);
+			if (ImGui::BeginCombo("##State", (m_currentState.GetName().c_str())))
+			{
+				for (auto& [str, state] : ASSETMANAGER->AnimStates)
+				{
+					if (ImGui::Selectable(state.GetName().c_str()))
+					{
+						m_currentState = state;
+					}
+				}
+				ImGui::EndCombo();
+			}
+
+			if (ImGui::Button("Add State"))
+			{
+				//m_currentController.m_states.push_back(m_currentState);
+			}
+
+			ImGui::Dummy(ImVec2(0.0f, 35.0f));
+
+			//----------------------------------------------CONTROLLER STATES----------------------------------------------
+			ImGui::Text("States");
+			for (auto& state : m_currentController.GetStates())
+			{
+				//ImGui::Text(state.GetName().c_str());
+			}
 		}
 
 		ImGui::End();

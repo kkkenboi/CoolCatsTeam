@@ -15,6 +15,7 @@
 **************************************************************************/
 
 #include "AnimationController.h"
+#include "LitterBox/Serialization/AssetManager.h"
 
 namespace LB
 {
@@ -56,6 +57,25 @@ namespace LB
 		m_current->Stop();
 	}
 
+	std::string const& AnimationController::GetCurrentSpriteSheet()
+	{
+		return m_current->GetSpriteSheetName();
+	}
+
+	int AnimationController::IsNextFrame()
+	{
+		if (m_current->IsNextFrame())
+		{
+			return m_current->GetCurrentFrame();
+		}
+		return 0;
+	}
+
+	std::vector<AnimationState>& AnimationController::GetStates()
+	{
+		return m_states;
+	}
+
 	std::string const& AnimationController::GetName() const
 	{
 		return m_name;
@@ -68,11 +88,44 @@ namespace LB
 
 	bool AnimationController::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
+		data.SetObject();
+
+		Value nameValue(m_name.c_str(), alloc);
+		data.AddMember("Name", nameValue, alloc);
+
+		Value stateArray(rapidjson::kArrayType);
+		for (auto& state : m_states)
+		{
+			Value nameValue(state.GetName().c_str(), alloc);
+			stateArray.PushBack(nameValue, alloc);
+		}
+		data.AddMember("States", stateArray, alloc);
+
 		return true;
 	}
 
 	bool AnimationController::Deserialize(const Value& data)
 	{
+		bool HasName = data.HasMember("Name");
+		bool HasStates = data.HasMember("States");
+
+		if (data.IsObject())
+		{
+			if (HasName)
+			{
+				const Value& nameValue = data["Name"];
+				m_name = nameValue.GetString();
+			}
+			if (HasStates)
+			{
+				const Value& statesValue = data["States"].GetArray();
+				for (rapidjson::SizeType i{}; i < statesValue.Size(); ++i)
+				{
+					m_states.push_back(ASSETMANAGER->AnimStates[statesValue[i].GetString()]);
+				}
+			}
+		}
+
 		return false;
 	}
 }

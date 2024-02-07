@@ -160,6 +160,9 @@ namespace LB
          **************************************************************************/
         std::map<std::string, std::pair<std::shared_ptr<TextureData>,int>> Textures;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                      SPRITESHEET STUFF
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         std::map<std::string, SpriteSheet> SpriteSheets;
         
         SpriteSheet GetSpriteSheet(std::string& name) const;
@@ -185,6 +188,13 @@ namespace LB
         * Usage : GetTextureIndex("amongus") where amongus is a png
         **************************************************************************/ 
         const int GetTextureIndex(const std::string& name);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                      ANIMATION STUFF
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        std::map<std::string, AnimationController> AnimControllers;
+
+        std::map<std::string, AnimationState> AnimStates;
 
         //std::vector<std::string> fontNames;
 
