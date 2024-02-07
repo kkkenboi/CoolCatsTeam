@@ -35,12 +35,17 @@ namespace LB
 
 		void Stop();
 
+		std::string const& GetName() const;
+
+		void SetName(std::string const& name);
+
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
 		bool Deserialize(const Value& data); //to load
 
 	private:
-		CPAnimator* m_animator;
+		std::string m_name;
 
+		CPAnimator* m_animator;
 		AnimationState* m_current;
 
 		//std::vector<AnimationState> m_states;

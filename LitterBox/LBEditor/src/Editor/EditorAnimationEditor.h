@@ -23,35 +23,18 @@ namespace LB
 {
 	class EditorAnimationEditor : public Layer, public Singleton<EditorAnimationEditor> 
 	{
-		////textureID is for actually drawing the texture in ImGui
-		//		//slotID is just so the name prints properly in the ImGui dropdown textbox
-		//int textureID, slotID;
-
-		////these values are for displaying the texture properly in the editor inspector
-		//float textureAspect;
-		//ImVec2 textureSize;
-
-		////store the min max UV for each tile respectively
-
-
-		//std::vector< //tiles
-		//	std::pair< //uv
-		//	std::pair<float, float>,  //min x,y
-		//	std::pair<float, float> //max x,y
-		//	>
-		//> tiles;
-
-		////storing the animation frames into a vector, so later it can be played
-		////std::vector<> frames;
-
-		////void SpilttingTheSprites();
-
-		//void SettingAnimation();
-
 	public:
+		EditorAnimationEditor() : Layer("Animation Editor") {};
+
 		EditorAnimationEditor(std::string layerName);
 
 		void UpdateLayer() override;
+
+		void LoadState(std::string const& name);
+
+		void LoadController(std::string const& name);
+
+		void Save();
 
 		void Destroy() {}
 
@@ -63,6 +46,11 @@ namespace LB
 		//inline auto getMMUV(int index) { return tiles.at(index); }
 
 	private:
+		bool m_stateLoaded{ false }, m_controllerLoaded{ false };
 
+		KeyFrame m_currentKeyFrame{};
+		AnimationState m_currentState{};
+
+		AnimationController m_currentController{};
 	};
 }

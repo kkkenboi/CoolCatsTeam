@@ -23,8 +23,6 @@ namespace LB
 	void AnimationState::Initialize(IComponent* render)
 	{
 		m_render = render;
-
-		//Renderer::GRAPHICS->init_anim("mage_float", m_keyFrames, 0.25f, 16);
 	}
 
 	void AnimationState::Start()
@@ -35,10 +33,11 @@ namespace LB
 	void AnimationState::Update()
 	{
 		m_timeElapsed += TIME->GetDeltaTime();
-		//if (m_keyFrames[m_index].m_time <= m_timeElapsed)
-		//{
-
-		//}
+		if (m_keyFrames[m_index].m_time >= m_timeElapsed)
+		{
+			m_index = (m_index + 1 % m_keyFrames.size());
+			m_timeElapsed = 0.0;
+		}
 	}
 
 	void AnimationState::Stop()
@@ -59,6 +58,21 @@ namespace LB
 	std::vector<KeyFrame>& AnimationState::GetFrames()
 	{
 		return m_keyFrames;
+	}
+
+	int AnimationState::GetFrameCount() const
+	{
+		return m_keyFrames.size();
+	}
+
+	std::string const& AnimationState::GetName() const
+	{
+		return m_name;
+	}
+
+	void AnimationState::SetName(std::string const& name)
+	{
+		m_name = name;
 	}
 
 	bool AnimationState::Serialize(Value& data, Document::AllocatorType& alloc)

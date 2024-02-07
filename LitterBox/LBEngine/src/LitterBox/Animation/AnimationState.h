@@ -61,19 +61,23 @@ namespace LB
 		void Update();
 		void Stop();
 
+		std::string const& GetName() const;
+		void SetName(std::string const& name);
+
 		void AddFrame(KeyFrame& newFrame);
 		void RemoveFrame(int index);
 
 		std::vector<KeyFrame>& GetFrames();
+		int GetFrameCount() const;
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
 		bool Deserialize(const Value& data); //to load
 
 	private:
+		SpriteSheet* m_spriteSheet;
 		IComponent* m_render;
 		double m_timeElapsed;
-
-		SpriteSheet* m_spriteSheet;
+		int m_index;
 
 		std::string m_name;
 		std::vector<KeyFrame> m_keyFrames;

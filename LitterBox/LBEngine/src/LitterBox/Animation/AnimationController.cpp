@@ -38,6 +38,16 @@ namespace LB
 		m_current->Stop();
 	}
 
+	std::string const& AnimationController::GetName() const
+	{
+		return m_name;
+	}
+
+	void AnimationController::SetName(std::string const& name)
+	{
+		m_name = name;
+	}
+
 	bool AnimationController::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		return true;

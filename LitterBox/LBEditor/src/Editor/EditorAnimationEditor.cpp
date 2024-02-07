@@ -31,10 +31,6 @@ namespace LB
 
 	}
 
-	//test listing for list box
-	//const char* list[] = { "First texture", "Second texture" };
-	//int currItem{ 0 };
-
 	/*!***********************************************************************
 	\brief
 	 Updating the layers of the animator editor
@@ -43,120 +39,82 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
-		//ImGui::BeginChild("AnimatorEditor");
+		if (ImGui::Button("Save"))
+		{
+			Save();
+		}
 
-		//
-		////----------------------------------TAKEN FROM EDITOR INSPECTOR CPRENDER--------------------------------
-		//// 
-		////--------------------TEXTURE SELECTOR--------------------
+		if (m_stateLoaded)
+		{
+			ImGui::Text("Frame");
+			ImGui::SameLine();
+			if (ImGui::InputInt("##FrameIndex", &m_currentKeyFrame.m_frame))
+			{
 
-		//ImGui::Separator();
-		////TODO figure out the preview option
-		//ImGui::Image((ImTextureID)textureID, textureSize, ImVec2(0, 1), ImVec2(1, 0));
+			}
+			ImGui::SameLine();
+			ImGui::Text("Time");
+			ImGui::SameLine();
+			if (ImGui::InputFloat("##FrameTime", &m_currentKeyFrame.m_time))
+			{
 
-		//ImGui::Separator();
+			}
 
-		//if (!textureID) {
-		//	ImGui::EndChild();
+			if (ImGui::Button("Add KeyFrame"))
+			{
+				m_currentState.AddFrame(m_currentKeyFrame);
+			}
 
-		//	ImGui::End();
-		//	return;
-		//}
+			ImGui::SeparatorEx(ImGuiSeparatorFlags_None);
+			ImGui::Text("Frames");
+			for (int index{ 0 }; index < m_currentState.GetFrameCount(); ++index)
+			{
+				ImGui::Text("Frame");
+				ImGui::SameLine();
+				if (ImGui::InputInt("##FrameIndex", &m_currentKeyFrame.m_frame))
+				{
 
-		////SpilttingTheSprites(); //helping to split the size of the spritesheet
+				}
+				ImGui::SameLine();
+				ImGui::Text("Time");
+				ImGui::SameLine();
+				if (ImGui::InputFloat("##FrameTime", &m_currentKeyFrame.m_time))
+				{
 
-		//ImGui::EndChild();
+				}
+			}
+		}
+		else if (m_controllerLoaded)
+		{
+
+		}
 
 		ImGui::End();
-
 	}
 
-	//void EditorAnimationEditor::SpilttingTheSprites()
-	//{
-		////add row and column input
-		////Inputs to split the tile map sprite sheet
-		////no real reason that its a static local variable. You can create member variables if you so please
-		//static int row{}, col{};
-		////tracks whether changes to the number of tiles has been made
-		//static bool changed{ false };
-		//ImGui::Text("%-17s", "Rows");
-		//ImGui::SameLine();
-		//ImGui::SetNextItemWidth(normalWidth);
-		//if (ImGui::InputInt("##Rows", &row))
-		//	changed = true;
-		//ImGui::Text("%-17s", "Columns");
-		//ImGui::SameLine();
-		//ImGui::SetNextItemWidth(normalWidth);
-		//if (ImGui::InputInt("##Columns", &col))
-		//	changed = true;
+	void EditorAnimationEditor::Save()
+	{
+		if (m_stateLoaded)
+		{
+			JSONSerializer::SerializeToFile(m_currentState.GetName(), m_currentState);
+		}
+		else if (m_controllerLoaded)
+		{
+			JSONSerializer::SerializeToFile(m_currentController.GetName(), m_currentController);
+		}
+	}
 
-		////creating vertex of UV data
-		////print confirm button if we changed the row and col values
-		//if (changed && ImGui::Button("Confirm")) {
-		//	createUV(row, col);
-		//	changed = false;
-		//}
+	void EditorAnimationEditor::LoadState(std::string const& name)
+	{
+		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentState);
+		m_stateLoaded = true;
+		m_controllerLoaded = false;
+	}
 
-		////display details of each tile here
-		//unsigned int tileIndex{ 0 };
-		//int totalNumOfTiles = row * col;
-		//for (auto& min_max : tiles) 
-		//{
-		//	//draw image with the UVs
-		//	//ImGui::SameLine();
-		//	//The min max is mixed up because ImGui uses a different texel coordinate
-		//	//system from openGL so we do the mixing anytime we use ImGui.
-		//	//The format of the min max UV coordinates uses OpenGL texel coordinates instead
-
-		//	//this is so nick can choose while tile he wants
-		//	//ImGui::ImageButton((ImTextureID)textureID, ImVec2{ normalWidth, normalWidth }
-		//	//	, ImVec2{ min_max.first.first, min_max.second.second }
-		//	//, ImVec2{ min_max.second.first, min_max.first.second });
-
-		//	//!!!Amadeus need to serialise this part
-		//	//This is where nick will choose a tile
-		//	//static bool isSelected = false;
-		//	std::vector<bool> isSelected(totalNumOfTiles, false);
-		//	Vec4<float> btncolour = isSelected.at(tileIndex) ? Vec4<float>(0.5f, 0.5f, 0.5f, 1.0f) : Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f);
-		//	//int chosenTile = 0;
-
-		//	//label the tile
-		//	ImGui::Text("Tile %d:", tileIndex);
-		//	ImGui::PushID(tileIndex);
-		//	ImGui::PushStyleColor(ImGuiCol_Button, isSelected.at(tileIndex) ? m_buttonOnColor : m_buttonOffColor);
-		//	if (ImGui::ImageButton((ImTextureID)textureID, ImVec2{ normalWidth, normalWidth }
-		//		, ImVec2{ min_max.first.first, min_max.second.second }
-		//		, ImVec2{ min_max.second.first, min_max.first.second }))
-		//	{
-		//		DebuggerLogFormat("Tile %i is selected", tileIndex);
-		//		if (isSelected.at(tileIndex) == true)
-		//		{
-		//			isSelected.at(tileIndex) = false;
-		//		}
-		//		else
-		//		{
-		//			isSelected.at(tileIndex) = true;
-		//		}
-		//		//isSelected.at(tileIndex) = !isSelected.at(tileIndex);
-		//	}
-		//	ImGui::PopStyleColor();
-		//	//DebuggerLogFormat("Second: %i", tileIndex);
-		//	ImGui::SameLine();
-		//	ImGui::PopID();
-		//	
-		//	tileIndex++;
-		//	//currTileIndex = tileIndex;
-		//	ImGui::SameLine();
-		//}
-	//}
-
-	//void EditorAnimationEditor::SettingAnimation()
-	//{
-	//	if (tiles.empty())
-	//	{
-	//		return;
-	//	}
-
-	//}
+	void EditorAnimationEditor::LoadController(std::string const& name)
+	{
+		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentController);
+		m_controllerLoaded = true;
+		m_stateLoaded = false;
+	}
 }
-
