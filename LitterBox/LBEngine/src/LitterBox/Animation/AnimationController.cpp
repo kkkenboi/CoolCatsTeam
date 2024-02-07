@@ -28,6 +28,24 @@ namespace LB
 		m_current->Update();
 	}
 
+	void AnimationController::SetState(std::string const& stateName)
+	{
+		for (auto& state : m_states)
+		{
+			if (state.GetName() == stateName)
+			{
+				m_current = &state;
+				break;
+			}
+		}
+	}
+
+	void AnimationController::Play(std::string const& stateName)
+	{
+		SetState(stateName);
+		Play();
+	}
+
 	void AnimationController::Play()
 	{
 		m_current->Start();

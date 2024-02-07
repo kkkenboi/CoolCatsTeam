@@ -21,8 +21,7 @@
 
 namespace LB
 {
-	// Forward declarations
-	//class CPAnimator;
+	
 
 	class AnimationController
 	{
@@ -31,12 +30,14 @@ namespace LB
 
 		void Update();
 
+		void SetState(std::string const& stateName);
+
+		void Play(std::string const& stateName);
 		void Play();
 
 		void Stop();
 
 		std::string const& GetName() const;
-
 		void SetName(std::string const& name);
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
@@ -45,9 +46,8 @@ namespace LB
 	private:
 		std::string m_name;
 
-		//CPAnimator* m_animator;
 		AnimationState* m_current;
 
-		//std::vector<AnimationState> m_states;
+		std::vector<AnimationState> m_states;
 	};
 }
