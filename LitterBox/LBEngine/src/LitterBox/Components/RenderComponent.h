@@ -219,6 +219,8 @@ namespace LB
 			}
 		}
 
+		void SetSpriteTexture(std::string SpriteSheetName, int index);
+
 		/*!***********************************************************************
 		\brief
 		 Function that pulls data from the transform component of the game object

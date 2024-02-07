@@ -3,6 +3,7 @@
 #include "CPPSUpgrade.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "CPPGameManager.h"
 namespace LB
 {
 	void CPPSUpgradeManager::Start()
@@ -14,31 +15,41 @@ namespace LB
 		}
 		//After that we shuffle it up
 		//(using default_random_engine will make it "seeded", change in the future!)
-		// Current order is : morehealth, bomb, moreball,split,movespeed,bigball
-		//514263
+		// Current order is : morehealth, split, movespeed,bomb,moreball,bigball
+		//514263, but because we're doing pop back, it goes from the back
 		auto rngesus = std::default_random_engine{};
 		std::shuffle(UpgradesList.begin(), UpgradesList.end(), rngesus);
 		//Debug info
-		std::cout << "Upgrade order\n";
 		for (UpgradeType upgrade : UpgradesList)
 		{
 			std::cout << static_cast<int>(upgrade) << '\n';
 		}
-		SpawnUpgrades();
+		//SpawnUpgrades();
 	}
 
 	void CPPSUpgradeManager::Update()
 	{
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_H))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{
-			HideUpgrades();
+			SpawnUpgrades();
 		}
-		if (!isSpawned) {
-			isSpawned = true;
-			GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(MOREBALL);
-			GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(BOMB);
-			GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(MOREHEALTH);
-		}
+		
+		//if (!isSpawned) {
+		//	//isSpawned = true;
+		//	//We can't put this in the start because the components haven't all been initialised yet.
+		//	//There's definitely a better way to do this...
+		//	if(!UpgradesList.empty())
+		//	GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[UpgradesList.size()-1]);
+		//	//UpgradesList.pop_back();
+
+		//	if (!UpgradesList.empty())
+		//	GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[UpgradesList.size() - 1]);
+		//	//UpgradesList.pop_back();
+
+		//	if (!UpgradesList.empty())
+		//	GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[UpgradesList.size() - 1]);
+		//	//UpgradesList.pop_back();
+		//}
 	}
 
 	void CPPSUpgradeManager::Destroy()
@@ -47,69 +58,80 @@ namespace LB
 
 	void CPPSUpgradeManager::SpawnUpgrades()
 	{
+		//if no upgrades left we just don't spawn anything
+		if (UpgradesList.empty()) return;
+		if (UpgradesList.size() < 1) return;		//This check is to know how many to spawn
 		leftUpgrade = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Upgrade", *leftUpgrade);
-
-		middleUpgrade = FACTORY->SpawnGameObject();
-		JSONSerializer::DeserializeFromFile("Upgrade", *middleUpgrade);
-
-		rightUpgrade = FACTORY->SpawnGameObject();
-		JSONSerializer::DeserializeFromFile("Upgrade", *rightUpgrade);
-
-
 		leftUpgrade->SetName("leftUpgrade");	//health
 		leftUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[0]);
-		SpriteSheet selectedsheet = ASSETMANAGER->SpriteSheets["Upgrades"];
-		leftUpgrade->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
-			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
-			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
-			selectedsheet.Sprites()[0].m_min, selectedsheet.Sprites()[0].m_max);
+		leftUpgrade->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", UpgradesList[UpgradesList.size() - 1]);	//this assigns the sprite texture
+		//Then we also assign the ID based on the upgrades 
+		leftUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[UpgradesList.size() - 1]);
 
-		middleUpgrade->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
-			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
-			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
-			selectedsheet.Sprites()[1].m_min, selectedsheet.Sprites()[1].m_max);
+		if (UpgradesList.size() < 2) return;	
+		middleUpgrade = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("Upgrade", *middleUpgrade);
+		middleUpgrade->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", UpgradesList[UpgradesList.size() - 2]);	//Explosive sprite
 		middleUpgrade->SetName("middleUpgrade"); //bomb
 		middleUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[1]);
+		middleUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[UpgradesList.size() - 2]);
 
-		rightUpgrade->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
-			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
-			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
-			selectedsheet.Sprites()[2].m_min, selectedsheet.Sprites()[2].m_max);
+		
+		if (UpgradesList.size() < 3) return;
+		rightUpgrade = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("Upgrade", *rightUpgrade);
+		rightUpgrade->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", UpgradesList[UpgradesList.size() - 3]);	//Health sprite
 		rightUpgrade->SetName("rightUpgrade");	//more ball
 		rightUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[2]);
-		//
-		//CPPSUpgrade* test = GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPPSUpgrade>();
-		//if (test == nullptr) std::cout << "joemam\n";
-		//->AssignUpgradeID(UpgradesList[0]);
-		// GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[0]);
-		//GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[0]);
-		//GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[0]);
+		rightUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[UpgradesList.size() - 3]);
 
-		//Then we assign the upgrade types to the upgrades 
-		//probably can't hard code the upgrade list because it reduces over time. 
-		//Might need to use like a stack or something and pop/push valuesS in and out
-		/*leftUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID((int)(UpgradesList[0]));*/
-		//middleUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[1]);
-		//rightUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[2]);
+
+		//Once we have the sprites, we just set the upgrades by the upgradelist index instead
+		//and make sure that it matches up with the sprite sheet index
+	
 	}
 
-	void CPPSUpgradeManager::HideUpgrades()
+	void CPPSUpgradeManager::RemoveUpgradeFromList(UpgradeType upgradeType)
 	{
-		if (leftUpgrade) 
+		for (auto it{ UpgradesList.begin() }; it != UpgradesList.end(); ++it)
 		{
-			GOMANAGER->RemoveGameObject(leftUpgrade);
+			if (*it == upgradeType)
+			{
+				UpgradesList.erase(it);
+				break;
+			}
+		}
+	}
+
+	void CPPSUpgradeManager::HideUpgrades(int chosen)
+	{
+		GameObject* GameManagerObj = GOMANAGER->FindGameObjectWithName("GameManager");
+		
+		GameManagerObj->GetComponent<CPPSGameManager>()->NextWave();
+		
+		RemoveUpgradeFromList(static_cast<UpgradeType>(chosen));
+		if (leftUpgrade != nullptr)
+		{
+			leftUpgrade->GetComponent<CPPSUpgrade>()->canDestroy = true;
 			leftUpgrade = nullptr;
 		}
-		if (middleUpgrade)
+		if (middleUpgrade != nullptr)
 		{
-			GOMANAGER->RemoveGameObject(middleUpgrade);
+			middleUpgrade->GetComponent<CPPSUpgrade>()->canDestroy = true;
 			middleUpgrade = nullptr;
+
 		}
-		if (rightUpgrade)
+		
+		if (rightUpgrade != nullptr)
 		{
-			GOMANAGER->RemoveGameObject(rightUpgrade);
+			rightUpgrade->GetComponent<CPPSUpgrade>()->canDestroy = true;
 			rightUpgrade = nullptr;
+		}
+
+		for (auto it{ UpgradesList.begin() }; it != UpgradesList.end(); ++it)
+		{
+			std::cout <<"Upgrades left " << *it << '\n';
 		}
 	}
 

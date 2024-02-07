@@ -3,11 +3,11 @@
  * \author(s)			Amadeus Chia 
  * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
  * \par Course:       	CSD2400A
- * \date				19/11/2023
+ * \date				07/02/2024
  * \brief 				Source file containing the implementation for
  * 						Serialising and Deserialising RenderObjs
  * 						This is here to fix circular dependency issues
- *  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
  *  disclosure of this file or its contents without the prior written consent
  *  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
@@ -90,6 +90,24 @@ namespace LB
 			return true;
 		}
 		return false;
+	}
+
+
+	/*!***********************************************************************
+	 \brief
+	 Sets the texture for the render component using a sprite sheet
+	 e.g "Upgrades" -> the stemmed name of Upgrades.spritesheet (w/o extension name)
+	 The index refers to the index of the sprite. 
+	*************************************************************************/
+	void CPRender::SetSpriteTexture(std::string SpriteSheetName, int index)
+	{
+		//Cache the sprite sheet to make it easier on us
+		SpriteSheet selectedsheet = ASSETMANAGER->GetSpriteSheet(SpriteSheetName);
+		//Update the current render texture with all the data from the sprite sheet
+		UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
+			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
+			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
+			selectedsheet.Sprites()[index].m_min, selectedsheet.Sprites()[index].m_max);
 	}
 
 	/*!***********************************************************************

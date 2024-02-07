@@ -14,6 +14,7 @@ namespace LB
 		void Destroy() override;
 
 		void GenerateWave();
+		void NextWave();
 		void SpawnRandomEnemy();
 
 		void SpawnMageEnemy();
@@ -28,7 +29,9 @@ namespace LB
 		//std::vector<std::pair<GameObject*, float>> EnemyPrefabList;
 		std::vector < std::pair<void(CPPSGameManager::*)(), int>> EnemyList;
 		bool GameStart{ false };
+		
 	private:
+		bool UpgradeSpawned{ false };
 		//Formula made in desmos, curve is a sexy sexy S curve.
 		//Formula => 12/(0.5f + e^(-x/5 + 4))
 		int SpawnCredits{}; //Spawn credits allowed for the game manager 

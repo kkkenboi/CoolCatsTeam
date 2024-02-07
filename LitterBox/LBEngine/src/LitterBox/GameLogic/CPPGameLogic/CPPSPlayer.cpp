@@ -23,7 +23,7 @@
 #include <array>
 #include <random>
 #include "CPPSPlayerHUD.h"
-
+#include "CPPSUpgradeManager.h"
 namespace LB
 {
 	//This array is for the animation frames
@@ -46,7 +46,7 @@ namespace LB
 
 		//--------------------------Variables initializaiton----------------------------
 		m_maxSpeed = 30000.0f;
-		m_walkSpeed = 150000.0f;
+		m_walkSpeed = 3500.0f;
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
@@ -178,22 +178,28 @@ namespace LB
 		bool isMoving{ false };
 		if (INPUT->IsKeyPressed(KeyCode::KEY_W))
 		{
-			rb->addForce(Vec2<float>{0.f, m_walkSpeed} * TIME->GetDeltaTime());
+			rb->mVelocity += Vec2<float>{0.f, m_walkSpeed} *TIME->GetDeltaTime();
+			//rb->addForce(Vec2<float>{0.f, m_walkSpeed} * TIME->GetDeltaTime());
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_S))
 		{
-			rb->addForce(Vec2<float>{0.f, -m_walkSpeed} * TIME->GetDeltaTime());
+			//rb->addForce(Vec2<float>{0.f, -m_walkSpeed} * TIME->GetDeltaTime());
+			rb->mVelocity -= Vec2<float>{0.f, m_walkSpeed} *TIME->GetDeltaTime();
+
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_A))
 		{
-			rb->addForce(Vec2<float>{-m_walkSpeed, 0.f} * TIME->GetDeltaTime());
+			//rb->addForce(Vec2<float>{-m_walkSpeed, 0.f} * TIME->GetDeltaTime());
+			rb->mVelocity += Vec2<float>{-m_walkSpeed, 0.f} *TIME->GetDeltaTime();
+
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_D))
 		{
-			rb->addForce(Vec2<float>{m_walkSpeed, 0.f} * TIME->GetDeltaTime());
+			//rb->addForce(Vec2<float>{m_walkSpeed, 0.f} * TIME->GetDeltaTime());
+			rb->mVelocity += Vec2<float>{m_walkSpeed, 0.f} *TIME->GetDeltaTime();
 			isMoving = true;
 		}
 		//clamping of the speed of the player movement
@@ -202,8 +208,8 @@ namespace LB
 
 		if (!isMoving)
 		{
-			rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
-
+			//rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
+			rb->mVelocity *= 0.95f;
 			if (isWalkingAnim)
 			{
 				rend->stop_anim();
@@ -254,6 +260,10 @@ namespace LB
 					if (!TIME->IsPaused())
 					{
 						vec_colliders[i]->rigidbody->addImpulse(force_to_apply); //* TIME->GetDeltaTime());
+						if (vec_colliders[i]->gameObj->GetName() == "ball")
+						{
+							vec_colliders[i]->gameObj->GetComponent<CPPSPlayerGolfBall>()->Split();
+						}
 					}
 				}
 			}
@@ -275,7 +285,7 @@ namespace LB
 			playerPos.x += m_isFacingLeft ? -50.0f : 50.0f;
 
 			ballObject->GetComponent<CPTransform>()->SetPosition(playerPos);
-			ballObject->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(CPPSUpgradeManager::Instance()->GetBallUpgrades());
+			ballObject->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetBallUpgrades());
 		}
 
 		/*!***********************************************************************

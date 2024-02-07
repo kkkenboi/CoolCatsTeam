@@ -85,9 +85,11 @@ namespace LB
 				mPlayer->GetComponent<CPPSPlayer>()->m_currentBalls--;
 				//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
 				//--player->m_currentBalls;
-				GOMANAGER->RemoveGameObject(this->GameObj);
+				canDestroy = true;
+				//GOMANAGER->RemoveGameObject(this->GameObj);
 			}
 		}
+		if (canDestroy) GOMANAGER->RemoveGameObject(this->GameObj);
 	}
 
 	/*!***********************************************************************
@@ -96,12 +98,12 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayerGolfBall::OnCollisionEnter(CollisionData colData)
 	{
-		
 		if (currentBallUpgrades & BOMB) {
 
 			//Renderer::GRAPHICS->shaker_camera();
 			Explode();
 			mPlayer->GetComponent<CPPSPlayer>()->m_currentBalls--;
+			
 			//CPPSPlayer* player = mPlayer->GetComponent<CPPSPlayer>();
 			//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
 			//--player->m_currentBalls;
@@ -115,17 +117,23 @@ namespace LB
 
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 		}
-
+		if (colData.colliderOther->m_gameobj->GetName() == "ball")
+		{
+			//play ball knocking sound
+		}
 	}
 
+	//Function to set the current upgrade for the ball
+	//the ball will check against this value to know what upgrades it has
 	void CPPSPlayerGolfBall::SetBallUpgrade(int upgradeType)
 	{	
 		//std::cout << "Upgrade type : " << upgradeType << '\n';
 		//std::cout << "Bitshifted Upgrade type : " << (1 << upgradeType) << '\n';
-		//std::cout << "curr upgrade : " << static_cast<int>(currentBallUpgrades) << '\n';
+		std::cout << "curr upgrade : " << static_cast<int>(currentBallUpgrades) << '\n';
 		//std::cout << "result : " << (currentBallUpgrades & BOMB) << '\n';
 		//In order to set the upgrade type, we have to bit shift it.
-		currentBallUpgrades |= static_cast<BallUpgrades>(1 << upgradeType);
+		currentBallUpgrades = static_cast<BallUpgrades>(upgradeType);
+		//currentBallUpgrades |= static_cast<BallUpgrades>(1 << upgradeType);
 		//currentBallUpgrades = static_cast<BallUpgrades>(static_cast<int>(currentBallUpgrades) | (1 << upgradeType));
 	}
 
@@ -151,10 +159,25 @@ namespace LB
 					}
 				}
 		}
+		canDestroy = true;
 	}
 
 	void CPPSPlayerGolfBall::Split()
 	{
+		if (currentBallUpgrades & SPLIT) {
+			if (!hasSplit)
+			{
+				hasSplit = true;
+				//Doesn't work for now
+				//Spawn Game Object
+			/*	GameObject* ballObject = FACTORY->SpawnGameObject(this->GameObj);
+				ballObject->GetComponent<CPTransform>()->SetPosition({
+					ballObject->GetComponent<CPTransform>()->GetPosition().x + 1,
+					ballObject->GetComponent<CPTransform>()->GetPosition().y + 1
+					}
+				);*/
+			}
+		}
 	}
 
 	/*!***********************************************************************
