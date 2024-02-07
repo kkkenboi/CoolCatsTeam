@@ -5,20 +5,12 @@
 #include "LitterBox/Serialization/AssetManager.h"
 
 namespace LB {
-	//Vec2 heartDisplayStartingPos   { 126.f, 960.f };
-	//Vec2 ballDisplayStartingPos    { 126.f, 830.f };
-	Vec2 upgradeDisplayStartingPos { 1150.f, 110.f };
 
-	//Vec2 heartDisplayScale  { 0.3f, 0.3f };
-	//Vec2 ballDisplayScale   { 0.3f, 0.3f };
-	//Vec2 upgradeDisplayScale{ 0.3f, 0.3f };
-	Vec2 displayScale{ 1.f, 1.f };
-
-	//Vec2 heartDisplayOffset{ 130.f, 130.f };
-	//Vec2 ballDisplayOffset{ 130.f, 130.f };
-	//Vec2 upgradeDisplayOffset{ 130.f, 130.f };
-	Vec2 displayOffset { 130.f, 130.f };
-
+	/*!***********************************************************************
+	\brief
+	Start function to initialise the heart and ball display variables based on
+	the current player's variables.
+	*************************************************************************/
 	void CPPSPlayerHUD::Start()
 	{
 		// Create no. of hearts and balls based on the player's info
@@ -27,19 +19,19 @@ namespace LB {
 			// Find out which object is the player
 			if (gameObj->GetName() == "MainChar")
 			{
-				mainChar = gameObj;
+				m_mainChar = gameObj;
 			}
 		}
 
 		// Initialise health and balls values
-		m_maxHealth = mainChar->GetComponent<CPPSPlayer>()->m_maxHealth;
-		m_currentHealth = mainChar->GetComponent<CPPSPlayer>()->m_currentHealth;
+		m_maxHealth = m_mainChar->GetComponent<CPPSPlayer>()->m_maxHealth;
+		m_currentHealth = m_mainChar->GetComponent<CPPSPlayer>()->m_currentHealth;
 		//std::cout << "Current Health: " << m_currentHealth << std::endl;
-		m_maxBalls = mainChar->GetComponent<CPPSPlayer>()->m_maxBalls;
-		m_currentBalls = m_maxBalls - mainChar->GetComponent<CPPSPlayer>()->m_currentBalls;
+		m_maxBalls = m_mainChar->GetComponent<CPPSPlayer>()->m_maxBalls;
+		m_currentBalls = m_maxBalls - m_mainChar->GetComponent<CPPSPlayer>()->m_currentBalls;
 
 		// Fixes things
-		if (!m_TotalHeartDisplay.size())
+		if (!m_totalHeartDisplay.size())
 		{
 			// Create game objects to display the health and balls
 			for (int i{ 1 }; i <= m_maxHealth; i++)
@@ -47,7 +39,7 @@ namespace LB {
 				GameObject* healthObject = FACTORY->SpawnGameObject();
 				JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
 				Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
-				healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * (i - 1), startPos.y));
+				healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * (i - 1), startPos.y));
 				//m_currentHealth = 2;
 				// Set the texture for lost health
 				if (i > m_currentHealth)
@@ -57,7 +49,7 @@ namespace LB {
 						static_cast<int>(healthObject->GetComponent<CPRender>()->h));
 				}
 
-				m_TotalHeartDisplay.push_back(healthObject);
+				m_totalHeartDisplay.push_back(healthObject);
 			}
 
 			for (int i{}; i < m_maxBalls; i++)
@@ -65,13 +57,18 @@ namespace LB {
 				GameObject* ballObject = FACTORY->SpawnGameObject();
 				JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
 				Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
-				ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * i, startPos.y));
+				ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * i, startPos.y));
 
-				m_TotalBallsDisplay.push_back(ballObject);
+				m_totalBallsDisplay.push_back(ballObject);
 			}
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update will reference the player and update the HUD if there are any changes
+	such as the health and the balls.
+	*************************************************************************/
 	void CPPSPlayerHUD::Update()
 	{
 		// HUD subcribes to player losing health/losing balls
@@ -101,15 +98,15 @@ namespace LB {
 			// Set the texture for lost health
 			if (i > m_currentHealth)
 			{
-				m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"), 
-																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->w), 
-																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
+				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"), 
+																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->w), 
+																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
 			}
 			else if ( i <= m_currentHealth)
 			{
-				m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Heart"),
-																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->w),
-																					static_cast<int>(m_TotalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
+				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Heart"),
+																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->w),
+																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
 			}
 		}
 
@@ -120,15 +117,19 @@ namespace LB {
 			// Set the texture for lost health
 			if (i > m_currentBalls)
 			{
-				m_TotalBallsDisplay[i - 1]->GetComponent<CPRender>()->ToggleActive(false);
+				m_totalBallsDisplay[i - 1]->GetComponent<CPRender>()->ToggleActive(false);
 			}
 			else
 			{
-				m_TotalBallsDisplay[i - 1]->GetComponent<CPRender>()->ToggleActive(true);
+				m_totalBallsDisplay[i - 1]->GetComponent<CPRender>()->ToggleActive(true);
 			}
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Inherited Destroy currently doesn't need to do anything.
+	*************************************************************************/
 	void CPPSPlayerHUD::Destroy()
 	{
 
@@ -136,29 +137,20 @@ namespace LB {
 
 	/*!***********************************************************************
 	 \brief
-	 Decreases the member variable for current health in the PlayerHUD
+	 Sets a bool to decrease the HUD's health to true
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseHealth()
 	{
 		m_decreaseHealth = true;
-		//if (m_currentHealth)
-		//{
-		//	--m_currentHealth;
-		//}
 	}
 
 	/*!***********************************************************************
 	 \brief
-	 Decreases the member variable for current balls in the PlayerHUD
+	 Sets a bool to decrease the HUD's ball to true
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseBalls()
 	{
 		m_decreaseBalls = true;
-
-		//if (m_currentBalls)
-		//{
-		//	--m_currentBalls;
-		//}
 	}
 
 	/*!***********************************************************************
@@ -198,7 +190,7 @@ namespace LB {
 			GameObject* healthObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
 			Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
-			healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * (m_maxHealth + i - 1), startPos.y));
+			healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * (m_maxHealth + i - 1), startPos.y));
 			//m_currentHealth = 2;
 			// Set the texture for lost health
 			if (i > m_currentHealth)
@@ -208,7 +200,7 @@ namespace LB {
 					static_cast<int>(healthObject->GetComponent<CPRender>()->h));
 			}
 
-			m_TotalHeartDisplay.push_back(healthObject);
+			m_totalHeartDisplay.push_back(healthObject);
 		}
 
 		m_maxHealth += amount;
@@ -226,14 +218,14 @@ namespace LB {
 			GameObject* ballObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
 			Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
-			ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + displayOffset.x * (m_maxBalls + i), startPos.y));
+			ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * (m_maxBalls + i), startPos.y));
 
-			m_TotalBallsDisplay.push_back(ballObject);
+			m_totalBallsDisplay.push_back(ballObject);
 		}
 
 		m_maxBalls += amount;
 		m_currentBalls += amount;
-		mainChar->GetComponent<CPPSPlayer>()->m_maxBalls += amount;
+		m_mainChar->GetComponent<CPPSPlayer>()->m_maxBalls += amount;
 	}
 
 	/*!***********************************************************************
