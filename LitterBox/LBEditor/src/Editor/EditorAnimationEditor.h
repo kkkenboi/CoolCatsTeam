@@ -39,11 +39,14 @@ namespace LB
 		void Destroy() {}
 		
 	private:
+		char m_nameBuffer[256]{};
+
 		//----------------------------------------------Animation State----------------------------------------------
 		bool m_stateLoaded{ false }, m_controllerLoaded{ false }, m_previewPlaying{ false };
 		int m_previewIndex{ 0 };
 		float m_previewTimeElapsed{ 0.0f };
 		std::string stateFileName;
+		SpriteSheet* m_spriteSheet{ nullptr };
 
 		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
 		AnimationState m_currentState{};

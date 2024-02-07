@@ -55,8 +55,6 @@ namespace LB
 	class AnimationState
 	{
 	public:
-		//void Initialize(IComponent* render);
-
 		void Start();
 		void Update();
 		void Stop();
@@ -80,13 +78,11 @@ namespace LB
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
 		bool Deserialize(const Value& data); //to load
-
-		SpriteSheet* m_spriteSheet;
 	private:
 		double m_timeElapsed;
 		int m_index;
 
-		std::string m_name{ "Unnamed State" }, m_spriteSheetName{"None"};
+		std::string m_name{ "Unnamed State" }, m_spriteSheetName{ "None" };
 		std::vector<KeyFrame> m_keyFrames;
 
 		//std::vector<AnimationTransition> m_transitions;

@@ -20,11 +20,6 @@
 
 namespace LB
 {
-	//void AnimationState::Initialize(IComponent* render)
-	//{
-	//	m_render = render;
-	//}
-
 	void AnimationState::Start()
 	{
 		//reinterpret_cast<CPRender*>(m_render)->play_repeat(m_name);
@@ -108,7 +103,7 @@ namespace LB
 		data.AddMember("Name", nameValue, alloc);
 
 		Value ssNameValue(m_spriteSheetName.c_str(), alloc);
-		data.AddMember("SpriteSheet Name", nameValue, alloc);
+		data.AddMember("SpriteSheet Name", ssNameValue, alloc);
 
 		Value frameArray(rapidjson::kArrayType);
 		for (auto& keyframe : m_keyFrames)

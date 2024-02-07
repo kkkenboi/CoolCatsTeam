@@ -50,17 +50,28 @@ namespace LB
 
 		if (m_stateLoaded)
 		{
-			//----------------------------------------------SPRITESHEET SELECTION----------------------------------------------
-			ImGui::Text("Spritesheet");
+			//----------------------------------------------STATE NAME----------------------------------------------
+			ImGui::Text("%-17s", "Name");
+			ImGui::SameLine();
 			ImGui::SetNextItemWidth(columnWidth);
-			if (ImGui::BeginCombo("##Spritesheet", (m_currentState.m_spriteSheet ? m_currentState.m_spriteSheet->GetName().c_str() : "None") ))
+			if (ImGui::InputText("##Name", m_nameBuffer, 256))
+			{
+				m_currentState.SetName(m_nameBuffer);
+			}
+
+			//----------------------------------------------SPRITESHEET SELECTION----------------------------------------------
+			ImGui::Text("%-17s", "Spritesheet");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(columnWidth);
+			if (ImGui::BeginCombo("##Spritesheet", (m_spriteSheet ? m_spriteSheet->GetName().c_str() : "None") ))
 			{
 				for (auto& [str, sSheet] : ASSETMANAGER->SpriteSheets)
 				{
 					std::filesystem::path tempPath{ str };
 					if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 					{
-						m_currentState.m_spriteSheet = &sSheet;
+						m_spriteSheet = &sSheet;
+						m_currentState.SetSpriteSheetName(sSheet.GetName());
 						break;
 					}
 				}
@@ -69,24 +80,24 @@ namespace LB
 			}
 
 			//display details of each tile here
-			if (m_currentState.m_spriteSheet)
+			if (m_spriteSheet)
 			{
-				if (ImGui::BeginTable("SlicedSpriteSheet", m_currentState.m_spriteSheet->m_col, ImGuiTableFlags_SizingFixedFit))
+				if (ImGui::BeginTable("SlicedSpriteSheet", m_spriteSheet->m_col, ImGuiTableFlags_SizingFixedFit))
 				{
 					//Creating a table to place the sprites evenly by its row and cols
-					for (int r = { 0 }; r < m_currentState.m_spriteSheet->m_row; ++r) //go thru rows
+					for (int r = { 0 }; r < m_spriteSheet->m_row; ++r) //go thru rows
 					{
 						ImGui::TableNextRow(); //go next row
-						for (int c = 0; c < m_currentState.m_spriteSheet->m_col; ++c) //go thru cols
+						for (int c = 0; c < m_spriteSheet->m_col; ++c) //go thru cols
 						{
 							ImGui::TableSetColumnIndex(c);
 
-							int tileNum = (c + r * m_currentState.m_spriteSheet->m_col);
+							int tileNum = (c + r * m_spriteSheet->m_col);
 							ImGui::PushID(tileNum);
 							ImGui::Text("Frame %i", tileNum);
-							if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_currentState.m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth, smallWidth }
-								, ImVec2{ (*m_currentState.m_spriteSheet)[tileNum].m_min.x, (*m_currentState.m_spriteSheet)[tileNum].m_max.y }
-								, ImVec2{ (*m_currentState.m_spriteSheet)[tileNum].m_max.x, (*m_currentState.m_spriteSheet)[tileNum].m_min.y }))
+							if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth, smallWidth }
+								, ImVec2{ (*m_spriteSheet)[tileNum].m_min.x, (*m_spriteSheet)[tileNum].m_max.y }
+								, ImVec2{ (*m_spriteSheet)[tileNum].m_max.x, (*m_spriteSheet)[tileNum].m_min.y }))
 							{
 								m_currentKeyFrame.m_frame = tileNum;
 								m_currentState.AddFrame(m_currentKeyFrame);
@@ -134,9 +145,9 @@ namespace LB
 			}
 			if (m_currentState.GetFrameCount())
 			{
-				ImGui::Image((ImTextureID)ASSETMANAGER->GetTextureIndex(m_currentState.m_spriteSheet->GetPNGRef()), ImVec2{ normalWidth, normalWidth }
-					, ImVec2{ (*m_currentState.m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.x, (*m_currentState.m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.y }
-					, ImVec2{ (*m_currentState.m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.x, (*m_currentState.m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.y });
+				ImGui::Image((ImTextureID)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ normalWidth, normalWidth }
+					, ImVec2{ (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.x, (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.y }
+					, ImVec2{ (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.x, (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.y });
 
 				if (m_previewTimeElapsed > m_currentState[m_previewIndex].m_time)
 				{
@@ -216,7 +227,9 @@ namespace LB
 
 		if (m_currentState.GetSpriteSheetName() != "None")
 		{
-			m_currentState.m_spriteSheet = &ASSETMANAGER->SpriteSheets[m_currentState.GetSpriteSheetName()];
+			m_spriteSheet = &ASSETMANAGER->SpriteSheets[m_currentState.GetSpriteSheetName()];
+
+			strcpy_s(m_nameBuffer, sizeof(m_nameBuffer), m_currentState.GetName().c_str());
 		}
 		m_stateLoaded = true;
 		m_controllerLoaded = false;

@@ -1,6 +1,6 @@
 {
     "Name": "Mage Attack",
-    "SpriteSheet Name": null,
+    "SpriteSheet Name": "testSpriteSheet",
     "Frames": [
         {
             "Frame": 0,
