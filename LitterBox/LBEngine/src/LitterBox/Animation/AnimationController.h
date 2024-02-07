@@ -22,7 +22,7 @@
 namespace LB
 {
 	// Forward declarations
-	class CPAnimator;
+	//class CPAnimator;
 
 	class AnimationController
 	{
@@ -45,7 +45,7 @@ namespace LB
 	private:
 		std::string m_name;
 
-		CPAnimator* m_animator;
+		//CPAnimator* m_animator;
 		AnimationState* m_current;
 
 		//std::vector<AnimationState> m_states;

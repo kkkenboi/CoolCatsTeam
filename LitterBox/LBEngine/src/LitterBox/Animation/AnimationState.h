@@ -17,7 +17,7 @@
 #include <vector>
 #include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Animation/SpriteSheet.h"
-#include "LitterBox/Components/Component.h"
+//#include "LitterBox/Components/Component.h"
 
 namespace LB
 {
@@ -55,7 +55,7 @@ namespace LB
 	class AnimationState
 	{
 	public:
-		void Initialize(IComponent* render);
+		//void Initialize(IComponent* render);
 
 		void Start();
 		void Update();
@@ -78,9 +78,8 @@ namespace LB
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
 		bool Deserialize(const Value& data); //to load
 
-	private:
 		SpriteSheet* m_spriteSheet;
-		IComponent* m_render;
+	private:
 		double m_timeElapsed;
 		int m_index;
 

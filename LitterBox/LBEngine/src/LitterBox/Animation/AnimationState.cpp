@@ -20,14 +20,14 @@
 
 namespace LB
 {
-	void AnimationState::Initialize(IComponent* render)
-	{
-		m_render = render;
-	}
+	//void AnimationState::Initialize(IComponent* render)
+	//{
+	//	m_render = render;
+	//}
 
 	void AnimationState::Start()
 	{
-		reinterpret_cast<CPRender*>(m_render)->play_repeat(m_name);
+		//reinterpret_cast<CPRender*>(m_render)->play_repeat(m_name);
 	}
 
 	void AnimationState::Update()
@@ -42,7 +42,7 @@ namespace LB
 
 	void AnimationState::Stop()
 	{
-		reinterpret_cast<CPRender*>(m_render)->stop_anim();
+		//reinterpret_cast<CPRender*>(m_render)->stop_anim();
 	}
 
 	void AnimationState::AddFrame(KeyFrame& newFrame)

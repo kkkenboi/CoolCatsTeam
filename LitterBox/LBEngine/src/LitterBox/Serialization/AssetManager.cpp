@@ -471,7 +471,7 @@ namespace LB
             return SpriteSheets[name];
         }
         DebuggerLogErrorFormat("Unable to find %s in SpriteSheets!", name.c_str());
-        return SpriteSheets.at(0);   //SFNIAE
+        return SpriteSheets.begin()->second;   //SFNIAE
     }
 
     Sprite AssetManager::GetSprite(std::string& spriteSheetName, int index)
