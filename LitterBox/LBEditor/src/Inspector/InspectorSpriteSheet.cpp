@@ -24,9 +24,6 @@ namespace LB
 	static float columnWidth = 250.0f;
 	static float normalWidth = 150.f;
 	
-
-	InspectorSpriteSheet* INSPECTORSPRITESHEET = nullptr;
-
 	/*!***********************************************************************
 	  \brief
 	  Initialize function, where it init the textureID, slotID, textureAspect,
@@ -38,14 +35,6 @@ namespace LB
 		slotID = 0;
 		textureAspect = 0.0f;
 		textureSize = ImVec2(0.0f, 0.0f);
-		if (!INSPECTORSPRITESHEET)
-		{
-			INSPECTORSPRITESHEET = this;
-		}
-		else
-		{
-			DebuggerLogError("Spritesheet already exists!");
-		}
     }
 
 	/*!***********************************************************************
@@ -55,8 +44,16 @@ namespace LB
 	*************************************************************************/
     void InspectorSpriteSheet::UpdateLayer()
     {
-        // Name
-        ImGui::Text("%-17s", "Sprite");
+		// Name
+		ImGui::Text("%-17s", "Name");
+		ImGui::SameLine();
+		if (ImGui::InputText("##Name", m_name, 256))
+		{
+			m_inspectedSheet.SetName(m_name);
+		}
+
+        // PNGRef
+        ImGui::Text("%-17s", "Texture");
         ImGui::SameLine();
 
 		if (ImGui::BeginCombo("##Texture", m_inspectedSheet.GetPNGRef().c_str()))
@@ -143,9 +140,11 @@ namespace LB
 		// TO BE REFACTORED
 		m_inspectedSheet.m_row = m_row;
 		m_inspectedSheet.m_col = m_col;
+
+		ASSETMANAGER->GetSpriteSheet(m_fileName) = m_inspectedSheet;
+
 		JSONSerializer::SerializeToFile(m_inspectedSheet.GetName(), m_inspectedSheet);
 	}
-
 
 	// Load from AssetManager
 	/*!***********************************************************************
@@ -154,8 +153,11 @@ namespace LB
 	*************************************************************************/
 	void InspectorSpriteSheet::LoadSpriteSheet(std::string name)
 	{
-		JSONSerializer::DeserializeFromFile(name.c_str(), m_inspectedSheet);
+		m_fileName = name;
+		m_inspectedSheet = ASSETMANAGER->GetSpriteSheet(m_fileName);
+
 		m_textureID = ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef());
+		strcpy_s(m_name, sizeof(m_name), m_inspectedSheet.GetName().c_str());
 
 		// TO BE REFACTORED
 		m_row = m_inspectedSheet.m_row;
@@ -232,17 +234,6 @@ namespace LB
 		ImGui::Dummy(ImVec2(0.0f, 35.0f));
 
 		ImGui::Text("Sprites");
-		//for (Sprite const& sprite : m_inspectedSheet.Sprites())
-		//{
-		//	ImGui::Text("Slice %d:", sprite.m_index);
-		//	ImGui::InputInt("X", &m_spriteX);
-		//	ImGui::SameLine();
-		//	ImGui::InputInt("Y", &m_spriteY);
-		//	ImGui::SameLine();
-		//	ImGui::InputInt("Width", &m_spriteW);
-		//	ImGui::SameLine();
-		//	ImGui::InputInt("Height", &m_spriteH);
-		//}
 
 		//display details of each tile here
 		if (!m_inspectedSheet.Size()) return;

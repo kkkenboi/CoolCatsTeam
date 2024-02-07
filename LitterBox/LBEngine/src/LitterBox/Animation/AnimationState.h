@@ -67,6 +67,11 @@ namespace LB
 		void AddFrame(KeyFrame& newFrame);
 		void RemoveFrame(int index);
 
+		KeyFrame& operator[](int index);
+		KeyFrame const& operator[](int index) const;
+
+		KeyFrame& At(int index);
+
 		std::vector<KeyFrame>& GetFrames();
 		int GetFrameCount() const;
 

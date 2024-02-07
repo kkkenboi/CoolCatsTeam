@@ -37,18 +37,11 @@ namespace LB
 		void Save();
 
 		void Destroy() {}
-
-		//ImVec4 m_buttonOffColor{ 0.05f, 0.2f, 0.4f, 1.0f };
-		//ImVec4 m_buttonOnColor{ 0.2f, 0.6f, 1.0f, 1.0f };
-
-		//inline unsigned int getNumOfTiles() { return tiles.size(); }
-		//inline int getTextureID() { return textureID; }
-		//inline auto getMMUV(int index) { return tiles.at(index); }
-
+		
 	private:
 		bool m_stateLoaded{ false }, m_controllerLoaded{ false };
 
-		KeyFrame m_currentKeyFrame{};
+		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
 		AnimationState m_currentState{};
 
 		AnimationController m_currentController{};

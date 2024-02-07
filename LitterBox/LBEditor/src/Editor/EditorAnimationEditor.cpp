@@ -71,16 +71,19 @@ namespace LB
 			{
 				ImGui::Text("Frame");
 				ImGui::SameLine();
-				if (ImGui::InputInt("##FrameIndex", &m_currentKeyFrame.m_frame))
+				m_tempKeyFrame.m_frame = m_currentState[index].m_frame;
+				if (ImGui::InputInt("##FrameIndex", &m_tempKeyFrame.m_frame))
 				{
-
+					m_currentState[index].m_frame = m_tempKeyFrame.m_frame;
 				}
 				ImGui::SameLine();
+
 				ImGui::Text("Time");
 				ImGui::SameLine();
-				if (ImGui::InputFloat("##FrameTime", &m_currentKeyFrame.m_time))
+				m_tempKeyFrame.m_time = m_currentState[index].m_time;
+				if (ImGui::InputFloat("##FrameTime", &m_tempKeyFrame.m_time))
 				{
-
+					m_currentState[index].m_time = m_tempKeyFrame.m_time;
 				}
 			}
 		}

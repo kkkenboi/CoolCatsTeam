@@ -242,7 +242,7 @@ namespace LB
 				{
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
-						INSPECTORSPRITESHEET->LoadSpriteSheet(directory.path().filename().stem().string());
+						InspectorSpriteSheet::Instance()->LoadSpriteSheet(directory.path().filename().stem().string());
 						EDITORINSPECTOR->SetWindowSpriteSheet();
 					}
 				}

@@ -60,6 +60,21 @@ namespace LB
 		return m_keyFrames;
 	}
 
+	KeyFrame& AnimationState::operator[](int index)
+	{
+		return m_keyFrames[index];
+	}
+
+	KeyFrame const& AnimationState::operator[](int index) const
+	{
+		return m_keyFrames[index];
+	}
+
+	KeyFrame& AnimationState::At(int index)
+	{
+		return m_keyFrames.at(index);
+	}
+
 	int AnimationState::GetFrameCount() const
 	{
 		return m_keyFrames.size();

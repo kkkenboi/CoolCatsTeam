@@ -72,9 +72,9 @@ namespace LB
 
 
     private:
+        SpriteSheet m_inspectedSheet;
 
-        SpriteSheet m_inspectedSheet; 
-
+        std::string m_fileName;
         char m_name[256]{}; //
         int m_textureID{ 0 }; // Getting the texture ID
         int m_sliceX{ 0 }, m_sliceY{ 0 }, m_sliceWidth{ 0 }, m_sliceHeight{ 0 }; //in update layer, set x and y, width and height
@@ -87,7 +87,4 @@ namespace LB
         float textureAspect; //Aspect of the ratio
         ImVec2 textureSize; //Texture Size
 	};
-
-    extern InspectorSpriteSheet* INSPECTORSPRITESHEET;
-
 }
