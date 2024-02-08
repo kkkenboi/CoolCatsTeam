@@ -62,6 +62,8 @@ namespace LB
         std::vector<std::filesystem::path> TextureFilePaths = FILESYSTEM->GetFilesOfType(".png");
         std::vector<std::filesystem::path> SpriteSheetFilePaths = FILESYSTEM->GetFilesOfType(".spritesheet");
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
+        std::vector<std::filesystem::path> AnimControllerPaths = FILESYSTEM->GetFilesOfType(".controller");
+        std::vector<std::filesystem::path> AnimStatePaths = FILESYSTEM->GetFilesOfType(".anim");
         //then we check if there's any NEW assets
         for (const auto& textureFP : TextureFilePaths)
         {
@@ -81,6 +83,7 @@ namespace LB
                 _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(textureFP), metaAlloc);
             }
         }
+        //This one is for the sprite sheets reimporting
         for (const auto& spriteSheetFP : SpriteSheetFilePaths)
         {
             if (ASSETMANAGER->metaFileMap.find(spriteSheetFP.string()) == ASSETMANAGER->metaFileMap.end())
@@ -93,6 +96,36 @@ namespace LB
                 _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(spriteSheetFP), metaAlloc);
 
                 JSONSerializer::DeserializeFromFile(spriteSheetFP.filename().stem().string(), ASSETMANAGER->SpriteSheets[spriteSheetFP.filename().stem().string()]);
+            }
+        }
+        //Now for the animator and anim controller reimport
+        for (const auto& animController : AnimControllerPaths)
+        {
+            if (ASSETMANAGER->metaFileMap.find(animController.string()) == ASSETMANAGER->metaFileMap.end())
+            {
+                DebuggerLogFormat("FOUND NEW ANIM CONTROLLER : %s, IMPORTING NOW!", animController.stem().string().c_str());
+                ASSETMANAGER->metaFileMap[animController.string()] = FILESYSTEM->GetFileTime(animController);
+                ASSETMANAGER->assetMap[animController.filename().stem().string()] = animController.string();
+
+                Value metaKey(Value(animController.string().c_str(), metaAlloc), metaAlloc);
+                _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(animController), metaAlloc);
+
+                JSONSerializer::DeserializeFromFile(animController.filename().stem().string(), ASSETMANAGER->AnimControllers[animController.filename().stem().string()]);
+            }
+        }
+        
+        for (const auto& animState : AnimStatePaths)
+        {
+            if (ASSETMANAGER->metaFileMap.find(animState.string()) == ASSETMANAGER->metaFileMap.end())
+            {
+                DebuggerLogFormat("FOUND NEW ANIM STATE : %s, IMPORTING NOW!", animState.stem().string().c_str());
+                ASSETMANAGER->metaFileMap[animState.string()] = FILESYSTEM->GetFileTime(animState);
+                ASSETMANAGER->assetMap[animState.filename().stem().string()] = animState.string();
+
+                Value metaKey(Value(animState.string().c_str(), metaAlloc), metaAlloc);
+                _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(animState), metaAlloc);
+
+                JSONSerializer::DeserializeFromFile(animState.filename().stem().string(), ASSETMANAGER->AnimStates[animState.filename().stem().string()]);
             }
         }
         //AUDIOMANAGER->StopAllChannels();
@@ -138,6 +171,16 @@ namespace LB
                 {
                     ASSETMANAGER->SpriteSheets.erase(deletedFile.string());
                 }
+                if (deletedFile.filename().extension().string() == ".anim")
+                {
+                    ASSETMANAGER->AnimStates.erase(deletedFile.string());
+
+                }
+                if (deletedFile.filename().extension().string() == ".controller")
+                {
+                    ASSETMANAGER->AnimControllers.erase(deletedFile.string());
+
+                }
                 DebuggerLogFormat("%s can't be found anymore! Removing...", deletedFile.filename().string().c_str());
                 //Then we set the time to some impossible time and continue the loop
                 ASSETMANAGER->metaFileMap[metaData.first] = -1;
@@ -164,6 +207,18 @@ namespace LB
                     DebuggerLogFormat("SpriteSheet file name : %s", metaFP.string().c_str());
                     //I think we don't have to remove it, we can just straight up edit it 
                     JSONSerializer::DeserializeFromFile(metaFP.filename().stem().string(), ASSETMANAGER->SpriteSheets[metaFP.filename().stem().string()]);
+                }
+                if (metaFP.filename().extension().string() == ".anim")
+                {
+                    DebuggerLogFormat("Anim state file name : %s", metaFP.string().c_str());
+                    //I think we don't have to remove it, we can just straight up edit it 
+                    JSONSerializer::DeserializeFromFile(metaFP.filename().stem().string(), ASSETMANAGER->AnimStates[metaFP.filename().stem().string()]);
+                }
+                if (metaFP.filename().extension().string() == ".controller")
+                {
+                    DebuggerLogFormat("Anim controller file name : %s", metaFP.string().c_str());
+                    //I think we don't have to remove it, we can just straight up edit it 
+                    JSONSerializer::DeserializeFromFile(metaFP.filename().stem().string(), ASSETMANAGER->AnimControllers[metaFP.filename().stem().string()]);
                 }
                 if (metaFP.filename().extension().string() == ".wav")
                 {

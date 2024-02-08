@@ -83,7 +83,7 @@ namespace LB
 			ImGui::SameLine();
 			if (ImGui::Button("Create Prefab"))
 			{
-				if (std::filesystem::exists(FILESYSTEM->GetFilePath(m_inspectedGO->GetName() + ".json")))
+				if (std::filesystem::exists(FILESYSTEM->GetFilePath(m_inspectedGO->GetName() + ".prefab")))
 				{
 					DebuggerLogWarning("Prefab with that name already exists! Use a different name!");
 				}
