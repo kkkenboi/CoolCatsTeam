@@ -151,7 +151,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSChaser::OnCollisionEnter(CollisionData colData)
 	{
-
+		CPPSBaseEnemy::OnCollisionEnter(colData);
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
 
 			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 200.f)
@@ -180,7 +180,7 @@ namespace LB
 	void CPPSChaser::Die()
 	{
 		//We access the base class first
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserDeathSounds);
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserDeathSounds,0.2f);
 		CPPSBaseEnemy::Die();
 	/*	GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
 		GameObj->RemoveComponent(C_CPCollider);
@@ -365,7 +365,7 @@ namespace LB
 	{
 		//std::cout << "Health: " << mEnemy->GetHealth();
 		mEnemy->GetHurtTimer() = 1.5f;
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserHurtSounds);
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserHurtSounds,0.2f);
 		this->Update();
 	}
 

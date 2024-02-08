@@ -165,6 +165,9 @@ namespace LB
 		FMOD_RESULT result;
 		std::vector<CPAudioSource*> AudioSources;
 
+		std::vector<std::string> BallCollisionSounds = { "BallImpact_1","BallImpact_2" };
+		std::vector<std::string> PlayerHitBallSounds = { "GolfBallHit","GolfSwingHit" };
+
 		//PLAYER SOUND
 		std::vector<std::string> PlayerHurtSounds = { "The Cat Hurt_1",
 													  "The Cat Hurt_2",

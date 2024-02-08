@@ -60,7 +60,6 @@ namespace LB
 	//Gets called by the upgrade manager, to assign the current type of upgrade to the ball
 	void CPPSUpgrade::AssignUpgradeID(int upgradeType)
 	{
-		std::cout << "Assigned upgrade! : " << upgradeType << '\n';
 		//Called by the upgrade 
 		assignedUpgradeType = upgradeType;
 	}

@@ -230,6 +230,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSMage::OnCollisionEnter(CollisionData colData)
 	{
+		CPPSBaseEnemy::OnCollisionEnter(colData);
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
 
 			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 200.f)
@@ -238,7 +239,7 @@ namespace LB
 					return;
 				}
 
-				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageHurtSounds, 0.7f, 1.1f);
+				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageHurtSounds, 0.2f);
 				mGotAttackedCooldown = mGotAttacked;
 
 				
@@ -250,7 +251,7 @@ namespace LB
 
 	void CPPSMage::Die()
 	{
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageDeathSounds);
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageDeathSounds,0.2f);
 		CPPSBaseEnemy::Die();
 		//Code to play death anim goes here
 	}
@@ -499,7 +500,7 @@ namespace LB
 		mEnemy->mNumOfProjectileCurrent = 0;
 		mEnemy->mProjCooldownCurrent = 0.0f;
 
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageAttackSounds, 1.f);
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageAttackSounds, .3f);
 		this->Update();
 	}
 

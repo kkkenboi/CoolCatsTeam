@@ -228,7 +228,7 @@ namespace LB
 		if (isMoving && m_stepSoundCurrent > m_stepSoundInterval)
 		{
 			m_stepSoundCurrent = 0.0f;
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds);
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.5f);
 		}
 		m_stepSoundCurrent += static_cast<float>(TIME->GetDeltaTime());
 		
@@ -239,6 +239,7 @@ namespace LB
 		//------------------Pushes balls away from the player in a circle------------------
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
 		{
+			hasPlayedHitSound = false;
 			// Play hit sound
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSlashSounds,0.3f);
 
@@ -266,10 +267,14 @@ namespace LB
 					if (!TIME->IsPaused())
 					{
 						vec_colliders[i]->rigidbody->addImpulse(force_to_apply); //* TIME->GetDeltaTime());
-						
 						if (vec_colliders[i]->gameObj->GetName() == "ball")
 						{
 							vec_colliders[i]->gameObj->GetComponent<CPPSPlayerGolfBall>()->Split();
+							if (!hasPlayedHitSound)
+							{
+								AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHitBallSounds, 0.5f);
+								hasPlayedHitSound = true;
+							}
 						}
 					}
 				}
@@ -287,7 +292,8 @@ namespace LB
 			//Spawn Game Object
 			GameObject* ballObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("ball", *ballObject);
-
+			int Channel = AUDIOMANAGER->PlaySound("Ball into hole");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
 			Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
 			playerPos.x += m_isFacingLeft ? -50.0f : 50.0f;
 
@@ -347,7 +353,7 @@ namespace LB
 
 			GetComponent<CPAnimator>()->Play("FelixHurt");
 
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.5f, 1.1f);
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.4f);
 			--m_currentHealth;
 			// Update the HUD as well
 			onTakingDamage.Invoke();

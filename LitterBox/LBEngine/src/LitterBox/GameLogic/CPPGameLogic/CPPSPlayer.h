@@ -59,6 +59,7 @@ namespace LB
 		//direction of where the player is facing
 		LB::Vec2<float> right_face;
 		LB::Vec2<float> left_face;
+		bool hasPlayedHitSound{ false };
 	};
 	REGISTER_SCRIPT(CPPSPlayer)
 }

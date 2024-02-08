@@ -43,7 +43,8 @@ namespace LB
 	}
 	void CPPSBaseEnemy::OnCollisionEnter(CollisionData col)
 	{
-		//Should be empty??????
+		//If the enemy has no hp it should be able to collide with anything anymore
+		if (mHealth <= 0) return;
 	}
 	CPRender* CPPSBaseEnemy::GetRender()
 	{
@@ -73,13 +74,14 @@ namespace LB
 	{
 		//If the enemy dies, regardless we MUST reduce the enemy count
 		mGameManager->GetComponent<CPPSGameManager>()->ReduceEnemyCount();
-		GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
+		GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.0f, 10000.0f});
 		mShouldDestroy = true;
 	}
 	void CPPSBaseEnemy::Hurt()
 	{
+		if (mHealth <= 0) return;
 		--mHealth;
-		if (mHealth < 0)
+		if (mHealth < 1)
 		{
 			Die();
 		}

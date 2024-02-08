@@ -101,7 +101,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayerGolfBall::OnCollisionEnter(CollisionData colData)
 	{
-		if (currentBallUpgrades & BOMB) {
+		if (currentBallUpgrades & BOMB && colData.colliderOther->gameObj->GetName() != "ball") {
 
 			//Renderer::GRAPHICS->shaker_camera();
 			Explode();
@@ -117,12 +117,12 @@ namespace LB
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
 		{
 			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
-
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 		}
-		if (colData.colliderOther->m_gameobj->GetName() == "ball")
+		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar")
 		{
 			//play ball knocking sound
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BallCollisionSounds, 0.4f);
 		}
 	}
 
@@ -132,7 +132,6 @@ namespace LB
 	{	
 		//std::cout << "Upgrade type : " << upgradeType << '\n';
 		//std::cout << "Bitshifted Upgrade type : " << (1 << upgradeType) << '\n';
-		std::cout << "curr upgrade : " << static_cast<int>(currentBallUpgrades) << '\n';
 		//std::cout << "result : " << (currentBallUpgrades & BOMB) << '\n';
 		//In order to set the upgrade type, we have to bit shift it.
 		currentBallUpgrades = static_cast<BallUpgrades>(upgradeType);
@@ -145,6 +144,8 @@ namespace LB
 	void CPPSPlayerGolfBall::Explode()
 	{
 		Renderer::GRAPHICS->shake_camera(80.f,0.3f);
+		int channel = AUDIOMANAGER->PlaySound("EXPLOSION");
+		AUDIOMANAGER->SetChannelVolume(channel, 0.3f);
 		std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
 		//We loop through all the colliders that were in the radius
 		for (CPCollider* col : explosionColliders) {
@@ -154,11 +155,11 @@ namespace LB
 				if (col->HasRB()) {
 					col->gameObj->GetComponent<CPRigidBody>()->addImpulse(explosionForce);
 					if (col->gameObj->GetName() == "Mage") {
-						std::cout << "mage hurt by explosion\n";
+						//std::cout << "mage hurt by explosion\n";
 						col->gameObj->GetComponent<CPPSMage>()->Hurt();
 					}
 					if (col->gameObj->GetName() == "EnemyChaser1") {
-						std::cout << "chaser hurt by explosion\n";
+						//std::cout << "chaser hurt by explosion\n";
 						col->gameObj->GetComponent<CPPSChaser>()->Hurt();
 					}
 				}

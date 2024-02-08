@@ -20,10 +20,10 @@ namespace LB
 		auto rngesus = std::default_random_engine{};
 		std::shuffle(UpgradesList.begin(), UpgradesList.end(), rngesus);
 		//Debug info
-		for (UpgradeType upgrade : UpgradesList)
+		/*for (UpgradeType upgrade : UpgradesList)
 		{
 			std::cout << static_cast<int>(upgrade) << '\n';
-		}
+		}*/
 		//SpawnUpgrades();
 	}
 
@@ -130,17 +130,17 @@ namespace LB
 			rightUpgrade = nullptr;
 		}
 
-		for (auto it{ UpgradesList.begin() }; it != UpgradesList.end(); ++it)
+		/*for (auto it{ UpgradesList.begin() }; it != UpgradesList.end(); ++it)
 		{
 			std::cout <<"Upgrades left " << *it << '\n';
-		}
+		}*/
 	}
 
 	void CPPSUpgradeManager::SetBallUpgrade(int upgradeType)
 	{
 		//This gets called by the upgrade when it gets hit
 		//We just use it as ints for now to set ball upgrades
-		std::cout << "upgrade type set " << upgradeType << '\n';
+		//std::cout << "upgrade type set " << upgradeType << '\n';
 		currentBallUpgrades |= (1 << upgradeType);
 		//Then we loop through and remove the upgrade that we got from the list
 		/*for (std::vector<UpgradeType>::iterator it = UpgradesList.end(); it != UpgradesList.begin();)
