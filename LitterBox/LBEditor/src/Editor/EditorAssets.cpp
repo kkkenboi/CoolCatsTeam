@@ -261,33 +261,52 @@ namespace LB
 					}
 				}
 
-				//IF USER RIGHT CLICKS ON EMPTY SPACE
-				if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+				if (ImGui::BeginPopup("Create"))
 				{
-					if (ImGui::BeginPopup("Create"))
+					ImGui::Text("Create new...");
+					ImGui::Separator();
+					if (ImGui::MenuItem("Animation Controller"))
 					{
-						if (ImGui::BeginCombo("##CreateItem", "New..."))
+						std::ofstream file(directory.path().parent_path().string() + "/newController.controller");
+						if (file)
 						{
-							if (ImGui::Selectable("Animation Controller"))
-							{
-
-							}
-							if (ImGui::Selectable("Animation State"))
-							{
-
-							}
-							if (ImGui::Selectable("SpriteSheet"))
-							{
-
-							}
-							ImGui::EndCombo();
+							file.close();
+						}
+						else
+						{
+							DebuggerLogError("Could not create new animation controller file!");
+						}
+					}
+					if (ImGui::MenuItem("Animation State"))
+					{
+						std::ofstream file(directory.path().parent_path().string() + "/newState.anim");
+						if (file)
+						{
+							file.close();
+						}
+						else
+						{
+							DebuggerLogError("Could not create new animation state file!");
 						}
 
-						ImGui::EndPopup();
 					}
+					if (ImGui::MenuItem("SpriteSheet"))
+					{
+						std::ofstream file(directory.path().parent_path().string() + "/newSpriteSheet.spritesheet");
+						if (file)
+						{
+							file.close();
+						}
+						else
+						{
+							DebuggerLogError("Could not create new SpriteSheet file!");
+						}
+					}
+					ImGui::EndPopup();
 				}
-				// ELSE ON AN ITEM
-				else if (ImGui::BeginPopupContextItem())
+
+				//IF USER RIGHT CLICKS ON AN ITEM
+				if (ImGui::BeginPopupContextItem())
 				{
 					//Ui window pops out with the delete button
 					ImGui::Text("Options");
@@ -321,15 +340,18 @@ namespace LB
 					}
 					ImGui::EndPopup();
 				}
+				// ELSE ON AN EMPTY SPACE
+				else if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && !ImGui::IsItemHovered())
+				{
+					ImGui::OpenPopup("Create");
+				}
+
 				//The name of the folder is without the file extension probably...
 				ImGui::Text(directory.path().filename().stem().string().c_str());
-
 
 				// Always center this window when appearing
 				ImVec2 center = ImGui::GetMainViewport()->GetCenter();
 				ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-
-
 
 				if (ImGui::BeginPopupModal("Error!", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 				{
@@ -342,8 +364,8 @@ namespace LB
 					ImGui::EndPopup();
 				}
 				ImGui::PopID();
-
 			}
+
 		}
 		ImGui::Columns(1);
 
