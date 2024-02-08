@@ -87,6 +87,9 @@ namespace LB
 				//--player->m_currentBalls;
 				canDestroy = true;
 				//GOMANAGER->RemoveGameObject(this->GameObj);
+				if (currentBallUpgrades & BOMB) {
+					Explode();
+				}
 			}
 		}
 		if (canDestroy) GOMANAGER->RemoveGameObject(this->GameObj);
