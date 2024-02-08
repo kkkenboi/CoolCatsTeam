@@ -456,13 +456,13 @@ namespace LB
         }
     }
 
-    SpriteSheet AssetManager::GetSpriteSheet(std::string& name) const
+    SpriteSheet const& AssetManager::GetSpriteSheet(std::string& name) const
     {
         if (SpriteSheets.find(name) != SpriteSheets.end()) {
             return SpriteSheets.at(name);
         }
         DebuggerLogErrorFormat("Unable to find %s in SpriteSheets!", name.c_str());
-        return SpriteSheet();   //SFNIAE
+        return SpriteSheets.begin()->second;   //SFNIAE
     }
 
     SpriteSheet& AssetManager::GetSpriteSheet(std::string& name)

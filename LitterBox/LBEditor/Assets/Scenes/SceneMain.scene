@@ -51,13 +51,7 @@
                     "Width": 200.0,
                     "Height": 100.0,
                     "Texture": "Aim",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 },
                 "CPPScript": {
@@ -92,13 +86,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Felix",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 },
                 "Collider": {
@@ -137,13 +125,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Bush_1",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -167,13 +149,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Bush_1",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -197,13 +173,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Bush_1",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -383,13 +353,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Pause Menu",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -494,13 +458,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "HowToPlay",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -551,13 +509,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "QuitMenu",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -659,13 +611,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Texture": "Underline",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -727,6 +673,30 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSFPS"
+                }
+            },
+            {
+                "Name": "Game Object",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Texture": "mage_attack",
+                    "SpriteName": "testSpriteSheet",
+                    "SpriteIndex": 1
                 }
             }
         ]

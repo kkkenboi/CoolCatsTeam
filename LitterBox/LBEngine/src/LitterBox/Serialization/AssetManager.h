@@ -162,7 +162,7 @@ namespace LB
 
         std::map<std::string, SpriteSheet> SpriteSheets;
         
-        SpriteSheet GetSpriteSheet(std::string& name) const;
+        SpriteSheet const& GetSpriteSheet(std::string& name) const;
 
         SpriteSheet& GetSpriteSheet(std::string& name);
 

@@ -15,8 +15,8 @@
     },
     "Render": {
         "Active": true,
-        "Width": 110.0,
-        "Height": 110.0,
+        "Width": 200.0,
+        "Height": 200.0,
         "Texture": "pine",
         "Sprites": {
             "Name": "testSpriteSheet",

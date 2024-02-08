@@ -518,6 +518,10 @@ namespace Renderer {
 		std::queue<message> msgs;
 
 		bool editor_mode{ false };
+		//Camera shake stuff
+		bool isShake{ false };
+		float shakeDuration{};
+		float shakeIntensity{ 100.f };
 
 	public:
 
@@ -865,9 +869,11 @@ namespace Renderer {
 		\return
 		 returns the list of active objects in a specified layer
 		*************************************************************************/
-		void shaker_camera(float intsentiy = 100.f)
+		void shake_camera(float intsenity = 100.f,float duration = 1.f)
 		{
-			cam.move_cam(intsentiy);
+			shakeIntensity = intsenity;
+			shakeDuration = duration;
+			isShake = true;
 		}
 
 		/*!***********************************************************************

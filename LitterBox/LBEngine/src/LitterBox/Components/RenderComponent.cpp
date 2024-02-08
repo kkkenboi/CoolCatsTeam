@@ -28,11 +28,8 @@ namespace LB
 		data.AddMember("Height", h, alloc);
 		Value textureName(ASSETMANAGER->GetTextureName(texture).c_str(),alloc);
 		data.AddMember("Texture", textureName, alloc);
-		Value SpriteSheetValue;
-		if (ssheet.Serialize(SpriteSheetValue, alloc)) 
-		{
-			data.AddMember("Sprites", SpriteSheetValue, alloc);
-		}
+		Value SpriteSheetNameValue(spriteSheetName.c_str(),alloc);
+		data.AddMember("SpriteName", SpriteSheetNameValue, alloc);
 		data.AddMember("SpriteIndex", spriteIndex, alloc);
 		return true;
 	}
@@ -47,7 +44,7 @@ namespace LB
 		bool HasTexture = data.HasMember("Texture");
 		bool HasWidth = data.HasMember("Width");
 		bool HasHeight = data.HasMember("Height");
-		bool HasSpriteSheet = data.HasMember("Sprites");
+		bool HasSpriteSheet = data.HasMember("SpriteName");
 		bool HasSpriteIndex = data.HasMember("SpriteIndex");
 		if (data.IsObject())
 		{
@@ -79,12 +76,10 @@ namespace LB
 			}
 			if (HasSpriteSheet)
 			{
-				const Value& spriteSheetValue = data["Sprites"];
-				ssheet.Deserialize(spriteSheetValue);
+				spriteSheetName = data["SpriteName"].GetString();
 				if (spriteIndex != -1)
 				{
-					UpdateTexture(ASSETMANAGER->GetTextureUnit(ssheet.GetPNGRef()), static_cast<int>(w), static_cast<int>(h),
-						ssheet[spriteIndex].m_min,ssheet[spriteIndex].m_max);
+					SetSpriteTexture(spriteSheetName, spriteIndex);
 				}
 			}
 			return true;
@@ -104,10 +99,14 @@ namespace LB
 		//Cache the sprite sheet to make it easier on us
 		SpriteSheet selectedsheet = ASSETMANAGER->GetSpriteSheet(SpriteSheetName);
 		//Update the current render texture with all the data from the sprite sheet
-		UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
-			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
-			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
+
+		UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()), w, h,
 			selectedsheet.Sprites()[index].m_min, selectedsheet.Sprites()[index].m_max);
+
+		/*UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
+			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width,
+			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height,
+			selectedsheet.Sprites()[index].m_min, selectedsheet.Sprites()[index].m_max);*/
 	}
 
 	/*!***********************************************************************
