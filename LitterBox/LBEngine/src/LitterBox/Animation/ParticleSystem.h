@@ -48,6 +48,7 @@ namespace LB {
 		void RemoveEmitter(CPParticle* emitter);
 		void UpdateParticles();
 		void UpdateEmitters();
+		void WhenCoreNotPlaying();
 	private:
 
 		// Postion, Velocity, Variation, Texture, SizeBegin

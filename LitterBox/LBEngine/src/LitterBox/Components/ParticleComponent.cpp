@@ -29,6 +29,10 @@ namespace LB {
 		mEmitterLifetime = 1.f;
 		mEmitterLifetimeRemaining = 1.f;
 
+		mParticleLifetime = 1.f;
+
+		mRadialParticles = 10;
+
 		mIsActive = false;
 
 		ParticleManager::Instance()->AddEmitter(this);

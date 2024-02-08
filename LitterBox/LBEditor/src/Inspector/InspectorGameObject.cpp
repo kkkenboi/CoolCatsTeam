@@ -1147,6 +1147,14 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##EmitterRate", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterRate, 1.0f, 0.0f, 0.0f, "%.2f");
+				if (m_inspectedGO->GetComponent<CPParticle>()->mEmitterRate <= 0.f) {
+					m_inspectedGO->GetComponent<CPParticle>()->mEmitterRate = 0.f;
+				}
+				// Radial Num
+				ImGui::Text("%-17s", "Radial Num");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragInt("##RadialNum", &m_inspectedGO->GetComponent<CPParticle>()->mRadialParticles, 1.0f, 0.f, 0.f, "%d");
 				// Emitter Velocity
 				Vec2<float>& velocity = m_inspectedGO->GetComponent<CPParticle>()->mEmitterVelocity;
 				ImGui::Text("%-17s X", "Velocity");
@@ -1184,19 +1192,30 @@ namespace LB
 				ImGui::Text("%-17s Begin", "Emitter Size");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##SizeBegin", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeBegin, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##SizeBegin", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeBegin, 0.1f, 0.0f, 100.0f, "%.2f");
+				if (m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeBegin <= 0.f) {
+					m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeBegin = 0.f;
+				}
 				ImGui::SameLine();
 				ImGui::Text("End");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##SizeEnd", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeEnd, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##SizeEnd", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeEnd, 0.1f, 0.0f, 100.0f, "%.2f");
+				if (m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeEnd <= 0.f) {
+					m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeEnd = 0.f;
+				}
 				// Emitter Lifetime
 				ImGui::Text("%-17s", "Emitter Lifetime");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##EmitterLifeTime", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetime, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##EmitterLifeTime", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetime, 0.5f, 0.0f, 0.0f, "%.2f");
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::Text("Lifetime Left: %.2f", m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeRemaining);
+				// Particle Lifetime
+				ImGui::Text("%-17s", "Particle Lifetime");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##ParticleLifeTime", &m_inspectedGO->GetComponent<CPParticle>()->mParticleLifetime, 0.5f, 0.0f, 0.0f, "%.2f");
 				// Emitter Active
 				bool& isEmitterActive = m_inspectedGO->GetComponent<CPParticle>()->mIsActive;
 				ImGui::PushID("EmitterActive");
