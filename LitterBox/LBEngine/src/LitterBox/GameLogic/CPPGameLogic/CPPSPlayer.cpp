@@ -59,9 +59,9 @@ namespace LB
 		m_maxHealth = 3;
 		m_currentHealth = 3;
 
-		// 0.5 seconds of invincibility
+		// 1 seconds of invincibility
 		mGotAttackedCooldown = 0;
-		mGotAttacked = 0.5f;
+		mGotAttacked = 1.f;
 
 		// So that balls don't spawn on top each other
 		rb->addForce(Vec2<float>{10.0f, 0.0f} * TIME->GetDeltaTime());
@@ -103,23 +103,23 @@ namespace LB
 		*************************************************************************/
 		//-----------------TESTING SPAWN-----------------------
 		//Spawn Mage
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
-		{
-			Vec2<float> mouse_pos = INPUT->GetMousePos();
-			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+		//if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
+		//{
+		//	Vec2<float> mouse_pos = INPUT->GetMousePos();
+		//	mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+		//	mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+		//	mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 
-			GameObject* mageObject = FACTORY->SpawnGameObject();
-			JSONSerializer::DeserializeFromFile("Mage", *mageObject);
-			mageObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
-		}
+		//	GameObject* mageObject = FACTORY->SpawnGameObject();
+		//	JSONSerializer::DeserializeFromFile("Mage", *mageObject);
+		//	mageObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		//}
 		/*!***********************************************************************
 		\brief
 		When "9" is pressed on the key, it will spawn a Chaser
 		*************************************************************************/
 		//Spawn Chaser
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
+	/*	if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
 		{
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
@@ -129,7 +129,7 @@ namespace LB
 			GameObject* chaserObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserObject);
 			chaserObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
-		}
+		}*/
 
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
@@ -260,6 +260,7 @@ namespace LB
 					if (!TIME->IsPaused())
 					{
 						vec_colliders[i]->rigidbody->addImpulse(force_to_apply); //* TIME->GetDeltaTime());
+						
 						if (vec_colliders[i]->gameObj->GetName() == "ball")
 						{
 							vec_colliders[i]->gameObj->GetComponent<CPPSPlayerGolfBall>()->Split();
@@ -327,12 +328,14 @@ namespace LB
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
 		{
-			if (mGotAttackedCooldown > 0.0f) {
+			if (mGotAttackedCooldown > 0) return;
+			//shake the cam
+			if (mGotAttackedCooldown <= 0.0f) {
+				Renderer::GRAPHICS->shake_camera(20.f, .1f);
 				if (colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
 				{
 					AUDIOMANAGER->ChanceToPlayGroupSound(AUDIOMANAGER->ChaserAttackSounds);
 				}
-				return;
 			}
 			mGotAttackedCooldown = mGotAttacked;
 

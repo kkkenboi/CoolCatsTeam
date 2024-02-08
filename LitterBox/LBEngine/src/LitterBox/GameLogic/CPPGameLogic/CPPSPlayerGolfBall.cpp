@@ -144,6 +144,7 @@ namespace LB
 	//Function to handle when the ball explodes
 	void CPPSPlayerGolfBall::Explode()
 	{
+		Renderer::GRAPHICS->shake_camera(80.f,0.3f);
 		std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
 		//We loop through all the colliders that were in the radius
 		for (CPCollider* col : explosionColliders) {
