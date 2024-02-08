@@ -32,7 +32,12 @@ namespace LB
 
 	//height constraint of texture preview
 	static float textPreviewLim = 250.f;
-
+	/*!***********************************************************************
+	  \brief
+	  Constructor for the EditorSceneView class.
+	  \param
+	  The string identifier for the Layering system to know which window this is.
+	*************************************************************************/
 	EditorTMEditor::EditorTMEditor(std::string layerName) :
 		Layer(layerName),
 		textureID{ 0 },
@@ -46,7 +51,10 @@ namespace LB
 		else
 			DebuggerLogError("Editor Tile Map Editor already exists!");
 	}
-
+	/*!***********************************************************************
+	  \brief
+	  Update function that is called every frame.
+	*************************************************************************/
 	void EditorTMEditor::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
@@ -218,6 +226,16 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Calculates the minimum and maximum UVs required for splitting the texture
+	  given.
+
+	  \param rows
+	  The number of times to split the texture horizontally
+	  \param cols
+	  The number of times to split the texture vertically
+	*************************************************************************/
 	void EditorTMEditor::createUV(int rows, int cols) {
 		if (rows <= 0 || cols <= 0) {
 			DebuggerLogError("Number of Rows or Columns input for the tilemap is not more than 0");
@@ -241,6 +259,18 @@ namespace LB
 			}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Calcullates preview size, for the texture in ImGui window so it displays
+	  nicely regardless of texture size
+
+	  \param width
+	  The width of the texture
+	  \param height
+	  The height of the texture
+	  \param previewLimit
+	  How small you want the viewport in ImGui to be
+	*************************************************************************/
 	void EditorTMEditor::calPreviewSize(float width, float height, float previewLimit) {
 		//error handling for width and height
 		if (width <= 0.f || height <= 0.f)

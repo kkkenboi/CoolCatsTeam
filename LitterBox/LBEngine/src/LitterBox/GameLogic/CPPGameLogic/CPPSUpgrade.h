@@ -14,6 +14,7 @@ namespace LB
 		void AssignUpgradeID(int);
 		//Upgrade assigned by the upgrade managaer
 		int assignedUpgradeType{ 0 };
+		bool canDestroy{ false };
 	private:
 		//GameObject* BallGameObj{ nullptr };
 	};

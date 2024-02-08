@@ -64,6 +64,8 @@ namespace LB
 		//Upgrade functions
 		void Explode();
 		void Split();
+		bool canDestroy{ false };
+		bool hasSplit{ false };
 	private:
 		/*!***********************************************************************
 		\brief

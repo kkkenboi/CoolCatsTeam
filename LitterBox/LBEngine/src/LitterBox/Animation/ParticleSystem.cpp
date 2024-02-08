@@ -20,45 +20,67 @@ namespace LB
 	// Spawns a particle from an emitters configs
 	void ParticleManager::Emit(CPParticle emitter) 
 	{
-		//std::cout << "Emitting\n";
-		// Gets a particle from the particle pool to instantiate
-		Particle& particle = mParticlePool[mParticlePoolIndex];
-		particle.mIsActive = true;
-		particle.mPosition = emitter.mEmitterPos;
-		particle.mRotation = 0.f;
 
-		// Velocity
-		particle.mVelocity = emitter.mEmitterVelocity;
-		particle.mVelocity.x += RandomRange(emitter.mEmitterVariationMinX, emitter.mEmitterVariationMaxX);
-		particle.mVelocity.y += RandomRange(emitter.mEmitterVariationMinY, emitter.mEmitterVariationMaxY);
+		if (emitter.mEmitterType == TRAIL)
+		{
+			// Gets a particle from the particle pool to instantiate
+			Particle& particle = mParticlePool[mParticlePoolIndex];
+			particle.mIsActive = true;
+			particle.mPosition = emitter.mEmitterPos;
+			particle.mRotation = 0.f;
 
-		// Texture
-		 
-		// Lifetime
-		particle.mLifetime = emitter.mEmitterLifetime;
-		particle.mLifetimeRemaining = emitter.mEmitterLifetime;
+			// Velocity
+			particle.mVelocity = emitter.mEmitterVelocity;
+			particle.mVelocity.x += RandomRange(emitter.mEmitterVariationMinX, emitter.mEmitterVariationMaxX);
+			particle.mVelocity.y += RandomRange(emitter.mEmitterVariationMinY, emitter.mEmitterVariationMaxY);
 
-		// Size
-		particle.mSizeBegin = emitter.mEmitterSizeBegin;
-		particle.mSize = particle.mSizeBegin;
-		particle.mSizeEnd = emitter.mEmitterSizeEnd;
-	
-		mParticlePoolIndex = (mParticlePoolIndex - 1 + mParticlePool.size()) % mParticlePool.size();
-		
-		// Create a GameObject that follows the Particle's current stats
-		particle.mGameObj = FACTORY->SpawnGameObject();
-		particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
-		particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
-		particle.mGameObj->GetComponent<CPRender>()->Initialise();
-		// Get the texture ID from the emitter
-		int textureID = emitter.mRender->texture;
-		std::string textureName = ASSETMANAGER->GetTextureName(textureID);
-		//std::cout << emitter.mRender->w << '\n';
-		//std::cout << emitter.mRender->h << '\n';
-		//std::cout << ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second << std::endl;
-		//std::cout << ASSETMANAGER->GetTextureName(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second) << std::endl;
-		particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter.mRender->w), static_cast<int>(emitter.mRender->h));
+			// Texture
 
+			// Lifetime
+			particle.mLifetime = emitter.mParticleLifetime;
+			particle.mLifetimeRemaining = emitter.mParticleLifetime;
+
+			// Size
+			particle.mSizeBegin = emitter.mEmitterSizeBegin;
+			particle.mSize = particle.mSizeBegin;
+			particle.mSizeEnd = emitter.mEmitterSizeEnd;
+
+			mParticlePoolIndex = (mParticlePoolIndex - 1 + mParticlePool.size()) % mParticlePool.size();
+
+			// Create a GameObject that follows the Particle's current stats
+			particle.mGameObj = FACTORY->SpawnGameObject();
+			particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+			particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+			particle.mGameObj->GetComponent<CPRender>()->Initialise();
+			// Get the texture ID from the emitter
+			int textureID = emitter.mRender->texture;
+			std::string textureName = ASSETMANAGER->GetTextureName(textureID);
+			//std::cout << emitter.mRender->w << '\n';
+			//std::cout << emitter.mRender->h << '\n';
+			//std::cout << ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second << std::endl;
+			//std::cout << ASSETMANAGER->GetTextureName(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second) << std::endl;
+			particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter.mRender->w), static_cast<int>(emitter.mRender->h));
+		}
+		if (emitter.mEmitterType == RADIAL)
+		{
+			// Get however many radial num we got
+			for (int i = 0; i < emitter.mRadialParticles; ++i) 
+			{
+				// Get particle from the particle pool
+				Particle& particle = mParticlePool[mParticlePoolIndex];
+				particle.mIsActive = true;
+				particle.mPosition = emitter.mEmitterPos;
+				particle.mRotation = 0.f;
+
+				// Velocity (calced in radial form)
+
+				// Lifetime
+
+				// Size
+
+				// Create a GameObject
+			}
+		}
 	}
 
 
@@ -69,6 +91,7 @@ namespace LB
 			UpdateParticles();
 			UpdateEmitters();
 		}
+		WhenCoreNotPlaying();
 	}
 
 	void ParticleManager::Destroy() 
@@ -140,17 +163,28 @@ namespace LB
 			particle.mPosition += particle.mVelocity * TIME->GetDeltaTime();
 			particle.mRotation += 0.01f * TIME->GetDeltaTime();
 
+
 			// Check if size is enlarging or getting smaller
 			if (particle.mSizeBegin > particle.mSizeEnd) {
 				// Getting smaller
+				float sizeChangePerSecond = (particle.mSizeBegin - particle.mSizeEnd) / particle.mLifetime;
 				if (particle.mSize > particle.mSizeEnd) {
-					particle.mSize *= 0.9f;
+					particle.mSize -= sizeChangePerSecond * TIME->GetDeltaTime();
+					if (particle.mSize <= particle.mSizeEnd) 
+					{
+						particle.mSize = particle.mSizeEnd;
+					}
 				}
 			}
 			// Getting larger
 			else if (particle.mSizeBegin < particle.mSizeEnd) {
+				float sizeChangePerSecond = (particle.mSizeEnd - particle.mSizeBegin) / particle.mLifetime;
 				if (particle.mSize < particle.mSizeEnd) {
-					particle.mSize *= 1.1f;
+					particle.mSize += sizeChangePerSecond * TIME->GetDeltaTime();
+					if (particle.mSize >= particle.mSizeEnd) 
+					{
+						particle.mSize = particle.mSizeEnd;
+					}
 				}
 			}
 
@@ -171,6 +205,17 @@ namespace LB
 			{
 				//std::cout << "Here!\n";
 				emitter->Update();
+			}
+		}
+	}
+
+	void ParticleManager::WhenCoreNotPlaying()
+	{
+		if (!CORE->IsPlaying()) {
+			// Loop through the mParticles and make the GameObj* = nullptr
+			for (int i = 0; i < mParticlePool.size(); ++i)
+			{
+				mParticlePool[i].mGameObj = nullptr;
 			}
 		}
 	}

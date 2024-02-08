@@ -80,6 +80,10 @@ namespace LB
 
 		~CPRender();
 
+		/*!***********************************************************************
+		\brief
+		 Returns the component of the Gameobject as a CPRender type
+		*************************************************************************/
 		static ComponentTypeID GetType()
 		{
 			return C_CPRender;
@@ -153,6 +157,15 @@ namespace LB
 		*************************************************************************/
 		inline const Renderer::Renderer_Types get_r_type() const { return renderer_id; }
 
+		/*!***********************************************************************
+		\brief
+		 Updates which rendering layer the object is in.
+		 
+		 NOTE: This function does not change the rendering layer
+
+		\param
+		 The new rendering layer that the object has been placed in
+		*************************************************************************/
 		inline void set_r_type(Renderer::Renderer_Types type) { renderer_id = type; }
 
 		/*!***********************************************************************
@@ -218,6 +231,8 @@ namespace LB
 				uv[3] = { min.x, max.y };//{ 0.f, 1.f };
 			}
 		}
+
+		void SetSpriteTexture(std::string SpriteSheetName, int index);
 
 		/*!***********************************************************************
 		\brief

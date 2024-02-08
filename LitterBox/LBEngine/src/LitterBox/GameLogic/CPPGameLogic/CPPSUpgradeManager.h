@@ -7,14 +7,13 @@ namespace LB
 {
 	enum UpgradeType
 	{
-		BOMB = 1,	//Ball explodes on contact
-		SPLIT,		//Ball splits into 3 (not counted towards total ball count)
+		SPLIT = 1,		//Ball splits into 3 (not counted towards total ball count)
+		BOMB,	//Ball explodes on contact
 		BIGBALL,	//Ball increase size and mass
-		MOREBALL,	//Increase ball count by 3	(capped at 6/9)
-		MOREHEALTH,	//Increase Max health by 1 (capped at 6/9)
 		MOVESPEED,	//Increase player movespeed
+		MOREHEALTH,	//Increase Max health by 1 (capped at 6/9)
+		MOREBALL,	//Increase ball count by 3	(capped at 6/9)
 		MAXCOUNT	//Enum to keep track of the count of upgrades
-		
 	};
 
 	class CPPSUpgradeManager : public CPPBehaviour , public Singleton<CPPSUpgradeManager>
@@ -25,7 +24,8 @@ namespace LB
 		void Destroy() override;
 
 		void SpawnUpgrades(); //Function to spawn 3 upgrades from list of upgrades
-		void HideUpgrades();
+		void RemoveUpgradeFromList(UpgradeType upgradeType);
+		void HideUpgrades(int chosen);
 		void SetBallUpgrade(int upgradeType);
 		int GetBallUpgrades();
 
@@ -39,6 +39,7 @@ namespace LB
 		std::vector<UpgradeType> UpgradesList;
 		//Default is 0 for no upgrades
 		int currentBallUpgrades{0};
+		bool hasUpgraded{ false };
 	private:
 		//Temporary upgrade positions for now, in the future these will be calculated 
 		//and placed at the "end point" of the bigger map

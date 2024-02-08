@@ -1,6 +1,7 @@
 
 #include "CPPGameManager.h"
 #include "LitterBox/Engine/Input.h"
+#include "CPPSUpgradeManager.h"
 #include <random>
 namespace LB
 {
@@ -49,12 +50,18 @@ namespace LB
 			GenerateWave();
 			GameStart = true;
 		}
-		//Really really really scuffed way of doing this
-		if (currentEnemyCount == 0 && GameStart)
+		////Really really really scuffed way of doing this
+		//if (currentEnemyCount == 0 && GameStart && UpgradePicked)
+		//{
+		//	//Spawn Upgrades, Do level transition blablabla
+		//	currentWave++;
+		//	GenerateWave();
+		//	UpgradePicked = false;
+		//}
+		if (currentEnemyCount == 0 && GameStart && !UpgradeSpawned)
 		{
-			//Spawn Upgrades, Do level transition blablabla
-			currentWave++;
-			GenerateWave();
+			UpgradeSpawned = true;
+			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
 		}
 	}
 	void CPPSGameManager::Destroy()
@@ -124,6 +131,13 @@ namespace LB
 		} while ((SpawnCredits-2) >= 0); //As long as it is more than the current lowest spawn amount
 		
 
+	}
+
+	void CPPSGameManager::NextWave()
+	{
+		currentWave++;
+		GenerateWave();
+		UpgradeSpawned = false;
 	}
 
 }

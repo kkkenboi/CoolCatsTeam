@@ -139,6 +139,8 @@ namespace LB
 				audioSrc->Update();
 			}
 		}
+		//Set 3D volume thing here
+		//audioSystem->set3DListenerAttributes(0)
 		audioSystem->update();
 	}
 
