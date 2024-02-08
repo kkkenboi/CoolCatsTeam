@@ -15,6 +15,7 @@
 **************************************************************************/
 
 #include "AnimationManager.h"
+#include "LitterBox/Core/Core.h"
 
 namespace LB
 {
@@ -25,6 +26,8 @@ namespace LB
 
 	void AnimationManager::Update()
 	{
+		if (!CORE->IsPlaying()) return;
+
 		for (auto& anim : m_animators)
 		{
 			anim->Update();

@@ -1101,11 +1101,18 @@ namespace LB
 
 				ImGui::Text("%-17s", "Controller Name");
 				ImGui::SameLine();
-				strcpy_s(m_textBuffer, sizeof(m_textBuffer), m_inspectedGO->GetComponent<CPAnimator>()->GetControllerName().c_str());
-				ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.8f);
-				if (ImGui::InputText("##ControllerName", m_textBuffer, 256))
+
+				if (ImGui::BeginCombo("##Controller", m_inspectedGO->GetComponent<CPAnimator>()->GetControllerName().c_str()))
 				{
-					m_inspectedGO->GetComponent<CPAnimator>()->SetControllerName(m_textBuffer);
+					for (auto& [str, controller] : ASSETMANAGER->AnimControllers)
+					{
+						if (ImGui::Selectable(controller.GetName().c_str()))
+						{
+							m_inspectedGO->GetComponent<CPAnimator>()->SetControllerName(controller.GetName());
+						}
+					}
+
+					ImGui::EndCombo();
 				}
 
 				if (ImGui::Button("Delete Animator Component"))

@@ -14,6 +14,7 @@
 
 #include "LitterBox/Components/AnimatorComponent.h"
 #include "LitterBox/Animation/AnimationManager.h"
+#include "LitterBox/Serialization/AssetManager.h"
 
 namespace LB
 {
@@ -26,7 +27,12 @@ namespace LB
 	void CPAnimator::Initialise()
 	{
 		AnimationManager::Instance()->AddAnimator(this);
+	}
+
+	void CPAnimator::LoadController()
+	{
 		m_render = gameObj->GetComponent<CPRender>();
+		m_controller = ASSETMANAGER->AnimControllers[m_controller.GetName()];
 	}
 
 	/*!***********************************************************************
@@ -40,7 +46,7 @@ namespace LB
 		m_controller.Update();
 		if (m_controller.IsNextFrame())
 		{
-
+			m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_controller.IsNextFrame());
 		}
 	}
 
@@ -70,13 +76,28 @@ namespace LB
 
 	bool CPAnimator::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
-		//apparently i cant right now 7/1/2024
-		return false;
+		data.SetObject();
+
+		Value controllerValue(m_controller.GetName().c_str(), alloc);
+		data.AddMember("Controller", controllerValue, alloc);
+
+		return true;
 	}
 
 	bool CPAnimator::Deserialize(const Value& data)
 	{
-		//apparently i cant right now 7/1/2024
+		bool HasController = data.HasMember("Controller");
+
+		if (data.IsObject())
+		{
+			if (HasController)
+			{
+				const Value& nameValue = data["Controller"];
+				SetControllerName(nameValue.GetString());
+			}
+			return true;
+		}
+
 		return false;
 	}
 
@@ -87,7 +108,7 @@ namespace LB
 
 	void CPAnimator::SetControllerName(std::string const& name)
 	{
-
+		m_controller.SetName(name);
 	}
 
 	///*!***********************************************************************

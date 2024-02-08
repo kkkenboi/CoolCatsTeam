@@ -186,6 +186,12 @@ namespace LB
 			m_Components.find(C_CPText)->second->Serialize(TextComponent, alloc);
 			data.AddMember("Text", TextComponent, alloc);
 		}
+		if (m_Components.find(C_CPAnimator) != m_Components.end())
+		{
+			Value AnimatorComponent;
+			m_Components.find(C_CPAnimator)->second->Serialize(AnimatorComponent, alloc);
+			data.AddMember("Animator", AnimatorComponent, alloc);
+		}
 		return true;
 	}
 
@@ -206,6 +212,7 @@ namespace LB
 		bool HasCPPScript = data.HasMember("CPPScript");
 		bool HasAudio = data.HasMember("AudioSource");
 		bool HasText = data.HasMember("Text");
+		bool HasAnimator = data.HasMember("Animator");
 		if (data.IsObject())
 		{
 			if (HasName)
@@ -289,6 +296,16 @@ namespace LB
 				}
 				const Value& textValue = data["Text"];
 				m_Components.find(C_CPText)->second->Deserialize(textValue);
+			}
+			if (HasAnimator)
+			{
+				if (m_Components.find(C_CPAnimator) == m_Components.end())
+				{
+					DebuggerLog("Deserialize: GO doesn't have a Animator Component :C so we make one");
+					AddComponent(C_CPAnimator, FACTORY->GetCMs()[C_CPAnimator]->Create());
+				}
+				const Value& animatorValue = data["Animator"];
+				m_Components.find(C_CPAnimator)->second->Deserialize(animatorValue);
 			}
 		}
 		this->StartComponents();

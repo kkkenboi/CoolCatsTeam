@@ -115,8 +115,8 @@ namespace LB
 		SpriteSheet selectedsheet = ASSETMANAGER->GetSpriteSheet(SpriteSheetName);
 		//Update the current render texture with all the data from the sprite sheet
 		UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
-			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
-			ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
+			w,
+			h,
 			selectedsheet.Sprites()[index].m_min, selectedsheet.Sprites()[index].m_max);
 	}
 

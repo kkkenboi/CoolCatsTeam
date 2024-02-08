@@ -66,7 +66,7 @@ namespace LB
 	private:
 		AnimationState* m_current;
 
-		std::string m_name;
+		std::string m_name { "No controller" };
 		std::vector<AnimationState> m_states;
 	};
 }

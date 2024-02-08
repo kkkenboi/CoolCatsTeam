@@ -43,6 +43,8 @@ namespace LB
 		**************************************************************************/
 		void Initialise() override;
 
+		void LoadController();
+
 		/*!************************************************************************
 		\brief
 		 Update function where it update at every frame

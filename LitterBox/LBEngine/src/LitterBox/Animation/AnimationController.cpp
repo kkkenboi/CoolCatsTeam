@@ -64,7 +64,7 @@ namespace LB
 
 	bool AnimationController::IsPlaying() const
 	{
-		return m_current->IsPlaying();
+		return m_current && m_current->IsPlaying();
 	}
 
 	int AnimationController::IsNextFrame() const
