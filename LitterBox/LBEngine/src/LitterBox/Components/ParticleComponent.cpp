@@ -15,28 +15,25 @@ namespace LB {
 		mEmitterType = TRAIL;
 		
 		mEmitterPos = mTransform->GetPosition();
-		mEmitterRate = 0.05f;
+		//mEmitterRate = 0.05f;
 
-		mEmitterVelocity = Vec2<float>{ 0.f, 0.f };
-		mEmitterVariationMinX = 0.f;
-		mEmitterVariationMaxX = 0.f;
-		mEmitterVariationMinY = 0.f;
-		mEmitterVariationMaxY = 0.f;
+		//mEmitterVelocity = Vec2<float>{ 0.f, 0.f };
+		//mEmitterVariationMinX = 0.f;
+		//mEmitterVariationMaxX = 0.f;
+		//mEmitterVariationMinY = 0.f;
+		//mEmitterVariationMaxY = 0.f;
 
-		mEmitterRadialSpeed = 100.f;
+		//mEmitterRadialSpeed = 100.f;
 
-		mEmitterSizeBegin = 1.f;
-		mEmitterSizeEnd = 1.f;
+		//mEmitterSizeBegin = 1.f;
+		//mEmitterSizeEnd = 1.f;
 
-		mEmitterLifetime = 1.f;
-		mEmitterLifetimeRemaining = 1.f;
+		//mEmitterLifetime = 1.f;
+		mEmitterLifetimeRemaining = mEmitterLifetime;
 
-		mParticleLifetime = 1.f;
+		//mParticleLifetime = 1.f;
 
-		mRadialParticles = 10;
-
-		mIsLooping = false;
-		mIsActive = false;
+		//mRadialParticles = 10;
 
 		ParticleManager::Instance()->AddEmitter(this);
 	}
@@ -89,6 +86,54 @@ namespace LB {
 	ComponentTypeID CPParticle::GetType() 
 	{
 		return C_CPParticle;
+	}
+
+	bool CPParticle::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+		data.SetObject();
+		data.AddMember("EmitterType", static_cast<int>(mEmitterType), alloc);
+		data.AddMember("EmitterRate", mEmitterRate, alloc);
+		data.AddMember("RadialNum", mRadialParticles, alloc);
+		Value VelocityValue;
+		if (mEmitterVelocity.Serialize(VelocityValue, alloc))
+		{
+			data.AddMember("EmitterVelocity", VelocityValue, alloc);
+		}
+		data.AddMember("VelocityMinX", mEmitterVariationMinX, alloc);
+		data.AddMember("VelocityMaxX", mEmitterVariationMaxX, alloc);
+		data.AddMember("VelocityMinY", mEmitterVariationMinY, alloc);
+		data.AddMember("VelocityMaxY", mEmitterVariationMaxY, alloc);
+		data.AddMember("RadialSpeed", mEmitterRadialSpeed, alloc);
+		data.AddMember("SizeBegin", mEmitterSizeBegin, alloc);
+		data.AddMember("SizeEnd", mEmitterSizeEnd, alloc);
+		data.AddMember("EmitterLifetime", mEmitterLifetime, alloc);
+		data.AddMember("ParticleLifetime", mParticleLifetime, alloc);
+		data.AddMember("EmitterActive", mIsActive, alloc);
+		data.AddMember("EmitterLooping", mIsLooping, alloc);
+
+		return true;
+	}
+
+	bool CPParticle::Deserialize(const Value& data)
+	{
+		mEmitterType = static_cast<EmitterType>(data["EmitterType"].GetInt());
+		mEmitterRate = data["EmitterRate"].GetFloat();
+		mRadialParticles = data["RadialNum"].GetInt();
+		const Value& velocityValue = data["EmitterVelocity"];
+		mEmitterVelocity.Deserialize(velocityValue);
+		mEmitterVariationMinX = data["VelocityMinX"].GetFloat();
+		mEmitterVariationMaxX = data["VelocityMaxX"].GetFloat();
+		mEmitterVariationMinY = data["VelocityMinY"].GetFloat();
+		mEmitterVariationMaxY = data["VelocityMaxY"].GetFloat();
+		mEmitterRadialSpeed = data["RadialSpeed"].GetFloat();
+		mEmitterSizeBegin = data["SizeBegin"].GetFloat();
+		mEmitterSizeEnd = data["SizeEnd"].GetFloat();
+		mEmitterLifetime = data["EmitterLifetime"].GetFloat();
+		mParticleLifetime = data["ParticleLifetime"].GetFloat();
+		mIsActive = data["EmitterActive"].GetBool();
+		mIsLooping = data["EmitterLooping"].GetBool();
+
+		return true;
 	}
 
 	std::string CPParticle::GetEmitterType()

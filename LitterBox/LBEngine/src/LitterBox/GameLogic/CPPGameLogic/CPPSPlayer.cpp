@@ -215,14 +215,15 @@ namespace LB
 		{
 			//rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
 			rb->mVelocity *= 0.95f;
-			//if (isWalkingAnim)
-			//{
-			//	rend->stop_anim();
-			//	rend->play_repeat("player_idle");
-			//	isWalkingAnim = false;
-			//}
+			// if (isWalkingAnim)
+			// {
+			// 	rend->stop_anim();
+			// 	rend->play_repeat("player_idle");
+			// 	isWalkingAnim = false;
+			// }
+			GameObj->GetComponent<CPTransform>()->GetChild()->gameObj->GetComponent<CPParticle>()->mIsActive = false;
 		}
-
+		if (isMoving) GameObj->GetComponent<CPTransform>()->GetChild()->gameObj->GetComponent<CPParticle>()->mIsActive = true;
 		//------------------Play step sound------------------
 		if (isMoving && m_stepSoundCurrent > m_stepSoundInterval)
 		{

@@ -73,7 +73,54 @@
                         "x": 1.25,
                         "y": 1.25
                     },
-                    "Rotation": 0.0
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "DeDust2",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -45.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 100.0,
+                                "Height": 100.0,
+                                "Layer": 0,
+                                "Texture": "DustParticle",
+                                "SpriteName": "None",
+                                "SpriteIndex": 1
+                            },
+                            "Particle": {
+                                "EmitterType": 0,
+                                "EmitterRate": 0.05,
+                                "RadialNum": 10,
+                                "EmitterVelocity": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "VelocityMinX": -15.0,
+                                "VelocityMaxX": 10.0,
+                                "VelocityMinY": -50.0,
+                                "VelocityMaxY": 40.0,
+                                "RadialSpeed": 100.0,
+                                "SizeBegin": 0.8,
+                                "SizeEnd": 0.3,
+                                "EmitterLifetime": 1.0,
+                                "ParticleLifetime": 0.15,
+                                "EmitterActive": true,
+                                "EmitterLooping": true
+                            }
+                        }
+                    ]
                 },
                 "RigidBody": {
                     "Active": true,
@@ -682,30 +729,6 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSFPS"
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 960.0,
-                        "y": 540.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Texture": "mage_attack",
-                    "SpriteName": "testSpriteSheet",
-                    "SpriteIndex": 1
                 }
             }
         ]

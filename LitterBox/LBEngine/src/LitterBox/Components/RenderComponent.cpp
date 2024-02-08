@@ -87,7 +87,7 @@ namespace LB
 			if (HasSpriteSheet)
 			{
 				spriteSheetName = data["SpriteName"].GetString();
-				if (spriteIndex != -1)
+				if (spriteSheetName != "None")
 				{
 					SetSpriteTexture(spriteSheetName, spriteIndex);
 				}
