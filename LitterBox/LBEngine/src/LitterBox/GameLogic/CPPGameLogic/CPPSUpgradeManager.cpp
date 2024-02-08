@@ -31,7 +31,8 @@ namespace LB
 	{
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{
-			SpawnUpgrades();
+			//Renderer::GRAPHICS->shake_camera();
+		//	SpawnUpgrades();
 		}
 		
 		//if (!isSpawned) {

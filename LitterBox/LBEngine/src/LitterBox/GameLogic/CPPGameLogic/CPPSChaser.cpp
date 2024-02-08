@@ -173,6 +173,7 @@ namespace LB
 				
 			}
 		}
+		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") { mFSM.ChangeState("Hurt"); }
 
 	}
 
