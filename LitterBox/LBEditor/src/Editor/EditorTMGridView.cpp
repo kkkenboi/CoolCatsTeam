@@ -22,7 +22,12 @@
 namespace LB
 {
 	EditorTMGridView* EDITORTMGRIDVIEW = nullptr;
-
+	/*!***********************************************************************
+	  \brief
+	  Constructor for the EditorTMGridView class.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	EditorTMGridView::EditorTMGridView(std::string layerName) : Layer(layerName),
 		rowNum{10}, colNum{20}, tileSelected{0},
 		tiles{}, tiles_names{}, tmpRow{rowNum}, tmpCol{colNum}
@@ -34,7 +39,12 @@ namespace LB
 
 		tiles.resize(rowNum * colNum, 0);
 	}
-
+	/*!***********************************************************************
+	  \brief
+	  Initializes the EditorTMGridView layer.
+	  \return
+	  Nothing.
+	*************************************************************************/
 	void EditorTMGridView::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());

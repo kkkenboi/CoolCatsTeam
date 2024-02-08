@@ -148,7 +148,7 @@ namespace LB {
 		 Getter method to get the entire message object in CPText object that
 		 contains all necessary information for the text to be printed
 		*************************************************************************/
-		inline Renderer::message& get_msg();
+		Renderer::message& get_msg();
 
 		/*!***********************************************************************
 		 \brief

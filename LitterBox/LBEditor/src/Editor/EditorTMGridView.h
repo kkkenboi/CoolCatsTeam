@@ -29,10 +29,25 @@ namespace LB {
 
 		ImVec2 defaultUV{ 0.f,0.f };
 	public:
+		/*!***********************************************************************
+		  \brief
+		  Constructor for the EditorTMGridView class.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		EditorTMGridView(std::string layerName);
-
+		/*!***********************************************************************
+		  \brief
+		  Initializes the EditorTMGridView layer.
+		  \return
+		  Nothing.
+		*************************************************************************/
 		void UpdateLayer() override;
 
+		/*!***********************************************************************
+		  \brief
+		  An inherited Deconstructor
+		*************************************************************************/
 		void Destroy() {}
 	};
 

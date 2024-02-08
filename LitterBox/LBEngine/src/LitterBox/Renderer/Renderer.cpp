@@ -1326,7 +1326,17 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 		break;
 	}
 }
+/*!***********************************************************************
+\brief
+ remove object from its current rendering layer and place it into the new
+ specified rendering layer
 
+\param new_type
+ The new rendering layer we want to place the CPRender object into
+
+\param obj
+ Poitner to a render object that was just created
+*************************************************************************/
 void Renderer::RenderSystem::swap_object_type(Renderer_Types new_type, LB::CPRender* obj)
 {
 	unsigned int newid{ 0 };
@@ -1435,7 +1445,13 @@ void Renderer::RenderSystem::Destroy()
 	
 }
 
+/*!***********************************************************************
+\brief
+ Returns the list of objects inside the specified rendering layer
 
+\param layer
+ The rendering layer we want to access
+*************************************************************************/
 const std::list<const LB::CPRender*>& Renderer::RenderSystem::get_layer_objs(Renderer_Types layer) const
 {
 	switch (layer) {
@@ -1447,7 +1463,16 @@ const std::list<const LB::CPRender*>& Renderer::RenderSystem::get_layer_objs(Ren
 		return ui_renderer.getObjectList();
 	}
 }
+/*!***********************************************************************
+\brief
+ Performs a check on whether the rendering layer is active or not
 
+\param layer
+ The rendering layer we want to check
+
+\return bool
+ True - if rendering layer is active, False - if not
+*************************************************************************/
 const bool& Renderer::RenderSystem::get_layer_active(Renderer_Types layer) const
 {
 	switch (layer) {
@@ -1765,7 +1790,7 @@ inline const std::string& LB::CPText::get_msg_font() const
  Getter method to get the entire message object in CPText object that
  contains all necessary information for the text to be printed
 *************************************************************************/
-inline Renderer::message& LB::CPText::get_msg()
+Renderer::message& LB::CPText::get_msg()
 {
 	// TODO: insert return statement here
 	return msg;
