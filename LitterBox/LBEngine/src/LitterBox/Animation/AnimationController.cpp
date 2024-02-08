@@ -44,7 +44,10 @@ namespace LB
 
 	void AnimationController::Play(std::string const& stateName)
 	{
-		SetState(stateName);
+		if (m_current.GetName() != stateName)
+		{
+			SetState(stateName);
+		}
 		Play();
 	}
 

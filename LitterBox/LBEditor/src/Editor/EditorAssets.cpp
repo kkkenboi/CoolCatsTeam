@@ -261,8 +261,33 @@ namespace LB
 					}
 				}
 
-				//IF USER RIGHT CLICKS
-				if (ImGui::BeginPopupContextItem())
+				//IF USER RIGHT CLICKS ON EMPTY SPACE
+				if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+				{
+					if (ImGui::BeginPopup("Create"))
+					{
+						if (ImGui::BeginCombo("##CreateItem", "New..."))
+						{
+							if (ImGui::Selectable("Animation Controller"))
+							{
+
+							}
+							if (ImGui::Selectable("Animation State"))
+							{
+
+							}
+							if (ImGui::Selectable("SpriteSheet"))
+							{
+
+							}
+							ImGui::EndCombo();
+						}
+
+						ImGui::EndPopup();
+					}
+				}
+				// ELSE ON AN ITEM
+				else if (ImGui::BeginPopupContextItem())
 				{
 					//Ui window pops out with the delete button
 					ImGui::Text("Options");

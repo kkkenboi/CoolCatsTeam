@@ -41,7 +41,32 @@ namespace LB
 	*************************************************************************/
 	void CPAnimator::Update()
 	{
-		if (!m_controller.IsPlaying()) return;
+		if (!m_controller.IsPlaying())
+		{
+			if (m_repeating)
+			{
+				m_controller.Play();
+			}
+			else
+			{
+				if (m_playing)
+				{
+					// Reset the texture to the original before the animation began
+					if (m_oldSSName != "None")
+					{
+						m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_controller.IsNextFrame());
+					}
+					else
+					{
+						m_render->spriteSheetName = "None";
+						m_render->texture = m_oldSSIndex;
+						m_render->UpdateTexture(m_oldID, m_render->w, m_render->h);
+					}
+					m_playing = false;
+				}
+				return;
+			}
+		}
 
 		m_controller.Update();
 		if (m_controller.IsNextFrame())
@@ -52,17 +77,42 @@ namespace LB
 
 	void CPAnimator::Play(std::string const& name)
 	{
+		// Save old data
+		if (m_render->spriteSheetName == "None")
+		{
+			m_oldID = m_render->texture;
+		}
+		else
+		{
+			m_oldSSName = m_render->spriteSheetName;
+			m_oldSSIndex = m_render->spriteIndex;
+		}
+		m_playing = true;
 		m_controller.Play(name);
 	}
 
-	void CPAnimator::Play()
+	void CPAnimator::PlayRepeat(std::string const& name)
 	{
-		m_controller.Play();
+		m_repeating = true;
+		Play(name);
 	}
 
 	void CPAnimator::Stop()
 	{
+		m_playing = m_repeating = false;
 		m_controller.Stop();
+
+		// Reset the texture to the original before the animation began
+		if (m_oldSSName != "None")
+		{
+			m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_controller.IsNextFrame());
+		}
+		else
+		{
+			m_render->spriteSheetName = "None";
+			m_render->texture = m_oldSSIndex;
+			m_render->UpdateTexture(m_oldID, m_render->w, m_render->h);
+		}
 	}
 
 	/*!***********************************************************************

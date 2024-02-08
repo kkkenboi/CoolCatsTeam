@@ -63,7 +63,7 @@ namespace LB
 
 		void Play(std::string const& name);
 
-		void Play();
+		void PlayRepeat(std::string const& name);
 
 		void Stop();
 
@@ -88,6 +88,12 @@ namespace LB
 		//int GetInt(std::string const& triggerName);
 
 	private:
+		// Save data prior to anim
+		int m_oldID, m_oldSSIndex;
+		std::string m_oldSSName;
+
+		bool m_playing{ false }, m_repeating{ false };
+
 		CPRender* m_render;
 		AnimationController m_controller; //state machine
 	};

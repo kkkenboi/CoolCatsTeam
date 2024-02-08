@@ -172,7 +172,7 @@ namespace LB
 
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_L))
 		{
-			GetComponent<CPAnimator>()->Play("FelixHurt");
+			GetComponent<CPAnimator>()->Stop();
 		}
 
 		/*!***********************************************************************
