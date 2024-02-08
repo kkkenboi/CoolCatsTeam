@@ -23,46 +23,35 @@ namespace LB
 {
 	class EditorAnimationEditor : public Layer, public Singleton<EditorAnimationEditor> 
 	{
-		////textureID is for actually drawing the texture in ImGui
-		//		//slotID is just so the name prints properly in the ImGui dropdown textbox
-		//int textureID, slotID;
-
-		////these values are for displaying the texture properly in the editor inspector
-		//float textureAspect;
-		//ImVec2 textureSize;
-
-		////store the min max UV for each tile respectively
-
-
-		//std::vector< //tiles
-		//	std::pair< //uv
-		//	std::pair<float, float>,  //min x,y
-		//	std::pair<float, float> //max x,y
-		//	>
-		//> tiles;
-
-		////storing the animation frames into a vector, so later it can be played
-		////std::vector<> frames;
-
-		////void SpilttingTheSprites();
-
-		//void SettingAnimation();
-
 	public:
+		EditorAnimationEditor() : Layer("Animation Editor") {};
+
 		EditorAnimationEditor(std::string layerName);
 
 		void UpdateLayer() override;
 
+		void LoadState(std::string const& name);
+
+		void LoadController(std::string const& name);
+
+		void Save();
+
 		void Destroy() {}
-
-		//ImVec4 m_buttonOffColor{ 0.05f, 0.2f, 0.4f, 1.0f };
-		//ImVec4 m_buttonOnColor{ 0.2f, 0.6f, 1.0f, 1.0f };
-
-		//inline unsigned int getNumOfTiles() { return tiles.size(); }
-		//inline int getTextureID() { return textureID; }
-		//inline auto getMMUV(int index) { return tiles.at(index); }
-
+		
 	private:
+		char m_nameBuffer[256]{};
 
+		//----------------------------------------------Animation State----------------------------------------------
+		bool m_stateLoaded{ false }, m_controllerLoaded{ false }, m_previewPlaying{ false };
+		int m_previewIndex{ 0 };
+		float m_previewTimeElapsed{ 0.0f };
+		std::string stateFileName;
+		SpriteSheet* m_spriteSheet{ nullptr };
+
+		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
+		AnimationState m_currentState{};
+
+		//----------------------------------------------Animation Controller----------------------------------------------
+		AnimationController m_currentController{};
 	};
 }

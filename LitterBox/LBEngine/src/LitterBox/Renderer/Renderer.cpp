@@ -1790,10 +1790,10 @@ inline const std::string& LB::CPText::get_msg_font() const
  Getter method to get the entire message object in CPText object that
  contains all necessary information for the text to be printed
 *************************************************************************/
-Renderer::message& LB::CPText::get_msg()
-{
-	// TODO: insert return statement here
-	return msg;
-}
+//inline Renderer::message& LB::CPText::get_msg()
+//{
+//	// TODO: insert return statement here
+//	return msg;
+//}
 
 //----------------------------------------------TEXTURES--------------------------------------------

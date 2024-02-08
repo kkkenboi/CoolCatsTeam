@@ -71,6 +71,8 @@ namespace LB {
 	void CPParticle::Destroy()
 	{
 		// Remove it from the EmitterPool
+		mTransform = nullptr;
+		mRender = nullptr;
 		ParticleManager::Instance()->RemoveEmitter(this);
 	}
 

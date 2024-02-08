@@ -17,33 +17,26 @@
 
 namespace LB 
 {
-    Memory* MEMORY = nullptr;
-
     /*!***********************************************************************
     \brief
-    Default constructor, ensures this system is a singleton
+    Default constructor
     *************************************************************************/
     Memory::Memory() 
     {
-        if (!MEMORY)
-            MEMORY = this;
-        else
-            std::cerr << "Memory System already exist" << std::endl;
     }
 
     /*!***********************************************************************
     \brief
-    Frees any memory allocated that as not been freed, also prints a warning!
+    Destructor to free any pages that are left in the Memory Manager
     *************************************************************************/
-    void Memory::Destroy()
+    Memory::~Memory()
     {
-        if (!allocs.empty())
+        for (auto it = m_memPages.begin(); it != m_memPages.end(); ++it)
         {
-            DebuggerLogWarning("Internal Memory Leak!");
-            for (auto const& entry : allocs) {
-                std::cerr << "Size: " << entry.second << " bytes\n";
+            for (auto page : it->second)
+            {
+                _aligned_free(page);
             }
         }
     }
-
 }

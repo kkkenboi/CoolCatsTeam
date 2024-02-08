@@ -26,14 +26,14 @@ Constructor of the Animation Editor
 
 namespace LB
 {
+	static float columnWidth = 250.0f;
+	static float normalWidth = 150.f;
+	static float smallWidth = 100.f;
+
 	EditorAnimationEditor::EditorAnimationEditor(std::string layerName) : Layer(layerName)
 	{
 
 	}
-
-	//test listing for list box
-	//const char* list[] = { "First texture", "Second texture" };
-	//int currItem{ 0 };
 
 	/*!***********************************************************************
 	\brief
@@ -43,120 +43,202 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
-		//ImGui::BeginChild("AnimatorEditor");
+		if (ImGui::Button("Save"))
+		{
+			Save();
+		}
 
-		//
-		////----------------------------------TAKEN FROM EDITOR INSPECTOR CPRENDER--------------------------------
-		//// 
-		////--------------------TEXTURE SELECTOR--------------------
+		if (m_stateLoaded)
+		{
+			//----------------------------------------------STATE NAME----------------------------------------------
+			ImGui::Text("%-17s", "Name");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(columnWidth);
+			if (ImGui::InputText("##Name", m_nameBuffer, 256))
+			{
+				m_currentState.SetName(m_nameBuffer);
+			}
 
-		//ImGui::Separator();
-		////TODO figure out the preview option
-		//ImGui::Image((ImTextureID)textureID, textureSize, ImVec2(0, 1), ImVec2(1, 0));
+			//----------------------------------------------SPRITESHEET SELECTION----------------------------------------------
+			ImGui::Text("%-17s", "Spritesheet");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(columnWidth);
+			if (ImGui::BeginCombo("##Spritesheet", (m_spriteSheet ? m_spriteSheet->GetName().c_str() : "None") ))
+			{
+				for (auto& [str, sSheet] : ASSETMANAGER->SpriteSheets)
+				{
+					std::filesystem::path tempPath{ str };
+					if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
+					{
+						m_spriteSheet = &sSheet;
+						m_currentState.SetSpriteSheetName(sSheet.GetName());
+						break;
+					}
+				}
 
-		//ImGui::Separator();
+				ImGui::EndCombo();
+			}
 
-		//if (!textureID) {
-		//	ImGui::EndChild();
+			//display details of each tile here
+			if (m_spriteSheet)
+			{
+				if (ImGui::BeginTable("SlicedSpriteSheet", m_spriteSheet->m_col, ImGuiTableFlags_SizingFixedFit))
+				{
+					//Creating a table to place the sprites evenly by its row and cols
+					for (int r = { 0 }; r < m_spriteSheet->m_row; ++r) //go thru rows
+					{
+						ImGui::TableNextRow(); //go next row
+						for (int c = 0; c < m_spriteSheet->m_col; ++c) //go thru cols
+						{
+							ImGui::TableSetColumnIndex(c);
 
-		//	ImGui::End();
-		//	return;
-		//}
+							int tileNum = (c + r * m_spriteSheet->m_col);
+							ImGui::PushID(tileNum);
+							ImGui::Text("Frame %i", tileNum);
+							if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth, smallWidth }
+								, ImVec2{ (*m_spriteSheet)[tileNum].m_min.x, (*m_spriteSheet)[tileNum].m_max.y }
+								, ImVec2{ (*m_spriteSheet)[tileNum].m_max.x, (*m_spriteSheet)[tileNum].m_min.y }))
+							{
+								m_currentKeyFrame.m_frame = tileNum;
+								m_currentState.AddFrame(m_currentKeyFrame);
+							}
+							ImGui::PopID();
+						}
+					}
+					ImGui::EndTable();
+				}
+			}
 
-		////SpilttingTheSprites(); //helping to split the size of the spritesheet
+			//----------------------------------------------ADD FRAME----------------------------------------------
+			ImGui::Text("Frame");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(normalWidth);
+			if (ImGui::InputInt("##FrameIndex", &m_currentKeyFrame.m_frame))
+			{
+				if (m_currentKeyFrame.m_frame < 0) m_currentKeyFrame.m_frame = 0;
+			}
+			ImGui::SameLine();
+			ImGui::Text("Duration");
+			ImGui::SameLine();
+			
+			ImGui::SetNextItemWidth(normalWidth);
+			if (ImGui::DragFloat("##FrameTime", &m_currentKeyFrame.m_time))
+			{
+				if (m_currentKeyFrame.m_time < 0.0f) m_currentKeyFrame.m_time = 0.0f;
+			}
 
-		//ImGui::EndChild();
+			if (ImGui::Button("Add KeyFrame"))
+			{
+				m_currentState.AddFrame(m_currentKeyFrame);
+			}
+
+			ImGui::Dummy(ImVec2(0.0f, 35.0f));
+
+			//----------------------------------------------ANIM PREVIEW----------------------------------------------
+			if (ImGui::Button("Preview"))
+			{
+				m_previewPlaying = true;
+			}
+			if (m_previewPlaying)
+			{
+				m_previewTimeElapsed += TIME->GetDeltaTime();
+			}
+			if (m_currentState.GetFrameCount())
+			{
+				ImGui::Image((ImTextureID)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ normalWidth, normalWidth }
+					, ImVec2{ (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.x, (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.y }
+					, ImVec2{ (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.x, (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.y });
+
+				if (m_previewTimeElapsed > m_currentState[m_previewIndex].m_time)
+				{
+					++m_previewIndex;
+					m_previewTimeElapsed = 0.0f;
+				}
+				if (m_previewIndex >= m_currentState.GetFrameCount()) {
+					m_previewPlaying = false;
+					m_previewIndex = 0;
+				}
+			}
+
+			//----------------------------------------------KEYFRAME LIST----------------------------------------------
+			ImGui::Text("Frames");
+			for (int index{ 0 }; index < m_currentState.GetFrameCount(); ++index)
+			{
+				ImGui::Text("Frame");
+				ImGui::SameLine();
+
+				ImGui::PushID(index);
+				m_tempKeyFrame.m_frame = m_currentState[index].m_frame;
+				
+				ImGui::SetNextItemWidth(normalWidth);
+				if (ImGui::InputInt("##FrameIndex", &m_tempKeyFrame.m_frame))
+				{
+					if (m_tempKeyFrame.m_frame < 0) m_tempKeyFrame.m_frame = 0;
+					m_currentState[index].m_frame = m_tempKeyFrame.m_frame;
+				}
+				ImGui::SameLine();
+
+				ImGui::Text("Duration");
+				ImGui::SameLine();
+				m_tempKeyFrame.m_time = m_currentState[index].m_time;
+				
+				ImGui::SetNextItemWidth(normalWidth);
+				if (ImGui::DragFloat("##FrameTime", &m_tempKeyFrame.m_time))
+				{
+					if (m_tempKeyFrame.m_time < 0.0f) m_tempKeyFrame.m_time = 0.0f;
+					m_currentState[index].m_time = m_tempKeyFrame.m_time;
+				}
+				ImGui::SameLine();
+
+				ImGui::Text("Delete");
+				ImGui::SameLine();
+				if (ImGui::Button("X"))
+				{
+					m_currentState.GetFrames().erase(m_currentState.GetFrames().begin() + index);
+				}
+
+				ImGui::PopID();
+			}
+		}
+		else if (m_controllerLoaded)
+		{
+
+		}
 
 		ImGui::End();
-
 	}
 
-	//void EditorAnimationEditor::SpilttingTheSprites()
-	//{
-		////add row and column input
-		////Inputs to split the tile map sprite sheet
-		////no real reason that its a static local variable. You can create member variables if you so please
-		//static int row{}, col{};
-		////tracks whether changes to the number of tiles has been made
-		//static bool changed{ false };
-		//ImGui::Text("%-17s", "Rows");
-		//ImGui::SameLine();
-		//ImGui::SetNextItemWidth(normalWidth);
-		//if (ImGui::InputInt("##Rows", &row))
-		//	changed = true;
-		//ImGui::Text("%-17s", "Columns");
-		//ImGui::SameLine();
-		//ImGui::SetNextItemWidth(normalWidth);
-		//if (ImGui::InputInt("##Columns", &col))
-		//	changed = true;
+	void EditorAnimationEditor::Save()
+	{
+		if (m_stateLoaded)
+		{
+			JSONSerializer::SerializeToFile(stateFileName.c_str(), m_currentState);
+		}
+		else if (m_controllerLoaded)
+		{
+			JSONSerializer::SerializeToFile(m_currentController.GetName(), m_currentController);
+		}
+	}
 
-		////creating vertex of UV data
-		////print confirm button if we changed the row and col values
-		//if (changed && ImGui::Button("Confirm")) {
-		//	createUV(row, col);
-		//	changed = false;
-		//}
+	void EditorAnimationEditor::LoadState(std::string const& name)
+	{
+		stateFileName = name;
+		JSONSerializer::DeserializeFromFile(stateFileName.c_str(), m_currentState);
 
-		////display details of each tile here
-		//unsigned int tileIndex{ 0 };
-		//int totalNumOfTiles = row * col;
-		//for (auto& min_max : tiles) 
-		//{
-		//	//draw image with the UVs
-		//	//ImGui::SameLine();
-		//	//The min max is mixed up because ImGui uses a different texel coordinate
-		//	//system from openGL so we do the mixing anytime we use ImGui.
-		//	//The format of the min max UV coordinates uses OpenGL texel coordinates instead
+		if (m_currentState.GetSpriteSheetName() != "None")
+		{
+			m_spriteSheet = &ASSETMANAGER->SpriteSheets[m_currentState.GetSpriteSheetName()];
 
-		//	//this is so nick can choose while tile he wants
-		//	//ImGui::ImageButton((ImTextureID)textureID, ImVec2{ normalWidth, normalWidth }
-		//	//	, ImVec2{ min_max.first.first, min_max.second.second }
-		//	//, ImVec2{ min_max.second.first, min_max.first.second });
+			strcpy_s(m_nameBuffer, sizeof(m_nameBuffer), m_currentState.GetName().c_str());
+		}
+		m_stateLoaded = true;
+		m_controllerLoaded = false;
+	}
 
-		//	//!!!Amadeus need to serialise this part
-		//	//This is where nick will choose a tile
-		//	//static bool isSelected = false;
-		//	std::vector<bool> isSelected(totalNumOfTiles, false);
-		//	Vec4<float> btncolour = isSelected.at(tileIndex) ? Vec4<float>(0.5f, 0.5f, 0.5f, 1.0f) : Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f);
-		//	//int chosenTile = 0;
-
-		//	//label the tile
-		//	ImGui::Text("Tile %d:", tileIndex);
-		//	ImGui::PushID(tileIndex);
-		//	ImGui::PushStyleColor(ImGuiCol_Button, isSelected.at(tileIndex) ? m_buttonOnColor : m_buttonOffColor);
-		//	if (ImGui::ImageButton((ImTextureID)textureID, ImVec2{ normalWidth, normalWidth }
-		//		, ImVec2{ min_max.first.first, min_max.second.second }
-		//		, ImVec2{ min_max.second.first, min_max.first.second }))
-		//	{
-		//		DebuggerLogFormat("Tile %i is selected", tileIndex);
-		//		if (isSelected.at(tileIndex) == true)
-		//		{
-		//			isSelected.at(tileIndex) = false;
-		//		}
-		//		else
-		//		{
-		//			isSelected.at(tileIndex) = true;
-		//		}
-		//		//isSelected.at(tileIndex) = !isSelected.at(tileIndex);
-		//	}
-		//	ImGui::PopStyleColor();
-		//	//DebuggerLogFormat("Second: %i", tileIndex);
-		//	ImGui::SameLine();
-		//	ImGui::PopID();
-		//	
-		//	tileIndex++;
-		//	//currTileIndex = tileIndex;
-		//	ImGui::SameLine();
-		//}
-	//}
-
-	//void EditorAnimationEditor::SettingAnimation()
-	//{
-	//	if (tiles.empty())
-	//	{
-	//		return;
-	//	}
-
-	//}
+	void EditorAnimationEditor::LoadController(std::string const& name)
+	{
+		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentController);
+		m_controllerLoaded = true;
+		m_stateLoaded = false;
+	}
 }
-

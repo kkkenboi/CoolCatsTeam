@@ -17,9 +17,10 @@
 
 #include "pch.h"
 #include "EditorAssets.h"
+#include "EditorInspector.h"	// For inspection changing
+#include "EditorAnimationEditor.h" // For animation changing
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Scene/SceneManager.h"
-#include "EditorInspector.h"
 #include "LitterBox/Core/Core.h"
 
 namespace LB
@@ -241,7 +242,7 @@ namespace LB
 				{
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
-						INSPECTORSPRITESHEET->LoadSpriteSheet(directory.path().filename().stem().string());
+						InspectorSpriteSheet::Instance()->LoadSpriteSheet(directory.path().filename().stem().string());
 						EDITORINSPECTOR->SetWindowSpriteSheet();
 					}
 				}
@@ -249,10 +250,16 @@ namespace LB
 				{
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
-						
+						EditorAnimationEditor::Instance()->LoadController(directory.path().filename().stem().string());
 					}
 				}
-
+				if (directory.path().extension().string() == ".anim")
+				{
+					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+					{
+						EditorAnimationEditor::Instance()->LoadState(directory.path().filename().stem().string());
+					}
+				}
 
 				//IF USER RIGHT CLICKS
 				if (ImGui::BeginPopupContextItem())

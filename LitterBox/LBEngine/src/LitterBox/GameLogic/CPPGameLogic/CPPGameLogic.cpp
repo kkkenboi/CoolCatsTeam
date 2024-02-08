@@ -21,7 +21,6 @@
 
 namespace LB
 {
-	CPPGameLogic* CPPGAMELOGIC = nullptr;
 	//-------------------------CPP GAME LOGIC MANAGER-------------------------
 
 	/*!***********************************************************************
@@ -30,12 +29,6 @@ namespace LB
 	*************************************************************************/
 	void CPPGameLogic::Initialize()
 	{
-		// Ensure singleton
-		if (!CPPGAMELOGIC)
-			CPPGAMELOGIC = this;
-		else
-			DebuggerLogError("CPP Game Logic System already exists!");
-
 		SetSystemName("CPP Game Logic System");
 
 		RegisterAll();
@@ -186,7 +179,7 @@ namespace LB
 	void StartScripts(bool isPlaying)
 	{
 		if (isPlaying)
-			CPPGAMELOGIC->Start();
+			CPPGameLogic::Instance()->Start();
 	}
 
 	/*!***********************************************************************
@@ -231,7 +224,7 @@ namespace LB
 	*************************************************************************/
 	void CPScriptCPP::Initialise()
 	{
-		CPPGAMELOGIC->Load(this);
+		CPPGameLogic::Instance()->Load(this);
 	}
 
 	/*!***********************************************************************
@@ -240,11 +233,11 @@ namespace LB
 	*************************************************************************/
 	void CPScriptCPP::Destroy()
 	{
-		CPPGAMELOGIC->Unload(this);
+		CPPGameLogic::Instance()->Unload(this);
 		if (m_instance)
 		{
 			m_instance->Destroy();
-			delete m_instance;
+			Memory::Instance()->Deallocate(m_instance);
 			m_instance = nullptr;
 		}
 	}

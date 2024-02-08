@@ -20,30 +20,24 @@
 
 namespace LB
 {
-	void AnimationState::Initialize(IComponent* render)
-	{
-		m_render = render;
-
-		//Renderer::GRAPHICS->init_anim("mage_float", m_keyFrames, 0.25f, 16);
-	}
-
 	void AnimationState::Start()
 	{
-		reinterpret_cast<CPRender*>(m_render)->play_repeat(m_name);
+		//reinterpret_cast<CPRender*>(m_render)->play_repeat(m_name);
 	}
 
 	void AnimationState::Update()
 	{
 		m_timeElapsed += TIME->GetDeltaTime();
-		//if (m_keyFrames[m_index].m_time <= m_timeElapsed)
-		//{
-
-		//}
+		if (m_keyFrames[m_index].m_time >= m_timeElapsed)
+		{
+			m_index = (m_index + 1 % m_keyFrames.size());
+			m_timeElapsed = 0.0;
+		}
 	}
 
 	void AnimationState::Stop()
 	{
-		reinterpret_cast<CPRender*>(m_render)->stop_anim();
+		//reinterpret_cast<CPRender*>(m_render)->stop_anim();
 	}
 
 	void AnimationState::AddFrame(KeyFrame& newFrame)
@@ -61,12 +55,55 @@ namespace LB
 		return m_keyFrames;
 	}
 
+	KeyFrame& AnimationState::operator[](int index)
+	{
+		return m_keyFrames[index];
+	}
+
+	KeyFrame const& AnimationState::operator[](int index) const
+	{
+		return m_keyFrames[index];
+	}
+
+	KeyFrame& AnimationState::At(int index)
+	{
+		return m_keyFrames.at(index);
+	}
+
+	int AnimationState::GetFrameCount() const
+	{
+		return m_keyFrames.size();
+	}
+
+	std::string const& AnimationState::GetName() const
+	{
+		return m_name;
+	}
+
+	void AnimationState::SetName(std::string const& name)
+	{
+		m_name = name;
+	}
+
+	std::string const& AnimationState::GetSpriteSheetName() const
+	{
+		return m_spriteSheetName;
+	}
+
+	void AnimationState::SetSpriteSheetName(std::string const& name)
+	{
+		m_spriteSheetName = name;
+	}
+
 	bool AnimationState::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
 
 		Value nameValue(m_name.c_str(), alloc);
 		data.AddMember("Name", nameValue, alloc);
+
+		Value ssNameValue(m_spriteSheetName.c_str(), alloc);
+		data.AddMember("SpriteSheet Name", ssNameValue, alloc);
 
 		Value frameArray(rapidjson::kArrayType);
 		for (auto& keyframe : m_keyFrames)
@@ -85,6 +122,7 @@ namespace LB
 	bool AnimationState::Deserialize(const Value& data)
 	{
 		bool HasName = data.HasMember("Name");
+		bool HasSSName = data.HasMember("SpriteSheet Name");
 		bool HasFrames = data.HasMember("Frames");
 
 		if (data.IsObject())
@@ -93,6 +131,11 @@ namespace LB
 			{
 				const Value& nameValue = data["Name"];
 				m_name = nameValue.GetString();
+			}
+			if (HasName)
+			{
+				const Value& ssNameValue = data["SpriteSheet Name"];
+				m_spriteSheetName = ssNameValue.GetString();
 			}
 			if (HasFrames)
 			{

@@ -148,7 +148,11 @@ namespace LB {
 		 Getter method to get the entire message object in CPText object that
 		 contains all necessary information for the text to be printed
 		*************************************************************************/
-		Renderer::message& get_msg();
+		inline Renderer::message& get_msg()
+		{
+			// TODO: insert return statement here
+			return msg;
+		}
 
 		/*!***********************************************************************
 		 \brief
@@ -157,6 +161,11 @@ namespace LB {
 		void set_msg(char* _msg)
 		{
 			msg.text = _msg;
+		}
+
+		void ToggleActive(bool flag)
+		{
+			
 		}
 	};
 }

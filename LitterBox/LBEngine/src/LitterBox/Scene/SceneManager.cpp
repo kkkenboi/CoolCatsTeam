@@ -79,7 +79,7 @@ namespace LB
 		}
 
 		m_currentScene->Destroy();
-		MEMORY->Deallocate(m_currentScene);
+		delete m_currentScene;
 	}
 
 	/*!***********************************************************************
@@ -102,7 +102,7 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::LoadScene(std::string name)
 	{
-		Scene* newScene = MEMORY->Allocate<Scene>(name);
+		Scene* newScene = DBG_NEW Scene(name);
 		LoadScene(newScene);
 	}
 
@@ -115,7 +115,7 @@ namespace LB
 		if (m_nextScene) 
 		{
 			DebuggerLogErrorFormat("Tried to load new scene %s while another new scene is not loaded!", newScene->GetName().c_str(), m_nextScene->GetName().c_str());
-			MEMORY->Deallocate(m_nextScene);
+			delete m_nextScene;
 		}
 
 		m_nextScene = newScene;
@@ -214,7 +214,7 @@ namespace LB
 		// Free current scene first
 		if (m_currentScene) {
 			m_currentScene->Destroy();
-			MEMORY->Deallocate(m_currentScene);
+			delete m_currentScene;
 		}
 		m_currentScene = m_nextScene;
 

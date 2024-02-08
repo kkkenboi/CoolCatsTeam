@@ -87,11 +87,11 @@ namespace LB
 		IComponent* Create() override
 		{
 			// Returns a constructor to the derived class of IComponent
-			return DBG_NEW ComponentType();
+			return Memory::Instance()->Allocate<ComponentType>();
 		}
 	};
 
 }
 
-// Marco for defining different makers for components
+// Marco for defining different makers for componentss
 #define CreateComponentMaker(ComponentType, ComponentTypeID) FACTORY->InitCM (ComponentTypeID, DBG_NEW ComponentMakerType<ComponentType>( ComponentTypeID ) );

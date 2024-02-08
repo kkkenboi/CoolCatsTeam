@@ -161,7 +161,11 @@ namespace LB
         std::map<std::string, std::pair<std::shared_ptr<TextureData>,int>> Textures;
 
         std::map<std::string, SpriteSheet> SpriteSheets;
-        SpriteSheet GetSpriteSheet(std::string& name);
+        
+        SpriteSheet GetSpriteSheet(std::string& name) const;
+
+        SpriteSheet& GetSpriteSheet(std::string& name);
+
         Sprite GetSprite(std::string& spriteSheetName, int index);
 
         /*!***********************************************************************

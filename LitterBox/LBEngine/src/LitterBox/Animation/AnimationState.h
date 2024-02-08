@@ -17,7 +17,7 @@
 #include <vector>
 #include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Animation/SpriteSheet.h"
-#include "LitterBox/Components/Component.h"
+//#include "LitterBox/Components/Component.h"
 
 namespace LB
 {
@@ -55,27 +55,34 @@ namespace LB
 	class AnimationState
 	{
 	public:
-		void Initialize(IComponent* render);
-
 		void Start();
 		void Update();
 		void Stop();
 
+		std::string const& GetName() const;
+		void SetName(std::string const& name);
+
+		std::string const& GetSpriteSheetName() const;
+		void SetSpriteSheetName(std::string const& name);
+
 		void AddFrame(KeyFrame& newFrame);
 		void RemoveFrame(int index);
 
+		KeyFrame& operator[](int index);
+		KeyFrame const& operator[](int index) const;
+
+		KeyFrame& At(int index);
+
 		std::vector<KeyFrame>& GetFrames();
+		int GetFrameCount() const;
 
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
 		bool Deserialize(const Value& data); //to load
-
 	private:
-		IComponent* m_render;
 		double m_timeElapsed;
+		int m_index;
 
-		SpriteSheet* m_spriteSheet;
-
-		std::string m_name;
+		std::string m_name{ "Unnamed State" }, m_spriteSheetName{ "None" };
 		std::vector<KeyFrame> m_keyFrames;
 
 		//std::vector<AnimationTransition> m_transitions;

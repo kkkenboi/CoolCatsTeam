@@ -15,6 +15,7 @@
 #pragma once
 
 #include <memory>
+#include <type_traits>
 #include <LitterBox/Debugging/Debug.h>
 
 namespace LB
@@ -25,7 +26,17 @@ namespace LB
     public:
         static std::shared_ptr<T> Instance()
         {
-            if (!m_instance) m_instance = std::make_shared<T>();
+            if (!m_instance)
+            {
+                if constexpr (std::is_default_constructible_v<T>)
+                {
+                    m_instance = std::make_shared<T>();
+                }
+                else
+                {
+					DebuggerLogErrorFormat("Singleton %s cannot be default constructed! Initialize with InitializeSingleton().", typeid(m_instance).name());
+				}
+            }
             return m_instance;
         }
 

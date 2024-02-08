@@ -6,7 +6,8 @@
  \date				11/10/2023
  \brief
 
- This file contains 
+ This file contains the class is where it updates the spritesheet, split,
+ save, etc the spritesheet in the inspector. Definitions.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -18,42 +19,41 @@
 
 namespace LB
 {
-	//static float textPreviewLim = 250.f;
+	//setting variables for it size
 	static float fullWidth;
 	static float columnWidth = 250.0f;
 	static float normalWidth = 150.f;
 	
-
-	InspectorSpriteSheet* INSPECTORSPRITESHEET = nullptr;
-
-    /*!***********************************************************************
-     \brief
-
-    *************************************************************************/
+	/*!***********************************************************************
+	  \brief
+	  Initialize function, where it init the textureID, slotID, textureAspect,
+	  textureSize
+	*************************************************************************/
     void InspectorSpriteSheet::Initialize()
     {
 		textureID = 0;
 		slotID = 0;
 		textureAspect = 0.0f;
 		textureSize = ImVec2(0.0f, 0.0f);
-		if (!INSPECTORSPRITESHEET)
-		{
-			INSPECTORSPRITESHEET = this;
-		}
-		else
-		{
-			DebuggerLogError("Spritesheet already exists!");
-		}
     }
 
-    /*!***********************************************************************
-     \brief
-
-    *************************************************************************/
+	/*!***********************************************************************
+	  \brief
+	 Where ImGui will be to show on the Inspector, runs the splitting sprite
+	 function
+	*************************************************************************/
     void InspectorSpriteSheet::UpdateLayer()
     {
-        // Name
-        ImGui::Text("%-17s", "Sprite");
+		// Name
+		ImGui::Text("%-17s", "Name");
+		ImGui::SameLine();
+		if (ImGui::InputText("##Name", m_name, 256))
+		{
+			m_inspectedSheet.SetName(m_name);
+		}
+
+        // PNGRef
+        ImGui::Text("%-17s", "Texture");
         ImGui::SameLine();
 
 		if (ImGui::BeginCombo("##Texture", m_inspectedSheet.GetPNGRef().c_str()))
@@ -127,74 +127,47 @@ namespace LB
 
 		ImGui::Dummy(ImVec2(0.0f, 35.0f));
 
-		SpilttingTheSprites();
-
-		//ImGui::PushID("AutoSlicer");
-		//if (ImGui::Button("Auto Slice", ImVec2(columnWidth, 25.0f)))
-		//{
-		//	//Spilt
-		//	//createUV(m_row, m_col);
-		//	SpilttingTheSprites(m_row, m_col, false);
-
-		//}
-		//ImGui::PopID();
-
-		//ImGui::Dummy(ImVec2(0.0f, 35.0f));
-
-		//ImGui::Text("Sprites");
-		//for (Sprite const& sprite : m_inspectedSheet.Sprites())
-		//{
-		//	ImGui::Text("Slice %d:", sprite.m_index);
-		//	ImGui::InputInt("X", &m_spriteX);
-		//	ImGui::SameLine();
-		//	ImGui::InputInt("Y", &m_spriteY);
-		//	ImGui::SameLine();
-		//	ImGui::InputInt("Width", &m_spriteW);
-		//	ImGui::SameLine();
-		//	ImGui::InputInt("Height", &m_spriteH);
-		//}
-
-        /*if (ImGui::Button("Add Slice"))
-        {
-            m_inspectedSheet->Slice({ 0, 0 }, 0, 0);
-        }
-
-        int x, y, w, h;
-        for (Sprite const& sprite : m_inspectedSheet->Sprites())
-        {
-            ImGui::Text("Slice %d:", sprite.m_index);
-            ImGui::InputInt("X", &x);
-            ImGui::SameLine();
-            ImGui::InputInt("Y", &y);
-            ImGui::SameLine();
-            ImGui::InputInt("Width", &w);
-            ImGui::SameLine();
-            ImGui::InputInt("Height", &h);
-        }*/
-
-		//SpilttingTheSprites(); //helping to split the size of the spritesheet
+		SpilttingTheSprites(); //split the sprite at the bottom of the inspector for the spritesheet
     }
 
+	/*!***********************************************************************
+	  \brief
+	 Saving the SpriteSheet, save to member row and col and it also 
+	 where it serialise the spritesheet
+	*************************************************************************/
 	void InspectorSpriteSheet::SaveSpriteSheet()
 	{
 		// TO BE REFACTORED
 		m_inspectedSheet.m_row = m_row;
 		m_inspectedSheet.m_col = m_col;
+
+		ASSETMANAGER->GetSpriteSheet(m_fileName) = m_inspectedSheet;
+
 		JSONSerializer::SerializeToFile(m_inspectedSheet.GetName(), m_inspectedSheet);
 	}
 
-
 	// Load from AssetManager
+	/*!***********************************************************************
+	 \brief
+	Loads the AssetManager and deserailise the spritesheet
+	*************************************************************************/
 	void InspectorSpriteSheet::LoadSpriteSheet(std::string name)
 	{
-		JSONSerializer::DeserializeFromFile(name.c_str(), m_inspectedSheet);
+		m_fileName = name;
+		m_inspectedSheet = ASSETMANAGER->GetSpriteSheet(m_fileName);
+
 		m_textureID = ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef());
+		strcpy_s(m_name, sizeof(m_name), m_inspectedSheet.GetName().c_str());
 
 		// TO BE REFACTORED
 		m_row = m_inspectedSheet.m_row;
 		m_col = m_inspectedSheet.m_col;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	 Creating the UV of the spritesheet of the spritesheet
+	*************************************************************************/
 	void InspectorSpriteSheet::createUV(int rows, int cols) {
 		if (rows <= 0 || cols <= 0) {
 			DebuggerLogError("Number of Rows or Columns input for the tilemap is not more than 0");
@@ -224,7 +197,12 @@ namespace LB
 			}
 	}
 
-
+	/*!***********************************************************************
+	  \brief
+	 Shows Imgui to allow user to manual and auto slice (auto slice for now),
+	 user can set the amount of rows and cols for how many sprites they want
+	 to split into from the spritesheet
+	*************************************************************************/
 	void InspectorSpriteSheet::SpilttingTheSprites()
 	{
 		static bool changed{ false };
@@ -256,40 +234,26 @@ namespace LB
 		ImGui::Dummy(ImVec2(0.0f, 35.0f));
 
 		ImGui::Text("Sprites");
-		//for (Sprite const& sprite : m_inspectedSheet.Sprites())
-		//{
-		//	ImGui::Text("Slice %d:", sprite.m_index);
-		//	ImGui::InputInt("X", &m_spriteX);
-		//	ImGui::SameLine();
-		//	ImGui::InputInt("Y", &m_spriteY);
-		//	ImGui::SameLine();
-		//	ImGui::InputInt("Width", &m_spriteW);
-		//	ImGui::SameLine();
-		//	ImGui::InputInt("Height", &m_spriteH);
-		//}
 
 		//display details of each tile here
 		if (!m_inspectedSheet.Size()) return;
 		if (ImGui::BeginTable("SlicedSpriteSheet", m_inspectedSheet.m_col))
 		{
-			//for (int tileIndex = {0}; tileIndex < m_row; ++tileIndex)
-			for (int r = { 0 }; r < m_inspectedSheet.m_row; ++r)
+			//Creating a table to place the sprites evenly by its row and cols
+			for (int r = { 0 }; r < m_inspectedSheet.m_row; ++r) //go thru rows
 			{
-				ImGui::TableNextRow();
-				for (int c = 0; c < m_inspectedSheet.m_col; ++c)
+				ImGui::TableNextRow(); //go next row
+				for (int c = 0; c < m_inspectedSheet.m_col; ++c) //go thru cols
 				{
 					ImGui::TableSetColumnIndex(c);
-					int tileNum = (c + r * m_inspectedSheet.m_col) + 1;
+					int tileNum = (c + r * m_inspectedSheet.m_col);
 					ImGui::PushID(tileNum);
 					ImGui::Text("Sprite %i", tileNum);
 					if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef()), ImVec2{normalWidth, normalWidth}
-						, ImVec2{ m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.y }
-						, ImVec2{ m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.y }))
+						, ImVec2{ m_inspectedSheet[tileNum].m_min.x, m_inspectedSheet[tileNum].m_max.y }
+						, ImVec2{ m_inspectedSheet[tileNum].m_max.x, m_inspectedSheet[tileNum].m_min.y }))
 					{
 
-						DebuggerLogFormat("Sprite %i is selected Min %f %f Max %f %f", c + r * m_inspectedSheet.m_col,
-							m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.y,
-							m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_max.x, m_inspectedSheet[c + r * m_inspectedSheet.m_row].m_min.y);
 					}
 					ImGui::PopID();
 				}

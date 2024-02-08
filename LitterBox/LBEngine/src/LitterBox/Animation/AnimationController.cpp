@@ -28,6 +28,24 @@ namespace LB
 		m_current->Update();
 	}
 
+	void AnimationController::SetState(std::string const& stateName)
+	{
+		for (auto& state : m_states)
+		{
+			if (state.GetName() == stateName)
+			{
+				m_current = &state;
+				break;
+			}
+		}
+	}
+
+	void AnimationController::Play(std::string const& stateName)
+	{
+		SetState(stateName);
+		Play();
+	}
+
 	void AnimationController::Play()
 	{
 		m_current->Start();
@@ -36,6 +54,16 @@ namespace LB
 	void AnimationController::Stop()
 	{
 		m_current->Stop();
+	}
+
+	std::string const& AnimationController::GetName() const
+	{
+		return m_name;
+	}
+
+	void AnimationController::SetName(std::string const& name)
+	{
+		m_name = name;
 	}
 
 	bool AnimationController::Serialize(Value& data, Document::AllocatorType& alloc)

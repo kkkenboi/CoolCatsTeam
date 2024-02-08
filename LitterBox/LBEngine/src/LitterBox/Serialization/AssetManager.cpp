@@ -456,14 +456,22 @@ namespace LB
         }
     }
 
+    SpriteSheet AssetManager::GetSpriteSheet(std::string& name) const
+    {
+        if (SpriteSheets.find(name) != SpriteSheets.end()) {
+            return SpriteSheets.at(name);
+        }
+        DebuggerLogErrorFormat("Unable to find %s in SpriteSheets!", name.c_str());
+        return SpriteSheet();   //SFNIAE
+    }
 
-    SpriteSheet AssetManager::GetSpriteSheet(std::string& name)
+    SpriteSheet& AssetManager::GetSpriteSheet(std::string& name)
     {
         if (SpriteSheets.find(name) != SpriteSheets.end()) {
             return SpriteSheets[name];
         }
         DebuggerLogErrorFormat("Unable to find %s in SpriteSheets!", name.c_str());
-        return SpriteSheet();   //SFNIAE
+        return SpriteSheets.begin()->second;   //SFNIAE
     }
 
     Sprite AssetManager::GetSprite(std::string& spriteSheetName, int index)
