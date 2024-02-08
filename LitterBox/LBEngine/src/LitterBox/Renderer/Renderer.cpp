@@ -1017,7 +1017,7 @@ void Renderer::RenderSystem::Initialize()
 	float w = 1920.f;
 	float h = 1080.f;
 
-	test2 = DBG_NEW LB::CPRender{ {midx,midy}, w, h, {1.f,1.f}, {0.f,0.f,0.f}, {}, -1, true, Renderer_Types::RT_BACKGROUND };
+	test2 = LB::Memory::Instance()->Allocate<LB::CPRender>(LB::Vec2<float>(midx, midy), w, h, LB::Vec2<float>(1.f, 1.f), LB::Vec3<float>(0.f, 0.f, 0.f), std::array<LB::Vec2<float>, 4>{}, -1, true, Renderer_Types::RT_BACKGROUND);
 	test2->z_val = 2.f;
 
 	test2->texture = LB::ASSETMANAGER->GetTextureUnit("bg");
@@ -1499,7 +1499,7 @@ const bool& Renderer::RenderSystem::get_layer_active(Renderer_Types layer) const
 Renderer::RenderSystem::~RenderSystem() 
 {
 	if (test2)
-		delete test2;
+		LB::Memory::Instance()->Deallocate(test2);
 
 	if (button)
 		delete button;
