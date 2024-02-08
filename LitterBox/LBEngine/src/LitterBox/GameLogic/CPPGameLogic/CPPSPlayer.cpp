@@ -216,8 +216,9 @@ namespace LB
 				rend->play_repeat("player_idle");
 				isWalkingAnim = false;
 			}
+			GameObj->GetComponent<CPTransform>()->GetChild()->gameObj->GetComponent<CPParticle>()->mIsActive = false;
 		}
-
+		if (isMoving) GameObj->GetComponent<CPTransform>()->GetChild()->gameObj->GetComponent<CPParticle>()->mIsActive = true;
 		//------------------Play step sound------------------
 		if (isMoving && m_stepSoundCurrent > m_stepSoundInterval)
 		{

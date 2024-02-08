@@ -20,6 +20,8 @@ namespace LB {
 		void Destroy() override;
 		static ComponentTypeID GetType();
 
+		bool Serialize(Value& data, Document::AllocatorType& alloc) override;
+		bool Deserialize(const Value& data) override;
 		// CPParticle stuff
 		std::string GetEmitterType();
 
@@ -29,40 +31,40 @@ namespace LB {
 		CPTransform* mTransform;
 		CPRender* mRender;
 
-		EmitterType mEmitterType;
+		EmitterType mEmitterType = TRAIL;
 
-		Vec2<float> mEmitterPos;
+		Vec2<float> mEmitterPos{};
 		
-		float mEmitterRate;
-		float mTimeSinceLastEmit;
+		float mEmitterRate{ 0.05 };
+		float mTimeSinceLastEmit{};
 
 		// Velocities
-		Vec2<float> mEmitterVelocity;
-		float mEmitterVariationMinX;
-		float mEmitterVariationMaxX;
-		float mEmitterVariationMinY;
-		float mEmitterVariationMaxY;
+		Vec2<float> mEmitterVelocity{};
+		float mEmitterVariationMinX{};
+		float mEmitterVariationMaxX{};
+		float mEmitterVariationMinY{};
+		float mEmitterVariationMaxY{};
 
-		float mEmitterRadialSpeed;
+		float mEmitterRadialSpeed{ 100.f };
 		// Left : -X, 0
 		// Right : X, 0
 		// Up : 0, Y
 		// Down : 0, -Y
 
 		// Sizes
-		float mEmitterSizeBegin;
-		float mEmitterSizeEnd;
+		float mEmitterSizeBegin{ 1 };
+		float mEmitterSizeEnd{ 1 };
 		
-		float mEmitterLifetime;
-		float mEmitterLifetimeRemaining;
+		float mEmitterLifetime{ 1 };
+		float mEmitterLifetimeRemaining{};
 
 		// Particle
-		float mParticleLifetime;
+		float mParticleLifetime{1};
 
 		// For Radial Emitters
-		int mRadialParticles;
+		int mRadialParticles{ 10 };
 
-		bool mIsLooping;
-		bool mIsActive;
+		bool mIsLooping{ false };
+		bool mIsActive{ false };
 	};
 }

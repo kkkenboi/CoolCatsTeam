@@ -192,6 +192,12 @@ namespace LB
 			m_Components.find(C_CPAnimator)->second->Serialize(AnimatorComponent, alloc);
 			data.AddMember("Animator", AnimatorComponent, alloc);
 		}
+		if (m_Components.find(C_CPParticle) != m_Components.end())
+		{
+			Value ParticleComponent;
+			m_Components.find(C_CPParticle)->second->Serialize(ParticleComponent, alloc);
+			data.AddMember("Particle", ParticleComponent, alloc);
+		}
 		return true;
 	}
 
@@ -213,6 +219,7 @@ namespace LB
 		bool HasAudio = data.HasMember("AudioSource");
 		bool HasText = data.HasMember("Text");
 		bool HasAnimator = data.HasMember("Animator");
+		bool HasParticle = data.HasMember("Particle");
 		if (data.IsObject())
 		{
 			if (HasName)
@@ -306,6 +313,16 @@ namespace LB
 				}
 				const Value& animatorValue = data["Animator"];
 				m_Components.find(C_CPAnimator)->second->Deserialize(animatorValue);
+			}
+			if (HasParticle)
+			{
+				if (m_Components.find(C_CPParticle) == m_Components.end())
+				{
+					DebuggerLog("Deserialize: GO doesn't have a Particle Component :C so we make one");
+					AddComponent(C_CPParticle, FACTORY->GetCMs()[C_CPParticle]->Create());
+				}
+				const Value& particleValue = data["Particle"];
+				m_Components.find(C_CPParticle)->second->Deserialize(particleValue);
 			}
 		}
 		this->StartComponents();
