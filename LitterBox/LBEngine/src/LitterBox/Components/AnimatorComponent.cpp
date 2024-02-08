@@ -71,7 +71,7 @@ namespace LB
 	*************************************************************************/
 	void CPAnimator::Destroy()
 	{
-		//empty for now
+		AnimationManager::Instance()->RemoveAnimator(this);
 	}
 
 	bool CPAnimator::Serialize(Value& data, Document::AllocatorType& alloc)

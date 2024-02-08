@@ -21,7 +21,15 @@ namespace LB
 {
 	void AnimationManager::Initialize()
 	{
+		CORE->onPlayingModeToggle.Subscribe(StartAnimators);
+	}
 
+	void AnimationManager::Start()
+	{
+		for (auto& anim : m_animators)
+		{
+			anim->LoadController();
+		}
 	}
 
 	void AnimationManager::Update()
@@ -44,8 +52,29 @@ namespace LB
 		m_animators.push_back(newAnimator);
 	}
 
+	void AnimationManager::RemoveAnimator(CPAnimator* animatorToRemove)
+	{
+		auto anim = std::find(m_animators.begin(), m_animators.end(), animatorToRemove);
+		if (anim != m_animators.end())
+		{
+			m_animators.erase(anim);
+		}
+	}
+
 	void AnimationManager::ClearAnimators()
 	{
+		m_animators.clear();
+	}
 
+	void StartAnimators(bool isPlaying)
+	{
+		if (isPlaying)
+		{
+			AnimationManager::Instance()->Start();
+		}
+		else
+		{
+			AnimationManager::Instance()->ClearAnimators();
+		}
 	}
 }

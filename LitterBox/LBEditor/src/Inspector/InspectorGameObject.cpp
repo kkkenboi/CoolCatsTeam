@@ -503,7 +503,7 @@ namespace LB
 				{
 					for (auto& [str, sheet] : ASSETMANAGER->SpriteSheets)
 					{
-						std::filesystem::path tempPath{ sheet.GetPNGRef() };
+						std::filesystem::path tempPath{ sheet.GetName() };
 						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 						{
 							ssheetName = str;
@@ -511,11 +511,16 @@ namespace LB
 					}
 					ImGui::EndCombo();
 				}
+				ImGui::SameLine();
+				if (ImGui::Button("X")) // To deselect the sprite sheet
+				{
+					ssheetName = "None";
+				}
 				if (ssheetName != "None")
 				{
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(dropdownWidth);
-					if (ImGui::BeginCombo("##Sprite Sheet tile", "Tile"))
+					if (ImGui::BeginCombo("##Sprite Sheet tile", std::to_string(m_inspectedGO->GetComponent<CPRender>()->spriteIndex).c_str()))
 					{
 						for (auto& tile : ASSETMANAGER->GetSpriteSheet(ssheetName).Sprites())
 						{
@@ -1100,6 +1105,11 @@ namespace LB
 					}
 
 					ImGui::EndCombo();
+				}
+
+				if (ImGui::Button("Test"))
+				{
+					m_inspectedGO->GetComponent<CPAnimator>()->Play("MageAttack");
 				}
 
 				if (ImGui::Button("Delete Animator Component"))

@@ -162,6 +162,23 @@ namespace LB
 
 			//----------------------------------------------KEYFRAME LIST----------------------------------------------
 			ImGui::Text("Frames");
+
+			ImGui::Text("Set All Duration");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(normalWidth);
+			if (ImGui::DragFloat("##SetAllFrameTime", &m_allDuration))
+			{
+
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Set"))
+			{
+				for (int index{ 0 }; index < m_currentState.GetFrameCount(); ++index)
+				{
+					m_currentState[index].m_time = m_allDuration;
+				}
+			}
+
 			for (int index{ 0 }; index < m_currentState.GetFrameCount(); ++index)
 			{
 				ImGui::Text("Frame");

@@ -26,15 +26,21 @@ namespace LB
 	public:
 		void Initialize() override;
 
+		void Start();
+
 		void Update() override;
 
 		void Destroy() override;
 
 		void AddAnimator(CPAnimator* newAnimator);
 
+		void RemoveAnimator(CPAnimator* animatorToRemove);
+
 		void ClearAnimators();
 
 	private:
 		std::vector<CPAnimator*> m_animators;
 	};
+
+	void StartAnimators(bool isPlaying);
 }

@@ -36,9 +36,10 @@ namespace LB
 			if (state.GetName() == stateName)
 			{
 				m_current = &state;
-				break;
+				return;
 			}
 		}
+		DebuggerLogErrorFormat("Animator Controller : %s does not have a state named: %s!", m_name.c_str(), stateName.c_str());
 	}
 
 	void AnimationController::Play(std::string const& stateName)

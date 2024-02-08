@@ -42,7 +42,7 @@ namespace LB
 		//----------------------------------------------Animation State----------------------------------------------
 		bool m_stateLoaded{ false }, m_controllerLoaded{ false }, m_previewPlaying{ false };
 		int m_previewIndex{ 0 };
-		float m_previewTimeElapsed{ 0.0f };
+		float m_previewTimeElapsed{ 0.0f }, m_allDuration{ 0.0f };
 		SpriteSheet* m_spriteSheet{ nullptr };
 
 		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};

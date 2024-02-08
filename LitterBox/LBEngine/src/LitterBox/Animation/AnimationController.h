@@ -21,8 +21,6 @@
 
 namespace LB
 {
-	
-
 	class AnimationController
 	{
 	public:

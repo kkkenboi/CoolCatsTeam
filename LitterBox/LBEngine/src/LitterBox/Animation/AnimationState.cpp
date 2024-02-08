@@ -31,11 +31,17 @@ namespace LB
 		if (!m_playing) return;
 
 		m_timeElapsed += TIME->GetDeltaTime();
-		if (m_keyFrames[m_index].m_time >= m_timeElapsed)
+		if (m_timeElapsed >= m_keyFrames[m_index].m_time)
 		{
 			m_lastIndex = m_index;
-			m_index = (m_index + 1 % m_keyFrames.size());
+			++m_index;
 			m_timeElapsed = 0.0;
+
+			if (m_index >= m_keyFrames.size())
+			{
+				m_index = 0;
+				m_playing = false;
+			}
 		}
 	}
 

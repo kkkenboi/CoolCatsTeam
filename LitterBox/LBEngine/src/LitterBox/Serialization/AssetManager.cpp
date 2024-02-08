@@ -318,18 +318,6 @@ namespace LB
 
             JSONSerializer::DeserializeFromFile(s.filename().stem().string(), SpriteSheets[s.filename().stem().string()]);
         }
-        // Then we do the same for animation controllers
-        for (const auto& s : AnimControllerPaths)
-        {
-            Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
-            long long fileTime = FILESYSTEM->GetFileTime(s);
-            _metaFile.AddMember(metaKey, fileTime, metaAlloc);
-
-            assetMap[s.filename().stem().string()] = s.string();
-            metaFileMap[s.string()] = fileTime;
-
-            JSONSerializer::DeserializeFromFile(s.filename().stem().string(), AnimControllers[s.filename().stem().string()]);
-        }
         // Then we do the same for animation states
         for (const auto& s : AnimStatePaths)
         {
@@ -341,6 +329,18 @@ namespace LB
             metaFileMap[s.string()] = fileTime;
 
             JSONSerializer::DeserializeFromFile(s.filename().stem().string(), AnimStates[s.filename().stem().string()]);
+        }
+        // Then we do the same for animation controllers
+        for (const auto& s : AnimControllerPaths)
+        {
+            Value metaKey(Value(s.string().c_str(), metaAlloc), metaAlloc);
+            long long fileTime = FILESYSTEM->GetFileTime(s);
+            _metaFile.AddMember(metaKey, fileTime, metaAlloc);
+
+            assetMap[s.filename().stem().string()] = s.string();
+            metaFileMap[s.string()] = fileTime;
+
+            JSONSerializer::DeserializeFromFile(s.filename().stem().string(), AnimControllers[s.filename().stem().string()]);
         }
         //Then we do the same for sounds
         for (const auto& s : SoundFilePaths)
