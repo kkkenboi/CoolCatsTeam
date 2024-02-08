@@ -58,8 +58,10 @@ int main(int argc, char** argv)
 	auto editor = LB::CreateEditor();
 	while (app->IsRunning()) 
 	{
+		LB::TIME->LBFrameStart();
 		app->Run();
 		editor->Run();
+		LB::TIME->LBFrameEnd();
 	}
 	delete editor;
 	delete app;

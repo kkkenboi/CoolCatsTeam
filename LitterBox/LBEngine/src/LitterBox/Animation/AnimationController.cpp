@@ -71,9 +71,34 @@ namespace LB
 		return 0;
 	}
 
+	int AnimationController::GetStateCount() const
+	{
+		return m_states.size();
+	}
+
 	std::vector<AnimationState>& AnimationController::GetStates()
 	{
 		return m_states;
+	}
+
+	void AnimationController::AddState(AnimationState const& state)
+	{
+		m_states.push_back(state);
+	}
+
+	void AnimationController::RemoveState(int index)
+	{
+		m_states.erase(m_states.begin() + index);
+	}
+
+	AnimationState& AnimationController::operator[](int index)
+	{
+		return m_states[index];
+	}
+
+	AnimationState const& AnimationController::operator[](int index) const
+	{
+		return m_states[index];
 	}
 
 	std::string const& AnimationController::GetName() const

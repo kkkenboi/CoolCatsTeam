@@ -173,6 +173,8 @@ namespace LB {
 		Event<> onFrameEnd;									// Used to broadcast that a frame has ended
 		
 		private:
+		bool m_frameStarted { false };						// Whether the frame has started or not
+
 		time_point m_frameStart, m_frameEnd;				// Time points to calculate the time taken for each frame
 		std::chrono::duration<double> m_frameDuration;		// Length of time from m_frameStart and m_frameEnd
 

@@ -53,7 +53,10 @@ namespace LB {
 	*************************************************************************/
 	void Time::LBFrameStart() 
 	{
+		if (m_frameStarted) return;
+
 		m_frameStart = GetTimeStamp();
+		m_frameStarted = true;	// Useful for checking if LBFrameStart is called more than once
 	}
 
 	/*!***********************************************************************
@@ -62,6 +65,8 @@ namespace LB {
 	*************************************************************************/
 	void Time::LBFrameEnd() 
 	{
+		m_frameStarted = false; // Reset frame started
+
 		m_frameEnd = GetTimeStamp();
 
 		m_frameDuration = m_frameEnd - m_frameStart;
@@ -72,7 +77,11 @@ namespace LB {
 		// Check if we need to wait before next frame
 		if (m_frameBudget > 0.0) {
 			TIME->Sleep(m_frameBudget);
-			m_unscaledDeltaTime = m_minDeltaTime;
+			//m_unscaledDeltaTime = m_minDeltaTime;
+
+			m_frameEnd = GetTimeStamp();
+			m_frameDuration = m_frameEnd - m_frameStart;
+			m_unscaledDeltaTime = m_frameDuration.count();
 		}
 
 		m_deltaTime = m_unscaledDeltaTime * m_timeScale;

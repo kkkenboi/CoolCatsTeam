@@ -54,7 +54,7 @@ namespace LB
 	*************************************************************************/
 	void LBEngine::GameLoop()
 	{
-		TIME->LBFrameStart();
+		//TIME->LBFrameStart();
 		{
 			// Update every system every fixed timestep (Usually for physics)
 			TIME->AccumulateFixedUpdate();
@@ -74,8 +74,7 @@ namespace LB
 				m_systems[i]->Update();
 			}
 		}
-
-		TIME->LBFrameEnd();
+		//TIME->LBFrameEnd();
 	}
 
 	/*!***********************************************************************

@@ -26,6 +26,7 @@ namespace LB
 	class AnimationController
 	{
 	public:
+		//----------------------------------------------CONTROLS----------------------------------------------
 		void Initialize();
 
 		void Update();
@@ -40,7 +41,19 @@ namespace LB
 		std::string const& GetCurrentSpriteSheet();
 		int IsNextFrame();
 
+		//----------------------------------------------CREATION----------------------------------------------
+		int GetStateCount() const;
+
 		std::vector<AnimationState>& GetStates();
+
+		void AddState(AnimationState const& state);
+
+		void RemoveState(int index);
+
+		//----------------------------------------------ACCESSORS----------------------------------------------
+		AnimationState& operator[](int index);
+
+		AnimationState const& operator[](int index) const;
 
 		std::string const& GetName() const;
 		void SetName(std::string const& name);

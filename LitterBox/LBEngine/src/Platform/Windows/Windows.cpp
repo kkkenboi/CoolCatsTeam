@@ -214,6 +214,7 @@ namespace LB
         {
             // If in editor mode, display the FPS in the title bar
             std::string title{ this->m_Data.m_Title + " | FPS: " + std::to_string(1.0 / TIME->GetUnscaledDeltaTime()) };
+            //std::string title{ this->m_Data.m_Title + " | FPS: " + std::to_string(TIME->GetFrameCount() / TIME->GetTime()) };
 
             // Set Window Title (Name + FPS)
             glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());

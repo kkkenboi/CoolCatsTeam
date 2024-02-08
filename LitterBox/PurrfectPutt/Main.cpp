@@ -44,7 +44,9 @@ int WINAPI WinMain(_In_ HINSTANCE instanceH, _In_opt_ HINSTANCE prevInstanceH, _
 	LB::CORE->SetPlayingMode(true);
 	while (app->IsRunning()) 
 	{
+		LB::TIME->LBFrameStart();
 		app->Run();
+		LB::TIME->LBFrameEnd();
 	}
 	delete app;
 

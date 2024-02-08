@@ -54,11 +54,7 @@ namespace LB
 			//----------------------------------------------STATE NAME----------------------------------------------
 			ImGui::Text("%-17s", "Name");
 			ImGui::SameLine();
-			ImGui::SetNextItemWidth(columnWidth);
-			if (ImGui::InputText("##Name", m_nameBuffer, 256))
-			{
-				m_currentState.SetName(m_nameBuffer);
-			}
+			ImGui::Text(m_currentState.GetName().c_str());
 
 			//----------------------------------------------SPRITESHEET SELECTION----------------------------------------------
 			ImGui::Text("%-17s", "Spritesheet");
@@ -140,9 +136,12 @@ namespace LB
 			{
 				m_previewPlaying = true;
 			}
+			ImGui::Text("Preview Time");
+			ImGui::SameLine();
+			ImGui::Text("%.4f", m_previewTimeElapsed);
 			if (m_previewPlaying)
 			{
-				m_previewTimeElapsed += TIME->GetDeltaTime();
+				m_previewTimeElapsed += TIME->GetUnscaledDeltaTime();
 			}
 			if (m_currentState.GetFrameCount())
 			{
@@ -191,12 +190,12 @@ namespace LB
 				}
 				ImGui::SameLine();
 
-				ImGui::Text("Delete");
-				ImGui::SameLine();
 				if (ImGui::Button("X"))
 				{
 					m_currentState.GetFrames().erase(m_currentState.GetFrames().begin() + index);
 				}
+				ImGui::SameLine();
+				ImGui::Text("Delete");
 
 				ImGui::PopID();
 			}
@@ -207,40 +206,43 @@ namespace LB
 			//----------------------------------------------CONTROLLER NAME----------------------------------------------
 			ImGui::Text("%-17s", "Name");
 			ImGui::SameLine();
-			ImGui::SetNextItemWidth(columnWidth);
-			if (ImGui::InputText("##Name", m_nameBuffer, 256))
-			{
-				m_currentController.SetName(m_nameBuffer);
-			}
+			ImGui::Text(m_currentController.GetName().c_str());
 
 			//----------------------------------------------ADD STATE----------------------------------------------
-			ImGui::Text("%-17s", "State");
+			ImGui::Text("%-17s", "Add State");
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(columnWidth);
-			if (ImGui::BeginCombo("##State", (m_currentState.GetName().c_str())))
+			if (ImGui::BeginCombo("##State", "Select State"))
 			{
 				for (auto& [str, state] : ASSETMANAGER->AnimStates)
 				{
 					if (ImGui::Selectable(state.GetName().c_str()))
 					{
-						m_currentState = state;
+						m_currentController.AddState(state);
 					}
 				}
 				ImGui::EndCombo();
-			}
-
-			if (ImGui::Button("Add State"))
-			{
-				//m_currentController.m_states.push_back(m_currentState);
 			}
 
 			ImGui::Dummy(ImVec2(0.0f, 35.0f));
 
 			//----------------------------------------------CONTROLLER STATES----------------------------------------------
 			ImGui::Text("States");
-			for (auto& state : m_currentController.GetStates())
+			for (int index{ 0 }; index < m_currentController.GetStateCount(); ++index)
 			{
-				//ImGui::Text(state.GetName().c_str());
+				ImGui::PushID(index);
+
+				ImGui::Text(m_currentController[index].GetName().c_str());
+				ImGui::SameLine();
+
+				if (ImGui::Button("X"))
+				{
+					m_currentController.RemoveState(index);
+				}
+				ImGui::SameLine();
+				ImGui::Text("Delete");
+
+				ImGui::PopID();
 			}
 		}
 
@@ -267,8 +269,6 @@ namespace LB
 		if (m_currentState.GetSpriteSheetName() != "None")
 		{
 			m_spriteSheet = &ASSETMANAGER->SpriteSheets[m_currentState.GetSpriteSheetName()];
-
-			strcpy_s(m_nameBuffer, sizeof(m_nameBuffer), m_currentState.GetName().c_str());
 		}
 		m_stateLoaded = true;
 		m_controllerLoaded = false;
