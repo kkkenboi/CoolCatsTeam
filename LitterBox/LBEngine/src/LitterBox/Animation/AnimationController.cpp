@@ -26,16 +26,16 @@ namespace LB
 
 	void AnimationController::Update()
 	{
-		m_current->Update();
+		m_current.Update();
 	}
 
 	void AnimationController::SetState(std::string const& stateName)
 	{
 		for (auto& state : m_states)
 		{
-			if (state.GetName() == stateName)
+			if (state == stateName)
 			{
-				m_current = &state;
+				m_current = ASSETMANAGER->AnimStates[state];
 				return;
 			}
 		}
@@ -50,29 +50,29 @@ namespace LB
 
 	void AnimationController::Play()
 	{
-		m_current->Start();
+		m_current.Start();
 	}
 
 	void AnimationController::Stop()
 	{
-		m_current->Stop();
+		m_current.Stop();
 	}
 
 	std::string const& AnimationController::GetCurrentSpriteSheet()
 	{
-		return m_current->GetSpriteSheetName();
+		return m_current.GetSpriteSheetName();
 	}
 
 	bool AnimationController::IsPlaying() const
 	{
-		return m_current && m_current->IsPlaying();
+		return m_current.IsPlaying();
 	}
 
 	int AnimationController::IsNextFrame() const
 	{
-		if (m_current->IsNextFrame())
+		if (m_current.IsNextFrame())
 		{
-			return m_current->GetCurrentFrame();
+			return m_current.GetCurrentFrame();
 		}
 		return 0;
 	}
@@ -82,12 +82,12 @@ namespace LB
 		return m_states.size();
 	}
 
-	std::vector<AnimationState>& AnimationController::GetStates()
+	std::vector<std::string>& AnimationController::GetStates()
 	{
 		return m_states;
 	}
 
-	void AnimationController::AddState(AnimationState const& state)
+	void AnimationController::AddState(std::string const& state)
 	{
 		m_states.push_back(state);
 	}
@@ -97,12 +97,12 @@ namespace LB
 		m_states.erase(m_states.begin() + index);
 	}
 
-	AnimationState& AnimationController::operator[](int index)
+	std::string& AnimationController::operator[](int index)
 	{
 		return m_states[index];
 	}
 
-	AnimationState const& AnimationController::operator[](int index) const
+	std::string const& AnimationController::operator[](int index) const
 	{
 		return m_states[index];
 	}
@@ -127,7 +127,7 @@ namespace LB
 		Value stateArray(rapidjson::kArrayType);
 		for (auto& state : m_states)
 		{
-			Value nameValue(state.GetName().c_str(), alloc);
+			Value nameValue(state.c_str(), alloc);
 			stateArray.PushBack(nameValue, alloc);
 		}
 		data.AddMember("States", stateArray, alloc);
@@ -154,7 +154,7 @@ namespace LB
 				const Value& statesValue = data["States"].GetArray();
 				for (rapidjson::SizeType i{}; i < statesValue.Size(); ++i)
 				{
-					m_states.push_back(ASSETMANAGER->AnimStates[statesValue[i].GetString()]);
+					m_states.push_back(statesValue[i].GetString());
 				}
 			}
 		}

@@ -39,7 +39,7 @@ namespace LB
 
 			if (m_index >= m_keyFrames.size())
 			{
-				m_index = 0;
+				m_lastIndex = m_index = 0;
 				m_playing = false;
 			}
 		}
@@ -62,7 +62,7 @@ namespace LB
 
 	int AnimationState::GetCurrentFrame() const
 	{
-		return m_index;
+		return m_keyFrames[m_index].m_frame;
 	}
 
 	void AnimationState::AddFrame(KeyFrame& newFrame)

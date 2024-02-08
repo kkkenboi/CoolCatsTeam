@@ -235,7 +235,7 @@ namespace LB
 				{
 					if (ImGui::Selectable(state.GetName().c_str()))
 					{
-						m_currentController.AddState(state);
+						m_currentController.AddState(state.GetName());
 					}
 				}
 				ImGui::EndCombo();
@@ -249,7 +249,7 @@ namespace LB
 			{
 				ImGui::PushID(index);
 
-				ImGui::Text(m_currentController[index].GetName().c_str());
+				ImGui::Text(m_currentController[index].c_str());
 				ImGui::SameLine();
 
 				if (ImGui::Button("X"))
@@ -271,10 +271,22 @@ namespace LB
 		if (m_stateLoaded)
 		{
 			JSONSerializer::SerializeToFile(m_currentState.GetName().c_str(), m_currentState);
+
+			// Update asset manager's anim state if it exists
+			if (ASSETMANAGER->AnimStates.find(m_currentState.GetName()) != ASSETMANAGER->AnimStates.end())
+			{
+				ASSETMANAGER->AnimStates[m_currentState.GetName()] = m_currentState;
+			}
 		}
 		else if (m_controllerLoaded)
 		{
 			JSONSerializer::SerializeToFile(m_currentController.GetName().c_str(), m_currentController);
+
+			// Update asset manager's anim controller if it exists
+			if (ASSETMANAGER->AnimControllers.find(m_currentController.GetName()) != ASSETMANAGER->AnimControllers.end())
+			{
+				ASSETMANAGER->AnimControllers[m_currentController.GetName()] = m_currentController;
+			}
 		}
 	}
 

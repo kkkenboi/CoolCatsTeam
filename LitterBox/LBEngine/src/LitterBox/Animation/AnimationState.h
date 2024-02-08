@@ -86,7 +86,7 @@ namespace LB
 		bool Serialize(Value& data, Document::AllocatorType& alloc); //to save 
 		bool Deserialize(const Value& data); //to load
 	private:
-		bool m_playing;
+		bool m_playing { false };
 
 		double m_timeElapsed;
 		int m_index, m_lastIndex;

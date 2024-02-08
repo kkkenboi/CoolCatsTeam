@@ -44,16 +44,16 @@ namespace LB
 		//----------------------------------------------CREATION----------------------------------------------
 		int GetStateCount() const;
 
-		std::vector<AnimationState>& GetStates();
+		std::vector<std::string>& GetStates();
 
-		void AddState(AnimationState const& state);
+		void AddState(std::string const& state);
 
 		void RemoveState(int index);
 
 		//----------------------------------------------ACCESSORS----------------------------------------------
-		AnimationState& operator[](int index);
+		std::string& operator[](int index);
 
-		AnimationState const& operator[](int index) const;
+		std::string const& operator[](int index) const;
 
 		std::string const& GetName() const;
 		void SetName(std::string const& name);
@@ -62,9 +62,9 @@ namespace LB
 		bool Deserialize(const Value& data); //to load
 
 	private:
-		AnimationState* m_current;
+		AnimationState m_current;
 
 		std::string m_name { "No controller" };
-		std::vector<AnimationState> m_states;
+		std::vector<std::string> m_states;
 	};
 }

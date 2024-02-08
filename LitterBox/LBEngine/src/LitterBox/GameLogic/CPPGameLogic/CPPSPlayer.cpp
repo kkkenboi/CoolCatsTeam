@@ -67,24 +67,24 @@ namespace LB
 		rb->addForce(Vec2<float>{10.0f, 0.0f} * TIME->GetDeltaTime());
 
 		//---------------------------getting the uvs for the run------------------------
-		if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"]) != LB::ASSETMANAGER->Textures.end()) {
-			//int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width }; NOTREFERENCED
+		//if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"]) != LB::ASSETMANAGER->Textures.end()) {
+		//	//int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width }; NOTREFERENCED
 
-			float x_inc{ 1.f / 10.f };
+		//	float x_inc{ 1.f / 10.f };
 
-			for (int x{ 0 }; x < 10; ++x) {
-				frames[x].at(0) = { x * x_inc, 0.f };//bottom left
-				frames[x].at(1) = { (x + 1) * x_inc, 0.f };//bottom right
-				frames[x].at(2) = { (x + 1) * x_inc, 1.f };//top right
-				frames[x].at(3) = { x * x_inc, 1.f };//top left
-			}
-		}
-		else DebuggerLogWarning("Can't find!");
-		Renderer::GRAPHICS->init_anim("player_walk", frames.data(), 0.1f, 10);
-		Renderer::GRAPHICS->init_anim("player_idle", frames.data(), 1.f, 1);
+		//	for (int x{ 0 }; x < 10; ++x) {
+		//		frames[x].at(0) = { x * x_inc, 0.f };//bottom left
+		//		frames[x].at(1) = { (x + 1) * x_inc, 0.f };//bottom right
+		//		frames[x].at(2) = { (x + 1) * x_inc, 1.f };//top right
+		//		frames[x].at(3) = { x * x_inc, 1.f };//top left
+		//	}
+		//}
+		//else DebuggerLogWarning("Can't find!");
+		//Renderer::GRAPHICS->init_anim("player_walk", frames.data(), 0.1f, 10);
+		//Renderer::GRAPHICS->init_anim("player_idle", frames.data(), 1.f, 1);
 
-		rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), static_cast<int>(rend->w), static_cast<int>(rend->h));
-		rend->play_repeat("player_idle");
+		//rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), static_cast<int>(rend->w), static_cast<int>(rend->h));
+		//rend->play_repeat("player_idle");
 
 		onTakingDamage.Subscribe(DecreaseHealth);
 		onPlacingBall.Subscribe(DecreaseBalls);
@@ -140,34 +140,39 @@ namespace LB
 		Movement animation of the player
 		*************************************************************************/
 		//------------------Walking animation------------------
-		static bool isWalkingAnim{ false };
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
-		{
-			rend->stop_anim();
-			rend->play_repeat("player_walk");
+		//static bool isWalkingAnim{ false };
+		//if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
+		//{
+		//	rend->stop_anim();
+		//	rend->play_repeat("player_walk");
 
-			isWalkingAnim = true;
-		}
-		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A))
-		{
-			rend->stop_anim();
-			rend->play_repeat("player_walk");
+		//	isWalkingAnim = true;
+		//}
+		//else if (INPUT->IsKeyTriggered(KeyCode::KEY_A))
+		//{
+		//	rend->stop_anim();
+		//	rend->play_repeat("player_walk");
 
-			isWalkingAnim = true;
-		}
-		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D))
-		{
-			rend->stop_anim();
-			rend->play_repeat("player_walk");
+		//	isWalkingAnim = true;
+		//}
+		//else if (INPUT->IsKeyTriggered(KeyCode::KEY_D))
+		//{
+		//	rend->stop_anim();
+		//	rend->play_repeat("player_walk");
 
-			isWalkingAnim = true;
-		}
-		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S))
-		{
-			rend->stop_anim();
-			rend->play_repeat("player_walk");
+		//	isWalkingAnim = true;
+		//}
+		//else if (INPUT->IsKeyTriggered(KeyCode::KEY_S))
+		//{
+		//	rend->stop_anim();
+		//	rend->play_repeat("player_walk");
 
-			isWalkingAnim = true;
+		//	isWalkingAnim = true;
+		//}
+
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_L))
+		{
+			GetComponent<CPAnimator>()->Play("FelixHurt");
 		}
 
 		/*!***********************************************************************
@@ -210,12 +215,12 @@ namespace LB
 		{
 			//rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
 			rb->mVelocity *= 0.95f;
-			if (isWalkingAnim)
-			{
-				rend->stop_anim();
-				rend->play_repeat("player_idle");
-				isWalkingAnim = false;
-			}
+			//if (isWalkingAnim)
+			//{
+			//	rend->stop_anim();
+			//	rend->play_repeat("player_idle");
+			//	isWalkingAnim = false;
+			//}
 		}
 
 		//------------------Play step sound------------------
@@ -338,6 +343,8 @@ namespace LB
 				}
 			}
 			mGotAttackedCooldown = mGotAttacked;
+
+			GetComponent<CPAnimator>()->Play("FelixHurt");
 
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.5f, 1.1f);
 			--m_currentHealth;
