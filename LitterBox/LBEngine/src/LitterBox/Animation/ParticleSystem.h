@@ -41,7 +41,7 @@ namespace LB {
 		void Update() override;
 		void Destroy() override;
 
-		void Emit(CPParticle emitter);
+		void Emit(CPParticle* emitter);
 		std::vector<std::pair<std::string, EmitterType>>& GetVectorEmits();
 		std::string GetEmitterType(EmitterType EmitType);
 		void AddEmitter(CPParticle* emitter);

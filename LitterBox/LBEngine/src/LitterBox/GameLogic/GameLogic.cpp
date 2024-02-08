@@ -18,6 +18,7 @@
 
 #include "mono/metadata/image.h"
 #include "mono/jit/jit.h"
+#include "LitterBox/Debugging/Memory.h"
 
 #include <filesystem>
 
@@ -58,9 +59,6 @@ namespace LB
 
 		m_scriptAssembly = mono_domain_assembly_open(m_domain, "CSharpAssembly.dll");
 		DebuggerAssert(m_scriptAssembly, "[Mono] CSharpAssembly.dll not found! Please compile the dll first.");
-
-		CPScript* test = DBG_NEW CPScript();
-		test->Initialise();
 	}
 
 	/*!***********************************************************************

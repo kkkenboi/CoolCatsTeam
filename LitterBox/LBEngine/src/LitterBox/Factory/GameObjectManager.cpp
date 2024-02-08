@@ -71,7 +71,7 @@ namespace LB
 			Memory::Instance()->Deallocate(component.second);
 		}
 
-		delete this;
+		Memory::Instance()->Deallocate(this);
 		//DebuggerLogFormat("GO \"%s\" Deleted", m_name.c_str());
 	}
 

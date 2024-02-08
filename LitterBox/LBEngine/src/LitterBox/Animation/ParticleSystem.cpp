@@ -18,32 +18,32 @@ namespace LB
 	}
 
 	// Spawns a particle from an emitters configs
-	void ParticleManager::Emit(CPParticle emitter) 
+	void ParticleManager::Emit(CPParticle* emitter) 
 	{
 
-		if (emitter.mEmitterType == TRAIL)
+		if (emitter->mEmitterType == TRAIL)
 		{
 			// Gets a particle from the particle pool to instantiate
 			Particle& particle = mParticlePool[mParticlePoolIndex];
 			particle.mIsActive = true;
-			particle.mPosition = emitter.mEmitterPos;
+			particle.mPosition = emitter->mEmitterPos;
 			particle.mRotation = 0.f;
 
 			// Velocity
-			particle.mVelocity = emitter.mEmitterVelocity;
-			particle.mVelocity.x += RandomRange(emitter.mEmitterVariationMinX, emitter.mEmitterVariationMaxX);
-			particle.mVelocity.y += RandomRange(emitter.mEmitterVariationMinY, emitter.mEmitterVariationMaxY);
+			particle.mVelocity = emitter->mEmitterVelocity;
+			particle.mVelocity.x += RandomRange(emitter->mEmitterVariationMinX, emitter->mEmitterVariationMaxX);
+			particle.mVelocity.y += RandomRange(emitter->mEmitterVariationMinY, emitter->mEmitterVariationMaxY);
 
 			// Texture
 
 			// Lifetime
-			particle.mLifetime = emitter.mParticleLifetime;
-			particle.mLifetimeRemaining = emitter.mParticleLifetime;
+			particle.mLifetime = emitter->mParticleLifetime;
+			particle.mLifetimeRemaining = emitter->mParticleLifetime;
 
 			// Size
-			particle.mSizeBegin = emitter.mEmitterSizeBegin;
+			particle.mSizeBegin = emitter->mEmitterSizeBegin;
 			particle.mSize = particle.mSizeBegin;
-			particle.mSizeEnd = emitter.mEmitterSizeEnd;
+			particle.mSizeEnd = emitter->mEmitterSizeEnd;
 
 			mParticlePoolIndex = (mParticlePoolIndex - 1 + mParticlePool.size()) % mParticlePool.size();
 
@@ -53,32 +53,52 @@ namespace LB
 			particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 			particle.mGameObj->GetComponent<CPRender>()->Initialise();
 			// Get the texture ID from the emitter
-			int textureID = emitter.mRender->texture;
+			int textureID = emitter->mRender->texture;
 			std::string textureName = ASSETMANAGER->GetTextureName(textureID);
 			//std::cout << emitter.mRender->w << '\n';
 			//std::cout << emitter.mRender->h << '\n';
 			//std::cout << ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second << std::endl;
 			//std::cout << ASSETMANAGER->GetTextureName(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second) << std::endl;
-			particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter.mRender->w), static_cast<int>(emitter.mRender->h));
+			particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter->mRender->w), static_cast<int>(emitter->mRender->h));
 		}
-		if (emitter.mEmitterType == RADIAL)
+		else if (emitter->mEmitterType == RADIAL)
 		{
 			// Get however many radial num we got
-			for (int i = 0; i < emitter.mRadialParticles; ++i) 
+			for (int i = 0; i < emitter->mRadialParticles; ++i)		
 			{
 				// Get particle from the particle pool
 				Particle& particle = mParticlePool[mParticlePoolIndex];
 				particle.mIsActive = true;
-				particle.mPosition = emitter.mEmitterPos;
+				particle.mPosition = emitter->mEmitterPos;
 				particle.mRotation = 0.f;
 
-				// Velocity (calced in radial form)
+				// Velocity (calculated in radial form)
+				float angle = static_cast<float>(i) / static_cast<float>(emitter->mRadialParticles) * 2.0f * PI; // PI is assumed to be defined
+				particle.mVelocity.x = emitter->mEmitterRadialSpeed * cos(angle);
+				particle.mVelocity.y = emitter->mEmitterRadialSpeed * sin(angle);
 
 				// Lifetime
+				particle.mLifetime = emitter->mParticleLifetime;
+				particle.mLifetimeRemaining = emitter->mParticleLifetime;
 
 				// Size
+				particle.mSizeBegin = emitter->mEmitterSizeBegin;
+				particle.mSize = particle.mSizeBegin;
+				particle.mSizeEnd = emitter->mEmitterSizeEnd;
 
 				// Create a GameObject
+				particle.mGameObj = FACTORY->SpawnGameObject();
+				particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+				particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+				particle.mGameObj->GetComponent<CPRender>()->Initialise();
+
+				// Get the texture ID from the emitter
+				int textureID = emitter->mRender->texture;
+				std::string textureName = ASSETMANAGER->GetTextureName(textureID);
+				particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter->mRender->w), static_cast<int>(emitter->mRender->h));
+
+				// Move to the next index in the particle pool
+				mParticlePoolIndex = (mParticlePoolIndex - 1 + mParticlePool.size()) % mParticlePool.size();
 			}
 		}
 	}

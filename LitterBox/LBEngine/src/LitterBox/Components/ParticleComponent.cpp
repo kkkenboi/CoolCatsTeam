@@ -18,10 +18,12 @@ namespace LB {
 		mEmitterRate = 0.05f;
 
 		mEmitterVelocity = Vec2<float>{ 0.f, 0.f };
-		float mEmitterVariationMinX = 0.f;
-		float mEmitterVariationMaxX = 0.f;
-		float mEmitterVariationMinY = 0.f;
-		float mEmitterVariationMaxY = 0.f;
+		mEmitterVariationMinX = 0.f;
+		mEmitterVariationMaxX = 0.f;
+		mEmitterVariationMinY = 0.f;
+		mEmitterVariationMaxY = 0.f;
+
+		mEmitterRadialSpeed = 100.f;
 
 		mEmitterSizeBegin = 1.f;
 		mEmitterSizeEnd = 1.f;
@@ -33,6 +35,7 @@ namespace LB {
 
 		mRadialParticles = 10;
 
+		mIsLooping = false;
 		mIsActive = false;
 
 		ParticleManager::Instance()->AddEmitter(this);
@@ -51,7 +54,10 @@ namespace LB {
 		
 		if (mEmitterLifetimeRemaining > 0.f && mIsActive)
 		{
-			mEmitterLifetimeRemaining -= TIME->GetDeltaTime();
+			if (mIsLooping == false)
+			{
+				mEmitterLifetimeRemaining -= TIME->GetDeltaTime();
+			}
 			mTimeSinceLastEmit += TIME->GetDeltaTime();
 		}
 
@@ -65,7 +71,7 @@ namespace LB {
 		{
 			if (mTimeSinceLastEmit >= mEmitterRate) {
 				if (mRender != nullptr) {
-					ParticleManager::Instance()->Emit(*this);
+					ParticleManager::Instance()->Emit(this);
 				}
 				mTimeSinceLastEmit = 0.f;
 			}

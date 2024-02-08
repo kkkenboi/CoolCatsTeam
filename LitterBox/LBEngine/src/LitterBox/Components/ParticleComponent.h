@@ -43,6 +43,7 @@ namespace LB {
 		float mEmitterVariationMinY;
 		float mEmitterVariationMaxY;
 
+		float mEmitterRadialSpeed;
 		// Left : -X, 0
 		// Right : X, 0
 		// Up : 0, Y
@@ -61,7 +62,7 @@ namespace LB {
 		// For Radial Emitters
 		int mRadialParticles;
 
-
+		bool mIsLooping;
 		bool mIsActive;
 	};
 }

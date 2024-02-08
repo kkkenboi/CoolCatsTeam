@@ -1192,6 +1192,10 @@ namespace LB
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##MaxY", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMaxY, 1.0f, 0.0f, 0.0f, "%.2f");
 				
+				ImGui::Text("%-17s", "Radial Speed");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##RadialSpeed", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterRadialSpeed, 1.0, 0.f, 0.f, "%.2f");
 				// Emitter Size
 				ImGui::Text("%-17s Begin", "Emitter Size");
 				ImGui::SameLine();
@@ -1233,6 +1237,22 @@ namespace LB
 					{
 						m_inspectedGO->GetComponent<CPParticle>()->RestartLifetime();
 					}
+				}
+
+				// Loop Active
+				bool& isEmitterLooping = m_inspectedGO->GetComponent<CPParticle>()->mIsLooping;
+				ImGui::PushID("EmitterLooping");
+				ImGui::Checkbox("Emitter Looping", &isEmitterLooping);
+				ImGui::PopID();
+				if (isEmitterLooping != m_inspectedGO->GetComponent<CPParticle>()->mIsLooping)
+				{
+					m_inspectedGO->GetComponent<CPParticle>()->mIsActive = isEmitterActive;
+				}
+
+
+				if (ImGui::Button("Delete Particle Component"))
+				{
+					m_inspectedGO->RemoveComponent(C_CPParticle);
 				}
 			
 			}
