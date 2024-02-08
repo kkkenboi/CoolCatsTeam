@@ -24,7 +24,6 @@ namespace LB {
 		std::string GetEmitterType();
 
 		void RestartLifetime();
-		
 
 	public:
 		CPTransform* mTransform;
@@ -56,7 +55,12 @@ namespace LB {
 		float mEmitterLifetime;
 		float mEmitterLifetimeRemaining;
 
-		// Texture here
+		// Particle
+		float mParticleLifetime;
+
+		// For Radial Emitters
+		int mRadialParticles;
+
 
 		bool mIsActive;
 	};
