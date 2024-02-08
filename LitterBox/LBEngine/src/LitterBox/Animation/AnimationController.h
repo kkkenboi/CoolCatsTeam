@@ -39,7 +39,9 @@ namespace LB
 		void Stop();
 
 		std::string const& GetCurrentSpriteSheet();
-		int IsNextFrame();
+
+		int IsNextFrame() const;
+		bool IsPlaying() const;
 
 		//----------------------------------------------CREATION----------------------------------------------
 		int GetStateCount() const;

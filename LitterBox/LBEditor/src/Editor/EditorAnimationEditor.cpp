@@ -253,18 +253,18 @@ namespace LB
 	{
 		if (m_stateLoaded)
 		{
-			JSONSerializer::SerializeToFile(stateFileName.c_str(), m_currentState);
+			JSONSerializer::SerializeToFile(m_currentState.GetName().c_str(), m_currentState);
 		}
 		else if (m_controllerLoaded)
 		{
-			JSONSerializer::SerializeToFile(m_currentController.GetName(), m_currentController);
+			JSONSerializer::SerializeToFile(m_currentController.GetName().c_str(), m_currentController);
 		}
 	}
 
 	void EditorAnimationEditor::LoadState(std::string const& name)
 	{
-		stateFileName = name;
-		JSONSerializer::DeserializeFromFile(stateFileName.c_str(), m_currentState);
+		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentState);
+		m_currentState.SetName(name);
 
 		if (m_currentState.GetSpriteSheetName() != "None")
 		{
@@ -277,6 +277,8 @@ namespace LB
 	void EditorAnimationEditor::LoadController(std::string const& name)
 	{
 		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentController);
+		m_currentController.SetName(name);
+
 		m_controllerLoaded = true;
 		m_stateLoaded = false;
 	}

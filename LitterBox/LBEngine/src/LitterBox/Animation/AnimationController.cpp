@@ -62,7 +62,12 @@ namespace LB
 		return m_current->GetSpriteSheetName();
 	}
 
-	int AnimationController::IsNextFrame()
+	bool AnimationController::IsPlaying() const
+	{
+		return m_current->IsPlaying();
+	}
+
+	int AnimationController::IsNextFrame() const
 	{
 		if (m_current->IsNextFrame())
 		{
@@ -131,6 +136,8 @@ namespace LB
 
 	bool AnimationController::Deserialize(const Value& data)
 	{
+		m_states.clear();
+
 		bool HasName = data.HasMember("Name");
 		bool HasStates = data.HasMember("States");
 

@@ -30,7 +30,16 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "Main_Menu_M2"
+                    "Layer": 1,
+                    "Texture": "Main_Menu_M2",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -207,7 +216,16 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "lefthand"
+                    "Layer": 0,
+                    "Texture": "lefthand",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -229,7 +247,16 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "QuitMenu"
+                    "Layer": 0,
+                    "Texture": "QuitMenu",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -357,7 +384,16 @@
                     "Active": true,
                     "Width": 896.0,
                     "Height": 728.0,
-                    "Texture": "Underline"
+                    "Layer": 0,
+                    "Texture": "Underline",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {

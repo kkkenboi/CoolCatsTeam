@@ -26,6 +26,7 @@ namespace LB
 		data.AddMember("Active", m_active, alloc);
 		data.AddMember("Width", w, alloc);
 		data.AddMember("Height", h, alloc);
+		data.AddMember("Layer", (int)renderer_id, alloc);
 		Value textureName(ASSETMANAGER->GetTextureName(texture).c_str(),alloc);
 		data.AddMember("Texture", textureName, alloc);
 		Value SpriteSheetValue;
@@ -47,6 +48,7 @@ namespace LB
 		bool HasTexture = data.HasMember("Texture");
 		bool HasWidth = data.HasMember("Width");
 		bool HasHeight = data.HasMember("Height");
+		bool HasLayer = data.HasMember("Layer");
 		bool HasSpriteSheet = data.HasMember("Sprites");
 		bool HasSpriteIndex = data.HasMember("SpriteIndex");
 		if (data.IsObject())
@@ -54,6 +56,14 @@ namespace LB
 			if (HasActive) m_active = data["Active"].GetBool();
 			if (HasWidth) w = data["Width"].GetFloat();
 			if (HasHeight) h = data["Height"].GetFloat();
+			if (HasLayer)
+			{
+				Renderer::Renderer_Types type = (Renderer::Renderer_Types)data["Layer"].GetInt();
+				if (type != renderer_id)
+				{
+					Renderer::GRAPHICS->swap_object_type(type, this);
+				}
+			}
 			if (HasSpriteIndex)
 			{
 				spriteIndex = data["SpriteIndex"].GetInt();

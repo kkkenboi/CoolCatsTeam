@@ -26,6 +26,7 @@ namespace LB
 	void CPAnimator::Initialise()
 	{
 		AnimationManager::Instance()->AddAnimator(this);
+		m_render = gameObj->GetComponent<CPRender>();
 	}
 
 	/*!***********************************************************************
@@ -34,7 +35,18 @@ namespace LB
 	*************************************************************************/
 	void CPAnimator::Update()
 	{
+		if (!m_controller.IsPlaying()) return;
+
 		m_controller.Update();
+		if (m_controller.IsNextFrame())
+		{
+
+		}
+	}
+
+	void CPAnimator::Play(std::string const& name)
+	{
+		m_controller.Play(name);
 	}
 
 	void CPAnimator::Play()
@@ -70,12 +82,12 @@ namespace LB
 
 	std::string const& CPAnimator::GetControllerName()
 	{
-		return m_name;
+		return m_controller.GetName();
 	}
 
 	void CPAnimator::SetControllerName(std::string const& name)
 	{
-		m_name = name;
+
 	}
 
 	///*!***********************************************************************

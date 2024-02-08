@@ -60,7 +60,8 @@ namespace LB
 		void Update();
 		void Stop();
 
-		bool IsNextFrame();
+		bool IsPlaying() const;
+		bool IsNextFrame() const;
 		int GetCurrentFrame() const;
 
 		//----------------------------------------------CREATION----------------------------------------------

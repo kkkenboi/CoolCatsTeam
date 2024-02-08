@@ -1,5 +1,5 @@
 {
-    "Name": "Mage Controller",
+    "Name": "MageController",
     "States": [
         "MageAttack"
     ]

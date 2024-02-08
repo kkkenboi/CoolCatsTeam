@@ -44,7 +44,12 @@ namespace LB
 		m_playing = false;
 	}
 
-	bool AnimationState::IsNextFrame()
+	bool AnimationState::IsPlaying() const
+	{
+		return m_playing;
+	}
+
+	bool AnimationState::IsNextFrame() const
 	{
 		return m_lastIndex != m_index;
 	}
@@ -135,6 +140,8 @@ namespace LB
 
 	bool AnimationState::Deserialize(const Value& data)
 	{
+		m_keyFrames.clear();
+
 		bool HasName = data.HasMember("Name");
 		bool HasSSName = data.HasMember("SpriteSheet Name");
 		bool HasFrames = data.HasMember("Frames");

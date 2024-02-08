@@ -16,6 +16,7 @@
 #include "LitterBox/Components/Component.h"
 #include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Animation/AnimationController.h"
+#include "LitterBox/Components/RenderComponent.h"
 
 namespace LB
 {
@@ -58,6 +59,8 @@ namespace LB
 
 		bool Deserialize(const Value& data);
 
+		void Play(std::string const& name);
+
 		void Play();
 
 		void Stop();
@@ -83,7 +86,7 @@ namespace LB
 		//int GetInt(std::string const& triggerName);
 
 	private:
-		std::string m_name{ "None" };
+		CPRender* m_render;
 		AnimationController m_controller; //state machine
 	};
 }

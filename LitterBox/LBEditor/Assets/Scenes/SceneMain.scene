@@ -50,6 +50,7 @@
                     "Active": true,
                     "Width": 200.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Aim",
                     "Sprites": {
                         "Name": "Unnamed Sheet",
@@ -91,6 +92,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Felix",
                     "Sprites": {
                         "Name": "Unnamed Sheet",
@@ -136,6 +138,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Bush_1",
                     "Sprites": {
                         "Name": "Unnamed Sheet",
@@ -166,6 +169,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Bush_1",
                     "Sprites": {
                         "Name": "Unnamed Sheet",
@@ -196,6 +200,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Bush_1",
                     "Sprites": {
                         "Name": "Unnamed Sheet",
@@ -382,6 +387,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Pause Menu",
                     "Sprites": {
                         "Name": "Unnamed Sheet",
@@ -493,6 +499,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "HowToPlay",
                     "Sprites": {
                         "Name": "Unnamed Sheet",
@@ -550,6 +557,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "QuitMenu",
                     "Sprites": {
                         "Name": "Unnamed Sheet",
@@ -658,6 +666,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Underline",
                     "Sprites": {
                         "Name": "Unnamed Sheet",
