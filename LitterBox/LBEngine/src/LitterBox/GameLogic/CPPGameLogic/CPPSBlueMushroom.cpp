@@ -38,7 +38,7 @@ namespace LB
 	{
 		if (mScaled) 
 		{
-			mScaleTimerRemaining -= TIME->GetDeltaTime();
+			mScaleTimerRemaining -= static_cast<float>(TIME->GetDeltaTime());
 			if (mScaleTimerRemaining <= 0.f) {
 				mScaleTimerRemaining = mScaleTimer;
 				mScaled = false;
