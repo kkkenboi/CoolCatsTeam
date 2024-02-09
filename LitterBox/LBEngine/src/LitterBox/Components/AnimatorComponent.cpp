@@ -60,7 +60,7 @@ namespace LB
 					{
 						m_render->spriteSheetName = "None";
 						m_render->texture = m_oldSSIndex;
-						m_render->UpdateTexture(m_oldID, m_render->w, m_render->h);
+						m_render->UpdateTexture(m_oldID, static_cast<int>(m_render->w), static_cast<int>(m_render->h));
 					}
 					m_playing = false;
 				}
@@ -111,7 +111,7 @@ namespace LB
 		{
 			m_render->spriteSheetName = "None";
 			m_render->texture = m_oldSSIndex;
-			m_render->UpdateTexture(m_oldID, m_render->w, m_render->h);
+			m_render->UpdateTexture(m_oldID, static_cast<int>(m_render->w), static_cast<int>(m_render->h));
 		}
 	}
 
