@@ -165,7 +165,7 @@ namespace LB {
 
 		void ToggleActive(bool flag)
 		{
-			
+			UNREFERENCED_PARAMETER(flag);
 		}
 	};
 }

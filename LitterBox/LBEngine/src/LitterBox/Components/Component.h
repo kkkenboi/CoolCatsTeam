@@ -66,7 +66,7 @@ namespace LB
 		 \brief
 		 Toggles the ACTUAL active state for this component
 		*************************************************************************/
-		virtual void ToggleActive(bool isActive) {}
+		virtual void ToggleActive(bool isActive) { UNREFERENCED_PARAMETER(isActive); }
 
 		/*!***********************************************************************
 		 \brief

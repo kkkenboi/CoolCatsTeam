@@ -733,6 +733,53 @@
                     "Active": true,
                     "Script": "class LB::CPPSFPS"
                 }
+            },
+            {
+                "Name": "MUSHYroom",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1395.18,
+                        "y": 315.48
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "Blue Mushroon Bounce",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 42.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSBlueMushroom"
+                }
             }
         ]
     }

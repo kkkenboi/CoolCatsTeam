@@ -592,10 +592,10 @@ void Renderer::Renderer::update_buff()
 			if (quad_buff[obj_index].data[i].texIndex != (float)e->texture)
 				quad_buff[obj_index].data[i].texIndex = (float)e->texture;
 			//update uv
-			for (int i{ 0 }; i < 4; ++i) {
+			//for (int j{ 0 }; j < 4; ++j) {
 				quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
 				quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
-			}
+			//}
 		}
 	}
 	
@@ -1185,7 +1185,7 @@ void Renderer::RenderSystem::Update()
 	}
 	if (isShake)
 	{
-		shakeDuration -= LB::TIME->GetDeltaTime();
+		shakeDuration -= static_cast<float>(LB::TIME->GetDeltaTime());
 		cam.move_cam(shakeIntensity);
 	}
 	//WARNING!! THIS WILL BE THE SOURCE OF A BUG WHEN WE DO THE BIGGER MAPS!!
@@ -1456,6 +1456,8 @@ void Renderer::RenderSystem::Destroy()
 \brief
  Returns the list of objects inside the specified rendering layer
 
+ NOTE: Will return object renderer object list by default
+
 \param layer
  The rendering layer we want to access
 *************************************************************************/
@@ -1469,6 +1471,7 @@ const std::list<const LB::CPRender*>& Renderer::RenderSystem::get_layer_objs(Ren
 	case Renderer_Types::RT_UI:
 		return ui_renderer.getObjectList();
 	}
+	return object_renderer.getObjectList();
 }
 /*!***********************************************************************
 \brief
@@ -1479,6 +1482,7 @@ const std::list<const LB::CPRender*>& Renderer::RenderSystem::get_layer_objs(Ren
 
 \return bool
  True - if rendering layer is active, False - if not
+ NOTE: return object layer by default
 *************************************************************************/
 const bool& Renderer::RenderSystem::get_layer_active(Renderer_Types layer) const
 {
@@ -1490,6 +1494,8 @@ const bool& Renderer::RenderSystem::get_layer_active(Renderer_Types layer) const
 	case Renderer_Types::RT_UI:
 		return ui_renderer.getActive();
 	}
+
+	return object_renderer.getActive();
 }
 
 /*!***********************************************************************

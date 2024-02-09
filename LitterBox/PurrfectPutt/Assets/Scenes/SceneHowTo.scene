@@ -30,7 +30,16 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Texture": "HowToPlay"
+                    "Layer": 0,
+                    "Texture": "HowToPlay",
+                    "Sprites": {
+                        "Name": "Unnamed Sheet",
+                        "PNG": "No PNG",
+                        "Rows": 0,
+                        "Cols": 0,
+                        "Sprites": []
+                    },
+                    "SpriteIndex": -1
                 }
             },
             {
@@ -61,7 +70,7 @@
                 },
                 "CPPScript": {
                     "Active": true,
-                    "Script": "void"
+                    "Script": "class LB::PauseMenuScript"
                 }
             },
             {
@@ -78,10 +87,6 @@
                         "y": 1.0
                     },
                     "Rotation": 0.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "void"
                 }
             }
         ]

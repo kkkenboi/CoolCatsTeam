@@ -72,7 +72,7 @@ namespace LB
 				m_grids[i], Vec2<float>{0.f, 0.f},
 				0.1f, temp_normal, temp_depth) == true)
 			{
-				collider->m_grid_frames.push_back(i);
+				collider->m_grid_frames.push_back(static_cast<int>(i));
 			}
 		}
 		
