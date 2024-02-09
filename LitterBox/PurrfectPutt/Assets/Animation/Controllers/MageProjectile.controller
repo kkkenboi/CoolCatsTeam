@@ -1,0 +1,7 @@
+{
+    "Name": "MageProjectile",
+    "States": [
+        "MageAttack",
+        "MageProjectileMove"
+    ]
+}
