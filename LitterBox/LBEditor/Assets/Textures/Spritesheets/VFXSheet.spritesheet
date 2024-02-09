@@ -1,6 +1,6 @@
 {
-    "Name": "FelixSheet",
-    "PNG": "Felix_SpriteSheet",
+    "Name": "VFXSheet",
+    "PNG": "VFXCompile_SpriteSheet",
     "Rows": 6,
     "Cols": 8,
     "Sprites": [
