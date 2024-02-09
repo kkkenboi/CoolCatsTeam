@@ -44,27 +44,27 @@ namespace LB
 		leftFace.x = -leftFace.x;*/
 
 		//--------------------------------get the mage animation--------------------------------
-		if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"]) != LB::ASSETMANAGER->Textures.end()) {
-			//int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->width }; NOTREFERENCED
-			//int img_height{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->height }; NOTREFERENCED
-		
-			//for the mage sprite sheet the x and y inc is the same
-			float x_inc{ 1.f / 4.f };
+		//if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"]) != LB::ASSETMANAGER->Textures.end()) {
+		//	//int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->width }; NOTREFERENCED
+		//	//int img_height{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->height }; NOTREFERENCED
+		//
+		//	//for the mage sprite sheet the x and y inc is the same
+		//	float x_inc{ 1.f / 4.f };
 
-			for(int y{0}; y < 4; ++y)
-				for (int x{ 0 }; x < 4; ++x) {
-					mage_anim_frams[x + y * 4].at(0) = { x * x_inc, 1.f - (y + 1) * x_inc };//bottom left
-					mage_anim_frams[x + y * 4].at(1) = { (x + 1) * x_inc, 1.f - (y + 1) * x_inc };//bottom right
-					mage_anim_frams[x + y * 4].at(2) = { (x + 1) * x_inc, 1.f - y * x_inc };//top right
-					mage_anim_frams[x + y * 4].at(3) = { x * x_inc, 1.f - y * x_inc };//top left
-				}
+		//	for(int y{0}; y < 4; ++y)
+		//		for (int x{ 0 }; x < 4; ++x) {
+		//			mage_anim_frams[x + y * 4].at(0) = { x * x_inc, 1.f - (y + 1) * x_inc };//bottom left
+		//			mage_anim_frams[x + y * 4].at(1) = { (x + 1) * x_inc, 1.f - (y + 1) * x_inc };//bottom right
+		//			mage_anim_frams[x + y * 4].at(2) = { (x + 1) * x_inc, 1.f - y * x_inc };//top right
+		//			mage_anim_frams[x + y * 4].at(3) = { x * x_inc, 1.f - y * x_inc };//top left
+		//		}
 
-			Renderer::GRAPHICS->init_anim("mage_float", mage_anim_frams.data(), 0.25f, 16);
-			Renderer::GRAPHICS->init_anim("mage_idle", mage_anim_frams.data(), 1.f, 1);
+		//	Renderer::GRAPHICS->init_anim("mage_float", mage_anim_frams.data(), 0.25f, 16);
+		//	Renderer::GRAPHICS->init_anim("mage_idle", mage_anim_frams.data(), 1.f, 1);
 
-			mRender->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("mage_attack"), static_cast<int>(mRender->w), static_cast<int>(mRender->h));
-			mRender->play_repeat("mage_idle");
-		}
+		//	mRender->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("mage_attack"), static_cast<int>(mRender->w), static_cast<int>(mRender->h));
+		//	mRender->play_repeat("mage_idle");
+		//}
 
 		
 		//initialse the state of the mage
@@ -305,8 +305,8 @@ namespace LB
 	void MageIdleState::Enter()
 	{
 		//stopping the animation and playing idle
-		mEnemy->mRender->stop_anim();
-		mEnemy->mRender->play_repeat("mage_idle");
+		//mEnemy->mRender->stop_anim();
+		//mEnemy->mRender->play_repeat("mage_idle");
 		this->Update();
 	}
 
@@ -460,6 +460,7 @@ namespace LB
 	*************************************************************************/
 	void MageHurtState::Enter()
 	{
+		mEnemy->GetComponent<CPAnimator>()->Play("MageHurt");
 		this->Update();
 	}
 
@@ -494,8 +495,10 @@ namespace LB
 	*************************************************************************/
 	void MageShootingState::Enter()
 	{
-		mEnemy->mRender->stop_anim();
-		mEnemy->mRender->play_repeat("mage_float");
+		//mEnemy->mRender->stop_anim();
+		//mEnemy->mRender->play_repeat("mage_float");
+
+		mEnemy->GetComponent<CPAnimator>()->Play("MageAttack");
 
 		mEnemy->mNumOfProjectileCurrent = 0;
 		mEnemy->mProjCooldownCurrent = 0.0f;

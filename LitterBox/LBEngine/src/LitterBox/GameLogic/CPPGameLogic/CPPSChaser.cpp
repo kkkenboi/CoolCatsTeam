@@ -142,6 +142,7 @@ namespace LB
 
 	void CPPSChaser::Hurt()
 	{
+		GetComponent<CPAnimator>()->Play("MeleeHurt");
 		CPPSBaseEnemy::Hurt();
 	}
 
@@ -173,7 +174,10 @@ namespace LB
 				
 			}
 		}
-		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") { mFSM.ChangeState("Hurt"); }
+		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") { 
+			GetComponent<CPAnimator>()->Play("MeleeAttack");
+			mFSM.ChangeState("Hurt"); 
+		}
 
 	}
 

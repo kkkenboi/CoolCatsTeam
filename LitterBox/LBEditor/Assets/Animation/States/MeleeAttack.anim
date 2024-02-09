@@ -1,0 +1,10 @@
+{
+    "Name": "MeleeAttack",
+    "SpriteSheet Name": "MeleeSheet",
+    "Frames": [
+        {
+            "Frame": 1,
+            "Time": 1.0
+        }
+    ]
+}

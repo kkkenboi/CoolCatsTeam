@@ -1,6 +1,7 @@
 {
-    "Name": "MageController",
+    "Name": "MageProjectile",
     "States": [
-        "MageAttack"
+        "MageAttack",
+        "MageProjectileMove"
     ]
 }

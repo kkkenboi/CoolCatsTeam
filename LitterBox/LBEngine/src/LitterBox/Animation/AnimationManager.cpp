@@ -50,6 +50,11 @@ namespace LB
 	void AnimationManager::AddAnimator(CPAnimator* newAnimator)
 	{
 		m_animators.push_back(newAnimator);
+
+		if (CORE->IsPlaying())
+		{
+			newAnimator->LoadController();
+		}
 	}
 
 	void AnimationManager::RemoveAnimator(CPAnimator* animatorToRemove)
