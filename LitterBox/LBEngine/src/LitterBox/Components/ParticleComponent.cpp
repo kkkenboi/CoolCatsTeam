@@ -53,9 +53,9 @@ namespace LB {
 		{
 			if (mIsLooping == false)
 			{
-				mEmitterLifetimeRemaining -= TIME->GetDeltaTime();
+				mEmitterLifetimeRemaining -= static_cast<float>(TIME->GetDeltaTime());
 			}
-			mTimeSinceLastEmit += TIME->GetDeltaTime();
+			mTimeSinceLastEmit += static_cast<float>(TIME->GetDeltaTime());
 		}
 
 		if (mEmitterLifetimeRemaining <= 0.f) 
