@@ -68,14 +68,29 @@ namespace LB
 		int PlaySound(std::string soundName);
 
 		/*!***********************************************************************
-		* \brief Function to play sound using the Sound File name
-		* Returns the channel ID and store into the vector that the sound is playing in
-		* \param soundName Name of the sound e.g "Explosion" without file extension
+		 * \brief Function to play sound using the vector of Sound File name
+		 * Returns a void
+		 * \param the vector of soundName, Name of the sound e.g "Explosion" without file extension
 		**************************************************************************/
 		void PlayGroupSounds(std::vector<std::string> groupSoundNames);
 
+		/*!***********************************************************************
+		* \brief Function to play sound using a vector of sound file names that randomise
+		* the the different sounds
+		* Returns a void
+		* \param vector that contains soundName e.g "Explosion, Pop, etc." without file extension,
+		*		 Volume of the sound, default to 1
+		*		 Pitch of the sound, default to 1
+		**************************************************************************/
 		void PlayRandomisedSound(std::vector<std::string> groupSoundNames, float volume = 1.0f, float pitch = 1.0f);
 
+		/*!***********************************************************************
+		* \brief Function to play a sound in a vector by calculating the chances that if it will play or not
+		* Returns a void
+		* \param vector that contains soundName e.g "Explosion, Pop, etc." without file extension,
+		*		 Volume of the sound, default to 1
+		*		 Pitch of the sound, default to 1
+		**************************************************************************/
 		void ChanceToPlayGroupSound(std::vector<std::string> groupSoundNames, float volume = 1.0f, float pitch = 1.0f);
 
 		/*!***********************************************************************

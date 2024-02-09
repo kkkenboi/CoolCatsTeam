@@ -37,6 +37,7 @@ namespace LB {
 		std::shared_ptr<InputSystem> input = std::make_shared<InputSystem>();
 		std::shared_ptr<ProfilerManager> profiler = std::make_shared<ProfilerManager>();
 		std::shared_ptr<WindowsSystem> windows = std::make_shared<WindowsSystem>();
+		std::shared_ptr<AssetManager> assetManager = std::make_shared<AssetManager>();
 		std::shared_ptr<FactorySystem> factory = std::make_shared<FactorySystem>();
 		std::shared_ptr<GameObjectManager> gameManager = std::make_shared<GameObjectManager>();
 		std::shared_ptr<GameLogic> logic = std::make_shared<GameLogic>();
@@ -47,7 +48,6 @@ namespace LB {
 		std::shared_ptr<RigidBodyManager> physics = std::make_shared<RigidBodyManager>();
 		std::shared_ptr<ColliderManager> colliders = std::make_shared<ColliderManager>();
 		std::shared_ptr<AudioManager> audio = std::make_shared<AudioManager>();
-		std::shared_ptr<AssetManager> assetManager = std::make_shared<AssetManager>();
 		std::shared_ptr<Renderer::RenderSystem> graphics = std::make_shared<Renderer::RenderSystem>();
 		std::shared_ptr<Memory> memory = std::make_shared<Memory>();
 		std::shared_ptr<SceneManager> sceneManager = std::make_shared<SceneManager>();
@@ -55,10 +55,10 @@ namespace LB {
 		Engine->AddSystem(time);
 		Engine->AddSystem(input);
 		Engine->AddSystem(profiler);
+		Engine->AddSystem(assetManager);
 		Engine->AddSystem(factory);
 		Engine->AddSystem(windows);
 		Engine->AddSystem(gameManager);
-		Engine->AddSystem(assetManager);
 		Engine->AddSystem(physics);
 		Engine->AddSystem(colliders);
 		Engine->AddSystem(ParticleManager::Instance());

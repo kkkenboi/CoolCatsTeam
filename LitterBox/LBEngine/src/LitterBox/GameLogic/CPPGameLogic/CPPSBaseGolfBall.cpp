@@ -71,7 +71,7 @@ namespace LB
 		CPTransform* trans = GameObj->GetComponent<CPTransform>();
 		Vec2<float> shootDir = mRigidBody->mVelocity;
 		trans->SetRotation(RadToDeg(atan2f(shootDir.y, shootDir.x)));
-
+		if (canDestroy) Destroy();
 	}
 
 	/*!***********************************************************************
@@ -89,8 +89,7 @@ namespace LB
 			
 			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
-
-			GOMANAGER->RemoveGameObject(this->GameObj);
+			canDestroy = true;
 		}
 		
 	}
@@ -99,7 +98,7 @@ namespace LB
 	\brief
 	Destroy
 	*************************************************************************/
-	void CPPSBaseGolfBall::Destroy() { }
+	void CPPSBaseGolfBall::Destroy() { GOMANAGER->RemoveGameObject(this->GameObj); }
 
 	//Getter functions
 	/*!***********************************************************************

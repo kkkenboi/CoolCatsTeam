@@ -3,6 +3,8 @@
 #include "LitterBox/Engine/Input.h"
 #include "CPPSUpgradeManager.h"
 #include <random>
+#include "CPPSPlayerGolfBall.h"
+#include "CPPSBaseGolfBall.h"
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -62,6 +64,17 @@ namespace LB
 		{
 			UpgradeSpawned = true;
 			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
+			//We want to remove all the balls when the upgrade spawns
+			std::vector<GameObject*> Balls = GOMANAGER->FindGameObjectsWithName("ball");
+			for (GameObject* ball : Balls)
+			{
+				ball->GetComponent<CPPSPlayerGolfBall>()->DestroyBall();
+			}
+			std::vector<GameObject*> Projectiles = GOMANAGER->FindGameObjectsWithName("Projectile");
+			for (GameObject* projectile : Projectiles)
+			{
+				projectile->GetComponent<CPPSBaseGolfBall>()->canDestroy = true;
+			}
 		}
 	}
 	void CPPSGameManager::Destroy()

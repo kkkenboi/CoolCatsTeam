@@ -54,7 +54,7 @@ namespace LB
 
 		Event<> onTakingDamage;
 		Event<> onPlacingBall;
-
+		float arbitraryFriction{ 0.95f };
 	private:
 		//direction of where the player is facing
 		LB::Vec2<float> right_face;
