@@ -22,8 +22,8 @@
     },
     "Render": {
         "Active": true,
-        "Width": 100.0,
-        "Height": 100.0,
+        "Width": 110.0,
+        "Height": 110.0,
         "Layer": 0,
         "Texture": "Melee_SpriteSheet",
         "SpriteName": "MeleeSheet",

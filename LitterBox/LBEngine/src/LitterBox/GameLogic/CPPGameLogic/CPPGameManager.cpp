@@ -24,7 +24,8 @@ namespace LB
 		if (currentWave == 1) 
 		{
 			SpawnCredits = 4;
-			//GenerateWave();
+			GenerateWave();
+			GameStart = true;
 		}
 	}
 	void CPPSGameManager::Update()

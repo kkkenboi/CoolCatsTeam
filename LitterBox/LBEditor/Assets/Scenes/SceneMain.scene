@@ -131,8 +131,8 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
+                    "Width": 115.0,
+                    "Height": 115.0,
                     "Layer": 0,
                     "Texture": "Felix_SpriteSheet",
                     "SpriteName": "FelixSheet",
@@ -758,12 +758,12 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
+                    "Width": 125.0,
+                    "Height": 125.0,
                     "Layer": 0,
-                    "Texture": "Blue Mushroon Bounce",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
+                    "Texture": "MushBramble_SpriteSheet",
+                    "SpriteName": "MushBrambleSheet",
+                    "SpriteIndex": 0
                 },
                 "Collider": {
                     "Active": true,

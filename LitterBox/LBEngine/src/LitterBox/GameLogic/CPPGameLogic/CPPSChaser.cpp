@@ -135,9 +135,6 @@ namespace LB
 		delete mFSM.GetState("Idle");
 		delete mFSM.GetState("Chase");
 		delete mFSM.GetState("Hurt");
-
-
-
 	}
 
 	void CPPSChaser::Hurt()

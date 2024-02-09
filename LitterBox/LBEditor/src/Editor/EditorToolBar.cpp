@@ -47,6 +47,7 @@ namespace LB
 		ImGui::Dummy({ leftPadding , m_buttonSize.y });
 		ImGui::SameLine();
 
+		ImGui::PushID("PlayButton");
 		ImGui::PushStyleColor(ImGuiCol_Button, CORE->IsPlaying() ? m_buttonOnColor : m_buttonOffColor);
 		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()), m_buttonSize
 			, ImVec2{ spriteSheet[0].m_min.x, spriteSheet[0].m_max.y }
@@ -55,9 +56,12 @@ namespace LB
 			CORE->TogglePlaying();
 		}
 		ImGui::PopStyleColor();
+		ImGui::PopID();
+
 
 		ImGui::SameLine(0.f, m_buttonSpacing);
 
+		ImGui::PushID("PauseButton");
 		ImGui::PushStyleColor(ImGuiCol_Button, TIME->IsPaused() ? m_buttonOnColor : m_buttonOffColor);
 		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()), m_buttonSize
 			, ImVec2{ spriteSheet[1].m_min.x, spriteSheet[1].m_max.y }
@@ -66,9 +70,11 @@ namespace LB
 			TIME->Pause(!TIME->IsPaused());
 		}
 		ImGui::PopStyleColor();
+		ImGui::PopID();
 		
 		ImGui::SameLine(0.f, m_buttonSpacing);
 
+		ImGui::PushID("StepButton");
 		ImGui::PushStyleColor(ImGuiCol_Button, m_buttonOffColor);
 		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()), m_buttonSize
 			, ImVec2{ spriteSheet[2].m_min.x, spriteSheet[2].m_max.y }
@@ -77,6 +83,7 @@ namespace LB
 			DEBUG->StepPhysics();
 		}
 		ImGui::PopStyleColor();
+		ImGui::PopID();
 
 		ImGui::End();
 	}
