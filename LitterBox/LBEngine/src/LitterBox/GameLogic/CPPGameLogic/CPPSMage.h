@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				CPPSMage.h
- \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao
- \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao, Amadeus Chia
+ \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan@digipen.edu, amadeusjinhan.chia@digipen.edu
  \par Course:		CSD2401A
  \date				25-11-2023
  \brief

@@ -59,11 +59,29 @@ namespace LB
 		//Initially ball will have no upgrades
 		//This value will be set by the upgrade manager
 		BallUpgrades currentBallUpgrades = DEFAULT;
+
+		/*!************************************************************************
+		 * \brief Set the Ball Upgrade object
+		 * 
+		**************************************************************************/
 		void SetBallUpgrade(int);
-		//Helper function to remove ball by setting it's lifetime to zero.
+
+		/*!************************************************************************
+		 * \brief Helper function to remove the ball by setting it's lifetime to zero
+		 * 
+		**************************************************************************/
 		void DestroyBall();
 		//Upgrade functions
+		/*!************************************************************************
+		 * \brief Function for handling the ball explosion
+		 * 
+		**************************************************************************/
 		void Explode();
+
+		/*!************************************************************************
+		 * \brief Function to handle the ball splitting (empty for now)
+		 * 
+		**************************************************************************/
 		void Split();
 		bool canDestroy{ false };
 		bool hasSplit{ false };
@@ -94,12 +112,37 @@ namespace LB
 		bool canSplit{ false };	//for the upgrade to decide if the ball can split or not
 	};
 	//Just some operator overloads to make the ball upgrade enum flags easier to read and understand lol
+
+	/*!************************************************************************
+	 * \brief AND operator overload for the ball upgrade enum
+	 * 
+	 * \param lhs ball upgrade enum
+	 * \param rhs ball upgrade enum
+	 * \return CPPSPlayerGolfBall::BallUpgrades returns the value of LHS AND RHS
+	**************************************************************************/
 	inline CPPSPlayerGolfBall::BallUpgrades operator& (CPPSPlayerGolfBall::BallUpgrades lhs, CPPSPlayerGolfBall::BallUpgrades rhs) {
 		return static_cast<CPPSPlayerGolfBall::BallUpgrades>(static_cast<int>(lhs) & static_cast<int>(rhs));
 	}
+
+	/*!************************************************************************
+	 * \brief OR operator overload for the ball upgrade enum
+	 * 
+	 * \param lhs ball upgrade enum
+	 * \param rhs ball upgrade enum
+	 * \return CPPSPlayerGolfBall::BallUpgrades returns the value of LHS OR RHS
+	**************************************************************************/
 	inline CPPSPlayerGolfBall::BallUpgrades operator| (CPPSPlayerGolfBall::BallUpgrades lhs, CPPSPlayerGolfBall::BallUpgrades rhs) {
 		return static_cast<CPPSPlayerGolfBall::BallUpgrades>(static_cast<int>(lhs) | static_cast<int>(rhs));
 	}
+
+	/*!************************************************************************
+	 * \brief OR ASSIGNMENT operator overload for the ball upgrade enum
+	 * 
+	 * \param lhs ball upgrade enum reference
+	 * \param rhs ball upgrade enum
+	 * \return CPPSPlayerGolfBall::BallUpgrades& Sets the value of the enum to be equals LHS OR RHS
+	 * (Basically it's like adding 2 enum flag values together)
+	**************************************************************************/
 	inline CPPSPlayerGolfBall::BallUpgrades& operator|= (CPPSPlayerGolfBall::BallUpgrades& lhs, CPPSPlayerGolfBall::BallUpgrades rhs) {
 		return lhs = lhs | rhs;
 	}
