@@ -48,7 +48,7 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 200.0,
+                    "Width": 157.0,
                     "Height": 100.0,
                     "Layer": 0,
                     "Texture": "Aim",
@@ -134,9 +134,9 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Layer": 0,
-                    "Texture": "Felix",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
+                    "Texture": "Felix_SpriteSheet",
+                    "SpriteName": "FelixSheet",
+                    "SpriteIndex": 1
                 },
                 "Collider": {
                     "Active": true,
@@ -177,9 +177,9 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Layer": 0,
-                    "Texture": "Bush_1",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
+                    "Texture": "Bush_SpriteSheet",
+                    "SpriteName": "BushSheet",
+                    "SpriteIndex": 1
                 }
             },
             {
@@ -202,9 +202,9 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Layer": 0,
-                    "Texture": "Bush_1",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
+                    "Texture": "Bush_SpriteSheet",
+                    "SpriteName": "BushSheet",
+                    "SpriteIndex": 0
                 }
             },
             {
@@ -227,9 +227,9 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Layer": 0,
-                    "Texture": "Bush_1",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
+                    "Texture": "Bush_SpriteSheet",
+                    "SpriteName": "BushSheet",
+                    "SpriteIndex": 2
                 }
             },
             {

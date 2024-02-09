@@ -82,14 +82,15 @@ namespace LB
 				if (ImGui::BeginTable("SlicedSpriteSheet", m_spriteSheet->m_col, ImGuiTableFlags_SizingFixedFit))
 				{
 					//Creating a table to place the sprites evenly by its row and cols
-					for (int r = { 0 }; r < m_spriteSheet->m_row; ++r) //go thru rows
+					for (int r{ 0 }; r < m_spriteSheet->m_row; ++r) //go thru rows
 					{
 						ImGui::TableNextRow(); //go next row
-						for (int c = 0; c < m_spriteSheet->m_col; ++c) //go thru cols
+						for (int c{ 0 }; c < m_spriteSheet->m_col; ++c) //go thru cols
 						{
 							ImGui::TableSetColumnIndex(c);
 
 							int tileNum = (c + r * m_spriteSheet->m_col);
+							
 							ImGui::PushID(tileNum);
 							ImGui::Text("Frame %i", tileNum);
 							if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth, smallWidth }
