@@ -1,6 +1,8 @@
 {
     "Name": "Mage",
+    "Active": true,
     "Transform": {
+        "Active": true,
         "Position": {
             "x": 542.0,
             "y": 450.0
@@ -12,17 +14,23 @@
         "Rotation": 0.0
     },
     "RigidBody": {
+        "Active": true,
         "Width": 100.0,
         "Height": 100.0,
         "Density": 10.0,
         "IsStatic": false
     },
     "Render": {
+        "Active": true,
         "Width": 100.0,
         "Height": 100.0,
-        "Texture": "MageAttackSpriteSheet"
+        "Layer": 0,
+        "Texture": "Mage_SpriteSheet",
+        "SpriteName": "MageSheet",
+        "SpriteIndex": 0
     },
     "Collider": {
+        "Active": true,
         "ColliderLayer": {
             "Layer Name": "GameEntity",
             "Layer ID": 1
@@ -33,6 +41,7 @@
         "Radius": 40.0
     },
     "CPPScript": {
+        "Active": true,
         "Script": "class LB::CPPSMage"
     }
 }

@@ -4,7 +4,7 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1024.71,
+            "x": 1024.7,
             "y": 785.0
         },
         "Scale": {
@@ -13,11 +13,18 @@
         },
         "Rotation": 0.0
     },
+    "RigidBody": {
+        "Active": true,
+        "Width": 100.0,
+        "Height": 100.0,
+        "Density": 10.0,
+        "IsStatic": false
+    },
     "Render": {
         "Active": true,
-        "Width": 200.0,
-        "Height": 200.0,
-        "Texture": "pine",
+        "Width": 110.0,
+        "Height": 110.0,
+        "Texture": "mage_attack",
         "Sprites": {
             "Name": "testSpriteSheet",
             "PNG": "mage_attack",
@@ -203,13 +210,6 @@
             ]
         },
         "SpriteIndex": 4
-    },
-    "RigidBody": {
-        "Active": true,
-        "Width": 100.0,
-        "Height": 100.0,
-        "Density": 10.0,
-        "IsStatic": true
     },
     "Collider": {
         "Active": true,

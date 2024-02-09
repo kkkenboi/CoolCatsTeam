@@ -1,6 +1,8 @@
 {
     "Name": "Projectile",
+    "Active": true,
     "Transform": {
+        "Active": true,
         "Position": {
             "x": 896.89,
             "y": 556.02
@@ -12,17 +14,23 @@
         "Rotation": 0.0
     },
     "RigidBody": {
+        "Active": true,
         "Width": 100.0,
         "Height": 100.0,
         "Density": 10.0,
         "IsStatic": false
     },
     "Render": {
+        "Active": true,
         "Width": 100.0,
         "Height": 100.0,
-        "Texture": "FireBall_0000"
+        "Layer": 0,
+        "Texture": "VFXCompile_SpriteSheet",
+        "SpriteName": "VFXSheet",
+        "SpriteIndex": 39
     },
     "Collider": {
+        "Active": true,
         "ColliderLayer": {
             "Layer Name": "EnemyBall",
             "Layer ID": 5
@@ -33,6 +41,7 @@
         "Radius": 20.0
     },
     "CPPScript": {
+        "Active": true,
         "Script": "class LB::CPPSBaseGolfBall"
     }
 }
