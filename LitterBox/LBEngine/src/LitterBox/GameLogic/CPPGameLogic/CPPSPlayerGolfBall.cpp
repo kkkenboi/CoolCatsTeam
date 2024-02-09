@@ -158,7 +158,8 @@ namespace LB
 		std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
 		//We loop through all the colliders that were in the radius
 		for (CPCollider* col : explosionColliders) {
-				if (col->gameObj->GetName() == "MainChar") continue;
+				if (col->gameObj->GetName() == "MainChar") continue;	
+				if (col->gameObj->GetName() == "Projectile") continue;	//we don't want it to affect the enemy projectiles
 				Vec2<float> explosionForce = col->m_pos - this->GameObj->GetComponent<CPTransform>()->GetPosition();
 				explosionForce = explosionForce.Normalise() * explosionForceMag;
 				if (col->HasRB()) {
