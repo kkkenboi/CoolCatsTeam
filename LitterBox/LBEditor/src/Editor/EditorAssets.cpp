@@ -260,56 +260,56 @@ namespace LB
 						EditorAnimationEditor::Instance()->LoadState(directory.path().filename().stem().string());
 					}
 				}
-				//Commented out because it happens even if right click scene
-				//if (ImGui::BeginPopup("Create"))
-				//{
-				//	ImGui::Text("Create new...");
-				//	ImGui::Separator();
-				//	if (ImGui::MenuItem("Animation Controller"))
-				//	{
-				// //should probably serialise a default constructed file instead
-				//		std::ofstream file(directory.path().parent_path().string() + "/newController.controller");
-				//		if (file)
-				//		{
-				//			file.close();
-				//			//ReimportAssets();
-				//		}
-				//		else
-				//		{
-				//			DebuggerLogError("Could not create new animation controller file!");
-				//		}
-				//	}
-				//	if (ImGui::MenuItem("Animation State"))
-				//	{
-				//		std::ofstream file(directory.path().parent_path().string() + "/newState.anim");
-				//		if (file)
-				//		{
-				//			file.close();
-				//			//ReimportAssets();
 
-				//		}
-				//		else
-				//		{
-				//			DebuggerLogError("Could not create new animation state file!");
-				//		}
+				if (ImGui::BeginPopup("Create"))
+				{
+					ImGui::Text("Create new...");
+					ImGui::Separator();
+					if (ImGui::MenuItem("Animation Controller"))
+					{
+				 //should probably serialise a default constructed file instead
+						std::ofstream file(directory.path().parent_path().string() + "/newController.controller");
+						if (file)
+						{
+							file.close();
+							//ReimportAssets();
+						}
+						else
+						{
+							DebuggerLogError("Could not create new animation controller file!");
+						}
+					}
+					if (ImGui::MenuItem("Animation State"))
+					{
+						std::ofstream file(directory.path().parent_path().string() + "/newState.anim");
+						if (file)
+						{
+							file.close();
+							//ReimportAssets();
 
-				//	}
-				//	if (ImGui::MenuItem("SpriteSheet"))
-				//	{
-				//		std::ofstream file(directory.path().parent_path().string() + "/newSpriteSheet.spritesheet");
-				//		if (file)
-				//		{
-				//			file.close();
-				//			//ReimportAssets();
+						}
+						else
+						{
+							DebuggerLogError("Could not create new animation state file!");
+						}
 
-				//		}
-				//		else
-				//		{
-				//			DebuggerLogError("Could not create new SpriteSheet file!");
-				//		}
-				//	}
-				//	ImGui::EndPopup();
-				//}
+					}
+					if (ImGui::MenuItem("SpriteSheet"))
+					{
+						std::ofstream file(directory.path().parent_path().string() + "/newSpriteSheet.spritesheet");
+						if (file)
+						{
+							file.close();
+							//ReimportAssets();
+
+						}
+						else
+						{
+							DebuggerLogError("Could not create new SpriteSheet file!");
+						}
+					}
+					ImGui::EndPopup();
+				}
 
 				//IF USER RIGHT CLICKS ON AN ITEM
 				if (ImGui::BeginPopupContextItem())
@@ -347,7 +347,7 @@ namespace LB
 					ImGui::EndPopup();
 				}
 				// ELSE ON AN EMPTY SPACE
-				else if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && !ImGui::IsItemHovered())
+				else if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right) && !ImGui::IsItemHovered())
 				{
 					ImGui::OpenPopup("Create");
 				}
