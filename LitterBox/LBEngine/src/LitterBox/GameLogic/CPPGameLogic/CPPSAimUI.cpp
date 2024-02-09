@@ -1,7 +1,24 @@
+/*!************************************************************************
+ * \file				CPPSAimUI.cpp
+ * \author(s)			Amadeus Chia 
+ * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
+ * \par Course:       	CSD2450A
+ * \date				09/02/2024
+ * \brief 				This file contains the source code for the Aim UI
+ * 						which basically just points the Aim UI towards the mouse
+ * 						cursor
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "CPPSAimUI.h"
 
 namespace LB
 {
+	/*!************************************************************************
+	 * \brief Start function of the AIM UI 
+	 * It gets the player GO and its own transform and caches it
+	**************************************************************************/
 	void CPPSAimUI::Start()
 	{
 		//Grabbing the current obj's transform
@@ -16,11 +33,15 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	 * \brief Uudate function for the Aim UI, basically just points the 
+	 * image towards the player's cursor
+	**************************************************************************/
 	void CPPSAimUI::Update()
 	{
 		//Setting the position of the aim script to the player
 		mTransform->SetPosition(mPlayer->GetComponent<CPTransform>()->GetPosition());
-
+		//All this funky code is just to account for editor/release mode difference
 		MousePos = INPUT->GetMousePos();
 		MousePos.y = MousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 		MousePos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
@@ -34,6 +55,10 @@ namespace LB
 
 	}
 
+	/*!************************************************************************
+	 * \brief Handles the destruction of the Aim UI. Should be empty for now
+	 * 
+	**************************************************************************/
 	void CPPSAimUI::Destroy()
 	{
 		//Should be empty

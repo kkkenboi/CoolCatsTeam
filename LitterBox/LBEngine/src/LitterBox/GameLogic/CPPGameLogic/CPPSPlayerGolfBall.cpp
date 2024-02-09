@@ -1,13 +1,13 @@
 /*!************************************************************************
  \file				CPPSPlayerGolfBall.cpp
- \author(s)			Vanessa Chua Siew Jin, Kenji Brannon Chong
- \par DP email(s):	vanessasiewjin@digipen.edu, kenjibrannon.c@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin, Kenji Brannon Chong, Amadeus Chia
+ \par DP email(s):	vanessasiewjin@digipen.edu, kenjibrannon.c@digipen.edu, amadeusjinhan.chia@digipen.edu
  \par Course:		CSD2401A
- \date				25-11-2023
+ \date				09-02-2024
  \brief
  This file contains the Golf Ball behaviour the player will hold
 
-  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
   disclosure of this file or its contents without the prior written consent
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
@@ -139,6 +139,10 @@ namespace LB
 		//currentBallUpgrades = static_cast<BallUpgrades>(static_cast<int>(currentBallUpgrades) | (1 << upgradeType));
 	}
 
+	/*!************************************************************************
+	* \brief Helper function to remove the ball by setting it's lifetime to zero
+	* 
+	**************************************************************************/
 	void CPPSPlayerGolfBall::DestroyBall()
 	{
 		//We do this instead of calling can destroy because we still want the logic in the
@@ -150,6 +154,10 @@ namespace LB
 
 
 	//Function to handle when the ball explodes
+	/*!************************************************************************
+	* \brief Function for handling the ball explosion
+	* 
+	**************************************************************************/
 	void CPPSPlayerGolfBall::Explode()
 	{
 		Renderer::GRAPHICS->shake_camera(80.f,0.3f);
@@ -177,6 +185,12 @@ namespace LB
 		canDestroy = true;
 	}
 
+
+
+	/*!************************************************************************
+	* \brief Function to handle the ball splitting (empty for now)
+	* 
+	**************************************************************************/
 	void CPPSPlayerGolfBall::Split()
 	{
 		if (currentBallUpgrades & SPLIT) {
