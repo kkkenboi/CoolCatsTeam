@@ -2,13 +2,13 @@
  \file				Memory.cpp
  \author(s)			Ang Jiawei Jarrett
  \par DP email(s):	a.jiaweijarrett@digipen.edu
- \par Course:		CSD2401A
- \date				22/09/23
+ \par Course:		CSD2451A
+ \date				09/02/24
  \brief
 
  This file tracks allocations and deallocations used by the game engine.
 
- Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
