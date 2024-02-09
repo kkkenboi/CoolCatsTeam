@@ -30,6 +30,10 @@ namespace LB
 	static float normalWidth = 150.f;
 	static float smallWidth = 100.f;
 
+	/*!***********************************************************************
+	  \brief
+	  Sets up the default layer name.
+	*************************************************************************/
 	EditorAnimationEditor::EditorAnimationEditor(std::string layerName) : Layer(layerName)
 	{
 
@@ -267,6 +271,10 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Saves the currently loaded animation state/controller.
+	*************************************************************************/
 	void EditorAnimationEditor::Save()
 	{
 		if (m_stateLoaded)
@@ -291,6 +299,11 @@ namespace LB
 		}
 	}
 
+
+	/*!***********************************************************************
+	  \brief
+	  Loads the animation state for editing.
+	*************************************************************************/
 	void EditorAnimationEditor::LoadState(std::string const& name)
 	{
 		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentState);
@@ -304,6 +317,10 @@ namespace LB
 		m_controllerLoaded = false;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Loads the animation controller for editing.
+	*************************************************************************/
 	void EditorAnimationEditor::LoadController(std::string const& name)
 	{
 		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentController);
