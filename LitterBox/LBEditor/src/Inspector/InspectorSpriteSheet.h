@@ -1,9 +1,9 @@
 /*!************************************************************************
  \file				InspectorSpriteSheet.h
- \author(s)			Ang Jiawei Jarrett
- \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin, Ang Jiawei Jarrett
+ \par DP email(s):	vanessasiewjin.chua@digipen.edu,a.jiaweijarrett@digipen.edu
  \par Course:       CSD2401A
- \date				11/10/2023
+ \date				01/01/2024
  \brief
 
  This file contains the class is where it updates the spritesheet, split, 
