@@ -94,7 +94,7 @@ namespace LB {
 		  \return
 		  Number of tiles that texture has been split into
 		*************************************************************************/
-		inline unsigned int getNumOfTiles() { return tiles.size(); }
+		inline size_t getNumOfTiles() { return tiles.size(); }
 
 		/*!***********************************************************************
 		  \brief
