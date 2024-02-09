@@ -1,8 +1,31 @@
+/*!************************************************************************
+ \file				ParticleComponent.cpp
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:		CSD2451A
+ \date				09-02-2024
+ \brief
+  This file contains the ParticleManager class which contains
+  all the implementation of the class' functions. It handles
+  the Particle Pool and the Emitter Pool by updating the
+  positions and stats of Particles that were emitted by an
+  Emitter.
+
+  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "ParticleComponent.h"
 #include "Litterbox/Animation/ParticleSystem.h"
 
 namespace LB {
-
+	/*!***********************************************************************
+	\brief
+	Initialises some of the variables in the CPParticle class as well
+	as adding the newly created CPParticle into the Emitter Pool within
+	the Particle Manager
+	*************************************************************************/
 	void CPParticle::Initialise() 
 	{
 		mTransform = gameObj->GetComponent<CPTransform>();
@@ -15,37 +38,22 @@ namespace LB {
 		mEmitterType = TRAIL;
 		
 		mEmitterPos = mTransform->GetPosition();
-		//mEmitterRate = 0.05f;
 
-		//mEmitterVelocity = Vec2<float>{ 0.f, 0.f };
-		//mEmitterVariationMinX = 0.f;
-		//mEmitterVariationMaxX = 0.f;
-		//mEmitterVariationMinY = 0.f;
-		//mEmitterVariationMaxY = 0.f;
-
-		//mEmitterRadialSpeed = 100.f;
-
-		//mEmitterSizeBegin = 1.f;
-		//mEmitterSizeEnd = 1.f;
-
-		//mEmitterLifetime = 1.f;
 		mEmitterLifetimeRemaining = mEmitterLifetime;
-
-		//mParticleLifetime = 1.f;
-
-		//mRadialParticles = 10;
 
 		ParticleManager::Instance()->AddEmitter(this);
 	}
 
+	/*!***********************************************************************
+		\brief
+		Updates the CPParticle's position and other stats
+	*************************************************************************/
 	void CPParticle::Update()
 	{
 		if (gameObj->HasComponent<CPRender>())
 		{
 			mRender = gameObj->GetComponent<CPRender>();
 		}
-
-		//std::cout << "Testing\n";
 
 		mEmitterPos = mTransform->GetPosition();
 		
@@ -75,6 +83,10 @@ namespace LB {
 		}
 	}
 
+	/*!***********************************************************************
+		\brief
+		Removes the emitter from the Emitter Pool in the ParticleManager class
+	*************************************************************************/
 	void CPParticle::Destroy()
 	{
 		// Remove it from the EmitterPool
@@ -83,11 +95,19 @@ namespace LB {
 		ParticleManager::Instance()->RemoveEmitter(this);
 	}
 
+	/*!***********************************************************************
+		\brief
+		Gets the ComponentTypeID of the CPParticle class
+	*************************************************************************/
 	ComponentTypeID CPParticle::GetType() 
 	{
 		return C_CPParticle;
 	}
 
+	/*!***********************************************************************
+		\brief
+		Serializes the CPParticle component
+	*************************************************************************/
 	bool CPParticle::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
@@ -114,6 +134,10 @@ namespace LB {
 		return true;
 	}
 
+	/*!***********************************************************************
+		\brief
+		Deserializes the CPParticle component
+	*************************************************************************/
 	bool CPParticle::Deserialize(const Value& data)
 	{
 		mEmitterType = static_cast<EmitterType>(data["EmitterType"].GetInt());
@@ -136,6 +160,10 @@ namespace LB {
 		return true;
 	}
 
+	/*!***********************************************************************
+		\brief
+		Returns the current emitter type of the CPParticle component as a string
+	*************************************************************************/
 	std::string CPParticle::GetEmitterType()
 	{
 		switch (mEmitterType)
@@ -149,6 +177,10 @@ namespace LB {
 		}
 	}
 
+	/*!***********************************************************************
+		\brief
+		Restarts the lifetime remaining of the CPParticle component
+	*************************************************************************/
 	void CPParticle::RestartLifetime() 
 	{
 		mEmitterLifetimeRemaining = mEmitterLifetime;

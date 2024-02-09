@@ -5,7 +5,11 @@
  \par Course:		CSD2451A
  \date				09-02-2024
  \brief
-  This file contains the behviour of the Blue Mushroom obstacle.
+  This file contains the ParticleManager class which contains
+  all the implementation of the class' functions. It handles
+  the Particle Pool and the Emitter Pool by updating the
+  positions and stats of Particles that were emitted by an
+  Emitter.
 
   Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
   disclosure of this file or its contents without the prior written consent

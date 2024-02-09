@@ -1,9 +1,9 @@
 /*!************************************************************************
  \file				InspectorSpriteSheet.cpp
- \author(s)			Ang Jiawei Jarrett
- \par DP email(s):	a.jiaweijarrett@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin, Ang Jiawei Jarrett
+ \par DP email(s):	vanessasiewjin.chua@digipen.edu,a.jiaweijarrett@digipen.edu
  \par Course:       CSD2401A
- \date				11/10/2023
+ \date				01/01/2024
  \brief
 
  This file contains the class is where it updates the spritesheet, split,
@@ -77,7 +77,7 @@ namespace LB
 		}
 
 		fullWidth = ImGui::GetContentRegionAvail().x;
-		ImGui::Image((ImTextureID)m_textureID, ImVec2(fullWidth, fullWidth), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image(*reinterpret_cast<ImTextureID*>(&m_textureID), ImVec2(fullWidth, fullWidth), ImVec2(0, 1), ImVec2(1, 0));
 
 		ImGui::Text("Slicer");
 		if (ImGui::BeginTable("SlicerTable", 3))
@@ -207,7 +207,7 @@ namespace LB
 	{
 		static bool changed{ false };
 
-		ImGui::Text("Auto Slicer");
+		ImGui::Text("Auto Slicer"); //AUTO SLICER
 		ImGui::Text("Rows");
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(normalWidth);
@@ -249,7 +249,7 @@ namespace LB
 					int tileNum = (c + r * m_inspectedSheet.m_col);
 					ImGui::PushID(tileNum);
 					ImGui::Text("Sprite %i", tileNum);
-					if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef()), ImVec2{normalWidth, normalWidth}
+					if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef()))), ImVec2{normalWidth, normalWidth}
 						, ImVec2{ m_inspectedSheet[tileNum].m_min.x, m_inspectedSheet[tileNum].m_max.y }
 						, ImVec2{ m_inspectedSheet[tileNum].m_max.x, m_inspectedSheet[tileNum].m_min.y }))
 					{

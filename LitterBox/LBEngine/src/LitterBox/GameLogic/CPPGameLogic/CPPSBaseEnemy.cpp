@@ -43,6 +43,7 @@ namespace LB
 	}
 	void CPPSBaseEnemy::OnCollisionEnter(CollisionData col)
 	{
+		UNREFERENCED_PARAMETER(col);
 		//If the enemy has no hp it should be able to collide with anything anymore
 		if (mHealth <= 0) return;
 	}

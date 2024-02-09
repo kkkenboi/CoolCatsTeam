@@ -78,7 +78,7 @@ namespace LB
 	  \brief
 	  copy constructor name and pngname
 	*************************************************************************/
-	SpriteSheet::SpriteSheet(std::string const& name, std::string const& PNGName) : m_name{name}, m_pngName{PNGName} {}
+	SpriteSheet::SpriteSheet(std::string const& name, std::string const& PNGName) : m_name{name}, m_pngName{PNGName}, m_row{}, m_col{} {}
 
 	/*!***********************************************************************
 	  \brief
@@ -154,12 +154,12 @@ namespace LB
 			if (HasRows)
 			{
 				const Value& rowValue = data["Rows"];
-				m_row = rowValue.GetFloat();
+				m_row = static_cast<int>(rowValue.GetFloat());
 			}
 			if (HasCols)
 			{
 				const Value& colValue = data["Cols"];
-				m_col = colValue.GetFloat();
+				m_col = static_cast<int>(colValue.GetFloat());
 			}
 			return true;
 		}
