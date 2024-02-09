@@ -1,0 +1,46 @@
+{
+    "Name": "MageHurt",
+    "SpriteSheet Name": "MageSheet",
+    "Frames": [
+        {
+            "Frame": 1,
+            "Time": 0.1
+        },
+        {
+            "Frame": 3,
+            "Time": 0.1
+        },
+        {
+            "Frame": 1,
+            "Time": 0.1
+        },
+        {
+            "Frame": 3,
+            "Time": 0.1
+        },
+        {
+            "Frame": 1,
+            "Time": 0.1
+        },
+        {
+            "Frame": 3,
+            "Time": 0.1
+        },
+        {
+            "Frame": 1,
+            "Time": 0.1
+        },
+        {
+            "Frame": 3,
+            "Time": 0.1
+        },
+        {
+            "Frame": 1,
+            "Time": 0.1
+        },
+        {
+            "Frame": 3,
+            "Time": 0.1
+        }
+    ]
+}

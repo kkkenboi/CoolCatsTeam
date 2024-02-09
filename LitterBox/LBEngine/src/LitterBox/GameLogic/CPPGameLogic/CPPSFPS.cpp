@@ -18,7 +18,7 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("FPS", *m_FPSObject);
 
 		// Set it to 0.f when not active ( wanted to do ToggleActive but didn't work )
-		m_FPSObject->GetComponent<CPText>()->get_msg().scale = 1.0f;
+		m_FPSObject->GetComponent<CPText>()->get_msg().scale = 0.0f;
 		//m_FPSObject->GetComponent<CPText>()->ToggleActive(false);
 	}
 

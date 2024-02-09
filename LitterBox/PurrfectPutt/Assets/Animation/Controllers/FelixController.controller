@@ -1,0 +1,7 @@
+{
+    "Name": "FelixController",
+    "States": [
+        "FelixHurt",
+        "FelixWalk"
+    ]
+}
