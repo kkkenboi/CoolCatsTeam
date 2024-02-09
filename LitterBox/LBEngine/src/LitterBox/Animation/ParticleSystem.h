@@ -1,3 +1,22 @@
+/*!************************************************************************
+ \file				ParticleSystem.h
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:		CSD2451A
+ \date				09-02-2024
+ \brief
+  This file contains the ParticleManager class which contains
+  all the implementation of the class' functions. It handles
+  the Particle Pool and the Emitter Pool by updating the
+  positions and stats of Particles that were emitted by an
+  Emitter.
+
+  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
+
 #include "LitterBox/Utils/Math.h"
 #include "LitterBox/Components/ParticleComponent.h"
 #include "LitterBox/Components/RenderComponent.h"
@@ -114,6 +133,9 @@ namespace LB {
 		std::vector<std::pair<std::string, EmitterType>> mEmitterTypes{};
 	};
 
-	
+	/*!***********************************************************************
+	\brief
+	Returns a random float from the given min and max
+	*************************************************************************/
 	float RandomRange(float min, float max);
 }
