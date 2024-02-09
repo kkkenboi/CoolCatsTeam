@@ -47,12 +47,12 @@ namespace LB
 		//But the rest are there so you don't wonder why there's jumps in the numbers
 		enum BallUpgrades {
 			DEFAULT = (1<< 0),
-			BOMB = (1 << 1),		//Ball explodes on contact
-			SPLIT = (1 << 2),		//Ball splits into 3 (not counted towards total ball count)
+			SPLIT = (1 << 1),		//Ball explodes on contact
+			BOMB = (1 << 2),		//Ball splits into 3 (not counted towards total ball count)
 			BIGBALL = (1 << 3),		//Ball increase size and mass
-			MOREBALL = (1 << 4),	//Increase ball count by 3	(capped a 9)
+			MOVESPEED = (1 << 4),	//Increase ball count by 3	(capped a 9)
 			MOREHEALTH = (1<< 5),	//Increase Max health by 1 (capped at 9)
-			MOVESPEED = (1<<6)		//Increase player movespeed
+			MOREBALL = (1<<6)		//Increase player movespeed
 		};
 		
 

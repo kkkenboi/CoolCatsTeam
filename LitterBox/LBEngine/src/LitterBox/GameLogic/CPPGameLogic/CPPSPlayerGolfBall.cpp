@@ -101,7 +101,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayerGolfBall::OnCollisionEnter(CollisionData colData)
 	{
-		if (currentBallUpgrades & BOMB && colData.colliderOther->gameObj->GetName() != "ball") {
+		if ((currentBallUpgrades & BOMB) && colData.colliderOther->gameObj->GetName() != "ball") {
 
 			//Renderer::GRAPHICS->shaker_camera();
 			Explode();
