@@ -77,7 +77,7 @@ namespace LB
 		}
 
 		fullWidth = ImGui::GetContentRegionAvail().x;
-		ImGui::Image((ImTextureID)m_textureID, ImVec2(fullWidth, fullWidth), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image(*reinterpret_cast<ImTextureID*>(&m_textureID), ImVec2(fullWidth, fullWidth), ImVec2(0, 1), ImVec2(1, 0));
 
 		ImGui::Text("Slicer");
 		if (ImGui::BeginTable("SlicerTable", 3))
@@ -249,7 +249,7 @@ namespace LB
 					int tileNum = (c + r * m_inspectedSheet.m_col);
 					ImGui::PushID(tileNum);
 					ImGui::Text("Sprite %i", tileNum);
-					if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef()), ImVec2{normalWidth, normalWidth}
+					if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef()))), ImVec2{normalWidth, normalWidth}
 						, ImVec2{ m_inspectedSheet[tileNum].m_min.x, m_inspectedSheet[tileNum].m_max.y }
 						, ImVec2{ m_inspectedSheet[tileNum].m_max.x, m_inspectedSheet[tileNum].m_min.y }))
 					{

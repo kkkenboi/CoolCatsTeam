@@ -38,9 +38,9 @@ namespace LB
 		int currentWave{ 1 };	//starting wave is always 1
 		int currentEnemyCount{ 0 }; //Really scuffed way of tracking enemies imo
 		//We try to store references to the enemies
-		GameObject* mageEnemy;
-		GameObject* chaserEnemy;
-		Vec2<float> mouse_pos;
+		GameObject* mageEnemy{nullptr};
+		GameObject* chaserEnemy{ nullptr };
+		Vec2<float> mouse_pos{};
 
 	};
 	REGISTER_SCRIPT(CPPSGameManager)

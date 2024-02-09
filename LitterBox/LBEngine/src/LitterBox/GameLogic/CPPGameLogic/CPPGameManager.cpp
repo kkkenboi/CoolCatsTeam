@@ -74,7 +74,7 @@ namespace LB
 		//First we get a random number generator
 		std::random_device rngesus;
 		//Then we get a random index from the vector list from 0 to maxsize-1
-		std::uniform_int_distribution<int> distribution(0, EnemyList.size() - 1);
+		std::uniform_int_distribution<int> distribution(0, static_cast<int>(EnemyList.size()) - 1);
 		int enemyIndex = distribution(rngesus);	//then we generate the number
 		//now we check if we can afford to spawn the enemy
 		DebuggerLogFormat("Index : %d, Credits : %d, Cost : %d",

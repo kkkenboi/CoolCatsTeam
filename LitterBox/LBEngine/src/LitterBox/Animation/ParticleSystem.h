@@ -106,12 +106,12 @@ namespace LB {
 
 		// Postion, Velocity, Variation, Texture, SizeBegin
 
-		std::array<CPParticle*, 100> mEmitterPool;
-		std::array<Particle, 1000> mParticlePool;
-		int mEmitterPoolIndex;
-		int mParticlePoolIndex;
+		std::array<CPParticle*, 100> mEmitterPool{};
+		std::array<Particle, 1000> mParticlePool{};
+		int mEmitterPoolIndex{};
+		int mParticlePoolIndex{};
 
-		std::vector<std::pair<std::string, EmitterType>> mEmitterTypes;
+		std::vector<std::pair<std::string, EmitterType>> mEmitterTypes{};
 	};
 
 	

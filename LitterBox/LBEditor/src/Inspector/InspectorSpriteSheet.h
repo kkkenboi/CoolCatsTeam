@@ -74,17 +74,17 @@ namespace LB
     private:
         SpriteSheet m_inspectedSheet;
 
-        std::string m_fileName;
+        std::string m_fileName{};
         char m_name[256]{}; //
         int m_textureID{ 0 }; // Getting the texture ID
         int m_sliceX{ 0 }, m_sliceY{ 0 }, m_sliceWidth{ 0 }, m_sliceHeight{ 0 }; //in update layer, set x and y, width and height
         int m_row{ 0 }, m_col{0}; //set row and col
 
-        int m_spriteX, m_spriteY, m_spriteW, m_spriteH;
+        int m_spriteX{}, m_spriteY{}, m_spriteW{}, m_spriteH{};
 
 
-        int textureID, slotID; //textureID ad slotID
-        float textureAspect; //Aspect of the ratio
-        ImVec2 textureSize; //Texture Size
+        int textureID{}, slotID{}; //textureID ad slotID
+        float textureAspect{}; //Aspect of the ratio
+        ImVec2 textureSize{}; //Texture Size
 	};
 }

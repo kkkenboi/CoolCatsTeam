@@ -82,7 +82,7 @@ namespace LB
 
 	int AnimationController::GetStateCount() const
 	{
-		return m_states.size();
+		return static_cast<int>(m_states.size());
 	}
 
 	std::vector<std::string>& AnimationController::GetStates()

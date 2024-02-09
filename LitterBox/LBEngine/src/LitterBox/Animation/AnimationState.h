@@ -88,11 +88,11 @@ namespace LB
 	private:
 		bool m_playing { false };
 
-		double m_timeElapsed;
-		int m_index, m_lastIndex;
+		double m_timeElapsed{};
+		int m_index{}, m_lastIndex{};
 
 		std::string m_name{ "Unnamed State" }, m_spriteSheetName{ "None" };
-		std::vector<KeyFrame> m_keyFrames;
+		std::vector<KeyFrame> m_keyFrames{};
 
 		//std::vector<AnimationTransition> m_transitions;
 	};

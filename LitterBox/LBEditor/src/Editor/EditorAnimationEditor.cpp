@@ -141,7 +141,7 @@ namespace LB
 			ImGui::Text("%.4f", m_previewTimeElapsed);
 			if (m_previewPlaying)
 			{
-				m_previewTimeElapsed += TIME->GetUnscaledDeltaTime();
+				m_previewTimeElapsed += static_cast<float>(TIME->GetUnscaledDeltaTime());
 			}
 			if (m_currentState.GetFrameCount())
 			{

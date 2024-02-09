@@ -216,9 +216,9 @@ namespace LB
 		if (isOpen)
 		{
 			// Recursively render each one
-			for (int index{ 0 }; index < item->GetChildCount(); ++index)
+			for (int i{ 0 }; i < item->GetChildCount(); ++i)
 			{
-				DrawItem(item->GetChild(index), index);
+				DrawItem(item->GetChild(i), i);
 			}
 			ImGui::TreePop();
 		}
