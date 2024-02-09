@@ -20,7 +20,7 @@ namespace LB
 		auto rngesus = std::default_random_engine{};
 		std::shuffle(UpgradesList.begin(), UpgradesList.end(), rngesus);
 		//Debug info
-		/*for (UpgradeType upgrade : UpgradesList)
+	/*	for (UpgradeType upgrade : UpgradesList)
 		{
 			std::cout << static_cast<int>(upgrade) << '\n';
 		}*/
@@ -66,26 +66,26 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("Upgrade", *leftUpgrade);
 		leftUpgrade->SetName("leftUpgrade");	//health
 		leftUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[0]);
-		leftUpgrade->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", UpgradesList[UpgradesList.size() - 1]);	//this assigns the sprite texture
 		//Then we also assign the ID based on the upgrades 
 		leftUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[UpgradesList.size() - 1]);
+		leftUpgrade->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", UpgradesList[UpgradesList.size() - 1]-1);	//this assigns the sprite texture
 
 		if (UpgradesList.size() < 2) return;	
 		middleUpgrade = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Upgrade", *middleUpgrade);
-		middleUpgrade->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", UpgradesList[UpgradesList.size() - 2]);	//Explosive sprite
 		middleUpgrade->SetName("middleUpgrade"); //bomb
 		middleUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[1]);
 		middleUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[UpgradesList.size() - 2]);
+		middleUpgrade->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", UpgradesList[UpgradesList.size() - 2]-1);	//Explosive sprite
 
 		
 		if (UpgradesList.size() < 3) return;
 		rightUpgrade = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Upgrade", *rightUpgrade);
-		rightUpgrade->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", UpgradesList[UpgradesList.size() - 3]);	//Health sprite
 		rightUpgrade->SetName("rightUpgrade");	//more ball
 		rightUpgrade->GetComponent<CPTransform>()->SetPosition(UpgradePositions[2]);
 		rightUpgrade->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[UpgradesList.size() - 3]);
+		rightUpgrade->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", UpgradesList[UpgradesList.size() - 3]-1);	//Health sprite
 
 
 		//Once we have the sprites, we just set the upgrades by the upgradelist index instead

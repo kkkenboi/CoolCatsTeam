@@ -37,17 +37,70 @@ namespace LB {
 	public:
 
 		// ISystem stuff
+		/*!***********************************************************************
+		\brief
+		Initialises the ParticleManager class by making sure all the indexes for
+		the EmitterPool and the ParticlePool are correct as well as the
+		types of emitters
+		*************************************************************************/
 		void Initialize() override;
+		/*!***********************************************************************
+		\brief
+		Updates all the particles and emitters if the game is not paused and the
+		editor is running
+		*************************************************************************/
 		void Update() override;
+		/*!***********************************************************************
+		\brief
+		this function spawns the particles that will be used from the ParticlePool,
+		either a Trail Particle emission or a Radial Particle emission, using
+		the stats of the emitter provided
+		*************************************************************************/
 		void Destroy() override;
-
+		/*!***********************************************************************
+		\brief
+		this function spawns the particles that will be used from the ParticlePool,
+		either a Trail Particle emission or a Radial Particle emission, using
+		the stats of the emitter provided
+		*************************************************************************/
 		void Emit(CPParticle* emitter);
+		/*!***********************************************************************
+		\brief
+		Returns all of the string and emitter type pairs
+		*************************************************************************/
 		std::vector<std::pair<std::string, EmitterType>>& GetVectorEmits();
+		/*!***********************************************************************
+		\brief
+		Gets a string for the particle type
+		*************************************************************************/
 		std::string GetEmitterType(EmitterType EmitType);
+		/*!***********************************************************************
+		\brief
+		Adds an emitter to the emitter pool for later use to allow for the emission
+		of particles from that emitter
+		*************************************************************************/
 		void AddEmitter(CPParticle* emitter);
+		/*!***********************************************************************
+		\brief
+		Removes an emitter from the emitter pool
+		*************************************************************************/
 		void RemoveEmitter(CPParticle* emitter);
+		/*!***********************************************************************
+		\brief
+		Updates all the particles that are active in the particle pool, updating
+		its size and positions
+		*************************************************************************/
 		void UpdateParticles();
+		/*!***********************************************************************
+		\brief
+		Updates all the emitters within the emitter pool
+		*************************************************************************/
 		void UpdateEmitters();
+		/*!***********************************************************************
+		\brief
+		Makes sure all the particles are nullptr when the editor is not in play
+		mode
+		*************************************************************************/
 		void WhenCoreNotPlaying();
 	private:
 

@@ -94,9 +94,11 @@ namespace LB
 
 				//if (script != rangeResult.second) return dynamic_cast<T*>(script->second);
 			}
-
-			DebuggerLogErrorFormat("Tried to get invalid component of type %s", typeid(T).name());
-			return nullptr;
+			else
+			{
+				DebuggerLogErrorFormat("Tried to get invalid component of type %s", typeid(T).name());
+				return nullptr;
+			}
 		}
 
 		void* GetScript();
@@ -247,6 +249,8 @@ namespace LB
 		std::vector<GameObject*> const& GetGameObjects() const;
 
 		GameObject* FindGameObjectWithName(std::string);
+
+		std::vector<GameObject*> FindGameObjectsWithName(std::string name);
 
 		/*!***********************************************************************
 		 \brief

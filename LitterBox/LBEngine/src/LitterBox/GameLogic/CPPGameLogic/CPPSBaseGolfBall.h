@@ -46,7 +46,7 @@ namespace LB
 		On collision function if it collides with any other colliders
 		*************************************************************************/
 		void OnCollisionEnter(CollisionData colData);		
-
+		bool canDestroy{ false };
 	private:
 		CPRender* mRender{ nullptr }; //animation purpose
 		CPRigidBody* mRigidBody{ nullptr }; //Getting the RB of the enemy
@@ -57,6 +57,7 @@ namespace LB
 		float mSpeedMagnitude{}; //speed of the projectile
 		float mVelocity{}; //Velocity of the projectile
 		float mSize{}; //the size of the projectile
+
 	};
 
 	REGISTER_SCRIPT(CPPSBaseGolfBall)

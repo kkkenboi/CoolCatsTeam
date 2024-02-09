@@ -45,8 +45,8 @@ namespace LB
 		left_face.x = -left_face.x;
 
 		//--------------------------Variables initializaiton----------------------------
-		m_maxSpeed = 30000.0f;
-		m_walkSpeed = 3500.0f;
+		m_maxSpeed = 3500.0f;
+		m_walkSpeed = 1750.0f;
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
@@ -214,7 +214,7 @@ namespace LB
 		if (!isMoving)
 		{
 			//rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
-			rb->mVelocity *= 0.95f;
+			rb->mVelocity *= arbitraryFriction;
 			// if (isWalkingAnim)
 			// {
 			// 	rend->stop_anim();

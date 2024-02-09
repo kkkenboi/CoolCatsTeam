@@ -101,7 +101,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayerGolfBall::OnCollisionEnter(CollisionData colData)
 	{
-		if (currentBallUpgrades & BOMB && colData.colliderOther->gameObj->GetName() != "ball") {
+		if ((currentBallUpgrades & BOMB) && colData.colliderOther->gameObj->GetName() != "ball") {
 
 			//Renderer::GRAPHICS->shaker_camera();
 			Explode();
@@ -139,6 +139,15 @@ namespace LB
 		//currentBallUpgrades = static_cast<BallUpgrades>(static_cast<int>(currentBallUpgrades) | (1 << upgradeType));
 	}
 
+	void CPPSPlayerGolfBall::DestroyBall()
+	{
+		//We do this instead of calling can destroy because we still want the logic in the
+		//update loop of decreasing the player's current ball count.
+		//Probably refactor this in the future
+		mCurrentLifetime = 0;
+		mRigidBody->mVelocity = Vec2<float>().Zero();
+	}
+
 
 	//Function to handle when the ball explodes
 	void CPPSPlayerGolfBall::Explode()
@@ -149,7 +158,8 @@ namespace LB
 		std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
 		//We loop through all the colliders that were in the radius
 		for (CPCollider* col : explosionColliders) {
-				if (col->gameObj->GetName() == "MainChar") continue;
+				if (col->gameObj->GetName() == "MainChar") continue;	
+				if (col->gameObj->GetName() == "Projectile") continue;	//we don't want it to affect the enemy projectiles
 				Vec2<float> explosionForce = col->m_pos - this->GameObj->GetComponent<CPTransform>()->GetPosition();
 				explosionForce = explosionForce.Normalise() * explosionForceMag;
 				if (col->HasRB()) {

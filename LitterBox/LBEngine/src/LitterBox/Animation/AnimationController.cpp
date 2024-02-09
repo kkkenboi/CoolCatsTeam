@@ -82,7 +82,7 @@ namespace LB
 
 	int AnimationController::GetStateCount() const
 	{
-		return m_states.size();
+		return static_cast<int>(m_states.size());
 	}
 
 	std::vector<std::string>& AnimationController::GetStates()
@@ -130,8 +130,8 @@ namespace LB
 		Value stateArray(rapidjson::kArrayType);
 		for (auto& state : m_states)
 		{
-			Value nameValue(state.c_str(), alloc);
-			stateArray.PushBack(nameValue, alloc);
+			Value namevalue(state.c_str(), alloc);
+			stateArray.PushBack(namevalue, alloc);
 		}
 		data.AddMember("States", stateArray, alloc);
 

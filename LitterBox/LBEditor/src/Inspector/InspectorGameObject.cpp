@@ -731,7 +731,7 @@ namespace LB
 				ImGui::Text("%-19s", "Layer");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);
-				if (ImGui::BeginCombo("##Layer", m_inspectedGO->GetComponent<CPCollider>()->GetLayerName().c_str()))
+				if (ImGui::BeginCombo("##CollisionLayer", m_inspectedGO->GetComponent<CPCollider>()->GetLayerName().c_str()))
 				{
 
 					for (auto& [str, type] : COLLIDERS->GetLayerSystem().GetLayerVector())
@@ -743,13 +743,13 @@ namespace LB
 					}
 					ImGui::EndCombo();
 				}
-
+				/*
 				ImGui::Text("%-19s", "Grid");
 				for (size_t grids = 0; grids < m_inspectedGO->GetComponent<CPCollider>()->GetGridFrames().size(); ++grids)
 				{
 					ImGui::Text("%d", m_inspectedGO->GetComponent<CPCollider>()->GetGridFrames()[grids]);
 				}
-
+				*/
 				float width = m_inspectedGO->GetComponent<CPCollider>()->m_widthUnscaled;
 				ImGui::Text("%-19s", "Width");
 				ImGui::SameLine();
@@ -1158,7 +1158,7 @@ namespace LB
 				ImGui::Text("%-17s", "Radial Num");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragInt("##RadialNum", &m_inspectedGO->GetComponent<CPParticle>()->mRadialParticles, 1.0f, 0.f, 0.f, "%d");
+				ImGui::DragInt("##RadialNum", &m_inspectedGO->GetComponent<CPParticle>()->mRadialParticles, 1, 0, 0, "%d");
 				// Emitter Velocity
 				Vec2<float>& velocity = m_inspectedGO->GetComponent<CPParticle>()->mEmitterVelocity;
 				ImGui::Text("%-17s X", "Velocity");

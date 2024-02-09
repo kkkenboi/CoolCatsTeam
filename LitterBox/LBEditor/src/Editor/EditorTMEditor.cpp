@@ -168,7 +168,9 @@ namespace LB
 
 		ImGui::Separator();
 		//TODO figure out the preview option
-		ImGui::Image((ImTextureID)textureID, textureSize, ImVec2(0,1), ImVec2(1,0));
+		uint64_t warning_remover = (uint64_t)textureID;
+		if (warning_remover != static_cast<unsigned int>(-1))
+			ImGui::Image(reinterpret_cast<ImTextureID>(warning_remover), textureSize, ImVec2(0, 1), ImVec2(1, 0));
 
 		ImGui::Separator();
 
@@ -214,9 +216,13 @@ namespace LB
 			//The min max is mixed up because ImGui uses a different texel coordinate
 			//system from openGL so we do the mixing anytime we use ImGui.
 			//The format of the min max UV coordinates uses OpenGL texel coordinates instead
-			ImGui::Image((ImTextureID)textureID, ImVec2{normalWidth, normalWidth}
-			, ImVec2{ min_max.first.first, min_max.second.second }
-			, ImVec2{ min_max.second.first, min_max.first.second });
+
+			warning_remover = (uint64_t)textureID;
+			if (warning_remover != static_cast<unsigned int>(-1))
+				ImGui::Image(reinterpret_cast<ImTextureID>(warning_remover),
+					ImVec2{ normalWidth, normalWidth }, 
+					ImVec2{ min_max.first.first, min_max.second.second }, 
+					ImVec2{ min_max.second.first, min_max.first.second });
 			
 			//TODO let user fine tune UV
 		}

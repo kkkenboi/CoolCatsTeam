@@ -15,8 +15,16 @@ namespace LB {
 	class CPParticle : public IComponent {
 	public:
 		// IComponent stuff
+		/*!***********************************************************************
+		\brief
+		Initialises the ParticleManager class by making sure all the indexes for
+		the EmitterPool and the ParticlePool are correct as well as the
+		types of emitters
+		*************************************************************************/
 		void Initialise() override;
+
 		void Update() override;
+
 		void Destroy() override;
 		static ComponentTypeID GetType();
 
@@ -35,15 +43,15 @@ namespace LB {
 
 		Vec2<float> mEmitterPos{};
 		
-		float mEmitterRate{ 0.05 };
-		float mTimeSinceLastEmit{};
+		float mEmitterRate{ 0.05f };
+		float mTimeSinceLastEmit{0.f};
 
 		// Velocities
-		Vec2<float> mEmitterVelocity{};
-		float mEmitterVariationMinX{};
-		float mEmitterVariationMaxX{};
-		float mEmitterVariationMinY{};
-		float mEmitterVariationMaxY{};
+		Vec2<float> mEmitterVelocity{0.f,0.f};
+		float mEmitterVariationMinX{0.f};
+		float mEmitterVariationMaxX{0.f};
+		float mEmitterVariationMinY{0.f};
+		float mEmitterVariationMaxY{0.f};
 
 		float mEmitterRadialSpeed{ 100.f };
 		// Left : -X, 0
@@ -52,14 +60,14 @@ namespace LB {
 		// Down : 0, -Y
 
 		// Sizes
-		float mEmitterSizeBegin{ 1 };
-		float mEmitterSizeEnd{ 1 };
+		float mEmitterSizeBegin{ 1.f };
+		float mEmitterSizeEnd{ 1.f };
 		
-		float mEmitterLifetime{ 1 };
-		float mEmitterLifetimeRemaining{};
+		float mEmitterLifetime{ 1.f };
+		float mEmitterLifetimeRemaining{1.f};
 
 		// Particle
-		float mParticleLifetime{1};
+		float mParticleLifetime{1.f};
 
 		// For Radial Emitters
 		int mRadialParticles{ 10 };

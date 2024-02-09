@@ -28,19 +28,19 @@ namespace LB
 		if (colData.colliderOther->m_gameobj->GetName() == "ball")
 		{
 			//If upgrade has been hit, it tells the UpgradeManager by calling set ball upgrade		
-
 			//CPPSUpgradeManager::Instance()->SetBallUpgrade(assignedUpgradeType);
 			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SetBallUpgrade(assignedUpgradeType);
 			switch (assignedUpgradeType)
 			{
 			case MOREBALL:
-				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(3);
-				break;
-			case MOREHEALTH:
 				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(3);
 				break;
+			case MOREHEALTH:
+				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(3);
+				break;
 			case MOVESPEED:
-				GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->m_maxSpeed *= 2;
+				GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->m_walkSpeed *= 1.5f;
+				GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->arbitraryFriction = 0.8f;
 				break;
 			default:
 				//do nothing

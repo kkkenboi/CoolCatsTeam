@@ -183,24 +183,31 @@ namespace LB
 	}
 
 	/*!***********************************************************************
-	 * \brief Function to play sound using the Sound File name
-	 * Returns the channel ID that the sound is playing in
-	 * \param soundName Name of the sound e.g "Explosion" without file extension
+	 * \brief Function to play sound using the vector of Sound File name
+	 * Returns a void
+	 * \param the vector of soundName, Name of the sound e.g "Explosion" without file extension
 	**************************************************************************/
 	void AudioManager::PlayGroupSounds(std::vector<std::string> groupSoundNames)
 	{
-	//after random int 0 - vector size
 		int randomIndex{};
 		PlaySound(groupSoundNames[randomIndex]);
 	}
 
+	/*!***********************************************************************
+	* \brief Function to play sound using a vector of sound file names that randomise
+	* the the different sounds
+	* Returns a void
+	* \param vector that contains soundName e.g "Explosion, Pop, etc." without file extension,
+	*		 Volume of the sound, default to 1
+	*		 Pitch of the sound, default to 1
+	**************************************************************************/
 	void AudioManager::PlayRandomisedSound(std::vector<std::string> groupSoundNames, float volume, float pitch)
 	{
 		if (!groupSoundNames.empty()) //there there is smt, then play
 		{
 			int Channel{ 0 };
-			int randomIndex = std::rand() % groupSoundNames.size();
-			Channel = PlaySound(groupSoundNames[randomIndex]);
+			int randomIndex = std::rand() % groupSoundNames.size(); //randomise the sounds in the group
+			Channel = PlaySound(groupSoundNames[randomIndex]); //play it
 			SetChannelVolume(Channel, volume);
 			SetChannelPitch(Channel, pitch);
 		}
@@ -210,15 +217,21 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	* \brief Function to play a sound in a vector by calculating the chances that if it will play or not
+	* Returns a void
+	* \param vector that contains soundName e.g "Explosion, Pop, etc." without file extension,
+	*		 Volume of the sound, default to 1
+	*		 Pitch of the sound, default to 1
+	**************************************************************************/
 	void AudioManager::ChanceToPlayGroupSound(std::vector<std::string> groupSoundNames, float volume, float pitch)
 	{
 		//calculate a percentage random
-		//if percentage is > 50, play sound, else dont play sound
+		//if percentage is < 10%, play sound, else dont play sound
 		float randomPercentage = static_cast<float>(std::rand() % 101);
-		//DebuggerLogFormat("Percentage: %d", randomPercentage);
 		if (randomPercentage < 10.0f)
 		{
-			PlayRandomisedSound(groupSoundNames, volume, pitch);
+			PlayRandomisedSound(groupSoundNames, volume, pitch); //playing a randomise sound
 		}
 		else
 		{

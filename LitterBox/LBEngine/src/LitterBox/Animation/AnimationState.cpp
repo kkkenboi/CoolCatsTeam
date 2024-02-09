@@ -97,7 +97,7 @@ namespace LB
 
 	int AnimationState::GetFrameCount() const
 	{
-		return m_keyFrames.size();
+		return static_cast<int>(m_keyFrames.size());
 	}
 
 	std::string const& AnimationState::GetName() const

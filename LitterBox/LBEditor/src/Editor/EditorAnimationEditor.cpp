@@ -93,7 +93,7 @@ namespace LB
 							
 							ImGui::PushID(tileNum);
 							ImGui::Text("Frame %i", tileNum);
-							if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth, smallWidth }
+							if (ImGui::ImageButton((ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth, smallWidth }
 								, ImVec2{ (*m_spriteSheet)[tileNum].m_min.x, (*m_spriteSheet)[tileNum].m_max.y }
 								, ImVec2{ (*m_spriteSheet)[tileNum].m_max.x, (*m_spriteSheet)[tileNum].m_min.y }))
 							{
@@ -142,11 +142,11 @@ namespace LB
 			ImGui::Text("%.4f", m_previewTimeElapsed);
 			if (m_previewPlaying)
 			{
-				m_previewTimeElapsed += TIME->GetUnscaledDeltaTime();
+				m_previewTimeElapsed += static_cast<float>(TIME->GetUnscaledDeltaTime());
 			}
 			if (m_currentState.GetFrameCount())
 			{
-				ImGui::Image((ImTextureID)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ normalWidth, normalWidth }
+				ImGui::Image((ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ normalWidth, normalWidth }
 					, ImVec2{ (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.x, (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.y }
 					, ImVec2{ (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.x, (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.y });
 

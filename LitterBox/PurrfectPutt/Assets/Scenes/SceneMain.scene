@@ -50,14 +50,9 @@
                     "Active": true,
                     "Width": 200.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Aim",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 },
                 "CPPScript": {
@@ -78,7 +73,54 @@
                         "x": 1.25,
                         "y": 1.25
                     },
-                    "Rotation": 0.0
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "DeDust2",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -45.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 100.0,
+                                "Height": 100.0,
+                                "Layer": 0,
+                                "Texture": "DustParticle",
+                                "SpriteName": "None",
+                                "SpriteIndex": 1
+                            },
+                            "Particle": {
+                                "EmitterType": 0,
+                                "EmitterRate": 0.05,
+                                "RadialNum": 10,
+                                "EmitterVelocity": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "VelocityMinX": -15.0,
+                                "VelocityMaxX": 10.0,
+                                "VelocityMinY": -50.0,
+                                "VelocityMaxY": 40.0,
+                                "RadialSpeed": 100.0,
+                                "SizeBegin": 0.8,
+                                "SizeEnd": 0.3,
+                                "EmitterLifetime": 1.0,
+                                "ParticleLifetime": 0.15,
+                                "EmitterActive": true,
+                                "EmitterLooping": true
+                            }
+                        }
+                    ]
                 },
                 "RigidBody": {
                     "Active": true,
@@ -91,14 +133,9 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Felix",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 },
                 "Collider": {
@@ -115,6 +152,9 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSPlayer"
+                },
+                "Animator": {
+                    "Controller": "FelixController"
                 }
             },
             {
@@ -136,14 +176,9 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Bush_1",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -166,14 +201,9 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Bush_1",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -196,14 +226,9 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Bush_1",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -382,14 +407,9 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Pause Menu",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -493,14 +513,9 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "HowToPlay",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -550,14 +565,9 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "QuitMenu",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -658,14 +668,9 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "Layer": 0,
                     "Texture": "Underline",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
