@@ -1,3 +1,15 @@
+/*!************************************************************************
+ * \file				CPPSUpgrade.cpp
+ * \author(s)			Amadeus Chia 
+ * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
+ * \par Course:       	CSD2450A
+ * \date				09/02/2024
+ * \brief 				This source file contains the function definitions
+ * 						for the upgrade prefab
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "CPPSUpgrade.h"
 #include "CPPSPlayerGolfBall.h"
 #include "CPPSUpgradeManager.h"
@@ -6,6 +18,10 @@
 
 namespace LB
 {
+	/*!************************************************************************
+	 * \brief Start function for the upgrade (Currently does nothing)
+	 * 
+	**************************************************************************/
 	void CPPSUpgrade::Start()
 	{
 		//Grabbing the ball reference
@@ -13,17 +29,31 @@ namespace LB
 		//assignedUpgradeType = (std::rand() % 3) + 1;
 		
 	}
+
+	/*!************************************************************************
+	 * \brief Update function for the upgrade, currently checks if 
+	 * the object should be destroyed or not
+	**************************************************************************/
 	void CPPSUpgrade::Update()
 	{
 		if(canDestroy) GOMANAGER->RemoveGameObject(this->GameObj);
 	}
+	/*!************************************************************************
+	 * \brief Destroy function for the upgrade, currently does nothing
+	 * 
+	**************************************************************************/
 	void CPPSUpgrade::Destroy()
 	{
 	}
 
+	/*!************************************************************************
+	 * \brief Function that handles the collision with the upgrade
+	 * 
+	 * \param colData Collision data of the collision with the upgrade
+	**************************************************************************/
 	void CPPSUpgrade::OnCollisionEnter(CollisionData colData)
 	{
-		//make collision layer that only contains ball and upgrade interaction
+		//make collision layer that only contains ball and upgrade interaction in the future
 		//If the upgrade collides with a ball
 		if (colData.colliderOther->m_gameobj->GetName() == "ball")
 		{
@@ -57,9 +87,14 @@ namespace LB
 		}
 	}
 
-	//Gets called by the upgrade manager, to assign the current type of upgrade to the ball
+	/*!************************************************************************
+	 * \brief Function to assign the upgrade, it gets called by the upgrade manager
+	 * and it assigns the current type of upgrade to the ball
+	 * \param upgradeType Type of upgrade to assign
+	**************************************************************************/
 	void CPPSUpgrade::AssignUpgradeID(int upgradeType)
 	{
+	//Gets called by the upgrade manager, to assign the current type of upgrade to the ball
 		//Called by the upgrade 
 		assignedUpgradeType = upgradeType;
 	}

@@ -1,9 +1,9 @@
 /*!************************************************************************
  \file				CPPSPlayer.h
- \author(s)			Vanessa Chua Siew Jin
- \par DP email(s):	vanessasiewjin@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin, Amadeus Chia 
+ \par DP email(s):	vanessasiewjin@digipen.edu, amadeusjinhan.chia@digipen.edu
  \par Course:		CSD2401A
- \date				03-11-2023
+ \date				09-02-2024
  \brief
  This file contains the CPPSPlayer class and all its functionalities.
 
