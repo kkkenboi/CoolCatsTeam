@@ -292,7 +292,7 @@ namespace Renderer {
 		\brief
 		 Gets number of active render objects
 		*************************************************************************/
-		inline size_t get_furthest_index() { return static_cast<size_t>(furthest_index + 1); }
+		inline size_t get_furthest_index() { return static_cast<size_t>(furthest_index) + 1; }
 		/*!***********************************************************************
 		\brief
 		 Gets handle to vertex buffer object in GPU

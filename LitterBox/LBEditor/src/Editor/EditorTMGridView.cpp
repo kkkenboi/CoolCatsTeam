@@ -57,12 +57,12 @@ namespace LB
 		//combo to get drop down box of available tiles
 		//that have been split up in TMEditor
 		if (ImGui::BeginCombo("##Selected Tile", std::to_string(tileSelected).c_str())) {
-			for (int i{ 0 }; i < EDITORTMEDITOR->getNumOfTiles() + 1; ++i) {
+			for (size_t i{ 0 }; i < EDITORTMEDITOR->getNumOfTiles() + 1; ++i) {
 				//scuff way of converting int to c-style string
 				if (ImGui::Selectable(std::to_string(i).c_str())) {
 					//IMPORTANT NOTE: tileSelected is the INDEX of the UV min_max data
 					//however in ImGui, the tiles start labeled from 1
-					tileSelected = i;
+					tileSelected = static_cast<int>(i);
 				}
 			}
 
@@ -156,7 +156,8 @@ namespace LB
 						};
 						//We also set the texture data because if not then
 						//The tile becomes fully blue instead of black
-						textureID = (ImTextureID)EDITORTMEDITOR->getTextureID();
+						textureID = (ImTextureID)(uint64_t)EDITORTMEDITOR->getTextureID();
+
 					}
 					else {
 						min = defaultUV;
