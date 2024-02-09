@@ -480,6 +480,15 @@ namespace LB
 		DebuggerLogWarningFormat("[GO Manager] Unable to find GO named %s", name.c_str());
 		return nullptr;
 	}
+	std::vector<GameObject*> GameObjectManager::FindGameObjectsWithName(std::string name)
+	{
+		std::vector<GameObject*> temp;
+		for (GameObject* GO : m_GameObjects) {
+			if (GO->GetName() == name) temp.push_back(GO);
+		}
+		if(temp.empty()) DebuggerLogWarningFormat("[GO Manager] Unable to find any GO named %s", name.c_str());
+		return temp;
+	}
 	/*!***********************************************************************
 	 \brief
 	 Adds a GameObject to the current pool of GameObjects

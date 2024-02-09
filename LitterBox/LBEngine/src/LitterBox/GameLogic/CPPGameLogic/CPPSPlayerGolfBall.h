@@ -60,7 +60,8 @@ namespace LB
 		//This value will be set by the upgrade manager
 		BallUpgrades currentBallUpgrades = DEFAULT;
 		void SetBallUpgrade(int);
-
+		//Helper function to remove ball by setting it's lifetime to zero.
+		void DestroyBall();
 		//Upgrade functions
 		void Explode();
 		void Split();

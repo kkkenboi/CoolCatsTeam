@@ -139,6 +139,15 @@ namespace LB
 		//currentBallUpgrades = static_cast<BallUpgrades>(static_cast<int>(currentBallUpgrades) | (1 << upgradeType));
 	}
 
+	void CPPSPlayerGolfBall::DestroyBall()
+	{
+		//We do this instead of calling can destroy because we still want the logic in the
+		//update loop of decreasing the player's current ball count.
+		//Probably refactor this in the future
+		mCurrentLifetime = 0;
+		mRigidBody->mVelocity = Vec2<float>().Zero();
+	}
+
 
 	//Function to handle when the ball explodes
 	void CPPSPlayerGolfBall::Explode()
