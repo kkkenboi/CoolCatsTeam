@@ -1,14 +1,34 @@
+/*!************************************************************************
+ \file				ParticleSystem.cpp
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:		CSD2451A
+ \date				09-02-2024
+ \brief
+  This file contains the behviour of the Blue Mushroom obstacle.
+
+  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
+
 #include "ParticleSystem.h"
 
 namespace LB
 {
-
+	/*!***********************************************************************
+	\brief
+	Initialises the ParticleManager class by making sure all the indexes for
+	the EmitterPool and the ParticlePool are correct as well as the
+	types of emitters
+	*************************************************************************/
 	void ParticleManager::Initialize() 
 	{
 		SetSystemName("Particle System");
 		std::cout << "Particle System Initialized\n";
-		mEmitterPoolIndex = mEmitterPool.size() - 1;
-		mParticlePoolIndex = mParticlePool.size() - 1;
+		mEmitterPoolIndex = static_cast<int>(mEmitterPool.size()) - 1;
+		mParticlePoolIndex = static_cast<int>(mParticlePool.size()) - 1;
 
 		const EmitterType EmitterTypeVector[] = { TRAIL, RADIAL };
 		for (EmitterType emit : EmitterTypeVector)
@@ -17,7 +37,12 @@ namespace LB
 		}
 	}
 
-	// Spawns a particle from an emitters configs
+	/*!***********************************************************************
+	\brief
+	this function spawns the particles that will be used from the ParticlePool,
+	either a Trail Particle emission or a Radial Particle emission, using
+	the stats of the emitter provided
+	*************************************************************************/
 	void ParticleManager::Emit(CPParticle* emitter) 
 	{
 
@@ -45,7 +70,7 @@ namespace LB
 			particle.mSize = particle.mSizeBegin;
 			particle.mSizeEnd = emitter->mEmitterSizeEnd;
 
-			mParticlePoolIndex = (mParticlePoolIndex - 1 + mParticlePool.size()) % mParticlePool.size();
+			mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
 
 			// Create a GameObject that follows the Particle's current stats
 			particle.mGameObj = FACTORY->SpawnGameObject();
@@ -73,7 +98,7 @@ namespace LB
 				particle.mRotation = 0.f;
 
 				// Velocity (calculated in radial form)
-				float angle = static_cast<float>(i) / static_cast<float>(emitter->mRadialParticles) * 2.0f * PI; // PI is assumed to be defined
+				float angle = static_cast<float>(i) / static_cast<float>(emitter->mRadialParticles) * 2.0f * static_cast<float>(PI);
 				particle.mVelocity.x = emitter->mEmitterRadialSpeed * cos(angle);
 				particle.mVelocity.y = emitter->mEmitterRadialSpeed * sin(angle);
 
@@ -98,12 +123,16 @@ namespace LB
 				particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter->mRender->w), static_cast<int>(emitter->mRender->h));
 
 				// Move to the next index in the particle pool
-				mParticlePoolIndex = (mParticlePoolIndex - 1 + mParticlePool.size()) % mParticlePool.size();
+				mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
 			}
 		}
 	}
 
-
+	/*!***********************************************************************
+	\brief
+	Updates all the particles and emitters if the game is not paused and the
+	editor is running
+	*************************************************************************/
 	void ParticleManager::Update()
 	{
 		if (!TIME->IsPaused() && CORE->IsPlaying())
@@ -114,6 +143,11 @@ namespace LB
 		WhenCoreNotPlaying();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Makes sure that the EmitterPool all points to nullptrs once the
+	ParticleManager is destroyed
+	*************************************************************************/
 	void ParticleManager::Destroy() 
 	{
 		// Loop through the EmitterPool and make them all nullptr
@@ -123,6 +157,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Gets a string for the particle type
+	*************************************************************************/
 	std::string ParticleManager::GetEmitterType(EmitterType EmitType)
 	{
 		switch (EmitType)
@@ -136,10 +174,19 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Returns all of the string and emitter type pairs
+	*************************************************************************/
 	std::vector<std::pair<std::string, EmitterType>>& ParticleManager::GetVectorEmits() {
 		return mEmitterTypes;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Adds an emitter to the emitter pool for later use to allow for the emission
+	of particles from that emitter
+	*************************************************************************/
 	void ParticleManager::AddEmitter(CPParticle* newEmitter) {
 		// Loop through the mEmitterPool looking for the first nullptr and place the brand new
 		// created emitter here
@@ -151,6 +198,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Removes an emitter from the emitter pool
+	*************************************************************************/
 	void ParticleManager::RemoveEmitter(CPParticle* findEmitter) {
 		for (int i = 0; i < mEmitterPool.size(); ++i) {
 			if (mEmitterPool[i] == findEmitter) {
@@ -159,6 +210,11 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Updates all the particles that are active in the particle pool, updating
+	its size and positions
+	*************************************************************************/
 	void ParticleManager::UpdateParticles() {
 		for (Particle& particle : mParticlePool)
 		{
@@ -179,9 +235,9 @@ namespace LB
 			}
 
 			// Update the particle stats
-			particle.mLifetimeRemaining -= TIME->GetDeltaTime();
-			particle.mPosition += particle.mVelocity * TIME->GetDeltaTime();
-			particle.mRotation += 0.01f * TIME->GetDeltaTime();
+			particle.mLifetimeRemaining -= static_cast<float>(TIME->GetDeltaTime());
+			particle.mPosition += particle.mVelocity * static_cast<float>(TIME->GetDeltaTime());
+			particle.mRotation += 0.01f * static_cast<float>(TIME->GetDeltaTime());
 
 
 			// Check if size is enlarging or getting smaller
@@ -189,7 +245,7 @@ namespace LB
 				// Getting smaller
 				float sizeChangePerSecond = (particle.mSizeBegin - particle.mSizeEnd) / particle.mLifetime;
 				if (particle.mSize > particle.mSizeEnd) {
-					particle.mSize -= sizeChangePerSecond * TIME->GetDeltaTime();
+					particle.mSize -= sizeChangePerSecond * static_cast<float>(TIME->GetDeltaTime());
 					if (particle.mSize <= particle.mSizeEnd) 
 					{
 						particle.mSize = particle.mSizeEnd;
@@ -200,7 +256,7 @@ namespace LB
 			else if (particle.mSizeBegin < particle.mSizeEnd) {
 				float sizeChangePerSecond = (particle.mSizeEnd - particle.mSizeBegin) / particle.mLifetime;
 				if (particle.mSize < particle.mSizeEnd) {
-					particle.mSize += sizeChangePerSecond * TIME->GetDeltaTime();
+					particle.mSize += sizeChangePerSecond * static_cast<float>(TIME->GetDeltaTime());
 					if (particle.mSize >= particle.mSizeEnd) 
 					{
 						particle.mSize = particle.mSizeEnd;
@@ -217,6 +273,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Updates all the emitters within the emitter pool
+	*************************************************************************/
 	void ParticleManager::UpdateEmitters() 
 	{
 		for (CPParticle* emitter : mEmitterPool) 
@@ -229,6 +289,11 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Makes sure all the particles are nullptr when the editor is not in play
+	mode
+	*************************************************************************/
 	void ParticleManager::WhenCoreNotPlaying()
 	{
 		if (!CORE->IsPlaying()) {
@@ -240,6 +305,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Returns a random float from the given min and max
+	*************************************************************************/
 	float RandomRange(float min, float max) {
 		return min + static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * (max - min);
 	}
