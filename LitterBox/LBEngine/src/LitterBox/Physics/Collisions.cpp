@@ -492,7 +492,7 @@ namespace LB
 	*************************************************************************/
 	bool CPCollider::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
-		DebuggerLog("Serializing Collider");
+		//DebuggerLog("Serializing Collider");
 		data.SetObject();
 		data.AddMember("Active", m_active, alloc);
 		Value collisionValue;
@@ -513,7 +513,7 @@ namespace LB
 	*************************************************************************/
 	bool CPCollider::Deserialize(const Value& data)
 	{
-		DebuggerLog("Deserializing Collider");
+		//DebuggerLog("Deserializing Collider");
 		bool HasActive = data.HasMember("Active");
 		bool HasLayer = data.HasMember("ColliderLayer");
 		bool HasShape = data.HasMember("Shape");

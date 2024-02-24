@@ -235,7 +235,7 @@ namespace LB
 	{
 		++m_LastObjID;
 
-		DebuggerLog("GO" + std::to_string(m_LastObjID) + " has been created");
+		//DebuggerLog("GO" + std::to_string(m_LastObjID) + " has been created");
 
 		// Original return
 		return Memory::Instance()->Allocate<GameObject>(FACTORY->GetLastObjID());

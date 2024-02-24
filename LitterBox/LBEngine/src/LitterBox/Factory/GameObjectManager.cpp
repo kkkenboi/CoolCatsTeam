@@ -236,7 +236,7 @@ namespace LB
 			{
 				if (m_Components.find(C_CPTransform) == m_Components.end())
 				{
-					DebuggerLog("Deserialize: GO doesn't have a transform :C so we make one");
+					//DebuggerLog("Deserialize: GO doesn't have a transform :C so we make one");
 					AddComponent(C_CPTransform, FACTORY->GetCMs()[C_CPTransform]->Create());
 				}
 				const Value& transformValue = data["Transform"];
@@ -247,7 +247,7 @@ namespace LB
 			{
 				if (m_Components.find(C_CPRigidBody) == m_Components.end())
 				{
-					DebuggerLog("Deserialize: GO doesn't have a rigidbody :C so we make one");
+					//DebuggerLog("Deserialize: GO doesn't have a rigidbody :C so we make one");
 					AddComponent(C_CPRigidBody, FACTORY->GetCMs()[C_CPRigidBody]->Create());
 				}
 				const Value& rigidBodyValue = data["RigidBody"];
@@ -257,7 +257,7 @@ namespace LB
 			{
 				if (m_Components.find(C_CPRender) == m_Components.end())
 				{
-					DebuggerLog("Deserialize: GO doesn't have a render :C so we make one");
+					//DebuggerLog("Deserialize: GO doesn't have a render :C so we make one");
 					AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 				}
 				const Value& renderValue = data["Render"];
@@ -267,7 +267,7 @@ namespace LB
 			{
 				if (m_Components.find(C_CPScriptCPP) == m_Components.end())
 				{
-					DebuggerLog("Deserialize: GO doesn't have a CPP Script :C so we make one");
+					//DebuggerLog("Deserialize: GO doesn't have a CPP Script :C so we make one");
 					AddComponent(C_CPScriptCPP, FACTORY->GetCMs()[C_CPScriptCPP]->Create());
 				}
 				const Value& cppScriptValue = data["CPPScript"];
@@ -277,18 +277,18 @@ namespace LB
 			{
 				if (m_Components.find(C_CPCollider) == m_Components.end())
 				{
-					DebuggerLog("Deserialize: GO doesn't have a Collider :C so we make one");
+					//DebuggerLog("Deserialize: GO doesn't have a Collider :C so we make one");
 					AddComponent(C_CPCollider, FACTORY->GetCMs()[C_CPCollider]->Create());
 				}
 				const Value& colliderValue = data["Collider"];
 				m_Components.find(C_CPCollider)->second->Deserialize(colliderValue);
-				DebuggerLogFormat("coll size %d", this->GetComponent<CPCollider>()->m_widthUnscaled);
+				//DebuggerLogFormat("coll size %d", this->GetComponent<CPCollider>()->m_widthUnscaled);
 			}
 			if (HasAudio)
 			{
 				if (m_Components.find(C_CPAudioSource) == m_Components.end())
 				{
-					DebuggerLog("Deserialize: GO doesn't have a Audio Source :C so we make one");
+					//DebuggerLog("Deserialize: GO doesn't have a Audio Source :C so we make one");
 					AddComponent(C_CPAudioSource, FACTORY->GetCMs()[C_CPAudioSource]->Create());
 				}
 				const Value& audioSourceValue = data["AudioSource"];
@@ -298,7 +298,7 @@ namespace LB
 			{
 				if (m_Components.find(C_CPText) == m_Components.end())
 				{
-					DebuggerLog("Deserialize: GO doesn't have a Text Component :C so we make one");
+					//DebuggerLog("Deserialize: GO doesn't have a Text Component :C so we make one");
 					AddComponent(C_CPText, FACTORY->GetCMs()[C_CPText]->Create());
 				}
 				const Value& textValue = data["Text"];
@@ -308,7 +308,7 @@ namespace LB
 			{
 				if (m_Components.find(C_CPAnimator) == m_Components.end())
 				{
-					DebuggerLog("Deserialize: GO doesn't have a Animator Component :C so we make one");
+					//DebuggerLog("Deserialize: GO doesn't have a Animator Component :C so we make one");
 					AddComponent(C_CPAnimator, FACTORY->GetCMs()[C_CPAnimator]->Create());
 				}
 				const Value& animatorValue = data["Animator"];
@@ -318,7 +318,7 @@ namespace LB
 			{
 				if (m_Components.find(C_CPParticle) == m_Components.end())
 				{
-					DebuggerLog("Deserialize: GO doesn't have a Particle Component :C so we make one");
+					//DebuggerLog("Deserialize: GO doesn't have a Particle Component :C so we make one");
 					AddComponent(C_CPParticle, FACTORY->GetCMs()[C_CPParticle]->Create());
 				}
 				const Value& particleValue = data["Particle"];

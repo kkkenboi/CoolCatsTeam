@@ -47,7 +47,7 @@ namespace LB
 		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
-			DebuggerLog("Serializing Transform");
+			//DebuggerLog("Serializing Transform");
 			data.SetObject();
 			data.AddMember("Active", m_active, alloc);
 			Value PositionValue;
@@ -94,7 +94,8 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override
 		{
-			DebuggerLog("Destroying Transform");
+			//Commented out because particle system will cause this to be spammed in console
+			//DebuggerLog("Destroying Transform");
 		}
 
 		/*!***********************************************************************

@@ -104,7 +104,7 @@ namespace LB
 		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override
 		{
-			DebuggerLog("Serialising RB");
+			//DebuggerLog("Serialising RB");
 			data.SetObject();
 			data.AddMember("Active", m_active, alloc);
 			data.AddMember("Width", mWidth, alloc);
@@ -120,7 +120,7 @@ namespace LB
 		*************************************************************************/
 		bool Deserialize(const Value& data) override
 		{
-			DebuggerLog("Deserialising RB");
+			//DebuggerLog("Deserialising RB");
 			bool HasActive = data.HasMember("Active");
 			bool HasWidth = data.HasMember("Width");
 			bool HasHeight = data.HasMember("Height");
