@@ -439,6 +439,8 @@ namespace LB
 			GOMANAGER = this;
 		else
 			DebuggerLogError("GameObject Manager already exist");
+
+		TIME->onFrameEnd.Subscribe(LB::CleanUpGOs);
 	}
 
 	/*!***********************************************************************
@@ -505,20 +507,49 @@ namespace LB
 	*************************************************************************/
 	void GameObjectManager::RemoveGameObject(GameObject* gameObject)
 	{
-		auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
+		const auto& it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
 		if (it != m_GameObjects.end()) 
 		{
-			// Let anyone know gameobject has been destroyed
-			onGameObjectDestroy.Invoke(*it);
-
-			m_GameObjects.erase(it);
-			gameObject->Destroy();
+			m_ToBeDeletedGameObjects.push_back(*it);
 		}
 		else
 		{
 			DebuggerLogWarningFormat("[GO Manager] Tried to delete invalid GO \"%s\"", gameObject->GetName().c_str());
 		}
 	}
+
+	/*!***********************************************************************
+     \brief
+     Based on the pool to be deleted, finally delete the pool of game objects
+     which is at the end of the frame
+    *************************************************************************/
+    void GameObjectManager::CleanUpGOs()
+    {
+		for (GameObject* gameObject : m_ToBeDeletedGameObjects)
+		{
+			// Let anyone know gameobject has been destroyed
+			onGameObjectDestroy.Invoke(gameObject);
+
+			auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
+
+			m_GameObjects.erase(it);
+			gameObject->Destroy();
+		}
+
+		//while (!m_ToBeDeletedGameObjects.empty())
+		//{
+		//	// Let anyone know gameobject has been destroyed
+		//	onGameObjectDestroy.Invoke(m_ToBeDeletedGameObjects.front());
+
+		//	auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), m_ToBeDeletedGameObjects.front());
+
+		//	m_GameObjects.erase(it);
+		//	m_ToBeDeletedGameObjects.front()->Destroy();
+		//}
+
+		m_ToBeDeletedGameObjects.clear();
+	}
+
 
 	/*!***********************************************************************
 	 \brief
@@ -558,10 +589,12 @@ namespace LB
 	void GameObjectManager::DestroyAllGOs()
 	{
 		// Destroying gameobjects
-		for (int i{ (int)m_GameObjects.size()-1 }; i >= 0; --i)
+		for (int i{ (int)m_GameObjects.size() - 1 }; i >= 0; --i)
 		{
 			RemoveGameObject(m_GameObjects[i]);
 		}
+
+		CleanUpGOs();
 
 		// Set size of game objects to empty
 		m_GameObjects.clear();
@@ -622,4 +655,15 @@ namespace LB
 
 		DebuggerLog("[GOManager] All DDOL GOs deleted");
 	}
+
+	/*!***********************************************************************
+     \brief
+     For event subscription, delete all of the to be deleted GOs at the end
+     of the frame.
+    *************************************************************************/
+    void CleanUpGOs()
+    {
+        GOMANAGER->CleanUpGOs();
+    }
+
 }
