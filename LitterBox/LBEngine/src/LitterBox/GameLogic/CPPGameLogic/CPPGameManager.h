@@ -1,3 +1,15 @@
+/*!************************************************************************
+ * \file				CPPGameManager.h
+ * \author(s)			Amadeus Chia 
+ * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
+ * \par Course:       	CSD2451A
+ * \date				09/02/2024
+ * \brief 				This header file contains the declarations for the 
+ * 						game manager that handles the AI director of the game
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #pragma once
 #include "CPPBehaviour.h"
 #include "LitterBox/Factory/Components.h"
@@ -9,16 +21,48 @@ namespace LB
 	class CPPSGameManager : public CPPBehaviour
 	{
 	public:
+		/*!************************************************************************
+		* \brief 
+		* Component functions for the Game Manager
+		**************************************************************************/
 		void Start() override;
 		void Update() override;
 		void Destroy() override;
 
+		/*!************************************************************************
+		 * \brief Function to generate the wave
+		 * 
+		**************************************************************************/
 		void GenerateWave();
+
+		/*!************************************************************************
+		 * \brief Function to spawn in the next wave
+		 * 
+		**************************************************************************/
 		void NextWave();
+
+		/*!************************************************************************
+		 * \brief Function to spawn a random enemy
+		 * 
+		**************************************************************************/
 		void SpawnRandomEnemy();
 
+		/*!************************************************************************
+		 * \brief Spawns a mage enemy
+		 * 
+		**************************************************************************/
 		void SpawnMageEnemy();
+
+		/*!************************************************************************
+		 * \brief Spawns a chaser enemy
+		 * 
+		**************************************************************************/
 		void SpawnChaserEnemy();
+
+		/*!************************************************************************
+		 * \brief Function to reduce the enemy count (should be called by base enemy's hurt)
+		 * 
+		**************************************************************************/
 		void ReduceEnemyCount();
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy
@@ -38,9 +82,9 @@ namespace LB
 		int currentWave{ 1 };	//starting wave is always 1
 		int currentEnemyCount{ 0 }; //Really scuffed way of tracking enemies imo
 		//We try to store references to the enemies
-		GameObject* mageEnemy;
-		GameObject* chaserEnemy;
-		Vec2<float> mouse_pos;
+		GameObject* mageEnemy{nullptr};
+		GameObject* chaserEnemy{ nullptr };
+		Vec2<float> mouse_pos{};
 
 	};
 	REGISTER_SCRIPT(CPPSGameManager)

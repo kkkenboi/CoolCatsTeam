@@ -1,4 +1,17 @@
 
+/*!************************************************************************
+ * \file				CPPGameManager.cpp
+ * \author(s)			Amadeus Chia 
+ * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
+ * \par Course:       	CSD2451A
+ * \date				09/02/2024
+ * \brief 				This source file contains the function definitions for the 
+ * 						game manager that handles the spawning of the enemies through
+ * 						the AI Director
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "CPPGameManager.h"
 #include "LitterBox/Engine/Input.h"
 #include "CPPSUpgradeManager.h"
@@ -24,7 +37,8 @@ namespace LB
 		if (currentWave == 1) 
 		{
 			SpawnCredits = 4;
-			//GenerateWave();
+			GenerateWave();
+			GameStart = true;
 		}
 	}
 	void CPPSGameManager::Update()
@@ -82,12 +96,16 @@ namespace LB
 		//Should be empty
 	}
 
+	/*!************************************************************************
+	* \brief Function to spawn a random enemy
+	* 
+	**************************************************************************/
 	void CPPSGameManager::SpawnRandomEnemy()
 	{
 		//First we get a random number generator
 		std::random_device rngesus;
 		//Then we get a random index from the vector list from 0 to maxsize-1
-		std::uniform_int_distribution<int> distribution(0, EnemyList.size() - 1);
+		std::uniform_int_distribution<int> distribution(0, static_cast<int>(EnemyList.size()) - 1);
 		int enemyIndex = distribution(rngesus);	//then we generate the number
 		//now we check if we can afford to spawn the enemy
 		DebuggerLogFormat("Index : %d, Credits : %d, Cost : %d",
@@ -103,7 +121,10 @@ namespace LB
 		}
 		
 	}
-
+	/*!************************************************************************
+	* \brief Spawns a mage enemy
+	* 
+	**************************************************************************/
 	void CPPSGameManager::SpawnMageEnemy()
 	{
 		GameObject* mageClone = FACTORY->SpawnGameObject();
@@ -111,13 +132,20 @@ namespace LB
 		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
 
+	/*!************************************************************************
+	* \brief Spawns a chaser enemy
+	* 
+	**************************************************************************/
 	void CPPSGameManager::SpawnChaserEnemy()
 	{
 		GameObject* chaserClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserClone);
 		//chaserClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
-
+	/*!************************************************************************
+	* \brief Function to reduce the enemy count (should be called by base enemy's hurt)
+	* 
+	**************************************************************************/
 	void CPPSGameManager::ReduceEnemyCount()
 	{
 		DebuggerLogFormat("Enemy count : %d", currentEnemyCount);
@@ -128,7 +156,10 @@ namespace LB
 			DebuggerLogWarning("Enemy Count Error! Please check enemy count logic");
 		}
 	}
-
+	/*!************************************************************************
+	* \brief Function to generate the wave
+	* 
+	**************************************************************************/
 	void CPPSGameManager::GenerateWave()
 	{
 		//We only want the credits to be affected AFTER the first level
@@ -145,7 +176,10 @@ namespace LB
 		
 
 	}
-
+	/*!************************************************************************
+	* \brief Function to spawn in the next wave
+	* 
+	**************************************************************************/
 	void CPPSGameManager::NextWave()
 	{
 		currentWave++;

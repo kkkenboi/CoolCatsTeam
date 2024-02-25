@@ -1,6 +1,8 @@
 {
     "Name": "EnemyChaser1",
+    "Active": true,
     "Transform": {
+        "Active": true,
         "Position": {
             "x": 456.23,
             "y": 640.78
@@ -12,17 +14,23 @@
         "Rotation": 0.0
     },
     "RigidBody": {
+        "Active": true,
         "Width": 100.0,
         "Height": 100.0,
         "Density": 10.0,
         "IsStatic": false
     },
     "Render": {
-        "Width": 100.0,
-        "Height": 100.0,
-        "Texture": "Chaser"
+        "Active": true,
+        "Width": 110.0,
+        "Height": 110.0,
+        "Layer": 0,
+        "Texture": "Melee_SpriteSheet",
+        "SpriteName": "MeleeSheet",
+        "SpriteIndex": 0
     },
     "Collider": {
+        "Active": true,
         "ColliderLayer": {
             "Layer Name": "GameEntity",
             "Layer ID": 1
@@ -33,6 +41,10 @@
         "Radius": 40.0
     },
     "CPPScript": {
+        "Active": true,
         "Script": "class LB::CPPSChaser"
+    },
+    "Animator": {
+        "Controller": "MeleeController"
     }
 }

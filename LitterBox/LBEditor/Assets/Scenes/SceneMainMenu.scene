@@ -32,13 +32,7 @@
                     "Height": 100.0,
                     "Layer": 1,
                     "Texture": "Main_Menu_M2",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -218,13 +212,7 @@
                     "Height": 100.0,
                     "Layer": 0,
                     "Texture": "lefthand",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -249,13 +237,7 @@
                     "Height": 100.0,
                     "Layer": 0,
                     "Texture": "QuitMenu",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },
@@ -386,13 +368,7 @@
                     "Height": 728.0,
                     "Layer": 0,
                     "Texture": "Underline",
-                    "Sprites": {
-                        "Name": "Unnamed Sheet",
-                        "PNG": "No PNG",
-                        "Rows": 0,
-                        "Cols": 0,
-                        "Sprites": []
-                    },
+                    "SpriteName": "None",
                     "SpriteIndex": -1
                 }
             },

@@ -1,0 +1,46 @@
+{
+    "Name": "MeleeHurt",
+    "SpriteSheet Name": "MeleeSheet",
+    "Frames": [
+        {
+            "Frame": 2,
+            "Time": 0.1
+        },
+        {
+            "Frame": 3,
+            "Time": 0.1
+        },
+        {
+            "Frame": 2,
+            "Time": 0.1
+        },
+        {
+            "Frame": 3,
+            "Time": 0.1
+        },
+        {
+            "Frame": 2,
+            "Time": 0.1
+        },
+        {
+            "Frame": 3,
+            "Time": 0.1
+        },
+        {
+            "Frame": 2,
+            "Time": 0.1
+        },
+        {
+            "Frame": 3,
+            "Time": 0.1
+        },
+        {
+            "Frame": 2,
+            "Time": 0.1
+        },
+        {
+            "Frame": 3,
+            "Time": 0.1
+        }
+    ]
+}

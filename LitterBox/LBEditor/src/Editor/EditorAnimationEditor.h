@@ -21,21 +21,55 @@
 
 namespace LB 
 {
+
+	/*!***********************************************************************
+	  \brief
+	  This editor layer is responsible for the animation view of the editor.
+	  It allows the user to load, save, and edit the animation states and controllers.
+	*************************************************************************/
 	class EditorAnimationEditor : public Layer, public Singleton<EditorAnimationEditor> 
 	{
 	public:
+		/*!***********************************************************************
+		  \brief
+		  Sets up the default layer name.
+		*************************************************************************/
 		EditorAnimationEditor() : Layer("Animation Editor") {};
 
+		/*!***********************************************************************
+		  \brief
+		  Sets up the layer name.
+		*************************************************************************/
 		EditorAnimationEditor(std::string layerName);
 
+		/*!***********************************************************************
+		  \brief
+		  Renders the animation editor layer.
+		*************************************************************************/
 		void UpdateLayer() override;
 
+		/*!***********************************************************************
+		  \brief
+		  Loads the animation state for editing.
+		*************************************************************************/
 		void LoadState(std::string const& name);
 
+		/*!***********************************************************************
+		  \brief
+		  Loads the animation controller for editing.
+		*************************************************************************/
 		void LoadController(std::string const& name);
 
+		/*!***********************************************************************
+		  \brief
+		  Saves the currently loaded animation state/controller.
+		*************************************************************************/
 		void Save();
 
+		/*!***********************************************************************
+		  \brief
+		  Destroys the animation editor layer.
+		*************************************************************************/
 		void Destroy() {}
 		
 	private:

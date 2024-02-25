@@ -3,7 +3,7 @@
  \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao
  \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan\@digipen.edu
  \par Course:		CSD2401A
- \date				03-11-2023
+ \date				09-02-2024
  \brief
  This file contains the CPPSPlayer class and all its functionalities,
 
@@ -140,40 +140,44 @@ namespace LB
 		Movement animation of the player
 		*************************************************************************/
 		//------------------Walking animation------------------
-		//static bool isWalkingAnim{ false };
-		//if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
-		//{
-		//	rend->stop_anim();
-		//	rend->play_repeat("player_walk");
-
-		//	isWalkingAnim = true;
-		//}
-		//else if (INPUT->IsKeyTriggered(KeyCode::KEY_A))
-		//{
-		//	rend->stop_anim();
-		//	rend->play_repeat("player_walk");
-
-		//	isWalkingAnim = true;
-		//}
-		//else if (INPUT->IsKeyTriggered(KeyCode::KEY_D))
-		//{
-		//	rend->stop_anim();
-		//	rend->play_repeat("player_walk");
-
-		//	isWalkingAnim = true;
-		//}
-		//else if (INPUT->IsKeyTriggered(KeyCode::KEY_S))
-		//{
-		//	rend->stop_anim();
-		//	rend->play_repeat("player_walk");
-
-		//	isWalkingAnim = true;
-		//}
-
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_L))
+		static bool isWalkingAnim{ false };
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
 		{
-			GetComponent<CPAnimator>()->Stop();
+			//rend->stop_anim();
+			//rend->play_repeat("player_walk");
+
+			GetComponent<CPAnimator>()->PlayRepeat("FelixWalk");
+
+			isWalkingAnim = true;
 		}
+		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A))
+		{
+			//rend->stop_anim();
+			//rend->play_repeat("player_walk");
+
+			GetComponent<CPAnimator>()->PlayRepeat("FelixWalk");
+
+			isWalkingAnim = true;
+		}
+		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D))
+		{
+			//rend->stop_anim();
+			//rend->play_repeat("player_walk");
+
+			GetComponent<CPAnimator>()->PlayRepeat("FelixWalk");
+
+			isWalkingAnim = true;
+		}
+		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S))
+		{
+			//rend->stop_anim();
+			//rend->play_repeat("player_walk");
+
+			GetComponent<CPAnimator>()->PlayRepeat("FelixWalk");
+
+			isWalkingAnim = true;
+		}
+
 
 		/*!***********************************************************************
 		\brief
@@ -215,12 +219,14 @@ namespace LB
 		{
 			//rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
 			rb->mVelocity *= arbitraryFriction;
-			// if (isWalkingAnim)
-			// {
-			// 	rend->stop_anim();
-			// 	rend->play_repeat("player_idle");
-			// 	isWalkingAnim = false;
-			// }
+			 if (isWalkingAnim)
+			 {
+			 	//rend->stop_anim();
+			 	//rend->play_repeat("player_idle");
+				GetComponent<CPAnimator>()->Stop();
+
+			 	isWalkingAnim = false;
+			 }
 			GameObj->GetComponent<CPTransform>()->GetChild()->gameObj->GetComponent<CPParticle>()->mIsActive = false;
 		}
 		if (isMoving) GameObj->GetComponent<CPTransform>()->GetChild()->gameObj->GetComponent<CPParticle>()->mIsActive = true;

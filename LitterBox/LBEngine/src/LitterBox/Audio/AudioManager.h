@@ -202,6 +202,7 @@ namespace LB
 													   "Sward-Whoosh_4",
 													   "Sward-Whoosh_5" };
 
+		//CHASER SOUND
 		std::vector<std::string> ChaserAttackSounds = { "Wolf Attack_1",
 														"Wolf Attack_2",
 														"Wolf Attack_3",
@@ -219,6 +220,7 @@ namespace LB
 													   "Wolf Death_3",
 													   "Wolf Death_4"};
 		
+		//MAGE SOUND
 		std::vector<std::string> MageHurtSounds = { "Mage Hurt_1",
 													"Mage Hurt_2",
 													"Mage Hurt_3",

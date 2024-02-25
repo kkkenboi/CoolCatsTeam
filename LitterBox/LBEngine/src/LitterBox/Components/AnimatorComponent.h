@@ -5,7 +5,10 @@
  \par Course:		CSD2401A
  \date				25-11-2023
  \brief
- This file contains the implementation of the Animator Component (WIP)
+ This file contains the implementation of the Animator Component.
+ It is used to store the animation controller and play the animation 
+ based on the name.
+
 
   Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
   disclosure of this file or its contents without the prior written consent
@@ -43,6 +46,10 @@ namespace LB
 		**************************************************************************/
 		void Initialise() override;
 
+		/*!************************************************************************
+		 \brief
+		 Sets up the animator controller
+		**************************************************************************/
 		void LoadController();
 
 		/*!************************************************************************
@@ -57,18 +64,46 @@ namespace LB
 		**************************************************************************/
 		void Destroy() override;
 
+		/*!************************************************************************
+		 \brief
+		 Saves the animator component
+		**************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc);
 
+		/*!************************************************************************
+		 \brief
+		 Loads the animator component
+		**************************************************************************/
 		bool Deserialize(const Value& data);
 
+		/*!************************************************************************
+		 \brief
+		 Plays the animation based on the name
+		**************************************************************************/
 		void Play(std::string const& name);
 
+		/*!************************************************************************
+		 \brief
+		 Plays the animation based on the name on loop
+		**************************************************************************/
 		void PlayRepeat(std::string const& name);
 
+		/*!************************************************************************
+		 \brief
+		 Stops the current animation playing
+		**************************************************************************/
 		void Stop();
 
+		/*!************************************************************************
+		 \brief
+		 Gets the controller name
+		**************************************************************************/
 		std::string const& GetControllerName();
 
+		/*!************************************************************************
+		 \brief
+		 Sets the controller name
+		**************************************************************************/
 		void SetControllerName(std::string const& name);
 
 		//// Trigger setters

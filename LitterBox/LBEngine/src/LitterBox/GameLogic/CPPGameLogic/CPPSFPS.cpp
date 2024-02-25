@@ -1,3 +1,17 @@
+/*!************************************************************************
+ \file				CPPSFPS.cpp
+ \author(s)			Kenji Brannon Chong
+ \par DP email(s):	kenjibrannon.c@digipen.edu
+ \par Course:		CSD2451A
+ \date				09-02-2024
+ \brief
+ This file contains the CPPSFPS class and all its functionalities.
+
+  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "CPPSFPS.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Engine/Time.h"
@@ -18,7 +32,7 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("FPS", *m_FPSObject);
 
 		// Set it to 0.f when not active ( wanted to do ToggleActive but didn't work )
-		m_FPSObject->GetComponent<CPText>()->get_msg().scale = 1.0f;
+		m_FPSObject->GetComponent<CPText>()->get_msg().scale = 0.0f;
 		//m_FPSObject->GetComponent<CPText>()->ToggleActive(false);
 	}
 

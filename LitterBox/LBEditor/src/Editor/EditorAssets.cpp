@@ -139,6 +139,8 @@ namespace LB
 		//int columnCount{ 5 };
 		//int currentCount{ 0 };
 
+		SpriteSheet& spriteSheet = ASSETMANAGER->GetSpriteSheet("EditorSpriteSheet");
+
 		//We iterate though the current directory once again but this time we show if it's NOT a folder
 		for (auto& directory : std::filesystem::directory_iterator(currentDirectory))
 		{
@@ -150,11 +152,25 @@ namespace LB
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 
 				if (directory.path().extension().string() == ".png")
-					ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()))), { 64,64 }, { 0,1 }, { 1,0 });
+				{
+					ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()))), {64, 64}, {0,1}, {1,0});
+				}
 				else if (directory.path().extension().string() == ".wav")
-					ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("wav"))), { 64,64 }, { 0,1 }, { 1,0 });
+				{
+					ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()), { 64,64 }
+						, ImVec2{ spriteSheet[4].m_min.x, spriteSheet[4].m_max.y }
+						, ImVec2{ spriteSheet[4].m_max.x, spriteSheet[4].m_min.y });
+
+					// ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("wav"))), { 64,64 }, { 0,1 }, { 1,0 });
+				}
 				else
-					ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("FileIcon"))), { 64,64 }, { 0,1 }, { 1,0 });
+				{
+					ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()), { 64,64 }
+						, ImVec2{ spriteSheet[3].m_min.x, spriteSheet[3].m_max.y }
+						, ImVec2{ spriteSheet[3].m_max.x, spriteSheet[3].m_min.y });
+
+					// ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex("FileIcon"))), { 64,64 }, { 0,1 }, { 1,0 });
+				}
 				//DebuggerLogFormat("Texture ID : %d", ASSETMANAGER->GetTextureIndex("cat"));
 				//DebuggerLogFormat("Cast Texture ID : %d", *(ImTextureID)ASSETMANAGER->GetTextureIndex("run"));
 				ImGui::PopStyleColor();
@@ -260,56 +276,56 @@ namespace LB
 						EditorAnimationEditor::Instance()->LoadState(directory.path().filename().stem().string());
 					}
 				}
-				//Commented out because it happens even if right click scene
-				//if (ImGui::BeginPopup("Create"))
-				//{
-				//	ImGui::Text("Create new...");
-				//	ImGui::Separator();
-				//	if (ImGui::MenuItem("Animation Controller"))
-				//	{
-				// //should probably serialise a default constructed file instead
-				//		std::ofstream file(directory.path().parent_path().string() + "/newController.controller");
-				//		if (file)
-				//		{
-				//			file.close();
-				//			//ReimportAssets();
-				//		}
-				//		else
-				//		{
-				//			DebuggerLogError("Could not create new animation controller file!");
-				//		}
-				//	}
-				//	if (ImGui::MenuItem("Animation State"))
-				//	{
-				//		std::ofstream file(directory.path().parent_path().string() + "/newState.anim");
-				//		if (file)
-				//		{
-				//			file.close();
-				//			//ReimportAssets();
 
-				//		}
-				//		else
-				//		{
-				//			DebuggerLogError("Could not create new animation state file!");
-				//		}
+				if (ImGui::BeginPopup("Create"))
+				{
+					ImGui::Text("Create new...");
+					ImGui::Separator();
+					if (ImGui::MenuItem("Animation Controller"))
+					{
+				 //should probably serialise a default constructed file instead
+						std::ofstream file(directory.path().parent_path().string() + "/newController.controller");
+						if (file)
+						{
+							file.close();
+							//ReimportAssets();
+						}
+						else
+						{
+							DebuggerLogError("Could not create new animation controller file!");
+						}
+					}
+					if (ImGui::MenuItem("Animation State"))
+					{
+						std::ofstream file(directory.path().parent_path().string() + "/newState.anim");
+						if (file)
+						{
+							file.close();
+							//ReimportAssets();
 
-				//	}
-				//	if (ImGui::MenuItem("SpriteSheet"))
-				//	{
-				//		std::ofstream file(directory.path().parent_path().string() + "/newSpriteSheet.spritesheet");
-				//		if (file)
-				//		{
-				//			file.close();
-				//			//ReimportAssets();
+						}
+						else
+						{
+							DebuggerLogError("Could not create new animation state file!");
+						}
 
-				//		}
-				//		else
-				//		{
-				//			DebuggerLogError("Could not create new SpriteSheet file!");
-				//		}
-				//	}
-				//	ImGui::EndPopup();
-				//}
+					}
+					if (ImGui::MenuItem("SpriteSheet"))
+					{
+						std::ofstream file(directory.path().parent_path().string() + "/newSpriteSheet.spritesheet");
+						if (file)
+						{
+							file.close();
+							//ReimportAssets();
+
+						}
+						else
+						{
+							DebuggerLogError("Could not create new SpriteSheet file!");
+						}
+					}
+					ImGui::EndPopup();
+				}
 
 				//IF USER RIGHT CLICKS ON AN ITEM
 				if (ImGui::BeginPopupContextItem())
@@ -347,7 +363,7 @@ namespace LB
 					ImGui::EndPopup();
 				}
 				// ELSE ON AN EMPTY SPACE
-				else if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && !ImGui::IsItemHovered())
+				else if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right) && !ImGui::IsItemHovered())
 				{
 					ImGui::OpenPopup("Create");
 				}

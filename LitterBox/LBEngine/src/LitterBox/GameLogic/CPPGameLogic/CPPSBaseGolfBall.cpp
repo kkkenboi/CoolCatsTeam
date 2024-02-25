@@ -55,6 +55,8 @@ namespace LB
 		/*trans->SetRotation(RadToDeg(DotProduct(shootDir.Normalise(), Vec2<float>{1.0f, 1.0f })));
 		trans->SetRotation(trans->GetRotation() + 90.0f);*/
 
+		GetComponent<CPAnimator>()->PlayRepeat("MageProjectileMove");
+
 		mRigidBody->mFriction = 1.0f;
 		mSpeedMagnitude = 1000.0f;
 		mVelocity = 1000.0f; //with direction

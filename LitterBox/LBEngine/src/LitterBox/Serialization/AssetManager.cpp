@@ -538,7 +538,7 @@ namespace LB
         }
     }
 
-    SpriteSheet const& AssetManager::GetSpriteSheet(std::string& name) const
+    SpriteSheet const& AssetManager::GetSpriteSheet(std::string const& name) const
     {
         if (SpriteSheets.find(name) != SpriteSheets.end()) {
             return SpriteSheets.at(name);
@@ -547,7 +547,7 @@ namespace LB
         return SpriteSheets.begin()->second;   //SFNIAE
     }
 
-    SpriteSheet& AssetManager::GetSpriteSheet(std::string& name)
+    SpriteSheet& AssetManager::GetSpriteSheet(std::string const& name)
     {
         if (SpriteSheets.find(name) != SpriteSheets.end()) {
             return SpriteSheets[name];

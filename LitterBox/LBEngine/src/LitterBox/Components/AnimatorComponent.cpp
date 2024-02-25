@@ -6,6 +6,8 @@
  \date				25-11-2023
  \brief
  This file contains the implementation of the Animator Component (WIP)
+ It is used to store the animation controller and play the animation
+ based on the name.
 
   Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
   disclosure of this file or its contents without the prior written consent
@@ -29,16 +31,20 @@ namespace LB
 		AnimationManager::Instance()->AddAnimator(this);
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Sets up the animator controller
+	**************************************************************************/
 	void CPAnimator::LoadController()
 	{
 		m_render = gameObj->GetComponent<CPRender>();
 		m_controller = ASSETMANAGER->AnimControllers[m_controller.GetName()];
 	}
 
-	/*!***********************************************************************
+	/*!************************************************************************
 	\brief
-	 Update
-	*************************************************************************/
+	 Update function where it update at every frame
+	**************************************************************************/
 	void CPAnimator::Update()
 	{
 		if (!m_controller.IsPlaying())
@@ -75,6 +81,10 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Plays the animation based on the name
+	**************************************************************************/
 	void CPAnimator::Play(std::string const& name)
 	{
 		// Save old data
@@ -91,12 +101,20 @@ namespace LB
 		m_controller.Play(name);
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Plays the animation based on the name on loop
+	**************************************************************************/
 	void CPAnimator::PlayRepeat(std::string const& name)
 	{
 		m_repeating = true;
 		Play(name);
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Stops the current animation playing
+	**************************************************************************/
 	void CPAnimator::Stop()
 	{
 		m_playing = m_repeating = false;
@@ -115,15 +133,19 @@ namespace LB
 		}
 	}
 
-	/*!***********************************************************************
+	/*!************************************************************************
 	\brief
-	 Destroy
-	*************************************************************************/
+	 Destroy function
+	**************************************************************************/
 	void CPAnimator::Destroy()
 	{
 		AnimationManager::Instance()->RemoveAnimator(this);
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Saves the animator component
+	**************************************************************************/
 	bool CPAnimator::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
@@ -134,6 +156,10 @@ namespace LB
 		return true;
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Loads the animator component
+	**************************************************************************/
 	bool CPAnimator::Deserialize(const Value& data)
 	{
 		bool HasController = data.HasMember("Controller");
@@ -151,11 +177,19 @@ namespace LB
 		return false;
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Gets the controller name
+	**************************************************************************/
 	std::string const& CPAnimator::GetControllerName()
 	{
 		return m_controller.GetName();
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Sets the controller name
+	**************************************************************************/
 	void CPAnimator::SetControllerName(std::string const& name)
 	{
 		m_controller.SetName(name);

@@ -6,6 +6,8 @@
  \date				13/01/2024
  \brief
 
+ This file contains the Singleton class that allows for the creation of
+ a single instance of a class.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -20,10 +22,21 @@
 
 namespace LB
 {
+    /*!***********************************************************************
+     \brief
+     The singleton class is a template class that allows for the creation of
+     a single instance of a class. This is useful for classes that should
+     only have one instance, such as a game manager.
+    *************************************************************************/
     template <typename T>
     class Singleton
     {
     public:
+        /*!***********************************************************************
+         \brief
+         Returns the instance of the singleton. If the instance does not exist,
+         it will be created.
+        *************************************************************************/
         static std::shared_ptr<T> Instance()
         {
             if (!m_instance)
@@ -40,6 +53,11 @@ namespace LB
             return m_instance;
         }
 
+        /*!***********************************************************************
+         \brief
+         Initializes the singleton with the given arguments. If the instance
+         already exists, an error will be logged.
+        *************************************************************************/
         template <typename... Args>
         static void InitializeSingleton(Args&&... args)
         {
@@ -54,6 +72,7 @@ namespace LB
         static std::shared_ptr<T> m_instance;
     };
 
+    // Static member initialization
     template <typename T>
     std::shared_ptr<T> Singleton<T>::m_instance;
 }

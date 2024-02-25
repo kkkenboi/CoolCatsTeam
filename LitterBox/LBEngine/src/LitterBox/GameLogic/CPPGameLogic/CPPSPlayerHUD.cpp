@@ -1,3 +1,17 @@
+/*!************************************************************************
+ \file				CPPSPlayerHUD.cpp
+ \author(s)			Kenji Brannon Chong
+ \par DP email(s):	kenjibrannon.c@digipen.edu
+ \par Course:		CSD2451A
+ \date				09-02-2024
+ \brief
+ This file contains the CPPSPlayerHUD class and all its functionalities.
+
+  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "CPPSPlayerHUD.h"
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/GameLogic/CPPGameLogic/CPPSPlayer.h"
