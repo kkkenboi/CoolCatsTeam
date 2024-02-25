@@ -38,6 +38,8 @@
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
 
+#include "Utils/Preferences.h"
+
 #include "implot.h"
 #include "ImGuizmo.h"
 
@@ -140,6 +142,9 @@ namespace LB
 
 		// Set Style
 		ImGui::StyleColorsDark();
+
+		// Load preferences
+		Preferences::Instance()->LoadPreferences();
 
 		// Call Initialize for all layers in the layerstack
 		m_ImGuiLayers.InitializeLayers();
@@ -293,9 +298,8 @@ namespace LB
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 
-		//for (auto it = m_ImGuiLayers.m_Layers.rbegin(); it != m_ImGuiLayers.m_Layers.rend(); ++it) {
-		//	delete* it;
-		//}
+		// Save preferences
+		Preferences::Instance()->SavePreferences();
 
 		m_ImGuiLayers.Destroy();
 	}
