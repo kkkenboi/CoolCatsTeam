@@ -47,6 +47,11 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
+		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame)) {
+			// Timeline code here
+			ImGui::EndNeoSequencer();
+		}
+
 		if (ImGui::Button("Save"))
 		{
 			Save();

@@ -19,6 +19,8 @@
 #include "Editor.h"
 #include "Litterbox/Engine/Layer.h"
 
+#include "imgui_neo_sequencer.h"
+
 namespace LB 
 {
 
@@ -78,6 +80,8 @@ namespace LB
 		int m_previewIndex{ 0 };
 		float m_previewTimeElapsed{ 0.0f }, m_allDuration{ 0.0f };
 		SpriteSheet* m_spriteSheet{ nullptr };
+
+		ImGui::FrameIndexType m_startFrame{ -10 }, m_endFrame{ 0 }, m_currentFrame{ 64 };
 
 		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
 		AnimationState m_currentState{};
