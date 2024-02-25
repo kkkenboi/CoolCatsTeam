@@ -203,6 +203,10 @@ group "Dependencies"
             "%{prj.location}/ImApp.h",
             "%{prj.location}/ImGuizmo.cpp",
             "%{prj.location}/ImGuizmo.h",
+            "%{prj.location}/imgui_neo_sequencer.h",
+            "%{prj.location}/imgui_neo_sequencer.cpp",
+            "%{prj.location}/imgui_neo_internal.h",
+            "%{prj.location}/imgui_neo_internal.cpp"
     
         }
 
