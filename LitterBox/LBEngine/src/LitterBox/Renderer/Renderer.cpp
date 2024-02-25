@@ -1037,37 +1037,9 @@ void Renderer::RenderSystem::Initialize()
 	test2->uv[3].x = 0.25f;
 	test2->uv[3].y = .75f;
 
+	//TODO: 
 	auto minmaxs{ tm.minMaxGrid() };
 	w = 400.f, h = 400.f;
-	//std::cout << object_renderer.getObjectList().size() << " : objects in renderer" << std::endl;
-	//for (int y{ 0 }; y < tm.getRows(); ++y)
-	//{
-	//	midy = (tm.getRows() - y) * h - h * 0.5f;
-	//	for (int x{ 0 }; x < tm.getCols(); ++x)
-	//	{
-	//		auto minmax = minmaxs.at(x + y * tm.getCols()); //minmax.first is min and minmax.second is max
-	//		midx = x * w + w * 0.5f;
-	//		std::array<LB::Vec2<float>, 4> UVs
-	//		{
-	//			minmax.first,								//bottom left
-	//			LB::Vec2<float>{minmax.second.x, minmax.first.y},//bottom right
-	//			minmax.second,								//top right
-	//			LB::Vec2<float>{minmax.first.x, minmax.second.x}	//top left
-	//		};
-	//		backgrounds.emplace_back(
-	//			LB::Memory::Instance()->Allocate<LB::CPRender>(
-	//				LB::Vec2<float>(midx, midy), //position
-	//				w, h, //width and height
-	//				LB::Vec2<float>(1.f, 1.f), //scale
-	//				LB::Vec3<float>(0.f, 0.f, 0.f), //color (DEPRECATED)
-	//				UVs, //UV
-	//				LB::ASSETMANAGER->GetTextureUnit(tm.getTextureName()), //Texture
-	//				true, //active 
-	//				Renderer_Types::RT_BACKGROUND) //layer
-	//		);
-	//		std::cout << object_renderer.getObjectList().size() << " : objects in renderer" << std::endl;
-	//	}
-	//}
 	for (int y{ 0 }; y < tm.getRows(); ++y)
 	{
 		midy = (tm.getRows() - y) * h - h * 0.5f;
