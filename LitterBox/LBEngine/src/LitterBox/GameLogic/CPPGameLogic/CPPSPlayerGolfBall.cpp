@@ -27,6 +27,7 @@
 #include "CPPSBaseEnemy.h"
 #include "CPPSMage.h"
 #include "CPPSChaser.h"
+#include "CPPGameManager.h"
 
 
 namespace LB
@@ -42,6 +43,7 @@ namespace LB
 		mCollider = GameObj->GetComponent<CPCollider>();
 
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+		mGameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 		/*std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
 		for (GameObject* GO : GOs) {
 			if (GO->GetName() == "MainChar")
@@ -60,7 +62,7 @@ namespace LB
 		else mSize = 1.0f;*/
 
 		mCurrentLifetime = mLifetime = 1.0f;
-		onBallDisappear.Subscribe(IncreaseBalls);
+		onBallDisappear.Subscribe(DecreaseBalls);
 
 	}
 
@@ -82,7 +84,7 @@ namespace LB
 			if (mCurrentLifetime <= 0.0f)
 			{
 				//if (currentBallUpgrades & BOMB) Explode();
-				mPlayer->GetComponent<CPPSPlayer>()->m_currentBalls--;
+				mGameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls--;
 				//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
 				//--player->m_currentBalls;
 				canDestroy = true;
@@ -105,7 +107,7 @@ namespace LB
 
 			//Renderer::GRAPHICS->shaker_camera();
 			Explode();
-			mPlayer->GetComponent<CPPSPlayer>()->m_currentBalls--;
+			mGameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls--;
 			
 			//CPPSPlayer* player = mPlayer->GetComponent<CPPSPlayer>();
 			//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();

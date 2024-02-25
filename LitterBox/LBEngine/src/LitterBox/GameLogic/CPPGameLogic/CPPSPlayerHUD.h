@@ -86,16 +86,12 @@ namespace LB
 		void IncreaseMaxBalls(int amount);
 
 	private:
-		int m_maxHealth{};
-		int m_maxBalls{};
-		int m_currentHealth{};
-		int m_currentBalls{};
 		bool m_displayUpgrade{false};
 		bool m_decreaseHealth{ false };
 		bool m_decreaseBalls{ false };
 		Vec2<float> m_displayOffset = { 130.f, 130.f };
 
-		GameObject* m_mainChar{nullptr};
+		GameObject* m_GameManager{nullptr};
 
 		std::vector<GameObject*> m_totalHeartDisplay;
 		std::vector<GameObject*> m_totalBallsDisplay;

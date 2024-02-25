@@ -73,6 +73,14 @@ namespace LB
 		//std::vector<std::pair<GameObject*, float>> EnemyPrefabList;
 		std::vector < std::pair<void(CPPSGameManager::*)(), int>> EnemyList;
 		bool GameStart{ false };
+
+		int m_PlayerMaxHealth{};
+		int m_PlayerCurrentHealth{};
+		int m_PlayerMaxBalls{};
+		int m_PlayerCurrentBalls{};
+		float m_PlayerWalkSpeed{};
+		float m_PlayerMaxSpeed{};
+		float m_PlayerArbitraryFriction{};
 		
 	private:
 		bool UpgradeSpawned{ false };

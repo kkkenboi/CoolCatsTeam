@@ -15,6 +15,7 @@
 #include "CPPSUpgradeManager.h"
 #include "CPPSPlayerHUD.h"
 #include "CPPSPlayer.h"
+#include "CPPGameManager.h"
 
 namespace LB
 {
@@ -69,8 +70,8 @@ namespace LB
 				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(3);
 				break;
 			case MOVESPEED:
-				GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->m_walkSpeed *= 1.5f;
-				GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->arbitraryFriction = 0.8f;
+				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed *= 1.5f;
+				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction *= 1.5f;
 				break;
 			default:
 				//do nothing

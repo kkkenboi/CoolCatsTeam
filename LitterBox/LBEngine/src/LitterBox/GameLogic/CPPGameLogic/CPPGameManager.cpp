@@ -22,6 +22,16 @@ namespace LB
 {
 	void CPPSGameManager::Start()
 	{
+		// Initialising player values
+		m_PlayerMaxHealth = 3;
+		m_PlayerCurrentHealth = 3;
+		m_PlayerMaxBalls = 3;
+		m_PlayerCurrentBalls = 3;
+		m_PlayerWalkSpeed = 1750.0f;
+		m_PlayerMaxSpeed = 3500.0f;
+		m_PlayerArbitraryFriction = 0.95f;
+
+
 		//loading the gameobjects with data
 		//then adding it to our pair list
 		//EnemyPrefabList.emplace_back(std::make_pair(chaserEnemy, 2));
