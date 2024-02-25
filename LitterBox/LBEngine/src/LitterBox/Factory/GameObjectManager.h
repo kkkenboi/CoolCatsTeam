@@ -258,6 +258,8 @@ namespace LB
 		*************************************************************************/
 		void AddGameObject(GameObject* gameObject);
 
+		void CleanUpGOs();
+
 		/*!***********************************************************************
 		 \brief
 		 Removes a GameObject from the current pool of GameObjects for loaded scene
@@ -316,8 +318,12 @@ namespace LB
 		// All game objects in the current loaded scene are added to this vector
 		std::vector<GameObject*> m_GameObjects;
 		// All free-floating game objects (not bounded to a scene) are added to this vector
-		std::vector<GameObject*> m_DDOLGameObjects; 
+		std::vector<GameObject*> m_DDOLGameObjects;
+		// Game 
+		std::vector<GameObject*> m_ToBeDeletedGameObjects;
 	};
+
+	void CleanUpGOs();
 
 	extern GameObjectManager* GOMANAGER;
 }
