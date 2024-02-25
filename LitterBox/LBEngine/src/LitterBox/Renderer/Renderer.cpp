@@ -30,6 +30,7 @@
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Physics/ColliderManager.h"
+#include "TileMap.h"
 
 
 //---------------------------------DEFINES-------------------------------
@@ -415,7 +416,7 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 		quad_buff_size = 3000;
 		break;
 	case Renderer_Types::RT_BACKGROUND:
-		quad_buff_size = 10;
+		quad_buff_size = 100;
 		break;
 	case Renderer_Types::RT_DEBUG:
 		quad_buff_size = 200;
@@ -955,6 +956,7 @@ struct textbutt {
 
 
 LB::CPRender* test2;
+std::vector<LB::CPRender*> backgrounds;
 LB::CPRender* buttonbg_1;
 LB::CPRender* buttonbg_2;
 
@@ -1010,26 +1012,91 @@ void Renderer::RenderSystem::Initialize()
 	
 	//-################FOR BACKGROUND##########################
 	
-	//----------------------------------------------------FONTS AS WELL-----------------------------------------------
+	LB::TileMap tm(4, 4, 7, 6, "TilemapsTransparent_SpriteSheet",
+		{ 1, 3, 3, 2,
+		 9, 0, 0, 10,
+		 9, 5, 4, 8,
+		 21, 8, 17, 18 });
+
 	//cache some values
-	float midx = 1920.f * 0.5f;
-	float midy = 1080.f * 0.5f;
+	float midx = 800.f;
+	float midy = 800.f;
 	float w = 1920.f;
-	float h = 1080.f;
+	float h = 1600.f;
 
 	test2 = LB::Memory::Instance()->Allocate<LB::CPRender>(LB::Vec2<float>(midx, midy), w, h, LB::Vec2<float>(1.f, 1.f), LB::Vec3<float>(0.f, 0.f, 0.f), std::array<LB::Vec2<float>, 4>{}, -1, true, Renderer_Types::RT_BACKGROUND);
 	test2->z_val = 2.f;
 
 	test2->texture = LB::ASSETMANAGER->GetTextureUnit("bg");
-	test2->uv[0].x = 0.f;
-	test2->uv[0].y = 0.f;
-	test2->uv[1].x = 1.f;
-	test2->uv[1].y = 0.f;
-	test2->uv[2].x = 1.f;
-	test2->uv[2].y = 1.f;
-	test2->uv[3].x = 0.f;
-	test2->uv[3].y = 1.f;
-	//----------------------------------------------------FONTS AS WELL-----------------------------------------------
+	test2->uv[0].x = 0.25f;
+	test2->uv[0].y = 0.25f;
+	test2->uv[1].x = .75f;
+	test2->uv[1].y = 0.25f;
+	test2->uv[2].x = .75f;
+	test2->uv[2].y = .75f;
+	test2->uv[3].x = 0.25f;
+	test2->uv[3].y = .75f;
+
+	auto minmaxs{ tm.minMaxGrid() };
+	w = 400.f, h = 400.f;
+	//std::cout << object_renderer.getObjectList().size() << " : objects in renderer" << std::endl;
+	//for (int y{ 0 }; y < tm.getRows(); ++y)
+	//{
+	//	midy = (tm.getRows() - y) * h - h * 0.5f;
+	//	for (int x{ 0 }; x < tm.getCols(); ++x)
+	//	{
+	//		auto minmax = minmaxs.at(x + y * tm.getCols()); //minmax.first is min and minmax.second is max
+	//		midx = x * w + w * 0.5f;
+	//		std::array<LB::Vec2<float>, 4> UVs
+	//		{
+	//			minmax.first,								//bottom left
+	//			LB::Vec2<float>{minmax.second.x, minmax.first.y},//bottom right
+	//			minmax.second,								//top right
+	//			LB::Vec2<float>{minmax.first.x, minmax.second.x}	//top left
+	//		};
+	//		backgrounds.emplace_back(
+	//			LB::Memory::Instance()->Allocate<LB::CPRender>(
+	//				LB::Vec2<float>(midx, midy), //position
+	//				w, h, //width and height
+	//				LB::Vec2<float>(1.f, 1.f), //scale
+	//				LB::Vec3<float>(0.f, 0.f, 0.f), //color (DEPRECATED)
+	//				UVs, //UV
+	//				LB::ASSETMANAGER->GetTextureUnit(tm.getTextureName()), //Texture
+	//				true, //active 
+	//				Renderer_Types::RT_BACKGROUND) //layer
+	//		);
+	//		std::cout << object_renderer.getObjectList().size() << " : objects in renderer" << std::endl;
+	//	}
+	//}
+	for (int y{ 0 }; y < tm.getRows(); ++y)
+	{
+		midy = (tm.getRows() - y) * h - h * 0.5f;
+		for (int x{ 0 }; x < tm.getCols(); ++x)
+		{
+			auto minmax = minmaxs[x + y * tm.getCols()];
+			if (minmax.first == minmax.second)
+				continue;
+			midx = w * x + w * 0.5f;
+			std::array<LB::Vec2<float>, 4> UVs
+			{
+				minmax.first,								//bottom left
+				LB::Vec2<float>{minmax.second.x, minmax.first.y},//bottom right
+				minmax.second,								//top right
+				LB::Vec2<float>{minmax.first.x, minmax.second.y}	//top left
+			};
+			backgrounds.emplace_back(
+				LB::Memory::Instance()->Allocate<LB::CPRender>(
+					LB::Vec2<float>(midx, midy), //position
+					w, h, //width and height
+					LB::Vec2<float>(1.f, 1.f), //scale
+					LB::Vec3<float>(0.f, 0.f, 0.f), //color (DEPRECATED)
+					UVs, //UV
+					LB::ASSETMANAGER->GetTextureUnit(tm.getTextureName()), //Texture
+					true, //active 
+					Renderer_Types::RT_BACKGROUND) //layer
+			);
+		}
+	}
 	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
