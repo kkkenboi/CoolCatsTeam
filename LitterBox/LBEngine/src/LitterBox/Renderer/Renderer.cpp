@@ -1012,6 +1012,7 @@ void Renderer::RenderSystem::Initialize()
 	
 	//-################FOR BACKGROUND##########################
 	
+	//TODO: SERIALIZE THIS AMADEUS
 	LB::TileMap tm(4, 4, 7, 6, "TilemapsTransparent_SpriteSheet",
 		{ 1, 3, 3, 2,
 		 9, 0, 0, 10,
@@ -1037,7 +1038,7 @@ void Renderer::RenderSystem::Initialize()
 	test2->uv[3].x = 0.25f;
 	test2->uv[3].y = .75f;
 
-	//TODO: 
+	//TODO: make this a function that can be called
 	auto minmaxs{ tm.minMaxGrid() };
 	w = 400.f, h = 400.f;
 	for (int y{ 0 }; y < tm.getRows(); ++y)
@@ -1059,7 +1060,7 @@ void Renderer::RenderSystem::Initialize()
 			backgrounds.emplace_back(
 				LB::Memory::Instance()->Allocate<LB::CPRender>(
 					LB::Vec2<float>(midx, midy), //position
-					w, h, //width and height
+					w + 5.f, h + 5.f, //width and height add extra 5 to avoid any seam lines
 					LB::Vec2<float>(1.f, 1.f), //scale
 					LB::Vec3<float>(0.f, 0.f, 0.f), //color (DEPRECATED)
 					UVs, //UV

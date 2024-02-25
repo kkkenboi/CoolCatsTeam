@@ -80,8 +80,6 @@ namespace LB
 				//get the grid value
 				int gridval{ grid.at(x + y * cols) };
 
-				std::cout << gridval << " " << std::endl;
-
 				//-if grid value is 0 that means it's an empty tile so we give it 0 UV
 				//-if the grid has an actual value then we get the min max uv 
 				//min is bottom left of tile max is top right
@@ -90,6 +88,7 @@ namespace LB
 					//NOTE GRID VALUES START FROM 1 SO WE SPLIT UP THE TEXTURE AS SUCH
 					//get which column, of the split up texture, the tile wants
 					int texcol{ gridval % uvcols };
+					texcol = texcol ? texcol : uvcols; //we need to do this because if the gridval is a multiple of uvcols (i.e. the last tile in the row) then the column value is 0
 					//figuring out which row, of the split up texture, the tile wants
 					int texrow{ 1 };
 					for (; texrow * uvcols < gridval; ++texrow) {};
