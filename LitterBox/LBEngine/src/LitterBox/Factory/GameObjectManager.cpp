@@ -518,6 +518,21 @@ namespace LB
 		}
 	}
 
+	void GameObjectManager::RemoveGameObject(GameObject* gameObject, float timer)
+	{
+		const auto& it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
+		if (it != m_GameObjects.end())
+		{
+			//if we can find the game object, we push it into the vector of GO's to be destroyed.
+			//We also store the timing at which it needs to be destructed by
+			m_TimedDeletionGameObjects.push_back(std::make_pair(gameObject, TIME->GetTime() + timer));
+		}
+		else
+		{
+			DebuggerLogWarningFormat("[GO Manager] Tried to timed delete invalid GO \"%s\"", gameObject->GetName().c_str());
+		}
+	}
+
 	/*!***********************************************************************
      \brief
      Based on the pool to be deleted, finally delete the pool of game objects
@@ -525,6 +540,7 @@ namespace LB
     *************************************************************************/
     void GameObjectManager::CleanUpGOs()
     {
+		if (m_ToBeDeletedGameObjects.empty() && m_TimedDeletionGameObjects.empty()) return;
 		for (GameObject* gameObject : m_ToBeDeletedGameObjects)
 		{
 			// Let anyone know gameobject has been destroyed
@@ -534,6 +550,30 @@ namespace LB
 
 			m_GameObjects.erase(it);
 			gameObject->Destroy();
+		}
+		//Now we check for the ones due for timed deletion
+		for (const auto& [go,time] : m_TimedDeletionGameObjects)
+		{
+			//If the current time has exceeded our stored time
+			if (TIME->GetTime() >= time) //then it's due for deletion
+			{
+				//technically, I can just like... push it to the m_ToBeDeletedGO's and let it be 
+				//destroyed 1 frame later, like it literally doesn't make that much of a diff..
+
+				//But well... First we call the necessary destroy stuff
+				onGameObjectDestroy.Invoke(go);
+				auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), go);
+				//now we need to remove it from our own timed deletion vector...
+				//     _=+`^*~ get ready for some lambda magic ~*^`+=_
+				//We capture by reference and search the vector list of pairs
+				//if we find something that matches our GO by pointer, then we gottem
+				auto it2 = std::find_if(m_TimedDeletionGameObjects.begin(), m_TimedDeletionGameObjects.end(),
+					[&](const auto& pair) {return pair.first == go; });
+				m_GameObjects.erase(it);	//remove it from the list of GO's
+				go->Destroy();				//the order of destruction matters here!
+				//Once the GO is destroyed, then I can erase it from the vector
+				m_TimedDeletionGameObjects.erase(it2);
+			}
 		}
 
 		//while (!m_ToBeDeletedGameObjects.empty())

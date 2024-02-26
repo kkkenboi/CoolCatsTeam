@@ -66,6 +66,12 @@ namespace LB
 			GenerateWave();
 			GameStart = true;
 		}
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_V))
+		{
+			GameObject* ballObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("ball", *ballObject);
+			GOMANAGER->RemoveGameObject(ballObject, 2.f);
+		}
 		////Really really really scuffed way of doing this
 		//if (currentEnemyCount == 0 && GameStart && UpgradePicked)
 		//{
