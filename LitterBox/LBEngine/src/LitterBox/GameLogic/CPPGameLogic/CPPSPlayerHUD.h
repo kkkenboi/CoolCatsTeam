@@ -16,6 +16,7 @@
 #include "pch.h"
 #include "CPPBehaviour.h"
 #include "LitterBox/Components/CPPScriptComponent.h"
+#include "CPPSUpgradeManager.h"
 
 
 namespace LB
@@ -85,6 +86,12 @@ namespace LB
 		*************************************************************************/
 		void IncreaseMaxBalls(int amount);
 
+		/*!***********************************************************************
+		 \brief
+		 Adds a new upgrade to the display in PlayerHUD
+		*************************************************************************/
+		void AddNewUpgrade(UpgradeType upgrade);
+
 	private:
 		bool m_displayUpgrade{false};
 		bool m_decreaseHealth{ false };
@@ -134,5 +141,11 @@ namespace LB
 	 For event subscription to increase the max health in PlayerHUD
 	*************************************************************************/
 	void IncreaseMaxBalls(int amount);
+
+	/*!***********************************************************************
+	 \brief
+	 For event subscription to add a new upgrade in PlayerHUD
+	*************************************************************************/
+	void AddNewUpgrade(UpgradeType upgrade);
 }
 

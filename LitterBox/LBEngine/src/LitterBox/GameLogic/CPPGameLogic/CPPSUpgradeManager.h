@@ -95,6 +95,8 @@ namespace LB
 		//Default is 0 for no upgrades
 		int currentBallUpgrades{0};
 		bool hasUpgraded{ false };
+
+		Event<UpgradeType> onNewUpgrade;
 	private:
 		//Temporary upgrade positions for now, in the future these will be calculated 
 		//and placed at the "end point" of the bigger map

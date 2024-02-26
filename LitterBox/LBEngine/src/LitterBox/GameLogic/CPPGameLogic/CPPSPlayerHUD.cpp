@@ -18,7 +18,6 @@
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "CPPGameManager.h"
-#include "CPPSUpgradeManager.h"
 
 
 namespace LB {
@@ -33,6 +32,11 @@ namespace LB {
 		// Create no. of hearts and balls based on the player's info
 		m_GameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 		m_UpgradeManager = GOMANAGER->FindGameObjectWithName("Upgrade Manager");
+
+		// -----------------------------------------------
+		// For HUD to subscribe to know when new upgrades are obtained
+		//GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->onNewUpgrade.Subscribe(LB::AddNewUpgrade);
+		// -----------------------------------------------
 
 		// Fixes things
 		if (!m_totalHeartDisplay.size())
@@ -75,8 +79,6 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::Update()
 	{
-		std::cout << m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls << " " << m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls << std::endl;
-
 		for (size_t i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth; ++i)
 		{
 			// Set the texture for lost health
@@ -93,7 +95,6 @@ namespace LB {
 																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
 			}
 		}
-
 
 		for (size_t i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls; ++i)
 		{
@@ -218,6 +219,32 @@ namespace LB {
 
 	/*!***********************************************************************
 	 \brief
+	 To add a new upgrade the player has for the upgrade display in PlayerHUD
+	*************************************************************************/
+	void CPPSPlayerHUD::AddNewUpgrade(UpgradeType upgrade)
+	{
+		// Create a new upgrade display for HUD
+		GameObject* upgradeObject = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("UpgradeHUD", *upgradeObject);
+
+		// - Set position on screen
+		Vec2 upgradePosition = upgradeObject->GetComponent<CPTransform>()->GetPosition() - Vec2<float>(m_displayOffset.x * m_totalUpgradeDisplay.size(), 0.f);
+		upgradeObject->GetComponent<CPTransform>()->SetPosition(upgradePosition);
+
+		// - Set image and spritesheet + index
+		upgradeObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Items"),
+																static_cast<int>(upgradeObject->GetComponent<CPRender>()->w),
+																static_cast<int>(upgradeObject->GetComponent<CPRender>()->h));
+
+		upgradeObject->GetComponent<CPRender>()->spriteIndex = static_cast<int>(upgrade - 1); // Minus 1 since the enum starts from 1
+		upgradeObject->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", static_cast<int>(upgrade - 1)); // Minus 1 since the enum starts from 1
+
+		m_totalUpgradeDisplay.push_back(upgradeObject);
+	}
+
+
+	/*!***********************************************************************
+	 \brief
 	 For event subscription to decrease health when the player takes damage
 	*************************************************************************/
 	void DecreaseHealth()
@@ -317,5 +344,15 @@ namespace LB {
 			}
 		}
 	}
+
+	/*!***********************************************************************
+	 \brief
+	 For event subscription to add a new upgrade in PlayerHUD
+	*************************************************************************/
+	void AddNewUpgrade(UpgradeType upgrade)
+	{
+		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->AddNewUpgrade(upgrade);
+	}
+
 
 }
