@@ -288,7 +288,6 @@ namespace LB
 		{
 			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
 			
-			++m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls;
 			onPlacingBall.Invoke();
 			
 			//Spawn Game Object
@@ -356,7 +355,6 @@ namespace LB
 			GetComponent<CPAnimator>()->Play("FelixHurt");
 
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.4f);
-			--m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth;
 			// Update the HUD as well
 			onTakingDamage.Invoke();
 

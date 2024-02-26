@@ -64,14 +64,16 @@ namespace LB
 			switch (assignedUpgradeType)
 			{
 			case MOREBALL:
+				// Should move functions from PlayerHUD to the GameManager in the future
 				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(3);
 				break;
 			case MOREHEALTH:
+				// Should move functions from PlayerHUD to the GameManager in the future
 				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(3);
 				break;
 			case MOVESPEED:
 				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed *= 1.5f;
-				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction *= 1.5f;
+				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction *= 0.8f;
 				break;
 			default:
 				//do nothing

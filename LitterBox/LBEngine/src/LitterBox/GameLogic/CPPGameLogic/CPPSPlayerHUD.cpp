@@ -18,6 +18,7 @@
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "CPPGameManager.h"
+#include "CPPSUpgradeManager.h"
 
 
 namespace LB {
@@ -31,6 +32,7 @@ namespace LB {
 	{
 		// Create no. of hearts and balls based on the player's info
 		m_GameManager = GOMANAGER->FindGameObjectWithName("GameManager");
+		m_UpgradeManager = GOMANAGER->FindGameObjectWithName("Upgrade Manager");
 
 		// Fixes things
 		if (!m_totalHeartDisplay.size())
@@ -73,27 +75,7 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::Update()
 	{
-		// HUD subcribes to player losing health/losing balls
-		// 
-		// If Player takes damage, decrement m_currentHealth, invokes OnHealthLoss<Bool> Event
-		// Event calls the HUD function, decrementing the  decrements script's health, update HUD's
-
-		if (m_decreaseHealth)
-		{
-			// Doing this for now to stop it from going beyond 0
-			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
-			{
-				--m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth;
-				m_decreaseHealth = false;
-			}
-		}
-
-		if (m_decreaseBalls)
-		{
-			// Balls doesn't need the same check as the health since there's its own check in CPPSPlayer
-			--m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls;
-			m_decreaseBalls = false;
-		}
+		std::cout << m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls << " " << m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls << std::endl;
 
 		for (size_t i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth; ++i)
 		{
@@ -112,9 +94,8 @@ namespace LB {
 			}
 		}
 
-		//std::cout << "Max Health: " << m_maxHealth << " " << "Current Health: " << m_currentHealth << std::endl;
 
-		for (size_t i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls; i++)
+		for (size_t i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls; ++i)
 		{
 			// Set the texture for lost health
 			if (i > static_cast<size_t>(m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls - m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls))
@@ -143,7 +124,10 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseHealth()
 	{
-		m_decreaseHealth = true;
+		if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth)
+		{
+			--m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth;
+		}
 	}
 
 	/*!***********************************************************************
@@ -152,7 +136,10 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseBalls()
 	{
-		m_decreaseBalls = true;
+		if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls)
+		{
+			--m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls;
+		}
 	}
 
 	/*!***********************************************************************

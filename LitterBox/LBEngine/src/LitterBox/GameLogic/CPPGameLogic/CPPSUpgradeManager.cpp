@@ -156,8 +156,17 @@ namespace LB
 		//next wave
 		GameObject* GameManagerObj = GOMANAGER->FindGameObjectWithName("GameManager");
 		GameManagerObj->GetComponent<CPPSGameManager>()->NextWave();
-		//Once we pick the upgrade we have to remove it from the pool
+		//Once we pick the upgrade we have to remove it from the available upgrade pool
 		RemoveUpgradeFromList(static_cast<UpgradeType>(chosen));
+
+		// Add to the Player's upgrade list to keep track
+		// If it doesn't exist, add it in
+		auto it = std::find(PlayerUpgradesList.begin(), PlayerUpgradesList.end(), chosen);
+		if (it == PlayerUpgradesList.end()) 
+		{
+			PlayerUpgradesList.push_back(static_cast<UpgradeType>(chosen));
+		}
+
 		if (leftUpgrade != nullptr)
 		{
 			leftUpgrade->GetComponent<CPPSUpgrade>()->canDestroy = true;

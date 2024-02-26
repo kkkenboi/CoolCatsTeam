@@ -91,11 +91,12 @@ namespace LB
 		bool m_decreaseBalls{ false };
 		Vec2<float> m_displayOffset = { 130.f, 130.f };
 
-		GameObject* m_GameManager{nullptr};
+		GameObject* m_GameManager{ nullptr };
+		GameObject* m_UpgradeManager{nullptr};
 
 		std::vector<GameObject*> m_totalHeartDisplay;
 		std::vector<GameObject*> m_totalBallsDisplay;
-		std::stack<GameObject*> m_totalUpgradeDisplay;
+		std::vector<GameObject*> m_totalUpgradeDisplay;
 	};
 	REGISTER_SCRIPT(CPPSPlayerHUD)
 
