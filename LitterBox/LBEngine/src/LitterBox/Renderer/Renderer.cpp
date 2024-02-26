@@ -1556,6 +1556,15 @@ Renderer::RenderSystem::~RenderSystem()
 	if (text2)
 		delete text2;
 
+	if (backgrounds.size())
+	{
+		for (LB::CPRender* renderComp : backgrounds)
+		{
+			LB::Memory::Instance()->Deallocate(renderComp);
+		}
+		backgrounds.clear();
+	}
+
 	object_renderer.Destroy_Renderer();
 	bg_renderer.Destroy_Renderer();
 	ui_renderer.Destroy_Renderer();
