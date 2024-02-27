@@ -82,7 +82,7 @@ namespace LB
 		 * \brief Function to handle the ball splitting (empty for now)
 		 * 
 		**************************************************************************/
-		void Split();
+		void Split(Vec2<float> forceToApply);
 		bool canDestroy{ false };
 		bool hasSplit{ false };
 	private:

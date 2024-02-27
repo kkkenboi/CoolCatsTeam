@@ -27,7 +27,7 @@
 #include "CPPSBaseEnemy.h"
 #include "CPPSMage.h"
 #include "CPPSChaser.h"
-
+#include "CPPSUpgradeManager.h"
 
 namespace LB
 {
@@ -193,22 +193,26 @@ namespace LB
 
 	/*!************************************************************************
 	* \brief Function to handle the ball splitting (empty for now)
-	* 
+	* This function gets called when the player right-clicks 
 	**************************************************************************/
-	void CPPSPlayerGolfBall::Split()
-	{
+	void CPPSPlayerGolfBall::Split(Vec2<float> forceToApply)
+	{	//First we verify that we have the upgrade
 		if (currentBallUpgrades & SPLIT) {
-			if (!hasSplit)
-			{
+			if (!hasSplit)	//then we see if the ball has been split before
+			{	//if it hasn't been split then we want to split it
 				hasSplit = true;
-				//Doesn't work for now
-				//Spawn Game Object
-			/*	GameObject* ballObject = FACTORY->SpawnGameObject(this->GameObj);
-				ballObject->GetComponent<CPTransform>()->SetPosition({
-					ballObject->GetComponent<CPTransform>()->GetPosition().x + 1,
-					ballObject->GetComponent<CPTransform>()->GetPosition().y + 1
-					}
-				);*/
+				//Spawn Game Object at a position
+				GameObject* ballClone1 = FACTORY->SpawnGameObject();
+				JSONSerializer::DeserializeFromFile("ball", *ballClone1);
+				Vec2<float> playerPos = GetHero()->GetComponent<CPTransform>()->GetPosition();
+				playerPos.x += GetHero()->GetComponent<CPPSPlayer>()->m_isFacingLeft ? -51.0f : 51.0f;
+				ballClone1->GetComponent<CPTransform>()->SetPosition(playerPos);
+				//we don't want the ball clones to split
+				ballClone1->GetComponent<CPPSPlayerGolfBall>()->hasSplit = true;
+				//but we want them to have the upgrades
+				ballClone1->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetBallUpgrades());
+				//Personally I think we should slightly rotate the force by a small angle to make it look better
+				ballClone1->GetComponent<CPRigidBody>()->addImpulse(forceToApply);
 			}
 		}
 	}
