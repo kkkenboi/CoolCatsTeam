@@ -144,7 +144,6 @@ namespace LB
 		Preferences::Instance()->LoadPreferences();
 
 		// Set Style
-
 		std::filesystem::path iniLocation(ASSETMANAGER->_appData / ASSETMANAGER->folderName / Preferences::Instance()->m_editoriniFile);
 		// For new users, if the ini does not exist, copy the default ini in Editor/Layouts
 		if (!std::filesystem::exists(iniLocation))

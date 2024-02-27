@@ -1401,10 +1401,28 @@ namespace LB
 	bool Vec2<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
 	{
 		data.SetObject();
-		data.AddMember("x", x, alloc);
-		data.AddMember("y", y, alloc);
+
+		if constexpr (std::is_same<T, float>::value)
+		{
+			data.AddMember("x", (double)x, alloc);
+			data.AddMember("y", (double)y, alloc);
+		}
+		else
+		{
+			data.AddMember("x", x, alloc);
+			data.AddMember("y", y, alloc);
+		}
 		return true;
 	}
+
+	//template<>
+	//bool Vec2<float>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
+	//{
+	//	data.SetObject();
+	//	data.AddMember("x", static_cast<double>(x), alloc);
+	//	data.AddMember("y", static_cast<double>(y), alloc);
+	//	return true;
+	//}
 
 	/*!***********************************************************************
 	\brief
@@ -1421,13 +1439,40 @@ namespace LB
 		{
 			if (HasX && HasY)
 			{
-				x = data["x"].Get<T>();
-				y = data["y"].Get<T>();
+				if constexpr (std::is_same<T, float>::value)
+				{
+					x = (float)data["x"].Get<double>();
+					y = (float)data["y"].Get<double>();
+				}
+				else
+				{
+					x = data["x"].Get<T>();
+					y = data["y"].Get<T>();
+				}
 				return true;
 			}
 		}
 		return false;
 	}
+
+
+
+	//template<>
+	//bool Vec2<float>::Deserialize(const rapidjson::Value& data)
+	//{
+	//	bool HasX = data.HasMember("x");
+	//	bool HasY = data.HasMember("y");
+	//	if (data.IsObject())
+	//	{
+	//		if (HasX && HasY)
+	//		{
+	//			x = static_cast<float>(data["x"].GetDouble());
+	//			y = static_cast<float>(data["y"].GetDouble());
+	//			return true;
+	//		}
+	//	}
+	//	return false;
+	//}
 
 	/***************************************************************************************************
 	*

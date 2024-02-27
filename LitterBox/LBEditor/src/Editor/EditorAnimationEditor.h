@@ -81,7 +81,7 @@ namespace LB
 		float m_previewTimeElapsed{ 0.0f }, m_allDuration{ 0.0f };
 		SpriteSheet* m_spriteSheet{ nullptr };
 
-		ImGui::FrameIndexType m_startFrame{ -10 }, m_endFrame{ 0 }, m_currentFrame{ 64 };
+		ImGui::FrameIndexType m_startFrame{ 0 }, m_endFrame{ 64 }, m_currentFrame{ 0 };
 
 		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
 		AnimationState m_currentState{};
