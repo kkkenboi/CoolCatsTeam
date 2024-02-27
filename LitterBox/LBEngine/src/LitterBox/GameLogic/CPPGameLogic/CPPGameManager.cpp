@@ -40,6 +40,7 @@ namespace LB
 			GenerateWave();
 			GameStart = true;
 		}
+		DebuggerLog("Game manager start is called \n");
 	}
 	void CPPSGameManager::Update()
 	{

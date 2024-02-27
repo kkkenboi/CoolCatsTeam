@@ -186,4 +186,14 @@ namespace LB
 		m_isPlaying = newState;
 		onPlayingModeToggle.Invoke(m_isPlaying);
 	}
+
+	bool LBEngine::IsInitialized() const
+	{
+		return m_initialized;
+	}
+
+	void LBEngine::SetInitialized(bool newState)
+	{
+		m_initialized = newState;
+	}
 }

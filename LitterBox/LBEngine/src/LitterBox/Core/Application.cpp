@@ -26,7 +26,7 @@ namespace LB {
 	 \brief 
 	 Initialises the LitterBox Engine with all the systems added
 	*************************************************************************/
-	Application::Application(bool editorMode)
+	Application::Application(bool editorMode, bool startPlaying)
 	{
 		// Setting up LitterBox Engine with the available systems
 		Engine = std::make_shared<LBEngine>();
@@ -70,9 +70,14 @@ namespace LB {
 		Engine->AddSystem(graphics);
 		Engine->AddSystem(debug);
 		Engine->AddSystem(sceneManager);
-
+		
 		Engine->Initialise();
 
+		if (startPlaying)
+		{
+			CORE->SetPlayingMode(true);
+		}
+		CORE->SetInitialized(true);
 	}
 
 	/*!***********************************************************************
