@@ -78,8 +78,8 @@ namespace LB
 			return false;
 		}
 
-	private:
 		bool m_fullscreen{ false };
 		std::string m_inspectedScene{"None"};
+		std::string m_editoriniFile{"Default.ini"}, m_editoriniFilePath{};
 	};
 }
