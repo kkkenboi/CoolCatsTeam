@@ -34,38 +34,6 @@ namespace LB
 	void CPPSMage::Start()
 	{
 		CPPSBaseEnemy::Start();
-		//initialising the components of the mage, basically same as chase where I am getting the components
-		/*mRender = GameObj->GetComponent<CPRender>();
-		mRigidBody = GameObj->GetComponent<CPRigidBody>();
-		mCollider = GameObj->GetComponent<CPCollider>();*/
-
-	/*	rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
-		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
-		leftFace.x = -leftFace.x;*/
-
-		//--------------------------------get the mage animation--------------------------------
-		//if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"]) != LB::ASSETMANAGER->Textures.end()) {
-		//	//int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->width }; NOTREFERENCED
-		//	//int img_height{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["mage_attack"])->second.first->height }; NOTREFERENCED
-		//
-		//	//for the mage sprite sheet the x and y inc is the same
-		//	float x_inc{ 1.f / 4.f };
-
-		//	for(int y{0}; y < 4; ++y)
-		//		for (int x{ 0 }; x < 4; ++x) {
-		//			mage_anim_frams[x + y * 4].at(0) = { x * x_inc, 1.f - (y + 1) * x_inc };//bottom left
-		//			mage_anim_frams[x + y * 4].at(1) = { (x + 1) * x_inc, 1.f - (y + 1) * x_inc };//bottom right
-		//			mage_anim_frams[x + y * 4].at(2) = { (x + 1) * x_inc, 1.f - y * x_inc };//top right
-		//			mage_anim_frams[x + y * 4].at(3) = { x * x_inc, 1.f - y * x_inc };//top left
-		//		}
-
-		//	Renderer::GRAPHICS->init_anim("mage_float", mage_anim_frams.data(), 0.25f, 16);
-		//	Renderer::GRAPHICS->init_anim("mage_idle", mage_anim_frams.data(), 1.f, 1);
-
-		//	mRender->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("mage_attack"), static_cast<int>(mRender->w), static_cast<int>(mRender->h));
-		//	mRender->play_repeat("mage_idle");
-		//}
-
 		
 		//initialse the state of the mage
 		//STATES : IDLE, CHASING, BACKOFF, HURT, SHOOTING
@@ -87,38 +55,30 @@ namespace LB
 		//set current state of Mage to be on idle
 		mFSM.SetCurrentState("Idle");
 
-		//std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
-		//for (GameObject* GO : GOs) {
-		//	if (GO->GetName() == "MainChar") {
-		//		mPlayer = GO;
-		//		break;
-		//	}
-		//}
-
 		//initialise the variables for the Mage
-		mHealth = 3; //health
-		mSpeedMagnitude = 100000.f; //speed of movement
-		mBackOffSpeed = 50000.f; //speed of movement
+		GetHealth() = 3; //health {inherited from base class}
+		GetSpeedMag() = 100000.f; //speed of movement {inherited from base class}
+		//mBackOffSpeed = 50000.f; //speed of movement
 
 		//------------------CHASE STATE------------------
 		//a little hardcoding for now, min and max distance between enemy and player
-		mAttackCooldown = 2.0f;
-		mAttackCooldownCurrent = 0.0f;
+		//mAttackCooldown = 2.0f;
+		//mAttackCooldownCurrent = 0.0f;
 
-		mMinDistance = 400.0f;
-		mBackOffDistance = 800.0f;
-		mMaxDistance = 1500.0f;
+		//mMinDistance = 400.0f;
+		//mBackOffDistance = 800.0f;
+		//mMaxDistance = 1500.0f;
 
 		//------------------SHOOTING STATE------------------
 		//timer set for shooting of projectils
-		mNumOfProjectile = 3; //set to 3 projectiles
-		mNumOfProjectileCurrent = 0;
-		mProjCooldown = 0.35f;
-		mProjCooldownCurrent = 0.0f;
-		mProjSpeed = 1000.0f; //pojectile speed
+		//mNumOfProjectile = 3; //set to 3 projectiles
+		//mNumOfProjectileCurrent = 0;
+		//mProjCooldown = 0.35f;
+		//mProjCooldownCurrent = 0.0f;
+		//mProjSpeed = 1000.0f; //pojectile speed
 
 		// 0.5 seconds of invincibility
-		mGotAttacked = 0.5f;
+		//mGotAttacked = 0.5f;
 
 		//it has fully initialised
 		mInitialised = true;
@@ -135,11 +95,6 @@ namespace LB
 		{
 			return;
 		}
-		//Kill command moved to base enemy
-	/*	if (INPUT->IsKeyPressed(KeyCode::KEY_0))
-		{
-			mShouldDestroy = true;
-		}*/
 		if (mShouldDestroy)
 		{
 			GOMANAGER->RemoveGameObject(this->GameObj);
@@ -148,13 +103,7 @@ namespace LB
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
-	/*	Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
-		Vec2<float> TransformRight{ 1,0 };
-		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
-		{
-			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
-		}
-		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);*/
+
 		mFSM.Update();
 	}
 
@@ -177,43 +126,6 @@ namespace LB
 	{
 		CPPSBaseEnemy::Hurt();
 	}
-
-	//Getter functions
-	/*!***********************************************************************
-	\brief
-	Getter for the render component
-	*************************************************************************/
-	//CPRender* CPPSMage::GetRender()
-	//{
-	//	return mRender;
-	//}
-
-	/*!***********************************************************************
-	\brief
-	Getter for the rigidbody component
-	*************************************************************************/
-	/*CPRigidBody* CPPSMage::GetRigidBody()
-	{
-		return mRigidBody;
-	}*/
-
-	/*!***********************************************************************
-	\brief
-	Getter for the collider component
-	*************************************************************************/
-	//CPCollider* CPPSMage::GetCollider()
-	//{
-	//	return mCollider;
-	//}
-
-	/*!***********************************************************************
-	\brief
-	Getter for the player object
-	*************************************************************************/
-	//GameObject* CPPSMage::GetHero()
-	//{
-	//	return mPlayer;
-	//}
 
 	/*!***********************************************************************
 	\brief
@@ -244,7 +156,7 @@ namespace LB
 
 				
 				mFSM.ChangeState("Hurt");
-				Hurt();
+				//Hurt();
 			}
 		}
 	}
@@ -252,7 +164,7 @@ namespace LB
 	void CPPSMage::Die()
 	{
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageDeathSounds,0.2f);
-		CPPSBaseEnemy::Die();
+		CPPSBaseEnemy::Die(); //We call this because the base class will have some logic to reduce enemy count
 		//Code to play death anim goes here
 	}
 
@@ -361,7 +273,7 @@ namespace LB
 
 		////Getting the direction of the player and the enemy
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
-		Vec2<float> NormalForce = Direction * mEnemy->mSpeedMagnitude;
+		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
 		
 		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime())); //add force to move
 
@@ -460,7 +372,8 @@ namespace LB
 	*************************************************************************/
 	void MageHurtState::Enter()
 	{
-		mEnemy->GetComponent<CPAnimator>()->Play("MageHurt");
+		mEnemy->GetAnimator()->Play("MageHurt");
+		mEnemy->Hurt();
 		this->Update();
 	}
 
@@ -498,7 +411,7 @@ namespace LB
 		//mEnemy->mRender->stop_anim();
 		//mEnemy->mRender->play_repeat("mage_float");
 
-		mEnemy->GetComponent<CPAnimator>()->Play("MageAttack");
+		mEnemy->GetAnimator()->Play("MageAttack");
 
 		mEnemy->mNumOfProjectileCurrent = 0;
 		mEnemy->mProjCooldownCurrent = 0.0f;

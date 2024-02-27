@@ -40,6 +40,7 @@ namespace LB
 			GenerateWave();
 			GameStart = true;
 		}
+		DebuggerLog("Game manager start is called \n");
 	}
 	void CPPSGameManager::Update()
 	{
@@ -65,6 +66,15 @@ namespace LB
 		{
 			GenerateWave();
 			GameStart = true;
+		}
+		//Test function to see if the remove gameobject code works
+		//You have to comment out the ball's canDestroy code in order for this
+		//to not crash the game
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_V))
+		{
+			GameObject* ballObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("ball", *ballObject);
+			GOMANAGER->RemoveGameObject(ballObject, 2.f);
 		}
 		////Really really really scuffed way of doing this
 		//if (currentEnemyCount == 0 && GameStart && UpgradePicked)

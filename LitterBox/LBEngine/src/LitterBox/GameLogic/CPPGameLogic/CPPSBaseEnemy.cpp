@@ -30,6 +30,7 @@ namespace LB
 		mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
+		mAnimator = GameObj->GetComponent<CPAnimator>();
 
 		//Grabbing the player GO reference
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
@@ -124,6 +125,15 @@ namespace LB
 	GameObject* CPPSBaseEnemy::GetHero()
 	{
 		return mPlayer;
+	}
+	/*!************************************************************************
+	 * \brief Accessor for the animator of the base enemy
+	 *
+	 * \return CPAnimator* Pointer to the animator component of the base enemy
+	**************************************************************************/
+	CPAnimator* CPPSBaseEnemy::GetAnimator()
+	{
+		return mAnimator;
 	}
 
 	/*!************************************************************************

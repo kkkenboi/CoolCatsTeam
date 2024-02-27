@@ -51,6 +51,12 @@ namespace LB
 		* \return CPCollider* Pointer to the collider component of the base enemy
 		**************************************************************************/
 		 CPCollider* GetCollider();
+		 /*!************************************************************************
+		  * \brief Accessor for the animator of the base enemy
+		  *
+		  * \return CPAnimator* Pointer to the animator component of the base enemy
+		 **************************************************************************/
+		 CPAnimator* GetAnimator();
 		/*!************************************************************************
 		* \brief Accessor for the player game object
 		* 
@@ -71,13 +77,11 @@ namespace LB
 		* \return float& Speed of the base enemy
 		**************************************************************************/
 		float& GetSpeedMag();
-		
-		int mHealth{};		//normal health of the enemy
-		float mSpeedMagnitude{};	//movespeed of the enemy
 
 		CPRender* mRender{nullptr};
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
+		CPAnimator* mAnimator{ nullptr };
 
 		/*!************************************************************************
 		* \brief Die function of the base enemy that handles the dying
@@ -90,6 +94,7 @@ namespace LB
 		**************************************************************************/
 		virtual void Hurt();
 	protected:
+		
 		GameObject* mPlayer{ nullptr }; //Caching the player obj
 		GameObject* mGameManager{ nullptr }; //Caching the game manager
 		//The values below are all for handling the facing of the enemy
@@ -99,6 +104,10 @@ namespace LB
 		Vec2<float> DirToPlayer;
 		Vec2<float> TransformRight{ 1,0 };
 		bool mShouldDestroy{ false };
+	private:
+		//We technically do not want to randomly expose these variables
+		int mHealth{};		//normal health of the enemy
+		float mSpeedMagnitude{};	//movespeed of the enemy
 	};
 }
 

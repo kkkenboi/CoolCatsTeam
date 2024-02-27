@@ -104,7 +104,6 @@ namespace LB
 		*************************************************************************/
 		std::map<std::type_index, ScriptFactoryBase*>& GetRegistry();
 
-
 		/*!***********************************************************************
 		 \brief
 		 Returns the registry containing all the script types stored by the
@@ -147,7 +146,7 @@ namespace LB
 		std::map<std::string, ScriptTypeID> m_scriptTypeRegistry;
 
 		std::vector<CPScriptCPP*> m_sceneScripts{};	// List of all scripts currently active in the scene
-		bool m_sceneStarted { false };
+		bool m_sceneStarted{ false };
 	};
 
 	/*!***********************************************************************

@@ -25,9 +25,9 @@
 Creates the application in the project area, to be used by other projects
 eg. Sandbox
 *************************************************************************/
-LB::Application* LB::CreateApplication(bool EditorMode)
+LB::Application* LB::CreateApplication(bool EditorMode, bool startPlaying)
 {
-	return DBG_NEW Application(EditorMode);
+	return DBG_NEW Application(EditorMode, startPlaying);
 }
 
 /*!***********************************************************************
@@ -54,7 +54,7 @@ int main(int argc, char** argv)
 
 	bool editorMode = true;
 
-	auto app = LB::CreateApplication(editorMode);
+	auto app = LB::CreateApplication(editorMode, false);
 	auto editor = LB::CreateEditor();
 	while (app->IsRunning()) 
 	{

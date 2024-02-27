@@ -33,41 +33,6 @@ namespace LB
 	void CPPSChaser::Start()
 	{
 		CPPSBaseEnemy::Start();
-		//Intialise the components
-		// 		right_face = trans->GetScale();
-	/*	rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
-		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
-		leftFace.x = -leftFace.x;*/
-		//GameObj = FACTORY->SpawnGameObject({ C_CPRender, C_CPRigidBody, C_CPCollider });
-		/*if (GameObj->HasComponent<CPRender>()) 
-		{
-			mRender = GameObj->GetComponent<CPRender>();
-		}
-		else
-		{
-			mRender = nullptr;
-			return;
-		}
-		if (GameObj->HasComponent<CPRigidBody>())
-		{
-			mRigidBody = GameObj->GetComponent<CPRigidBody>();
-		}
-		else 
-		{
-			mRigidBody = nullptr;
-			return;
-		}
-		if (GameObj->HasComponent<CPCollider>())
-		{
-			mCollider = GameObj->GetComponent<CPCollider>();
-		}
-		else 
-		{
-			mCollider = nullptr;
-			return;
-		}*/
-
-		//mRender->UpdateTexture(ASSETMANAGER->GetTextureIndex("chaser"));
 
 		//Then we init all the states
 		IdleState* IDLESTATE = DBG_NEW IdleState(this, mFSM, "Idle");
@@ -80,19 +45,11 @@ namespace LB
 
 		mFSM.SetCurrentState("Idle");
 
-	/*	std::vector<GameObject*> GOs = GOMANAGER->GetGameObjects();
-		for (GameObject* GO : GOs) {
-			if (GO->GetName() == "MainChar") {
-				mPlayer = GO;
-				break;
-			}
-		}*/
+		//mGotAttacked = 0.5f;
+		//mGotAttackedCooldown = 0.0f;
 
-		mGotAttacked = 0.5f;
-		mGotAttackedCooldown = 0.0f;
-
-		mHealth = 3;
-		mSpeedMagnitude = 100000.f;
+		GetHealth() = 3;
+		GetSpeedMag() = 100000.f;
 
 		mInitialised = true;
 	}
@@ -139,7 +96,7 @@ namespace LB
 
 	void CPPSChaser::Hurt()
 	{
-		GetComponent<CPAnimator>()->Play("MeleeHurt");
+		GetAnimator()->Play("MeleeHurt");
 		CPPSBaseEnemy::Hurt();
 	}
 
@@ -151,8 +108,8 @@ namespace LB
 	{
 		CPPSBaseEnemy::OnCollisionEnter(colData);
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
-
-			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 200.f)
+			//The knock back value has been edited and increased from 300 -> 800 
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 800.f)
 			{
 				DebuggerLogWarningFormat("CHASER HIT! %f", mGotAttackedCooldown);
 				if (mGotAttackedCooldown > 0.0f) {
@@ -167,12 +124,14 @@ namespace LB
 
 				
 				mFSM.ChangeState("Hurt");
-				Hurt();
+				Hurt();	//This is here to play the anim
+				//We don't move it into the hurt state because hurt state plays when chaser his player
+				//We want it to only play hurt when he gets hit by ball
 				
 			}
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") { 
-			GetComponent<CPAnimator>()->Play("MeleeAttack");
+			GetAnimator()->Play("MeleeAttack");
 			mFSM.ChangeState("Hurt"); 
 		}
 
@@ -182,66 +141,9 @@ namespace LB
 	{
 		//We access the base class first
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserDeathSounds,0.2f);
-		CPPSBaseEnemy::Die();
-	/*	GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.0f, 10000.0f});
-		GameObj->RemoveComponent(C_CPCollider);
-		mShouldDestroy = true;*/
+		CPPSBaseEnemy::Die(); //We call this because the base class will have some logic to reduce enemy count
 		//Code to play death anim goes here
 	}
-
-	/*!***********************************************************************
-	\brief
-	Getter for the render component 
-	*************************************************************************/
-	/*CPRender* CPPSChaser::GetRender()
-	{
-		return mRender;
-	}*/
-
-	/*!***********************************************************************
-	\brief
-	Getter for the rigidbody component 
-	*************************************************************************/
-	/*CPRigidBody* CPPSChaser::GetRigidBody()
-	{
-		return mRigidBody;
-	}*/
-
-	/*!***********************************************************************
-	\brief
-	Getter for the collider component 
-	*************************************************************************/
-	/*CPCollider* CPPSChaser::GetCollider()
-	{
-		return mCollider;
-	}*/
-
-	/*!***********************************************************************
-	\brief
-	Getter for the player object 
-	*************************************************************************/
-	/*GameObject* CPPSChaser::GetHero()
-	{
-		return mPlayer;
-	}*/
-
-	/*!***********************************************************************
-	\brief
-	Getter for player's health
-	*************************************************************************/
-	/*int& CPPSChaser::GetHealth()
-	{
-		return mHealth;
-	}*/
-
-	/*!***********************************************************************
-	\brief
-	Getter for speed magnitude
-	*************************************************************************/
-	/*float& CPPSChaser::GetSpeedMag()
-	{
-		return mSpeedMagnitude;
-	}*/
 
 	/*!***********************************************************************
 	\brief
@@ -282,10 +184,6 @@ namespace LB
 	void IdleState::Update()
 	{
 		GetFSM().ChangeState("Chase");
-		//if (INPUT->IsKeyPressed(KeyCode::KEY_R)) 
-		//{
-		//	// Change the state to Chase
-		//}
 	}
 
 	/*!***********************************************************************
@@ -313,7 +211,7 @@ namespace LB
 	*************************************************************************/
 	void ChaseState::Enter()
 	{
-		DebuggerLog("Entered ChaseState");
+		//DebuggerLog("Entered ChaseState");
 		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds);
 		this->Update();
 	}
@@ -380,11 +278,6 @@ namespace LB
 		if (mEnemy->GetHurtTimer() <= 0.f) 
 		{
 			this->GetFSM().ChangeState("Chase");
-		}
-
-		if (mEnemy->GetHealth() <= 0) 
-		{
-			//mEnemy->GetCollider()
 		}
 	}
 

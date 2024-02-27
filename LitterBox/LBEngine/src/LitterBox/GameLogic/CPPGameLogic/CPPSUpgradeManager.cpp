@@ -158,6 +158,7 @@ namespace LB
 		GameManagerObj->GetComponent<CPPSGameManager>()->NextWave();
 		//Once we pick the upgrade we have to remove it from the pool
 		RemoveUpgradeFromList(static_cast<UpgradeType>(chosen));
+		//then we hide all the other upgrades
 		if (leftUpgrade != nullptr)
 		{
 			leftUpgrade->GetComponent<CPPSUpgrade>()->canDestroy = true;
