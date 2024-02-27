@@ -1,0 +1,125 @@
+/*!************************************************************************
+ \file				CPPSCharger.h
+ \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao, Amadeus Chia
+ \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan@digipen.edu, amadeusjinhan.chia@digipen.edu
+ \par Course:		CSD2401A
+ \date				27-02-2024
+ \brief
+ This file contains the CPPSCharger class and all its functionalities,
+it handles the logic for the Charger enemy
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
+#pragma once
+#include "CPPSBaseEnemy.h"
+//#include "CPPSBaseGolfBall.h"
+#include "LitterBox/GameLogic/StateMachine.h"
+
+namespace LB
+{
+	class CPPSCharger : public CPPSBaseEnemy
+	{
+	public:
+		void Start() override;
+		void Update() override;
+		void Destroy() override;
+
+		void OnCollisionEnter(CollisionData colData) override;
+		
+		void Hurt() override;
+		void Die() override;
+
+	private:
+		FiniteStateMachine mFSM{};
+
+	};
+	REGISTER_SCRIPT(CPPSCharger)
+
+	//************************************************************************************************
+	// Idle
+	//************************************************************************************************
+	class ChargerIdleState : public State
+	{
+	public:
+		ChargerIdleState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
+		void Enter() override;
+		void Update() override;
+		void Exit() override;
+	private:
+		CPPSCharger* mEnemy;
+	};
+
+	//************************************************************************************************
+	// Move
+	//************************************************************************************************
+	class ChargerMoveState : public State
+	{
+	public:
+		ChargerMoveState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
+		void Enter() override;
+		void Update() override;
+		void Exit() override;
+	private:
+		CPPSCharger* mEnemy;
+	};
+
+	//************************************************************************************************
+	// Hurt
+	//************************************************************************************************
+	class ChargerHurtState : public State
+	{
+	public:
+		ChargerHurtState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
+		void Enter() override;
+		void Update() override;
+		void Exit() override;
+	private:
+		CPPSCharger* mEnemy;
+	};
+
+	//************************************************************************************************
+	// WindUp
+	//************************************************************************************************
+	class ChargerWindUpState : public State
+	{
+	public:
+		ChargerWindUpState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
+		void Enter() override;
+		void Update() override;
+		void Exit() override;
+	private:
+		CPPSCharger* mEnemy;
+	};
+
+	//************************************************************************************************
+	// Charge
+	//************************************************************************************************
+	class ChargerChargeState : public State
+	{
+	public:
+		ChargerChargeState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
+		void Enter() override;
+		void Update() override;
+		void Exit() override;
+	private:
+		CPPSCharger* mEnemy;
+	};
+
+	//************************************************************************************************
+	// Stunned
+	//************************************************************************************************
+	class ChargerStunnedState : public State
+	{
+	public:
+		ChargerStunnedState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
+		void Enter() override;
+		void Update() override;
+		void Exit() override;
+	private:
+		CPPSCharger* mEnemy;
+	};
+
+}
