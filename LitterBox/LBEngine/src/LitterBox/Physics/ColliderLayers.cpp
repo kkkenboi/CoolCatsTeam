@@ -232,12 +232,15 @@ namespace LB {
 	*************************************************************************/
 	bool ColliderLayerSystem::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
+		data.SetObject();
 		if (!m_layers.empty())
 		{
-			data.SetObject();
 			Value layerArray(rapidjson::kArrayType);
 			for (auto& layer : m_layers)
 			{
+	/*			Value layerName(layer.first.c_str(), alloc);
+				data.AddMember("Name", layerName, alloc);*/
+
 				Value layerValue;
 				if (layer.second.Serialize(layerValue, alloc))
 				{
@@ -245,9 +248,24 @@ namespace LB {
 				}
 			}
 			data.AddMember("CollisionLayers", layerArray, alloc);
-			return true;
 		}
-		return false;
+		else return false;
+		if (!m_collision_layer_matrix.empty())
+		{
+			Value fromLayerValues(rapidjson::kArrayType);
+			for (int i{}; i < m_collision_layer_matrix.size(); ++i)
+			{
+				Value toLayerValues(rapidjson::kArrayType);
+				for (int j{}; j < m_collision_layer_matrix[i].size(); ++j)
+				{
+					toLayerValues.PushBack(m_collision_layer_matrix[i][j], alloc);
+				}
+				fromLayerValues.PushBack(toLayerValues, alloc);
+			}
+			data.AddMember("CollisionMatrix", fromLayerValues, alloc);
+		}
+		else return false;
+		return true;
 	}
 
 	/*!***********************************************************************
@@ -256,26 +274,56 @@ namespace LB {
 	*************************************************************************/
 	bool ColliderLayerSystem::Deserialize(const Value& data)
 	{
+		//We probably want to clear before we deserialize????
+		m_layers.clear();
+		m_collision_layer_matrix.clear();
 		bool HasCollisionLayers = data.HasMember("CollisionLayers");
-		if (HasCollisionLayers)
+		bool HasCollisionMatrix = data.HasMember("CollisionMatrix");
+		//Then we deserialize the layers first
+		if (HasCollisionLayers && HasCollisionMatrix)
 		{	//We just save it into a json array 
-			const Value& childrenValue = data["CollisionLayers"].GetArray();
-			//for (rapidjson::SizeType i{ childrenValue.Size() }; i > 0; --i)
-			//{
-				//ColliderLayer temp;
-				//temp.Deserialize(childrenValue[i]);
-				//AddLayer(childrenValue[i].)
-			for (Value::ConstMemberIterator itr = childrenValue.MemberEnd();
-				itr != childrenValue.MemberBegin(); --itr)
+			const Value& layerArray = data["CollisionLayers"].GetArray();
+			for (rapidjson::SizeType i{}; i < layerArray.Size(); ++i)
 			{
-				if (itr->name.IsString() && itr->value.IsInt())
+				ColliderLayer temp{};
+				if (temp.Deserialize(layerArray[i]))
 				{
-					AddLayer(itr->name.GetString());
+					m_layers.push_back(std::make_pair(temp.m_name, temp));
+				}
+			}
+			//Once we have all our layers, we resize our matrix
+			//NOTE: Idk if this works, but it looks like it does
+			ResizeMatrix();
+			const Value& fromLayerValues = data["CollisionMatrix"].GetArray();
+			for (rapidjson::SizeType i{}; i < fromLayerValues.Size(); ++i)
+			{
+				const Value& toLayerValues = fromLayerValues[i].GetArray();
+				for (rapidjson::SizeType j{}; j < toLayerValues.Size(); ++j)
+				{
+					m_collision_layer_matrix[i][j] = toLayerValues[j].GetInt();
 				}
 			}
 			return true;
 		}
 		return false;
+	}
+
+	//Helper function to resize the matrix
+	void ColliderLayerSystem::ResizeMatrix()
+	{
+		int position = static_cast<int>(m_layers.size() - 1);
+		// This adds the first layer to have a new layer added,
+		// corresponding to the position of the layer in m_layers + 1
+
+		// We then default initialise the vector inside the vector to be of
+		// the new size and setting all collisions with other layers to false
+		m_collision_layer_matrix.resize(position + 1, std::vector<int>(position + 1, 0));
+		// We then adjust all the previously declared vectors to be of the new size
+		for (int i = 0; i < position; ++i)
+		{
+			m_collision_layer_matrix[i].resize(position + 1, 0);
+			m_collision_layer_matrix[position][i] = 0;
+		}
 	}
 
 	// =================================

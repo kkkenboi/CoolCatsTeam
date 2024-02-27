@@ -1,0 +1,78 @@
+{
+    "CollisionLayers": [
+        {
+            "Layer Name": "Default",
+            "Layer ID": 0
+        },
+        {
+            "Layer Name": "GameEntity",
+            "Layer ID": 1
+        },
+        {
+            "Layer Name": "UI",
+            "Layer ID": 2
+        },
+        {
+            "Layer Name": "Player",
+            "Layer ID": 3
+        },
+        {
+            "Layer Name": "PlayerBall",
+            "Layer ID": 4
+        },
+        {
+            "Layer Name": "EnemyBall",
+            "Layer ID": 5
+        }
+    ],
+    "CollisionMatrix": [
+        [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+        ],
+        [
+            1,
+            1,
+            0,
+            1,
+            1,
+            0
+        ],
+        [
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            1,
+            1,
+            0,
+            0,
+            0,
+            1
+        ],
+        [
+            1,
+            1,
+            0,
+            0,
+            1,
+            0
+        ],
+        [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+        ]
+    ]
+}
