@@ -25,6 +25,7 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Utils/Math.h"
+#include "LitterBox/Serialization/Serializer.h"
 
 namespace LB
 {
@@ -46,6 +47,8 @@ namespace LB
 			std::string texture, std::vector<int> const& gridVector);
 
 		std::vector<std::pair<Vec2<float>, Vec2<float>>> minMaxGrid() const;
+		bool Serialize(Value& data, Document::AllocatorType& alloc);
+		bool Deserialize(const Value& data);
 
 		inline int getRows() const { return rows; }
 		inline int getCols() const { return cols; }
