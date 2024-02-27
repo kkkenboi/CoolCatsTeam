@@ -51,6 +51,13 @@ namespace LB
 		void Destroy() override;
 
 		/*!***********************************************************************
+		\brief
+		This mainly checks for the collision between the mouse and the UI to display
+		pop up information.
+		*************************************************************************/
+		void OnCollisionEnter(CollisionData colData);
+
+		/*!***********************************************************************
 		 \brief
 		 Decreases the member variable for current health in the PlayerHUD
 		*************************************************************************/
@@ -92,6 +99,12 @@ namespace LB
 		*************************************************************************/
 		void AddNewUpgrade(UpgradeType upgrade);
 
+		/*!***********************************************************************
+		 \brief
+		 Helper Function to set both the item name and flavour text
+		*************************************************************************/
+		void SetPopUpText(std::string itemName, std::string flavourText, GameObject* mainPopUp, GameObject* subFlavourText);
+
 	private:
 		bool m_displayUpgrade{false};
 		bool m_decreaseHealth{ false };
@@ -99,11 +112,16 @@ namespace LB
 		Vec2<float> m_displayOffset = { 130.f, 130.f };
 
 		GameObject* m_GameManager{ nullptr };
-		GameObject* m_UpgradeManager{nullptr};
+		GameObject* m_UpgradeManager{ nullptr };
+		GameObject* m_Mouse {nullptr};
+
+		bool m_mouseHovering {false};
+		UpgradeType m_currentPopUpIndex {UpgradeType::SPLIT};
 
 		std::vector<GameObject*> m_totalHeartDisplay;
 		std::vector<GameObject*> m_totalBallsDisplay;
 		std::vector<GameObject*> m_totalUpgradeDisplay;
+		std::vector<std::pair<GameObject*, GameObject*>> m_totalUpgradePopUps;
 	};
 	REGISTER_SCRIPT(CPPSPlayerHUD)
 

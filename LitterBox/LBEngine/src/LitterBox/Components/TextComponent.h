@@ -109,7 +109,11 @@ namespace LB {
 		\param pos
 		 The new position in vector format
 		*************************************************************************/
-		inline void update_msg_pos(const LB::Vec2<float>& pos);
+		inline void update_msg_pos(const LB::Vec2<float>& pos)
+		{
+			msg.x = pos.x;
+			msg.y = pos.y;
+		}
 		/*!***********************************************************************
 		\brief
 		 Updates the font that will be used to print the text object message

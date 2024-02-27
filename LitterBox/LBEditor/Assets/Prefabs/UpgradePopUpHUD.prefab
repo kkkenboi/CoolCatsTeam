@@ -1,0 +1,40 @@
+{
+    "Name": "UpgradePopUpHUD",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 1800.0,
+            "y": 300.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0
+    },
+    "Render": {
+        "Active": true,
+        "Width": 200.0,
+        "Height": 200.0,
+        "Layer": 0,
+        "Texture": "Main_Menu_M2",
+        "SpriteName": "None",
+        "SpriteIndex": -1
+    },
+    "Text": {
+        "Active": true,
+        "Message": {
+            "text": "Upgrade Name",
+            "x": 1731.0,
+            "y": 358.0,
+            "scale": 0.5,
+            "Color": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "Font name": "KernlGrotesk"
+        }
+    }
+}

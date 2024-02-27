@@ -145,7 +145,7 @@ namespace Renderer {
 	*************************************************************************/
 	struct message {
 		std::string text{};
-		float x{}, y{}, scale{};
+		float x{}, y{}, scale{}, xbound{};
 		LB::Vec3<float> color{};
 		std::string font_file_name_wo_ext{};
 

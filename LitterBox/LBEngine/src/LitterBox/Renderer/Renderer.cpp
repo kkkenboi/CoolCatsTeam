@@ -817,15 +817,25 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &GRAPHICS->get_game_cam_mat()[0][0]);
 
 	float x = msg.x;
+	float y = msg.y;
 	//iterate through all chars
 	for (auto const& cha : msg.text) {
 		Character ch = font_glyphs[msg.font_file_name_wo_ext][cha];//Characters[cha];
 
 		float xpos = x + ch.Bearing.x * msg.scale;
-		float ypos = msg.y - (ch.Size.y - ch.Bearing.y) * msg.scale;
+		if (xpos > msg.x + 140.f)
+		{
+			y -= (ch.Advance >> 6) * 1.2f * msg.scale;
+			x = msg.x;
+			xpos = x + ch.Bearing.x * msg.scale;
+		}
+
+		float ypos = y - (ch.Size.y - ch.Bearing.y) * msg.scale;
 
 		float w = ch.Size.x * msg.scale;
 		float h = ch.Size.y * msg.scale;
+
+		
 
 		float vertices[6][4] = {
 			{xpos, ypos + h, 0.f, 0.f},
@@ -1774,21 +1784,6 @@ inline void LB::CPText::update_msg_color(const LB::Vec3<float>& col)
 inline void LB::CPText::update_msg_size(float font_size)
 {
 	msg.scale = font_size;
-}
-
-/*!***********************************************************************
-\brief
- Updates the position of the text on the screen
-
- NOTE: position is the bottom left of the text.
-
-\param pos
- The new position in vector format
-*************************************************************************/
-inline void LB::CPText::update_msg_pos(const LB::Vec2<float>& pos)
-{
-	msg.x = pos.x;
-	msg.y = pos.y;
 }
 
 /*!***********************************************************************

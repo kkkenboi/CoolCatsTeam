@@ -1,11 +1,11 @@
 {
-    "Name": "UpgradeHUD",
+    "Name": "MouseHUD",
     "Active": true,
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1800.0,
-            "y": 100.0
+            "x": 1440.48,
+            "y": 535.46
         },
         "Scale": {
             "x": 1.0,
@@ -13,24 +13,15 @@
         },
         "Rotation": 0.0
     },
-    "Render": {
-        "Active": true,
-        "Width": 150.0,
-        "Height": 150.0,
-        "Layer": 3,
-        "Texture": "Items",
-        "SpriteName": "Upgrades",
-        "SpriteIndex": 0
-    },
     "Collider": {
         "Active": true,
         "ColliderLayer": {
             "Layer Name": "UI",
             "Layer ID": 2
         },
-        "Shape": 1,
+        "Shape": 0,
         "Width": 100.0,
         "Height": 100.0,
-        "Radius": 75.0
+        "Radius": 10.0
     }
 }

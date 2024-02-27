@@ -51,7 +51,6 @@ namespace LB
 		}*/
 		//SpawnUpgrades();
 
-		onNewUpgrade.Subscribe(AddNewUpgrade);
 	}
 
 	/*!************************************************************************
