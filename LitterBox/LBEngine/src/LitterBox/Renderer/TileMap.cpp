@@ -117,6 +117,65 @@ namespace LB
 		return minMax;
 	}
 
+	bool TileMap::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+		data.SetObject();
+		//row cols uvrows uvcols
+		//texturename
+		//vector<int> grid
+		data.AddMember("Rows", rows, alloc);
+		data.AddMember("Cols", cols, alloc);
+		data.AddMember("UVRows", uvrows, alloc);
+		data.AddMember("UVCols", uvcols, alloc);
+		Value textureNameValue(textureName.c_str(), alloc);
+		data.AddMember("TextureName", textureNameValue, alloc);
+		if (!grid.empty())
+		{	//create json array
+			Value gridArray(rapidjson::kArrayType);
+			for (const auto& val : grid)
+			{	//then we just add the values
+				gridArray.PushBack(val, alloc);
+			}
+			data.AddMember("Grid", gridArray, alloc);
+		}
+		return true;
+	}
+
+	bool TileMap::Deserialize(const Value& data)
+	{
+		/*data.AddMember("Rows", rows, alloc);
+		data.AddMember("Cols", cols, alloc);
+		data.AddMember("UVRows", uvrows, alloc);
+		data.AddMember("UVCols", uvcols, alloc);*/
+		bool HasRows = data.HasMember("Rows");
+		bool HasCols = data.HasMember("Cols");
+		bool HasUVRows = data.HasMember("UVRows");
+		bool HasUVCols= data.HasMember("UVCols");
+		bool HasTextureName = data.HasMember("TextureName");
+		bool HasGrid = data.HasMember("Grid");
+		if (data.IsObject())
+		{
+			if (HasRows && HasCols && HasUVCols && HasUVRows)
+			{
+				rows = data["Rows"].GetInt();
+				cols = data["Cols"].GetInt();
+				uvrows = data["UVRows"].GetInt();
+				uvcols = data["UVCols"].GetInt();
+				textureName = data["TextureName"].GetString();
+			}
+			if (HasGrid)
+			{	//we get the gridjson
+				const Value& gridArray = data["Grid"].GetArray();
+				for (rapidjson::SizeType i{}; i < gridArray.Size(); ++i)
+				{	//deserialise then add the values into the grid
+					grid.push_back(i);
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
 	/*!***********************************************************************
 	  \brief
 	  Function creates the game objects, for the background, based on the data

@@ -28,7 +28,8 @@
 #include "CPPSMage.h"
 #include "CPPSChaser.h"
 #include "CPPSUpgradeManager.h"
-
+#include "LitterBox/Utils/Matrix3x3.h"
+//#include <random>
 namespace LB
 {
 	/*!***********************************************************************
@@ -212,6 +213,9 @@ namespace LB
 				//but we want them to have the upgrades
 				ballClone1->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetBallUpgrades());
 				//Personally I think we should slightly rotate the force by a small angle to make it look better
+				Matrix3x3<float> randomRotation = Matrix3x3<float>().Identity();
+				randomRotation.SetDegRotate(std::rand() % 25 + (-12));
+				forceToApply = randomRotation*forceToApply;
 				ballClone1->GetComponent<CPRigidBody>()->addImpulse(forceToApply);
 			}
 		}
