@@ -24,6 +24,7 @@
 #include <random>
 #include "CPPSPlayerHUD.h"
 #include "CPPSUpgradeManager.h"
+#include "LitterBox/Renderer/Camera.h"
 namespace LB
 {
 	//This array is for the animation frames
@@ -97,40 +98,8 @@ namespace LB
 	void CPPSPlayer::Update()
 	{
 		if (TIME->IsPaused()) return;
-		/*!***********************************************************************
-		\brief
-		When "8" is pressed on the key, it will spawn a mage
-		*************************************************************************/
-		//-----------------TESTING SPAWN-----------------------
-		//Spawn Mage
-		//if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
-		//{
-		//	Vec2<float> mouse_pos = INPUT->GetMousePos();
-		//	mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-		//	mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-		//	mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 
-		//	GameObject* mageObject = FACTORY->SpawnGameObject();
-		//	JSONSerializer::DeserializeFromFile("Mage", *mageObject);
-		//	mageObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
-		//}
-		/*!***********************************************************************
-		\brief
-		When "9" is pressed on the key, it will spawn a Chaser
-		*************************************************************************/
-		//Spawn Chaser
-	/*	if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
-		{
-			Vec2<float> mouse_pos = INPUT->GetMousePos();
-			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
-
-			GameObject* chaserObject = FACTORY->SpawnGameObject();
-			JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserObject);
-			chaserObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
-		}*/
-
+		
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}

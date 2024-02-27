@@ -29,6 +29,7 @@
 #include "CPPSFPS.h"
 #include "CPPSBlueMushroom.h"
 #include "CPPSSandpit.h"
+#include "CPPSCameraFollow.h"
 
 namespace LB 
 {
