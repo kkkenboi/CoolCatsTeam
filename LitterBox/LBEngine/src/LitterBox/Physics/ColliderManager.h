@@ -15,6 +15,11 @@ namespace LB
 		ColliderLayerSystem  m_layerSystem;
 		ColliderImplicitGridSystem m_implicitgridSystem;
 		
+		// A container that holds that these two colliders
+		// are currently colliding
+		std::vector<std::pair<CPCollider*, CPCollider*>> m_collidedPairs;
+		std::vector<std::pair<CPCollider*, CPCollider*>> m_pairsToRemove;
+
 	public:
 		std::vector<std::pair<std::string, SHAPETYPE>> m_shapeTypes;
 

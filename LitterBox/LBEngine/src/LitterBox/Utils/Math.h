@@ -1401,10 +1401,21 @@ namespace LB
 	bool Vec2<T>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
 	{
 		data.SetObject();
+
 		data.AddMember("x", x, alloc);
 		data.AddMember("y", y, alloc);
+
 		return true;
 	}
+
+	//template<>
+	//bool Vec2<float>::Serialize(rapidjson::Value& data, rapidjson::Document::AllocatorType& alloc)
+	//{
+	//	data.SetObject();
+	//	data.AddMember("x", static_cast<double>(x), alloc);
+	//	data.AddMember("y", static_cast<double>(y), alloc);
+	//	return true;
+	//}
 
 	/*!***********************************************************************
 	\brief
@@ -1423,11 +1434,31 @@ namespace LB
 			{
 				x = data["x"].Get<T>();
 				y = data["y"].Get<T>();
+
 				return true;
 			}
 		}
 		return false;
 	}
+
+
+
+	//template<>
+	//bool Vec2<float>::Deserialize(const rapidjson::Value& data)
+	//{
+	//	bool HasX = data.HasMember("x");
+	//	bool HasY = data.HasMember("y");
+	//	if (data.IsObject())
+	//	{
+	//		if (HasX && HasY)
+	//		{
+	//			x = static_cast<float>(data["x"].GetDouble());
+	//			y = static_cast<float>(data["y"].GetDouble());
+	//			return true;
+	//		}
+	//	}
+	//	return false;
+	//}
 
 	/***************************************************************************************************
 	*

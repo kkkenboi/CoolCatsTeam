@@ -46,6 +46,13 @@ namespace LB
 	{
 	}
 
+	TileMap::TileMap(int row, int columns, int textureRows, int textureColumns,
+		std::string texture, std::vector<int> const& gridVector) :
+		rows{ row }, cols{ columns }, uvrows{ textureRows }, uvcols{ textureColumns },
+		textureName{ texture }, grid{ gridVector }
+	{
+	}
+
 	/*!***********************************************************************
 	  \brief
 	  Function calculates a list of the min max UVs for each tile in the Tile
@@ -188,7 +195,7 @@ namespace LB
 		auto minmaxs{ tm.minMaxGrid() };
 		//hard coded width and height of tile
 		//CHANGE THE W and H VALUES TO CHANGE THE SIZE OF THE TILE
-		float w = 400.f, h = 400.f, midx, midy;
+		float w = 250.f, h = 250.f, midx, midy;
 		std::vector<GameObject*> gov{};
 		for (int y{ 0 }; y < tm.getRows(); ++y)
 		{
@@ -221,6 +228,10 @@ namespace LB
 					minmax.second,								//top right
 					LB::Vec2<float>{minmax.first.x, minmax.second.y}	//top left
 				};
+
+				gov.back()->GetComponent<CPRender>()->spriteSheetName = "MapSheet";
+				gov.back()->GetComponent<CPRender>()->spriteIndex = tm.getGrid().at(x + y * tm.getCols()) - 1;
+
 
 				//edit the texture of the Render component
 				gov.back()->GetComponent<CPRender>()->texture = LB::ASSETMANAGER->GetTextureUnit(tm.getTextureName());

@@ -5,7 +5,7 @@
  \par Course:		CSD2401A
  \date				25-11-2023
  \brief
- This file contains the EditorAniamtionEditor class and all its functionalities 
+ This file contains the EditorAnimationEditor class and all its functionalities 
  for the aniamtion view layer of the Editor.
 
  Editor.
@@ -47,8 +47,20 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
+		static bool transformOpen = false;
 		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame)) {
 			// Timeline code here
+			if (ImGui::BeginNeoGroup("Transform", &transformOpen)) {
+				std::vector<ImGui::FrameIndexType> keys = { 0, 10, 24 };
+				if (ImGui::BeginNeoTimeline("Position", keys)) {
+
+
+
+					ImGui::EndNeoTimeLine();
+				}
+				ImGui::EndNeoGroup();
+			}
+
 			ImGui::EndNeoSequencer();
 		}
 

@@ -1013,11 +1013,11 @@ void Renderer::RenderSystem::Initialize()
 	//-################FOR BACKGROUND##########################
 	
 	//TODO: SERIALIZE THIS AMADEUS
-	LB::TileMap tm(4, 4, 7, 6, "TilemapsTransparent_SpriteSheet",
+	/*LB::TileMap tm(4, 4, 7, 6, "TilemapsTransparent_SpriteSheet",
 		{ 1, 3, 3, 2,
 		 9, 0, 0, 10,
 		 9, 5, 4, 8,
-		 21, 8, 17, 18 });
+		 21, 8, 17, 18 });*/
 
 	//cache some values
 	float midx = 800.f;
@@ -1038,7 +1038,7 @@ void Renderer::RenderSystem::Initialize()
 	test2->uv[3].x = 0.25f;
 	test2->uv[3].y = .75f;
 
-	LB::LoadMap(tm);
+	//LB::LoadMap(tm);
 	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
