@@ -288,6 +288,8 @@ namespace LB
 						if (file)
 						{
 							file.close();
+							AnimationController newController{};
+							JSONSerializer::SerializeToFile(directory.path().parent_path().string() + "/newController.controller", newController);
 							//ReimportAssets();
 						}
 						else
@@ -301,8 +303,9 @@ namespace LB
 						if (file)
 						{
 							file.close();
+							AnimationState newState{};
+							JSONSerializer::SerializeToFile(directory.path().parent_path().string() + "/newState.anim", newState);
 							//ReimportAssets();
-
 						}
 						else
 						{
@@ -316,8 +319,9 @@ namespace LB
 						if (file)
 						{
 							file.close();
+							SpriteSheet newSpriteSheet{};
+							JSONSerializer::SerializeToFile(directory.path().parent_path().string() + "/newSpriteSheet.spritesheet", newSpriteSheet);
 							//ReimportAssets();
-
 						}
 						else
 						{
