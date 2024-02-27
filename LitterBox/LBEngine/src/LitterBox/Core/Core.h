@@ -113,6 +113,10 @@ namespace LB
 		*************************************************************************/
 		void SetPlayingMode(bool newState);
 
+		bool IsInitialized() const;
+
+		void SetInitialized(bool newState);
+
 		// Event to let any subscribers know the editor mode has been toggled
 		Event<bool> onEditorModeToggle;
 		// Event to let any subscribers know the game has started/stopped
@@ -124,6 +128,7 @@ namespace LB
 		bool					m_running { false };	 // Is the engine running?
 		bool					m_isPlaying{ false };	 // Is the game running?
 		bool					m_editorMode{ false };	 // Is the editor attached to the game engine?
+		bool					m_initialized{ false };	 // Is the engine fully initialized?
 	};
 
 	extern LBEngine* CORE; // Global pointer to the singleton

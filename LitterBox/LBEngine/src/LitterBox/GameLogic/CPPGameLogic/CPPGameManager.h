@@ -68,7 +68,7 @@ namespace LB
 		//Assign values to each enemy
 		//Each wave also has a certain value
 		//Spawn enemy and deduct the values
-		GameObject* mPlayer;
+		GameObject* mPlayer{nullptr};
 		//Pairs of enemy to value cost for the game manager to spawn
 		//std::vector<std::pair<GameObject*, float>> EnemyPrefabList;
 		std::vector < std::pair<void(CPPSGameManager::*)(), int>> EnemyList;

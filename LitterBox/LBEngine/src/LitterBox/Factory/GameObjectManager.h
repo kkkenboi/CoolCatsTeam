@@ -266,6 +266,7 @@ namespace LB
 		 and deletes it
 		*************************************************************************/
 		void RemoveGameObject(GameObject* gameObject);
+		void RemoveGameObject(GameObject* gameObject, float timer);
 
 		/*!***********************************************************************
 		 \brief
@@ -321,6 +322,9 @@ namespace LB
 		std::vector<GameObject*> m_DDOLGameObjects;
 		// Game 
 		std::vector<GameObject*> m_ToBeDeletedGameObjects;
+
+		//vector of game objects due for timed deletion, GO* is the GO, float is time to be destroyed at
+		std::vector<std::pair<GameObject*, float>> m_TimedDeletionGameObjects;
 	};
 
 	void CleanUpGOs();

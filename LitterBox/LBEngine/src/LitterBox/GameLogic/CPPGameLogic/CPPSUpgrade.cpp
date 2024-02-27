@@ -63,15 +63,22 @@ namespace LB
 			switch (assignedUpgradeType)
 			{
 			case MOREBALL:
+				std::cout << "More Balls!\n";
 				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(3);
 				break;
 			case MOREHEALTH:
+				std::cout << "More Health!\n";
+
 				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(3);
 				break;
 			case MOVESPEED:
+				std::cout << "More Movespeed!\n";
 				GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->m_walkSpeed *= 1.5f;
 				GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->arbitraryFriction = 0.8f;
 				break;
+			case BIGBALL:
+				std::cout << "Bigger Balls!\n";
+
 			default:
 				//do nothing
 				break;

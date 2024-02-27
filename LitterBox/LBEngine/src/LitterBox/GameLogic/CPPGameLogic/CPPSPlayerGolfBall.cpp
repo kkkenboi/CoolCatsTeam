@@ -27,7 +27,7 @@
 #include "CPPSBaseEnemy.h"
 #include "CPPSMage.h"
 #include "CPPSChaser.h"
-
+#include "CPPSUpgradeManager.h"
 
 namespace LB
 {
@@ -53,12 +53,7 @@ namespace LB
 
 		mSpeedMagnitude = 1000.0f;
 		mVelocity = 1000.0f; //with direction
-	/*	if (currentBallUpgrades & BIGBALL) {
-			std::cout << "EMBIGGEN\n";
-			mSize = 2.0f;
-		}
-		else mSize = 1.0f;*/
-
+		
 		mCurrentLifetime = mLifetime = 1.0f;
 		onBallDisappear.Subscribe(IncreaseBalls);
 
@@ -75,7 +70,7 @@ namespace LB
 			mRigidBody = GameObj->GetComponent<CPRigidBody>();
 			return;
 		}
-
+		
 		if (mRigidBody->mVelocity.LengthSquared() < 50.0f)
 		{
 			mCurrentLifetime -= static_cast<float>(TIME->GetDeltaTime());
@@ -87,12 +82,14 @@ namespace LB
 				//--player->m_currentBalls;
 				canDestroy = true;
 				//GOMANAGER->RemoveGameObject(this->GameObj);
+				//If the ball's lifetime runs out and it has the explosion upgrade, go kaboom
 				if (currentBallUpgrades & BOMB) {
 					Explode();
 				}
 			}
 		}
 		if (canDestroy) GOMANAGER->RemoveGameObject(this->GameObj);
+		//if (PHY_MATH::Length(GetRigidBody()->mVelocity) > 300.f) std::cout << PHY_MATH::Length(GetRigidBody()->mVelocity) << '\n';
 	}
 
 	/*!***********************************************************************
@@ -134,9 +131,16 @@ namespace LB
 		//std::cout << "Bitshifted Upgrade type : " << (1 << upgradeType) << '\n';
 		//std::cout << "result : " << (currentBallUpgrades & BOMB) << '\n';
 		//In order to set the upgrade type, we have to bit shift it.
+		//This applies the COMBINED upgrade values that have been OR'd together
 		currentBallUpgrades = static_cast<BallUpgrades>(upgradeType);
-		//currentBallUpgrades |= static_cast<BallUpgrades>(1 << upgradeType);
-		//currentBallUpgrades = static_cast<BallUpgrades>(static_cast<int>(currentBallUpgrades) | (1 << upgradeType));
+		//At the same time, we want to apply the effects of some of the upgrades
+		if (currentBallUpgrades & BIGBALL)
+		{
+			//This doubles the size of the ball
+			mSize = 2.0f;
+			Vec2<float> newSize = GetComponent<CPTransform>()->GetScale() * mSize;
+			GetComponent<CPTransform>()->SetScale(newSize);
+		}
 	}
 
 	/*!************************************************************************
@@ -189,22 +193,26 @@ namespace LB
 
 	/*!************************************************************************
 	* \brief Function to handle the ball splitting (empty for now)
-	* 
+	* This function gets called when the player right-clicks 
 	**************************************************************************/
-	void CPPSPlayerGolfBall::Split()
-	{
+	void CPPSPlayerGolfBall::Split(Vec2<float> forceToApply)
+	{	//First we verify that we have the upgrade
 		if (currentBallUpgrades & SPLIT) {
-			if (!hasSplit)
-			{
+			if (!hasSplit)	//then we see if the ball has been split before
+			{	//if it hasn't been split then we want to split it
 				hasSplit = true;
-				//Doesn't work for now
-				//Spawn Game Object
-			/*	GameObject* ballObject = FACTORY->SpawnGameObject(this->GameObj);
-				ballObject->GetComponent<CPTransform>()->SetPosition({
-					ballObject->GetComponent<CPTransform>()->GetPosition().x + 1,
-					ballObject->GetComponent<CPTransform>()->GetPosition().y + 1
-					}
-				);*/
+				//Spawn Game Object at a position
+				GameObject* ballClone1 = FACTORY->SpawnGameObject();
+				JSONSerializer::DeserializeFromFile("ball", *ballClone1);
+				Vec2<float> playerPos = GetHero()->GetComponent<CPTransform>()->GetPosition();
+				playerPos.x += GetHero()->GetComponent<CPPSPlayer>()->m_isFacingLeft ? -51.0f : 51.0f;
+				ballClone1->GetComponent<CPTransform>()->SetPosition(playerPos);
+				//we don't want the ball clones to split
+				ballClone1->GetComponent<CPPSPlayerGolfBall>()->hasSplit = true;
+				//but we want them to have the upgrades
+				ballClone1->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetBallUpgrades());
+				//Personally I think we should slightly rotate the force by a small angle to make it look better
+				ballClone1->GetComponent<CPRigidBody>()->addImpulse(forceToApply);
 			}
 		}
 	}
