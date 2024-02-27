@@ -81,7 +81,7 @@ namespace LB
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(75.f);
 		if (ImGui::DragInt("##row", &tmpRow))
-			confirmation = !confirmation ? true : false;
+			confirmation = true;
 		
 		//Setting the columns
 		ImGui::SameLine();
@@ -89,7 +89,7 @@ namespace LB
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(75.f);
 		if (ImGui::DragInt("##column", &tmpCol))
-			confirmation = !confirmation ? true : false;
+			confirmation = true;
 
 		//confirmation button
 		if (confirmation) {
@@ -177,6 +177,19 @@ namespace LB
 				}
 			}
 			ImGui::EndTable();
+		}
+
+		if (ImGui::Button("Print"))
+		{
+			for (int row = 0; row < rowNum; row++)
+			{
+				for (int column = 0; column < colNum; column++)
+				{
+					std::cout << tiles.at(column + row * colNum) << ' ';
+				}
+				std::cout << std::endl;
+			}
+			
 		}
 
 		ImGui::EndChild();

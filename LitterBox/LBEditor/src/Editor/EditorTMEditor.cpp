@@ -258,8 +258,8 @@ namespace LB
 				//the top left tile, then the top left would be 0,1
 				//the min would be the same x axis but 1 increment down from 1
 				//the max would be 1 increment right from 0 and the same y axis
-				std::pair<float, float> min{ x * x_inc, (y - 1) * y_inc };
-				std::pair<float, float> max{ (x + 1) * x_inc, y * y_inc };
+				std::pair<float, float> min{ static_cast<float>(x) * x_inc, static_cast<float>(y - 1) * y_inc };
+				std::pair<float, float> max{ static_cast<float>(x + 1) * x_inc, static_cast<float>(y) * y_inc };
 
 				tiles.emplace_back(min, max);
 			}

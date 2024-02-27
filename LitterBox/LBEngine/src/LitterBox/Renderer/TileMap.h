@@ -1,0 +1,43 @@
+/*!************************************************************************
+ \file				TileMap.h
+ \author(s)			Ryan Tan Jian Hao
+ \par DP email(s):	ryanjianhao.tan@digipen.edu
+ \par Course:       CSD2401A
+ \date				25/02/2024
+ \brief
+
+ This header file contains the definition of the TileMap class used for
+ loading tile map data into a scene.
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
+#pragma once
+
+#include <string>
+#include <vector>
+#include "LitterBox/Utils/Math.h"
+
+namespace LB
+{
+	class TileMap
+	{
+		//for iteration through the grid vector and to figure out the min max of all the UVs
+		int rows, cols, uvrows, uvcols;
+		std::string textureName;
+		std::vector<int> grid;
+
+	public:
+		TileMap() = default;
+		TileMap(int row, int columns, int textureRows, int textureColumns,
+			std::string texture, std::initializer_list<int>gridvalues);
+
+		std::vector<std::pair<Vec2<float>, Vec2<float>>> minMaxGrid();
+
+		inline int getRows() const { return rows; }
+		inline int getCols() const { return cols; }
+		inline const std::string& getTextureName() const { return textureName; }
+	};
+}
