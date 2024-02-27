@@ -44,15 +44,25 @@ namespace LB
 		//------------------MOVE STATE------------------
 		float mDistToWindUp{};
 
-		//------------------WindUp STATE------------------
+		//------------------WINDUP STATE------------------
 		float mTimerToCharge{};
 
-		//------------------WindUp STATE------------------
+		//------------------CHARGE STATE------------------
 		float mChargingSpeed{};
+		bool mIsCharging{};
+		Vec2<float> mChargeDirection{};
+		Vec2<float> mChargeNormalForce{};
+
+		//------------------CHARGE STATE------------------
+		float mTimerWhenStunned{};
+
+		
 
 	private:
 		FiniteStateMachine mFSM{};
-		GameObject* mWall;
+		//GameObject* mWall;
+		bool mInitialised{ false }; //setting to false, later after everything has been initialised in the cpp, it will set to true
+		
 		//stats
 		//float mChargeSpeed;
 

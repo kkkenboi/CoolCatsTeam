@@ -60,6 +60,12 @@ namespace LB
 		void SpawnChaserEnemy();
 
 		/*!************************************************************************
+		* \brief Spawns a chaser enemy
+		*
+		**************************************************************************/
+		void SpawnChargerEnemy();
+
+		/*!************************************************************************
 		 * \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 		 * 
 		**************************************************************************/
@@ -84,6 +90,7 @@ namespace LB
 		//We try to store references to the enemies
 		GameObject* mageEnemy{nullptr};
 		GameObject* chaserEnemy{ nullptr };
+		GameObject* chargerEnemy{ nullptr };
 		Vec2<float> mouse_pos{};
 
 	};

@@ -76,6 +76,11 @@ namespace LB
 			JSONSerializer::DeserializeFromFile("ball", *ballObject);
 			GOMANAGER->RemoveGameObject(ballObject, 2.f);
 		}
+
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_P))
+		{
+			SpawnChargerEnemy();
+		}
 		////Really really really scuffed way of doing this
 		//if (currentEnemyCount == 0 && GameStart && UpgradePicked)
 		//{
@@ -152,6 +157,18 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserClone);
 		//chaserClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
+
+	/*!************************************************************************
+	* \brief Spawns a chaser enemy
+	*
+	**************************************************************************/
+	void CPPSGameManager::SpawnChargerEnemy()
+	{
+		GameObject* chargerClone = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
+		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+	}
+
 	/*!************************************************************************
 	* \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 	* 

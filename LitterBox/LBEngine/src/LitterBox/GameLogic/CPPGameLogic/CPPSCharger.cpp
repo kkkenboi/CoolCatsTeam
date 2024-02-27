@@ -14,7 +14,9 @@ it handles the logic for the Mage enemy
 **************************************************************************/
 
 #include "CPPSCharger.h"
+
 #include "LitterBox/Physics/PhysicsMath.h"
+#include "LitterBox/Serialization/AssetManager.h"
 
 namespace LB
 {
@@ -41,13 +43,13 @@ namespace LB
 		mFSM.SetCurrentState("Idle");
 
 		//set stats on charger
-		mHealth = 3;
-		mSpeedMagnitude = 50000.f; //speed of movement
+		GetHealth() = 3;
+		GetSpeedMag() = 50000.f; //speed of movement
 
 		/********************************************/
 		// Idle State variables
 		/********************************************/
-		mIdleCooldown = 2.0f;
+		//mIdleCooldown = 4.0f;
 
 		/********************************************/
 		// Move State variables
@@ -57,12 +59,20 @@ namespace LB
 		/********************************************/
 		// WindUp State variables
 		/********************************************/
-		mTimerToCharge = 3.0f;
+		//mTimerToCharge = 3.0f;
 
 		/********************************************/
 		// Charge State variables
 		/********************************************/
-		mChargingSpeed = 100000.f;
+		mChargingSpeed = 150000.f;
+		mIsCharging = false;
+
+		/********************************************/
+		// Stunned State variables
+		/********************************************/
+		mTimerWhenStunned = 3.0f;
+
+		mInitialised = true;
 
 		//mAttackCooldown = 2.0f;
 		//mAttackCooldownCurrent = 0.0f;
@@ -70,6 +80,16 @@ namespace LB
 
 	void CPPSCharger::Update()
 	{
+		CPPSBaseEnemy::Update();
+		if (mInitialised == false)
+		{
+			return;
+		}
+		if (mShouldDestroy)
+		{
+			GOMANAGER->RemoveGameObject(this->GameObj);
+			return;
+		}
 		mFSM.Update();
 	}
 
@@ -88,8 +108,16 @@ namespace LB
 		CPPSBaseEnemy::OnCollisionEnter(colData);
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") 
 		{
-				mFSM.ChangeState("Hurt");
-				Hurt();
+			if (GetHealth() <= 0)
+			{
+				Die();
+			}
+			mFSM.ChangeState("Hurt");
+			//Hurt();
+		}
+		else if (mIsCharging == true)
+		{
+			mFSM.ChangeState("Stunned");
 		}
 	}
 
@@ -131,6 +159,8 @@ namespace LB
 
 	void ChargerIdleState::Enter()
 	{
+		//DebuggerLogWarning("CHARGER IDLE STATE");
+		mEnemy->mIdleCooldown = 1.5f;
 		this->Update();
 	}
 
@@ -138,8 +168,10 @@ namespace LB
 	{
 		//this->Update();
 		//NEED TO CALCULATE THE DISTANCE BWN THE CHARGER AND THE PLAYER BECOS THE MAP IS GG TO BE BIGGER!!!!
+		//DebuggerLogWarning("CHARGER IDLE STATE");
 		mEnemy->mIdleCooldown -= static_cast<float>(TIME->GetDeltaTime());
-		if (mEnemy->mIdleCooldown <= 0.0f)
+		//DebuggerLogErrorFormat("Timer Idle: %i", mEnemy->mIdleCooldown);
+		if (mEnemy->mIdleCooldown <= 0.0f) //4 secs
 		{
 			GetFSM().ChangeState("Move");
 		}
@@ -160,7 +192,7 @@ namespace LB
 
 	void ChargerMoveState::Enter()
 	{
-		DebuggerLogWarning("CHARGER MOVE STATE");
+		//DebuggerLogWarning("CHARGER MOVE STATE");
 		this->Update();
 
 	}
@@ -171,12 +203,12 @@ namespace LB
 		//when charger is near the player, state will change to windup
 		float DistInBwn = Vec2<float>::Distance(mEnemy->GetChargerPos(), mEnemy->GetPlayerPos());
 		
-		DebuggerLogWarning("CHARGER MOVE STATE");
+		//DebuggerLogWarning("CHARGER MOVE STATE");
 		//DebuggerLogFormat("Dist In Between enemy and Hero: %f", DistInBwn);
 
 		Vec2<float> Direction = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
 
-		Vec2<float> NormalForce = Direction * mEnemy->mSpeedMagnitude;
+		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
 
 		if (DistInBwn <= mEnemy->mDistToWindUp)
 		{
@@ -206,14 +238,15 @@ namespace LB
 
 	void ChargerHurtState::Enter()
 	{
-		DebuggerLogWarning("CHARGER HURT STATE");
+		//DebuggerLogWarning("CHARGER HURT STATE");
+		mEnemy->Hurt();
 		this->Update();
 	}
 
 	void ChargerHurtState::Update()
 	{
-		DebuggerLogWarning("CHARGER HURT STATE");
-		//this->Update();
+		//DebuggerLogWarning("CHARGER HURT STATE");
+		GetFSM().ChangeState("Idle");
 	}
 
 	void ChargerHurtState::Exit()
@@ -233,13 +266,14 @@ namespace LB
 
 	void ChargerWindUpState::Enter()
 	{
-		DebuggerLogWarning("CHARGER WINDUP STATE");
+		//DebuggerLogWarning("CHARGER WINDUP STATE");
+		mEnemy->mTimerToCharge = 1.0f;
 		this->Update();
 	}
 
 	void ChargerWindUpState::Update()
 	{
-		DebuggerLogWarning("CHARGER WINDUP STATE");
+		//DebuggerLogWarning("CHARGER WINDUP STATE");
 		mEnemy->mTimerToCharge -= static_cast<float>(TIME->GetDeltaTime());
 		if (mEnemy->mTimerToCharge <= 0.0f)
 		{
@@ -257,24 +291,34 @@ namespace LB
 		State(fsm, name)
 	{
 		mEnemy = enemy_ptr;
+		
 	}
 
 	void ChargerChargeState::Enter()
 	{
-		DebuggerLogWarning("CHARGER CHARGE STATE");
+		//DebuggerLogWarning("CHARGER CHARGE STATE");
+		mEnemy->mChargeDirection = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
+		mEnemy->mChargeNormalForce = mEnemy->mChargeDirection * mEnemy->mChargingSpeed;
+		mEnemy->mIsCharging = true;
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerAttackSounds, 0.2f);
 		this->Update();
 	}
 
 	void ChargerChargeState::Update()
 	{
-		DebuggerLogWarning("CHARGER CHARGE STATE");
-		//float DistInBwn = Vec2<float>::Distance(mEnemy->GetChargerPos(), mEnemy->GetPlayerPos());
+		//Now when charge, it suppose to calculate the direction once and thats it
+		//DebuggerLogWarning("CHARGER CHARGE STATE");
+		mEnemy->GetRigidBody()->addForce(mEnemy->mChargeNormalForce * static_cast<float>(TIME->GetDeltaTime())); //add force to move
+		//DebuggerLogErrorFormat("Is Charging bool: %i", mEnemy->mIsCharging);
+		//After it collides with any other game object
+		//Check on collision
+		//it will change it state back to idle
+		//rinse and repeat
 
-		Vec2<float> Direction = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
-		Vec2<float> NormalForce = Direction * mEnemy->mChargingSpeed;
-		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime())); //add force to move
-
-		
+		//if (mEnemy->mIsCharging == true)
+		//{
+		//	GetFSM().ChangeState("Stunned");
+		//}
 
 	}
 
@@ -295,14 +339,21 @@ namespace LB
 
 	void ChargerStunnedState::Enter()
 	{
-		DebuggerLogWarning("CHARGER STUNNED STATE");
+		//DebuggerLogWarning("CHARGER STUNNED STATE");
+		mEnemy->mIsCharging = false;
 		this->Update();
 	}
 
 	void ChargerStunnedState::Update()
 	{
-		DebuggerLogWarning("CHARGER STUNNED STATE");
-		//this->Update();
+		//DebuggerLogWarning("CHARGER STUNNED STATE");
+		//mEnemy->mIsCharging = false;
+		//DebuggerLogErrorFormat("Is Charging bool: %i", mEnemy->mIsCharging);
+		mEnemy->mTimerWhenStunned -= static_cast<float>(TIME->GetDeltaTime());
+		if (mEnemy->mTimerWhenStunned <= 0.0f)
+		{
+			GetFSM().ChangeState("Idle");
+		}
 	}
 
 	void ChargerStunnedState::Exit()

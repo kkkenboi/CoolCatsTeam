@@ -344,7 +344,8 @@ namespace LB
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
-			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
+			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
+			colData.colliderOther->m_gameobj->GetName() == "Charger")
 		{
 			if (mGotAttackedCooldown > 0) return;
 			//shake the cam
