@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 960.0,
-            "y": 540.0
+            "x": 340.675689,
+            "y": 856.551818
         },
         "Scale": {
             "x": 1.0,
@@ -32,8 +32,8 @@
     "Collider": {
         "Active": true,
         "ColliderLayer": {
-            "Layer Name": "Default",
-            "Layer ID": 0
+            "Layer Name": "GameEntity",
+            "Layer ID": 1
         },
         "Shape": 0,
         "Width": 100.0,

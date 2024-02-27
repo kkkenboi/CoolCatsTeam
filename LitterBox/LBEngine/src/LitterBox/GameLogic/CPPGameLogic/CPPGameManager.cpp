@@ -29,6 +29,7 @@ namespace LB
 
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChaserEnemy, 2));
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnMageEnemy, 5));
+		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChargerEnemy, 8));
 		//in the future
 		//EnemyList.emplace_back(std::make_pair(SpawnChargerEnemy, 8));
 
