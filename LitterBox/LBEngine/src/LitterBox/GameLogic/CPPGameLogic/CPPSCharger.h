@@ -32,8 +32,29 @@ namespace LB
 		void Hurt() override;
 		void Die() override;
 
+		
+		Vec2<float> GetPlayerPos();
+		Vec2<float> GetChargerPos();
+		Vec2<float> DirBToA(Vec2<float> a, Vec2<float> b);
+
+
+		//------------------IDLE STATE------------------
+		float mIdleCooldown{};
+
+		//------------------MOVE STATE------------------
+		float mDistToWindUp{};
+
+		//------------------WindUp STATE------------------
+		float mTimerToCharge{};
+
+		//------------------WindUp STATE------------------
+		float mChargingSpeed{};
+
 	private:
 		FiniteStateMachine mFSM{};
+		GameObject* mWall;
+		//stats
+		//float mChargeSpeed;
 
 	};
 	REGISTER_SCRIPT(CPPSCharger)
