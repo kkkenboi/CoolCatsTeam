@@ -61,6 +61,16 @@ namespace LB
 			UNREFERENCED_PARAMETER(colData);
 		}
 
+		virtual void OnCollisionExit(CollisionData colData)
+		{
+			UNREFERENCED_PARAMETER(colData);
+		}
+
+		virtual void OnCollisionStay(CollisionData colData)
+		{
+			UNREFERENCED_PARAMETER(colData);
+		}
+
 		/*!***********************************************************************
 		\brief
 		 Gets a component or script from this GameObject. This function makes it
