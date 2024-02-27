@@ -16,6 +16,7 @@
 
 #include <imgui.h>
 #include "InspectorSpriteSheet.h"
+#include "LitterBox/Utils/Math.h"
 
 namespace LB
 {
@@ -183,17 +184,27 @@ namespace LB
 		m_inspectedSheet.m_row = m_row;
 		m_inspectedSheet.m_col = m_col;
 
-		for (int y{ rows }; y > 0; --y)
-			for (int x{ 0 }; x < cols; ++x) {
-				//0,0 is bottom left of texture. Therefore, if the first texture is
-				//the top left tile, then the top left would be 0,1
-				//the min would be the same x axis but 1 increment down from 1
-				//the max would be 1 increment right from 0 and the same y axis
-				std::pair<float, float> min{ x * x_inc, (y - 1) * y_inc };
-				std::pair<float, float> max{ (x + 1) * x_inc, y * y_inc };
+		//for (int y{ rows }; y > 0; --y)
+		//	for (int x{ 0 }; x < cols; ++x) {
+		//		//0,0 is bottom left of texture. Therefore, if the first texture is
+		//		//the top left tile, then the top left would be 0,1
+		//		//the min would be the same x axis but 1 increment down from 1
+		//		//the max would be 1 increment right from 0 and the same y axis
+		//		std::pair<float, float> min{ x * x_inc, (y - 1) * y_inc };
+		//		std::pair<float, float> max{ (x + 1) * x_inc, y * y_inc };
 
-				m_inspectedSheet.Slice({ min.first, min.second }, { max.first, max.second });
-				//tiles.emplace_back(min, max);
+		//		m_inspectedSheet.Slice({ min.first, min.second }, { max.first, max.second });
+		//		//tiles.emplace_back(min, max);
+		//	}
+		for (int y{ 0 }; y < rows; ++y)
+			for (int x{ 0 }; x < cols; ++x) {
+				Vec2<float> min{(1.f / static_cast<float>(cols))* static_cast<float>(x), 1.f - (1.f / static_cast<float>(rows)) * static_cast<float>(y + 1)}, //min
+				max{(1.f / static_cast<float>(cols))* static_cast<float>(x + 1), 1.f - (1.f / static_cast<float>(rows)) * static_cast<float>(y)};  //max
+
+				/*std::pair<float, float> min{ static_cast<float>(x) * x_inc, 1.f - static_cast<float>(y + 1)* y_inc };
+				std::pair<float, float> max{ static_cast<float>(x + 1) * x_inc, 1.f - static_cast<float>(y) * y_inc };*/
+
+				m_inspectedSheet.Slice(min, max);
 			}
 	}
 

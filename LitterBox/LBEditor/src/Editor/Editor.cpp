@@ -38,6 +38,8 @@
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
 
+#include "Utils/Preferences.h"
+
 #include "implot.h"
 #include "ImGuizmo.h"
 
@@ -138,7 +140,21 @@ namespace LB
 		ImGui_ImplGlfw_InitForOpenGL(WINDOWSSYSTEM->GetWindow(), true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 
+		// Load preferences
+		Preferences::Instance()->LoadPreferences();
+
 		// Set Style
+		std::filesystem::path iniLocation(ASSETMANAGER->_appData / ASSETMANAGER->folderName / Preferences::Instance()->m_editoriniFile);
+		// For new users, if the ini does not exist, copy the default ini in Editor/Layouts
+		if (!std::filesystem::exists(iniLocation))
+		{
+			std::filesystem::path defaultIni("Editor/Layouts/Default.ini");
+			std::filesystem::copy_file(defaultIni, iniLocation, std::filesystem::copy_options::overwrite_existing);
+		}
+
+		Preferences::Instance()->m_editoriniFilePath = iniLocation.string();
+		ImGui::GetIO().IniFilename = Preferences::Instance()->m_editoriniFilePath.c_str();
+
 		ImGui::StyleColorsDark();
 
 		// Call Initialize for all layers in the layerstack
@@ -288,14 +304,13 @@ namespace LB
 	*************************************************************************/
 	void Editor::Destroy()
 	{		
+		// Save preferences
+		Preferences::Instance()->SavePreferences();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
-
-		//for (auto it = m_ImGuiLayers.m_Layers.rbegin(); it != m_ImGuiLayers.m_Layers.rend(); ++it) {
-		//	delete* it;
-		//}
 
 		m_ImGuiLayers.Destroy();
 	}

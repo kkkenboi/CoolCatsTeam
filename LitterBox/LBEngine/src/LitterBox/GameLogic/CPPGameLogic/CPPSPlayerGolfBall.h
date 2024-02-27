@@ -82,7 +82,7 @@ namespace LB
 		 * \brief Function to handle the ball splitting (empty for now)
 		 * 
 		**************************************************************************/
-		void Split();
+		void Split(Vec2<float> forceToApply);
 		bool canDestroy{ false };
 		bool hasSplit{ false };
 	private:
@@ -101,7 +101,7 @@ namespace LB
 		//Stats of the ball should have
 		float mSpeedMagnitude{}; //speed of the golf ball
 		float mVelocity{}; //Velocity of the golf ball
-		float mSize{}; //the size of the golf ball
+		float mSize{1.0f}; //the size of the golf ball
 
 		//Upgrade stats
 		float mExplosionRadius{100.f};

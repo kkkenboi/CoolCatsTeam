@@ -28,6 +28,8 @@
 #include "CPPSUpgradeManager.h"
 #include "CPPSFPS.h"
 #include "CPPSBlueMushroom.h"
+#include "CPPSCharger.h"
+#include "CPPSSandpit.h"
 
 namespace LB 
 {

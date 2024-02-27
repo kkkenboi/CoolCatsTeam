@@ -60,6 +60,12 @@ namespace LB
 		void SpawnChaserEnemy();
 
 		/*!************************************************************************
+		* \brief Spawns a chaser enemy
+		*
+		**************************************************************************/
+		void SpawnChargerEnemy();
+
+		/*!************************************************************************
 		 * \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 		 * 
 		**************************************************************************/
@@ -68,7 +74,7 @@ namespace LB
 		//Assign values to each enemy
 		//Each wave also has a certain value
 		//Spawn enemy and deduct the values
-		GameObject* mPlayer;
+		GameObject* mPlayer{nullptr};
 		//Pairs of enemy to value cost for the game manager to spawn
 		//std::vector<std::pair<GameObject*, float>> EnemyPrefabList;
 		std::vector < std::pair<void(CPPSGameManager::*)(), int>> EnemyList;
@@ -92,6 +98,7 @@ namespace LB
 		//We try to store references to the enemies
 		GameObject* mageEnemy{nullptr};
 		GameObject* chaserEnemy{ nullptr };
+		GameObject* chargerEnemy{ nullptr };
 		Vec2<float> mouse_pos{};
 
 	};

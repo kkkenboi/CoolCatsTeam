@@ -39,6 +39,7 @@ namespace LB
 
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChaserEnemy, 2));
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnMageEnemy, 5));
+		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChargerEnemy, 8));
 		//in the future
 		//EnemyList.emplace_back(std::make_pair(SpawnChargerEnemy, 8));
 
@@ -50,6 +51,7 @@ namespace LB
 			GenerateWave();
 			GameStart = true;
 		}
+		DebuggerLog("Game manager start is called \n");
 	}
 	void CPPSGameManager::Update()
 	{
@@ -75,6 +77,20 @@ namespace LB
 		{
 			GenerateWave();
 			GameStart = true;
+		}
+		//Test function to see if the remove gameobject code works
+		//You have to comment out the ball's canDestroy code in order for this
+		//to not crash the game
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_V))
+		{
+			GameObject* ballObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("ball", *ballObject);
+			GOMANAGER->RemoveGameObject(ballObject, 2.f);
+		}
+
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_P))
+		{
+			SpawnChargerEnemy();
 		}
 		////Really really really scuffed way of doing this
 		//if (currentEnemyCount == 0 && GameStart && UpgradePicked)
@@ -152,6 +168,18 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserClone);
 		//chaserClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
+
+	/*!************************************************************************
+	* \brief Spawns a chaser enemy
+	*
+	**************************************************************************/
+	void CPPSGameManager::SpawnChargerEnemy()
+	{
+		GameObject* chargerClone = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
+		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+	}
+
 	/*!************************************************************************
 	* \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 	* 

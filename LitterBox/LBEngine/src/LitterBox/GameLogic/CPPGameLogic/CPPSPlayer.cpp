@@ -271,7 +271,7 @@ namespace LB
 						vec_colliders[i]->rigidbody->addImpulse(force_to_apply); //* TIME->GetDeltaTime());
 						if (vec_colliders[i]->gameObj->GetName() == "ball")
 						{
-							vec_colliders[i]->gameObj->GetComponent<CPPSPlayerGolfBall>()->Split();
+							vec_colliders[i]->gameObj->GetComponent<CPPSPlayerGolfBall>()->Split(force_to_apply);
 							if (!hasPlayedHitSound)
 							{
 								AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHitBallSounds, 0.5f);
@@ -339,7 +339,8 @@ namespace LB
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
-			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
+			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
+			colData.colliderOther->m_gameobj->GetName() == "Charger")
 		{
 			if (mGotAttackedCooldown > 0) return;
 			//shake the cam

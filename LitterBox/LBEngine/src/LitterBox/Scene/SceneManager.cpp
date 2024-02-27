@@ -174,13 +174,19 @@ namespace LB
 	*************************************************************************/
 	void SceneManager::SceneOnPlayToggle(bool isPlaying)
 	{
-		if (isPlaying && CORE->IsEditorMode())
+		if (!CORE->IsEditorMode()) return;
+		if (isPlaying)
 		{
 			m_currentScene->Save();
 			onSceneSaved.Invoke();
 		}
 		else
-			ReloadScene();
+		{
+			if (CORE->IsInitialized())
+			{
+				ReloadScene();
+			}
+		}
 	}
 	/*!***********************************************************************
 	 \brief
@@ -211,8 +217,12 @@ namespace LB
 			}
 		}
 
+		DebuggerLog("CHECK SCENE CALLED!");
+
 		// Free current scene first
 		if (m_currentScene) {
+			DebuggerLog("HUH WHY IS THIS HAPPENING");
+
 			m_currentScene->Destroy();
 			delete m_currentScene;
 		}

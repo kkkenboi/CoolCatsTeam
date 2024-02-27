@@ -27,7 +27,7 @@ namespace LB
 		bool HasRot = data.HasMember("Rotation");
 		bool HasChildren = data.HasMember("Children");
 		//We just log it for now
-		DebuggerLog("Deserializing Transform");
+		//DebuggerLog("Deserializing Transform");
 		if (data.IsObject())
 		{	//Every transform needs this, so we check 
 			if (HasPosition && HasScale && HasRot)

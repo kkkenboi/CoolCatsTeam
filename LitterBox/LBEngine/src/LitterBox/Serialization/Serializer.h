@@ -90,7 +90,7 @@ namespace LB
 			/// @param fileName Name of the JSON FILE
 			/// @param typeToDeserialize Out param for your data. 
 			//Get the file, then deserialize! magic
-			DebuggerLog("Getting file from : " + fileName);
+			//DebuggerLog("Getting file from : " + fileName);
 			//std::cout << "Joe: " << fileDestinationMap[filePath] + fileName + ".json\n";
 			Document jsonFile = GetJSONFile(FILESYSTEM->GetFilePath(fileName).string());
 			typeToDeserialize.Deserialize(jsonFile);
@@ -130,7 +130,7 @@ namespace LB
 			DebuggerAssert(outputFile.is_open(), std::string{ filePath + " not found while trying to save!" });
 			StringBuffer buffer;
 			PrettyWriter<StringBuffer> jsonWriter(buffer);
-			jsonWriter.SetMaxDecimalPlaces(2); //sets the max dp to 2. tweak this for higher precision!
+			jsonWriter.SetMaxDecimalPlaces(6); //sets the max dp to 6. tweak this for higher precision!
 			jsonFileToSave.Accept(jsonWriter);
 			std::string outputString = buffer.GetString();
 			outputFile << outputString;

@@ -46,6 +46,13 @@ namespace LB
 	{
 	}
 
+	TileMap::TileMap(int row, int columns, int textureRows, int textureColumns,
+		std::string texture, std::vector<int> const& gridVector) :
+		rows{ row }, cols{ columns }, uvrows{ textureRows }, uvcols{ textureColumns },
+		textureName{ texture }, grid{ gridVector }
+	{
+	}
+
 	/*!***********************************************************************
 	  \brief
 	  Function calculates a list of the min max UVs for each tile in the Tile
@@ -62,7 +69,7 @@ namespace LB
 	std::vector<
 		std::pair<Vec2<float>, 
 		Vec2<float>>
-		> TileMap::minMaxGrid()
+		> TileMap::minMaxGrid() const
 	{
 		Vec2<float> default_uv{ 0.f,0.f };
 		//return value
@@ -115,5 +122,127 @@ namespace LB
 			}
 
 		return minMax;
+	}
+
+	bool TileMap::Serialize(Value& data, Document::AllocatorType& alloc)
+	{
+		data.SetObject();
+		//row cols uvrows uvcols
+		//texturename
+		//vector<int> grid
+		data.AddMember("Rows", rows, alloc);
+		data.AddMember("Cols", cols, alloc);
+		data.AddMember("UVRows", uvrows, alloc);
+		data.AddMember("UVCols", uvcols, alloc);
+		Value textureNameValue(textureName.c_str(), alloc);
+		data.AddMember("TextureName", textureNameValue, alloc);
+		if (!grid.empty())
+		{	//create json array
+			Value gridArray(rapidjson::kArrayType);
+			for (const auto& val : grid)
+			{	//then we just add the values
+				gridArray.PushBack(val, alloc);
+			}
+			data.AddMember("Grid", gridArray, alloc);
+		}
+		return true;
+	}
+
+	bool TileMap::Deserialize(const Value& data)
+	{
+		/*data.AddMember("Rows", rows, alloc);
+		data.AddMember("Cols", cols, alloc);
+		data.AddMember("UVRows", uvrows, alloc);
+		data.AddMember("UVCols", uvcols, alloc);*/
+		bool HasRows = data.HasMember("Rows");
+		bool HasCols = data.HasMember("Cols");
+		bool HasUVRows = data.HasMember("UVRows");
+		bool HasUVCols= data.HasMember("UVCols");
+		bool HasTextureName = data.HasMember("TextureName");
+		bool HasGrid = data.HasMember("Grid");
+		if (data.IsObject())
+		{
+			if (HasRows && HasCols && HasUVCols && HasUVRows)
+			{
+				rows = data["Rows"].GetInt();
+				cols = data["Cols"].GetInt();
+				uvrows = data["UVRows"].GetInt();
+				uvcols = data["UVCols"].GetInt();
+				textureName = data["TextureName"].GetString();
+			}
+			if (HasGrid)
+			{	//we get the gridjson
+				const Value& gridArray = data["Grid"].GetArray();
+				for (rapidjson::SizeType i{}; i < gridArray.Size(); ++i)
+				{	//deserialise then add the values into the grid
+					grid.push_back(i);
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Function creates the game objects, for the background, based on the data
+	  in a provided tile map.
+	  \param tm
+	  The tile map data we want to create the map from
+	*************************************************************************/
+	void LoadMap(const TileMap& tm)
+	{
+		auto minmaxs{ tm.minMaxGrid() };
+		//hard coded width and height of tile
+		//CHANGE THE W and H VALUES TO CHANGE THE SIZE OF THE TILE
+		float w = 250.f, h = 250.f, midx, midy;
+		std::vector<GameObject*> gov{};
+		for (int y{ 0 }; y < tm.getRows(); ++y)
+		{
+			midy = (tm.getRows() - y) * h - h * 0.5f; //get the y value of the tile
+			for (int x{ 0 }; x < tm.getCols(); ++x)
+			{
+				//get the min max UVs
+				auto minmax = minmaxs[x + y * tm.getCols()];
+				//we skip if the tile was a default
+				if (minmax.first == minmax.second)
+					continue;
+
+				//add the object into the vector
+				gov.emplace_back(FACTORY->SpawnGameObject());
+				//add render component to the newly created game object
+				gov.back()->AddComponent(ComponentTypeID::C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+				midx = w * x + w * 0.5f; //calculate the x value of the tile
+				//edit the position of the transform
+				gov.back()->GetComponent<CPTransform>()->SetPosition(Vec2<float>(midx, midy));
+
+				//Initialise the components because stuff is whacky
+				gov.back()->GetComponent<CPTransform>()->Initialise();
+				gov.back()->GetComponent<CPRender>()->Initialise();
+
+				//Get the UVs of the texture
+				std::array<LB::Vec2<float>, 4> UVs
+				{
+					minmax.first,								//bottom left
+					LB::Vec2<float>{minmax.second.x, minmax.first.y},//bottom right
+					minmax.second,								//top right
+					LB::Vec2<float>{minmax.first.x, minmax.second.y}	//top left
+				};
+
+				gov.back()->GetComponent<CPRender>()->spriteSheetName = "MapSheet";
+				gov.back()->GetComponent<CPRender>()->spriteIndex = tm.getGrid().at(x + y * tm.getCols()) - 1;
+
+
+				//edit the texture of the Render component
+				gov.back()->GetComponent<CPRender>()->texture = LB::ASSETMANAGER->GetTextureUnit(tm.getTextureName());
+				//edit the UVs
+				gov.back()->GetComponent<CPRender>()->uv = UVs;
+				//edit the Width and Height of the CPRender
+				gov.back()->GetComponent<CPRender>()->w = w + 5.f;
+				gov.back()->GetComponent<CPRender>()->h = h + 5.f;
+				//swap the object types
+				Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_BACKGROUND, gov.back()->GetComponent<CPRender>());
+			}
+		}
 	}
 }

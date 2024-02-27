@@ -75,6 +75,9 @@ namespace LB
 				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed *= 1.5f;
 				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction *= 0.8f;
 				break;
+			case BIGBALL:
+				// std::cout << "Bigger Balls!\n";
+
 			default:
 				//do nothing
 				break;

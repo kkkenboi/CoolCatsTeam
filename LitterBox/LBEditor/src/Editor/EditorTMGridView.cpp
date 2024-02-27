@@ -18,6 +18,7 @@
 #include "pch.h"
 #include "EditorTMGridView.h"
 #include "EditorTMEditor.h"
+#include "LitterBox/Renderer/TileMap.h"
 
 namespace LB
 {
@@ -189,7 +190,16 @@ namespace LB
 				}
 				std::cout << std::endl;
 			}
+
+			//TileMap tm(4, 4, 7, 6, "TilemapsTransparent_SpriteSheet",
+			//	{ 1, 3, 3, 2,
+			//	 9, 0, 0, 10,
+			//	 9, 5, 4, 8,
+			//	 21, 8, 17, 18 });
 			
+			TileMap tm(rowNum, colNum, 7, 6, "TilemapsTransparent_SpriteSheet", tiles);
+
+			LoadMap(tm);
 		}
 
 		ImGui::EndChild();

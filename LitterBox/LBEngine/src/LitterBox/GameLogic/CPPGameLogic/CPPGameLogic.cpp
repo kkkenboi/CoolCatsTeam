@@ -17,7 +17,6 @@
 #include "CPPGameLogic.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Time.h"
-#include "CPPSBaseGolfBall.h"
 
 namespace LB
 {
@@ -50,29 +49,6 @@ namespace LB
 			StartScript(newScript);
 			newScript->Start();
 		}
-
-		//if (newScript->GetType() == "Player" || 
-		//	newScript->GetType() == "Enemy" || 
-		//	newScript->GetType() == "Butt" ||
-		//	newScript->GetType() == "Quit" ||
-		//	newScript->GetType() == "Mage" ||
-		//	newScript->GetType() == "Projectile" ||
-		//	newScript->GetType() == "PlayerBall" ||
-		//	newScript->GetType() == "PauseMenuScript")
-		//{
-		//	m_sceneScripts.push_back(newScript);
-
-		//	// If scene is already running, start the script immediately
-		//	if (CORE->IsPlaying())
-		//	{
-		//		StartScript(newScript);
-		//		newScript->Start();
-		//	}
-
-		//	return;
-		//}
-
-		//DebuggerLogWarningFormat("Tried to load invalid CPP Script %s.", newScript->GetType().c_str());
 	}
 
 	/*!***********************************************************************
@@ -95,6 +71,8 @@ namespace LB
 	*************************************************************************/
 	void CPPGameLogic::Start()
 	{
+		DebuggerLog("Start for CPPGameLogic called");
+
 		m_sceneStarted = true;
 
 		for (int index{ 0 }; index < m_sceneScripts.size(); ++index)
@@ -104,11 +82,6 @@ namespace LB
 		}
 
 		m_sceneStarted = false;
-		//for (CPScriptCPP* script : m_sceneScripts)
-		//{
-		//	StartScript(script);
-		//	script->Start();
-		//}
 	}
 
 	/*!***********************************************************************
@@ -141,35 +114,6 @@ namespace LB
 			if (script->GetInstance()) return;
 
 			script->SetInstance(m_scriptRegistry[script->GetScriptType()]->CreateInstance());
-
-			////--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
-			//// Very basic RTTR for now
-			//if (script->GetType() == "Player")
-			//{
-			//	script->SetInstance(DBG_NEW CPPSPlayer);
-			//}
-			//else if (script->GetType() == "Enemy") {
-			//	script->SetInstance(DBG_NEW CPPSChaser);
-			//}
-			//else if (script->GetType() == "Butt") {
-			//	script->SetInstance(DBG_NEW Butt);
-			//}
-			//else if (script->GetType() == "Quit") {
-			//	script->SetInstance(DBG_NEW QuitScript);
-			//}
-			//else if (script->GetType() == "Mage") {
-			//	script->SetInstance(DBG_NEW CPPSMage);
-			//}
-			//else if (script->GetType() == "Projectile") {
-			//	script->SetInstance(DBG_NEW CPPSBaseGolfBall);
-			//}
-			//else if (script->GetType() == "PlayerBall") {
-			//	script->SetInstance(DBG_NEW CPPSPlayerGolfBall);
-			//}
-			//else if (script->GetType() == "PauseMenuScript") {
-			//	script->SetInstance(DBG_NEW PauseMenuScript);
-			//}
-			////--------------------LOADING OF SCRIPT BEHAVIOUR--------------------
 	}
 
 	/*!***********************************************************************
@@ -179,7 +123,9 @@ namespace LB
 	void StartScripts(bool isPlaying)
 	{
 		if (isPlaying)
+		{
 			CPPGameLogic::Instance()->Start();
+		}
 	}
 
 	/*!***********************************************************************

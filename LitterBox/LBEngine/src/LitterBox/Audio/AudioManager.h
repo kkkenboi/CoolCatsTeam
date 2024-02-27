@@ -245,6 +245,13 @@ namespace LB
 												 	 "Mage Death_4",
 													 "Mage Death_5" };
 
+		std::vector<std::string> ChargerAttackSounds = { "Rhyno_Attack_1",
+														 "Rhyno_Attack_2",
+														 "Rhyno_Attack_3",
+														 "Rhyno_Attack_4",
+														 "Rhyno_Attack_5",
+														 "Rhyno_Attack_6" };
+
 	private:
 		int channelID{ 0 };
 		std::map<int, FMOD::Channel*> Channels;

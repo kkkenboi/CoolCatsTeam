@@ -170,6 +170,7 @@ namespace LB
 			onNewUpgrade.Invoke(static_cast<UpgradeType>(chosen));
 		}
 
+		//then we hide all the other upgrades
 		if (leftUpgrade != nullptr)
 		{
 			leftUpgrade->GetComponent<CPPSUpgrade>()->canDestroy = true;
