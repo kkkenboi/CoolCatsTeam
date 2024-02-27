@@ -108,8 +108,8 @@ namespace LB
 	{
 		CPPSBaseEnemy::OnCollisionEnter(colData);
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
-
-			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 300.f)
+			//The knock back value has been edited and increased from 300 -> 800 
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 800.f)
 			{
 				DebuggerLogWarningFormat("CHASER HIT! %f", mGotAttackedCooldown);
 				if (mGotAttackedCooldown > 0.0f) {

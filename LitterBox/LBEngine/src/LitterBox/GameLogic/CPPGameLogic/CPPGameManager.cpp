@@ -66,6 +66,7 @@ namespace LB
 			GenerateWave();
 			GameStart = true;
 		}
+		//Test function to see if the remove gameobject code works
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_V))
 		{
 			GameObject* ballObject = FACTORY->SpawnGameObject();
