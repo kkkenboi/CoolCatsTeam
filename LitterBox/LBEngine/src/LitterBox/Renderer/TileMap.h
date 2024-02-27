@@ -18,6 +18,12 @@
 
 #include <string>
 #include <vector>
+#include "LitterBox/Factory/GameObjectManager.h"
+#include "LitterBox/Factory/GameObjectFactory.h"
+#include "LitterBox/Renderer/ForwardDeclerators.h"
+#include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Renderer/Renderer.h"
+#include "LitterBox/Debugging/Memory.h"
 #include "LitterBox/Utils/Math.h"
 
 namespace LB
@@ -34,10 +40,12 @@ namespace LB
 		TileMap(int row, int columns, int textureRows, int textureColumns,
 			std::string texture, std::initializer_list<int>gridvalues);
 
-		std::vector<std::pair<Vec2<float>, Vec2<float>>> minMaxGrid();
+		std::vector<std::pair<Vec2<float>, Vec2<float>>> minMaxGrid() const;
 
 		inline int getRows() const { return rows; }
 		inline int getCols() const { return cols; }
 		inline const std::string& getTextureName() const { return textureName; }
 	};
+
+	void LoadMap(const TileMap& tm);
 }

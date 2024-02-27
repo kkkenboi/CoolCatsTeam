@@ -1038,38 +1038,7 @@ void Renderer::RenderSystem::Initialize()
 	test2->uv[3].x = 0.25f;
 	test2->uv[3].y = .75f;
 
-	//TODO: make this a function that can be called
-	auto minmaxs{ tm.minMaxGrid() };
-	w = 400.f, h = 400.f;
-	for (int y{ 0 }; y < tm.getRows(); ++y)
-	{
-		midy = (tm.getRows() - y) * h - h * 0.5f;
-		for (int x{ 0 }; x < tm.getCols(); ++x)
-		{
-			auto minmax = minmaxs[x + y * tm.getCols()];
-			if (minmax.first == minmax.second)
-				continue;
-			midx = w * x + w * 0.5f;
-			std::array<LB::Vec2<float>, 4> UVs
-			{
-				minmax.first,								//bottom left
-				LB::Vec2<float>{minmax.second.x, minmax.first.y},//bottom right
-				minmax.second,								//top right
-				LB::Vec2<float>{minmax.first.x, minmax.second.y}	//top left
-			};
-			backgrounds.emplace_back(
-				LB::Memory::Instance()->Allocate<LB::CPRender>(
-					LB::Vec2<float>(midx, midy), //position
-					w + 5.f, h + 5.f, //width and height add extra 5 to avoid any seam lines
-					LB::Vec2<float>(1.f, 1.f), //scale
-					LB::Vec3<float>(0.f, 0.f, 0.f), //color (DEPRECATED)
-					UVs, //UV
-					LB::ASSETMANAGER->GetTextureUnit(tm.getTextureName()), //Texture
-					true, //active 
-					Renderer_Types::RT_BACKGROUND) //layer
-			);
-		}
-	}
+	LB::LoadMap(tm);
 	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
