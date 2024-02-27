@@ -17,6 +17,7 @@
 #include "CPPBehaviour.h"
 #include "LitterBox/Components/CPPScriptComponent.h"
 #include "CPPSUpgradeManager.h"
+#include <tuple>
 
 
 namespace LB
@@ -103,7 +104,15 @@ namespace LB
 		 \brief
 		 Helper Function to set both the item name and flavour text
 		*************************************************************************/
-		void SetPopUpText(std::string itemName, std::string flavourText, GameObject* mainPopUp, GameObject* subFlavourText);
+		void SetPopUpText(std::string itemName, std::string itemInfo, std::string flavourText, 
+						  GameObject* mainPopUp, GameObject* infoObject, GameObject* flavourObject);
+
+		/*!***********************************************************************
+		 \brief
+		 This is to set up the pop up position at either your own upgrade position 
+		 or a new upgrade's position that hasn't been selected.
+		*************************************************************************/
+		void SetPopUpPosition(UpgradeType upgrade, Vec2<float> startingPos);
 
 	private:
 		bool m_displayUpgrade{false};
@@ -113,15 +122,16 @@ namespace LB
 
 		GameObject* m_GameManager{ nullptr };
 		GameObject* m_UpgradeManager{ nullptr };
-		GameObject* m_Mouse {nullptr};
+		GameObject* m_Mouse{ nullptr };
 
-		bool m_mouseHovering {false};
+		bool m_mouseHovering{ false };
+
 		UpgradeType m_currentPopUpIndex {UpgradeType::SPLIT};
 
 		std::vector<GameObject*> m_totalHeartDisplay;
 		std::vector<GameObject*> m_totalBallsDisplay;
 		std::vector<GameObject*> m_totalUpgradeDisplay;
-		std::vector<std::pair<GameObject*, GameObject*>> m_totalUpgradePopUps;
+		std::vector<std::tuple<GameObject*, GameObject*, GameObject*>> m_totalUpgradePopUps;
 	};
 	REGISTER_SCRIPT(CPPSPlayerHUD)
 

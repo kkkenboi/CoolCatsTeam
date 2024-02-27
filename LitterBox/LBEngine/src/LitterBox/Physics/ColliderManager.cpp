@@ -448,24 +448,24 @@ namespace LB
 						}
 
 						ResolveColliders(colA, colB, normal_out, depth_out);
-						
-						if (colA->m_gameobj->HasComponent<CPScriptCPP>()) {
-							CollisionData colData;
-							colData.colliderThis = colA;
-							colData.colliderOther = colB;
-							if (colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
-							{
-								colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
-							}
+					}
+
+					if (colA->m_gameobj->HasComponent<CPScriptCPP>()) {
+						CollisionData colData;
+						colData.colliderThis = colA;
+						colData.colliderOther = colB;
+						if (colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
+						{
+							colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
 						}
-						if (colB->m_gameobj->HasComponent<CPScriptCPP>()) {
-							CollisionData colData;
-							colData.colliderThis = colB;
-							colData.colliderOther = colA;
-							if (colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
-							{
-								colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
-							}
+					}
+					if (colB->m_gameobj->HasComponent<CPScriptCPP>()) {
+						CollisionData colData;
+						colData.colliderThis = colB;
+						colData.colliderOther = colA;
+						if (colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
+						{
+							colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
 						}
 					}
 				}

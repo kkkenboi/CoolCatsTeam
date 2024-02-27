@@ -99,7 +99,10 @@ namespace LB {
 		\param font_size
 		 The new scaling value for the text
 		*************************************************************************/
-		inline void update_msg_size(float font_size);
+		inline void update_msg_size(float font_size)
+		{
+			msg.scale = font_size;
+		}
 		/*!***********************************************************************
 		\brief
 		 Updates the position of the text on the screen
@@ -169,7 +172,14 @@ namespace LB {
 
 		void ToggleActive(bool flag)
 		{
-			UNREFERENCED_PARAMETER(flag);
+			if (flag)
+			{
+				msg.scale = msg.scaleSaved;
+			}
+			else
+			{
+				msg.scale = 0.f;
+			}
 		}
 	};
 }

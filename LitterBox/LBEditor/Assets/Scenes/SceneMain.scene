@@ -718,7 +718,7 @@
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Radius": 213.0
+                    "Radius": 10.0
                 },
                 "CPPScript": {
                     "Active": true,
@@ -790,73 +790,6 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSBlueMushroom"
-                }
-            },
-            {
-                "Name": "UpgradeHUD",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 1230.76,
-                        "y": 551.34
-                    },
-                    "Scale": {
-                        "x": 2.51,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 150.0,
-                    "Height": 150.0,
-                    "Layer": 3,
-                    "Texture": "Items",
-                    "SpriteName": "Upgrades",
-                    "SpriteIndex": 0
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "UI",
-                        "Layer ID": 2
-                    },
-                    "Shape": 1,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Radius": 75.0
-                }
-            },
-            {
-                "Name": "Game Object",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 960.0,
-                        "y": 540.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 0,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::CPPSMouse"
                 }
             }
         ]

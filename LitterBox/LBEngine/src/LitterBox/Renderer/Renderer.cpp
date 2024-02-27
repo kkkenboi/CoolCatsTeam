@@ -825,7 +825,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 		float xpos = x + ch.Bearing.x * msg.scale;
 		if (xpos > msg.x + 140.f)
 		{
-			y -= (ch.Advance >> 6) * 1.2f * msg.scale;
+			y -= (ch.Advance >> 6) * msg.scale + 10.f;
 			x = msg.x;
 			xpos = x + ch.Bearing.x * msg.scale;
 		}
@@ -1769,21 +1769,6 @@ inline void LB::CPText::update_msg_text(const std::string& str)
 inline void LB::CPText::update_msg_color(const LB::Vec3<float>& col)
 {
 	msg.color = col;
-}
-
-/*!***********************************************************************
-\brief
- Updates the scale of the text
-
- NOTE: font_size means scale for font size to be multiplied by. 2.f is double
- of 1.f and so on.
-
-\param font_size
- The new scaling value for the text
-*************************************************************************/
-inline void LB::CPText::update_msg_size(float font_size)
-{
-	msg.scale = font_size;
 }
 
 /*!***********************************************************************

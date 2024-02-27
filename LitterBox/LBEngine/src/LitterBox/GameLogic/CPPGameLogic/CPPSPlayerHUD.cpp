@@ -30,18 +30,16 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::Start()
 	{
-		std::cout << "starter\n";
-
 		// Initialise pointers to specific game objects
 		m_GameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 		m_UpgradeManager = GOMANAGER->FindGameObjectWithName("Upgrade Manager");
 		m_Mouse = GOMANAGER->FindGameObjectWithName("PlayerHUD");
-		/*JSONSerializer::DeserializeFromFile("MouseHUD", *m_Mouse);*/
 
 		// Create upgrade popups
-		// - Consists of two game objects (Prefabs):
+		// - Consists of three game objects (Prefabs):
 		// - 1. Main popup for the popup image and item name 
-		// - 2. Flavour text
+		// - 2. Info text to explain the upgrade
+		// - 3. Flavour text
 		// - We could add the item image again if we wanted to
 		for (int i{1}; i < UpgradeType::MAXCOUNT; ++i)
 		{
@@ -49,9 +47,13 @@ namespace LB {
 			JSONSerializer::DeserializeFromFile("UpgradePopUpHUD", *mainPopUp);
 			mainPopUp->SetActive(false);
 
-			GameObject* subFlavourText = FACTORY->SpawnGameObject();
-			JSONSerializer::DeserializeFromFile("UpgradePopUpTextHUD", *subFlavourText);
-			subFlavourText->SetActive(false);
+			GameObject* infoObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("UpgradePopUpTextHUD", *infoObject);
+			infoObject->SetActive(false);
+
+			GameObject* flavourObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("UpgradePopUpFlavourTextHUD", *flavourObject);
+			flavourObject->SetActive(false);
 
 			// Since UpgradeType's based off enum, name them in that order
 			switch (i)
@@ -59,44 +61,58 @@ namespace LB {
 				// Set their names and text for each upgrade
 				case SPLIT:
 				{
-					mainPopUp->SetName("SplitPopUp"), subFlavourText->SetName("SplitFlavourText");
-					SetPopUpText("Split", ":^)", mainPopUp, subFlavourText);
+					mainPopUp->SetName("SplitPopUp"), infoObject->SetName("SplitInfoText"), flavourObject->SetName("SplitFlavourText");
+					infoObject->GetComponent<CPRender>()->spriteIndex = i - 1;
+					infoObject->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", infoObject->GetComponent<CPRender>()->spriteIndex);
+					SetPopUpText("Split", "   Ricochets to     another enemy.", "Curveball.", mainPopUp, infoObject, flavourObject);
 					break;
 				}
 				case BOMB:
 				{
-					mainPopUp->SetName("BombPopUp"), subFlavourText->SetName("BombFlavourText");
-					SetPopUpText("Bomb", "Explosive.", mainPopUp, subFlavourText);
+					mainPopUp->SetName("GolfBombPopUp"), infoObject->SetName("GolfBombInfoText"), flavourObject->SetName("GolfBombFlavourText");
+					infoObject->GetComponent<CPRender>()->spriteIndex = i - 1;
+					infoObject->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", infoObject->GetComponent<CPRender>()->spriteIndex);
+					SetPopUpText("Golf Bomb", "    Explodes on             contact", "    Do you hear      that psst sound?", mainPopUp, infoObject, flavourObject);
 					break;
 				}
 				case BIGBALL:
 				{
-					mainPopUp->SetName("BigBallPopUp"), subFlavourText->SetName("BigBallFlavourText");
-					SetPopUpText("Big Balls", "They won't fit.", mainPopUp, subFlavourText);
+					mainPopUp->SetName("BiggieBallPopUp"), infoObject->SetName("BiggieBallInfoText"), flavourObject->SetName("BiggieBallFlavourText");
+					infoObject->GetComponent<CPRender>()->spriteIndex = i - 1;
+					infoObject->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", infoObject->GetComponent<CPRender>()->spriteIndex);
+					SetPopUpText("Biggie Ball", "Increases size of    the golf ball", "  Even golf balls       need protein       powder to grow.", mainPopUp, infoObject, flavourObject);
 					break;
 				}
 				case MOVESPEED:
 				{
-					mainPopUp->SetName("BOSPopUp"), subFlavourText->SetName("BOSFlavourText");
-					SetPopUpText("Boots of Speed", "Can't touch this.", mainPopUp, subFlavourText);
+					mainPopUp->SetName("SpeedsterPopUp"), infoObject->SetName("SpeedsterInfoText"), flavourObject->SetName("SpeedsterFlavourText");
+					infoObject->GetComponent<CPRender>()->spriteIndex = i - 1;
+					infoObject->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", infoObject->GetComponent<CPRender>()->spriteIndex);
+					SetPopUpText("Speedster", "Move quicker in    all directions", "Shoes helps in the         long run.", mainPopUp, infoObject, flavourObject);
 					break;
 				}
 				case MOREHEALTH:
 				{
-					mainPopUp->SetName("HealthUpPopUp"), subFlavourText->SetName("HealthUpFlavourText");
-					SetPopUpText("Health Up", "I thought it was a love potion.", mainPopUp, subFlavourText);
+					mainPopUp->SetName("ExtraLivesPopUp"), infoObject->SetName("ExtraLivesInfoText"), flavourObject->SetName("ExtraLivesFlavourText");
+					infoObject->GetComponent<CPRender>()->spriteIndex = i - 1;
+					infoObject->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", infoObject->GetComponent<CPRender>()->spriteIndex);
+					SetPopUpText("Extra Lives", "Increase lives              3 >> 6", "Nine lives are             a thing?", mainPopUp, infoObject, flavourObject);
 					break;
 				}
 				case MOREBALL:
 				{
-					mainPopUp->SetName("MoreBallsPopUp"), subFlavourText->SetName("MoreBallsFlavourText");
-					SetPopUpText("More Balls", "More the merrier.", mainPopUp, subFlavourText);
+					mainPopUp->SetName("BagOfHoldingPopUp"), infoObject->SetName("BagOfHoldingInfoText"), flavourObject->SetName("BagOfHoldingFlavourText");
+					infoObject->GetComponent<CPRender>()->spriteIndex = i - 1;
+					infoObject->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", infoObject->GetComponent<CPRender>()->spriteIndex);
+					// Set the text Scale
+					SetPopUpText("Bag of Balls", "Golfball capacity          3 >> 6", "Looks bigger on        the inside.", mainPopUp, infoObject, flavourObject);
+					//SetPopUpText("More Balls", "Golfball capacity           3 > 5", "Meow the merrier.", mainPopUp, infoObject, flavourObject);
 					break;
 				}
 			}
 
 			// Save to all popups container 
-			m_totalUpgradePopUps.push_back(std::pair(mainPopUp, subFlavourText));
+			m_totalUpgradePopUps.push_back(std::tuple(mainPopUp, infoObject, flavourObject));
 		}
 
 		// Create game objects to display the health and balls
@@ -178,42 +194,57 @@ namespace LB {
 		mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 		mousePos.y = (mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight()) * 1080.f / (float)WINDOWSSYSTEM->GetHeight();
 		m_Mouse->GetComponent<CPTransform>()->SetPosition(mousePos);
+
+		//m_mouseHovering = m_Mouse->GetComponent<CPCollider>()->m_collided;
 		
 		// If there is a collision, based on the index given, set the position of the popup and toggleActive
-		if (m_mouseHovering)
+		for (size_t i = 0; i < m_totalUpgradePopUps.size(); ++i)
 		{
-			// For reference, generally x - 70 , y + 50 if main popup, y + 5 if flavour
-			// main popup Image IMAGE POSITION
-			// x 1800 y 300
-			// main popup Image SPRITE SIZE 
-			// 200 by 200 => x 1700 to 1900 => 1730 to 1870 => total x bound 140
-			// main popup text TEXT POSITION
-			// x 1730 y 355
-			// flavour text TEXT POSITION
-			// x 1730 y 305
-			std::cout << "Mouse is hovering!!!\n";
-			m_totalUpgradePopUps[m_currentPopUpIndex].first->SetActive(true);
-			m_totalUpgradePopUps[m_currentPopUpIndex].second->SetActive(true);
+			if (i == static_cast<size_t>(m_currentPopUpIndex))
+			{
+				// For reference, generally x - 70 , y + 50 if main popup, y + 5 if flavour
+				// main popup Image IMAGE POSITION
+				// x 1800 y 300
+				// main popup Image SPRITE SIZE 
+				// 200 by 200 => x 1700 to 1900 => 1730 to 1870 => total x bound 140
+				// main popup text TEXT POSITION
+				// x 1730 y 355
+				// flavour text TEXT POSITION
+				// x 1730 y 305
+				std::get<0>(m_totalUpgradePopUps[i])->SetActive(m_mouseHovering);
+				std::get<1>(m_totalUpgradePopUps[i])->SetActive(m_mouseHovering);
+				std::get<2>(m_totalUpgradePopUps[i])->SetActive(m_mouseHovering);
+			}
+			else
+			{
+				std::get<0>(m_totalUpgradePopUps[i])->SetActive(false);
+				std::get<1>(m_totalUpgradePopUps[i])->SetActive(false);
+				std::get<2>(m_totalUpgradePopUps[i])->SetActive(false);
+			}
 		}
-		else
-		{
-			m_totalUpgradePopUps[m_currentPopUpIndex].first->SetActive(false);
-			m_totalUpgradePopUps[m_currentPopUpIndex].second->SetActive(false);
-		}
-
 
 		// Set mouse to not hover incase the mouse isn't hovering anymore
-		m_mouseHovering = false;
+		// - This is very bad fix to make it remove because the hovering still occurs
+		// - even if it's being collided with other stuff that's not the UpgradeHUD and 
+		// - my brain literally cannot right now, I WANT TO SLEEP PLEASE FORGIVE ME
+		if (!m_Mouse->GetComponent<CPCollider>()->m_collided)
+		{
+			m_mouseHovering = false;
+			for (size_t i = 0; i < m_totalUpgradePopUps.size(); ++i)
+			{
+				std::get<0>(m_totalUpgradePopUps[i])->SetActive(false);
+				std::get<1>(m_totalUpgradePopUps[i])->SetActive(false);
+				std::get<2>(m_totalUpgradePopUps[i])->SetActive(false);
+			}
+		}
 	}
 
 	void CPPSPlayerHUD::OnCollisionEnter(CollisionData colData)
 	{
-		std::cout << "Entering collision enter\n";
-		if (colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteSheetName == "Items")
+		if (colData.colliderOther->m_gameobj->GetName() == "UpgradeHUD")
 		{
-			std::cout << "Passing check\n";
 			m_mouseHovering = true;
-			m_currentPopUpIndex = static_cast<UpgradeType>(colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteIndex - 1); // Minus 1 since the enum starts from 1
+			m_currentPopUpIndex = static_cast<UpgradeType>(colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteIndex);
 		}
 	}
 
@@ -346,29 +377,127 @@ namespace LB {
 		upgradeObject->GetComponent<CPRender>()->spriteIndex = static_cast<int>(upgrade - 1); // Minus 1 since the enum starts from 1
 		upgradeObject->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", static_cast<int>(upgrade - 1)); // Minus 1 since the enum starts from 1
 
-		// Set the popup object(image) Position
-		m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)].first->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, (upgradePosition.y + upgradeObject->GetComponent<CPRender>()->h / 2.f) + 100.f));
-		// Set the popup text Position
-		m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)].first->GetComponent<CPText>()->update_msg_pos(Vec2<float>((upgradePosition.x - upgradeObject->GetComponent<CPRender>()->w / 2.f) + 30.f, (upgradePosition.y + upgradeObject->GetComponent<CPRender>()->h / 2.f) + 160.f));
-		// Set the flavour text Position
-		m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)].second->GetComponent<CPText>()->update_msg_pos(Vec2<float>((upgradePosition.x - upgradeObject->GetComponent<CPRender>()->w / 2.f) + 30.f, (upgradePosition.y + upgradeObject->GetComponent<CPRender>()->h / 2.f) + 105.f));
+		// Updating upgradePosition which is now used for the popups, this is going to be set to 200.f
+		upgradePosition.y = upgradePosition.y + upgradeObject->GetComponent<CPRender>()->h / 2.f;
+		// Hardcoding because I have to with the text system
+		switch (upgrade)
+		{
+			// Set their names and text for each upgrade
+			// Reference 
+			// - mainPopUp x = 1800.00, y = 300.00
+			// - image pos x = 1800.00, y = 360.00
+			case SPLIT:
+			{
+				// Set the mainPopup image Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 100.f));
+				// Set the mainPopup text Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 29.f, upgradePosition.y + 226.f));
+				// Set the infoObject image Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 160.f));
+				// Set the infoObject text Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 67.f, upgradePosition.y + 60.f));
+				// Set the flavourObject text Position
+				std::get<2>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 40.f, upgradePosition.y));
+				break;
+			}
+			case BOMB:
+			{
+				// Set the mainPopup image Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 100.f));
+				// Set the mainPopup text Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 57.f, upgradePosition.y + 226.f));
+				// Set the infoObject image Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 160.f));
+				// Set the infoObject text Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 70.f, upgradePosition.y + 60.f));
+				// Set the flavourObject text Position ----------------
+				std::get<2>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 63.f, upgradePosition.y));
+				break;
+			}
+			case BIGBALL:
+			{
+				// Set the mainPopup image Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 100.f));
+				// Set the mainPopup text Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 57.f, upgradePosition.y + 226.f));
+				// Set the infoObject image Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 160.f));
+				// Set the infoObject text Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 69.f, upgradePosition.y + 60.f));
+				// Set the flavourObject text Position
+				std::get<2>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 63.f, upgradePosition.y));
+				break;
+			}
+			case MOVESPEED:
+			{
+				// Set the mainPopup image Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 100.f));
+				// Set the mainPopup text Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 55.f, upgradePosition.y + 226.f));
+				// Set the infoObject image Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 160.f));
+				// Set the infoObject text Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 69.f, upgradePosition.y + 60.f));
+				// Set the flavourObject text Position
+				std::get<2>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 68.f, upgradePosition.y));
+				break;
+			}
+			case MOREHEALTH:
+			{
+				// Set the mainPopup image Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 100.f));
+				// Set the mainPopup text Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 65.f, upgradePosition.y + 226.f));
+				// Set the infoObject image Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 160.f));
+				// Set the infoObject text Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 58.f, upgradePosition.y + 60.f));
+				// Set the flavourObject text Position
+				std::get<2>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 55.f, upgradePosition.y));
+				break;
+			}
+			case MOREBALL:
+			{
+				// Set the mainPopup image Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 100.f));
+				// Set the mainPopup text Position
+				std::get<0>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 63.f, upgradePosition.y + 227.f));
+				// Set the infoObject image Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePosition.x, upgradePosition.y + 160.f));
+				// Set the infoObject text Position
+				std::get<1>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 68.f, upgradePosition.y + 60.f));
+				// Set the flavourObject text Position
+				std::get<2>(m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)])->GetComponent<CPText>()->update_msg_pos(Vec2<float>(upgradePosition.x - 60.f, upgradePosition.y));
+				break;
+			}
+		}
 
 		m_totalUpgradeDisplay.push_back(upgradeObject);
 	}
 
-	void CPPSPlayerHUD::SetPopUpText(std::string itemName, std::string flavourText, GameObject* mainPopUp, GameObject* subFlavourText)
+	void CPPSPlayerHUD::SetPopUpText(std::string itemName, std::string itemInfo, std::string flavourText, GameObject* mainPopUp, GameObject* infoObject, GameObject* flavourObject)
 	{
 		std::string buffer = itemName;
-		char itemText[200]{};
+		char itemText[500]{};
 
 		// Set mainPopUp's text
-		strcpy_s(itemText, sizeof(buffer), buffer.c_str());
+		std::copy(buffer.begin(), buffer.end(), itemText);
+		itemText[buffer.size()] = '\0'; // Null-terminate the string
 		mainPopUp->GetComponent<CPText>()->set_msg(itemText);
 
-		// Set subFlavourText's text
+		// Set infoObject's text
+		buffer.clear();
+		buffer = itemInfo;
+		std::copy(buffer.begin(), buffer.end(), itemText);
+		itemText[buffer.size()] = '\0'; // Null-terminate the string
+		infoObject->GetComponent<CPText>()->set_msg(itemText);
+
+		// Set flavourObject's text
+		buffer.clear();
 		buffer = flavourText;
-		strcpy_s(itemText, sizeof(buffer), buffer.c_str());
-		subFlavourText->GetComponent<CPText>()->set_msg(itemText);
+		std::copy(buffer.begin(), buffer.end(), itemText);
+		itemText[buffer.size()] = '\0'; // Null-terminate the string
+		flavourObject->GetComponent<CPText>()->set_msg(itemText);
 	}
 
 

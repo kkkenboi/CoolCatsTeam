@@ -145,7 +145,7 @@ namespace Renderer {
 	*************************************************************************/
 	struct message {
 		std::string text{};
-		float x{}, y{}, scale{}, xbound{};
+		float x{}, y{}, scale{}, xbound{}, scaleSaved{};
 		LB::Vec3<float> color{};
 		std::string font_file_name_wo_ext{};
 
@@ -199,6 +199,7 @@ namespace Renderer {
 				const Value& colorValue = data["Color"];
 				x = xValue.GetFloat(); y = yValue.GetFloat();
 				scale = scaleValue.GetFloat();
+				scaleSaved = scale;
 				color.Deserialize(colorValue);
 			}
 			if (HasFontName)

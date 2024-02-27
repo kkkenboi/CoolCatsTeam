@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1727.0,
-            "y": 305.0
+            "x": 1800.0,
+            "y": 360.0
         },
         "Scale": {
             "x": 1.0,
@@ -13,19 +13,28 @@
         },
         "Rotation": 0.0
     },
+    "Render": {
+        "Active": true,
+        "Width": 150.0,
+        "Height": 150.0,
+        "Layer": 0,
+        "Texture": "Items",
+        "SpriteName": "Upgrades",
+        "SpriteIndex": 0
+    },
     "Text": {
         "Active": true,
         "Message": {
-            "text": "Some Text Here",
-            "x": 1727.0,
-            "y": 305.0,
-            "scale": 0.5,
+            "text": "   Ricochets to     another enemy.",
+            "x": 1735.0,
+            "y": 261.0,
+            "scale": 0.4,
             "Color": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
             },
-            "Font name": "KernlGrotesk"
+            "Font name": "ZillaSlab-Regular"
         }
     }
 }
