@@ -130,7 +130,7 @@ namespace LB
 			DebuggerAssert(outputFile.is_open(), std::string{ filePath + " not found while trying to save!" });
 			StringBuffer buffer;
 			PrettyWriter<StringBuffer> jsonWriter(buffer);
-			jsonWriter.SetMaxDecimalPlaces(2); //sets the max dp to 2. tweak this for higher precision!
+			jsonWriter.SetMaxDecimalPlaces(6); //sets the max dp to 6. tweak this for higher precision!
 			jsonFileToSave.Accept(jsonWriter);
 			std::string outputString = buffer.GetString();
 			outputFile << outputString;

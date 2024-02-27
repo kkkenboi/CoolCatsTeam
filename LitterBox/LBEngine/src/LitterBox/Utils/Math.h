@@ -1402,16 +1402,9 @@ namespace LB
 	{
 		data.SetObject();
 
-		if constexpr (std::is_same<T, float>::value)
-		{
-			data.AddMember("x", (double)x, alloc);
-			data.AddMember("y", (double)y, alloc);
-		}
-		else
-		{
-			data.AddMember("x", x, alloc);
-			data.AddMember("y", y, alloc);
-		}
+		data.AddMember("x", x, alloc);
+		data.AddMember("y", y, alloc);
+
 		return true;
 	}
 
@@ -1439,16 +1432,9 @@ namespace LB
 		{
 			if (HasX && HasY)
 			{
-				if constexpr (std::is_same<T, float>::value)
-				{
-					x = (float)data["x"].Get<double>();
-					y = (float)data["y"].Get<double>();
-				}
-				else
-				{
-					x = data["x"].Get<T>();
-					y = data["y"].Get<T>();
-				}
+				x = data["x"].Get<T>();
+				y = data["y"].Get<T>();
+
 				return true;
 			}
 		}
