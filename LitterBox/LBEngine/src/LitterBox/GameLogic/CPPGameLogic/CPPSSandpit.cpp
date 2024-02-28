@@ -36,7 +36,7 @@ namespace LB
 
 	void CPPSSandpit::OnCollisionEnter(CollisionData colData)
 	{
-		//colData.colliderOther->gameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{2.f, 2.f});
+		
 	}
 
 	void CPPSSandpit::OnCollisionStay(CollisionData colData)
@@ -53,6 +53,5 @@ namespace LB
 
 	void CPPSSandpit::OnCollisionExit(CollisionData colData)
 	{
-		//colData.colliderOther->gameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
 	}
 }

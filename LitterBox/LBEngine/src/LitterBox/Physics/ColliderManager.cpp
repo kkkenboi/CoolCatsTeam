@@ -452,8 +452,8 @@ namespace LB
 					}
 
 					// Create a pair from the current colliders that are being checked
-					std::pair<CPCollider*, CPCollider*> currentPair(colA, colB);
-					std::pair<CPCollider*, CPCollider*> currentPairInverse(colB, colA);
+					std::pair<int, int> currentPair = std::make_pair(i, j);
+					std::pair<int, int> currentPairInverse = std::make_pair(j, i);
 					// ====================
 					// OnCollisionEnter
 					// ====================
@@ -475,7 +475,7 @@ namespace LB
 								{
 									colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
 								}
-								if (colA != nullptr && colB != nullptr)
+								if (colA->gameObj != nullptr && colB->gameObj != nullptr)
 								{
 									m_collidedPairs.emplace_back(currentPair);
 								}
@@ -494,15 +494,17 @@ namespace LB
 								colData.colliderOther = colA;
 								if (colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
 								{
+
 									colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionEnter(colData);
 								}
-								if (colA != nullptr && colB != nullptr)
+								if (colA->gameObj != nullptr && colB->gameObj != nullptr)
 								{
 									m_collidedPairs.emplace_back(currentPairInverse);
 								}
 							}
 						}
 					}
+					
 					// ===================
 					// OnCollisionStay
 					// ===================
@@ -533,143 +535,82 @@ namespace LB
 							}
 						}
 					}
-					/*
-					// ===================
-					// OnCollisionExit
-					// ===================
-					// Find if current pair is on the list
-					if (std::find(m_pairsToRemove.begin(), m_pairsToRemove.end(), currentPair) != m_pairsToRemove.end()) 
-					{
-						// If colA and colB is no longer colliding
-						// If colliders are not colliding
-						// do OnCollisionExit
-						if (colA != nullptr && colB != nullptr)
-						{
-							if (colA->m_gameobj->HasComponent<CPScriptCPP>())
-							{
-								CollisionData colData;
-								colData.colliderThis = colA;
-								colData.colliderOther = colB;
-								if (colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
-								{
-									if (colA->m_gameobj->GetName() == "ball") {
-										std::cout << "EXIT!" << std::endl;
-									}
-									colA->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionExit(colData);
-								}
-								// Remove the current pair from the vector of collider pairs
-								m_pairsToRemove.erase(std::remove(m_pairsToRemove.begin(), m_pairsToRemove.end(), currentPair), m_pairsToRemove.end());
-								m_collidedPairs.erase(std::remove(m_collidedPairs.begin(), m_collidedPairs.end(), currentPair), m_collidedPairs.end());
-							}
-						}
-						
-					}
-					// Find if current pair inverse is on the list
-					if (std::find(m_pairsToRemove.begin(), m_pairsToRemove.end(), currentPairInverse) != m_pairsToRemove.end())
-					{
-						// If colA and colB is no longer colliding
-						Vec2<float> normal_temp_check;
-						float depth_temp_check;
-
-						// If colliders are not colliding
-						// do OnCollisionExit
-						if (colA != nullptr && colB != nullptr)
-						{
-							if (colB->m_gameobj->HasComponent<CPScriptCPP>())
-							{
-								CollisionData colData;
-								colData.colliderThis = colB;
-								colData.colliderOther = colA;
-								if (colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
-								{
-									if (colB->m_gameobj->GetName() == "ball") {
-										std::cout << "EXIT!" << std::endl;
-									}
-									colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionExit(colData);
-								}
-								// Remove the current pair from the vector of collider pairs
-								m_pairsToRemove.erase(std::remove(m_pairsToRemove.begin(), m_pairsToRemove.end(), currentPairInverse), m_pairsToRemove.end());
-								m_collidedPairs.erase(std::remove(m_collidedPairs.begin(), m_collidedPairs.end(), currentPairInverse), m_collidedPairs.end());
-								
-							}
-						}
-						
-					}
-					*/
-
 				} // End of CheckColliders(colA, colB)
 			}
 		} // End of CollisionStep
-		/*
+		
 		// Check for OnCollisionExit
 		// Loop through all of the m_collidedPairs
 		for (const auto& [first, second] : m_collidedPairs)
 		{
 			Vec2<float> normal_temp_check;
 			float depth_temp_check;
-			if (!CheckColliders(first, second, normal_temp_check, depth_temp_check))
+			if (m_colliderPool[first] == nullptr || m_colliderPool[second] == nullptr || m_colliderPool[first]->gameObj == nullptr || m_colliderPool[second]->gameObj == nullptr) {
+				m_pairsToRemove.push_back(std::make_pair(first, second));
+				continue;
+			}
+
+			if (!CheckColliders(m_colliderPool[first], m_colliderPool[second], normal_temp_check, depth_temp_check))
 			{
 				m_pairsToRemove.push_back(std::make_pair(first, second));
-				if (first != nullptr && second != nullptr)
+				if (m_colliderPool[first] != nullptr && m_colliderPool[second] != nullptr)
 				{
-					if (first->m_gameobj->HasComponent<CPScriptCPP>())
+					if (m_colliderPool[first]->m_gameobj->HasComponent<CPScriptCPP>())
 					{
 						CollisionData colData;
-						colData.colliderThis = first;
-						colData.colliderOther = second;
-						if (first->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
+						colData.colliderThis = m_colliderPool[first];
+						colData.colliderOther = m_colliderPool[second];
+						if (m_colliderPool[first]->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
 						{
-							if (first->m_gameobj->GetName() == "ball") {
-								std::cout << "EXIT!" << std::endl;
-							}
-							first->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionExit(colData);
+
+							m_colliderPool[first]->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionExit(colData);
 						}
 					}
 				}
 			}
 
 		}
-		*/
-		//for (int i = 0; i < m_collidedPairs.size(); ++i) {
-		//	Vec2<float> normal_temp_check;
-		//	float depth_temp_check;
-
-		//	// If collider pair is no longer colliding
-		//	if (!CheckColliders(m_collidedPairs[i].first, m_collidedPairs[i].second, normal_temp_check, depth_temp_check)) 
-		//	{
-		//		// Add the collider pair to the remove list	
-		//		std::cout << "no longer colliding pair!" << std::endl;
-		//		if (std::find(m_pairsToRemove.begin(), m_pairsToRemove.end(), m_collidedPairs[i]) == m_pairsToRemove.end())
-		//		{
-		//			m_pairsToRemove.emplace_back(m_collidedPairs[i]);
-		//			// OnCollisionExit
-		//			if (m_collidedPairs[i].first != nullptr && m_collidedPairs[i].second != nullptr && m_collidedPairs[i].first->gameObj != nullptr && m_collidedPairs[i].second->gameObj != nullptr)
-		//			{
-		//				if (m_collidedPairs[i].first->m_gameobj->HasComponent<CPScriptCPP>())
-		//				{
-		//					CollisionData colData;
-		//					colData.colliderThis = m_collidedPairs[i].first;
-		//					colData.colliderOther = m_collidedPairs[i].second;
-		//					if (m_collidedPairs[i].first->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
-		//					{
-		//						if (m_collidedPairs[i].first->m_gameobj->GetName() == "ball") {
-		//							std::cout << "EXIT!" << std::endl;
-		//						}
-		//						m_collidedPairs[i].first->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionExit(colData);
-		//					}
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
-		/*
+		
 		for (int i = 0; i < m_pairsToRemove.size(); ++i) {
 			m_collidedPairs.erase(std::remove(m_collidedPairs.begin(), m_collidedPairs.end(), m_pairsToRemove[i]), m_collidedPairs.end());
 		}
-		*/
-		m_collidedPairs.clear();
-		//m_pairsToRemove.clear();
-		// Loop through the to be removed pairs and remove them from the collided pairs
+		
+		for (auto itr = m_collidedPairs.begin(); itr != m_collidedPairs.end(); )
+		{
+			if (m_colliderPool[(*itr).first] == nullptr || m_colliderPool[(*itr).second] == nullptr)
+			{
+				itr = m_collidedPairs.erase(itr);
+			}
+			else
+			{
+				++itr;
+			}
+		}
+		for (const auto& [firstCP, secondCP] : m_collidedPairs)
+		{
+			
+			if (m_colliderPool[firstCP] == nullptr || m_colliderPool[secondCP] == nullptr)
+			{
+				auto itr = std::find(m_collidedPairs.begin(), m_collidedPairs.end(), std::make_pair(firstCP, secondCP));
+				if (itr != m_collidedPairs.end()) m_collidedPairs.erase(itr);
+			}
+			
+			for (const auto& [firstRemove, secondRemove] : m_pairsToRemove)
+			{
+				if (firstCP == firstRemove && secondCP == secondRemove)
+				{
+					auto itr = std::find(m_collidedPairs.begin(), m_collidedPairs.end(), std::make_pair(firstCP, secondCP));
+					if (itr != m_collidedPairs.end()) m_collidedPairs.erase(itr);
+
+				}
+			}
+		}
+		for (const auto& [firstCP, secondCP] : m_collidedPairs)
+		{
+			std::cout << m_colliderPool[firstCP]->GetGameObject()->GetName() << ", " << m_colliderPool[secondCP]->GetGameObject()->GetName() << std::endl;
+		}
+		
+		m_pairsToRemove.clear();
 
 	}	// End of FixedUpdate
 
