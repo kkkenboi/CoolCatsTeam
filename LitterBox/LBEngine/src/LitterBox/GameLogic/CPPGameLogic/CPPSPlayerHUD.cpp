@@ -263,9 +263,12 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseHealth()
 	{
-		if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth)
+		if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth)
 		{
-			--m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth;
+			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
+			{
+				--m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth;
+			}
 		}
 	}
 
