@@ -54,6 +54,8 @@ namespace LB
             m_rbStates[i] = false; // Everything is not in use
         }
 
+        m_maxVelocity = Vec2<float>{ 2000.f, 2000.f };
+
         DebuggerLog("Physics initialized");
     }
 
@@ -177,6 +179,11 @@ namespace LB
             }
         }
         return nullptr;
+    }
+
+    Vec2<float> RigidBodyManager::GetMaxVelocity() 
+    {
+        return m_maxVelocity;
     }
     
     /*!***********************************************************************

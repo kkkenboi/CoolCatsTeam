@@ -28,6 +28,7 @@
 #include "CPPSMage.h"
 #include "CPPSChaser.h"
 #include "CPPGameManager.h"
+#include "LitterBox/Physics/RigidBodyManager.h"
 
 
 #include "CPPSUpgradeManager.h"
@@ -41,6 +42,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayerGolfBall::Start()
 	{
+		mTransform = GameObj->GetComponent<CPTransform>();
 		mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
@@ -58,6 +60,7 @@ namespace LB
 
 		mSpeedMagnitude = 1000.0f;
 		mVelocity = 1000.0f; //with direction
+		mRotation = 0.f;
 		
 		mCurrentLifetime = mLifetime = 1.0f;
 		onBallDisappear.Subscribe(DecreaseBalls);
@@ -92,6 +95,36 @@ namespace LB
 				}
 			}
 		}
+		// Rotation
+		if (mRigidBody->mVelocity.x >= 0.f) 
+		{
+			//360 * 1.f - (speed curr/ speed max)
+			float rotAdd = 360.f * (1.f - (mRigidBody->mVelocity.x/PHYSICS->GetMaxVelocity().x));
+			mRotation += rotAdd;
+			if (mRotation >= 360.f) 
+			{
+				float toAdd = mRotation - 360.f;
+				mRotation = toAdd;
+			}
+			
+			// Right rotation
+			mTransform->SetRotation(mRotation);
+		}
+		else 
+		{
+			//360 * 1.f - (speed curr/ speed max)
+			float rotAdd = 360.f * ((mRigidBody->mVelocity.x/PHYSICS->GetMaxVelocity().x));
+			mRotation -= rotAdd;
+			if (mRotation <= -(360.f))
+			{
+				float toAdd = mRotation - 360.f;
+				mRotation = toAdd;
+			}
+
+			// Left rotation
+			mTransform->SetRotation(mRotation);
+		}
+
 		if (canDestroy) GOMANAGER->RemoveGameObject(this->GameObj);
 		//if (PHY_MATH::Length(GetRigidBody()->mVelocity) > 300.f) std::cout << PHY_MATH::Length(GetRigidBody()->mVelocity) << '\n';
 	}
@@ -103,14 +136,18 @@ namespace LB
 	void CPPSPlayerGolfBall::OnCollisionEnter(CollisionData colData)
 	{
 		if ((currentBallUpgrades & BOMB) && colData.colliderOther->gameObj->GetName() != "ball") {
-
-			//Renderer::GRAPHICS->shaker_camera();
-			Explode();
-			canDestroy = true;
-			//CPPSPlayer* player = mPlayer->GetComponent<CPPSPlayer>();
-			//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
-			//--player->m_currentBalls;
-			//GOMANAGER->RemoveGameObject(this->GameObj);
+			if (colData.colliderOther->gameObj->GetName() == "Mage" ||
+				colData.colliderOther->gameObj->GetName() == "EnemyChaser1" ||
+				colData.colliderOther->gameObj->GetName() == "Charger")
+			{
+				//Renderer::GRAPHICS->shaker_camera();
+				Explode();
+				canDestroy = true;
+				//CPPSPlayer* player = mPlayer->GetComponent<CPPSPlayer>();
+				//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
+				//--player->m_currentBalls;
+				//GOMANAGER->RemoveGameObject(this->GameObj);
+			}
 			return;
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||

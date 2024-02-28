@@ -90,6 +90,7 @@ namespace LB
 		\brief
 		Private variables for rendering, rb colliders, player
 		*************************************************************************/
+		CPTransform* mTransform{ nullptr };
 		CPRender* mRender{ nullptr }; //animation purpose
 		CPRigidBody* mRigidBody{ nullptr }; //Getting the RB of the enemy
 		CPCollider* mCollider{ nullptr }; //Getting the collider of the enemy
@@ -102,6 +103,7 @@ namespace LB
 		float mSpeedMagnitude{}; //speed of the golf ball
 		float mVelocity{}; //Velocity of the golf ball
 		float mSize{1.0f}; //the size of the golf ball
+		float mRotation{ 0.f };
 
 		//Upgrade stats
 		float mExplosionRadius{100.f};

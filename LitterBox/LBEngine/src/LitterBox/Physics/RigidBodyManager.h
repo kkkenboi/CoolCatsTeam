@@ -27,6 +27,8 @@ namespace LB
         CPRigidBody** m_rigidBodies; // Array of pointers to RigidBodies
         bool* m_rbStates; // To track if a RigidBody is in use or not (pulled out of the pool)
 
+        Vec2<float> m_maxVelocity{ 2000.f, 2000.f };
+
     public:
 
         /*!***********************************************************************
@@ -79,6 +81,8 @@ namespace LB
           This function removes a CPRigidBody* from the RigidBodyPool
         *************************************************************************/
         void RemoveRigidBodyFromPool(CPRigidBody* rb);
+
+        Vec2<float> GetMaxVelocity();
 
         /*!***********************************************************************
           \brief
