@@ -1020,7 +1020,7 @@ namespace LB
 				ImGui::Text("%-17s", "Scale");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##TextSize", &textSize, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##TextSize", &textSize, 0.01f, 0.0f, 0.0f, "%.2f");
 				//m_inspectedGO->GetComponent<CPText>()->update_msg_pos(Vec2<float>(textXPos, textYPos));
 				////m_inspectedGO->GetComponent<CPText>()->update_msg_size(textSize);
 
