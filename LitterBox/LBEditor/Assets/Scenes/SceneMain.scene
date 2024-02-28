@@ -17,7 +17,7 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 969.09,
+                        "x": 969.090026,
                         "y": 540.0
                     },
                     "Scale": {
@@ -37,8 +37,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1256.43,
-                        "y": 279.7
+                        "x": 1256.430053,
+                        "y": 279.700012
                     },
                     "Scale": {
                         "x": 1.0,
@@ -66,8 +66,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1246.55,
-                        "y": 272.79
+                        "x": 1246.550048,
+                        "y": 272.790008
                     },
                     "Scale": {
                         "x": 1.25,
@@ -238,8 +238,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 959.59,
-                        "y": 1011.08
+                        "x": 959.590026,
+                        "y": 1011.080017
                     },
                     "Scale": {
                         "x": 1.0,
@@ -272,7 +272,7 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 964.15,
+                        "x": 964.150024,
                         "y": 68.0
                     },
                     "Scale": {
@@ -306,8 +306,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 65.87,
-                        "y": 541.53
+                        "x": 65.870002,
+                        "y": 541.530029
                     },
                     "Scale": {
                         "x": 1.0,
@@ -340,8 +340,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1851.52,
-                        "y": 532.15
+                        "x": 1851.520019,
+                        "y": 532.150024
                     },
                     "Scale": {
                         "x": 1.0,
@@ -731,8 +731,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1568.06,
-                        "y": 868.59
+                        "x": 1568.060058,
+                        "y": 868.590026
                     },
                     "Scale": {
                         "x": 1.0,
@@ -751,8 +751,55 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1395.18,
-                        "y": 315.48
+                        "x": 1395.180053,
+                        "y": 315.48001
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 125.0,
+                    "Height": 125.0,
+                    "Layer": 0,
+                    "Texture": "MushBramble_SpriteSheet",
+                    "SpriteName": "MushBrambleSheet",
+                    "SpriteIndex": 0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 42.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSBlueMushroom"
+                }
+            },
+            {
+                "Name": "MUSHYroom2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 441.439697,
+                        "y": 799.943115
                     },
                     "Scale": {
                         "x": 1.0,
@@ -811,7 +858,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Layer": 0,
+                    "Layer": 1,
                     "Texture": "Sand_Pit",
                     "SpriteName": "None",
                     "SpriteIndex": -1
