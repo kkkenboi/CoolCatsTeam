@@ -178,8 +178,8 @@ namespace LB
 		if(warning_remover != static_cast<unsigned int>(-1))
 			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(Renderer::GRAPHICS->get_scene_view())), m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
-		m_mousePosInWorld.x = (((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().x;
-		m_mousePosInWorld.y = ((1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight()) / zoomCurrent + Renderer::GRAPHICS->get_cam().get_cam_pos().y;
+		m_mousePosInWorld.x = (((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth()) / zoomCurrent + Renderer::GRAPHICS->get_cam()->get_cam_pos().x;
+		m_mousePosInWorld.y = ((1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight()) / zoomCurrent + Renderer::GRAPHICS->get_cam()->get_cam_pos().y;
 
 		//std::cout << "Mouse Position X: " << m_mousePosInWorld.x << "Y: " << m_mousePosInWorld.y << std::endl;
 
@@ -224,22 +224,22 @@ namespace LB
 			switch (InspectorGameObject::Instance()->GetGizmosOperation())
 			{
 			case ImGuizmo::TRANSLATE:
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
 					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&InspectorGameObject::Instance()->GetSnapTranslate());
 				break;
 			case ImGuizmo::ROTATE:
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
 					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&InspectorGameObject::Instance()->GetSnapRotate());
 				break;
 			case ImGuizmo::SCALE:
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
 					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					&InspectorGameObject::Instance()->GetSnapScale());
 				break;
 			case ImGuizmo::UNIVERSAL: // No snapping is applied
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
+				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
 					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
 					NULL);
 				break;
@@ -278,7 +278,7 @@ namespace LB
 		}
 		if (!InspectorGameObject::Instance()->GetInspectedGO())
 		{
-			ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam().get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam().editor_ortho),
+			ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
 				InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), outOfView, NULL,
 				&InspectorGameObject::Instance()->GetSnapTranslate());
 		}

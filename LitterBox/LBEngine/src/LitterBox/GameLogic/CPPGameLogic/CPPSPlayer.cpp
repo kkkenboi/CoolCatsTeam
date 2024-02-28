@@ -25,6 +25,7 @@
 #include "CPPSPlayerHUD.h"
 #include "CPPSUpgradeManager.h"
 #include "LitterBox/Renderer/Camera.h"
+#include "CPPGameManager.h"
 namespace LB
 {
 	//This array is for the animation frames
@@ -46,19 +47,12 @@ namespace LB
 		left_face.x = -left_face.x;
 
 		//--------------------------Variables initializaiton----------------------------
-		m_maxSpeed = 3500.0f;
-		m_walkSpeed = 1750.0f;
+		m_GameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
 		m_shootForce = 4500.0f;
 		m_shootRadius = 120.0f;
-
-		m_maxBalls = 3;
-		m_currentBalls = 0;
-
-		m_maxHealth = 3;
-		m_currentHealth = 3;
 
 		// 1 seconds of invincibility
 		mGotAttackedCooldown = 0;
@@ -88,7 +82,7 @@ namespace LB
 		//rend->play_repeat("player_idle");
 
 		onTakingDamage.Subscribe(DecreaseHealth);
-		onPlacingBall.Subscribe(DecreaseBalls);
+		onPlacingBall.Subscribe(IncreaseBalls);
 	}
 
 	/*!***********************************************************************
@@ -156,38 +150,36 @@ namespace LB
 		bool isMoving{ false };
 		if (INPUT->IsKeyPressed(KeyCode::KEY_W))
 		{
-			rb->mVelocity += Vec2<float>{0.f, m_walkSpeed} *TIME->GetDeltaTime();
 			//rb->addForce(Vec2<float>{0.f, m_walkSpeed} * TIME->GetDeltaTime());
+			rb->mVelocity += Vec2<float>{0.f, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed} *TIME->GetDeltaTime(); 
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_S))
 		{
 			//rb->addForce(Vec2<float>{0.f, -m_walkSpeed} * TIME->GetDeltaTime());
-			rb->mVelocity -= Vec2<float>{0.f, m_walkSpeed} *TIME->GetDeltaTime();
-
+			rb->mVelocity -= Vec2<float>{0.f, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed} *TIME->GetDeltaTime();
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_A))
 		{
 			//rb->addForce(Vec2<float>{-m_walkSpeed, 0.f} * TIME->GetDeltaTime());
-			rb->mVelocity += Vec2<float>{-m_walkSpeed, 0.f} *TIME->GetDeltaTime();
-
+			rb->mVelocity += Vec2<float>{-m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f} *TIME->GetDeltaTime();
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_D))
 		{
 			//rb->addForce(Vec2<float>{m_walkSpeed, 0.f} * TIME->GetDeltaTime());
-			rb->mVelocity += Vec2<float>{m_walkSpeed, 0.f} *TIME->GetDeltaTime();
+			rb->mVelocity += Vec2<float>{m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f} *TIME->GetDeltaTime();
 			isMoving = true;
 		}
 		//clamping of the speed of the player movement
-		rb->mVelocity.x = Clamp<float>(rb->mVelocity.x, -m_maxSpeed, m_maxSpeed);
-		rb->mVelocity.y = Clamp<float>(rb->mVelocity.y, -m_maxSpeed, m_maxSpeed);
+		rb->mVelocity.x = Clamp<float>(rb->mVelocity.x, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed);
+		rb->mVelocity.y = Clamp<float>(rb->mVelocity.y, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed);
 
 		if (!isMoving)
 		{
 			//rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
-			rb->mVelocity *= arbitraryFriction;
+			rb->mVelocity *= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction;
 			 if (isWalkingAnim)
 			 {
 			 	//rend->stop_anim();
@@ -259,9 +251,8 @@ namespace LB
 		//------------------Spawn a golf ball----------------------
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
-			if (m_currentBalls >= m_maxBalls) return;
+			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
 			
-			++m_currentBalls;
 			onPlacingBall.Invoke();
 			
 			//Spawn Game Object
@@ -313,7 +304,8 @@ namespace LB
 	{
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
-			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
+			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
+			colData.colliderOther->m_gameobj->GetName() == "Charger")
 		{
 			if (mGotAttackedCooldown > 0) return;
 			//shake the cam
@@ -329,11 +321,10 @@ namespace LB
 			GetComponent<CPAnimator>()->Play("FelixHurt");
 
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.4f);
-			--m_currentHealth;
 			// Update the HUD as well
 			onTakingDamage.Invoke();
 
-			if (m_currentHealth < 0)
+			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth < 0)
 			{
 				//GOMANAGER->RemoveGameObject(this->GameObj);
 			}

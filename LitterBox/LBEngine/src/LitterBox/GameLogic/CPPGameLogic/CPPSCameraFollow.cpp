@@ -18,8 +18,10 @@ namespace LB
 		//Now we set this thing's position
 		GetComponent<CPTransform>()->SetPosition(currentPos);
 		//why won't you move!!! ;__;
-		//Renderer::GRAPHICS->get_cam().get_cam_x() = currentPos.x;
-		//Renderer::GRAPHICS->get_cam().get_cam_y() = currentPos.y;
+		Renderer::GRAPHICS->get_cam()->get_cam_x() = currentPos.x - 960.f;
+		Renderer::GRAPHICS->get_cam()->get_cam_y() = currentPos.y - 540.f;
+		Renderer::GRAPHICS->get_cam()->update_cam();
+
 		
 		//Renderer::GRAPHICS->get_cam().update_ortho_cam(currentPos);
 		//Renderer::GRAPHICS->get_cam().free_cam_move(currentPos);

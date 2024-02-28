@@ -788,7 +788,7 @@ namespace Renderer {
 		\return
 		 returns the camera object
 		*************************************************************************/
-		inline auto get_cam() { return cam; }
+		Camera* get_cam() { return &cam; }
 
 		/*!***********************************************************************
 		\brief 
