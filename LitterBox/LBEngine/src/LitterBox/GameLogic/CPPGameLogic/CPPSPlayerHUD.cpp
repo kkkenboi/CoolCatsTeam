@@ -116,8 +116,8 @@ namespace LB {
 		}
 
 		// Create game objects to display the health and balls
-		if (!m_totalHeartDisplay.size()) // Fixes things
-		{
+		//if (!m_totalHeartDisplay.size()) // Fixes things
+		//{
 			for (int i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth; i++)
 			{
 				GameObject* healthObject = FACTORY->SpawnGameObject();
@@ -145,7 +145,7 @@ namespace LB {
 
 				m_totalBallsDisplay.push_back(ballObject);
 			}
-		}
+		//}
 
 		// - To know when new upgrades are obtained
 		m_UpgradeManager->GetComponent<CPPSUpgradeManager>()->onNewUpgrade.Subscribe(LB::AddNewUpgrade);

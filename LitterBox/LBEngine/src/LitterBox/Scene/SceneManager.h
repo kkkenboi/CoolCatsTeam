@@ -114,6 +114,8 @@ namespace LB
 		*************************************************************************/
 		bool Deserialize(const Value& data);
 
+		bool IsSceneFullyLoaded();
+
 		// Lets any subscribers know when a new scene is loaded
 		Event<Scene*> onNewSceneLoad;
 		Event<> onSceneSaved;
@@ -124,6 +126,7 @@ namespace LB
 		Scene* m_currentScene{ nullptr };	// Which scene is currently loaded?
 		Scene* m_nextScene{ nullptr };		// Which scene to load next (at the end of the frame)?
 		bool m_isReloading{ false };		// Is the scene reloading?
+		bool m_fullyLoaded{ false };
 	};
 
 	// 
