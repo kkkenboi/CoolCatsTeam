@@ -27,8 +27,8 @@ namespace LB
 		m_PlayerCurrentHealth = 3;
 		m_PlayerMaxBalls = 3;
 		m_PlayerCurrentBalls = 0;
-		m_PlayerWalkSpeed = 1750.0f;
-		m_PlayerMaxSpeed = 3500.0f;
+		m_PlayerWalkSpeed = 950.0f;
+		m_PlayerMaxSpeed = 1750.0f;
 		m_PlayerArbitraryFriction = 0.95f;
 
 

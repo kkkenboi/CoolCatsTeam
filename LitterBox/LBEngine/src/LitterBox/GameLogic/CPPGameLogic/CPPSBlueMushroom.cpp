@@ -29,6 +29,7 @@ namespace LB
 		mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
+		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 	}
 
 	/*!***********************************************************************
@@ -51,7 +52,7 @@ namespace LB
 			float t = 1.0f - (mScaleTimerRemaining / mScaleTimer);
 
 			// Lerp towards the target scale
-			Vec2<float> lerpedScale = Lerp(mTransform->GetLocalScale(), Vec2<float>{1.25f, 1.25f}, t);
+			Vec2<float> lerpedScale = VecLerp(mTransform->GetLocalScale(), mScaleMax, t);
 			GameObj->GetComponent<CPTransform>()->SetScale(lerpedScale);
 
 			// Update the timer
@@ -74,7 +75,7 @@ namespace LB
 			float t = 1.0f - (mScaleTimerRemaining / mScaleTimer);
 
 			// Lerp towards the original scale
-			Vec2<float> lerpedScale = Lerp(mTransform->GetLocalScale(), Vec2<float>{1.f, 1.f}, t);
+			Vec2<float> lerpedScale = VecLerp(mTransform->GetLocalScale(), mScaleOG, t);
 			GameObj->GetComponent<CPTransform>()->SetScale(lerpedScale);
 
 			// Update the timer
@@ -111,6 +112,19 @@ namespace LB
 			colData.colliderOther->rigidbody->mVelocity.x *= 1.75f;
 			colData.colliderOther->rigidbody->mVelocity.y *= 1.75f;
 
+			if (colData.colliderOther->gameObj == mPlayer) {
+				//std::cout << "hitting player!" << std::endl;
+				//std::cout << "Before : " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.x <<
+				//	", " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.y << std::endl;
+				Vec2<float> mushPos = colData.colliderThis->transform->GetPosition();
+				Vec2<float> playerPos = colData.colliderOther->transform->GetPosition();
+
+				Vec2<float> forceToApply = playerPos - mushPos;
+
+				//std::cout << "After : " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.x <<
+				//	", " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.y << std::endl;
+			}
+
 			// Start scaling down in the next update loop
 			mScaleTimer = mToMaxTimer;
 			mScaleTimerRemaining = mScaleTimer;
@@ -146,7 +160,7 @@ namespace LB
 	}
 
 	// Helper function
-	Vec2<float> Lerp(const Vec2<float>& a, const Vec2<float>& b, float t)
+	Vec2<float> VecLerp(const Vec2<float>& a, const Vec2<float>& b, float t)
 	{
 		return Vec2<float>{a.x + t * (b.x - a.x), a.y + t * (b.y - a.y)};
 	}

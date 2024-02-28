@@ -605,10 +605,6 @@ namespace LB
 				}
 			}
 		}
-		for (const auto& [firstCP, secondCP] : m_collidedPairs)
-		{
-			std::cout << m_colliderPool[firstCP]->GetGameObject()->GetName() << ", " << m_colliderPool[secondCP]->GetGameObject()->GetName() << std::endl;
-		}
 		
 		m_pairsToRemove.clear();
 

@@ -70,13 +70,13 @@ namespace LB
 		float mScaleTimerRemaining{ 0.35f };
 
 		Vec2<float> mScaleOG{ 1.f,1.f };
-		Vec2<float> mScaleMax{ 1.75f , 1.75f };
+		Vec2<float> mScaleMax{ 1.25f , 1.25f };
 
 
 		bool mScaledUp{ false };
 		bool mScaledDown{ true };
 	};
 
-	Vec2<float> Lerp(const Vec2<float>& a, const Vec2<float>& b, float t);
+	Vec2<float> VecLerp(const Vec2<float>& a, const Vec2<float>& b, float t);
 	REGISTER_SCRIPT(CPPSBlueMushroom)
 }

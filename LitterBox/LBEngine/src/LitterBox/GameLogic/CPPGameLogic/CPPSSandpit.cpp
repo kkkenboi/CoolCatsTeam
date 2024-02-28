@@ -8,7 +8,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSSandpit::Start()
 	{
-
+		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 	}
 
 	/*!***********************************************************************
@@ -47,6 +47,11 @@ namespace LB
 			{
 				colData.colliderOther->rigidbody->mVelocity.x *= 0.90f;
 				colData.colliderOther->rigidbody->mVelocity.y *= 0.90f;
+			}
+			if (colData.colliderOther->gameObj->GetName() == "MainChar") 
+			{
+				colData.colliderOther->rigidbody->mVelocity.x *= 0.5f;
+				colData.colliderOther->rigidbody->mVelocity.y *= 0.5f;
 			}
 		}
 	}
