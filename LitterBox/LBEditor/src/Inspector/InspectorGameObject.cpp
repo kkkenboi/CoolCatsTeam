@@ -1000,29 +1000,34 @@ namespace LB
 					m_inspectedGO->GetComponent<CPText>()->ToggleActiveFlag(isActive);
 				}
 
-				float textXPos = m_inspectedGO->GetComponent<CPText>()->get_msg().x;
-				float textYPos = m_inspectedGO->GetComponent<CPText>()->get_msg().y;
+				//float textXPos = m_inspectedGO->GetComponent<CPText>()->get_msg().x;
+				//float textYPos = m_inspectedGO->GetComponent<CPText>()->get_msg().y;
+				float xbound = m_inspectedGO->GetComponent<CPText>()->get_msg().xbound;
 				float textSize = m_inspectedGO->GetComponent<CPText>()->get_msg().scale;
-				ImGui::Text("%-17s X", "Position");
+				ImGui::Text("%-17s X", "Width");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##TextPosX", &textXPos, 1.0f, 0.0f, 0.0f, "%.2f");
-				ImGui::SameLine();
-				ImGui::Text("Y");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##TextPosY", &textYPos, 1.0f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##Width", &xbound, 1.0f, 0.0f, 0.0f, "%.1f");
+				//ImGui::SameLine();
+				//ImGui::SetNextItemWidth(normalWidth);
+				//ImGui::DragFloat("##TextPosX", &textXPos, 1.0f, 0.0f, 0.0f, "%.2f");
+				//ImGui::SameLine();
+				//ImGui::Text("Y");
+				//ImGui::SameLine();
+				//ImGui::SetNextItemWidth(normalWidth);
+				//ImGui::DragFloat("##TextPosY", &textYPos, 1.0f, 0.0f, 0.0f, "%.2f");
 
 				ImGui::Text("%-17s", "Scale");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##TextSize", &textSize, 1.0f, 0.0f, 0.0f, "%.2f");
 				//m_inspectedGO->GetComponent<CPText>()->update_msg_pos(Vec2<float>(textXPos, textYPos));
-				//m_inspectedGO->GetComponent<CPText>()->update_msg_size(textSize);
+				////m_inspectedGO->GetComponent<CPText>()->update_msg_size(textSize);
 
-				m_inspectedGO->GetComponent<CPText>()->get_msg().x = textXPos;
-				m_inspectedGO->GetComponent<CPText>()->get_msg().y = textYPos;
+				//m_inspectedGO->GetComponent<CPText>()->get_msg().x = textXPos;
+				//m_inspectedGO->GetComponent<CPText>()->get_msg().y = textYPos;
 				m_inspectedGO->GetComponent<CPText>()->get_msg().scale = textSize;
+				m_inspectedGO->GetComponent<CPText>()->get_msg().xbound = xbound;
 
 				ImGui::Text("%-19s", "Text");
 				ImGui::SameLine();

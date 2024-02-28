@@ -823,7 +823,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 		Character ch = font_glyphs[msg.font_file_name_wo_ext][cha];//Characters[cha];
 
 		float xpos = x + ch.Bearing.x * msg.scale;
-		if (xpos > msg.x + 140.f)
+		if (xpos > msg.x + msg.xbound)
 		{
 			y -= (ch.Advance >> 6) * msg.scale + 10.f;
 			x = msg.x;
@@ -1671,9 +1671,8 @@ void LB::CPText::Destroy()
 *************************************************************************/
 void LB::CPText::Update()
 {
-	/*LB::Vec2<float> pos = gameObj->GetComponent<CPTransform>()->GetPosition();
-	msg.x = pos.x;
-	msg.y = pos.y;*/
+	LB::Vec2<float> pos = gameObj->GetComponent<CPTransform>()->GetPosition();
+	update_msg_pos(pos);
 }
 
 /*!***********************************************************************
