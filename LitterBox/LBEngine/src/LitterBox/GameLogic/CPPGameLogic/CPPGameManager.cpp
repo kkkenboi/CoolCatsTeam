@@ -22,6 +22,8 @@ namespace LB
 {
 	void CPPSGameManager::Start()
 	{
+		DebuggerLog("GAME MANAGER HAS STARTED!!!");
+
 		// Initialising player values
 		m_PlayerMaxHealth = 3;
 		m_PlayerCurrentHealth = 3;
@@ -51,8 +53,8 @@ namespace LB
 			GenerateWave();
 			GameStart = true;
 		}
-		DebuggerLog("Game manager start is called \n");
 	}
+
 	void CPPSGameManager::Update()
 	{
 		//Mouse input stuff

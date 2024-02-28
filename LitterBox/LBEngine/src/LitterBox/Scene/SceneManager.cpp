@@ -205,6 +205,7 @@ namespace LB
 	void SceneManager::CheckSceneToLoad()
 	{
 		if (!m_nextScene) return;
+		m_fullyLoaded = false;
 
 		// TODO: Confirm first before saving
 		if (!CORE->IsPlaying() && m_currentScene) {
@@ -217,12 +218,8 @@ namespace LB
 			}
 		}
 
-		DebuggerLog("CHECK SCENE CALLED!");
-
 		// Free current scene first
 		if (m_currentScene) {
-			DebuggerLog("HUH WHY IS THIS HAPPENING");
-
 			m_currentScene->Destroy();
 			delete m_currentScene;
 		}
@@ -230,10 +227,15 @@ namespace LB
 
 		onNewSceneLoad.Invoke(m_currentScene);
 
+		DebuggerLog("INIT CALLED!!!");
+
 		m_currentScene->Init();
 
 		m_nextScene = nullptr;
 
+		DebuggerLog("SCRIPTS STARTED!!!");
+
+		m_fullyLoaded = true;
 		// Start the scripts!! TODO: Refactor this
 		if (CORE->IsPlaying())
 			LB::StartScripts(true);
@@ -289,4 +291,10 @@ namespace LB
 
 		return false;
 	}
+
+	bool SceneManager::IsSceneFullyLoaded()
+	{
+		return m_fullyLoaded;
+	}
+
 }
