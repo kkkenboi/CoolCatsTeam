@@ -30,6 +30,7 @@
 #include "CPPSBlueMushroom.h"
 #include "CPPSCharger.h"
 #include "CPPSSandpit.h"
+#include "CPPSCameraFollow.h"
 
 namespace LB 
 {
