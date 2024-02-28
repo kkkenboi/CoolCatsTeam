@@ -17,6 +17,7 @@
 #include "CPPGameLogic.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Time.h"
+#include "LitterBox/Scene/SceneManager.h"
 
 namespace LB
 {
@@ -44,7 +45,7 @@ namespace LB
 		m_sceneScripts.push_back(newScript);
 
 		// If scene is already running, start the script immediately
-		if (CORE->IsPlaying() && !m_sceneStarted)
+		if (CORE->IsPlaying() && SCENEMANAGER->IsSceneFullyLoaded() && !m_sceneStarted)
 		{
 			StartScript(newScript);
 			newScript->Start();
