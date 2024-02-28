@@ -36,7 +36,7 @@ namespace LB
 		std::string textureName;
 		std::vector<int> grid;
 
-		std::string spriteSheetName;
+		std::string spriteSheetName{"None"};
 
 	public:
 		TileMap() = default;
@@ -44,18 +44,22 @@ namespace LB
 			std::string texture, std::initializer_list<int>gridvalues);
 
 		TileMap(int row, int columns, int textureRows, int textureColumns,
-			std::string texture, std::vector<int> const& gridVector);
+			std::string const& texture, std::string const& sSheet, std::vector<int> const& gridVector);
 
 		std::vector<std::pair<Vec2<float>, Vec2<float>>> minMaxGrid() const;
 		bool Serialize(Value& data, Document::AllocatorType& alloc);
 		bool Deserialize(const Value& data);
+
+		inline int operator[](int index) const { return grid[index]; }
+		inline int& operator[](int index) { return grid[index]; }
 
 		inline int getRows() const { return rows; }
 		inline int getCols() const { return cols; }
 		inline std::vector<int>& getGrid() { return grid; }
 		inline std::vector<int> const& getGrid() const { return grid; }
 		inline const std::string& getTextureName() const { return textureName; }
+		inline const std::string& getSpriteSheetName() const { return spriteSheetName; }
 	};
 
-	void LoadMap(const TileMap& tm);
+	void LoadMap(std::vector<TileMap> const& tm);
 }

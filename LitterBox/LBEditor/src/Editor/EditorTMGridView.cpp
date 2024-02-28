@@ -248,8 +248,12 @@ namespace LB
 
 		if (ImGui::Button("Build Map"))
 		{
-			TileMap tm(m_rowNum, m_colNum, m_spriteSheet.m_row, m_spriteSheet.m_col, m_spriteSheet.GetPNGRef(), m_tiles[m_layer]);
-			LoadMap(tm);
+			std::vector<TileMap> tileMaps;
+			for (int layer{ 0 }; layer <= 2; ++layer)
+			{
+				tileMaps.emplace_back(m_rowNum, m_colNum, m_spriteSheet.m_row, m_spriteSheet.m_col, m_spriteSheet.GetPNGRef(), m_spriteSheet.GetName(), m_tiles[layer]);
+			}
+			LoadMap(tileMaps);
 		}
 		
 		ImGui::End();
