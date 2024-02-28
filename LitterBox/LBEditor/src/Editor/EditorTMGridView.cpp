@@ -39,7 +39,11 @@ namespace LB
 		else
 			DebuggerLogError("Editor Tile Map Grid View already exists!");
 
-		m_tiles.resize(m_rowNum * m_colNum, -1);
+		for (auto& tilemap : m_tiles)
+		{
+			tilemap.resize(m_rowNum * m_colNum, -1);
+		}
+		//m_tiles.resize(m_rowNum * m_colNum, -1);
 	}
 	/*!***********************************************************************
 	  \brief
@@ -108,10 +112,20 @@ namespace LB
 		}
 
 		//bool to keep track of grid changes
-		static bool confirmation{false};
+		static bool confirmation{ false };
 		//padding from tile selection
 		ImGui::SameLine();
-		ImGui::Text("%-19s", " ");
+		ImGui::Text("%-10s", " ");
+
+		// Set layer
+		ImGui::SameLine();
+		ImGui::Text("Layer:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(75.f);
+		if (ImGui::InputInt("##layer", &m_layer))
+		{
+			m_layer = std::clamp(m_layer, 0, 2);
+		}
 
 		//Setting the rows
 		ImGui::SameLine();
@@ -130,7 +144,8 @@ namespace LB
 			confirmation = true;
 
 		//confirmation button
-		if (confirmation) {
+		if (confirmation) 
+		{
 			ImGui::SameLine();
 			if (ImGui::Button("Confirm")) {
 				ResizeGrid(m_tmpRow, m_tmpCol);
@@ -167,43 +182,61 @@ namespace LB
 			ImVec2 max{ defaultUV };
 			ImTextureID textureID{ 0 };
 
-			//creating the table. NOTE: The editor has a fixed size for now
-			//TODO: let player adjust the map size when they want
+			// Remove padding between cell rows
+			ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0, 0));
+			
 			for (int row = 0; row < m_rowNum; row++)
 			{
 				//going through it each row
 				ImGui::TableNextRow();
 				for (int column = 0; column < m_colNum; column++)
 				{
+					ImGui::TableSetColumnIndex(column);
+
+					int layer{ 0 };
 					int Index2D{column + row * m_colNum};
-					if (m_tiles[Index2D] >= 0 && m_tiles[Index2D] < m_spriteSheet.Size())
+					bool isDrawn{ false };
+
+					ImGui::PushID(Index2D); //IMPORTANT: this needs to be done otherwise only first button works
+					while (layer <= m_layer)
 					{
-						int index{ m_tiles[Index2D] };
-						min = ImVec2{ m_spriteSheet[index].m_min.x, m_spriteSheet[index].m_max.y };
-						max = ImVec2{ m_spriteSheet[index].m_max.x, m_spriteSheet[index].m_min.y };
-						textureID = (ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_spriteSheet.GetPNGRef());
+						if (m_tiles[layer][Index2D] >= 0 && m_tiles[layer][Index2D] < m_spriteSheet.Size())
+						{
+							if (!isDrawn)
+							{
+								int index{ m_tiles[layer][Index2D] };
+								min = ImVec2{ m_spriteSheet[index].m_min.x, m_spriteSheet[index].m_max.y };
+								max = ImVec2{ m_spriteSheet[index].m_max.x, m_spriteSheet[index].m_min.y };
+								textureID = (ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_spriteSheet.GetPNGRef());
+								ImGui::Image(textureID, buttonSize, min, max);
+
+								isDrawn = true;
+							}
+							else
+							{
+								int index{ m_tiles[layer][Index2D] };
+								min = ImVec2{ m_spriteSheet[index].m_min.x, m_spriteSheet[index].m_min.y };
+								max = ImVec2{ m_spriteSheet[index].m_max.x, m_spriteSheet[index].m_max.y };
+								ImGui::GetWindowDrawList()->AddImage(textureID, ImGui::GetCursorScreenPos(), ImVec2(ImGui::GetCursorScreenPos().x + buttonSize.x, ImGui::GetCursorScreenPos().y - buttonSize.y * 1.1f), min, max);
+							}
+						}
+						++layer;
 					}
-					else
+					if (!isDrawn)
 					{
 						min = defaultUV;
 						max = defaultUV;
 						textureID = 0;
+						ImGui::Image(textureID, buttonSize, min, max);
 					}
-
-					ImGui::TableSetColumnIndex(column);
-					//set the button to the texture object selected in EditorTMEditor
-					ImGui::PushID(Index2D); //IMPORTANT: this needs to be done otherwise only first button works
-					ImGui::Image(textureID, buttonSize, min, max);
-					//if (ImGui::ImageButton(textureID, buttonSize, min, max, 0 ))
-					//{
-					//	m_tiles.at(Index2D) = m_tileSelected;
-					//}
-					if (ImGui::IsItemHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
-						m_tiles.at(Index2D) = m_tileSelected;
+					if (ImGui::IsItemHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left)) 
+					{
+						m_tiles[m_layer].at(Index2D) = m_tileSelected;
 					}
 					ImGui::PopID();//IMPORTANT: this needs to be done otherwise only first button works
 				}
 			}
+			ImGui::PopStyleVar();
 			ImGui::EndTable();
 		}
 
@@ -213,18 +246,9 @@ namespace LB
 		ImGui::Columns(1);
 		ImGui::Separator();
 
-		if (ImGui::Button("Print"))
+		if (ImGui::Button("Build Map"))
 		{
-			for (int row = 0; row < m_rowNum; ++row)
-			{
-				for (int column = 0; column < m_colNum; ++column)
-				{
-					std::cout << m_tiles.at(column + row * m_colNum) << ' ';
-				}
-				std::cout << std::endl;
-			}
-			
-			TileMap tm(m_rowNum, m_colNum, m_spriteSheet.m_row, m_spriteSheet.m_col, m_spriteSheet.GetPNGRef(), m_tiles);
+			TileMap tm(m_rowNum, m_colNum, m_spriteSheet.m_row, m_spriteSheet.m_col, m_spriteSheet.GetPNGRef(), m_tiles[m_layer]);
 			LoadMap(tm);
 		}
 		
@@ -233,26 +257,29 @@ namespace LB
 
 	void EditorTMGridView::ResizeGrid(int newRow, int newCol)
 	{
-		std::vector<int> newTileMap;
-		newTileMap.resize(newRow* newCol, -1);
-
-		for (int row = 0; row < newRow; ++row)
+		for (int layer{ 0 }; layer <= 2; ++layer)
 		{
-			for (int column = 0; column < newCol; ++column)
+			std::vector<int> newTileMap;
+			newTileMap.resize(newRow * newCol, -1);
+
+			for (int row = 0; row < newRow; ++row)
 			{
-				if (column + row * m_colNum < m_tiles.size() && column < m_colNum)
+				for (int column = 0; column < newCol; ++column)
 				{
-					newTileMap[column + row * newCol] = m_tiles[column + row * m_colNum];
-				}
-				else
-				{
-					newTileMap[column + row * newCol] = -1;
+					if (column + row * m_colNum < m_tiles[layer].size() && column < m_colNum)
+					{
+						newTileMap[column + row * newCol] = m_tiles[layer][column + row * m_colNum];
+					}
+					else
+					{
+						newTileMap[column + row * newCol] = -1;
+					}
 				}
 			}
+			m_tiles[layer] = newTileMap;
 		}
 
 		m_rowNum = newRow;
 		m_colNum = newCol;
-		m_tiles = newTileMap;
 	}
 }

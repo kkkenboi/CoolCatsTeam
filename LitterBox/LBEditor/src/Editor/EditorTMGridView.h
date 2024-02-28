@@ -30,7 +30,8 @@ namespace LB {
 		int m_colNum{ 10 }, m_rowNum{ 10 };
 		int m_tmpRow{ m_rowNum }, m_tmpCol{ m_colNum };
 
-		std::vector<int> m_tiles{};
+		int m_layer{ 0 };
+		std::array<std::vector<int>, 3> m_tiles{};
 		ImVec2 defaultUV{ 0.f,0.f };
 	public:
 		/*!***********************************************************************

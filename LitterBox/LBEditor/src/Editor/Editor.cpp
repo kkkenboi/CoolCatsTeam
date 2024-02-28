@@ -96,7 +96,6 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorPrefabWindow>("Prefab Viewer"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorCollisionLayer>("Collision Layers"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorTMGridView>("TileMap Editor"));
-		m_ImGuiLayers.AddLayer(std::make_shared<EditorTMEditor>("Tile Map Editor Slice"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorRenderLayer>("Render Layers"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorCollisionGrid>("Collision Grid"));
 
