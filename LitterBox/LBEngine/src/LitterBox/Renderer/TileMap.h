@@ -52,6 +52,7 @@ namespace LB
 
 		inline int getRows() const { return rows; }
 		inline int getCols() const { return cols; }
+		inline std::vector<int>& getGrid() { return grid; }
 		inline std::vector<int> const& getGrid() const { return grid; }
 		inline const std::string& getTextureName() const { return textureName; }
 	};

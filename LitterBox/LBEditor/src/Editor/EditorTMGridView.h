@@ -18,15 +18,19 @@
 
 #include "Editor.h"
 #include "Litterbox/Engine/Layer.h"
+#include "LitterBox/Animation/SpriteSheet.h"
 #include <vector>
 
 namespace LB {
 	class EditorTMGridView : public Layer
 	{
-		int colNum, rowNum, tileSelected, tmpRow, tmpCol;
-		std::vector<int> tiles;
-		std::vector<char*> tiles_names;
+		SpriteSheet m_spriteSheet{};
+		int m_tileSelected{ -1 };
 
+		int m_colNum{ 10 }, m_rowNum{ 10 };
+		int m_tmpRow{ m_rowNum }, m_tmpCol{ m_colNum };
+
+		std::vector<int> m_tiles{};
 		ImVec2 defaultUV{ 0.f,0.f };
 	public:
 		/*!***********************************************************************
@@ -49,6 +53,8 @@ namespace LB {
 		  An inherited Deconstructor
 		*************************************************************************/
 		void Destroy() {}
+
+		void ResizeGrid(int newRow, int newCol);
 	};
 
 	extern EditorTMGridView* EDITORTMGRIDVIEW;

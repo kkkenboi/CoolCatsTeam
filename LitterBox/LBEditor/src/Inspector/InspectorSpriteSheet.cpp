@@ -23,7 +23,7 @@ namespace LB
 	//setting variables for it size
 	static float fullWidth;
 	static float columnWidth = 250.0f;
-	static float normalWidth = 150.f;
+	static float normalWidth = 150.0f;
 	
 	/*!***********************************************************************
 	  \brief
