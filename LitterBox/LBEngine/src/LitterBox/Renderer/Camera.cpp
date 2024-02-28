@@ -90,6 +90,7 @@ namespace Renderer {
 
 		editor_world_NDC = editor_ortho * free_cam_coords;
 		world_NDC = ortho * nel;
+		ui_NDC = world_NDC;
 	}
 
 	/*!***********************************************************************

@@ -17,6 +17,9 @@
         "Active": true,
         "Width": 50.0,
         "Height": 50.0,
-        "Texture": "GolfBall"
+        "Layer": 3,
+        "Texture": "GolfBall",
+        "SpriteName": "None",
+        "SpriteIndex": -1
     }
 }

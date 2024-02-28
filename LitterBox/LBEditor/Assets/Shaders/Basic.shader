@@ -16,6 +16,9 @@ out float tIO;
 
 uniform mat4 cam;
 
+uniform bool UI;
+uniform mat4 uicam;
+
 void main()
 {
 	vec4 mdl_points[4];
@@ -57,7 +60,11 @@ void main()
 		pos = mdl_points[3];
 		break;
 	}
-	pos = cam * translate * rot * scale * pos;
+	pos = translate * rot * scale * pos;
+	if(UI)
+		pos = uicam * pos;
+	else
+		pos = cam * pos;
 	gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);
 
 	vCol = aCol;

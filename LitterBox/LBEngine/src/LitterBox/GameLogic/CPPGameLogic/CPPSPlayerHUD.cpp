@@ -123,6 +123,7 @@ namespace LB {
 				GameObject* healthObject = FACTORY->SpawnGameObject();
 				JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
 				Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
+				//Vec2 startPos = Vec2<float>(-(WINDOWSSYSTEM->GetScreenWidth() / 4.0f), WINDOWSSYSTEM->GetScreenHeight() / 4.0f - m_displayOffset.y);
 				healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * (i - 1), startPos.y));
 				//m_currentHealth = 2;
 				// Set the texture for lost health
@@ -132,6 +133,7 @@ namespace LB {
 						static_cast<int>(healthObject->GetComponent<CPRender>()->w),
 						static_cast<int>(healthObject->GetComponent<CPRender>()->h));
 				}
+				//healthObject->GetComponent<CPTransform>()->SetParent(GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPTransform>());
 
 				m_totalHeartDisplay.push_back(healthObject);
 			}
@@ -141,7 +143,9 @@ namespace LB {
 				GameObject* ballObject = FACTORY->SpawnGameObject();
 				JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
 				Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
+				//Vec2 startPos = Vec2<float>(-(WINDOWSSYSTEM->GetScreenWidth() / 4.0f), WINDOWSSYSTEM->GetScreenHeight() / 4.0f - m_displayOffset.y * 2.0f);
 				ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * i, startPos.y));
+				//ballObject->GetComponent<CPTransform>()->SetParent(GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPTransform>());
 
 				m_totalBallsDisplay.push_back(ballObject);
 			}
@@ -166,6 +170,7 @@ namespace LB {
 				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"), 
 																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->w), 
 																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
+
 			}
 			else if ( i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
 			{
@@ -173,6 +178,8 @@ namespace LB {
 																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->w),
 																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
 			}
+			// Update the location of the heart based on the camera follow
+			//std::cout << m_totalHeartDisplay[i - 1]->GetComponent<CPTransform>()->GetParent()->gameObj->GetName() << std::endl;
 		}
 
 		for (size_t i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls; ++i)
@@ -318,6 +325,7 @@ namespace LB {
 			GameObject* healthObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
 			Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
+			//Vec2 startPos = Vec2<float>(-(WINDOWSSYSTEM->GetScreenWidth() / 4.0f), WINDOWSSYSTEM->GetScreenHeight() / 4.0f - m_displayOffset.y);
 			healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth + i - 1), startPos.y));
 			//m_currentHealth = 2;
 			// Set the texture for lost health
@@ -327,6 +335,7 @@ namespace LB {
 					static_cast<int>(healthObject->GetComponent<CPRender>()->w),
 					static_cast<int>(healthObject->GetComponent<CPRender>()->h));
 			}
+			//healthObject->GetComponent<CPTransform>()->SetParent(GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPTransform>());
 
 			m_totalHeartDisplay.push_back(healthObject);
 		}
@@ -346,7 +355,9 @@ namespace LB {
 			GameObject* ballObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
 			Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
+			//Vec2 startPos = Vec2<float>(-(WINDOWSSYSTEM->GetScreenWidth() / 4.0f), WINDOWSSYSTEM->GetScreenHeight() / 4.0f - m_displayOffset.y * 2.0f);
 			ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls + i), startPos.y));
+			//ballObject->GetComponent<CPTransform>()->SetParent(GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPTransform>());
 
 			m_totalBallsDisplay.push_back(ballObject);
 		}

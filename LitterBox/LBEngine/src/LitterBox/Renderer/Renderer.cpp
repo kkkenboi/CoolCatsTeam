@@ -1171,8 +1171,11 @@ void Renderer::RenderSystem::Update()
 	if (ui_renderer.getActive())
 	{
 		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
+		glUniform1i(glGetUniformLocation(shader_program, "UI"), true);
+		glUniformMatrix4fv(glGetUniformLocation(shader_program, "uicam"), 1, GL_FALSE, &cam.ui_NDC[0][0]);
 		glBindVertexArray(ui_renderer.get_vao());
 		glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+		glUniform1i(glGetUniformLocation(shader_program, "UI"), false);
 	}
 	//print all messages here
 	text_renderer.update_text();
