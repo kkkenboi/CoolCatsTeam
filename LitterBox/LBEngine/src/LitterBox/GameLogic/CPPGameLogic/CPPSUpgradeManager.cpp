@@ -18,6 +18,7 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "CPPGameManager.h"
+#include "CPPSPlayerHUD.h"
 /*!************************************************************************
  * \brief Small note: By right I think we should have just let the upgrade manager
  * keep track of what upgrades the ball is supposed to have, and the ball should
@@ -49,6 +50,7 @@ namespace LB
 			std::cout << static_cast<int>(upgrade) << '\n';
 		}*/
 		//SpawnUpgrades();
+
 	}
 
 	/*!************************************************************************
@@ -156,8 +158,18 @@ namespace LB
 		//next wave
 		GameObject* GameManagerObj = GOMANAGER->FindGameObjectWithName("GameManager");
 		GameManagerObj->GetComponent<CPPSGameManager>()->NextWave();
-		//Once we pick the upgrade we have to remove it from the pool
+		//Once we pick the upgrade we have to remove it from the available upgrade pool
 		RemoveUpgradeFromList(static_cast<UpgradeType>(chosen));
+
+		// Add to the Player's upgrade list to keep track and let the HUD know that there is a new update
+		// If it doesn't exist, add it in
+		auto it = std::find(PlayerUpgradesList.begin(), PlayerUpgradesList.end(), chosen);
+		if (it == PlayerUpgradesList.end()) 
+		{
+			PlayerUpgradesList.push_back(static_cast<UpgradeType>(chosen));
+			onNewUpgrade.Invoke(static_cast<UpgradeType>(chosen));
+		}
+
 		//then we hide all the other upgrades
 		if (leftUpgrade != nullptr)
 		{

@@ -99,7 +99,10 @@ namespace LB {
 		\param font_size
 		 The new scaling value for the text
 		*************************************************************************/
-		inline void update_msg_size(float font_size);
+		inline void update_msg_size(float font_size)
+		{
+			msg.scale = font_size;
+		}
 		/*!***********************************************************************
 		\brief
 		 Updates the position of the text on the screen
@@ -109,7 +112,11 @@ namespace LB {
 		\param pos
 		 The new position in vector format
 		*************************************************************************/
-		inline void update_msg_pos(const LB::Vec2<float>& pos);
+		inline void update_msg_pos(const LB::Vec2<float>& pos)
+		{
+			msg.x = pos.x;
+			msg.y = pos.y;
+		}
 		/*!***********************************************************************
 		\brief
 		 Updates the font that will be used to print the text object message
@@ -165,7 +172,14 @@ namespace LB {
 
 		void ToggleActive(bool flag)
 		{
-			UNREFERENCED_PARAMETER(flag);
+			if (flag)
+			{
+				msg.scale = msg.scaleSaved;
+			}
+			else
+			{
+				msg.scale = 0.f;
+			}
 		}
 	};
 }

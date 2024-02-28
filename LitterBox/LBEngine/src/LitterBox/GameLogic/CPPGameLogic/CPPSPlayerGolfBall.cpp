@@ -27,6 +27,9 @@
 #include "CPPSBaseEnemy.h"
 #include "CPPSMage.h"
 #include "CPPSChaser.h"
+#include "CPPGameManager.h"
+
+
 #include "CPPSUpgradeManager.h"
 #include "LitterBox/Utils/Matrix3x3.h"
 //#include <random>
@@ -43,6 +46,7 @@ namespace LB
 		mCollider = GameObj->GetComponent<CPCollider>();
 
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+		mGameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 		/*std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
 		for (GameObject* GO : GOs) {
 			if (GO->GetName() == "MainChar")
@@ -56,7 +60,7 @@ namespace LB
 		mVelocity = 1000.0f; //with direction
 		
 		mCurrentLifetime = mLifetime = 1.0f;
-		onBallDisappear.Subscribe(IncreaseBalls);
+		onBallDisappear.Subscribe(DecreaseBalls);
 
 	}
 
@@ -78,7 +82,6 @@ namespace LB
 			if (mCurrentLifetime <= 0.0f)
 			{
 				//if (currentBallUpgrades & BOMB) Explode();
-				mPlayer->GetComponent<CPPSPlayer>()->m_currentBalls--;
 				//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
 				//--player->m_currentBalls;
 				canDestroy = true;
@@ -103,8 +106,7 @@ namespace LB
 
 			//Renderer::GRAPHICS->shaker_camera();
 			Explode();
-			mPlayer->GetComponent<CPPSPlayer>()->m_currentBalls--;
-			
+			canDestroy = true;
 			//CPPSPlayer* player = mPlayer->GetComponent<CPPSPlayer>();
 			//CPPSPlayer* player = (CPPSPlayer*)mPlayer->GetComponent<CPScriptCPP>()->GetInstance();
 			//--player->m_currentBalls;
@@ -153,7 +155,7 @@ namespace LB
 		//We do this instead of calling can destroy because we still want the logic in the
 		//update loop of decreasing the player's current ball count.
 		//Probably refactor this in the future
-		mCurrentLifetime = 0;
+		mCurrentLifetime = 0.f;
 		mRigidBody->mVelocity = Vec2<float>().Zero();
 	}
 

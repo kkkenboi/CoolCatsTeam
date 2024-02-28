@@ -91,9 +91,12 @@ namespace LB
 		//note: maybe use a stack instead, randomise the values before putting in
 		//then use push and pop 
 		std::vector<UpgradeType> UpgradesList;
+		std::vector<UpgradeType> PlayerUpgradesList;
 		//Default is 0 for no upgrades
 		int currentBallUpgrades{0};
 		bool hasUpgraded{ false };
+
+		Event<UpgradeType> onNewUpgrade{};
 	private:
 		//Temporary upgrade positions for now, in the future these will be calculated 
 		//and placed at the "end point" of the bigger map

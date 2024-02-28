@@ -16,6 +16,8 @@
 #include "pch.h"
 #include "CPPBehaviour.h"
 #include "LitterBox/Components/CPPScriptComponent.h"
+#include "CPPSUpgradeManager.h"
+#include <tuple>
 
 
 namespace LB
@@ -48,6 +50,13 @@ namespace LB
 		Inherited Destroy currently doesn't need to do anything.
 		*************************************************************************/
 		void Destroy() override;
+
+		/*!***********************************************************************
+		\brief
+		This mainly checks for the collision between the mouse and the UI to display
+		pop up information.
+		*************************************************************************/
+		void OnCollisionEnter(CollisionData colData);
 
 		/*!***********************************************************************
 		 \brief
@@ -85,21 +94,44 @@ namespace LB
 		*************************************************************************/
 		void IncreaseMaxBalls(int amount);
 
+		/*!***********************************************************************
+		 \brief
+		 Adds a new upgrade to the display in PlayerHUD
+		*************************************************************************/
+		void AddNewUpgrade(UpgradeType upgrade);
+
+		/*!***********************************************************************
+		 \brief
+		 Helper Function to set both the item name and flavour text
+		*************************************************************************/
+		void SetPopUpText(std::string itemName, std::string itemInfo, std::string flavourText, 
+						  GameObject* mainPopUp, GameObject* infoObject, GameObject* flavourObject);
+
+		/*!***********************************************************************
+		 \brief
+		 This is to set up the pop up position at either your own upgrade position 
+		 or a new upgrade's position that hasn't been selected.
+		*************************************************************************/
+		void SetPopUpPosition(UpgradeType upgrade, Vec2<float> startingPos);
+
 	private:
-		int m_maxHealth{};
-		int m_maxBalls{};
-		int m_currentHealth{};
-		int m_currentBalls{};
 		bool m_displayUpgrade{false};
 		bool m_decreaseHealth{ false };
 		bool m_decreaseBalls{ false };
 		Vec2<float> m_displayOffset = { 130.f, 130.f };
 
-		GameObject* m_mainChar{nullptr};
+		GameObject* m_GameManager{ nullptr };
+		GameObject* m_UpgradeManager{ nullptr };
+		GameObject* m_Mouse{ nullptr };
+
+		bool m_mouseHovering{ false };
+
+		UpgradeType m_currentPopUpIndex {UpgradeType::SPLIT};
 
 		std::vector<GameObject*> m_totalHeartDisplay;
 		std::vector<GameObject*> m_totalBallsDisplay;
-		std::stack<GameObject*> m_totalUpgradeDisplay;
+		std::vector<GameObject*> m_totalUpgradeDisplay;
+		std::vector<std::tuple<GameObject*, GameObject*, GameObject*>> m_totalUpgradePopUps;
 	};
 	REGISTER_SCRIPT(CPPSPlayerHUD)
 
@@ -137,5 +169,11 @@ namespace LB
 	 For event subscription to increase the max health in PlayerHUD
 	*************************************************************************/
 	void IncreaseMaxBalls(int amount);
+
+	/*!***********************************************************************
+	 \brief
+	 For event subscription to add a new upgrade in PlayerHUD
+	*************************************************************************/
+	void AddNewUpgrade(UpgradeType upgrade);
 }
 

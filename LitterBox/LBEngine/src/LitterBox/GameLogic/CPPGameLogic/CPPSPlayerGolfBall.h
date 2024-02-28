@@ -94,6 +94,7 @@ namespace LB
 		CPRigidBody* mRigidBody{ nullptr }; //Getting the RB of the enemy
 		CPCollider* mCollider{ nullptr }; //Getting the collider of the enemy
 		GameObject* mPlayer{ nullptr }; //Getting the game object of the player
+		GameObject* mGameManager{ nullptr }; //Getting the game object of the player
 
 		
 

@@ -1037,10 +1037,12 @@ namespace LB
 				static ImVec4 color = ImVec4(col.x, col.y, col.z, 1.f);
 				ImGui::Text("Text Color:");
 				ImGui::SameLine();
-				ImGui::ColorEdit3("##TextColor", (float*)&color);
-				col = Vec3<float>(color.x, color.y, color.z);
-				//m_inspectedGO->GetComponent<CPText>()->update_msg_color(col);
-				m_inspectedGO->GetComponent<CPText>()->get_msg().color = col;
+				if (ImGui::ColorEdit3("##TextColor", (float*)&color))
+				{
+					col = Vec3<float>(color.x, color.y, color.z);
+					//m_inspectedGO->GetComponent<CPText>()->update_msg_color(col);
+					m_inspectedGO->GetComponent<CPText>()->get_msg().color = col;
+				}
 				ImGui::Text("%-19s", "Font Name");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);

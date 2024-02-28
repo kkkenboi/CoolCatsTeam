@@ -409,6 +409,9 @@ namespace Renderer {
 		//openGL handles
 		unsigned int tShader, tVao, tVbo;
 
+		//text max bound before wrapping
+		float maxBound;
+
 		//Necessary freetype variables to load font
 		FT_Library ft;
 		FT_Face font;

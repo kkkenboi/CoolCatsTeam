@@ -22,6 +22,16 @@ namespace LB
 {
 	void CPPSGameManager::Start()
 	{
+		// Initialising player values
+		m_PlayerMaxHealth = 3;
+		m_PlayerCurrentHealth = 3;
+		m_PlayerMaxBalls = 3;
+		m_PlayerCurrentBalls = 0;
+		m_PlayerWalkSpeed = 1750.0f;
+		m_PlayerMaxSpeed = 3500.0f;
+		m_PlayerArbitraryFriction = 0.95f;
+
+
 		//loading the gameobjects with data
 		//then adding it to our pair list
 		//EnemyPrefabList.emplace_back(std::make_pair(chaserEnemy, 2));
@@ -29,6 +39,7 @@ namespace LB
 
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChaserEnemy, 2));
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnMageEnemy, 5));
+		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChargerEnemy, 8));
 		//in the future
 		//EnemyList.emplace_back(std::make_pair(SpawnChargerEnemy, 8));
 
@@ -75,6 +86,11 @@ namespace LB
 			GameObject* ballObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("ball", *ballObject);
 			GOMANAGER->RemoveGameObject(ballObject, 2.f);
+		}
+
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_P))
+		{
+			SpawnChargerEnemy();
 		}
 		////Really really really scuffed way of doing this
 		//if (currentEnemyCount == 0 && GameStart && UpgradePicked)
@@ -152,6 +168,18 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserClone);
 		//chaserClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
+
+	/*!************************************************************************
+	* \brief Spawns a chaser enemy
+	*
+	**************************************************************************/
+	void CPPSGameManager::SpawnChargerEnemy()
+	{
+		GameObject* chargerClone = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
+		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+	}
+
 	/*!************************************************************************
 	* \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 	* 

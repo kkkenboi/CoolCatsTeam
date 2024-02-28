@@ -41,11 +41,10 @@ namespace LB
 		CPTransform* trans{ nullptr };
 
 		//------------------variables------------------
-		float m_walkSpeed, m_maxSpeed, m_stepSoundInterval, m_stepSoundCurrent; //walking Speed, max speed cap for walking, playing sound duration 
+		GameObject* m_GameManager{nullptr};
 
-		int m_maxBalls, m_currentBalls; //max golf balls that the player can hold, and the current count of how many balls it has spawn
+		float m_stepSoundInterval, m_stepSoundCurrent; //walking Speed, max speed cap for walking, playing sound duration 
 
-		int m_maxHealth, m_currentHealth; //health of the player
 		float mGotAttacked, mGotAttackedCooldown; //attacking and cooling down of the attack
 
 		float m_shootForce, m_shootRadius; //shooting of the golf ball force and the radius to shoot
@@ -54,7 +53,6 @@ namespace LB
 
 		Event<> onTakingDamage;
 		Event<> onPlacingBall;
-		float arbitraryFriction{ 0.95f };
 	private:
 		//direction of where the player is facing
 		LB::Vec2<float> right_face;

@@ -15,6 +15,7 @@
 #include "CPPSUpgradeManager.h"
 #include "CPPSPlayerHUD.h"
 #include "CPPSPlayer.h"
+#include "CPPGameManager.h"
 
 namespace LB
 {
@@ -63,21 +64,19 @@ namespace LB
 			switch (assignedUpgradeType)
 			{
 			case MOREBALL:
-				std::cout << "More Balls!\n";
+				// Should move functions from PlayerHUD to the GameManager in the future
 				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(3);
 				break;
 			case MOREHEALTH:
-				std::cout << "More Health!\n";
-
+				// Should move functions from PlayerHUD to the GameManager in the future
 				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(3);
 				break;
 			case MOVESPEED:
-				std::cout << "More Movespeed!\n";
-				GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->m_walkSpeed *= 1.5f;
-				GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->arbitraryFriction = 0.8f;
+				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed *= 1.5f;
+				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction *= 0.8f;
 				break;
 			case BIGBALL:
-				std::cout << "Bigger Balls!\n";
+				// std::cout << "Bigger Balls!\n";
 
 			default:
 				//do nothing
