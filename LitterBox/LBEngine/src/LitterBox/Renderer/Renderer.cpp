@@ -1020,10 +1020,10 @@ void Renderer::RenderSystem::Initialize()
 		 21, 8, 17, 18 });*/
 
 	//cache some values
-	float midx = 800.f;
-	float midy = 800.f;
-	float w = 1920.f;
-	float h = 1600.f;
+	float midx = 0.f;
+	float midy = 0.f;
+	float w = 4000.f;
+	float h = 4000.f;
 
 	test2 = LB::Memory::Instance()->Allocate<LB::CPRender>(LB::Vec2<float>(midx, midy), w, h, LB::Vec2<float>(1.f, 1.f), LB::Vec3<float>(0.f, 0.f, 0.f), std::array<LB::Vec2<float>, 4>{}, -1, true, Renderer_Types::RT_BACKGROUND);
 	test2->z_val = 2.f;

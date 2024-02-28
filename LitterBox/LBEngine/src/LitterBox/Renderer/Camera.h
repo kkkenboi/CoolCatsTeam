@@ -164,6 +164,12 @@ namespace Renderer {
 		 Returns reference to camera's y position
 		*************************************************************************/
 		float& get_cam_y() { return pos.y; }
+
+		void update_cam()
+		{
+			nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });
+			world_NDC = ortho * nel;
+		}
 	};
 	//----------------------------------------CAMERA-----------------------------------
 }
