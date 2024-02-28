@@ -25,6 +25,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSBlueMushroom::Start()
 	{
+		mTransform = GameObj->GetComponent<CPTransform>();
 		mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
@@ -36,13 +37,56 @@ namespace LB
 	*************************************************************************/
 	void CPPSBlueMushroom::Update()
 	{
-		if (mScaled) 
+		if (mScaledUp || mScaledDown) 
 		{
+			mRender->SetSpriteTexture(mRender->spriteSheetName, 1);
+		}
+		else 
+		{
+			mRender->SetSpriteTexture(mRender->spriteSheetName, 0);
+		}
+		if (mScaledUp)
+		{
+			// Calculate the interpolation factor
+			float t = 1.0f - (mScaleTimerRemaining / mScaleTimer);
+
+			// Lerp towards the target scale
+			Vec2<float> lerpedScale = Lerp(mTransform->GetLocalScale(), Vec2<float>{1.25f, 1.25f}, t);
+			GameObj->GetComponent<CPTransform>()->SetScale(lerpedScale);
+
+			// Update the timer
 			mScaleTimerRemaining -= static_cast<float>(TIME->GetDeltaTime());
+
 			if (mScaleTimerRemaining <= 0.f) {
+				// Ensure that the scale reaches the target exactly
+				GameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.25f, 1.25f});
+
+				// Reset the timer and flags
+				mScaleTimer = mToMinTimer;
 				mScaleTimerRemaining = mScaleTimer;
-				mScaled = false;
+				mScaledUp = false;
+				mScaledDown = true; // Start scaling down
+			}
+		}
+		else if (mScaledDown)
+		{
+			// Calculate the interpolation factor
+			float t = 1.0f - (mScaleTimerRemaining / mScaleTimer);
+
+			// Lerp towards the original scale
+			Vec2<float> lerpedScale = Lerp(mTransform->GetLocalScale(), Vec2<float>{1.f, 1.f}, t);
+			GameObj->GetComponent<CPTransform>()->SetScale(lerpedScale);
+
+			// Update the timer
+			mScaleTimerRemaining -= static_cast<float>(TIME->GetDeltaTime());
+
+			if (mScaleTimerRemaining <= 0.f) {
+				// Ensure that the scale reaches the target exactly
 				GameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
+
+				// Reset the timer and flags
+				mScaleTimerRemaining = mScaleTimer;
+				mScaledDown = false;
 			}
 		}
 	}
@@ -66,8 +110,11 @@ namespace LB
 		{
 			colData.colliderOther->rigidbody->mVelocity.x *= 1.75f;
 			colData.colliderOther->rigidbody->mVelocity.y *= 1.75f;
-			GameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.25f, 1.25f});
-			mScaled = true;
+
+			// Start scaling down in the next update loop
+			mScaleTimer = mToMaxTimer;
+			mScaleTimerRemaining = mScaleTimer;
+			mScaledUp = true;
 		}
 	}
 
@@ -96,6 +143,12 @@ namespace LB
 	CPCollider* CPPSBlueMushroom::GetCollider()
 	{
 		return mCollider;
+	}
+
+	// Helper function
+	Vec2<float> Lerp(const Vec2<float>& a, const Vec2<float>& b, float t)
+	{
+		return Vec2<float>{a.x + t * (b.x - a.x), a.y + t * (b.y - a.y)};
 	}
 
 }
