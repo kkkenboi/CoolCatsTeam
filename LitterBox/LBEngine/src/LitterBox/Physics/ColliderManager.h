@@ -17,8 +17,8 @@ namespace LB
 		
 		// A container that holds that these two colliders
 		// are currently colliding
-		std::vector<std::pair<CPCollider*, CPCollider*>> m_collidedPairs;
-		std::vector<std::pair<CPCollider*, CPCollider*>> m_pairsToRemove;
+		std::vector<std::pair<int, int>> m_collidedPairs;
+		std::vector<std::pair<int, int>> m_pairsToRemove;
 
 	public:
 		std::vector<std::pair<std::string, SHAPETYPE>> m_shapeTypes;

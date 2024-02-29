@@ -8,7 +8,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSSandpit::Start()
 	{
-
+		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 	}
 
 	/*!***********************************************************************
@@ -36,7 +36,7 @@ namespace LB
 
 	void CPPSSandpit::OnCollisionEnter(CollisionData colData)
 	{
-		//colData.colliderOther->gameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{2.f, 2.f});
+		
 	}
 
 	void CPPSSandpit::OnCollisionStay(CollisionData colData)
@@ -48,11 +48,15 @@ namespace LB
 				colData.colliderOther->rigidbody->mVelocity.x *= 0.90f;
 				colData.colliderOther->rigidbody->mVelocity.y *= 0.90f;
 			}
+			if (colData.colliderOther->gameObj->GetName() == "MainChar") 
+			{
+				colData.colliderOther->rigidbody->mVelocity.x *= 0.5f;
+				colData.colliderOther->rigidbody->mVelocity.y *= 0.5f;
+			}
 		}
 	}
 
 	void CPPSSandpit::OnCollisionExit(CollisionData colData)
 	{
-		//colData.colliderOther->gameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
 	}
 }

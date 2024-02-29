@@ -88,6 +88,7 @@ namespace LB {
 		*************************************************************************/
 		bool Deserialize(const Value& data);
 
+		void ResizeMatrix();
 
 	private:
 		std::vector<std::pair<std::string, ColliderLayer>> m_layers;

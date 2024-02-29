@@ -1,0 +1,2569 @@
+{
+    "Root": {
+        "Active": true,
+        "Position": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "GameManager",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 969.090026,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSGameManager"
+                }
+            },
+            {
+                "Name": "Aim",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1256.430053,
+                        "y": 279.700012
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 157.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "Aim",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSAimUI"
+                }
+            },
+            {
+                "Name": "MainChar",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 898.549987,
+                        "y": 509.790008
+                    },
+                    "Scale": {
+                        "x": 1.25,
+                        "y": 1.25
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "DeDust2",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -45.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 100.0,
+                                "Height": 100.0,
+                                "Layer": 0,
+                                "Texture": "DustParticle",
+                                "SpriteName": "None",
+                                "SpriteIndex": 1
+                            },
+                            "Particle": {
+                                "EmitterType": 0,
+                                "EmitterRate": 0.05,
+                                "RadialNum": 10,
+                                "EmitterVelocity": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "VelocityMinX": -15.0,
+                                "VelocityMaxX": 10.0,
+                                "VelocityMinY": -50.0,
+                                "VelocityMaxY": 40.0,
+                                "RadialSpeed": 100.0,
+                                "SizeBegin": 0.8,
+                                "SizeEnd": 0.3,
+                                "EmitterLifetime": 1.0,
+                                "ParticleLifetime": 0.15,
+                                "EmitterActive": true,
+                                "EmitterLooping": true
+                            }
+                        }
+                    ]
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": false
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 115.0,
+                    "Height": 115.0,
+                    "Layer": 0,
+                    "Texture": "Felix_SpriteSheet",
+                    "SpriteName": "FelixSheet",
+                    "SpriteIndex": 1
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Player",
+                        "Layer ID": 3
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 40.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSPlayer"
+                },
+                "Animator": {
+                    "Controller": "FelixController"
+                }
+            },
+            {
+                "Name": "Bush_1",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 337.0,
+                        "y": 613.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "Bush_SpriteSheet",
+                    "SpriteName": "BushSheet",
+                    "SpriteIndex": 1
+                }
+            },
+            {
+                "Name": "Bush_2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1147.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "Bush_SpriteSheet",
+                    "SpriteName": "BushSheet",
+                    "SpriteIndex": 0
+                }
+            },
+            {
+                "Name": "Bush_3",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 896.0,
+                        "y": 221.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "Bush_SpriteSheet",
+                    "SpriteName": "BushSheet",
+                    "SpriteIndex": 2
+                }
+            },
+            {
+                "Name": "NorthWall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 959.590026,
+                        "y": 1011.080017
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1906.0,
+                    "Height": 151.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "SouthWall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 964.150024,
+                        "y": 68.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1901.0,
+                    "Height": 146.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "WestWall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 65.870002,
+                        "y": 541.530029
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 150.0,
+                    "Height": 1032.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "EastWall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1851.520019,
+                        "y": 532.150024
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 154.0,
+                    "Height": 1059.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "PauseMenuHolderObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.37,
+                        "y": 10.8
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::PauseMenuScript"
+                }
+            },
+            {
+                "Name": "PauseMenuTextureObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "Pause Menu",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "PauseMenuResumeObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1.0,
+                    "Height": 1.0,
+                    "Radius": 1.0
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1.0,
+                    "Height": 1.0,
+                    "Radius": 1.0
+                }
+            },
+            {
+                "Name": "PauseMenuQuitObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1.0,
+                    "Height": 1.0,
+                    "Radius": 1.0
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayTextureObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.1,
+                        "y": 9.18
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "HowToPlay",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayPreviousMenuButton",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": -8.8
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 218.0,
+                    "Height": 165.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmTexture",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.2,
+                        "y": 9.1
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "QuitMenu",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmYesObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 212.0,
+                    "Height": 84.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmNoObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 206.0,
+                    "Height": 91.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "GameMusic",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 800.0,
+                        "y": 450.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "AudioSource": {
+                    "Active": true,
+                    "AudioClipName": "BGM",
+                    "Play On Awake": true,
+                    "Loop": true,
+                    "Volume": 0.1,
+                    "Pitch": 1.0
+                }
+            },
+            {
+                "Name": "UnderlineObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 10.0,
+                        "y": 10.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "Underline",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "PlayerHUD",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSPlayerHUD"
+                }
+            },
+            {
+                "Name": "Upgrade Manager",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSUpgradeManager"
+                }
+            },
+            {
+                "Name": "FPS",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1568.060058,
+                        "y": 868.590026
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSFPS"
+                }
+            },
+            {
+                "Name": "MUSHYroom",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1395.180053,
+                        "y": 315.48001
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 125.0,
+                    "Height": 125.0,
+                    "Layer": 0,
+                    "Texture": "MushBramble_SpriteSheet",
+                    "SpriteName": "MushBrambleSheet",
+                    "SpriteIndex": 0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 42.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSBlueMushroom"
+                }
+            },
+            {
+                "Name": "Sandpit",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 804.0,
+                        "y": 738.0
+                    },
+                    "Scale": {
+                        "x": 3.0,
+                        "y": 3.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "Sand_Pit",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Parent",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -250.0,
+                        "y": -900.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 375.0,
+                                    "y": 1375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 12
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2375.0,
+                                    "y": 625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2125.0,
+                                    "y": 625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1875.0,
+                                    "y": 625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1625.0,
+                                    "y": 625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1375.0,
+                                    "y": 625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1125.0,
+                                    "y": 625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 875.0,
+                                    "y": 625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 625.0,
+                                    "y": 625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 375.0,
+                                    "y": 625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 125.0,
+                                    "y": 625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2375.0,
+                                    "y": 875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2125.0,
+                                    "y": 875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1875.0,
+                                    "y": 875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1625.0,
+                                    "y": 875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1375.0,
+                                    "y": 875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1125.0,
+                                    "y": 875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 875.0,
+                                    "y": 875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 625.0,
+                                    "y": 875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 21
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 375.0,
+                                    "y": 875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 6
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 125.0,
+                                    "y": 875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2375.0,
+                                    "y": 1125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2125.0,
+                                    "y": 1125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 9
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1375.0,
+                                    "y": 1125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 20
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1625.0,
+                                    "y": 1125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 14
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1125.0,
+                                    "y": 1125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 21
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 875.0,
+                                    "y": 1125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 15
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 375.0,
+                                    "y": 1125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 8
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 125.0,
+                                    "y": 1125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2375.0,
+                                    "y": 1375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2125.0,
+                                    "y": 1375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 9
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1375.0,
+                                    "y": 1375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 14
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1125.0,
+                                    "y": 1375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 15
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 625.0,
+                                    "y": 1375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 11
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 125.0,
+                                    "y": 1375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2375.0,
+                                    "y": 1625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2125.0,
+                                    "y": 1625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 1
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1875.0,
+                                    "y": 1625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 2
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1625.0,
+                                    "y": 1625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 10
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 625.0,
+                                    "y": 1625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 8
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 375.0,
+                                    "y": 1625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 125.0,
+                                    "y": 1625.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2375.0,
+                                    "y": 1875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2125.0,
+                                    "y": 1875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1875.0,
+                                    "y": 1875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1625.0,
+                                    "y": 1875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 9
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 625.0,
+                                    "y": 1875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 8
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 375.0,
+                                    "y": 1875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 125.0,
+                                    "y": 1875.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2375.0,
+                                    "y": 2125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2125.0,
+                                    "y": 2125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1875.0,
+                                    "y": 2125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1625.0,
+                                    "y": 2125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 1
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1375.0,
+                                    "y": 2125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 2
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1125.0,
+                                    "y": 2125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 2
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 875.0,
+                                    "y": 2125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 2
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 625.0,
+                                    "y": 2125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 0
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 375.0,
+                                    "y": 2125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 125.0,
+                                    "y": 2125.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2375.0,
+                                    "y": 2375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2125.0,
+                                    "y": 2375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1875.0,
+                                    "y": 2375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1625.0,
+                                    "y": 2375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1375.0,
+                                    "y": 2375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1125.0,
+                                    "y": 2375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 875.0,
+                                    "y": 2375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 625.0,
+                                    "y": 2375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 375.0,
+                                    "y": 2375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        },
+                        {
+                            "Name": "Game Object",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 125.0,
+                                    "y": 2375.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 255.0,
+                                "Height": 255.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 17
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

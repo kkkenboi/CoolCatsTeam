@@ -47,6 +47,9 @@ namespace LB
 
 		float mGotAttacked, mGotAttackedCooldown; //attacking and cooling down of the attack
 
+		bool mIsStunned;
+		float mStunRemaining, mStunTimer; // when getting attack get stunned
+
 		float m_shootForce, m_shootRadius; //shooting of the golf ball force and the radius to shoot
 
 		bool m_isFacingLeft; //facing which direction

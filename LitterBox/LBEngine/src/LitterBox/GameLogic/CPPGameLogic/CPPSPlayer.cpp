@@ -24,8 +24,8 @@
 #include <random>
 #include "CPPSPlayerHUD.h"
 #include "CPPSUpgradeManager.h"
+#include "LitterBox/Renderer/Camera.h"
 #include "CPPGameManager.h"
-
 namespace LB
 {
 	//This array is for the animation frames
@@ -48,7 +48,6 @@ namespace LB
 
 		//--------------------------Variables initializaiton----------------------------
 		m_GameManager = GOMANAGER->FindGameObjectWithName("GameManager");
-
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
@@ -58,6 +57,11 @@ namespace LB
 		// 1 seconds of invincibility
 		mGotAttackedCooldown = 0;
 		mGotAttacked = 1.f;
+
+		// 0.5 seconds of stun
+		mIsStunned = false;
+		mStunTimer = 0.5f;
+		mStunRemaining = mStunTimer;
 
 		// So that balls don't spawn on top each other
 		rb->addForce(Vec2<float>{10.0f, 0.0f} * TIME->GetDeltaTime());
@@ -93,40 +97,8 @@ namespace LB
 	void CPPSPlayer::Update()
 	{
 		if (TIME->IsPaused()) return;
-		/*!***********************************************************************
-		\brief
-		When "8" is pressed on the key, it will spawn a mage
-		*************************************************************************/
-		//-----------------TESTING SPAWN-----------------------
-		//Spawn Mage
-		//if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
-		//{
-		//	Vec2<float> mouse_pos = INPUT->GetMousePos();
-		//	mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-		//	mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-		//	mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 
-		//	GameObject* mageObject = FACTORY->SpawnGameObject();
-		//	JSONSerializer::DeserializeFromFile("Mage", *mageObject);
-		//	mageObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
-		//}
-		/*!***********************************************************************
-		\brief
-		When "9" is pressed on the key, it will spawn a Chaser
-		*************************************************************************/
-		//Spawn Chaser
-	/*	if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
-		{
-			Vec2<float> mouse_pos = INPUT->GetMousePos();
-			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
-
-			GameObject* chaserObject = FACTORY->SpawnGameObject();
-			JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserObject);
-			chaserObject->GetComponent<CPTransform>()->SetPosition(mouse_pos);
-		}*/
-
+		
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
@@ -137,7 +109,7 @@ namespace LB
 		*************************************************************************/
 		//------------------Walking animation------------------
 		static bool isWalkingAnim{ false };
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_W) && !mIsStunned)
 		{
 			//rend->stop_anim();
 			//rend->play_repeat("player_walk");
@@ -146,7 +118,7 @@ namespace LB
 
 			isWalkingAnim = true;
 		}
-		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A))
+		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A) && !mIsStunned)
 		{
 			//rend->stop_anim();
 			//rend->play_repeat("player_walk");
@@ -155,7 +127,7 @@ namespace LB
 
 			isWalkingAnim = true;
 		}
-		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D))
+		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D) && !mIsStunned)
 		{
 			//rend->stop_anim();
 			//rend->play_repeat("player_walk");
@@ -164,7 +136,7 @@ namespace LB
 
 			isWalkingAnim = true;
 		}
-		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S))
+		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S) && !mIsStunned)
 		{
 			//rend->stop_anim();
 			//rend->play_repeat("player_walk");
@@ -181,32 +153,51 @@ namespace LB
 		*************************************************************************/
 		//------------------Movement WASD------------------
 		bool isMoving{ false };
-		if (INPUT->IsKeyPressed(KeyCode::KEY_W))
+		Vec2<float> movement{ 0.f,0.f };
+		Vec2<float> externalForce = rb->mVelocity;
+		if (INPUT->IsKeyPressed(KeyCode::KEY_W) && !mIsStunned)
 		{
-			rb->mVelocity += Vec2<float>{0.f, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed} *TIME->GetDeltaTime();
 			//rb->addForce(Vec2<float>{0.f, m_walkSpeed} * TIME->GetDeltaTime());
+			//rb->mVelocity += Vec2<float>{0.f, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed} *TIME->GetDeltaTime(); 
+			//movement += Vec2<float>{ 0.f, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed };
+			movement.y += 1.f;
 			isMoving = true;
 		}
-		if (INPUT->IsKeyPressed(KeyCode::KEY_S))
+		if (INPUT->IsKeyPressed(KeyCode::KEY_S) && !mIsStunned)
 		{
 			//rb->addForce(Vec2<float>{0.f, -m_walkSpeed} * TIME->GetDeltaTime());
-			rb->mVelocity -= Vec2<float>{0.f, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed} *TIME->GetDeltaTime();
-
+			//rb->mVelocity -= Vec2<float>{0.f, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed} *TIME->GetDeltaTime();
+			//movement += Vec2<float>{ 0.f, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed };
+			movement.y += -1.f;
 			isMoving = true;
 		}
-		if (INPUT->IsKeyPressed(KeyCode::KEY_A))
+		if (INPUT->IsKeyPressed(KeyCode::KEY_A) && !mIsStunned)
 		{
 			//rb->addForce(Vec2<float>{-m_walkSpeed, 0.f} * TIME->GetDeltaTime());
-			rb->mVelocity += Vec2<float>{-m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f} *TIME->GetDeltaTime();
-
+			//rb->mVelocity += Vec2<float>{-m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f} *TIME->GetDeltaTime();
+			//movement += Vec2<float>{ -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f };
+			movement.x += -1.f;
 			isMoving = true;
 		}
-		if (INPUT->IsKeyPressed(KeyCode::KEY_D))
+		if (INPUT->IsKeyPressed(KeyCode::KEY_D) && !mIsStunned)
 		{
 			//rb->addForce(Vec2<float>{m_walkSpeed, 0.f} * TIME->GetDeltaTime());
-			rb->mVelocity += Vec2<float>{m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f} *TIME->GetDeltaTime();
+			//rb->mVelocity += Vec2<float>{m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f} *TIME->GetDeltaTime();
+			//movement += Vec2<float>{ m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f };
+			movement.x += 1.f;
 			isMoving = true;
 		}
+
+		if (movement.x != 0.f || movement.y != 0.f) {
+			movement = Normalise(movement);
+		}
+
+		if (!mIsStunned) {
+			//rb->mVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
+			Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
+			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 100.f * static_cast<float>(TIME->GetDeltaTime());
+		}
+
 		//clamping of the speed of the player movement
 		rb->mVelocity.x = Clamp<float>(rb->mVelocity.x, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed);
 		rb->mVelocity.y = Clamp<float>(rb->mVelocity.y, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed);
@@ -219,8 +210,9 @@ namespace LB
 			 {
 			 	//rend->stop_anim();
 			 	//rend->play_repeat("player_idle");
-				GetComponent<CPAnimator>()->Stop();
-
+				 if (!mIsStunned) {
+					 GetComponent<CPAnimator>()->Stop();
+				 }
 			 	isWalkingAnim = false;
 			 }
 			GameObj->GetComponent<CPTransform>()->GetChild()->gameObj->GetComponent<CPParticle>()->mIsActive = false;
@@ -323,7 +315,17 @@ namespace LB
 		{
 			trans->SetScale(left_face);
 		} else trans->SetScale(right_face);
-	}
+
+		// Update the Stunned timer
+		if (mIsStunned) {
+			mStunRemaining -= TIME->GetDeltaTime();
+			std::cout << mStunRemaining << std::endl;
+			if (mStunRemaining <= 0.f) {
+				mIsStunned = false;
+				mStunRemaining = mStunTimer;
+			}
+		}
+	} // End of Update
 
 	/*!***********************************************************************
 	\brief
@@ -350,6 +352,20 @@ namespace LB
 				{
 					AUDIOMANAGER->ChanceToPlayGroupSound(AUDIOMANAGER->ChaserAttackSounds);
 				}
+				if (!mIsStunned) {
+					//rb->mVelocity *= 10.f;
+					Vec2<float> otherPos = colData.colliderOther->transform->GetPosition();
+					Vec2<float> knockBack = colData.colliderThis->transform->GetPosition() - otherPos;
+					if (colData.colliderOther->m_gameobj->GetName() != "Projectile") 
+					{
+						colData.colliderThis->rigidbody->mVelocity += knockBack * 15.f;
+					}
+					else 
+					{
+						colData.colliderThis->rigidbody->mVelocity += knockBack * 100.f;
+					}
+					mIsStunned = true;
+				}
 			}
 			mGotAttackedCooldown = mGotAttacked;
 
@@ -363,9 +379,6 @@ namespace LB
 			{
 				//GOMANAGER->RemoveGameObject(this->GameObj);
 			}
-
-			
-
 		}
 	}
 }

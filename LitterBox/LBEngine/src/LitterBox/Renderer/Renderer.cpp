@@ -818,45 +818,107 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 
 	float x = msg.x;
 	float y = msg.y;
-	//iterate through all chars
-	for (auto const& cha : msg.text) {
-		Character ch = font_glyphs[msg.font_file_name_wo_ext][cha];//Characters[cha];
 
-		float xpos = x + ch.Bearing.x * msg.scale;
-		if (xpos > msg.x + 140.f)
+	size_t stroffset{ 0 };
+	while (stroffset != std::string::npos)
+	{
+		std::string word{ msg.text.substr(stroffset, msg.text.find_first_of(' ') - stroffset + 1) };
+
+		bool newline{ false };
+
+		int adv{ 0 };
+		float prev_x = x;
+		for (auto const& cha : word) 
 		{
-			y -= (ch.Advance >> 6) * msg.scale + 10.f;
-			x = msg.x;
-			xpos = x + ch.Bearing.x * msg.scale;
+			Character ch = font_glyphs[msg.font_file_name_wo_ext][cha];
+			x += (ch.Advance >> 6) * msg.scale;
+			adv = ch.Advance;
 		}
 
-		float ypos = y - (ch.Size.y - ch.Bearing.y) * msg.scale;
+		if (x > msg.x + msg.xbound)
+		{
+			y -= (adv >> 6) * msg.scale + 5.f;
+			x = msg.x;
+		}
+		else
+		{
+			x = prev_x;
+		}
 
-		float w = ch.Size.x * msg.scale;
-		float h = ch.Size.y * msg.scale;
+		for (auto const& cha : word) {
+			Character ch = font_glyphs[msg.font_file_name_wo_ext][cha];//Characters[cha];
 
-		
+			float xpos = x + ch.Bearing.x * msg.scale;
+			float ypos = y - (ch.Size.y - ch.Bearing.y) * msg.scale;
 
-		float vertices[6][4] = {
-			{xpos, ypos + h, 0.f, 0.f},
-			{xpos, ypos, 0.f, 1.f},
-			{xpos + w, ypos, 1.f, 1.f},
+			float w = ch.Size.x * msg.scale;
+			float h = ch.Size.y * msg.scale;
 
-			{xpos, ypos + h, 0.f, 0.f},
-			{xpos + w, ypos, 1.f, 1.f},
-			{xpos + w, ypos + h, 1.f, 0.f}
-		};
-		//bind texture
-		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-		//update vbo
-		glBindBuffer(GL_ARRAY_BUFFER, tVbo);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		//move to the left by the glyph advance value
-		x += (ch.Advance >> 6) * msg.scale;
+
+			float vertices[6][4] = {
+				{xpos, ypos + h, 0.f, 0.f},
+				{xpos, ypos, 0.f, 1.f},
+				{xpos + w, ypos, 1.f, 1.f},
+
+				{xpos, ypos + h, 0.f, 0.f},
+				{xpos + w, ypos, 1.f, 1.f},
+				{xpos + w, ypos + h, 1.f, 0.f}
+			};
+			//bind texture
+			glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+			//update vbo
+			glBindBuffer(GL_ARRAY_BUFFER, tVbo);
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+
+			//move to the left by the glyph advance value
+			x += (ch.Advance >> 6) * msg.scale;
+		}
+
+		stroffset = msg.text.find_first_of(' ', stroffset + 1);
 	}
+
+	//iterate through all chars
+	//for (auto const& cha : msg.text) {
+	//	Character ch = font_glyphs[msg.font_file_name_wo_ext][cha];//Characters[cha];
+
+	//	float xpos = x + ch.Bearing.x * msg.scale;
+	//	if (xpos > msg.x + msg.xbound)
+	//	{
+	//		y -= (ch.Advance >> 6) * msg.scale + 10.f;
+	//		x = msg.x;
+	//		xpos = x + ch.Bearing.x * msg.scale;
+	//	}
+
+	//	float ypos = y - (ch.Size.y - ch.Bearing.y) * msg.scale;
+
+	//	float w = ch.Size.x * msg.scale;
+	//	float h = ch.Size.y * msg.scale;
+
+	//	
+
+	//	float vertices[6][4] = {
+	//		{xpos, ypos + h, 0.f, 0.f},
+	//		{xpos, ypos, 0.f, 1.f},
+	//		{xpos + w, ypos, 1.f, 1.f},
+
+	//		{xpos, ypos + h, 0.f, 0.f},
+	//		{xpos + w, ypos, 1.f, 1.f},
+	//		{xpos + w, ypos + h, 1.f, 0.f}
+	//	};
+	//	//bind texture
+	//	glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+	//	//update vbo
+	//	glBindBuffer(GL_ARRAY_BUFFER, tVbo);
+	//	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+	//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	//	//move to the left by the glyph advance value
+	//	x += (ch.Advance >> 6) * msg.scale;
+	//}
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
@@ -1030,10 +1092,10 @@ void Renderer::RenderSystem::Initialize()
 		 21, 8, 17, 18 });*/
 
 	//cache some values
-	float midx = 800.f;
-	float midy = 800.f;
-	float w = 1920.f;
-	float h = 1600.f;
+	float midx = 0.f;
+	float midy = 0.f;
+	float w = 4000.f;
+	float h = 4000.f;
 
 	test2 = LB::Memory::Instance()->Allocate<LB::CPRender>(LB::Vec2<float>(midx, midy), w, h, LB::Vec2<float>(1.f, 1.f), LB::Vec3<float>(0.f, 0.f, 0.f), std::array<LB::Vec2<float>, 4>{}, -1, true, Renderer_Types::RT_BACKGROUND);
 	test2->z_val = 2.f;
@@ -1171,8 +1233,11 @@ void Renderer::RenderSystem::Update()
 	if (ui_renderer.getActive())
 	{
 		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
+		glUniform1i(glGetUniformLocation(shader_program, "UI"), true);
+		glUniformMatrix4fv(glGetUniformLocation(shader_program, "uicam"), 1, GL_FALSE, &cam.ui_NDC[0][0]);
 		glBindVertexArray(ui_renderer.get_vao());
 		glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+		glUniform1i(glGetUniformLocation(shader_program, "UI"), false);
 	}
 	//print all messages here
 	text_renderer.update_text();
@@ -1671,9 +1736,8 @@ void LB::CPText::Destroy()
 *************************************************************************/
 void LB::CPText::Update()
 {
-	/*LB::Vec2<float> pos = gameObj->GetComponent<CPTransform>()->GetPosition();
-	msg.x = pos.x;
-	msg.y = pos.y;*/
+	LB::Vec2<float> pos = gameObj->GetComponent<CPTransform>()->GetPosition();
+	update_msg_pos(pos);
 }
 
 /*!***********************************************************************

@@ -196,6 +196,10 @@ namespace LB
 
         this->mForce.x = 0.f;
         this->mForce.y = 0.f;
+
+        // Clamp to the max speed set in RigidBodyManager
+        Clamp(this->mVelocity.x, -PHYSICS->GetMaxVelocity().x, PHYSICS->GetMaxVelocity().x);
+        Clamp(this->mVelocity.x, -PHYSICS->GetMaxVelocity().y, PHYSICS->GetMaxVelocity().y);
     }
 
     /*!***********************************************************************

@@ -63,6 +63,16 @@ namespace LB
 	{
 		if (ImGui::Begin(GetName().c_str()))
 		{
+			if (ImGui::Button("Save"))
+			{
+				JSONSerializer::SerializeToFile("CollisionMatrix.json", COLLIDERS->GetLayerSystem());
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Load"))
+			{
+				JSONSerializer::DeserializeFromFile("CollisionMatrix.json", COLLIDERS->GetLayerSystem());
+			}
+			ImGui::SameLine();
 			ImGui::Text("%-19s", "Layer");
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(DropDownWidth);

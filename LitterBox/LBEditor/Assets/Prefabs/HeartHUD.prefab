@@ -17,6 +17,9 @@
         "Active": true,
         "Width": 100.0,
         "Height": 100.0,
-        "Texture": "Heart"
+        "Layer": 3,
+        "Texture": "Heart",
+        "SpriteName": "None",
+        "SpriteIndex": -1
     }
 }

@@ -66,6 +66,7 @@ namespace Renderer {
 
 		glm::mat4 world_NDC{};
 		glm::mat4 editor_world_NDC{};
+		glm::mat4 ui_NDC{};
 		/*!***********************************************************************
 		\brief
 		 Contrustor for Camera class object that does ortho graphic projection
@@ -164,6 +165,12 @@ namespace Renderer {
 		 Returns reference to camera's y position
 		*************************************************************************/
 		float& get_cam_y() { return pos.y; }
+
+		void update_cam()
+		{
+			nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });
+			world_NDC = ortho * nel;
+		}
 	};
 	//----------------------------------------CAMERA-----------------------------------
 }

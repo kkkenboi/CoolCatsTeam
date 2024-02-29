@@ -58,15 +58,25 @@ namespace LB
 		*************************************************************************/
 		void OnCollisionEnter(CollisionData colData);
 	private:
+		CPTransform* mTransform{ nullptr };
 		CPRender* mRender{ nullptr };
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
 		GameObject* mPlayer{ nullptr };
 
+		float mToMaxTimer{ 0.15f };
+		float mToMinTimer{ 0.35f };
 		float mScaleTimer{ 0.35f };
 		float mScaleTimerRemaining{ 0.35f };
-		bool mScaled{ false };
+
+		Vec2<float> mScaleOG{ 1.f,1.f };
+		Vec2<float> mScaleMax{ 1.25f , 1.25f };
+
+
+		bool mScaledUp{ false };
+		bool mScaledDown{ true };
 	};
 
+	Vec2<float> VecLerp(const Vec2<float>& a, const Vec2<float>& b, float t);
 	REGISTER_SCRIPT(CPPSBlueMushroom)
 }
