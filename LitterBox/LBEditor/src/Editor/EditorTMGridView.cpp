@@ -42,7 +42,8 @@ namespace LB
 		{
 			tilemap.getGrid().resize(tilemap.getRows() * tilemap.getCols(), -1);
 		}
-		//m_tiles.resize(m_rowNum * m_colNum, -1);
+
+		strcpy_s(m_textBuffer, sizeof(m_textBuffer), m_tiles.m_name.c_str());
 	}
 	/*!***********************************************************************
 	  \brief
@@ -58,6 +59,12 @@ namespace LB
 		ImGui::SetColumnWidth(0, columnWidth);
 
 		ImGui::BeginChild("TileMapSelectionView", ImVec2(-1, ImGui::GetContentRegionAvail().y * 0.92f));
+
+		ImGui::Text("Loaded Tile Map:");
+		if (ImGui::InputText("##Name", m_textBuffer, 256))
+		{
+			m_tiles.m_name = m_textBuffer;
+		}
 
 		ImGui::Text("Select Sprite Sheet:");
 		if (ImGui::BeginCombo("##Spritesheet", m_tiles.m_spriteSheet.GetName().c_str()))
@@ -253,12 +260,12 @@ namespace LB
 
 		if (ImGui::Button("Build Map"))
 		{
-			//std::vector<TileMap> tileMaps;
-			//for (int layer{ 0 }; layer <= 2; ++layer)
-			//{
-			//	tileMaps.emplace_back(m_rowNum, m_colNum, m_spriteSheet.m_row, m_spriteSheet.m_col, m_spriteSheet.GetPNGRef(), m_spriteSheet.GetName(), m_tiles[layer]);
-			//}
 			BuildMap(m_tiles);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Save Map"))
+		{
+			SaveMap();
 		}
 		
 		ImGui::End();
@@ -268,7 +275,7 @@ namespace LB
 	{
 		int colNum { m_tiles[m_layer].getCols() };
 
-		for (int layer{ 0 }; layer <= 2; ++layer)
+		for (int layer{ 0 }; layer < m_tiles.Size(); ++layer)
 		{
 			std::vector<int> newTileMap;
 			newTileMap.resize(newRow * newCol, -1);
@@ -288,19 +295,23 @@ namespace LB
 				}
 			}
 			m_tiles[layer].getGrid() = newTileMap;
+			m_tiles[layer].getRows() = newRow;
+			m_tiles[layer].getCols() = newCol;
 		}
-
-		m_tiles[m_layer].getRows() = newRow;
-		m_tiles[m_layer].getCols() = newCol;
 	}
 
 	void EditorTMGridView::LoadMap(std::string const& mapName)
 	{
-
+		JSONSerializer::DeserializeFromFile(mapName.c_str(), m_tiles);
+		m_layer = 0;
+		m_tileSelected = -1;
+		m_tmpRow = m_tiles[m_layer].getRows();
+		m_tmpCol = m_tiles[m_layer].getCols();
+		strcpy_s(m_textBuffer, sizeof(m_textBuffer), m_tiles.m_name.c_str());
 	}
 
 	void EditorTMGridView::SaveMap()
 	{
-
+		JSONSerializer::SerializeToFile(m_tiles.m_name+ ".tilemap", m_tiles);
 	}
 }

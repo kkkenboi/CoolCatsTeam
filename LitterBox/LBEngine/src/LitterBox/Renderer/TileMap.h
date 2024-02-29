@@ -37,7 +37,6 @@ namespace LB
 	public:
 		TileMap();
 		TileMap(int row, int columns);
-
 		TileMap(int row, int columns, std::vector<int> const& gridVector);
 
 		std::vector<std::pair<Vec2<float>, Vec2<float>>> minMaxGrid() const;
@@ -77,10 +76,9 @@ namespace LB
 
 		inline std::vector<TileMap>& GetTileMaps() { return m_tileMaps; }
 
+		std::string m_name{"NewMap"};
 		std::string m_spriteSheetName{ "None" }; // For serializing
 		SpriteSheet m_spriteSheet;
-
-		//int m_uvRows, m_uvCols;
 
 	private:
 		std::vector<TileMap> m_tileMaps;

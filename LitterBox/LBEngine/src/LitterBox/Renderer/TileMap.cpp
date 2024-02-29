@@ -29,42 +29,69 @@ namespace LB
 	}
 
 	TileMapGroup::TileMapGroup(std::vector<TileMap> const& tilemaps) : m_tileMaps{ tilemaps }
-	{
-
-	}
+	{ }
 
 	bool TileMapGroup::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
-		////create json array
-		//Value tileMapArray(rapidjson::kArrayType);
-		//for (const auto& tilemap : m_tileMaps)
-		//{
-		//	Value tileMapValue(rapidjson::kObjectType);
-		//	tilemap.Serialize(tileMapValue, alloc);
-		//	tileMapArray.PushBack(tileMapValue, alloc);
-		//}
-		//data.AddMember("TileMaps", tileMapArray, alloc);
+
+		Value nameValue(m_name.c_str(), alloc);
+		data.AddMember("Name", nameValue, alloc);
+
+		Value ssNameValue(m_spriteSheetName.c_str(), alloc);
+		data.AddMember("Sprite Sheet Name", ssNameValue, alloc);
+
+		Value tileMapArray(rapidjson::kArrayType);
+		for (auto& tileMap : m_tileMaps)
+		{
+			Value tileMapValue;
+			if (tileMap.Serialize(tileMapValue, alloc))
+			{
+				tileMapArray.PushBack(tileMapValue, alloc);
+			}
+		}
+		data.AddMember("Tile Maps", tileMapArray, alloc);
+
 		return true;
 	}
 
 	bool TileMapGroup::Deserialize(const Value& data)
 	{
-		//bool HasTileMaps = data.HasMember("TileMaps");
-		//if (data.IsObject())
-		//{
-		//	if (HasTileMaps)
-		//	{	//we get the gridjson
-		//		const Value& tileMapArray = data["TileMaps"].GetArray();
-		//		for (rapidjson::SizeType i{}; i < tileMapArray.Size(); ++i)
-		//		{	//deserialise then add the values into the grid
-		//			TileMap tilemap;
-		//			tilemap.Deserialize(tileMapArray[i]);
-		//			m_tileMaps.push_back(tilemap);
-		//		}
-		//	}
-		//	return true;
-		//}
+		bool HasName = data.HasMember("Name");
+		bool HasSSName = data.HasMember("Sprite Sheet Name");
+		bool HasTileMaps = data.HasMember("Tile Maps");
+
+		if (data.IsObject())
+		{
+			if (HasName)
+			{
+				const Value& nameValue = data["Name"];
+				m_name = nameValue.GetString();
+			}
+			if (HasSSName)
+			{
+				const Value& nameValue = data["Sprite Sheet Name"];
+				m_spriteSheetName = nameValue.GetString();
+
+				if (m_spriteSheetName != "None")
+				{
+					m_spriteSheet = ASSETMANAGER->GetSpriteSheet(m_spriteSheetName);
+				}
+			}
+			if (HasTileMaps)
+			{
+				m_tileMaps.clear();
+				TileMap newTileMap;
+				const Value& tileMapValue = data["Tile Maps"].GetArray();
+				for (rapidjson::SizeType i{}; i < tileMapValue.Size(); ++i)
+				{
+					newTileMap.Deserialize(tileMapValue[i]);
+					m_tileMaps.push_back(newTileMap);
+				}
+			}
+			return true;
+		}
+
 		return false;
 	}
 
@@ -80,7 +107,7 @@ namespace LB
 
 	TileMap::TileMap() : m_rows{ 10 }, m_cols{ 10 }
 	{
-		
+		m_grid.resize(m_rows * m_cols, -1);
 	}
 
 	/*!***********************************************************************
@@ -106,7 +133,9 @@ namespace LB
 	  Initializer list of the values in our Tile map grid
 	*************************************************************************/
 	TileMap::TileMap(int row, int columns) : m_rows{row}, m_cols{columns}
-	{ }
+	{ 
+		m_grid.resize(m_rows * m_cols, -1);
+	}
 
 	TileMap::TileMap(int row, int columns, std::vector<int> const& gridVector) :
 		m_rows{ row }, m_cols{ columns }, m_grid { gridVector }
@@ -179,22 +208,15 @@ namespace LB
 			//		minMax.at(x + y * cols) = std::make_pair(default_uv, default_uv);
 			//	}
 			//}
-
 		return minMax;
 	}
 
 	bool TileMap::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
-		//row cols uvrows uvcols
-		//texturename
-		//vector<int> grid
 		data.AddMember("Rows", m_rows, alloc);
 		data.AddMember("Cols", m_cols, alloc);
-		//data.AddMember("UVRows", uvrows, alloc);
-		//data.AddMember("UVCols", uvcols, alloc);
-		//Value textureNameValue(textureName.c_str(), alloc);
-		//data.AddMember("TextureName", textureNameValue, alloc);
+
 		if (!m_grid.empty())
 		{	//create json array
 			Value gridArray(rapidjson::kArrayType);
@@ -209,32 +231,23 @@ namespace LB
 
 	bool TileMap::Deserialize(const Value& data)
 	{
-		/*data.AddMember("Rows", rows, alloc);
-		data.AddMember("Cols", cols, alloc);
-		data.AddMember("UVRows", uvrows, alloc);
-		data.AddMember("UVCols", uvcols, alloc);*/
 		bool HasRows = data.HasMember("Rows");
 		bool HasCols = data.HasMember("Cols");
-		//bool HasUVRows = data.HasMember("UVRows");
-		//bool HasUVCols= data.HasMember("UVCols");
-		//bool HasTextureName = data.HasMember("TextureName");
 		bool HasGrid = data.HasMember("Grid");
 		if (data.IsObject())
 		{
-			if (HasRows && HasCols /*&& HasUVCols && HasUVRows*/)
+			if (HasRows && HasCols)
 			{
 				m_rows = data["Rows"].GetInt();
 				m_cols = data["Cols"].GetInt();
-				//uvrows = data["UVRows"].GetInt();
-				//uvcols = data["UVCols"].GetInt();
-				//textureName = data["TextureName"].GetString();
 			}
 			if (HasGrid)
-			{	//we get the gridjson
+			{	
+				m_grid.clear();
 				const Value& gridArray = data["Grid"].GetArray();
 				for (rapidjson::SizeType i{}; i < gridArray.Size(); ++i)
 				{	//deserialise then add the values into the grid
-					m_grid.push_back(i);
+					m_grid.push_back(gridArray[i].GetInt());
 				}
 			}
 			return true;
@@ -251,11 +264,9 @@ namespace LB
 	*************************************************************************/
 	void BuildMap(TileMapGroup const& tm)
 	{
-		//auto minmaxs{ tm.minMaxGrid() };
 		//hard coded width and height of tile
 		//CHANGE THE W and H VALUES TO CHANGE THE SIZE OF THE TILE
 		float w = 250.f, h = 250.f, midx, midy;
-		//std::vector<GameObject*> gov{};
 
 		GameObject* parentGO = FACTORY->SpawnGameObject();
 		parentGO->SetName("Map");
@@ -268,12 +279,6 @@ namespace LB
 				midy = (tm[layer].getRows() - y) * h - h * 0.5f; //get the y value of the tile
 				for (int x{ 0 }; x < tm[layer].getCols(); ++x)
 				{
-					//get the min max UVs
-					//auto minmax = minmaxs[x + y * tm.getCols()];
-					//we skip if the tile was a default
-					//if (minmax.first == minmax.second)
-					//	continue;
-
 					//we skip if the tile was a default
 					if (tm[layer][x + y * tm[layer].getCols()] == -1)
 						continue;

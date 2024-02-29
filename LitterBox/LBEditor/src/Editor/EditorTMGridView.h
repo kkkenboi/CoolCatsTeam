@@ -25,6 +25,8 @@
 namespace LB {
 	class EditorTMGridView : public Layer
 	{
+		char m_textBuffer[256]{};
+
 		TileMapGroup m_tiles{3};
 
 		int m_tileSelected{ -1 };

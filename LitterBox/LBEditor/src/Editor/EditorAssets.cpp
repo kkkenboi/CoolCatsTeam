@@ -17,8 +17,9 @@
 
 #include "pch.h"
 #include "EditorAssets.h"
-#include "EditorInspector.h"	// For inspection changing
-#include "EditorAnimationEditor.h" // For animation changing
+#include "EditorInspector.h"		// For inspection changing
+#include "EditorAnimationEditor.h"	// For animation changing
+#include "EditorTMGridView.h"		// For tilemap changing
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Scene/SceneManager.h"
 #include "LitterBox/Core/Core.h"
@@ -274,7 +275,7 @@ namespace LB
 				{
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
-						EditorAnimationEditor::Instance()->LoadController(directory.path().filename().stem().string());
+						EDITORTMGRIDVIEW->LoadMap(directory.path().filename().stem().string());
 					}
 				}
 				if (directory.path().extension().string() == ".anim")
