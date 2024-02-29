@@ -18,20 +18,20 @@
 
 #include "Editor.h"
 #include "Litterbox/Engine/Layer.h"
+#include "LitterBox/Renderer/TileMap.h"
 #include "LitterBox/Animation/SpriteSheet.h"
 #include <vector>
 
 namespace LB {
 	class EditorTMGridView : public Layer
 	{
-		SpriteSheet m_spriteSheet{};
+		TileMapGroup m_tiles{3};
+
 		int m_tileSelected{ -1 };
-
-		int m_colNum{ 10 }, m_rowNum{ 10 };
-		int m_tmpRow{ m_rowNum }, m_tmpCol{ m_colNum };
-
 		int m_layer{ 0 };
-		std::array<std::vector<int>, 3> m_tiles{};
+		
+		int m_tmpRow{ m_tiles[m_layer].getRows() }, m_tmpCol{ m_tiles[m_layer].getCols() };
+
 		ImVec2 defaultUV{ 0.f,0.f };
 	public:
 		/*!***********************************************************************
@@ -56,6 +56,10 @@ namespace LB {
 		void Destroy() {}
 
 		void ResizeGrid(int newRow, int newCol);
+
+		void LoadMap(std::string const& mapName);
+
+		void SaveMap();
 	};
 
 	extern EditorTMGridView* EDITORTMGRIDVIEW;

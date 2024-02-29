@@ -18,7 +18,6 @@
 #include "pch.h"
 #include "EditorTMGridView.h"
 #include "EditorTMEditor.h"
-#include "LitterBox/Renderer/TileMap.h"
 
 namespace LB
 {
@@ -39,9 +38,9 @@ namespace LB
 		else
 			DebuggerLogError("Editor Tile Map Grid View already exists!");
 
-		for (auto& tilemap : m_tiles)
+		for (auto& tilemap : m_tiles.GetTileMaps())
 		{
-			tilemap.resize(m_rowNum * m_colNum, -1);
+			tilemap.getGrid().resize(tilemap.getRows() * tilemap.getCols(), -1);
 		}
 		//m_tiles.resize(m_rowNum * m_colNum, -1);
 	}
@@ -61,13 +60,14 @@ namespace LB
 		ImGui::BeginChild("TileMapSelectionView", ImVec2(-1, ImGui::GetContentRegionAvail().y * 0.92f));
 
 		ImGui::Text("Select Sprite Sheet:");
-		if (ImGui::BeginCombo("##Spritesheet", m_spriteSheet.GetName().c_str()))
+		if (ImGui::BeginCombo("##Spritesheet", m_tiles.m_spriteSheet.GetName().c_str()))
 		{
 			for (auto& [str, sSheet] : ASSETMANAGER->SpriteSheets)
 			{
 				if (ImGui::Selectable(str.c_str()))
 				{
-					m_spriteSheet = sSheet;
+					m_tiles.m_spriteSheet = sSheet;
+					m_tiles.m_spriteSheetName = str;
 					break;
 				}
 			}
@@ -80,13 +80,13 @@ namespace LB
 		{
 			m_tileSelected = -1;
 		}
-		for (int index{ 0 }; index < m_spriteSheet.Size(); ++index)
+		for (int index{ 0 }; index < m_tiles.m_spriteSheet.Size(); ++index)
 		{
 			if (index % 2 == 0) ImGui::SameLine();
 			ImGui::PushID(index);
-			if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(m_spriteSheet.GetPNGRef()))), ImVec2{ normalWidth, normalWidth }
-				, ImVec2{ m_spriteSheet[index].m_min.x, m_spriteSheet[index].m_max.y }
-				, ImVec2{ m_spriteSheet[index].m_max.x, m_spriteSheet[index].m_min.y }))
+			if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(m_tiles.m_spriteSheet.GetPNGRef()))), ImVec2{ normalWidth, normalWidth }
+				, ImVec2{ m_tiles.m_spriteSheet[index].m_min.x, m_tiles.m_spriteSheet[index].m_max.y }
+				, ImVec2{ m_tiles.m_spriteSheet[index].m_max.x, m_tiles.m_spriteSheet[index].m_min.y }))
 			{
 				m_tileSelected = index;
 			}
@@ -100,11 +100,11 @@ namespace LB
 
 		ImGui::Text("%s", "Tile Selected");
 		ImGui::SameLine();
-		if (m_tileSelected < m_spriteSheet.Size())
+		if (m_tileSelected < m_tiles.m_spriteSheet.Size())
 		{
-			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(m_spriteSheet.GetPNGRef()))), ImVec2{ 35.0f, 35.0f }
-				, ImVec2{ m_spriteSheet[m_tileSelected].m_min.x, m_spriteSheet[m_tileSelected].m_max.y }
-				, ImVec2{ m_spriteSheet[m_tileSelected].m_max.x, m_spriteSheet[m_tileSelected].m_min.y });
+			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(m_tiles.m_spriteSheet.GetPNGRef()))), ImVec2{ 35.0f, 35.0f }
+				, ImVec2{ m_tiles.m_spriteSheet[m_tileSelected].m_min.x, m_tiles.m_spriteSheet[m_tileSelected].m_max.y }
+				, ImVec2{ m_tiles.m_spriteSheet[m_tileSelected].m_max.x, m_tiles.m_spriteSheet[m_tileSelected].m_min.y });
 		}
 		else
 		{
@@ -124,7 +124,9 @@ namespace LB
 		ImGui::SetNextItemWidth(75.f);
 		if (ImGui::InputInt("##layer", &m_layer))
 		{
-			m_layer = std::clamp(m_layer, 0, 2);
+			m_layer = std::clamp(m_layer, 0, m_tiles.Size() - 1);
+			m_tmpRow = m_tiles[m_layer].getRows();
+			m_tmpCol = m_tiles[m_layer].getCols();
 		}
 
 		//Setting the rows
@@ -153,24 +155,27 @@ namespace LB
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Cancel")) {
-				m_tmpRow = m_rowNum;
-				m_tmpCol = m_colNum;
+				m_tmpRow = m_tiles.GetTileMaps()[m_layer].getRows();
+				m_tmpCol = m_tiles.GetTileMaps()[m_layer].getCols();
 				confirmation = false;
 			}
 		}
 
 		ImGui::Separator();
 
+		int rowNum{ m_tiles[m_layer].getRows() };
+		int colNum{ m_tiles[m_layer].getCols() };
+
 		//Just an arbitrary way of calculating button size
 		//each image button in the editormapview is a square
 		//which may be an issue with aspect ratios
 		ImVec2 buttonSize{ ImGui::GetContentRegionAvail() };
-		buttonSize.y /= (float)m_rowNum;
+		buttonSize.y /= (float)rowNum;
 		buttonSize.x = buttonSize.y;
 
 		//NOTE: for the table the flags that need to be enabled are
 		//the scroll for X and Y axis otherwise you cannot create the map
-		if (ImGui::BeginTable("tilemap", m_colNum,	 ImGuiTableFlags_ScrollY 
+		if (ImGui::BeginTable("tilemap", colNum,	 ImGuiTableFlags_ScrollY
 												|	 ImGuiTableFlags_ScrollX 
 												|	 ImGuiTableFlags_NoPadInnerX
 												))
@@ -185,29 +190,29 @@ namespace LB
 			// Remove padding between cell rows
 			ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0, 0));
 			
-			for (int row = 0; row < m_rowNum; row++)
+			for (int row = 0; row < rowNum; row++)
 			{
 				//going through it each row
 				ImGui::TableNextRow();
-				for (int column = 0; column < m_colNum; column++)
+				for (int column = 0; column < colNum; column++)
 				{
 					ImGui::TableSetColumnIndex(column);
 
 					int layer{ 0 };
-					int Index2D{column + row * m_colNum};
+					int Index2D{column + row * colNum};
 					bool isDrawn{ false };
 
 					ImGui::PushID(Index2D); //IMPORTANT: this needs to be done otherwise only first button works
 					while (layer <= m_layer)
 					{
-						if (m_tiles[layer][Index2D] >= 0 && m_tiles[layer][Index2D] < m_spriteSheet.Size())
+						if (m_tiles[layer][Index2D] >= 0 && m_tiles[layer][Index2D] < m_tiles.m_spriteSheet.Size())
 						{
 							if (!isDrawn)
 							{
 								int index{ m_tiles[layer][Index2D] };
-								min = ImVec2{ m_spriteSheet[index].m_min.x, m_spriteSheet[index].m_max.y };
-								max = ImVec2{ m_spriteSheet[index].m_max.x, m_spriteSheet[index].m_min.y };
-								textureID = (ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_spriteSheet.GetPNGRef());
+								min = ImVec2{ m_tiles.m_spriteSheet[index].m_min.x, m_tiles.m_spriteSheet[index].m_max.y };
+								max = ImVec2{ m_tiles.m_spriteSheet[index].m_max.x, m_tiles.m_spriteSheet[index].m_min.y };
+								textureID = (ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_tiles.m_spriteSheet.GetPNGRef());
 								ImGui::Image(textureID, buttonSize, min, max);
 
 								isDrawn = true;
@@ -215,8 +220,8 @@ namespace LB
 							else
 							{
 								int index{ m_tiles[layer][Index2D] };
-								min = ImVec2{ m_spriteSheet[index].m_min.x, m_spriteSheet[index].m_min.y };
-								max = ImVec2{ m_spriteSheet[index].m_max.x, m_spriteSheet[index].m_max.y };
+								min = ImVec2{ m_tiles.m_spriteSheet[index].m_min.x, m_tiles.m_spriteSheet[index].m_min.y };
+								max = ImVec2{ m_tiles.m_spriteSheet[index].m_max.x, m_tiles.m_spriteSheet[index].m_max.y };
 								ImGui::GetWindowDrawList()->AddImage(textureID, ImGui::GetCursorScreenPos(), ImVec2(ImGui::GetCursorScreenPos().x + buttonSize.x, ImGui::GetCursorScreenPos().y - buttonSize.y * 1.1f), min, max);
 							}
 						}
@@ -231,7 +236,7 @@ namespace LB
 					}
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left)) 
 					{
-						m_tiles[m_layer].at(Index2D) = m_tileSelected;
+						m_tiles[m_layer].getGrid().at(Index2D) = m_tileSelected;
 					}
 					ImGui::PopID();//IMPORTANT: this needs to be done otherwise only first button works
 				}
@@ -248,12 +253,12 @@ namespace LB
 
 		if (ImGui::Button("Build Map"))
 		{
-			std::vector<TileMap> tileMaps;
-			for (int layer{ 0 }; layer <= 2; ++layer)
-			{
-				tileMaps.emplace_back(m_rowNum, m_colNum, m_spriteSheet.m_row, m_spriteSheet.m_col, m_spriteSheet.GetPNGRef(), m_spriteSheet.GetName(), m_tiles[layer]);
-			}
-			LoadMap(tileMaps);
+			//std::vector<TileMap> tileMaps;
+			//for (int layer{ 0 }; layer <= 2; ++layer)
+			//{
+			//	tileMaps.emplace_back(m_rowNum, m_colNum, m_spriteSheet.m_row, m_spriteSheet.m_col, m_spriteSheet.GetPNGRef(), m_spriteSheet.GetName(), m_tiles[layer]);
+			//}
+			BuildMap(m_tiles);
 		}
 		
 		ImGui::End();
@@ -261,6 +266,8 @@ namespace LB
 
 	void EditorTMGridView::ResizeGrid(int newRow, int newCol)
 	{
+		int colNum { m_tiles[m_layer].getCols() };
+
 		for (int layer{ 0 }; layer <= 2; ++layer)
 		{
 			std::vector<int> newTileMap;
@@ -270,9 +277,9 @@ namespace LB
 			{
 				for (int column = 0; column < newCol; ++column)
 				{
-					if (column + row * m_colNum < m_tiles[layer].size() && column < m_colNum)
+					if (column + row * colNum < m_tiles[layer].Size() && column < colNum)
 					{
-						newTileMap[column + row * newCol] = m_tiles[layer][column + row * m_colNum];
+						newTileMap[column + row * newCol] = m_tiles[layer][column + row * colNum];
 					}
 					else
 					{
@@ -280,10 +287,20 @@ namespace LB
 					}
 				}
 			}
-			m_tiles[layer] = newTileMap;
+			m_tiles[layer].getGrid() = newTileMap;
 		}
 
-		m_rowNum = newRow;
-		m_colNum = newCol;
+		m_tiles[m_layer].getRows() = newRow;
+		m_tiles[m_layer].getCols() = newCol;
+	}
+
+	void EditorTMGridView::LoadMap(std::string const& mapName)
+	{
+
+	}
+
+	void EditorTMGridView::SaveMap()
+	{
+
 	}
 }

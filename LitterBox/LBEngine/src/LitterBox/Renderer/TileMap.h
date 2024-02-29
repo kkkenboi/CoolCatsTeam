@@ -31,35 +31,60 @@ namespace LB
 {
 	class TileMap
 	{
-		//for iteration through the grid vector and to figure out the min max of all the UVs
-		int rows, cols, uvrows, uvcols;
-		std::string textureName;
-		std::vector<int> grid;
-
-		std::string spriteSheetName{"None"};
+		int m_rows, m_cols;
+		std::vector<int> m_grid;
 
 	public:
-		TileMap() = default;
-		TileMap(int row, int columns, int textureRows, int textureColumns,
-			std::string texture, std::initializer_list<int>gridvalues);
+		TileMap();
+		TileMap(int row, int columns);
 
-		TileMap(int row, int columns, int textureRows, int textureColumns,
-			std::string const& texture, std::string const& sSheet, std::vector<int> const& gridVector);
+		TileMap(int row, int columns, std::vector<int> const& gridVector);
 
 		std::vector<std::pair<Vec2<float>, Vec2<float>>> minMaxGrid() const;
+
 		bool Serialize(Value& data, Document::AllocatorType& alloc);
 		bool Deserialize(const Value& data);
 
-		inline int operator[](int index) const { return grid[index]; }
-		inline int& operator[](int index) { return grid[index]; }
+		inline int operator[](int index) const { return m_grid[index]; }
+		inline int& operator[](int index) { return m_grid[index]; }
 
-		inline int getRows() const { return rows; }
-		inline int getCols() const { return cols; }
-		inline std::vector<int>& getGrid() { return grid; }
-		inline std::vector<int> const& getGrid() const { return grid; }
-		inline const std::string& getTextureName() const { return textureName; }
-		inline const std::string& getSpriteSheetName() const { return spriteSheetName; }
+		inline int Size() const { return m_grid.size(); }
+
+		inline int getRows() const { return m_rows; }
+		inline int& getRows() { return m_rows; }
+
+		inline int getCols() const { return m_cols; }
+		inline int& getCols() { return m_cols; }
+
+		inline std::vector<int>& getGrid() { return m_grid; }
+		inline std::vector<int> const& getGrid() const { return m_grid; }
 	};
 
-	void LoadMap(std::vector<TileMap> const& tm);
+	class TileMapGroup
+	{
+	public:
+		TileMapGroup();
+		TileMapGroup(int layers);
+		TileMapGroup(std::vector<TileMap> const& tileMaps);
+
+		bool Serialize(Value& data, Document::AllocatorType& alloc);
+		bool Deserialize(const Value& data);
+
+		TileMap& operator[](int index);
+		TileMap const& operator[](int index) const;
+
+		inline int Size() const { return m_tileMaps.size(); }
+
+		inline std::vector<TileMap>& GetTileMaps() { return m_tileMaps; }
+
+		std::string m_spriteSheetName{ "None" }; // For serializing
+		SpriteSheet m_spriteSheet;
+
+		//int m_uvRows, m_uvCols;
+
+	private:
+		std::vector<TileMap> m_tileMaps;
+	};
+
+	void BuildMap(TileMapGroup const& tm);
 }

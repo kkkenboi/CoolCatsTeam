@@ -188,6 +188,7 @@ namespace LB
 						  fileExtension == ".ttf"		||
 						  fileExtension == ".spritesheet" ||
 						  fileExtension == ".controller"  ||
+						  fileExtension == ".tilemap"	  ||
 						  fileExtension == ".anim"))
 					{
 						DebuggerLog("Invalid file extension " + fileExtension + " was clicked!");
@@ -263,6 +264,13 @@ namespace LB
 					}
 				}
 				if (directory.path().extension().string() == ".controller")
+				{
+					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+					{
+						EditorAnimationEditor::Instance()->LoadController(directory.path().filename().stem().string());
+					}
+				}
+				if (directory.path().extension().string() == ".tilemap")
 				{
 					if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 					{
