@@ -41,7 +41,8 @@ namespace LB
 		CPTransform* trans{ nullptr };
 
 		//------------------variables------------------
-		GameObject* m_GameManager{nullptr};
+		GameObject* m_GameManager{ nullptr };
+		GameObject* m_CameraFollow{ nullptr };
 
 		float m_stepSoundInterval, m_stepSoundCurrent; //walking Speed, max speed cap for walking, playing sound duration 
 

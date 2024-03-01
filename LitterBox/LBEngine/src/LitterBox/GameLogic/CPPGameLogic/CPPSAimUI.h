@@ -40,6 +40,8 @@ namespace LB
 		CPTransform* mTransform;
 		//Caching the player GO for easy access
 		GameObject* mPlayer;
+		//Caching the CameraFollow GO for easy access
+		GameObject* mCameraFollow;
 		//Mouse position for caching
 		Vec2<float> MousePos;
 		//Vector for calculating the direction to the mouse
