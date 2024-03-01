@@ -61,9 +61,57 @@ namespace LB
 		*************************************************************************/
 		void SetObjectPicked(GameObject* obj);
 
+		/*!***********************************************************************
+		  \brief
+		  Moves the scene view camera upwards.
+		  \return
+		  Nothing.
+		*************************************************************************/
+		void MoveCamUp();
+
+		/*!***********************************************************************
+		  \brief
+		  Moves the scene view camera downwards.
+		  \return
+		  Nothing.
+		*************************************************************************/
+		void MoveCamDown();
+
+		/*!***********************************************************************
+		  \brief
+		  Moves the scene view camera leftwards.
+		  \return
+		  Nothing.
+		*************************************************************************/
+		void MoveCamLeft();
+
+		/*!***********************************************************************
+		  \brief
+		  Moves the scene view camera rightwards.
+		  \return
+		  Nothing.
+		*************************************************************************/
+		void MoveCamRight();
+
+		/*!***********************************************************************
+		  \brief
+		  Zooms the scene view camera inwards.
+		  \return
+		  Nothing.
+		*************************************************************************/
+		void ZoomCamIn();
+
+		/*!***********************************************************************
+		  \brief
+		  Zooms the scene view camera outwards.
+		  \return
+		  Nothing.
+		*************************************************************************/
+		void ZoomCamOut();
 
 	private:
 		ImVec2 m_windowSize;
+		bool usingSceneView{ false };
 
 		// Mouse picker to select GameObjects
 		GameObject* m_mousePicker{ nullptr };

@@ -60,7 +60,7 @@ namespace LB
 	  Nothing.
 	*************************************************************************/
 	void MoveCamUp() {
-		Renderer::GRAPHICS->update_cam(0.f, 20.f);
+		EDITORSCENEVIEW->MoveCamUp();
 	}
 	/*!***********************************************************************
 	  \brief
@@ -69,7 +69,7 @@ namespace LB
 	  Nothing.
 	*************************************************************************/
 	void MoveCamDown() {
-		Renderer::GRAPHICS->update_cam(0.f, -20.f);
+		EDITORSCENEVIEW->MoveCamDown();
 	}
 	/*!***********************************************************************
 	  \brief
@@ -78,7 +78,7 @@ namespace LB
 	  Nothing.
 	*************************************************************************/
 	void MoveCamLeft() {
-		Renderer::GRAPHICS->update_cam(-20.f, 0.f);
+		EDITORSCENEVIEW->MoveCamLeft();
 	}
 	/*!***********************************************************************
 	  \brief
@@ -87,7 +87,7 @@ namespace LB
 	  Nothing.
 	*************************************************************************/
 	void MoveCamRight() {
-		Renderer::GRAPHICS->update_cam(20.f, 0.f);
+		EDITORSCENEVIEW->MoveCamRight();
 	}
 	/*!***********************************************************************
 	  \brief
@@ -96,8 +96,7 @@ namespace LB
 	  Nothing.
 	*************************************************************************/
 	void ZoomCamIn() {
-		zoomCurrent += zoomStep * static_cast<float>(TIME->GetUnscaledDeltaTime());
-		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
+		EDITORSCENEVIEW->ZoomCamIn();
 	}
 	/*!***********************************************************************
 	  \brief
@@ -106,9 +105,7 @@ namespace LB
 	  Nothing.
 	*************************************************************************/
 	void ZoomCamOut() {
-		zoomCurrent -= zoomStep * static_cast<float>(TIME->GetUnscaledDeltaTime());
-		zoomCurrent = (zoomCurrent > zoomMin) ? zoomCurrent : zoomMin;
-		Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
+		EDITORSCENEVIEW->ZoomCamOut();
 	}
 
 	/*!***********************************************************************
@@ -133,13 +130,13 @@ namespace LB
 	*************************************************************************/
 	void EditorSceneView::Initialize()
 	{
-			INPUT->SubscribeToKey(MoveCamUp, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(MoveCamDown, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(MoveCamLeft, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(MoveCamRight, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(LB::MoveCamUp, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(LB::MoveCamDown, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(LB::MoveCamLeft, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(LB::MoveCamRight, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 
-			INPUT->SubscribeToKey(ZoomCamIn, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(ZoomCamOut, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(LB::ZoomCamIn, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(LB::ZoomCamOut, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 
 			// Add the mouse picker object and point to its position (for easy updating)
 			m_mousePicker = FACTORY->SpawnGameObject({C_CPCollider}, GOSpawnType::FREE_FLOATING);
@@ -182,6 +179,18 @@ namespace LB
 		m_mousePosInWorld.y = ((1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight()) / zoomCurrent + Renderer::GRAPHICS->get_cam()->get_cam_pos().y;
 
 		//std::cout << "Mouse Position X: " << m_mousePosInWorld.x << "Y: " << m_mousePosInWorld.y << std::endl;
+
+		// If the user is using the scene view
+		if (ImGui::IsWindowFocused())
+		{
+			DebuggerLog("SceneView is active!\n");
+			usingSceneView = true;
+		}
+		else
+		{
+			DebuggerLog("SceneView is not active!\n");
+			usingSceneView = false;
+		}
 
 		// If a prefab json file has been dropped onto the scene view
 		if (ImGui::BeginDragDropTarget())
@@ -301,4 +310,93 @@ namespace LB
 	}
 
 
+	/*!***********************************************************************
+	  \brief
+	  Moves the scene view camera upwards.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void EditorSceneView::MoveCamUp()
+	{
+		if (usingSceneView)
+		{
+			Renderer::GRAPHICS->update_cam(0.f, 20.f);
+		}
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Moves the scene view camera downwards.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void EditorSceneView::MoveCamDown()
+	{
+		if (usingSceneView)
+		{
+			Renderer::GRAPHICS->update_cam(0.f, -20.f);
+		}
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Moves the scene view camera leftwards.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void EditorSceneView::MoveCamLeft()
+	{
+		if (usingSceneView)
+		{
+			Renderer::GRAPHICS->update_cam(-20.f, 0.f);
+		}
+	}
+
+
+	/*!***********************************************************************
+	  \brief
+	  Moves the scene view camera rightwards.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void EditorSceneView::MoveCamRight()
+	{
+		if (usingSceneView)
+		{
+			Renderer::GRAPHICS->update_cam(20.f, 0.f);
+		}
+	}
+
+
+	/*!***********************************************************************
+	  \brief
+	  Zooms the scene view camera inwards.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void EditorSceneView::ZoomCamIn()
+	{
+		if (usingSceneView)
+		{
+			zoomCurrent += zoomStep * static_cast<float>(TIME->GetUnscaledDeltaTime());
+			Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
+		}
+	}
+
+
+	/*!***********************************************************************
+	  \brief
+	  Zooms the scene view camera outwards.
+	  \return
+	  Nothing.
+	*************************************************************************/
+	void EditorSceneView::ZoomCamOut()
+	{
+		if (usingSceneView)
+		{
+			zoomCurrent -= zoomStep * static_cast<float>(TIME->GetUnscaledDeltaTime());
+			zoomCurrent = (zoomCurrent > zoomMin) ? zoomCurrent : zoomMin;
+			Renderer::GRAPHICS->fcam_zoom(zoomCurrent);
+		}
+	}
 }
