@@ -26,6 +26,8 @@
 #include "CPPSUpgradeManager.h"
 #include "LitterBox/Renderer/Camera.h"
 #include "CPPGameManager.h"
+#include "CPPSCameraFollow.h"
+
 namespace LB
 {
 	//This array is for the animation frames
@@ -48,6 +50,8 @@ namespace LB
 
 		//--------------------------Variables initializaiton----------------------------
 		m_GameManager = GOMANAGER->FindGameObjectWithName("GameManager");
+		m_CameraFollow = GOMANAGER->FindGameObjectWithName("CameraFollow");
+
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
@@ -244,6 +248,8 @@ namespace LB
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, m_shootRadius);
 
 			Vec2<float> mouse_pos = INPUT->GetMousePos();
+			mouse_pos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
+			mouse_pos.y -= m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
 			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
 			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();

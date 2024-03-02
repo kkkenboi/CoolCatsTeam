@@ -17,6 +17,7 @@ namespace LB
 		void Update() override;
 		void Destroy() override;
 
+		Vec2<float> cameraPos{};
 	private:
 		GameObject* mPlayer{ nullptr };
 		Vec2<float> currentPos{};

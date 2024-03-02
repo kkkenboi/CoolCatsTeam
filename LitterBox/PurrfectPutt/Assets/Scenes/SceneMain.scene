@@ -695,37 +695,6 @@
                 }
             },
             {
-                "Name": "PlayerHUD",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 960.0,
-                        "y": 540.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "UI",
-                        "Layer ID": 2
-                    },
-                    "Shape": 0,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Radius": 10.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::CPPSPlayerHUD"
-                }
-            },
-            {
                 "Name": "FPS",
                 "Active": true,
                 "Transform": {
@@ -793,53 +762,6 @@
                 }
             },
             {
-                "Name": "MUSHYroom2",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 441.439697,
-                        "y": 799.943115
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 125.0,
-                    "Height": 125.0,
-                    "Layer": 0,
-                    "Texture": "MushBramble_SpriteSheet",
-                    "SpriteName": "MushBrambleSheet",
-                    "SpriteIndex": 0
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 0,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Radius": 42.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::CPPSBlueMushroom"
-                }
-            },
-            {
                 "Name": "Sandpit",
                 "Active": true,
                 "Transform": {
@@ -858,7 +780,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Layer": 1,
+                    "Layer": 0,
                     "Texture": "Sand_Pit",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -877,6 +799,57 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "PlayerHUD",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "UI",
+                        "Layer ID": 2
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 10.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSPlayerHUD"
+                }
+            },
+            {
+                "Name": "CameraFollow",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSCameraFollow"
                 }
             }
         ]
