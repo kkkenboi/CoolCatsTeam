@@ -67,7 +67,7 @@ namespace LB
 		  \return
 		  Nothing.
 		*************************************************************************/
-		void MoveCamUp();
+		void MoveCamUp(float dist = 20.0f);
 
 		/*!***********************************************************************
 		  \brief
@@ -75,7 +75,7 @@ namespace LB
 		  \return
 		  Nothing.
 		*************************************************************************/
-		void MoveCamDown();
+		void MoveCamDown(float dist = 20.0f);
 
 		/*!***********************************************************************
 		  \brief
@@ -83,7 +83,7 @@ namespace LB
 		  \return
 		  Nothing.
 		*************************************************************************/
-		void MoveCamLeft();
+		void MoveCamLeft(float dist = 20.0f);
 
 		/*!***********************************************************************
 		  \brief
@@ -91,7 +91,13 @@ namespace LB
 		  \return
 		  Nothing.
 		*************************************************************************/
-		void MoveCamRight();
+		void MoveCamRight(float dist = 20.0f);
+
+		/*!***********************************************************************
+		  \brief
+		  Moves the scene view camera.
+		*************************************************************************/
+		void MoveCam(Vec2<float> const& dist);
 
 		/*!***********************************************************************
 		  \brief
@@ -113,9 +119,14 @@ namespace LB
 		ImVec2 m_windowSize;
 		bool usingSceneView{ false };
 
+		float m_camDragSpeed{ 50.0f };
+		KeyCode m_moveCamKey{ KeyCode::KEY_LEFTALT };
+
 		// Mouse picker to select GameObjects
 		GameObject* m_mousePicker{ nullptr };
 		Vec2<float> m_mousePosInWorld;
+
+		Vec2<float> m_oldMousePosInWorld; // For internal use, caching
 	};
 
 	extern EditorSceneView* EDITORSCENEVIEW;

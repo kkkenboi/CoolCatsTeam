@@ -52,7 +52,8 @@ namespace LB
 		std::numeric_limits<float>::max(), 0.f, 0.f, 1.f
 	};
 
-	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.5f;
+	float zoomStep = 1.5f, zoomCurrent = 1.f, zoomMin = 0.25f;
+
 	/*!***********************************************************************
 	  \brief
 	  Moves the scene view camera upwards. Function is passed as an event.
@@ -130,10 +131,10 @@ namespace LB
 	*************************************************************************/
 	void EditorSceneView::Initialize()
 	{
-			INPUT->SubscribeToKey(LB::MoveCamUp, LB::KeyCode::KEY_G, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(LB::MoveCamDown, LB::KeyCode::KEY_B, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(LB::MoveCamLeft, LB::KeyCode::KEY_V, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
-			INPUT->SubscribeToKey(LB::MoveCamRight, LB::KeyCode::KEY_N, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(LB::MoveCamUp, LB::KeyCode::KEY_UP, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(LB::MoveCamDown, LB::KeyCode::KEY_DOWN, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(LB::MoveCamLeft, LB::KeyCode::KEY_LEFT, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
+			INPUT->SubscribeToKey(LB::MoveCamRight, LB::KeyCode::KEY_RIGHT, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 
 			INPUT->SubscribeToKey(LB::ZoomCamIn, LB::KeyCode::KEY_X, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
 			INPUT->SubscribeToKey(LB::ZoomCamOut, LB::KeyCode::KEY_C, LB::KeyEvent::PRESSED, LB::KeyTriggerType::NONPAUSABLE);
@@ -144,8 +145,8 @@ namespace LB
 
 			//INPUT->SubscribeToKey(onClick, LB::KeyCode::KEY_MOUSE_1, LB::KeyEvent::TRIGGERED, LB::KeyTriggerType::NONPAUSABLE);
 
-			InspectorGameObject::Instance()->SetGizmosMode(ImGuizmo::WORLD);
-			InspectorGameObject::Instance()->SetGizmosOperation(ImGuizmo::UNIVERSAL);
+			//InspectorGameObject::Instance()->SetGizmosMode(ImGuizmo::WORLD);
+			//InspectorGameObject::Instance()->SetGizmosOperation(ImGuizmo::UNIVERSAL);
 	}
 
 	/*!***********************************************************************
@@ -157,9 +158,9 @@ namespace LB
 	void EditorSceneView::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
-		ImGuizmo::BeginFrame();
 
 		ImGuizmo::SetOrthographic(true);
+		ImGuizmo::BeginFrame();
 
 		auto vpMin = ImGui::GetWindowContentRegionMin();
 		auto vpMax= ImGui::GetWindowContentRegionMax();
@@ -175,22 +176,26 @@ namespace LB
 		if(warning_remover != static_cast<unsigned int>(-1))
 			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(Renderer::GRAPHICS->get_scene_view())), m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
+		if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle))
+		{
+			m_oldMousePosInWorld = m_mousePosInWorld;
+		}
+		if (ImGui::GetIO().MouseWheel != 0.0f) {
+			ImGui::GetIO().MouseWheel > 0.0f ? ZoomCamIn() : ZoomCamOut();
+		}
+
 		m_mousePosInWorld.x = (((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth()) / zoomCurrent + Renderer::GRAPHICS->get_cam()->get_cam_pos().x;
 		m_mousePosInWorld.y = ((1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight()) / zoomCurrent + Renderer::GRAPHICS->get_cam()->get_cam_pos().y;
 
-		//std::cout << "Mouse Position X: " << m_mousePosInWorld.x << "Y: " << m_mousePosInWorld.y << std::endl;
+		if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle))
+		{
+			Vec2<float> delta = m_mousePosInWorld - m_oldMousePosInWorld;
+			delta *= TIME->GetUnscaledDeltaTime() * m_camDragSpeed;
+			MoveCam(delta);
+		}
 
 		// If the user is using the scene view
-		if (ImGui::IsWindowFocused())
-		{
-			DebuggerLog("SceneView is active!\n");
-			usingSceneView = true;
-		}
-		else
-		{
-			DebuggerLog("SceneView is not active!\n");
-			usingSceneView = false;
-		}
+		usingSceneView = ImGui::IsWindowFocused();
 
 		// If a prefab json file has been dropped onto the scene view
 		if (ImGui::BeginDragDropTarget())
@@ -230,29 +235,31 @@ namespace LB
 			// At all times, when a GizmosOperation is set, it means that there will be snapping applied onto the object
 			// If the GizmosOperation is set to Universal, there will be no snapping.
 			// Object can still be moved/edited freely through the EditorInspector interface.
-			switch (InspectorGameObject::Instance()->GetGizmosOperation())
-			{
-			case ImGuizmo::TRANSLATE:
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
-					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
-					&InspectorGameObject::Instance()->GetSnapTranslate());
-				break;
-			case ImGuizmo::ROTATE:
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
-					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
-					&InspectorGameObject::Instance()->GetSnapRotate());
-				break;
-			case ImGuizmo::SCALE:
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
-					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
-					&InspectorGameObject::Instance()->GetSnapScale());
-				break;
-			case ImGuizmo::UNIVERSAL: // No snapping is applied
-				ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
-					InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
-					NULL);
-				break;
-			}
+			//switch (InspectorGameObject::Instance()->GetGizmosOperation())
+			//{
+			//case ImGuizmo::TRANSLATE:
+			//	ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
+			//		InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
+			//		&InspectorGameObject::Instance()->GetSnapTranslate());
+			//	break;
+			//case ImGuizmo::ROTATE:
+			//	ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
+			//		InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
+			//		&InspectorGameObject::Instance()->GetSnapRotate());
+			//	break;
+			//case ImGuizmo::SCALE:
+			//	ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
+			//		InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
+			//		&InspectorGameObject::Instance()->GetSnapScale());
+			//	break;
+			//case ImGuizmo::UNIVERSAL: // No snapping is applied
+			//	
+			//	break;
+			//}
+
+			ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
+				ImGuizmo::TRANSLATE | ImGuizmo::SCALE | ImGuizmo::ROTATE_Z, ImGuizmo::LOCAL, glm::value_ptr(transform), NULL, NULL);
+
 			// When using the gizmos, set the values after Manipulate is called on the object
 			if (ImGuizmo::IsUsing())
 			{
@@ -316,11 +323,11 @@ namespace LB
 	  \return
 	  Nothing.
 	*************************************************************************/
-	void EditorSceneView::MoveCamUp()
+	void EditorSceneView::MoveCamUp(float dist)
 	{
-		if (usingSceneView)
+		if (usingSceneView && INPUT->IsKeyPressed(m_moveCamKey))
 		{
-			Renderer::GRAPHICS->update_cam(0.f, 20.f);
+			Renderer::GRAPHICS->update_cam(0.f, dist);
 		}
 	}
 
@@ -330,11 +337,11 @@ namespace LB
 	  \return
 	  Nothing.
 	*************************************************************************/
-	void EditorSceneView::MoveCamDown()
+	void EditorSceneView::MoveCamDown(float dist)
 	{
-		if (usingSceneView)
+		if (usingSceneView && INPUT->IsKeyPressed(m_moveCamKey))
 		{
-			Renderer::GRAPHICS->update_cam(0.f, -20.f);
+			Renderer::GRAPHICS->update_cam(0.f, -dist);
 		}
 	}
 
@@ -344,11 +351,11 @@ namespace LB
 	  \return
 	  Nothing.
 	*************************************************************************/
-	void EditorSceneView::MoveCamLeft()
+	void EditorSceneView::MoveCamLeft(float dist)
 	{
-		if (usingSceneView)
+		if (usingSceneView && INPUT->IsKeyPressed(m_moveCamKey))
 		{
-			Renderer::GRAPHICS->update_cam(-20.f, 0.f);
+			Renderer::GRAPHICS->update_cam(-dist, 0.f);
 		}
 	}
 
@@ -359,11 +366,23 @@ namespace LB
 	  \return
 	  Nothing.
 	*************************************************************************/
-	void EditorSceneView::MoveCamRight()
+	void EditorSceneView::MoveCamRight(float dist)
+	{
+		if (usingSceneView && INPUT->IsKeyPressed(m_moveCamKey))
+		{
+			Renderer::GRAPHICS->update_cam(dist, 0.f);
+		}
+	}
+
+	/*!***********************************************************************
+	  \brief
+	  Moves the scene view camera.
+	*************************************************************************/
+	void EditorSceneView::MoveCam(Vec2<float> const& dist)
 	{
 		if (usingSceneView)
 		{
-			Renderer::GRAPHICS->update_cam(20.f, 0.f);
+			Renderer::GRAPHICS->update_cam(dist.x, dist.y);
 		}
 	}
 
