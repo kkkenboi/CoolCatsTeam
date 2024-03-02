@@ -5,7 +5,7 @@
  \par Course:		CSD2401A
  \date				25-11-2023
  \brief
- This file contains the EditorAniamtionEditor class and all its functionalities
+ This file contains the EditorAnimationEditor class and all its functionalities
  for the aniamtion view layer of the Editor.
 
  Editor.
@@ -81,7 +81,7 @@ namespace LB
 		float m_previewTimeElapsed{ 0.0f }, m_allDuration{ 0.0f };
 		SpriteSheet* m_spriteSheet{ nullptr };
 
-		ImGui::FrameIndexType m_startFrame{ 0 }, m_endFrame{ 64 }, m_currentFrame{ 0 };
+		ImGui::FrameIndexType m_startFrame{ 0 }, m_endFrame{ 60 }, m_currentFrame{ 0 };
 
 		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
 		AnimationState m_currentState{};

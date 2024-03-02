@@ -47,20 +47,67 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
-		static bool transformOpen = false;
-		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame)) {
-			// Timeline code here
+		// Testing
+		static bool transformOpen = true, posOpen = true, scaleOpen = true;
+		static bool isPlaying = false;
+		static std::vector<ImGui::FrameIndexType> keys = { 0, 10, 84 };
+		static ImGui::FrameIndexType selected;
+		static float duration;
+		static float target = 0.016f;
+
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_SPACE))
+		{
+			isPlaying = !isPlaying;
+		}
+
+		if (isPlaying)
+		{
+			duration += static_cast<float>(TIME->GetUnscaledDeltaTime());
+			if (duration >= target)
+			{
+				duration -= target;
+				m_currentFrame = (m_currentFrame + 1) % m_endFrame;
+			}
+		}
+
+		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame, {0, 0}, ImGuiNeoSequencerFlags_AllowLengthChanging | ImGuiNeoSequencerFlags_EnableSelection | ImGuiNeoSequencerFlags_Selection_EnableDragging)) {
+			if (ImGui::BeginNeoTimeline("Set Active", keys)) {
+
+				ImGui::EndNeoTimeLine();
+			}
 			if (ImGui::BeginNeoGroup("Transform", &transformOpen)) {
-				std::vector<ImGui::FrameIndexType> keys = { 0, 10, 24 };
-				if (ImGui::BeginNeoTimeline("Position", keys)) {
+				if (ImGui::BeginNeoGroup("Position", &posOpen)) {
+					if (ImGui::BeginNeoTimeline("X", keys)) {
 
+						ImGui::EndNeoTimeLine();
+					}
+					if (ImGui::BeginNeoTimeline("Y", keys)) {
 
+						ImGui::EndNeoTimeLine();
+					}
+					ImGui::EndNeoGroup();
+				}
+				if (ImGui::BeginNeoGroup("Scale", &scaleOpen)) {
+					if (ImGui::BeginNeoTimeline("X", keys)) {
+
+						ImGui::EndNeoTimeLine();
+					}
+					if (ImGui::BeginNeoTimeline("Y", keys)) {
+
+						ImGui::EndNeoTimeLine();
+					}
+					ImGui::EndNeoGroup();
+				}
+				if (ImGui::BeginNeoTimeline("Rotation", keys)) {
 
 					ImGui::EndNeoTimeLine();
 				}
 				ImGui::EndNeoGroup();
 			}
+			if (ImGui::BeginNeoTimeline("Sprite", keys)) {
 
+				ImGui::EndNeoTimeLine();
+			}
 			ImGui::EndNeoSequencer();
 		}
 
