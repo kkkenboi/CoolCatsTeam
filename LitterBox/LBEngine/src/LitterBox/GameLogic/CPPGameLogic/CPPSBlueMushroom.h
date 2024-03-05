@@ -57,6 +57,5 @@ namespace LB
 		//bool mScaledDown{ true };
 	};
 
-	Vec2<float> VecLerp(const Vec2<float>& a, const Vec2<float>& b, float t);
 	REGISTER_SCRIPT(CPPSBlueMushroom)
 }

@@ -24,11 +24,6 @@ namespace LB
 	*************************************************************************/
 	void CPPSBramble::Start()
 	{
-		//mTransform = GameObj->GetComponent<CPTransform>();
-		//mRender = GameObj->GetComponent<CPRender>();
-		//mRigidBody = GameObj->GetComponent<CPRigidBody>();
-		//mCollider = GameObj->GetComponent<CPCollider>();
-		//mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 	}
 
 	/*!***********************************************************************

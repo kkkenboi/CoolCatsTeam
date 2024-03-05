@@ -50,10 +50,6 @@ namespace LB
 		}
 	}
 
-	/*!***********************************************************************
-	\brief
-	To the sprite scale when interacting with other game objects
-	*************************************************************************/
 	void CPPSBaseBouncy::OnInteraction(int spriteIndexStart, int spriteIndexEnd)
 	{
 		if (mScaledUp || mScaledDown)
