@@ -200,7 +200,7 @@ namespace LB
 		if (!mIsStunned) {
 			//rb->mVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
 			Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
-			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 100.f * static_cast<float>(TIME->GetDeltaTime());
+			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());
 		}
 
 		//clamping of the speed of the player movement
