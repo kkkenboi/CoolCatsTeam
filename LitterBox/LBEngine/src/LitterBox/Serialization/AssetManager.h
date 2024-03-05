@@ -31,6 +31,8 @@
 #include <memory>
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Animation/SpriteSheet.h"
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 namespace LB
 {   
@@ -52,7 +54,14 @@ namespace LB
         int width,height,fluff;
     };
 
-   
+    struct CharData
+    {
+        unsigned int TextureID{};
+        LB::Vec2<unsigned int> Size{};
+        LB::Vec2<FT_Int> Bearing{};
+        unsigned int Advance{};
+        unsigned int font{};
+    };
 
 
     /*!***********************************************************************
@@ -242,10 +251,20 @@ namespace LB
         //"KEY_J" : 74
         std::map <std::string,int> KeyCodeTable;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                      FONT & SHADER STUFF
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //std::map<std::string, std::map<char, CharData>> font_glyphs;
+
+        void LoadFonts(unsigned int& tVao, unsigned int& tVbo, unsigned int& tShader,
+            void* font_glyph_map);
+
+
         //This is the folder name where the meta file will be stored
         //basically %APPDATA%/PurrfectPutt
         char* _appData{ nullptr };
         std::filesystem::path folderName{ "PurrfectPutt" };
+        std::filesystem::path defaultDirectoryPath{ std::filesystem::current_path() / std::filesystem::path{"Assets"} };
         private:
 
         /*!***********************************************************************

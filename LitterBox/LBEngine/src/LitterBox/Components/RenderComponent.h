@@ -142,6 +142,17 @@ namespace LB
 		void set_index(unsigned int idx) { quad_id = idx; }
 		/*!***********************************************************************
 		\brief
+		 Update the indices of the object for active inactive
+		 NOTE: Do not touch this ever. Only here because layering system is annoying.
+		*************************************************************************/
+		void update_indices() {
+			unsigned short idx{ (unsigned short)(quad_id * 4) };
+
+			indices = Renderer::index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
+					(unsigned short)(idx + 2), (unsigned short)(idx + 3), idx} };
+		}
+		/*!***********************************************************************
+		\brief
 		 Gets the number of animations queued for the specific game object.
 
 		\return
