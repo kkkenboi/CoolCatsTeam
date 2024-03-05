@@ -18,6 +18,7 @@
 #include "pch.h"
 #include "EditorTMGridView.h"
 #include "EditorTMEditor.h"
+#include "EditorAssets.h"
 
 namespace LB
 {
@@ -312,6 +313,7 @@ namespace LB
 
 	void EditorTMGridView::SaveMap()
 	{
-		JSONSerializer::SerializeToFile(m_tiles.m_name+ ".tilemap", m_tiles);
+		std::filesystem::path tilemapPath{ m_tiles.m_name + ".tilemap" };
+		JSONSerializer::SerializeToFile((EDITORASSETS->currentDirectory/tilemapPath).string(), m_tiles);
 	}
 }
