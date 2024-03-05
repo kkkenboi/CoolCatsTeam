@@ -56,7 +56,7 @@ namespace LB
 		if (mScaledUp)
 		{
 			// Set texture
-			mRender->SetSpriteTexture(mRender->spriteSheetName, 2);
+			mRender->SetSpriteTexture(mRender->spriteSheetName, 3);
 
 			// Calculate the interpolation factor
 			float t = 1.0f - (mScaleTimerRemaining / mScaleTimer);
