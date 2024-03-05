@@ -402,7 +402,7 @@ namespace Renderer {
 	class TextRenderer {
 	private:
 		//map of character glyph information with the key being the character
-		std::map<char, Character> Characters;
+		//std::map<char, Character> Characters;
 		//map of character glyphs for different fonts
 		std::map<std::string, std::map<char, Character>> font_glyphs;
 		
@@ -413,14 +413,14 @@ namespace Renderer {
 		float maxBound;
 
 		//Necessary freetype variables to load font
-		FT_Library ft;
-		FT_Face font;
+		//FT_Library ft;
+		//FT_Face font;
 
 		//list to store all text components
 		std::list<LB::CPText*> active_msgs;
 		
 		//list of fonts to load
-		std::vector<std::string> font_files;
+		//std::vector<std::string> font_files;
 	public:
 
 		/*!***********************************************************************

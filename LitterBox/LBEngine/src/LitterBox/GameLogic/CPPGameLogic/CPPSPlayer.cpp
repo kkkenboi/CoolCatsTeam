@@ -27,6 +27,7 @@
 #include "LitterBox/Renderer/Camera.h"
 #include "CPPGameManager.h"
 #include "CPPSCameraFollow.h"
+#include "CPPSBramble.h"
 
 namespace LB
 {
@@ -200,7 +201,7 @@ namespace LB
 		if (!mIsStunned) {
 			//rb->mVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
 			Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
-			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 100.f * static_cast<float>(TIME->GetDeltaTime());
+			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());
 		}
 
 		//clamping of the speed of the player movement
@@ -350,7 +351,8 @@ namespace LB
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
-			colData.colliderOther->m_gameobj->GetName() == "Charger")
+			colData.colliderOther->m_gameobj->GetName() == "Charger" ||
+			colData.colliderOther->m_gameobj->GetName() == "Bramble" )
 		{
 			if (mGotAttackedCooldown > 0) return;
 			//shake the cam

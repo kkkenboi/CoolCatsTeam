@@ -303,8 +303,8 @@ namespace LB
 					newGO->GetComponent<CPRender>()->z_val = tm.Size() - layer;
 
 					//edit the Width and Height of the CPRender
-					newGO->GetComponent<CPRender>()->w = w + 5.f;
-					newGO->GetComponent<CPRender>()->h = h + 5.f;
+					newGO->GetComponent<CPRender>()->w = w + 1.f;
+					newGO->GetComponent<CPRender>()->h = h + 1.f;
 					//swap the object types
 					Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_BACKGROUND, newGO->GetComponent<CPRender>());
 

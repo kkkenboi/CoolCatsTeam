@@ -31,6 +31,7 @@
 #include "CPPSCharger.h"
 #include "CPPSSandpit.h"
 #include "CPPSCameraFollow.h"
+#include "CPPSBramble.h"
 
 namespace LB 
 {

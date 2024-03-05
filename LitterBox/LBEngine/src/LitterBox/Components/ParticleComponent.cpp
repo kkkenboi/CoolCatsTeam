@@ -18,6 +18,7 @@
 
 #include "ParticleComponent.h"
 #include "Litterbox/Animation/ParticleSystem.h"
+#include "LitterBox/Factory/GameObjectManager.h"
 
 namespace LB {
 	/*!***********************************************************************
@@ -50,6 +51,20 @@ namespace LB {
 	*************************************************************************/
 	void CPParticle::Update()
 	{
+		// Check if deletion will happen
+		if (mWillDelete) 
+		{
+			if (mEmitterDeletionLifetimeRemaining <= 0.f) 
+			{
+				Destroy();
+				GOMANAGER->RemoveGameObject(this->gameObj);
+			}
+			else 
+			{
+				mEmitterDeletionLifetimeRemaining -= TIME->GetDeltaTime();
+			}
+		}
+
 		if (gameObj->HasComponent<CPRender>())
 		{
 			mRender = gameObj->GetComponent<CPRender>();
@@ -184,5 +199,16 @@ namespace LB {
 	void CPParticle::RestartLifetime() 
 	{
 		mEmitterLifetimeRemaining = mEmitterLifetime;
+	}
+
+	void CPParticle::SetDeletion(bool state)
+	{
+		mWillDelete = state;
+	}
+
+	void CPParticle::SetDeletionTime(float time) 
+	{
+		mEmitterDeletionLifetime = time;
+		mEmitterDeletionLifetimeRemaining = mEmitterDeletionLifetime;
 	}
 }
