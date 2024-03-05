@@ -65,6 +65,8 @@ namespace LB
 		**************************************************************************/
 		void SpawnChargerEnemy();
 
+		void SpawnCrowdAnim();
+
 		/*!************************************************************************
 		 * \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 		 * 
@@ -88,8 +90,10 @@ namespace LB
 		float m_PlayerMaxSpeed{};
 		float m_PlayerArbitraryFriction{};
 		
+		//Cheering sound is 7 seconds
+		float crowdTimer{7.f};
+		float timer{};	//arbitrary timer for proper lerping
 		bool isGameOver{ true };
-		Event<> onWaveClear;
 	private:
 		bool UpgradeSpawned{ false };
 		//Formula made in desmos, curve is a sexy sexy S curve.
@@ -98,12 +102,13 @@ namespace LB
 		int currentWave{ 1 };	//starting wave is always 1
 		int currentEnemyCount{ 0 }; //Really scuffed way of tracking enemies imo
 		//We try to store references to the enemies
-		GameObject* mageEnemy{nullptr};
-		GameObject* chaserEnemy{ nullptr };
-		GameObject* chargerEnemy{ nullptr };
+		//GameObject* mageEnemy{nullptr};
+		//GameObject* chaserEnemy{ nullptr };
+		//GameObject* chargerEnemy{ nullptr };
+		GameObject* crowdTexture{ nullptr };
+		Vec2<float> cachedCrowdPos{};
 		Vec2<float> mouse_pos{};
 
 	};
-	extern CPPSGameManager* GAMEMANAGER;
 	REGISTER_SCRIPT(CPPSGameManager)
 }

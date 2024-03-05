@@ -20,13 +20,8 @@
 #include "CPPSBaseGolfBall.h"
 namespace LB
 {
-	CPPSGameManager* GAMEMANAGER = nullptr;
 	void CPPSGameManager::Start()
 	{
-		if (!GAMEMANAGER)
-		{
-			GAMEMANAGER = this;
-		} else DebuggerLogError("Game Manager already exists");
 		// Initialising player values
 		m_PlayerMaxHealth = 3;
 		m_PlayerCurrentHealth = 3;
@@ -36,19 +31,18 @@ namespace LB
 		m_PlayerMaxSpeed = 1750.0f;
 		m_PlayerArbitraryFriction = 0.95f;
 
+		//We also need to grab the crowdTexture
+		//By default, the render is set active false
+		crowdTexture = GOMANAGER->FindGameObjectWithName("CrowdTextureObject");
+		//we also wanna cache the position of the UI so we can set it back later
+		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
 
-		//loading the gameobjects with data
-		//then adding it to our pair list
-		//EnemyPrefabList.emplace_back(std::make_pair(chaserEnemy, 2));
-		//EnemyPrefabList.emplace_back(std::make_pair(mageEnemy, 5));
-
+		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
+		//into a list
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChaserEnemy, 2));
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnMageEnemy, 5));
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChargerEnemy, 8));
-		//in the future
-		//EnemyList.emplace_back(std::make_pair(SpawnChargerEnemy, 8));
 
-		//In the future, Charger enemy will be 8 credits probably
 		//For the first level we just make it such that it's always 2 melee enemies
 		if (currentWave == 1) 
 		{
@@ -108,8 +102,8 @@ namespace LB
 		if (currentEnemyCount == 0 && GameStart && !UpgradeSpawned)
 		{
 			UpgradeSpawned = true;
-			onWaveClear.Invoke();
 			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
+			SpawnCrowdAnim();
 			//We want to remove all the balls when the upgrade spawns
 			std::vector<GameObject*> Balls = GOMANAGER->FindGameObjectsWithName("ball");
 			for (GameObject* ball : Balls)
@@ -120,6 +114,25 @@ namespace LB
 			for (GameObject* projectile : Projectiles)
 			{
 				projectile->GetComponent<CPPSBaseGolfBall>()->canDestroy = true;
+			}
+		}
+		//Timer for the crowd, if the crowd texture is active then we want to do stuff
+		if (crowdTexture->IsActive())
+		{
+			timer += TIME->GetDeltaTime();
+			Vec2<float> crowdPos{ cachedCrowdPos };
+			//temporary thing until we get the anim in
+			//This basically just lerps the thing down in 7 seconds
+			float smoothTime = timer / crowdTimer;
+			//thank you Prof Ronald and Desmos 
+			smoothTime = smoothTime * smoothTime * (3.f - 2.f * smoothTime);
+			crowdTexture->GetComponent<CPTransform>()->SetPosition(Lerp(crowdPos, Vec2<float>(cachedCrowdPos.x, 0), smoothTime));
+			//This one below needs to stay though
+			if (timer >= crowdTimer)	//once the sound finishes playing we hide it all and reset pos
+			{
+				crowdTexture->SetActive(false);
+				crowdTexture->GetComponent<CPTransform>()->SetPosition(cachedCrowdPos);
+				timer = 0;
 			}
 		}
 	}
@@ -186,6 +199,18 @@ namespace LB
 		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
 
+	void CPPSGameManager::SpawnCrowdAnim()
+	{
+		//First we play the sound
+		AUDIOMANAGER->PlaySound("Spliced_Cheering");
+		//then we show the crowd texture
+		crowdTexture->SetActive(true);
+		//for now the animation will be hard coded
+		//but in the future it should be an anim with the same duration as the sound
+		
+
+	}
+
 	/*!************************************************************************
 	* \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 	* 
@@ -230,5 +255,4 @@ namespace LB
 		GenerateWave();
 		UpgradeSpawned = false;
 	}
-
 }

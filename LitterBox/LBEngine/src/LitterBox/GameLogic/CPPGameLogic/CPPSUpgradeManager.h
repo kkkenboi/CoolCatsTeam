@@ -96,11 +96,12 @@ namespace LB
 		int currentBallUpgrades{0};
 		bool hasUpgraded{ false };
 
+		//Event for when player gets a NEW upgrade
 		Event<UpgradeType> onNewUpgrade{};
 	private:
 		//Temporary upgrade positions for now, in the future these will be calculated 
 		//and placed at the "end point" of the bigger map
-		
+		Vec2<float> UpgradePos{};
 		std::vector<Vec2<float>> UpgradePositions{ {650.f,785.f}, {950.f,785.f} ,{1250.f,785.f} };
 		GameObject* leftUpgrade{ nullptr };
 		GameObject* middleUpgrade{ nullptr };
