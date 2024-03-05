@@ -1,11 +1,11 @@
 /*!************************************************************************
- \file				CPPSBlueMushroom.h
- \author(s)			Justine Carlo Villa Ilao
- \par DP email(s):	justine.c@digipen.edu
+ \file
+ \author(s)
+ \par DP email(s):
  \par Course:		CSD2451A
- \date				09-02-2024
+ \date
  \brief
-  This file contains the behviour of the Blue Mushroom obstacle.
+  This file contains
 
   Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
   disclosure of this file or its contents without the prior written consent
@@ -18,7 +18,7 @@
 
 namespace LB
 {
-	class CPPSBlueMushroom : public CPPSBaseBouncy
+	class CPPSBramble : public CPPSBaseBouncy
 	{
 	public:
 		/*!***********************************************************************
@@ -36,27 +36,13 @@ namespace LB
 		Overriden destroy function because of inheritance
 		*************************************************************************/
 		void Destroy() override;
-
 	private:
 		//CPTransform* mTransform{ nullptr };
 		//CPRender* mRender{ nullptr };
 		//CPRigidBody* mRigidBody{ nullptr };
 		//CPCollider* mCollider{ nullptr };
 		//GameObject* mPlayer{ nullptr };
-
-		//float mToMaxTimer{ 0.15f };
-		//float mToMinTimer{ 0.35f };
-		//float mScaleTimer{ 0.35f };
-		//float mScaleTimerRemaining{ 0.35f };
-
-		//Vec2<float> mScaleOG{ 1.f,1.f };
-		//Vec2<float> mScaleMax{ 1.25f , 1.25f };
-
-
-		//bool mScaledUp{ false };
-		//bool mScaledDown{ true };
 	};
 
-	Vec2<float> VecLerp(const Vec2<float>& a, const Vec2<float>& b, float t);
-	REGISTER_SCRIPT(CPPSBlueMushroom)
+	REGISTER_SCRIPT(CPPSBramble)
 }
