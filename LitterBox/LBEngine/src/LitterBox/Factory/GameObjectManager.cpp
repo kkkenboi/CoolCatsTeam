@@ -548,8 +548,11 @@ namespace LB
 
 			auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
 
-			m_GameObjects.erase(it);
-			gameObject->Destroy();
+			if (it != m_GameObjects.end())
+			{
+				m_GameObjects.erase(it);
+				gameObject->Destroy();
+			}
 		}
 		//Now we check for the ones due for timed deletion
 		for (const auto& [go,time] : m_TimedDeletionGameObjects)

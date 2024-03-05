@@ -20,10 +20,13 @@
 #include "CPPSBaseGolfBall.h"
 namespace LB
 {
+	CPPSGameManager* GAMEMANAGER = nullptr;
 	void CPPSGameManager::Start()
 	{
-		DebuggerLog("GAME MANAGER HAS STARTED!!!");
-
+		if (!GAMEMANAGER)
+		{
+			GAMEMANAGER = this;
+		} else DebuggerLogError("Game Manager already exists");
 		// Initialising player values
 		m_PlayerMaxHealth = 3;
 		m_PlayerCurrentHealth = 3;
@@ -105,6 +108,7 @@ namespace LB
 		if (currentEnemyCount == 0 && GameStart && !UpgradeSpawned)
 		{
 			UpgradeSpawned = true;
+			onWaveClear.Invoke();
 			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
 			//We want to remove all the balls when the upgrade spawns
 			std::vector<GameObject*> Balls = GOMANAGER->FindGameObjectsWithName("ball");

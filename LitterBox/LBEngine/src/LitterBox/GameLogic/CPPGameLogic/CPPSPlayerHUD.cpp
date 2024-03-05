@@ -521,15 +521,16 @@ namespace LB {
 	*************************************************************************/
 	void DecreaseHealth()
 	{
-		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		{
-			// Find out which object is the player
-			if (gameObj->GetName() == "PlayerHUD")
-			{
-				gameObj->GetComponent<CPPSPlayerHUD>()->DecreaseHealth();
-				break;
-			}
-		}
+		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->DecreaseHealth();
+		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		//{
+		//	// Find out which object is the player
+		//	if (gameObj->GetName() == "PlayerHUD")
+		//	{
+		//		gameObj->GetComponent<CPPSPlayerHUD>()->DecreaseHealth();
+		//		break;
+		//	}
+		//}
 	}
 
 	/*!***********************************************************************
@@ -538,15 +539,16 @@ namespace LB {
 	*************************************************************************/
 	void DecreaseBalls()
 	{
-		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		{
-			// Find out which object is the player
-			if (gameObj->GetName() == "PlayerHUD")
-			{
-				gameObj->GetComponent<CPPSPlayerHUD>()->DecreaseBalls();
-				break;
-			}
-		}
+		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->DecreaseBalls();
+		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		//{
+		//	// Find out which object is the player
+		//	if (gameObj->GetName() == "PlayerHUD")
+		//	{
+		//		gameObj->GetComponent<CPPSPlayerHUD>()->DecreaseBalls();
+		//		break;
+		//	}
+		//}
 	}
 
 	/*!***********************************************************************
@@ -555,15 +557,16 @@ namespace LB {
 	*************************************************************************/
 	void IncreaseHealth()
 	{
-		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		{
-			// Find out which object is the player
-			if (gameObj->GetName() == "PlayerHUD")
-			{
-				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseHealth();
-				break;
-			}
-		}
+		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseHealth();
+		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		//{
+		//	// Find out which object is the player
+		//	if (gameObj->GetName() == "PlayerHUD")
+		//	{
+		//		gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseHealth();
+		//		break;
+		//	}
+		//}
 	}
 
 	/*!***********************************************************************
@@ -572,15 +575,16 @@ namespace LB {
 	*************************************************************************/
 	void IncreaseBalls()
 	{
-		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		{
-			// Find out which object is the player
-			if (gameObj->GetName() == "PlayerHUD")
-			{
-				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
-				break;
-			}
-		}
+		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
+		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		//{
+		//	// Find out which object is the player
+		//	if (gameObj->GetName() == "PlayerHUD")
+		//	{
+		//		gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
+		//		break;
+		//	}
+		//}
 	}
 
 	/*!***********************************************************************
@@ -589,15 +593,16 @@ namespace LB {
 	*************************************************************************/
 	void IncreaseMaxHealth(int amount)
 	{
-		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		{
-			// Find out which object is the player
-			if (gameObj->GetName() == "PlayerHUD")
-			{
-				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(amount);
-				break;
-			}
-		}
+		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(amount);
+		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		//{
+		//	// Find out which object is the player
+		//	if (gameObj->GetName() == "PlayerHUD")
+		//	{
+		//		gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(amount);
+		//		break;
+		//	}
+		//}
 	}
 
 	/*!***********************************************************************
@@ -606,15 +611,16 @@ namespace LB {
 	*************************************************************************/
 	void IncreaseMaxBalls(int amount)
 	{
-		for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		{
-			// Find out which object is the player
-			if (gameObj->GetName() == "PlayerHUD")
-			{
-				gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(amount);
-				break;
-			}
-		}
+		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(amount);
+		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
+		//{
+		//	// Find out which object is the player
+		//	if (gameObj->GetName() == "PlayerHUD")
+		//	{
+		//		gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(amount);
+		//		break;
+		//	}
+		//}
 	}
 
 	/*!***********************************************************************

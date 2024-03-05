@@ -33,7 +33,7 @@ namespace LB
 		MAXCOUNT		//Enum to keep track of the count of upgrades
 	};
 
-	class CPPSUpgradeManager : public CPPBehaviour , public Singleton<CPPSUpgradeManager>
+	class CPPSUpgradeManager : public CPPBehaviour 
 	{
 	public:
 		/*!************************************************************************

@@ -101,6 +101,7 @@ namespace LB
 	void CPPSPlayer::Update()
 	{
 		if (TIME->IsPaused()) return;
+		//if (m_GameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
 
 		
 		if (mGotAttackedCooldown > 0.0f) {
@@ -345,6 +346,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayer::OnCollisionEnter(CollisionData colData) 
 	{
+		//if (m_GameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||

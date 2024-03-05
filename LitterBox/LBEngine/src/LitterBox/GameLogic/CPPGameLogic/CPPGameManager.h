@@ -88,6 +88,8 @@ namespace LB
 		float m_PlayerMaxSpeed{};
 		float m_PlayerArbitraryFriction{};
 		
+		bool isGameOver{ true };
+		Event<> onWaveClear;
 	private:
 		bool UpgradeSpawned{ false };
 		//Formula made in desmos, curve is a sexy sexy S curve.
@@ -102,5 +104,6 @@ namespace LB
 		Vec2<float> mouse_pos{};
 
 	};
+	extern CPPSGameManager* GAMEMANAGER;
 	REGISTER_SCRIPT(CPPSGameManager)
 }

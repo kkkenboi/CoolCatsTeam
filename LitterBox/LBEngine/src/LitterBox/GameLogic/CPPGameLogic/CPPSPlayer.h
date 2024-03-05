@@ -57,6 +57,7 @@ namespace LB
 
 		Event<> onTakingDamage;
 		Event<> onPlacingBall;
+		Event<GameObject> onPlayerDeathEvent;
 	private:
 		//direction of where the player is facing
 		LB::Vec2<float> right_face;
