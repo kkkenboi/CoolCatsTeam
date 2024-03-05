@@ -50,6 +50,15 @@ namespace LB
 		return currentPath/filePath;
 	}
 
+	std::filesystem::path FileSystemManager::GetRelativeAssetPath(const std::string& fileName)
+	{
+		//We get the assets directory, then we save it to the correct filepath
+		//User will need to make sure the filepath is complete with the file extn. 
+		std::filesystem::path defaultFilepathDirectory{ std::filesystem::current_path() / std::filesystem::path("Assets") };
+		std::filesystem::path filePath{ fileName };
+		return defaultFilepathDirectory/filePath;
+	}
+
 
 	/*!************************************************************************
 	 * \brief Function that gets ALL files of the provided EXTENSION NAME

@@ -246,6 +246,7 @@ namespace LB
         //basically %APPDATA%/PurrfectPutt
         char* _appData{ nullptr };
         std::filesystem::path folderName{ "PurrfectPutt" };
+        std::filesystem::path defaultDirectoryPath{ std::filesystem::current_path() / std::filesystem::path{"Assets"} };
         private:
 
         /*!***********************************************************************
