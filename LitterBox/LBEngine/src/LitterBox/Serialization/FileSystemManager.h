@@ -36,6 +36,8 @@ namespace LB
 		**************************************************************************/
 		std::filesystem::path GetFilePath(const std::string& fileName);
 
+		std::filesystem::path GetRelativeAssetPath(const std::string& fileName);
+
 		/*!************************************************************************
 		* \brief Function that gets ALL files of the provided EXTENSION NAME
 		*	e.g ".png" -> vector of all filepaths containing pngs
