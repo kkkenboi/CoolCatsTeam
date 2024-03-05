@@ -1,4 +1,5 @@
 #include "CPPSSandpit.h"
+#include "LitterBox/Animation/ParticleSystem.h"
 
 namespace LB
 {

@@ -121,6 +121,13 @@ namespace LB {
 		mode
 		*************************************************************************/
 		void WhenCoreNotPlaying();
+
+		void CreateParticle(Vec2<float> pos, float lifetime, 
+			float varXMin, float varXMax,
+			float varYMin, float varYMax,
+			float sizeBegin, float sizeEnd,
+			std::string textureName
+			);
 	private:
 
 		// Postion, Velocity, Variation, Texture, SizeBegin
