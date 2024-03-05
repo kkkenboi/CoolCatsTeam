@@ -671,130 +671,131 @@ void Renderer::Renderer::Destroy_Renderer()
  character glpyh information the in the map member followed by freeing
  of the freetype library.
 *************************************************************************/
-Renderer::TextRenderer::TextRenderer() : Characters{}, 
-tShader{}, tVao{}, tVbo{}, ft{}, font{}, active_msgs{} 
+Renderer::TextRenderer::TextRenderer() : //Characters{}, 
+tShader{}, tVao{}, tVbo{}, active_msgs{} //, ft{}, font{} 
 {
-	//Get fonts
-	auto fonts{ LB::FILESYSTEM->GetFilesOfType(".otf") };
-	auto fonts2{ LB::FILESYSTEM->GetFilesOfType(".ttf") };
+	////Get fonts
+	//auto fonts{ LB::FILESYSTEM->GetFilesOfType(".otf") };
+	//auto fonts2{ LB::FILESYSTEM->GetFilesOfType(".ttf") };
 
 
-	//-------------------LOAD FONT------------------------
-	//init freetype lib
-	if (FT_Init_FreeType(&ft)) {
-		DebuggerLogError("ERROR On the freetype: could not init the lib");
-	}
+	////-------------------LOAD FONT------------------------
+	////init freetype lib
+	//if (FT_Init_FreeType(&ft)) {
+	//	DebuggerLogError("ERROR On the freetype: could not init the lib");
+	//}
 
-	//load all fonts both otf and ttf
-	for (auto const& e : fonts) {
-		//load font
-		if (FT_New_Face(ft, e.string().c_str(), 0, &font)) {
-			DebuggerLogError("ERROR on the freetype: could not load font");
-		}
-		//set default font face
-		FT_Set_Pixel_Sizes(font, 0, 50); //the width is 0 so it is based off the height value
+	////load all fonts both otf and ttf
+	//for (auto const& e : fonts) {
+	//	//load font
+	//	if (FT_New_Face(ft, e.string().c_str(), 0, &font)) {
+	//		DebuggerLogError("ERROR on the freetype: could not load font");
+	//	}
+	//	//set default font face
+	//	FT_Set_Pixel_Sizes(font, 0, 50); //the width is 0 so it is based off the height value
 
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	//	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		for (unsigned char c{}; c < 128; ++c) {
-			//load glyph
-			if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
-				DebuggerLogErrorFormat("ERROR on the freetype: could not load glyph %c", c);
-				continue;
-			}
-			//generate texture
-			unsigned int character_glyph;
-			glGenTextures(1, &character_glyph);
-			glBindTexture(GL_TEXTURE_2D, character_glyph);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-				font->glyph->bitmap.width, font->glyph->bitmap.rows,
-				0, GL_RED, GL_UNSIGNED_BYTE, font->glyph->bitmap.buffer);
-			//set texture options
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			//store that shit
-			Character sc = {
-				character_glyph,
-				LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
-				LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
-				static_cast<unsigned int>(font->glyph->advance.x)
-			};
-			Characters.emplace(std::pair<char, Character>(c, sc));
-		}
-		//-------------------LOAD FONT------------------------
-		font_glyphs.emplace(std::make_pair(e.stem().string(), Characters));
-		Characters.clear();
-		//free up all the used resources from FT
-		FT_Done_Face(font);
-	}
+	//	for (unsigned char c{}; c < 128; ++c) {
+	//		//load glyph
+	//		if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
+	//			DebuggerLogErrorFormat("ERROR on the freetype: could not load glyph %c", c);
+	//			continue;
+	//		}
+	//		//generate texture
+	//		unsigned int character_glyph;
+	//		glGenTextures(1, &character_glyph);
+	//		glBindTexture(GL_TEXTURE_2D, character_glyph);
+	//		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+	//			font->glyph->bitmap.width, font->glyph->bitmap.rows,
+	//			0, GL_RED, GL_UNSIGNED_BYTE, font->glyph->bitmap.buffer);
+	//		//set texture options
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//		//store that shit
+	//		Character sc = {
+	//			character_glyph,
+	//			LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
+	//			LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
+	//			static_cast<unsigned int>(font->glyph->advance.x)
+	//		};
+	//		Characters.emplace(std::pair<char, Character>(c, sc));
+	//	}
+	//	//-------------------LOAD FONT------------------------
+	//	font_glyphs.emplace(std::make_pair(e.stem().string(), Characters));
+	//	Characters.clear();
+	//	//free up all the used resources from FT
+	//	FT_Done_Face(font);
+	//}
 
-	for (auto const& e : fonts2) {
-		//load font
-		if (FT_New_Face(ft, e.string().c_str(), 0, &font)) {
-			DebuggerLogError("ERROR on the freetype: could not load font");
-		}
-		//set default font face
-		FT_Set_Pixel_Sizes(font, 0, 50); //the width is 0 so it is based off the height value
+	//for (auto const& e : fonts2) {
+	//	//load font
+	//	if (FT_New_Face(ft, e.string().c_str(), 0, &font)) {
+	//		DebuggerLogError("ERROR on the freetype: could not load font");
+	//	}
+	//	//set default font face
+	//	FT_Set_Pixel_Sizes(font, 0, 50); //the width is 0 so it is based off the height value
 
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	//	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		for (unsigned char c{}; c < 128; ++c) {
-			//load glyph
-			if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
-				DebuggerLogErrorFormat("ERROR on the freetype: could not load glyph %c", c);
-				continue;
-			}
-			//generate texture
-			unsigned int character_glyph;
-			glGenTextures(1, &character_glyph);
-			glBindTexture(GL_TEXTURE_2D, character_glyph);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-				font->glyph->bitmap.width, font->glyph->bitmap.rows,
-				0, GL_RED, GL_UNSIGNED_BYTE, font->glyph->bitmap.buffer);
-			//set texture options
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			//store that shit
-			Character sc = {
-				character_glyph,
-				LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
-				LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
-				static_cast<unsigned int>(font->glyph->advance.x)
-			};
-			Characters.emplace(std::pair<char, Character>(c, sc));
-		}
-		//-------------------LOAD FONT------------------------
+	//	for (unsigned char c{}; c < 128; ++c) {
+	//		//load glyph
+	//		if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
+	//			DebuggerLogErrorFormat("ERROR on the freetype: could not load glyph %c", c);
+	//			continue;
+	//		}
+	//		//generate texture
+	//		unsigned int character_glyph;
+	//		glGenTextures(1, &character_glyph);
+	//		glBindTexture(GL_TEXTURE_2D, character_glyph);
+	//		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+	//			font->glyph->bitmap.width, font->glyph->bitmap.rows,
+	//			0, GL_RED, GL_UNSIGNED_BYTE, font->glyph->bitmap.buffer);
+	//		//set texture options
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//		//store that shit
+	//		Character sc = {
+	//			character_glyph,
+	//			LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
+	//			LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
+	//			static_cast<unsigned int>(font->glyph->advance.x)
+	//		};
+	//		Characters.emplace(std::pair<char, Character>(c, sc));
+	//	}
+	//	//-------------------LOAD FONT------------------------
 
-		//-------------------LOAD FONT------------------------
-		font_glyphs.emplace(std::make_pair(e.stem().string(), Characters));
-		Characters.clear();
-		//free up all the used resources from FT
-		FT_Done_Face(font);
-	}
-	//free ft lib
-	FT_Done_FreeType(ft);
+	//	//-------------------LOAD FONT------------------------
+	//	font_glyphs.emplace(std::make_pair(e.stem().string(), Characters));
+	//	Characters.clear();
+	//	//free up all the used resources from FT
+	//	FT_Done_Face(font);
+	//}
+	////free ft lib
+	//FT_Done_FreeType(ft);
 
-	//create the vertex array and buffer
-	glGenVertexArrays(1, &tVao);
-	glGenBuffers(1, &tVbo);
-	glBindVertexArray(tVao);
-	glBindBuffer(GL_ARRAY_BUFFER, tVbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	////create the vertex array and buffer
+	//glGenVertexArrays(1, &tVao);
+	//glGenBuffers(1, &tVbo);
+	//glBindVertexArray(tVao);
+	//glBindBuffer(GL_ARRAY_BUFFER, tVbo);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindVertexArray(0);
 
-	//setup the shader program
-	shader_source shd_pgm{ shader_parser("Assets/Shaders/text.shader") };
-	tShader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
+	////setup the shader program
+	//shader_source shd_pgm{ shader_parser("Assets/Shaders/text.shader") };
+	//tShader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
 
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	LB::ASSETMANAGER->LoadFonts(tVao, tVbo, tShader, reinterpret_cast<void*>(&font_glyphs));
 }
 /*!***********************************************************************
 \brief
@@ -1465,6 +1466,8 @@ void Renderer::RenderSystem::swap_object_type(Renderer_Types new_type, LB::CPRen
 
 	//finish
 	obj->set_index(newid);
+	
+	obj->update_indices();
 }
 
 /*!***********************************************************************
