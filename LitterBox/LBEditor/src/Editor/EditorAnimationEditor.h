@@ -75,13 +75,32 @@ namespace LB
 		void Destroy() {}
 		
 	private:
+		// For checking what is loaded
+		bool m_stateLoaded{ false }, m_controllerLoaded{ false };
+		LBAnimationState m_loadedState{};
+
+		// For editing state values
+		bool m_editActive{};
+		float m_editPosX{}, m_editPosY{}, m_editScaleX{}, m_editScaleY{}, m_editRot{};
+		int m_editSprite{};
+
+		// For timeline state
+		bool m_transformOpen{ true }, m_posOpen{ true }, m_scaleOpen{ true };
+
+		// For preview
+		bool m_previewPlaying{ false };
+		float m_elapsedTime{ 0.0f }, m_frameDuration{ 0.016f };
+		ImGui::FrameIndexType m_currentFrame{ 0 }, m_startFrame{ 0 }, m_endFrame{ 60 };
+
+
+
+
+
+
 		//----------------------------------------------Animation State----------------------------------------------
-		bool m_stateLoaded{ false }, m_controllerLoaded{ false }, m_previewPlaying{ false };
 		int m_previewIndex{ 0 };
 		float m_previewTimeElapsed{ 0.0f }, m_allDuration{ 0.0f };
 		SpriteSheet* m_spriteSheet{ nullptr };
-
-		ImGui::FrameIndexType m_startFrame{ 0 }, m_endFrame{ 60 }, m_currentFrame{ 0 };
 
 		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
 		AnimationState m_currentState{};

@@ -19,7 +19,7 @@
 #include <vector>
 #include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Animation/SpriteSheet.h"
-//#include "LitterBox/Components/Component.h"
+#include "LitterBox/Utils/SortedVector.h"
 
 namespace LB
 {
@@ -198,6 +198,220 @@ namespace LB
 		std::vector<KeyFrame> m_keyFrames{};
 
 		//std::vector<AnimationTransition> m_transitions;
+	};
+
+
+
+	//----------------------------------------------Key Frame----------------------------------------------
+	template<typename T>
+	struct LBKeyFrame
+	{
+		LBKeyFrame() {}
+
+		LBKeyFrame(int frame, T const& data) : m_frame(frame), m_data(data) {}
+
+		/*!***********************************************************************
+		 \brief
+		 Compares the frame number of the KeyFrame, used for sorting
+		*************************************************************************/
+		bool operator<(const LBKeyFrame& rhs) const
+		{
+			return m_frame < rhs.m_frame;
+		}
+
+		bool operator==(const LBKeyFrame& rhs) const
+		{
+			return m_frame == rhs.m_frame;
+		}
+
+		/*!***********************************************************************
+		 \brief
+		 Serializes the KeyFrame data
+		*************************************************************************/
+		bool Serialize(Value& data, Document::AllocatorType& alloc)
+		{
+			data.SetObject();
+
+			data.AddMember("Frame", m_frame, alloc);
+			if constexpr (std::is_fundamental_v<T>)
+			{
+				data.AddMember("Data", m_data, alloc);
+			}
+			else
+			{
+				Value DataValue;
+				if (m_data.Serialize(DataValue, alloc))
+				{
+					data.AddMember("Data", DataValue, alloc);
+				}
+			}
+			return true;
+		}
+
+		/*!***********************************************************************
+		 \brief
+		 Deserializes the KeyFrame data
+		*************************************************************************/
+		bool Deserialize(const Value& data)
+		{
+			bool HasData = data.HasMember("Data");
+			bool HasTime = data.HasMember("Frame");
+
+			if (data.IsObject())
+			{
+				if (HasTime)
+				{
+					m_frame = data["Frame"].GetInt();
+				}
+				if (HasData)
+				{
+					if constexpr (std::is_fundamental_v<T>)
+					{
+						m_data = data["Data"].Get<T>();
+					}
+					else
+					{
+						Value const& dataValue = data["Data"];
+						m_data.Deserialize(dataValue);
+					}
+				}
+				return true;
+			}
+			return false;
+		}
+
+		int m_frame{};
+		T	m_data{};
+	};
+
+	//----------------------------------------------Key Frame Group----------------------------------------------
+	template <typename T>
+	class LBKeyFrameGroup
+	{
+	public:
+		void Update(unsigned frame);
+
+		T GetCurrent() const
+		{
+			if (m_currentIndex >= m_keyFrames.Size()) return T{};
+			return m_keyFrames[m_currentIndex].m_data;
+		}
+
+		T GetCurrentExact(int exactFrame) const
+		{
+			if (m_currentIndex >= m_keyFrames.Size() || m_keyFrames[m_currentIndex].m_frame != exactFrame) return T{};
+			return m_keyFrames[m_currentIndex].m_data;
+		}
+
+
+		void Insert(LBKeyFrame<T> const& keyFrame)
+		{
+			LBKeyFrame<T>* existingFrame = m_keyFrames.Find(keyFrame);
+			if (existingFrame)
+			{
+				*existingFrame = keyFrame;
+			}
+			else
+			{
+				m_keyFrames.Insert(keyFrame);
+			}
+		}
+
+		inline void Clear() { m_keyFrames.Clear(); }
+
+		inline SortedVector<LBKeyFrame<T>>& GetData() { return m_keyFrames; }
+
+		inline int GetLargestFrame() { return m_keyFrames.Size() > 0 ? m_keyFrames[m_keyFrames.Size() - 1].m_frame : 0; }
+
+		/*!***********************************************************************
+		 \brief
+		 Serializes the KeyFrame data
+		*************************************************************************/
+		bool Serialize(Value& data, Document::AllocatorType& alloc)
+		{
+			data.SetObject();
+
+			Value frameArray(rapidjson::kArrayType);
+			for (auto& keyframe : m_keyFrames.GetData())
+			{
+				Value frameValue;
+				if (keyframe.Serialize(frameValue, alloc))
+				{
+					frameArray.PushBack(frameValue, alloc);
+				}
+			}
+			data.AddMember("Frame Group", frameArray, alloc);
+			
+			return true;
+		}
+
+		/*!***********************************************************************
+		 \brief
+		 Deserializes the KeyFrame data
+		*************************************************************************/
+		bool Deserialize(const Value& data)
+		{
+			bool HasFrames = data.HasMember("Frame Group");
+
+			if (data.IsObject())
+			{
+				if (HasFrames)
+				{
+					Value const& frameArray = data["Frame Group"];
+					for (SizeType i = 0; i < frameArray.Size(); ++i)
+					{
+						LBKeyFrame<T> newFrame;
+						if (newFrame.Deserialize(frameArray[i]))
+						{
+							m_keyFrames.Insert(newFrame);
+						}
+					}
+
+					m_currentIndex = 0;
+					m_nextIndex = (m_currentIndex + 1) % m_keyFrames.Size();
+				}
+				return true;
+			}
+			return false;
+		}
+
+	private:
+		int m_currentIndex{ 0 }, m_nextIndex;
+		SortedVector<LBKeyFrame<T>> m_keyFrames;
+	};
+
+	//----------------------------------------------Animation State----------------------------------------------
+	class LBAnimationState
+	{
+	public:
+		void Start();
+		void Start(int frame);
+
+		void Update();
+
+		void UpdateLastFrame();
+		void UpdateLastFrame(int newFrame);
+
+		bool Serialize(Value& data, Document::AllocatorType& alloc);
+
+		bool Deserialize(const Value& data);
+
+		inline bool IsLastFrame() const { m_currentFrame == m_endFrame; }
+
+		std::string m_name, m_spriteSheetName;
+		int m_currentFrame{ 0 };
+		int m_startFrame{ 0 }, m_endFrame{ 60 };
+
+		LBKeyFrameGroup<bool>			m_active;
+		
+		LBKeyFrameGroup<Vec2<float>>	m_pos;
+		LBKeyFrameGroup<Vec2<float>>	m_scale;
+		LBKeyFrameGroup<float>			m_rot;
+
+		LBKeyFrameGroup<int>			m_sprite;
+
+	private:
+		void UpdateGroups();
 	};
 
 	//class TransitionParameter

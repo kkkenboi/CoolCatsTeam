@@ -42,5 +42,15 @@ namespace ImGui
 
 		return ImVec2(viewStart, viewStart + context.EndFrame);
 	}
+
+    /*template <>
+    bool BeginTimeline(const char* label, LB::LBKeyFrameGroup<LB::Vec2<float>>& keyframes, bool* open, ImGuiNeoTimelineFlags flags)
+    {
+        std::vector<int32_t*> c_keyframes{keyframes.GetData().Size()};
+        for (uint32_t i = 0; i < c_keyframes.size(); ++i)
+            c_keyframes[i] = &keyframes.GetData()[i].m_frame;
+
+        return BeginNeoTimeline(label, c_keyframes.data(), c_keyframes.size(), open, flags);
+    }*/
 }
 

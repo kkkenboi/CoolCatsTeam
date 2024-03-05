@@ -19,6 +19,8 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Animation/SpriteSheet.h" //Since it uses sprite sheet to animate
 
+#include "Utils/SequencerHelper.h" // Helper functions for neo sequencer
+
 /*!***********************************************************************
 \brief
 Constructor of the Animation Editor
@@ -26,7 +28,7 @@ Constructor of the Animation Editor
 
 namespace LB
 {
-	static float columnWidth = 250.0f;
+	static float columnWidth = 60.0f;
 	static float normalWidth = 150.f;
 	static float smallWidth = 100.f;
 
@@ -47,69 +49,151 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
-		// Testing
-		static bool transformOpen = true, posOpen = true, scaleOpen = true;
-		static bool isPlaying = false;
-		static std::vector<ImGui::FrameIndexType> keys = { 0, 10, 84 };
-		static ImGui::FrameIndexType selected;
-		static float duration;
-		static float target = 0.016f;
-
+		// For playing/pausing the timeline 
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_SPACE))
 		{
-			isPlaying = !isPlaying;
+			m_previewPlaying = !m_previewPlaying;
 		}
 
-		if (isPlaying)
+		// If previewing, update the current frame
+		if (m_previewPlaying)
 		{
-			duration += static_cast<float>(TIME->GetUnscaledDeltaTime());
-			if (duration >= target)
+			m_elapsedTime += static_cast<float>(TIME->GetUnscaledDeltaTime());
+			if (m_elapsedTime >= m_frameDuration)
 			{
-				duration -= target;
-				m_currentFrame = (m_currentFrame + 1) % m_endFrame;
+				m_elapsedTime -= m_frameDuration;
+
+				++m_currentFrame;
+				if (m_currentFrame > m_loadedState.m_endFrame)
+				{
+					m_currentFrame = m_loadedState.m_startFrame;
+				}
+
+				m_loadedState.Update();
 			}
 		}
 
-		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame, {0, 0}, ImGuiNeoSequencerFlags_AllowLengthChanging | ImGuiNeoSequencerFlags_EnableSelection | ImGuiNeoSequencerFlags_Selection_EnableDragging)) {
-			if (ImGui::BeginNeoTimeline("Set Active", keys)) {
+		ImGui::Text("Preview Curr %d", m_currentFrame);
+		ImGui::SameLine();
+		ImGui::Text("State Curr %d", m_loadedState.m_currentFrame);
 
+		ImGui::Columns(2);
+		ImGui::SetColumnWidth(0, columnWidth);
+
+		// Update the state values
+		ImGui::Dummy({0.0f, 35.0f});
+
+		m_editActive = m_loadedState.m_active.GetCurrentExact(m_currentFrame);
+		if (ImGui::Checkbox("##Active", &m_editActive))
+		{
+			m_loadedState.m_active.Insert(LBKeyFrame<bool>{m_currentFrame, m_editActive});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+		}
+
+		ImGui::Dummy({ 0.0f, 32.5f });
+
+		m_editPosX = m_loadedState.m_pos.GetCurrentExact(m_currentFrame).x;
+		if (ImGui::DragFloat("##PosX", &m_editPosX))
+		{
+			m_loadedState.m_pos.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { m_editPosX, 0.0f }});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+		}
+
+		m_editPosY = m_loadedState.m_pos.GetCurrentExact(m_currentFrame).y;
+		if (ImGui::DragFloat("##PosY", &m_editPosY))
+		{
+			m_loadedState.m_pos.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { 0.0f, m_editPosY }});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+		}
+
+		ImGui::Dummy({ 0.0f, 10.0f });
+
+		m_editScaleX = m_loadedState.m_scale.GetCurrentExact(m_currentFrame).x;
+		if (ImGui::DragFloat("##ScaleX", &m_editScaleX))
+		{
+			m_loadedState.m_scale.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { m_editScaleX, 0.0f }});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+		}
+
+		m_editScaleY = m_loadedState.m_scale.GetCurrentExact(m_currentFrame).y;
+		if (ImGui::DragFloat("##ScaleY", &m_editScaleY))
+		{
+			m_loadedState.m_scale.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { 0.0f, m_editScaleY }});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+		}
+
+		m_editRot = m_loadedState.m_rot.GetCurrentExact(m_currentFrame);
+		if (ImGui::DragFloat("##Rotation", &m_editRot))
+		{
+			m_loadedState.m_rot.Insert(LBKeyFrame<float>{m_currentFrame, m_editRot});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+		}
+
+		m_editSprite = m_loadedState.m_sprite.GetCurrentExact(m_currentFrame);
+		if (ImGui::DragInt("##Sprite", &m_editSprite))
+		{
+			m_loadedState.m_sprite.Insert(LBKeyFrame<int>{m_currentFrame, m_editSprite});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+		}
+
+		ImGui::NextColumn();
+
+		ImGui::BeginChild("SequencerTable", ImVec2(0, 250), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+
+		ImGui::FrameIndexType currentFrame = m_currentFrame;
+		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_loadedState.m_startFrame, &m_loadedState.m_endFrame, {0, 0}, ImGuiNeoSequencerFlags_AllowLengthChanging | ImGuiNeoSequencerFlags_EnableSelection | ImGuiNeoSequencerFlags_Selection_EnableDragging)) {
+			if (ImGui::BeginTimeline("Set Active", m_loadedState.m_active)) 
+			{
 				ImGui::EndNeoTimeLine();
 			}
-			if (ImGui::BeginNeoGroup("Transform", &transformOpen)) {
-				if (ImGui::BeginNeoGroup("Position", &posOpen)) {
-					if (ImGui::BeginNeoTimeline("X", keys)) {
-
+			if (ImGui::BeginNeoGroup("Transform", &m_transformOpen)) 
+			{
+				if (ImGui::BeginNeoGroup("Position", &m_posOpen)) 
+				{
+					if (ImGui::BeginTimeline("X", m_loadedState.m_pos)) 
+					{
 						ImGui::EndNeoTimeLine();
 					}
-					if (ImGui::BeginNeoTimeline("Y", keys)) {
-
-						ImGui::EndNeoTimeLine();
-					}
-					ImGui::EndNeoGroup();
-				}
-				if (ImGui::BeginNeoGroup("Scale", &scaleOpen)) {
-					if (ImGui::BeginNeoTimeline("X", keys)) {
-
-						ImGui::EndNeoTimeLine();
-					}
-					if (ImGui::BeginNeoTimeline("Y", keys)) {
-
+					if (ImGui::BeginTimeline("Y", m_loadedState.m_pos)) 
+					{
 						ImGui::EndNeoTimeLine();
 					}
 					ImGui::EndNeoGroup();
 				}
-				if (ImGui::BeginNeoTimeline("Rotation", keys)) {
-
+				if (ImGui::BeginNeoGroup("Scale", &m_scaleOpen)) 
+				{
+					if (ImGui::BeginTimeline("X", m_loadedState.m_scale)) 
+					{
+						ImGui::EndNeoTimeLine();
+					}
+					if (ImGui::BeginTimeline("Y", m_loadedState.m_scale)) 
+					{
+						ImGui::EndNeoTimeLine();
+					}
+					ImGui::EndNeoGroup();
+				}
+				if (ImGui::BeginTimeline("Rotation", m_loadedState.m_rot)) 
+				{
 					ImGui::EndNeoTimeLine();
 				}
 				ImGui::EndNeoGroup();
 			}
-			if (ImGui::BeginNeoTimeline("Sprite", keys)) {
-
+			if (ImGui::BeginTimeline("Sprite", m_loadedState.m_sprite)) 
+			{
 				ImGui::EndNeoTimeLine();
 			}
 			ImGui::EndNeoSequencer();
 		}
+		ImGui::EndChild();
+
+		// If the player dragged the sequencer, update the current frame
+		if (currentFrame != m_currentFrame)
+		{
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		ImGui::Columns(1);
+		ImGui::Separator();
 
 		if (ImGui::Button("Save"))
 		{

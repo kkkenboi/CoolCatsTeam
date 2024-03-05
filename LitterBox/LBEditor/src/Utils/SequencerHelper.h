@@ -19,10 +19,26 @@
 #pragma once
 
 #include "imgui_neo_sequencer.h"
+#include <LitterBox/Animation/AnimationState.h>
 
 namespace ImGui
 {
 	float& NeoGetZoom();
 
 	ImVec2 NeoGetViewRange();
+
+	template <typename T>
+	bool BeginTimeline(const char* label, LB::LBKeyFrameGroup<T>& keyframes, bool* open = nullptr, ImGuiNeoTimelineFlags flags = ImGuiNeoTimelineFlags_None)
+	{
+		std::vector<int32_t*> c_keyframes{keyframes.GetData().Size()};
+		for (uint32_t i = 0; i < c_keyframes.size(); ++i)
+		{
+			c_keyframes[i] = &keyframes.GetData()[i].m_frame;
+		}
+
+		return BeginNeoTimeline(label, c_keyframes.data(), c_keyframes.size(), open, flags);
+	}
+	
+	/*template <>
+	bool BeginTimeline(const char* label, LB::LBKeyFrameGroup<LB::Vec2<float>>& keyframes);*/
 }
