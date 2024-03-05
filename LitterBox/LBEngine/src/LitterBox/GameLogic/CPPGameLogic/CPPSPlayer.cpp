@@ -27,6 +27,7 @@
 #include "LitterBox/Renderer/Camera.h"
 #include "CPPGameManager.h"
 #include "CPPSCameraFollow.h"
+#include "CPPSBramble.h"
 
 namespace LB
 {
@@ -348,7 +349,8 @@ namespace LB
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
-			colData.colliderOther->m_gameobj->GetName() == "Charger")
+			colData.colliderOther->m_gameobj->GetName() == "Charger" ||
+			colData.colliderOther->m_gameobj->GetName() == "Bramble" )
 		{
 			if (mGotAttackedCooldown > 0) return;
 			//shake the cam

@@ -54,7 +54,7 @@ namespace LB
 
 		/*!***********************************************************************
 		\brief
-		Every time the mushroom collides with anything it's scale changes
+		Every time the bouncy collides with anything its scale changes
 		*************************************************************************/
 		void OnCollisionEnter(CollisionData colData);
 

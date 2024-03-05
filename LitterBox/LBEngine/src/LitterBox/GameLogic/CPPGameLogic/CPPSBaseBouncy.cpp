@@ -21,7 +21,7 @@ namespace LB
 {
 	/*!***********************************************************************
 	\brief
-	Every time the mushroom collides with anything it's scale changes
+	Every time the bouncy collides with anything its scale changes
 	*************************************************************************/
 	void CPPSBaseBouncy::OnCollisionEnter(CollisionData colData)
 	{
@@ -50,6 +50,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	To the sprite scale when interacting with other game objects
+	*************************************************************************/
 	void CPPSBaseBouncy::OnInteraction(int spriteIndexStart, int spriteIndexEnd)
 	{
 		if (mScaledUp || mScaledDown)
