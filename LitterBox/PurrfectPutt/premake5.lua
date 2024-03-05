@@ -29,7 +29,8 @@ project "PurrfectPutt"
         "%{IncludeDir.FreeType}",
         "%{IncludeDir.FMOD}",
         "%{IncludeDir.RapidJSON}",
-        "%{IncludeDir.Mono}"
+        "%{IncludeDir.Mono}",
+        "%{IncludeDir.FFmpeg}"
     }
 
     postbuildcommands

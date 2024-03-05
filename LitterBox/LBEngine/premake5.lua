@@ -35,7 +35,8 @@ project "LBEngine"
         "%{IncludeDir.FreeType}",
         "%{IncludeDir.FMOD}",
         "%{IncludeDir.RapidJSON}",
-        "%{IncludeDir.Mono}"
+        "%{IncludeDir.Mono}",
+        "%{IncludeDir.FFmpeg}"
     }
 
     libdirs
@@ -44,6 +45,7 @@ project "LBEngine"
         "%{wks.location}/dependencies/FreeType/lib",
         "%{wks.location}/dependencies/Mono/lib",
         "%{wks.location}/dependencies/Mono/lib/mono/4.5/*", 
+        "%{wks.location}/dependencies/FFmpeg/lib", 
     }
 
     -- Links to libraries by providing their project's name
@@ -55,7 +57,10 @@ project "LBEngine"
         "opengl32.lib",
         "fmod_vc",
         "mono-2.0-sgen",
-        "freetype"
+        "freetype",
+        "avutil.lib",
+        "avcodec.lib",
+        "avformat.lib"
     }
 
     filter "system:windows"
