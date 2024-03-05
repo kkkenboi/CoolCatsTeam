@@ -72,6 +72,8 @@ namespace LB
 		 * 
 		**************************************************************************/
 		void ReduceEnemyCount();
+
+		void ShowGameOver(GameObject enemyObj);
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy
 		//Each wave also has a certain value
@@ -93,7 +95,7 @@ namespace LB
 		//Cheering sound is 7 seconds
 		float crowdTimer{7.f};
 		float timer{};	//arbitrary timer for proper lerping
-		bool isGameOver{ true };
+		bool isGameOver{ false };
 	private:
 		bool UpgradeSpawned{ false };
 		//Formula made in desmos, curve is a sexy sexy S curve.
@@ -110,5 +112,6 @@ namespace LB
 		Vec2<float> mouse_pos{};
 
 	};
+	void ShowGameOver(GameObject enemyObj);
 	REGISTER_SCRIPT(CPPSGameManager)
 }

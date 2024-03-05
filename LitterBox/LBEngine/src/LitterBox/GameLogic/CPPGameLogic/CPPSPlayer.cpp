@@ -93,6 +93,7 @@ namespace LB
 
 		onTakingDamage.Subscribe(DecreaseHealth);
 		onPlacingBall.Subscribe(IncreaseBalls);
+		onPlayerDeathEvent.Subscribe(ShowGameOver);	//GameManager event
 	}
 
 	/*!***********************************************************************
@@ -102,7 +103,7 @@ namespace LB
 	void CPPSPlayer::Update()
 	{
 		if (TIME->IsPaused()) return;
-		//if (m_GameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
+		if (m_GameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
 
 		
 		if (mGotAttackedCooldown > 0.0f) {
@@ -327,7 +328,7 @@ namespace LB
 		// Update the Stunned timer
 		if (mIsStunned) {
 			mStunRemaining -= TIME->GetDeltaTime();
-			std::cout << mStunRemaining << std::endl;
+			//std::cout << mStunRemaining << std::endl;
 			if (mStunRemaining <= 0.f) {
 				mIsStunned = false;
 				mStunRemaining = mStunTimer;
@@ -347,7 +348,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayer::OnCollisionEnter(CollisionData colData) 
 	{
-		//if (m_GameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
+		if (m_GameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
@@ -384,10 +385,12 @@ namespace LB
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.4f);
 			// Update the HUD as well
 			onTakingDamage.Invoke();
-
-			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth < 0)
+			//if the player is dead
+			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth <= 0)
 			{
-				//GOMANAGER->RemoveGameObject(this->GameObj);
+				//We send a COPY of the gameobj that killed the player because I think it doesn't
+				//have to be the actual thing
+				onPlayerDeathEvent.Invoke(*colData.colliderOther->gameObj);
 			}
 		}
 	}

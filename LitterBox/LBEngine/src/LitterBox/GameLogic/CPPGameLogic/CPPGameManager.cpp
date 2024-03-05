@@ -225,6 +225,20 @@ namespace LB
 			DebuggerLogWarning("Enemy Count Error! Please check enemy count logic");
 		}
 	}
+	void CPPSGameManager::ShowGameOver(GameObject enemyObj)
+	{
+		AUDIOMANAGER->PlaySound("GameOver");
+		isGameOver = true;
+		//We see who the killer is 
+		if (enemyObj.GetName() == "Projectile") std::cout << "Killed by a mage\n";
+		else if (enemyObj.GetName() == "EnemyChaser1") std::cout << "Killed by chaser\n";
+		else if (enemyObj.GetName() == "Bramble") std::cout << "Killed by carelessness\n";
+		else if (enemyObj.GetName() == "Charger") std::cout << "Killed by charger\n";
+		else std::cout << "Killed by " << enemyObj.GetName() << '\n';
+
+
+
+	}
 	/*!************************************************************************
 	* \brief Function to generate the wave
 	* 
@@ -254,5 +268,11 @@ namespace LB
 		currentWave++;
 		GenerateWave();
 		UpgradeSpawned = false;
+	}
+	
+	void ShowGameOver(GameObject enemyObj)
+	{
+		//enemy obj is the one that killed the player
+		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ShowGameOver(enemyObj);
 	}
 }
