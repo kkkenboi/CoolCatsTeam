@@ -1063,8 +1063,9 @@ void Renderer::RenderSystem::Initialize()
 	//set the initial values for x and y for the camera
 	glfwGetCursorPos(LB::WINDOWSSYSTEM->GetWindow(), &cam.mouse_x, &cam.mouse_y);
 
-	shader_source shd_pgm{ shader_parser("Assets/Shaders/Basic.shader") };
-	shader_program = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
+	//shader_source shd_pgm{ shader_parser("Assets/Shaders/Basic.shader") };
+	//shader_program = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
+	LB::ASSETMANAGER->LoadShader("Assets/Shaders/Basic.shader", shader_program);
 
 	glUseProgram(shader_program);
 	glBindVertexArray(object_renderer.get_vao());

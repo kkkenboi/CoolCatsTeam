@@ -332,6 +332,7 @@ namespace LB
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
         std::vector<std::filesystem::path> ttfFontPaths = FILESYSTEM->GetFilesOfType(".ttf");
         std::vector<std::filesystem::path> otfFontPaths = FILESYSTEM->GetFilesOfType(".otf");
+        std::vector<std::filesystem::path> ShaderPaths = FILESYSTEM->GetFilesOfType(".shader");
 
         //Adding the fonts to the asset map first, probably add it to the meta file in the future
         for (const auto& f : ttfFontPaths)
@@ -342,6 +343,9 @@ namespace LB
         {
             assetMap[f.filename().stem().string()] = f.string();
         }
+
+        for (const auto& f : ShaderPaths)
+            assetMap[f.filename().stem().string()] = f.string();
 
         //We grab all the files and put them into a vector (I don't concate them because I need them separate)
         //Now we start making the meta file
@@ -929,7 +933,12 @@ namespace LB
         glBindVertexArray(0);
 
         //setup the shader program
-        shader_source shd_pgm{ shader_parser("Assets/Shaders/text.shader") };
-        tShader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
+        LoadShader("Assets/Shaders/text.shader", tShader);
+    }
+
+    void AssetManager::LoadShader(const std::string& shader_file_name, unsigned int& shader_handle)
+    {
+        shader_source shd_pgm{ shader_parser(shader_file_name.c_str()) };
+        shader_handle = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
     }
 }
