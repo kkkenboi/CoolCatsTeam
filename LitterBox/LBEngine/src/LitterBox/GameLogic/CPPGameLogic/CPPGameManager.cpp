@@ -178,7 +178,8 @@ namespace LB
 	void CPPSGameManager::SpawnChargerEnemy()
 	{
 		GameObject* chargerClone = FACTORY->SpawnGameObject();
-		JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
+		JSONSerializer::DeserializeFromFile("Charger_Shield", *chargerClone);
+		//JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
 		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
 

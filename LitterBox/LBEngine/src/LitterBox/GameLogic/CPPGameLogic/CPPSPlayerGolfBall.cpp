@@ -138,7 +138,7 @@ namespace LB
 		if ((currentBallUpgrades & BOMB) && colData.colliderOther->gameObj->GetName() != "ball") {
 			if (colData.colliderOther->gameObj->GetName() == "Mage" ||
 				colData.colliderOther->gameObj->GetName() == "EnemyChaser1" ||
-				colData.colliderOther->gameObj->GetName() == "Charger")
+				colData.colliderOther->gameObj->GetName() == "Charger_Shield")
 			{
 				//Renderer::GRAPHICS->shaker_camera();
 				Explode();
