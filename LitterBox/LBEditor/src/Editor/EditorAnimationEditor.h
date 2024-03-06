@@ -18,6 +18,7 @@
 
 #include "Editor.h"
 #include "Litterbox/Engine/Layer.h"
+#include "LitterBox/Engine/Input.h"
 
 #include "imgui_neo_sequencer.h"
 
@@ -73,6 +74,21 @@ namespace LB
 		  Destroys the animation editor layer.
 		*************************************************************************/
 		void Destroy() {}
+
+		template <typename T>
+		void CheckDeleteKeyFrame(LBKeyFrameGroup<T>& group)
+		{
+			if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
+			{
+				ImGui::FrameIndexType* keyFramesToRemove = new ImGui::FrameIndexType[ImGui::GetNeoKeyframeSelectionSize()];
+				ImGui::GetNeoKeyframeSelection(keyFramesToRemove);
+
+				for (int index{ 0 }; index < ImGui::GetNeoKeyframeSelectionSize(); ++index)
+				{
+					group.Remove(LBKeyFrame<T>{keyFramesToRemove[index]});
+				}
+			}
+		}
 		
 	private:
 		// For checking what is loaded

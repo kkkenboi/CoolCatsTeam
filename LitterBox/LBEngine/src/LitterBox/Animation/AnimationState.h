@@ -208,6 +208,8 @@ namespace LB
 	{
 		LBKeyFrame() {}
 
+		LBKeyFrame(int frame) : m_frame(frame) {}
+
 		LBKeyFrame(int frame, T const& data) : m_frame(frame), m_data(data) {}
 
 		/*!***********************************************************************
@@ -324,6 +326,8 @@ namespace LB
 			}
 		}
 
+		inline void Remove(LBKeyFrame<T> const& value) { m_keyFrames.Remove(value); }
+
 		inline void Clear() { m_keyFrames.Clear(); }
 
 		inline SortedVector<LBKeyFrame<T>>& GetData() { return m_keyFrames; }
@@ -381,8 +385,8 @@ namespace LB
 			}
 			return false;
 		}
-
 		int m_currentIndex{ 0 }, m_nextIndex;
+
 	private:
 		SortedVector<LBKeyFrame<T>> m_keyFrames;
 	};

@@ -169,11 +169,7 @@ namespace LB
 			ImGuiNeoSequencerFlags_AllowLengthChanging | ImGuiNeoSequencerFlags_EnableSelection | ImGuiNeoSequencerFlags_Selection_EnableDragging | ImGuiNeoSequencerFlags_Selection_EnableDeletion)) {
 			if (ImGui::BeginTimeline("Set Active", m_loadedState.m_active)) 
 			{
-				// If delete key press, delete the selected keyframes
-				if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
-				{
-					
-				}
+				CheckDeleteKeyFrame(m_loadedState.m_active);
 				ImGui::EndNeoTimeLine();
 			}
 			if (ImGui::BeginNeoGroup("Transform", &m_transformOpen)) 
@@ -182,20 +178,12 @@ namespace LB
 				{
 					if (ImGui::BeginTimeline("X", m_loadedState.m_pos)) 
 					{
-						// If delete key press, delete the selected keyframes
-						if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
-						{
-							
-						}
+						CheckDeleteKeyFrame(m_loadedState.m_pos);
 						ImGui::EndNeoTimeLine();
 					}
 					if (ImGui::BeginTimeline("Y", m_loadedState.m_pos)) 
 					{
-						// If delete key press, delete the selected keyframes
-						if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
-						{
-
-						}
+						CheckDeleteKeyFrame(m_loadedState.m_pos);
 						ImGui::EndNeoTimeLine();
 					}
 					ImGui::EndNeoGroup();
@@ -204,42 +192,26 @@ namespace LB
 				{
 					if (ImGui::BeginTimeline("X", m_loadedState.m_scale)) 
 					{
-						// If delete key press, delete the selected keyframes
-						if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
-						{
-
-						}
+						CheckDeleteKeyFrame(m_loadedState.m_scale);
 						ImGui::EndNeoTimeLine();
 					}
 					if (ImGui::BeginTimeline("Y", m_loadedState.m_scale)) 
 					{
-						// If delete key press, delete the selected keyframes
-						if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
-						{
-
-						}
+						CheckDeleteKeyFrame(m_loadedState.m_scale);
 						ImGui::EndNeoTimeLine();
 					}
 					ImGui::EndNeoGroup();
 				}
 				if (ImGui::BeginTimeline("Rotation", m_loadedState.m_rot)) 
 				{
-					// If delete key press, delete the selected keyframes
-					if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
-					{
-
-					}
+					CheckDeleteKeyFrame(m_loadedState.m_rot);
 					ImGui::EndNeoTimeLine();
 				}
 				ImGui::EndNeoGroup();
 			}
 			if (ImGui::BeginTimeline("Sprite", m_loadedState.m_sprite)) 
 			{
-				// If delete key press, delete the selected keyframes
-				if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
-				{
-
-				}
+				CheckDeleteKeyFrame(m_loadedState.m_sprite);
 				ImGui::EndNeoTimeLine();
 			}
 			ImGui::EndNeoSequencer();
