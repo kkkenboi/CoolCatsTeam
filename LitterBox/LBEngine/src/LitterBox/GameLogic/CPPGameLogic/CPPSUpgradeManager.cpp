@@ -159,8 +159,10 @@ namespace LB
 	{
 		//When the upgrade is picked up we want to tell the game manager to start the
 		//next wave
-		GameObject* GameManagerObj = GOMANAGER->FindGameObjectWithName("GameManager");
-		GameManagerObj->GetComponent<CPPSGameManager>()->NextWave();
+		/*GameObject* GameManagerObj = GOMANAGER->FindGameObjectWithName("GameManager");
+		GameManagerObj->GetComponent<CPPSGameManager>()->NextWave();*/
+
+		GOMANAGER->FindGameObjectWithName("Portal")->SetActive(true);
 
 		//Once we pick the upgrade we have to remove it from the available upgrade pool
 		RemoveUpgradeFromList(static_cast<UpgradeType>(chosen));

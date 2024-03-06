@@ -60,6 +60,7 @@ namespace LB
 		GetHealth() = 3; //health {inherited from base class}
 		GetSpeedMag() = 100000.f; //speed of movement {inherited from base class}
 		//mBackOffSpeed = 50000.f; //speed of movement
+		mDetectionRange = 800.f;
 
 		//------------------CHASE STATE------------------
 		//a little hardcoding for now, min and max distance between enemy and player
@@ -127,6 +128,7 @@ namespace LB
 
 	void CPPSMage::Hurt()
 	{
+		isAggro = true;
 		CPPSBaseEnemy::Hurt();
 	}
 
@@ -161,6 +163,15 @@ namespace LB
 				mFSM.ChangeState("Hurt");
 				//Hurt();
 			}
+		}
+		if (colData.colliderOther->m_gameobj->GetName() == "Bramble")
+		{
+			if (mGotAttackedCooldown > 0.0f) {
+				return;
+			}
+			mGotAttackedCooldown = mGotAttacked;
+			mFSM.ChangeState("Hurt");
+			Hurt();	//This is here to play the anim
 		}
 	}
 
@@ -232,9 +243,13 @@ namespace LB
 	*************************************************************************/
 	void MageIdleState::Update()
 	{
-		//DebuggerLog("Entered MageIdleState");
-		//if (INPUT->IsKeyPressed(KeyCode::KEY_M)) //MAGE WILL CHASE WHEN THIS IS PRESSED
+		if (mEnemy->GetDistToPlayer() <= mEnemy->mDetectionRange) mEnemy->isAggro = true;
+		if (mEnemy->isAggro)
+		{
 		GetFSM().ChangeState("Chase");
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageAttackSounds, 0.2f);
+		}
+
 	}
 
 	/*!***********************************************************************

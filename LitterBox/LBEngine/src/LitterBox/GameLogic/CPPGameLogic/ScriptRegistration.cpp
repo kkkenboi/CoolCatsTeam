@@ -36,7 +36,7 @@
 #include "CPPSMouseUI.h"
 #include "CPPSMouseWorld.h"
 #include "CPPShield.h"
-
+#include "CPPSPortal.h"
 namespace LB 
 {
 	// I genuinely can't figure out why the struct method of registering is not working even though it 100% should.

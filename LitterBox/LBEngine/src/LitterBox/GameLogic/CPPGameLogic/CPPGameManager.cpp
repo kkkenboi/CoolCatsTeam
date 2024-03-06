@@ -35,10 +35,12 @@ namespace LB
 
 		//We also need to grab the crowdTexture
 		//By default, the render is set active false
+		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 		crowdTexture = GOMANAGER->FindGameObjectWithName("CrowdTextureObject");
 		gameOverTexture = GOMANAGER->FindGameObjectWithName("GameOverTextureObject");
 		//we also wanna cache the position of the UI so we can set it back later
 		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
+		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
 
 		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
 		//into a list
@@ -324,6 +326,12 @@ namespace LB
 		currentWave++;
 		GenerateWave();
 		UpgradeSpawned = false;
+
+		//we need to place the player back a the correct place and reset their pos and everything
+		mPlayer->GetComponent<CPTransform>()->SetPosition(playerSpawnPoint);
+		mPlayer->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1));
+		mPlayer->GetComponent<CPTransform>()->SetRotation(0);
+		//By right should set the camera to player too
 	}
 	
 	void ShowGameOver(GameObject enemyObj)

@@ -1539,6 +1539,46 @@
                     },
                     "Rotation": 0.0
                 }
+            },
+            {
+                "Name": "Portal",
+                "Active": false,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1808.738281,
+                        "y": -4.557034
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 173.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSPortal"
+                }
             }
         ]
     }

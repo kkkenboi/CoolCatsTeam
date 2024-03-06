@@ -202,7 +202,7 @@ namespace LB
 		if (mEnemy->isAggro)
 		{
 		GetFSM().ChangeState("Chase");
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds);
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
 		}
 	}
 
