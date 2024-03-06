@@ -261,11 +261,37 @@ namespace LB
 
 	//----------------------------------------------Key Frame Group----------------------------------------------
 	template <typename T>
-	void LBKeyFrameGroup<T>::Update(unsigned frame)
+	void LBKeyFrameGroup<T>::Update(int frame)
 	{
-		if (m_keyFrames.Size() < 2) return;
+		if (m_keyFrames.Size() < 2)
+		{
+			m_currentIndex = m_nextIndex = 0;
+			return;
+		}
 
-		while (frame > m_keyFrames[m_nextIndex].m_frame)
+		while (frame >= m_keyFrames[m_nextIndex].m_frame)
+		{
+			m_currentIndex = m_nextIndex;
+			++m_nextIndex;
+
+			if (m_nextIndex >= m_keyFrames.Size())
+			{
+				m_nextIndex = 0;
+				return;
+			}
+		}
+	}
+
+	template <typename T>
+	void LBKeyFrameGroup<T>::UpdateExact(int frame)
+	{
+		m_currentIndex = m_nextIndex = 0;
+		if (m_keyFrames.Size() < 2)
+		{
+			return;
+		}
+
+		while (frame >= m_keyFrames[m_nextIndex].m_frame)
 		{
 			m_currentIndex = m_nextIndex;
 			++m_nextIndex;
@@ -286,8 +312,8 @@ namespace LB
 
 	void LBAnimationState::Start(int frame)
 	{
-		m_currentFrame = frame;
-		UpdateGroups();
+		m_currentFrame = frame - 1;
+		UpdateExact();
 	}
 
 	void LBAnimationState::Update()
@@ -299,6 +325,17 @@ namespace LB
 		}
 
 		UpdateGroups();
+	}
+
+	void LBAnimationState::UpdateExact()
+	{
+		++m_currentFrame;
+		if (m_currentFrame > m_endFrame)
+		{
+			m_currentFrame = m_startFrame;
+		}
+
+		UpdateGroupsExact();
 	}
 
 	void LBAnimationState::UpdateLastFrame()
@@ -316,7 +353,8 @@ namespace LB
 
 	void LBAnimationState::UpdateLastFrame(int newFrame)
 	{
-		if (newFrame > m_endFrame)
+		// Only if end frame is smaller
+		if (m_endFrame < newFrame)
 		{
 			m_endFrame = newFrame;
 		}
@@ -329,6 +367,15 @@ namespace LB
 		m_scale.Update(m_currentFrame);
 		m_rot.Update(m_currentFrame);
 		m_sprite.Update(m_currentFrame);
+	}
+
+	void LBAnimationState::UpdateGroupsExact()
+	{
+		m_active.UpdateExact(m_currentFrame);
+		m_pos.UpdateExact(m_currentFrame);
+		m_scale.UpdateExact(m_currentFrame);
+		m_rot.UpdateExact(m_currentFrame);
+		m_sprite.UpdateExact(m_currentFrame);
 	}
 
 	bool LBAnimationState::Serialize(Value& data, Document::AllocatorType& alloc)

@@ -289,20 +289,27 @@ namespace LB
 	class LBKeyFrameGroup
 	{
 	public:
-		void Update(unsigned frame);
+		void Update(int frame);
+
+		void UpdateExact(int frame);
 
 		T GetCurrent() const
 		{
 			if (m_currentIndex >= m_keyFrames.Size()) return T{};
+
 			return m_keyFrames[m_currentIndex].m_data;
 		}
 
 		T GetCurrentExact(int exactFrame) const
 		{
-			if (m_currentIndex >= m_keyFrames.Size() || m_keyFrames[m_currentIndex].m_frame != exactFrame) return T{};
+			// If no keyframe or current is before first keyframe, use default
+			if (m_currentIndex >= m_keyFrames.Size() || m_keyFrames[0].m_frame > exactFrame) return T{};
+
+			// If after last keyframe, use last keyframe
+			if (m_keyFrames[m_keyFrames.Size() - 1].m_frame < exactFrame) return m_keyFrames[m_keyFrames.Size() - 1].m_data;
+
 			return m_keyFrames[m_currentIndex].m_data;
 		}
-
 
 		void Insert(LBKeyFrame<T> const& keyFrame)
 		{
@@ -375,8 +382,8 @@ namespace LB
 			return false;
 		}
 
-	private:
 		int m_currentIndex{ 0 }, m_nextIndex;
+	private:
 		SortedVector<LBKeyFrame<T>> m_keyFrames;
 	};
 
@@ -388,6 +395,7 @@ namespace LB
 		void Start(int frame);
 
 		void Update();
+		void UpdateExact();
 
 		void UpdateLastFrame();
 		void UpdateLastFrame(int newFrame);
@@ -400,7 +408,7 @@ namespace LB
 
 		std::string m_name, m_spriteSheetName;
 		int m_currentFrame{ 0 };
-		int m_startFrame{ 0 }, m_endFrame{ 60 };
+		int m_startFrame{ 0 }, m_endFrame{ 0 };
 
 		LBKeyFrameGroup<bool>			m_active;
 		
@@ -412,6 +420,7 @@ namespace LB
 
 	private:
 		void UpdateGroups();
+		void UpdateGroupsExact();
 	};
 
 	//class TransitionParameter
