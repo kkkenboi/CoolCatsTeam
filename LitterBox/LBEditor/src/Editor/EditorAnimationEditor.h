@@ -51,6 +51,10 @@ namespace LB
 		*************************************************************************/
 		void UpdateLayer() override;
 
+		void UpdateLoadedState();
+
+		void UpdateLoadedController();
+
 		/*!***********************************************************************
 		  \brief
 		  Loads the animation state for editing.
@@ -93,6 +97,8 @@ namespace LB
 	private:
 		// For checking what is loaded
 		bool m_stateLoaded{ false }, m_controllerLoaded{ false };
+
+		//----------------------------------------------Animation State----------------------------------------------
 		LBAnimationState m_loadedState{};
 
 		// For editing state values
@@ -108,20 +114,20 @@ namespace LB
 		float m_elapsedTime{ 0.0f }, m_frameDuration{ 0.016f };
 		ImGui::FrameIndexType m_currentFrame{ 0 }, m_startFrame{ 0 }, m_endFrame{ 60 };
 
-
-
-
-
-
-		//----------------------------------------------Animation State----------------------------------------------
-		int m_previewIndex{ 0 };
-		float m_previewTimeElapsed{ 0.0f }, m_allDuration{ 0.0f };
+		// For sprite editting
 		SpriteSheet* m_spriteSheet{ nullptr };
-
-		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
-		AnimationState m_currentState{};
 
 		//----------------------------------------------Animation Controller----------------------------------------------
 		AnimationController m_currentController{};
+
+
+
+
+		// To be deleted
+		int m_previewIndex{ 0 };
+		float m_previewTimeElapsed{ 0.0f }, m_allDuration{ 0.0f };
+
+		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
+		AnimationState m_currentState{};
 	};
 }

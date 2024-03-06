@@ -25,8 +25,10 @@ namespace LB
 	class AnimationController
 	{
 	public:
-		//----------------------------------------------CONTROLS----------------------------------------------
+		AnimationController() {}
+		AnimationController(std::string const& name) : m_name{ name } {}
 
+		//----------------------------------------------CONTROLS----------------------------------------------
 		/*!***********************************************************************
 		 \brief
 		 Initializes the animation controller
@@ -144,7 +146,7 @@ namespace LB
 		bool Deserialize(const Value& data);
 
 	private:
-		AnimationState m_current; // The current state loaded
+		LBAnimationState m_current; // The current state loaded
 
 		std::string m_name { "No controller" };
 		std::vector<std::string> m_states;

@@ -61,7 +61,7 @@ namespace LB
 	*************************************************************************/
 	void AnimationController::Play(std::string const& stateName)
 	{
-		if (m_current.GetName() != stateName)
+		if (m_current.m_name != stateName)
 		{
 			SetState(stateName);
 		}
@@ -83,7 +83,7 @@ namespace LB
 	*************************************************************************/
 	void AnimationController::Stop()
 	{
-		m_current.Stop();
+		//m_current.Stop();
 	}
 
 	/*!***********************************************************************
@@ -92,7 +92,7 @@ namespace LB
 	*************************************************************************/
 	std::string const& AnimationController::GetCurrentSpriteSheet()
 	{
-		return m_current.GetSpriteSheetName();
+		return m_current.m_spriteSheetName;
 	}
 
 	/*!***********************************************************************
@@ -101,7 +101,8 @@ namespace LB
 	*************************************************************************/
 	bool AnimationController::IsPlaying() const
 	{
-		return m_current.IsPlaying();
+		return false;
+		//return m_current.IsPlaying();
 	}
 
 	/*!***********************************************************************
@@ -110,10 +111,10 @@ namespace LB
 	*************************************************************************/
 	int AnimationController::IsNextFrame() const
 	{
-		if (m_current.IsNextFrame())
+		/*if (m_current.IsNextFrame())
 		{
 			return m_current.GetCurrentFrame();
-		}
+		}*/
 		return 0;
 	}
 

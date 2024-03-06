@@ -63,7 +63,9 @@ namespace LB
 		std::filesystem::path defaultDirectory;			//default directory (ROOT/Assets/)
 	private:
 		std::string folderPathName;
-		std::filesystem::path relativePath;			//relative pathname of the current directory
+		std::filesystem::path relativePath;				//relative pathname of the current directory
+
+		char m_newFileName[256]{ "NewFile" };			//new file name for creating new files
 	};
 	extern EditorAssets* EDITORASSETS;
 

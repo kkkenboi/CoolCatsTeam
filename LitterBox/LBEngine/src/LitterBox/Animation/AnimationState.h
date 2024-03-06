@@ -378,8 +378,11 @@ namespace LB
 						}
 					}
 
-					m_currentIndex = 0;
-					m_nextIndex = (m_currentIndex + 1) % m_keyFrames.Size();
+					m_currentIndex = m_nextIndex = 0;
+					if (m_keyFrames.Size())
+					{
+						m_nextIndex = (m_currentIndex + 1) % m_keyFrames.Size();
+					}
 				}
 				return true;
 			}
@@ -431,6 +434,9 @@ namespace LB
 	class LBAnimationState
 	{
 	public:
+		LBAnimationState() {}
+		LBAnimationState(std::string const& name) : m_name(name) {}
+
 		void Start();
 		void Start(int frame);
 
@@ -446,7 +452,7 @@ namespace LB
 
 		inline bool IsLastFrame() const { m_currentFrame == m_endFrame; }
 
-		std::string m_name, m_spriteSheetName;
+		std::string m_name{"New Anim"}, m_spriteSheetName{"None"};
 		int m_currentFrame{ 0 };
 		int m_startFrame{ 0 }, m_endFrame{ 0 };
 

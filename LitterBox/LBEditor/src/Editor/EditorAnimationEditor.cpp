@@ -49,187 +49,16 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
-		// For playing/pausing the timeline 
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_SPACE))
+		if (m_stateLoaded)
 		{
-			m_previewPlaying = !m_previewPlaying;
+			UpdateLoadedState();
 		}
-
-		// If previewing, update the current frame
-		if (m_previewPlaying)
+		else if (m_controllerLoaded)
 		{
-			m_elapsedTime += static_cast<float>(TIME->GetUnscaledDeltaTime());
-			if (m_elapsedTime >= m_frameDuration)
-			{
-				m_elapsedTime -= m_frameDuration;
-
-				++m_currentFrame;
-				if (m_currentFrame > m_loadedState.m_endFrame)
-				{
-					m_currentFrame = m_loadedState.m_startFrame;
-				}
-
-				m_loadedState.Update();
-			}
+			UpdateLoadedController();
 		}
-
-		ImGui::Text("Debugging Information");
-		ImGui::Text("Preview Curr %d", m_currentFrame);
-		ImGui::SameLine();
-		ImGui::Text("State Curr %d", m_loadedState.m_currentFrame);
-
-		ImGui::Text("Pos list");
-		//ImGui::Text("Pos data current %d", m_loadedState.m_pos.GetCurrentExact(m_currentFrame));
-
-		ImGui::Text("Pos current %d, next %d", m_loadedState.m_pos.m_currentIndex, m_loadedState.m_pos.m_nextIndex);
-		for (int index{ 0 }; index < m_loadedState.m_pos.GetData().Size(); ++index)
-		{
-			ImGui::Text("Frame %d, State %.2f %.2f", m_loadedState.m_pos.GetData()[index].m_frame, m_loadedState.m_pos.GetData()[index].m_data.x, m_loadedState.m_pos.GetData()[index].m_data.y);
-		}
-
-		ImGui::Separator();
-		ImGui::SetNextItemWidth(smallWidth);
-		ImGui::DragInt("Start Frame", &m_loadedState.m_startFrame);
-		ImGui::SameLine();
-		ImGui::SetNextItemWidth(smallWidth);
-		ImGui::DragInt("End Frame", &m_loadedState.m_endFrame);
-
-		ImGui::Columns(2);
-		ImGui::SetColumnWidth(0, columnWidth);
-
-		// Update the state values
-		ImGui::Dummy({0.0f, 35.0f});
-
-		m_editActive = m_loadedState.m_active.GetCurrentExact(m_currentFrame);
-		if (ImGui::Checkbox("##Active", &m_editActive))
-		{
-			m_loadedState.m_active.Insert(LBKeyFrame<bool>{m_currentFrame, m_editActive});
-			m_loadedState.UpdateLastFrame(m_currentFrame);
-			m_loadedState.Start(m_currentFrame);
-		}
-
-		ImGui::Dummy({ 0.0f, 32.5f });
-
-		m_editPosX = m_loadedState.m_pos.GetCurrentExact(m_currentFrame).x;
-		if (ImGui::DragFloat("##PosX", &m_editPosX))
-		{
-			m_loadedState.m_pos.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { m_editPosX, 0.0f }});
-			m_loadedState.UpdateLastFrame(m_currentFrame);
-			m_loadedState.Start(m_currentFrame);
-		}
-
-		m_editPosY = m_loadedState.m_pos.GetCurrentExact(m_currentFrame).y;
-		if (ImGui::DragFloat("##PosY", &m_editPosY))
-		{
-			m_loadedState.m_pos.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { 0.0f, m_editPosY }});
-			m_loadedState.UpdateLastFrame();
-			m_loadedState.Start(m_currentFrame);
-		}
-
-		ImGui::Dummy({ 0.0f, 10.0f });
-
-		m_editScaleX = m_loadedState.m_scale.GetCurrentExact(m_currentFrame).x;
-		if (ImGui::DragFloat("##ScaleX", &m_editScaleX))
-		{
-			m_loadedState.m_scale.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { m_editScaleX, 0.0f }});
-			m_loadedState.UpdateLastFrame();
-			m_loadedState.Start(m_currentFrame);
-		}
-
-		m_editScaleY = m_loadedState.m_scale.GetCurrentExact(m_currentFrame).y;
-		if (ImGui::DragFloat("##ScaleY", &m_editScaleY))
-		{
-			m_loadedState.m_scale.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { 0.0f, m_editScaleY }});
-			m_loadedState.UpdateLastFrame();
-			m_loadedState.Start(m_currentFrame);
-		}
-
-		m_editRot = m_loadedState.m_rot.GetCurrentExact(m_currentFrame);
-		if (ImGui::DragFloat("##Rotation", &m_editRot))
-		{
-			m_loadedState.m_rot.Insert(LBKeyFrame<float>{m_currentFrame, m_editRot});
-			m_loadedState.UpdateLastFrame();
-			m_loadedState.Start(m_currentFrame);
-		}
-
-		m_editSprite = m_loadedState.m_sprite.GetCurrentExact(m_currentFrame);
-		if (ImGui::DragInt("##Sprite", &m_editSprite))
-		{
-			m_loadedState.m_sprite.Insert(LBKeyFrame<int>{m_currentFrame, m_editSprite});
-			m_loadedState.UpdateLastFrame();
-			m_loadedState.Start(m_currentFrame);
-		}
-
-		ImGui::NextColumn();
-
-		ImGui::BeginChild("SequencerTable", ImVec2(0, 250), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-
-		ImGui::FrameIndexType currentFrame = m_currentFrame;
-		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame, {0, 0}, 
-			ImGuiNeoSequencerFlags_AllowLengthChanging | ImGuiNeoSequencerFlags_EnableSelection | ImGuiNeoSequencerFlags_Selection_EnableDragging | ImGuiNeoSequencerFlags_Selection_EnableDeletion)) {
-			if (ImGui::BeginTimeline("Set Active", m_loadedState.m_active)) 
-			{
-				CheckDeleteKeyFrame(m_loadedState.m_active);
-				ImGui::EndNeoTimeLine();
-			}
-			if (ImGui::BeginNeoGroup("Transform", &m_transformOpen)) 
-			{
-				if (ImGui::BeginNeoGroup("Position", &m_posOpen)) 
-				{
-					if (ImGui::BeginTimeline("X", m_loadedState.m_pos)) 
-					{
-						CheckDeleteKeyFrame(m_loadedState.m_pos);
-						ImGui::EndNeoTimeLine();
-					}
-					if (ImGui::BeginTimeline("Y", m_loadedState.m_pos)) 
-					{
-						CheckDeleteKeyFrame(m_loadedState.m_pos);
-						ImGui::EndNeoTimeLine();
-					}
-					ImGui::EndNeoGroup();
-				}
-				if (ImGui::BeginNeoGroup("Scale", &m_scaleOpen)) 
-				{
-					if (ImGui::BeginTimeline("X", m_loadedState.m_scale)) 
-					{
-						CheckDeleteKeyFrame(m_loadedState.m_scale);
-						ImGui::EndNeoTimeLine();
-					}
-					if (ImGui::BeginTimeline("Y", m_loadedState.m_scale)) 
-					{
-						CheckDeleteKeyFrame(m_loadedState.m_scale);
-						ImGui::EndNeoTimeLine();
-					}
-					ImGui::EndNeoGroup();
-				}
-				if (ImGui::BeginTimeline("Rotation", m_loadedState.m_rot)) 
-				{
-					CheckDeleteKeyFrame(m_loadedState.m_rot);
-					ImGui::EndNeoTimeLine();
-				}
-				ImGui::EndNeoGroup();
-			}
-			if (ImGui::BeginTimeline("Sprite", m_loadedState.m_sprite)) 
-			{
-				CheckDeleteKeyFrame(m_loadedState.m_sprite);
-				ImGui::EndNeoTimeLine();
-			}
-			ImGui::EndNeoSequencer();
-		}
-		ImGui::EndChild();
-
-		// If the player dragged the sequencer, update the current frame
-		if (currentFrame != m_currentFrame)
-		{
-			m_loadedState.Start(m_currentFrame);
-		}
-
-		ImGui::Columns(1);
-		ImGui::Separator();
-
-
-
-
+		
+		ImGui::End();
 
 		//if (ImGui::Button("Save"))
 		//{
@@ -451,8 +280,244 @@ namespace LB
 		//		ImGui::PopID();
 		//	}
 		//}
+	}
 
-		ImGui::End();
+	void EditorAnimationEditor::UpdateLoadedState()
+	{
+		if (ImGui::Button("Save"))
+		{
+			Save();
+		}
+		ImGui::Separator();
+
+		// For playing/pausing the timeline 
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_SPACE))
+		{
+			m_previewPlaying = !m_previewPlaying;
+		}
+
+		// If previewing, update the current frame
+		if (m_previewPlaying)
+		{
+			m_elapsedTime += static_cast<float>(TIME->GetUnscaledDeltaTime());
+			if (m_elapsedTime >= m_frameDuration)
+			{
+				m_elapsedTime -= m_frameDuration;
+
+				++m_currentFrame;
+				if (m_currentFrame > m_loadedState.m_endFrame)
+				{
+					m_currentFrame = m_loadedState.m_startFrame;
+				}
+
+				m_loadedState.Update();
+			}
+		}
+
+		ImGui::Text("Debugging Information");
+		ImGui::Text("Preview Curr %d", m_currentFrame);
+		ImGui::SameLine();
+		ImGui::Text("State Curr %d", m_loadedState.m_currentFrame);
+
+		ImGui::Text("Pos list");
+		//ImGui::Text("Pos data current %d", m_loadedState.m_pos.GetCurrentExact(m_currentFrame));
+
+		ImGui::Text("Pos current %d, next %d", m_loadedState.m_pos.m_currentIndex, m_loadedState.m_pos.m_nextIndex);
+		for (int index{ 0 }; index < m_loadedState.m_pos.GetData().Size(); ++index)
+		{
+			ImGui::Text("Frame %d, State %.2f %.2f", m_loadedState.m_pos.GetData()[index].m_frame, m_loadedState.m_pos.GetData()[index].m_data.x, m_loadedState.m_pos.GetData()[index].m_data.y);
+		}
+
+		ImGui::Separator();
+		ImGui::SetNextItemWidth(smallWidth);
+		ImGui::DragInt("Start Frame", &m_loadedState.m_startFrame);
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(smallWidth);
+		ImGui::DragInt("End Frame", &m_loadedState.m_endFrame);
+
+		ImGui::Columns(2);
+		ImGui::SetColumnWidth(0, columnWidth);
+
+		// Update the state values
+		ImGui::Dummy({ 0.0f, 35.0f });
+
+		m_editActive = m_loadedState.m_active.GetCurrentExact(m_currentFrame);
+		if (ImGui::Checkbox("##Active", &m_editActive))
+		{
+			m_loadedState.m_active.Insert(LBKeyFrame<bool>{m_currentFrame, m_editActive});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		ImGui::Dummy({ 0.0f, 32.5f });
+
+		m_editPosX = m_loadedState.m_pos.GetCurrentExact(m_currentFrame).x;
+		if (ImGui::DragFloat("##PosX", &m_editPosX))
+		{
+			m_loadedState.m_pos.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { m_editPosX, 0.0f }});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		m_editPosY = m_loadedState.m_pos.GetCurrentExact(m_currentFrame).y;
+		if (ImGui::DragFloat("##PosY", &m_editPosY))
+		{
+			m_loadedState.m_pos.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { 0.0f, m_editPosY }});
+			m_loadedState.UpdateLastFrame();
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		ImGui::Dummy({ 0.0f, 10.0f });
+
+		m_editScaleX = m_loadedState.m_scale.GetCurrentExact(m_currentFrame).x;
+		if (ImGui::DragFloat("##ScaleX", &m_editScaleX))
+		{
+			m_loadedState.m_scale.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { m_editScaleX, 0.0f }});
+			m_loadedState.UpdateLastFrame();
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		m_editScaleY = m_loadedState.m_scale.GetCurrentExact(m_currentFrame).y;
+		if (ImGui::DragFloat("##ScaleY", &m_editScaleY))
+		{
+			m_loadedState.m_scale.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { 0.0f, m_editScaleY }});
+			m_loadedState.UpdateLastFrame();
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		m_editRot = m_loadedState.m_rot.GetCurrentExact(m_currentFrame);
+		if (ImGui::DragFloat("##Rotation", &m_editRot))
+		{
+			m_loadedState.m_rot.Insert(LBKeyFrame<float>{m_currentFrame, m_editRot});
+			m_loadedState.UpdateLastFrame();
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		m_editSprite = m_loadedState.m_sprite.GetCurrentExact(m_currentFrame);
+		if (ImGui::DragInt("##Sprite", &m_editSprite))
+		{
+			m_loadedState.m_sprite.Insert(LBKeyFrame<int>{m_currentFrame, m_editSprite});
+			m_loadedState.UpdateLastFrame();
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		ImGui::NextColumn();
+
+		ImGui::BeginChild("SequencerTable", ImVec2(0, 250), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+
+		ImGui::FrameIndexType currentFrame = m_currentFrame;
+		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame, { 0, 0 },
+			ImGuiNeoSequencerFlags_AllowLengthChanging | ImGuiNeoSequencerFlags_EnableSelection | ImGuiNeoSequencerFlags_Selection_EnableDragging | ImGuiNeoSequencerFlags_Selection_EnableDeletion)) {
+			if (ImGui::BeginTimeline("Set Active", m_loadedState.m_active))
+			{
+				CheckDeleteKeyFrame(m_loadedState.m_active);
+				ImGui::EndNeoTimeLine();
+			}
+			if (ImGui::BeginNeoGroup("Transform", &m_transformOpen))
+			{
+				if (ImGui::BeginNeoGroup("Position", &m_posOpen))
+				{
+					if (ImGui::BeginTimeline("X", m_loadedState.m_pos))
+					{
+						CheckDeleteKeyFrame(m_loadedState.m_pos);
+						ImGui::EndNeoTimeLine();
+					}
+					if (ImGui::BeginTimeline("Y", m_loadedState.m_pos))
+					{
+						CheckDeleteKeyFrame(m_loadedState.m_pos);
+						ImGui::EndNeoTimeLine();
+					}
+					ImGui::EndNeoGroup();
+				}
+				if (ImGui::BeginNeoGroup("Scale", &m_scaleOpen))
+				{
+					if (ImGui::BeginTimeline("X", m_loadedState.m_scale))
+					{
+						CheckDeleteKeyFrame(m_loadedState.m_scale);
+						ImGui::EndNeoTimeLine();
+					}
+					if (ImGui::BeginTimeline("Y", m_loadedState.m_scale))
+					{
+						CheckDeleteKeyFrame(m_loadedState.m_scale);
+						ImGui::EndNeoTimeLine();
+					}
+					ImGui::EndNeoGroup();
+				}
+				if (ImGui::BeginTimeline("Rotation", m_loadedState.m_rot))
+				{
+					CheckDeleteKeyFrame(m_loadedState.m_rot);
+					ImGui::EndNeoTimeLine();
+				}
+				ImGui::EndNeoGroup();
+			}
+			if (ImGui::BeginTimeline("Sprite", m_loadedState.m_sprite))
+			{
+				CheckDeleteKeyFrame(m_loadedState.m_sprite);
+				ImGui::EndNeoTimeLine();
+			}
+			ImGui::EndNeoSequencer();
+		}
+		ImGui::EndChild();
+
+		// If the player dragged the sequencer, update the current frame
+		if (currentFrame != m_currentFrame)
+		{
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		ImGui::Columns(1);
+		ImGui::Separator();
+	}
+
+	void EditorAnimationEditor::UpdateLoadedController()
+	{
+		if (ImGui::Button("Save"))
+		{
+			Save();
+		}
+		ImGui::Separator();
+
+		//----------------------------------------------CONTROLLER NAME----------------------------------------------
+		ImGui::Text("%-17s", "Name");
+		ImGui::SameLine();
+		ImGui::Text(m_currentController.GetName().c_str());
+
+		//----------------------------------------------ADD STATE----------------------------------------------
+		ImGui::Text("%-17s", "Add State");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(columnWidth);
+		if (ImGui::BeginCombo("##State", "Select State"))
+		{
+			for (auto& [str, state] : ASSETMANAGER->AnimStates)
+			{
+				if (ImGui::Selectable(state.m_name.c_str()))
+				{
+					m_currentController.AddState(state.m_name);
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		ImGui::Dummy(ImVec2(0.0f, 35.0f));
+
+		//----------------------------------------------CONTROLLER STATES----------------------------------------------
+		ImGui::Text("States");
+		for (int index{ 0 }; index < m_currentController.GetStateCount(); ++index)
+		{
+			ImGui::PushID(index);
+
+			ImGui::Text(m_currentController[index].c_str());
+			ImGui::SameLine();
+
+			if (ImGui::Button("X"))
+			{
+				m_currentController.RemoveState(index);
+			}
+			ImGui::SameLine();
+			ImGui::Text("Delete");
+
+			ImGui::PopID();
+		}
 	}
 
 	/*!***********************************************************************
@@ -463,12 +528,12 @@ namespace LB
 	{
 		if (m_stateLoaded)
 		{
-			JSONSerializer::SerializeToFile(m_currentState.GetName().c_str(), m_currentState);
+			JSONSerializer::SerializeToFile(m_loadedState.m_name.c_str(), m_loadedState);
 
 			// Update asset manager's anim state if it exists
-			if (ASSETMANAGER->AnimStates.find(m_currentState.GetName()) != ASSETMANAGER->AnimStates.end())
+			if (ASSETMANAGER->AnimStates.find(m_loadedState.m_name) != ASSETMANAGER->AnimStates.end())
 			{
-				ASSETMANAGER->AnimStates[m_currentState.GetName()] = m_currentState;
+				ASSETMANAGER->AnimStates[m_loadedState.m_name] = m_loadedState;
 			}
 		}
 		else if (m_controllerLoaded)

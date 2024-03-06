@@ -288,17 +288,20 @@ namespace LB
 
 				if (ImGui::BeginPopup("Create"))
 				{
-					ImGui::Text("Create new...");
+					ImGui::Text("New File Name");
+					ImGui::SameLine();
+					ImGui::InputText("##New Name", m_newFileName, sizeof(m_newFileName));
 					ImGui::Separator();
+					ImGui::Text("Create new...");
 					if (ImGui::MenuItem("Animation Controller"))
 					{
-				 //should probably serialise a default constructed file instead
-						std::ofstream file(directory.path().parent_path().string() + "/newController.controller");
+						//should probably serialise a default constructed file instead
+						std::ofstream file(currentDirectory.string() + "/" + m_newFileName + ".controller");
 						if (file)
 						{
 							file.close();
-							AnimationController newController{};
-							JSONSerializer::SerializeToFile(directory.path().parent_path().string() + "/newController.controller", newController);
+							AnimationController newController{ m_newFileName };
+							JSONSerializer::SerializeToFile(currentDirectory.string() + "/" + m_newFileName + ".controller", newController);
 							//ReimportAssets();
 						}
 						else
@@ -308,12 +311,12 @@ namespace LB
 					}
 					if (ImGui::MenuItem("Animation State"))
 					{
-						std::ofstream file(directory.path().parent_path().string() + "/newState.anim");
+						std::ofstream file(currentDirectory.string() + "/" + m_newFileName + ".anim");
 						if (file)
 						{
 							file.close();
-							AnimationState newState{};
-							JSONSerializer::SerializeToFile(directory.path().parent_path().string() + "/newState.anim", newState);
+							LBAnimationState newState{m_newFileName};
+							JSONSerializer::SerializeToFile(currentDirectory.string() + "/" + m_newFileName + ".anim", newState);
 							//ReimportAssets();
 						}
 						else
@@ -324,12 +327,12 @@ namespace LB
 					}
 					if (ImGui::MenuItem("SpriteSheet"))
 					{
-						std::ofstream file(directory.path().parent_path().string() + "/newSpriteSheet.spritesheet");
+						std::ofstream file(currentDirectory.string() + "/" + m_newFileName + ".spritesheet");
 						if (file)
 						{
 							file.close();
 							SpriteSheet newSpriteSheet{};
-							JSONSerializer::SerializeToFile(directory.path().parent_path().string() + "/newSpriteSheet.spritesheet", newSpriteSheet);
+							JSONSerializer::SerializeToFile(currentDirectory.string() + "/" + m_newFileName + ".spritesheet", newSpriteSheet);
 							//ReimportAssets();
 						}
 						else
