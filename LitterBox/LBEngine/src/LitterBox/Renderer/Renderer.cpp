@@ -795,7 +795,7 @@ tShader{}, tVao{}, tVbo{}, active_msgs{} //, ft{}, font{}
 
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	LB::ASSETMANAGER->LoadFonts(tVao, tVbo, tShader, reinterpret_cast<void*>(&font_glyphs));
+	LB::ASSETMANAGER->LoadFonts(reinterpret_cast<void*>(this));
 }
 /*!***********************************************************************
 \brief
@@ -823,7 +823,8 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 	size_t stroffset{ 0 };
 	while (stroffset != std::string::npos)
 	{
-		std::string word{ msg.text.substr(stroffset, msg.text.find_first_of(' ') - stroffset + 1) };
+		size_t end_of_word{ msg.text.find_first_of(' ', stroffset) == std::string::npos ? msg.text.size() : msg.text.find_first_of(' ', stroffset) - 1 };
+		std::string word{ msg.text.substr(stroffset, end_of_word - stroffset + 1) };
 
 		bool newline{ false };
 
@@ -838,7 +839,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 
 		if (x > msg.x + msg.xbound)
 		{
-			y -= (adv >> 6) * msg.scale + 5.f;
+			y -= (font_height_adv[msg.font_file_name_wo_ext] >> 6) * msg.scale;
 			x = msg.x;
 		}
 		else
@@ -879,6 +880,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 		}
 
 		stroffset = msg.text.find_first_of(' ', stroffset + 1);
+		stroffset += stroffset == std::string::npos ? 0 : 1;
 	}
 
 	//iterate through all chars
@@ -1094,7 +1096,7 @@ void Renderer::RenderSystem::Initialize()
 		 21, 8, 17, 18 });*/
 
 	//cache some values
-	float midx = 0.f;
+	/*float midx = 0.f;
 	float midy = 0.f;
 	float w = 4000.f;
 	float h = 4000.f;
@@ -1110,7 +1112,7 @@ void Renderer::RenderSystem::Initialize()
 	test2->uv[2].x = .75f;
 	test2->uv[2].y = .75f;
 	test2->uv[3].x = 0.25f;
-	test2->uv[3].y = .75f;
+	test2->uv[3].y = .75f;*/
 
 	//LB::LoadMap(tm);
 	//-################FOR BACKGROUND##########################
