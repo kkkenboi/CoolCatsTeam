@@ -50,6 +50,8 @@ namespace LB
 	**************************************************************************/
 	void CPPSBaseEnemy::Update()
 	{
+		//We want to constantly update the distance between enemy and player
+		mDistanceToPlayer =  Distance(GetComponent<CPTransform>()->GetPosition(), mPlayer->GetComponent<CPTransform>()->GetPosition());
 		//if (mGameManager->GetComponent<CPPSGameManager>()->isGameOver) 
 		//{
 		//	//mSpeedMagnitude = 0;
@@ -62,7 +64,6 @@ namespace LB
 			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
 		}
 		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
-
 		//All enemies will sepuku if you press K
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_K))
 		{
@@ -159,6 +160,11 @@ namespace LB
 	float& CPPSBaseEnemy::GetSpeedMag()
 	{
 		return mSpeedMagnitude;
+	}
+
+	float CPPSBaseEnemy::GetDistToPlayer()
+	{
+		return mDistanceToPlayer;
 	}
 
 	/*!************************************************************************

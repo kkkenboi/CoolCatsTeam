@@ -156,7 +156,7 @@ namespace LB
 			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 		}
-		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar")
+		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit")
 		{
 			//play ball knocking sound
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BallCollisionSounds, 0.4f);

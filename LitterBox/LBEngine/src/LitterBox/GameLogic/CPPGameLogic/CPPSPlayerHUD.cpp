@@ -369,6 +369,7 @@ namespace LB {
 	*************************************************************************/
 	void DecreaseHealth()
 	{
+		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
 		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->DecreaseHealth();
 		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
 		//{
@@ -387,6 +388,7 @@ namespace LB {
 	*************************************************************************/
 	void DecreaseBalls()
 	{
+		if(GOMANAGER->FindGameObjectWithName("PlayerHUD"))
 		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->DecreaseBalls();
 		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
 		//{
@@ -405,6 +407,7 @@ namespace LB {
 	*************************************************************************/
 	void IncreaseHealth()
 	{
+		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
 		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseHealth();
 		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
 		//{
@@ -423,6 +426,7 @@ namespace LB {
 	*************************************************************************/
 	void IncreaseBalls()
 	{
+		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
 		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
 		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
 		//{
@@ -441,6 +445,7 @@ namespace LB {
 	*************************************************************************/
 	void IncreaseMaxHealth(int amount)
 	{
+		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
 		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(amount);
 		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
 		//{
@@ -459,7 +464,8 @@ namespace LB {
 	*************************************************************************/
 	void IncreaseMaxBalls(int amount)
 	{
-		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(amount);
+		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
+			GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(amount);
 		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
 		//{
 		//	// Find out which object is the player
@@ -477,7 +483,8 @@ namespace LB {
 	*************************************************************************/
 	void AddNewUpgrade(UpgradeType upgrade)
 	{
-		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->AddNewUpgrade(upgrade);
+		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
+			GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->AddNewUpgrade(upgrade);
 	}
 
 

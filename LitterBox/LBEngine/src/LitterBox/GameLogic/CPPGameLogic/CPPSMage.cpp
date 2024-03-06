@@ -15,7 +15,7 @@ it handles the logic for the Mage enemy
 
 #include "CPPSMage.h"
 #include "CPPSProjectileBall.h"
-
+#include "CPPGameManager.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Debugging/Debug.h"

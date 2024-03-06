@@ -51,7 +51,9 @@ namespace LB
 
 		GetHealth() = 3;
 		GetSpeedMag() = 100000.f;
-
+		//since this value is the equivalent of the pixels, 
+		//screen is 1920x1080. 800 should be just nice
+		mDetectionRange = 800.f;
 		mInitialised = true;
 	}
 
@@ -98,6 +100,7 @@ namespace LB
 
 	void CPPSChaser::Hurt()
 	{
+		isAggro = true;
 		GetAnimator()->Play("MeleeHurt");
 		CPPSBaseEnemy::Hurt();
 	}
@@ -110,8 +113,8 @@ namespace LB
 	{
 		CPPSBaseEnemy::OnCollisionEnter(colData);
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
-			//The knock back value has been edited and increased from 300 -> 800 
-			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 800.f)
+			//The knock back value has been edited from 300 -> 800 -> 600
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 600.f)
 			{
 				DebuggerLogWarningFormat("CHASER HIT! %f", mGotAttackedCooldown);
 				if (mGotAttackedCooldown > 0.0f) {
@@ -131,6 +134,15 @@ namespace LB
 				//We want it to only play hurt when he gets hit by ball
 				
 			}
+		}
+		if (colData.colliderOther->m_gameobj->GetName() == "Bramble")
+		{
+			if (mGotAttackedCooldown > 0.0f) {
+				return;
+			}
+			mGotAttackedCooldown = mGotAttacked;
+			mFSM.ChangeState("Hurt");
+			Hurt();	//This is here to play the anim
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") { 
 			GetAnimator()->Play("MeleeAttack");
@@ -185,7 +197,13 @@ namespace LB
 	*************************************************************************/
 	void IdleState::Update()
 	{
+		//I can either do this check in the normal update, or over here.
+		if (mEnemy->GetDistToPlayer() <= mEnemy->mDetectionRange) mEnemy->isAggro = true;
+		if (mEnemy->isAggro)
+		{
 		GetFSM().ChangeState("Chase");
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds);
+		}
 	}
 
 	/*!***********************************************************************

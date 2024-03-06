@@ -45,7 +45,6 @@ namespace LB
 		//int& GetHealth();
 		//float& GetSpeedMag();	//Getter function for the speed of the chaser
 		float& GetHurtTimer();
-
 	private:
 
 		// Holds the different state and the current state

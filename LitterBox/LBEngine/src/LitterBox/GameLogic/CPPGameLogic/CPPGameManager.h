@@ -74,6 +74,7 @@ namespace LB
 		void ReduceEnemyCount();
 
 		void ShowGameOver(GameObject enemyObj);
+		Vec2<float> GetRandomSpawnPoint();
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy
 		//Each wave also has a certain value
@@ -111,7 +112,7 @@ namespace LB
 		GameObject* gameOverTexture{ nullptr };
 		Vec2<float> cachedCrowdPos{};
 		Vec2<float> mouse_pos{};
-
+		std::vector<Vec2<float>> SpawnPoints;
 	};
 	void ShowGameOver(GameObject enemyObj);
 	REGISTER_SCRIPT(CPPSGameManager)

@@ -17,7 +17,6 @@
 #include "CPPSUpgradeManager.h"
 #include <random>
 #include "CPPSPlayerGolfBall.h"
-#include "CPPSBaseGolfBall.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Scene/SceneManager.h"
 #include "CPPSProjectileBall.h"
@@ -46,6 +45,13 @@ namespace LB
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChaserEnemy, 2));
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnMageEnemy, 5));
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChargerEnemy, 8));
+
+		//We grab all the GO's called spawnpoints
+		std::vector<GameObject*> temp = GOMANAGER->FindGameObjectsWithName("Spawnpoint");
+		for (const auto& go : temp)
+		{	//then we add their positions to the vector 
+			SpawnPoints.push_back(go->GetComponent<CPTransform>()->GetPosition());
+		}
 
 		//For the first level we just make it such that it's always 2 melee enemies
 		if (currentWave == 1) 
@@ -209,7 +215,7 @@ namespace LB
 	{
 		GameObject* mageClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Mage", *mageClone);
-		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		mageClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
 	}
 
 	/*!************************************************************************
@@ -220,7 +226,7 @@ namespace LB
 	{
 		GameObject* chaserClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserClone);
-		//chaserClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		chaserClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
 	}
 
 	/*!************************************************************************
@@ -232,7 +238,7 @@ namespace LB
 		GameObject* chargerClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Charger_Shield", *chargerClone);
 		//JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
-		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		chargerClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
 	}
 
 	void CPPSGameManager::SpawnCrowdAnim()
@@ -274,6 +280,20 @@ namespace LB
 		else std::cout << "Killed by " << enemyObj.GetName() << '\n';
 
 		gameOverTexture->SetActive(true);
+	}
+	Vec2<float> CPPSGameManager::GetRandomSpawnPoint()
+	{
+		//First we get a random number generator
+		std::random_device rngesus;
+		//Then we get a random index from the vector list from 0 to maxsize-1
+		std::uniform_int_distribution<int> distribution(0, static_cast<int>(SpawnPoints.size()) - 1);
+		int spawnIndex = distribution(rngesus);	//then we generate the number
+		if (!SpawnPoints.empty())
+		{
+			return SpawnPoints[spawnIndex];
+		}
+		DebuggerLogWarning("Somehow unable to find a valid spawnpoint for enemy!");
+		return Vec2<float>();
 	}
 	/*!************************************************************************
 	* \brief Function to generate the wave
