@@ -108,6 +108,7 @@ namespace LB
 		//GameObject* chaserEnemy{ nullptr };
 		//GameObject* chargerEnemy{ nullptr };
 		GameObject* crowdTexture{ nullptr };
+		GameObject* gameOverTexture{ nullptr };
 		Vec2<float> cachedCrowdPos{};
 		Vec2<float> mouse_pos{};
 

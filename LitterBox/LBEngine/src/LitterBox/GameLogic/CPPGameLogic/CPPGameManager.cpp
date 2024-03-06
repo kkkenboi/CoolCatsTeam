@@ -18,6 +18,8 @@
 #include <random>
 #include "CPPSPlayerGolfBall.h"
 #include "CPPSBaseGolfBall.h"
+#include "LitterBox/Physics/ColliderManager.h"
+#include "LitterBox/Scene/SceneManager.h"
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -34,6 +36,7 @@ namespace LB
 		//We also need to grab the crowdTexture
 		//By default, the render is set active false
 		crowdTexture = GOMANAGER->FindGameObjectWithName("CrowdTextureObject");
+		gameOverTexture = GOMANAGER->FindGameObjectWithName("GameOverTextureObject");
 		//we also wanna cache the position of the UI so we can set it back later
 		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
 
@@ -135,6 +138,37 @@ namespace LB
 				timer = 0;
 			}
 		}
+		//Update the GAME OVER UI 
+		if (gameOverTexture->IsActive())
+		{
+			//We get the mouse position
+			Vec2<float> mouse_pos = INPUT->GetMousePos();
+			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			//Then we get all the colliders near the mouse
+			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
+			if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1)) //if we click we see what we clicked on
+			{
+				for (const auto& col : vec_colliders) //then we loop through all the cols to find our buttons
+				{
+					if (col->gameObj->GetName() == "RestartGameButton")
+					{
+						gameOverTexture->SetActive(false);
+						std::cout << "Restart Game!\n";
+						SCENEMANAGER->ReloadScene();
+						break;
+					}
+					if (col->gameObj->GetName() == "MainMenuButton")
+					{
+						std::cout << "GotoMainMenu!\n";
+						gameOverTexture->SetActive(false);
+						SCENEMANAGER->LoadScene("SceneMainMenu");
+						break;
+					}
+				}
+			}
+		}
 	}
 	void CPPSGameManager::Destroy()
 	{
@@ -228,6 +262,7 @@ namespace LB
 	void CPPSGameManager::ShowGameOver(GameObject enemyObj)
 	{
 		AUDIOMANAGER->PlaySound("GameOver");
+		//AUDIOMANAGER->PlaySound("GameOverBGM");
 		isGameOver = true;
 		//We see who the killer is 
 		if (enemyObj.GetName() == "Projectile") std::cout << "Killed by a mage\n";
@@ -236,8 +271,7 @@ namespace LB
 		else if (enemyObj.GetName() == "Charger") std::cout << "Killed by charger\n";
 		else std::cout << "Killed by " << enemyObj.GetName() << '\n';
 
-
-
+		gameOverTexture->SetActive(true);
 	}
 	/*!************************************************************************
 	* \brief Function to generate the wave

@@ -15,6 +15,7 @@ it handles the logic for the Mage enemy
 
 #include "CPPSMage.h"
 #include "CPPSBaseGolfBall.h"
+#include "CPPGameManager.h"
 
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Serialization/AssetManager.h"
@@ -22,6 +23,7 @@ it handles the logic for the Mage enemy
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Physics/PhysicsMath.h"
+
 
 namespace LB
 {
@@ -90,6 +92,8 @@ namespace LB
 	*************************************************************************/
 	void CPPSMage::Update()
 	{
+		if (mGameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
+
 		CPPSBaseEnemy::Update();
 		if (mInitialised == false)
 		{

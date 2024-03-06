@@ -22,6 +22,7 @@ it handls the logic for the chaser enemy
 #include "LitterBox/Factory/GameObjectManager.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Physics/PhysicsMath.h"
+#include "CPPGameManager.h"
 
 namespace LB 
 {
@@ -60,6 +61,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSChaser::Update()
 	{
+		if (mGameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
 		CPPSBaseEnemy::Update();
 		//DebuggerLog("In ChaserUpdate\n");
 		//Kill command moved to base enemy

@@ -50,11 +50,11 @@ namespace LB
 	**************************************************************************/
 	void CPPSBaseEnemy::Update()
 	{
-		if (mGameManager->GetComponent<CPPSGameManager>()->isGameOver) 
-		{
-			mSpeedMagnitude = 0;
-			return;
-		} 
+		//if (mGameManager->GetComponent<CPPSGameManager>()->isGameOver) 
+		//{
+		//	//mSpeedMagnitude = 0;
+		//	return;
+		//} 
 		//All enemies must always face player (?) Might not work for charger who knows
 		DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
 		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
