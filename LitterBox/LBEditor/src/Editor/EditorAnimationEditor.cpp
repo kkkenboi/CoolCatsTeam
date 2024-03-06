@@ -78,13 +78,13 @@ namespace LB
 		ImGui::SameLine();
 		ImGui::Text("State Curr %d", m_loadedState.m_currentFrame);
 
-		ImGui::Text("Active list");
-		ImGui::Text("Active data current %d", m_loadedState.m_active.GetCurrentExact(m_currentFrame));
+		ImGui::Text("Pos list");
+		//ImGui::Text("Pos data current %d", m_loadedState.m_pos.GetCurrentExact(m_currentFrame));
 
-		ImGui::Text("Active current %d, next %d", m_loadedState.m_active.m_currentIndex, m_loadedState.m_active.m_nextIndex);
-		for (int index{ 0 }; index < m_loadedState.m_active.GetData().Size(); ++index)
+		ImGui::Text("Pos current %d, next %d", m_loadedState.m_pos.m_currentIndex, m_loadedState.m_pos.m_nextIndex);
+		for (int index{ 0 }; index < m_loadedState.m_pos.GetData().Size(); ++index)
 		{
-			ImGui::Text("Frame %d, State %d", m_loadedState.m_active.GetData()[index].m_frame, m_loadedState.m_active.GetData()[index].m_data);
+			ImGui::Text("Frame %d, State %.2f %.2f", m_loadedState.m_pos.GetData()[index].m_frame, m_loadedState.m_pos.GetData()[index].m_data.x, m_loadedState.m_pos.GetData()[index].m_data.y);
 		}
 
 		ImGui::Separator();
@@ -165,9 +165,15 @@ namespace LB
 		ImGui::BeginChild("SequencerTable", ImVec2(0, 250), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
 		ImGui::FrameIndexType currentFrame = m_currentFrame;
-		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame, {0, 0}, ImGuiNeoSequencerFlags_AllowLengthChanging | ImGuiNeoSequencerFlags_EnableSelection | ImGuiNeoSequencerFlags_Selection_EnableDragging)) {
+		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame, {0, 0}, 
+			ImGuiNeoSequencerFlags_AllowLengthChanging | ImGuiNeoSequencerFlags_EnableSelection | ImGuiNeoSequencerFlags_Selection_EnableDragging | ImGuiNeoSequencerFlags_Selection_EnableDeletion)) {
 			if (ImGui::BeginTimeline("Set Active", m_loadedState.m_active)) 
 			{
+				// If delete key press, delete the selected keyframes
+				if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
+				{
+					
+				}
 				ImGui::EndNeoTimeLine();
 			}
 			if (ImGui::BeginNeoGroup("Transform", &m_transformOpen)) 
@@ -176,10 +182,20 @@ namespace LB
 				{
 					if (ImGui::BeginTimeline("X", m_loadedState.m_pos)) 
 					{
+						// If delete key press, delete the selected keyframes
+						if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
+						{
+							
+						}
 						ImGui::EndNeoTimeLine();
 					}
 					if (ImGui::BeginTimeline("Y", m_loadedState.m_pos)) 
 					{
+						// If delete key press, delete the selected keyframes
+						if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
+						{
+
+						}
 						ImGui::EndNeoTimeLine();
 					}
 					ImGui::EndNeoGroup();
@@ -188,22 +204,42 @@ namespace LB
 				{
 					if (ImGui::BeginTimeline("X", m_loadedState.m_scale)) 
 					{
+						// If delete key press, delete the selected keyframes
+						if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
+						{
+
+						}
 						ImGui::EndNeoTimeLine();
 					}
 					if (ImGui::BeginTimeline("Y", m_loadedState.m_scale)) 
 					{
+						// If delete key press, delete the selected keyframes
+						if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
+						{
+
+						}
 						ImGui::EndNeoTimeLine();
 					}
 					ImGui::EndNeoGroup();
 				}
 				if (ImGui::BeginTimeline("Rotation", m_loadedState.m_rot)) 
 				{
+					// If delete key press, delete the selected keyframes
+					if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
+					{
+
+					}
 					ImGui::EndNeoTimeLine();
 				}
 				ImGui::EndNeoGroup();
 			}
 			if (ImGui::BeginTimeline("Sprite", m_loadedState.m_sprite)) 
 			{
+				// If delete key press, delete the selected keyframes
+				if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
+				{
+
+				}
 				ImGui::EndNeoTimeLine();
 			}
 			ImGui::EndNeoSequencer();

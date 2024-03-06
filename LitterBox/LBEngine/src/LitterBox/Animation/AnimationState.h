@@ -386,6 +386,42 @@ namespace LB
 	private:
 		SortedVector<LBKeyFrame<T>> m_keyFrames;
 	};
+	// If type is a vector 2, don't fully replace insert and interpolate valyes
+	template<>
+	inline void LBKeyFrameGroup<Vec2<float>>::Insert(LBKeyFrame<Vec2<float>> const& keyFrame)
+	{
+		LBKeyFrame<Vec2<float>>* existingFrame = m_keyFrames.Find(keyFrame);
+		if (existingFrame)
+		{
+			if (keyFrame.m_data.x)
+			{
+				existingFrame->m_data.x = keyFrame.m_data.x;
+			}
+			else
+			{
+				existingFrame->m_data.y = keyFrame.m_data.y;
+			}
+		}
+		else
+		{
+			m_keyFrames.Insert(keyFrame);
+		}
+	}
+	template<>
+	inline Vec2<float> LBKeyFrameGroup<Vec2<float>>::GetCurrentExact(int exactFrame) const
+	{
+		// If no keyframe or current is before first keyframe, use default
+		if (m_currentIndex >= m_keyFrames.Size() || m_keyFrames[0].m_frame > exactFrame) return Vec2<float>{};
+
+		// If after last keyframe, use last keyframe
+		if (m_keyFrames[m_keyFrames.Size() - 1].m_frame <= exactFrame) return m_keyFrames[m_keyFrames.Size() - 1].m_data;
+
+		float lerp = (float)(exactFrame - m_keyFrames[m_currentIndex].m_frame) / (float)(m_keyFrames[m_nextIndex].m_frame - m_keyFrames[m_currentIndex].m_frame);
+
+		Vec2<float> interpo = m_keyFrames[m_currentIndex].m_data + (m_keyFrames[m_nextIndex].m_data - m_keyFrames[m_currentIndex].m_data) * lerp;
+
+		return interpo;
+	}
 
 	//----------------------------------------------Animation State----------------------------------------------
 	class LBAnimationState
