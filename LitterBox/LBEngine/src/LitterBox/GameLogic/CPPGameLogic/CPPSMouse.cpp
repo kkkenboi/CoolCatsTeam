@@ -1,0 +1,94 @@
+/*!************************************************************************
+ \file				CPPSMouse.cpp
+ \author(s)			Kenji Brannon Chong
+ \par DP email(s):	kenjibrannon.c@digipen.edu
+ \par Course:		CSD2451A
+ \date				06-03-2024
+ \brief
+ This file contains the CPPSMouse class and all its functionalities.
+
+  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
+
+#include "CPPSMouse.h"
+#include "CPPSCameraFollow.h"
+#include "LitterBox/Factory/GameObjectFactory.h"
+#include "LitterBox/Engine/Input.h"
+#include "LitterBox/Core/Core.h"
+
+
+namespace LB
+{
+	/*!***********************************************************************
+	\brief
+	Start function where variables will be initialised
+	*************************************************************************/
+	void CPPSMouse::Start()
+	{
+		// Initialise pointers to specific game objects
+		m_MouseUI = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("MouseUI", *m_MouseUI);
+
+		m_MouseWorld = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("MouseWorld", *m_MouseWorld);
+
+		m_CameraFollow = GOMANAGER->FindGameObjectWithName("CameraFollow");
+
+		m_mHeight = static_cast<float>(WINDOWSSYSTEM->GetMonitorHeight());
+		m_mWidth = static_cast<float>(WINDOWSSYSTEM->GetMonitorWidth());
+		m_BorderHeight = (m_mHeight - static_cast<float>(WINDOWSSYSTEM->GetHeight())) / 2.f;
+	}
+
+	/*!***********************************************************************
+	\brief
+	Update function where the mouse's position is being updated based on
+	whether it is of screen or world space
+	*************************************************************************/
+	void CPPSMouse::Update()
+	{
+		if (CORE->IsEditorMode())
+		{
+			Vec2<float> mousePos = INPUT->GetMousePos();
+			mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
+			mousePos.y -= m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
+			mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			mousePos.y = (mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight()) * 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			m_MouseWorld->GetComponent<CPTransform>()->SetPosition(mousePos);
+
+			mousePos = INPUT->GetMousePos();
+			mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			mousePos.y = (mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight()) * 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			m_MouseUI->GetComponent<CPTransform>()->SetPosition(mousePos);
+		}
+		else
+		{
+			// I have no idea how to fix this rn cause even in game the aim is broken T_T
+
+			//Vec2<float> mousePos = INPUT->GetMousePos();
+			//mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
+			//mousePos.y -= m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
+			//mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			////mousePos.y = (mousePos.y * -1.f) * 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			//m_MouseWorld->GetComponent<CPTransform>()->SetPosition(mousePos);
+
+			//mousePos = INPUT->GetMousePos();
+			//m_mWidth = (float)WINDOWSSYSTEM->GetWidth();
+			//mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			//mousePos.y = (m_mHeight - mousePos.y) * 1080.f / m_mHeight + m_BorderHeight;
+			////Vec2 finalPos = Vec2<float>(mousePos.x, );
+			//m_MouseUI->GetComponent<CPTransform>()->SetPosition(mousePos);
+		}
+	}
+
+	/*!***********************************************************************
+	\brief
+	Overriden destroy function because of inheritance
+	*************************************************************************/
+	void CPPSMouse::Destroy()
+	{
+
+	}
+}

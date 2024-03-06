@@ -1,0 +1,30 @@
+{
+    "Name": "newState",
+    "SpriteSheet Name": "None",
+    "Frames": [
+        {
+            "Frame": 16,
+            "Time": 0.1
+        },
+        {
+            "Frame": 17,
+            "Time": 0.1
+        },
+        {
+            "Frame": 18,
+            "Time": 0.1
+        },
+        {
+            "Frame": 19,
+            "Time": 0.1
+        },
+        {
+            "Frame": 20,
+            "Time": 0.1
+        },
+        {
+            "Frame": 21,
+            "Time": 0.1
+        }
+    ]
+}

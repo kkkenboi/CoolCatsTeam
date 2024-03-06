@@ -52,6 +52,9 @@ namespace LB
 
 		GameObject* hand{ nullptr };
 		GameObject* line{ nullptr };
+		GameObject* curtain{ nullptr };
+		float time;
+		bool animFlag{ false };
 		//-------------Rotation matrix values to get the left of the button---------------
 
 		//------------------------For Quit Confirmation---------------------------

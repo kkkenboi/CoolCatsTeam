@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 896.89,
-            "y": 556.02
+            "x": 896.890014,
+            "y": 556.020019
         },
         "Scale": {
             "x": 2.0,
@@ -42,7 +42,7 @@
     },
     "CPPScript": {
         "Active": true,
-        "Script": "class LB::CPPSBaseGolfBall"
+        "Script": "class LB::CPPSProjectileBall"
     },
     "Animator": {
         "Controller": "MageProjectile"

@@ -30,6 +30,18 @@ namespace LB
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+
+		mToMaxTimer = { 0.15f };
+		mToMinTimer = { 0.35f };
+		mScaleTimer = { 0.35f };
+
+		mScaleTimerRemaining = { 0.35f };
+
+		mScaleOG = { 1.f,1.f };
+		mScaleMax = { 1.25f , 1.25f };
+
+		mScaledUp = false;
+		mScaledDown = true;
 	}
 
 	/*!***********************************************************************
@@ -38,11 +50,11 @@ namespace LB
 	*************************************************************************/
 	void CPPSBlueMushroom::Update()
 	{
-		if (mScaledUp || mScaledDown) 
+		if (mScaledUp || mScaledDown)
 		{
 			mRender->SetSpriteTexture(mRender->spriteSheetName, 1);
 		}
-		else 
+		else
 		{
 			mRender->SetSpriteTexture(mRender->spriteSheetName, 0);
 		}
@@ -100,69 +112,4 @@ namespace LB
 	{
 
 	}
-
-	/*!***********************************************************************
-	\brief
-	Every time the mushroom collides with anything it's scale changes
-	*************************************************************************/
-	void CPPSBlueMushroom::OnCollisionEnter(CollisionData colData)
-	{
-		if (colData.colliderOther->rigidbody != nullptr)
-		{
-			colData.colliderOther->rigidbody->mVelocity.x *= 1.75f;
-			colData.colliderOther->rigidbody->mVelocity.y *= 1.75f;
-
-			if (colData.colliderOther->gameObj == mPlayer) {
-				//std::cout << "hitting player!" << std::endl;
-				//std::cout << "Before : " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.x <<
-				//	", " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.y << std::endl;
-				Vec2<float> mushPos = colData.colliderThis->transform->GetPosition();
-				Vec2<float> playerPos = colData.colliderOther->transform->GetPosition();
-
-				Vec2<float> forceToApply = playerPos - mushPos;
-
-				//std::cout << "After : " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.x <<
-				//	", " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.y << std::endl;
-			}
-
-			// Start scaling down in the next update loop
-			mScaleTimer = mToMaxTimer;
-			mScaleTimerRemaining = mScaleTimer;
-			mScaledUp = true;
-		}
-	}
-
-	/*!***********************************************************************
-	\brief
-	Gets the object's render component
-	*************************************************************************/
-	CPRender* CPPSBlueMushroom::GetRender()
-	{
-		return mRender;
-	}
-
-	/*!***********************************************************************
-	\brief
-	Gets the object's rigidbody component
-	*************************************************************************/
-	CPRigidBody* CPPSBlueMushroom::GetRigidBody()
-	{
-		return mRigidBody;
-	}
-
-	/*!***********************************************************************
-	\brief
-	Gets the objcet's collider component
-	*************************************************************************/
-	CPCollider* CPPSBlueMushroom::GetCollider()
-	{
-		return mCollider;
-	}
-
-	// Helper function
-	Vec2<float> VecLerp(const Vec2<float>& a, const Vec2<float>& b, float t)
-	{
-		return Vec2<float>{a.x + t * (b.x - a.x), a.y + t * (b.y - a.y)};
-	}
-
 }

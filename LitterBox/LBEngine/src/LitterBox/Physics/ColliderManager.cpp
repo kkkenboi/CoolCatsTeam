@@ -410,13 +410,13 @@ namespace LB
 						continue;
 					}
 				}
-				
+				/*
 				// Check if colliders are in the same grid frame
 				if (!this->GetGridSystem().CheckGridFrames(colA, colB))
 				{
 					continue;
 				}
-				
+				*/
 				// Check if layers can be collided with, if cannot collide, continue
 				if (!this->GetLayerSystem().ShouldLayerCollide(colA->m_collisionlayer, colB->m_collisionlayer))
 				{

@@ -38,6 +38,7 @@ IncludeDir["FreeType"]      = "%{wks.location}/dependencies/FreeType/**"
 IncludeDir["FMOD"]          = "%{wks.location}/dependencies/FMOD/include"
 IncludeDir["RapidJSON"]     = "%{wks.location}/dependencies/RapidJSON/include"
 IncludeDir["Mono"]          = "%{wks.location}/dependencies/Mono/include/mono-2.0"
+IncludeDir["FFmpeg"]        = "%{wks.location}/dependencies/FFmpeg/include"
 
 -- Projects 
 group "Dependencies"

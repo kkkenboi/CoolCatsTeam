@@ -332,6 +332,7 @@ namespace LB
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
         std::vector<std::filesystem::path> ttfFontPaths = FILESYSTEM->GetFilesOfType(".ttf");
         std::vector<std::filesystem::path> otfFontPaths = FILESYSTEM->GetFilesOfType(".otf");
+        std::vector<std::filesystem::path> ShaderPaths = FILESYSTEM->GetFilesOfType(".shader");
 
         //Adding the fonts to the asset map first, probably add it to the meta file in the future
         for (const auto& f : ttfFontPaths)
@@ -342,6 +343,9 @@ namespace LB
         {
             assetMap[f.filename().stem().string()] = f.string();
         }
+
+        for (const auto& f : ShaderPaths)
+            assetMap[f.filename().stem().string()] = f.string();
 
         //We grab all the files and put them into a vector (I don't concate them because I need them separate)
         //Now we start making the meta file
@@ -799,5 +803,159 @@ namespace LB
         DebuggerLog(FILESYSTEM->GetFilePath("KeyCodeTable").string());
 
         JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyCodeTable").string(), _jsonFile);
+    }
+
+
+    void AssetManager::LoadFonts(void* textR)
+    {
+        //Get fonts
+        auto fonts{ LB::FILESYSTEM->GetFilesOfType(".otf") };
+        auto fonts2{ LB::FILESYSTEM->GetFilesOfType(".ttf") };
+
+        //variables
+        FT_Library ft{};
+        FT_Face font{};
+
+        std::map<char, Renderer::Character> Characters{};
+        Renderer::TextRenderer* textRender{ 
+            reinterpret_cast<Renderer::TextRenderer*>
+            (textR) };
+
+        unsigned int largest_height{ 0 };
+        //-------------------LOAD FONT------------------------
+        //init freetype lib
+        if (FT_Init_FreeType(&ft)) {
+            DebuggerLogError("ERROR On the freetype: could not init the lib");
+        }
+
+        //load all fonts both otf and ttf
+        for (auto const& e : fonts) {
+            //load font
+            if (FT_New_Face(ft, e.string().c_str(), 0, &font)) {
+                DebuggerLogError("ERROR on the freetype: could not load font");
+            }
+            //set default font face
+            FT_Set_Pixel_Sizes(font, 0, 50); //the width is 0 so it is based off the height value
+
+            unsigned int maxAscent{}, maxDescent{};
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            largest_height = 0;
+            for (unsigned char c{}; c < 128; ++c) {
+                //load glyph
+                if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
+                    DebuggerLogErrorFormat("ERROR on the freetype: could not load glyph %c", c);
+                    continue;
+                }
+                //generate texture
+                unsigned int character_glyph;
+                glGenTextures(1, &character_glyph);
+                glBindTexture(GL_TEXTURE_2D, character_glyph);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+                    font->glyph->bitmap.width, font->glyph->bitmap.rows,
+                    0, GL_RED, GL_UNSIGNED_BYTE, font->glyph->bitmap.buffer);
+                //set texture options
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                //store that shit
+                Renderer::Character sc = {
+                    character_glyph,
+                    LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
+                    LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
+                    static_cast<unsigned int>(font->glyph->advance.x)
+                };
+                Characters.emplace(std::pair<char, Renderer::Character>(c, sc));
+
+                maxAscent = maxAscent < font->glyph->bitmap_top ? font->glyph->bitmap_top : maxAscent;
+                maxDescent = maxDescent < font->glyph->metrics.height - font->glyph->bitmap_top ?
+                    font->glyph->metrics.height - font->glyph->bitmap_top : maxDescent;
+            }
+            //insert the height
+            largest_height = maxAscent + maxDescent;
+            textRender->get_heights_map().emplace(e.stem().string(), largest_height);
+
+            //-------------------LOAD FONT------------------------
+            textRender->get_font_map().emplace(std::make_pair(e.stem().string(), Characters));
+            Characters.clear();
+            //free up all the used resources from FT
+            FT_Done_Face(font);
+        }
+
+        for (auto const& e : fonts2) {
+            //load font
+            if (FT_New_Face(ft, e.string().c_str(), 0, &font)) {
+                DebuggerLogError("ERROR on the freetype: could not load font");
+            }
+            //set default font face
+            FT_Set_Pixel_Sizes(font, 0, 50); //the width is 0 so it is based off the height value
+
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+            unsigned int maxAscent{}, maxDescent{};
+            for (unsigned char c{}; c < 128; ++c) {
+                //load glyph
+                if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
+                    DebuggerLogErrorFormat("ERROR on the freetype: could not load glyph %c", c);
+                    continue;
+                }
+                //generate texture
+                unsigned int character_glyph;
+                glGenTextures(1, &character_glyph);
+                glBindTexture(GL_TEXTURE_2D, character_glyph);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+                    font->glyph->bitmap.width, font->glyph->bitmap.rows,
+                    0, GL_RED, GL_UNSIGNED_BYTE, font->glyph->bitmap.buffer);
+                //set texture options
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                //store that shit
+                Renderer::Character sc = {
+                    character_glyph,
+                    LB::Vec2<unsigned int>{font->glyph->bitmap.width, font->glyph->bitmap.rows},
+                    LB::Vec2<FT_Int>{font->glyph->bitmap_left, font->glyph->bitmap_top},
+                    static_cast<unsigned int>(font->glyph->advance.x)
+                };
+                Characters.emplace(std::pair<char, Renderer::Character>(c, sc));
+
+                maxAscent = maxAscent < font->glyph->bitmap_top ? font->glyph->bitmap_top : maxAscent;
+                maxDescent = maxDescent < font->glyph->metrics.height - font->glyph->bitmap_top ?
+                    font->glyph->metrics.height - font->glyph->bitmap_top : maxDescent;
+            }
+            //insert the height
+            largest_height = maxAscent + maxDescent;
+            textRender->get_heights_map().emplace(e.stem().string(), largest_height);
+            //-------------------LOAD FONT------------------------
+
+            //-------------------LOAD FONT------------------------
+            textRender->get_font_map().emplace(std::make_pair(e.stem().string(), Characters));
+            Characters.clear();
+            //free up all the used resources from FT
+            FT_Done_Face(font);
+        }
+        //free ft lib
+        FT_Done_FreeType(ft);
+
+        //create the vertex array and buffer
+        glGenVertexArrays(1, &textRender->get_vertex_array());
+        glGenBuffers(1, &textRender->get_vertex_buffer());
+        glBindVertexArray(textRender->get_vertex_array());
+        glBindBuffer(GL_ARRAY_BUFFER, textRender->get_vertex_buffer());
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+
+        //setup the shader program
+        LoadShader("Assets/Shaders/text.shader", textRender->get_shader());
+    }
+
+    void AssetManager::LoadShader(const std::string& shader_file_name, unsigned int& shader_handle)
+    {
+        shader_source shd_pgm{ shader_parser(shader_file_name.c_str()) };
+        shader_handle = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
     }
 }

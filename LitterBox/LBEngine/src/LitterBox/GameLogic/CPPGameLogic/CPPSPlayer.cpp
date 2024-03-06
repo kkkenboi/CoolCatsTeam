@@ -27,6 +27,7 @@
 #include "LitterBox/Renderer/Camera.h"
 #include "CPPGameManager.h"
 #include "CPPSCameraFollow.h"
+#include "CPPSBramble.h"
 
 namespace LB
 {
@@ -199,7 +200,7 @@ namespace LB
 		if (!mIsStunned) {
 			//rb->mVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
 			Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
-			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 100.f * static_cast<float>(TIME->GetDeltaTime());
+			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());
 		}
 
 		//clamping of the speed of the player movement
@@ -325,7 +326,6 @@ namespace LB
 		// Update the Stunned timer
 		if (mIsStunned) {
 			mStunRemaining -= TIME->GetDeltaTime();
-			std::cout << mStunRemaining << std::endl;
 			if (mStunRemaining <= 0.f) {
 				mIsStunned = false;
 				mStunRemaining = mStunTimer;
@@ -348,7 +348,8 @@ namespace LB
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
-			colData.colliderOther->m_gameobj->GetName() == "Charger")
+			colData.colliderOther->m_gameobj->GetName() == "Charger" ||
+			colData.colliderOther->m_gameobj->GetName() == "Bramble" )
 		{
 			if (mGotAttackedCooldown > 0) return;
 			//shake the cam
@@ -370,6 +371,7 @@ namespace LB
 					{
 						colData.colliderThis->rigidbody->mVelocity += knockBack * 100.f;
 					}
+					mStunTimer = 0.5f;
 					mIsStunned = true;
 				}
 			}
@@ -384,6 +386,24 @@ namespace LB
 			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth < 0)
 			{
 				//GOMANAGER->RemoveGameObject(this->GameObj);
+			}
+		}
+		if (colData.colliderOther->m_gameobj->GetName() == "Mushroom") 
+		{
+			if (!mIsStunned) {
+				//rb->mVelocity *= 10.f;
+				Vec2<float> otherPos = colData.colliderOther->transform->GetPosition();
+				Vec2<float> knockBack = colData.colliderThis->transform->GetPosition() - otherPos;
+				if (colData.colliderOther->m_gameobj->GetName() != "Projectile")
+				{
+					colData.colliderThis->rigidbody->mVelocity += knockBack * 15.f;
+				}
+				else
+				{
+					colData.colliderThis->rigidbody->mVelocity += knockBack * 100.f;
+				}
+				mStunTimer = 0.15f;
+				mIsStunned = true;
 			}
 		}
 	}
