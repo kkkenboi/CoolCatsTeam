@@ -13,7 +13,7 @@
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-#include "CPPSBaseGolfBall.h"
+#include "CPPSProjectileBall.h"
 
 #include "LitterBox/Debugging/Debug.h"
 #include "LitterBox/Factory/GameObjectManager.h"
@@ -29,7 +29,7 @@ namespace LB
 	\brief
 	Start function where variables will be initialised
 	*************************************************************************/
-	void CPPSBaseGolfBall::Start()
+	void CPPSProjectileBall::Start()
 	{
 		mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
@@ -67,7 +67,7 @@ namespace LB
 	\brief
 	Update is where the behaviour of the projectile will be updated every frame
 	*************************************************************************/
-	void CPPSBaseGolfBall::Update() 
+	void CPPSProjectileBall::Update() 
 	{
 		//This sets the rotation for the sprite to always face the direction it's travelling
 		CPTransform* trans = GameObj->GetComponent<CPTransform>();
@@ -80,15 +80,16 @@ namespace LB
 	\brief
 	On collision to check what is this Projectile is colliding with
 	*************************************************************************/
-	void CPPSBaseGolfBall::OnCollisionEnter(CollisionData colData)
+	void CPPSProjectileBall::OnCollisionEnter(CollisionData colData)
 	{
-		if (colData.colliderOther->m_gameobj->GetName() == "MainChar" ||
-			colData.colliderOther->m_gameobj->GetName() == "NorthWall" ||
-			colData.colliderOther->m_gameobj->GetName() == "SouthWall" ||
-			colData.colliderOther->m_gameobj->GetName() == "WestWall" ||
-			colData.colliderOther->m_gameobj->GetName() == "EastWall")
+		std::string str(colData.colliderOther->m_gameobj->GetName());
+		size_t foundName = str.find("Wall");
+		if (foundName != std::string::npos) 
 		{
-			
+				canDestroy = true;
+		}
+		if (colData.colliderOther->m_gameobj->GetName() == "MainChar")
+		{
 			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 			canDestroy = true;
@@ -100,14 +101,14 @@ namespace LB
 	\brief
 	Destroy
 	*************************************************************************/
-	void CPPSBaseGolfBall::Destroy() { GOMANAGER->RemoveGameObject(this->GameObj); }
+	void CPPSProjectileBall::Destroy() { GOMANAGER->RemoveGameObject(this->GameObj); }
 
 	//Getter functions
 	/*!***********************************************************************
 	\brief
 	Getter for the render component
 	*************************************************************************/
-	CPRender* CPPSBaseGolfBall::GetRender()
+	CPRender* CPPSProjectileBall::GetRender()
 	{
 		return mRender;
 	}
@@ -115,7 +116,7 @@ namespace LB
 	\brief
 	Getter for the rigidbody component
 	*************************************************************************/
-	CPRigidBody* CPPSBaseGolfBall::GetRigidBody()
+	CPRigidBody* CPPSProjectileBall::GetRigidBody()
 	{
 		return mRigidBody;
 	}
@@ -124,7 +125,7 @@ namespace LB
 	\brief
 	Getter for the collider component
 	*************************************************************************/
-	CPCollider* CPPSBaseGolfBall::GetCollider()
+	CPCollider* CPPSProjectileBall::GetCollider()
 	{
 		return mCollider;
 	}
@@ -133,7 +134,7 @@ namespace LB
 	\brief
 	Getter for the player object
 	*************************************************************************/
-	GameObject* CPPSBaseGolfBall::GetHero()
+	GameObject* CPPSProjectileBall::GetHero()
 	{
 		return mPlayer;
 	}
