@@ -256,8 +256,9 @@ namespace LB
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //std::map<std::string, std::map<char, CharData>> font_glyphs;
 
-        void LoadFonts(unsigned int& tVao, unsigned int& tVbo, unsigned int& tShader,
-            void* font_glyph_map);
+        void LoadFonts(void* textR);
+
+        void LoadShader(const std::string& shader_file_name, unsigned int& shader_handle);
 
 
         //This is the folder name where the meta file will be stored

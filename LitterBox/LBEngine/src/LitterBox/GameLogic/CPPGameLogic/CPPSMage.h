@@ -15,7 +15,7 @@ it handls the logic for the Mage enemy
 
 #pragma once
 #include "CPPSBaseEnemy.h"
-#include "CPPSBaseGolfBall.h"
+#include "CPPSProjectileBall.h"
 #include "LitterBox/GameLogic/StateMachine.h"
 
 namespace LB

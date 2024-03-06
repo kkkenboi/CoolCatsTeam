@@ -44,15 +44,22 @@ namespace LB
 	{
 		if (colData.colliderOther->rigidbody != nullptr)
 		{
-			if (colData.colliderOther->gameObj->GetName() != "Projectile") 
+			if (colData.colliderOther->gameObj->GetName() != "Projectile")
 			{
-				colData.colliderOther->rigidbody->mVelocity.x *= 0.90f;
-				colData.colliderOther->rigidbody->mVelocity.y *= 0.90f;
-			}
-			if (colData.colliderOther->gameObj->GetName() == "MainChar") 
-			{
-				colData.colliderOther->rigidbody->mVelocity.x *= 0.5f;
-				colData.colliderOther->rigidbody->mVelocity.y *= 0.5f;
+				if (colData.colliderOther->gameObj->GetName() == "ball") {
+					colData.colliderOther->rigidbody->mVelocity.x *= 0.9f;
+					colData.colliderOther->rigidbody->mVelocity.y *= 0.9f;
+				}
+				else if (colData.colliderOther->gameObj->GetName() == "MainChar") 
+				{
+					colData.colliderOther->rigidbody->mVelocity.x *= 0.8f;
+					colData.colliderOther->rigidbody->mVelocity.y *= 0.8f;
+				}
+				else
+				{
+					colData.colliderOther->rigidbody->mVelocity.x *= 0.925f;
+					colData.colliderOther->rigidbody->mVelocity.y *= 0.925f;
+				}
 			}
 		}
 	}

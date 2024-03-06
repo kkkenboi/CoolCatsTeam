@@ -1158,7 +1158,7 @@
                 }
             },
             {
-                "Name": "MUSHYroom",
+                "Name": "Mushroom",
                 "Active": true,
                 "Transform": {
                     "Active": true,
@@ -1279,8 +1279,8 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 125.0,
-                    "Height": 125.0,
+                    "Width": 150.0,
+                    "Height": 150.0,
                     "Layer": 0,
                     "Texture": "MushBramble_SpriteSheet",
                     "SpriteName": "MushBrambleSheet",
