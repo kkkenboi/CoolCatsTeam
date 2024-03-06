@@ -1,11 +1,11 @@
 /*!************************************************************************
- \file				CPPSBlueMushroom.cpp
- \author(s)			Justine Carlo Villa Ilao
- \par DP email(s):	justine.c@digipen.edu
+ \file
+ \author(s)
+ \par DP email(s):
  \par Course:		CSD2451A
- \date				09-02-2024
+ \date
  \brief
-  This file contains the behviour of the Blue Mushroom obstacle.
+  This file contains
 
   Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
   disclosure of this file or its contents without the prior written consent
@@ -13,50 +13,56 @@
 **************************************************************************/
 
 
-#include "CPPSBlueMushroom.h"
+#include "CPPSBaseBouncy.h"
 #include "LitterBox/Engine/Time.h"
 
 
-namespace LB 
+namespace LB
 {
 	/*!***********************************************************************
 	\brief
-	Start function where variables will be initialised
+	Every time the bouncy collides with anything its scale changes
 	*************************************************************************/
-	void CPPSBlueMushroom::Start()
+	void CPPSBaseBouncy::OnCollisionEnter(CollisionData colData)
 	{
-		mTransform = GameObj->GetComponent<CPTransform>();
-		mRender = GameObj->GetComponent<CPRender>();
-		mRigidBody = GameObj->GetComponent<CPRigidBody>();
-		mCollider = GameObj->GetComponent<CPCollider>();
-		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+		if (colData.colliderOther->rigidbody != nullptr)
+		{
+			colData.colliderOther->rigidbody->mVelocity.x *= 1.75f;
+			colData.colliderOther->rigidbody->mVelocity.y *= 1.75f;
 
-		mToMaxTimer = { 0.15f };
-		mToMinTimer = { 0.35f };
-		mScaleTimer = { 0.35f };
+			if (colData.colliderOther->gameObj == mPlayer) {
+				//std::cout << "hitting player!" << std::endl;
+				//std::cout << "Before : " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.x <<
+				//	", " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.y << std::endl;
+				Vec2<float> bouncyPos = colData.colliderThis->transform->GetPosition();
+				Vec2<float> playerPos = colData.colliderOther->transform->GetPosition();
 
-		mScaleTimerRemaining = { 0.35f };
+				Vec2<float> forceToApply = playerPos - bouncyPos;
 
-		mScaleOG = { 1.f,1.f };
-		mScaleMax = { 1.25f , 1.25f };
+				//std::cout << "After : " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.x <<
+				//	", " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.y << std::endl;
+			}
 
-		mScaledUp = false;
-		mScaledDown = true;
+			// Start scaling down in the next update loop
+			mScaleTimer = mToMaxTimer;
+			mScaleTimerRemaining = mScaleTimer;
+			mScaledUp = true;
+		}
 	}
 
 	/*!***********************************************************************
 	\brief
-	Update function where the mushroom's scale is being changed
+	To the sprite scale when interacting with other game objects
 	*************************************************************************/
-	void CPPSBlueMushroom::Update()
+	void CPPSBaseBouncy::OnInteraction(int spriteIndexStart, int spriteIndexEnd)
 	{
 		if (mScaledUp || mScaledDown)
 		{
-			mRender->SetSpriteTexture(mRender->spriteSheetName, 1);
+			mRender->SetSpriteTexture(mRender->spriteSheetName, spriteIndexEnd);
 		}
 		else
 		{
-			mRender->SetSpriteTexture(mRender->spriteSheetName, 0);
+			mRender->SetSpriteTexture(mRender->spriteSheetName, spriteIndexStart);
 		}
 		if (mScaledUp)
 		{
@@ -106,10 +112,35 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	Overriden destroy function because of inheritance
+	Gets the object's render component
 	*************************************************************************/
-	void CPPSBlueMushroom::Destroy()
+	CPRender* CPPSBaseBouncy::GetRender()
 	{
-
+		return mRender;
 	}
+
+	/*!***********************************************************************
+	\brief
+	Gets the object's rigidbody component
+	*************************************************************************/
+	CPRigidBody* CPPSBaseBouncy::GetRigidBody()
+	{
+		return mRigidBody;
+	}
+
+	/*!***********************************************************************
+	\brief
+	Gets the objcet's collider component
+	*************************************************************************/
+	CPCollider* CPPSBaseBouncy::GetCollider()
+	{
+		return mCollider;
+	}
+
+	// Helper function
+	Vec2<float> VecLerp(const Vec2<float>& a, const Vec2<float>& b, float t)
+	{
+		return Vec2<float>{a.x + t * (b.x - a.x), a.y + t * (b.y - a.y)};
+	}
+
 }

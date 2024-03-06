@@ -19,7 +19,7 @@
 #include "CPPSChaser.h"
 #include "QuitScript.h"
 #include "CPPSMage.h"
-#include "CPPSBaseGolfBall.h"
+#include "CPPSProjectileBall.h"
 #include "CPPSPlayerGolfBall.h"
 #include "PauseMenuScript.h"
 #include "CPPSAimUI.h"
@@ -31,6 +31,7 @@
 #include "CPPSCharger.h"
 #include "CPPSSandpit.h"
 #include "CPPSCameraFollow.h"
+#include "CPPSBramble.h"
 
 namespace LB 
 {

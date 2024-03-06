@@ -91,8 +91,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 88.020019,
-                        "y": -183.310607
+                        "x": 1246.550048,
+                        "y": 272.790008
                     },
                     "Scale": {
                         "x": 1.25,
@@ -106,8 +106,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": -2.333853,
-                                    "y": -46.57611
+                                    "x": 0.0,
+                                    "y": -45.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -183,567 +183,13 @@
                 }
             },
             {
-                "Name": "Wall1",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 130.817291,
-                        "y": -387.483245
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 1043.0,
-                    "Height": 190.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall2",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": -481.428466,
-                        "y": 125.809036
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 189.0,
-                    "Height": 1212.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall3",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": -107.034263,
-                        "y": 1048.78894
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": -45.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 189.0,
-                    "Height": 1086.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall4",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 916.612792,
-                        "y": 1432.48999
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 1526.0,
-                    "Height": 188.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall5",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 1872.829223,
-                        "y": 1223.406982
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 45.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 216.0,
-                    "Height": 660.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall6",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 2169.467041,
-                        "y": 825.685119
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 489.0,
-                    "Height": 504.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall6.5",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 2318.972656,
-                        "y": 603.79248
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": -45.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall7",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 2403.064697,
-                        "y": 139.543945
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 188.0,
-                    "Height": 1197.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall8",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 1778.682739,
-                        "y": -389.794647
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 1431.0,
-                    "Height": 185.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall9",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 741.68457,
-                        "y": -39.970474
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 196.0,
-                    "Height": 894.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall10",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 726.402587,
-                        "y": 385.801208
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": -45.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 156.0,
-                    "Height": 100.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall11",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 1187.047973,
-                        "y": -37.669357
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 174.0,
-                    "Height": 879.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall12",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 953.450561,
-                        "y": 388.102874
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 491.0,
-                    "Height": 165.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Wall13",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 1189.230957,
-                        "y": 385.801422
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 45.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 154.0,
-                    "Height": 100.0,
-                    "Radius": 50.0
-                }
-            },
-            {
-                "Name": "Sandpit",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 701.569824,
-                        "y": 602.243041
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 637.0,
-                    "Height": 246.0,
-                    "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::CPPSSandpit"
-                }
-            },
-            {
-                "Name": "Sandpit",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 511.061187,
-                        "y": 294.545227
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 260.0,
-                    "Height": 414.0,
-                    "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::CPPSSandpit"
-                }
-            },
-            {
-                "Name": "Sandpit",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 960.0,
-                        "y": 540.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                }
-            },
-            {
                 "Name": "Bush_1",
                 "Active": true,
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 45.059692,
-                        "y": 451.42517
+                        "x": 337.0,
+                        "y": 613.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -767,8 +213,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1575.059692,
-                        "y": 588.89746
+                        "x": 1147.0,
+                        "y": 450.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -792,8 +238,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 240.477523,
-                        "y": 926.826904
+                        "x": 896.0,
+                        "y": 221.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -809,6 +255,142 @@
                     "Texture": "Bush_SpriteSheet",
                     "SpriteName": "BushSheet",
                     "SpriteIndex": 2
+                }
+            },
+            {
+                "Name": "NorthWall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 959.590026,
+                        "y": 1011.080017
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1906.0,
+                    "Height": 151.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "SouthWall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 964.150024,
+                        "y": 68.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1901.0,
+                    "Height": 146.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "WestWall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 65.870002,
+                        "y": 541.530029
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 150.0,
+                    "Height": 1032.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "EastWall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1851.520019,
+                        "y": 532.150024
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 154.0,
+                    "Height": 1059.0,
+                    "Radius": 50.0
                 }
             },
             {
@@ -1158,13 +740,13 @@
                 }
             },
             {
-                "Name": "Mushroom",
+                "Name": "MUSHYroom",
                 "Active": true,
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1166.856689,
-                        "y": 932.179443
+                        "x": 1395.180053,
+                        "y": 315.48001
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1351,53 +933,6 @@
                             }
                         }
                     ]
-                }
-            },
-            {
-                "Name": "Bramble",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 743.256774,
-                        "y": 901.74768
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 150.0,
-                    "Height": 150.0,
-                    "Layer": 0,
-                    "Texture": "MushBramble_SpriteSheet",
-                    "SpriteName": "MushBrambleSheet",
-                    "SpriteIndex": 2
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 0,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::CPPSBramble"
                 }
             }
         ]

@@ -17,7 +17,7 @@
 #include "CPPSUpgradeManager.h"
 #include <random>
 #include "CPPSPlayerGolfBall.h"
-#include "CPPSBaseGolfBall.h"
+#include "CPPSProjectileBall.h"
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -115,7 +115,7 @@ namespace LB
 			std::vector<GameObject*> Projectiles = GOMANAGER->FindGameObjectsWithName("Projectile");
 			for (GameObject* projectile : Projectiles)
 			{
-				projectile->GetComponent<CPPSBaseGolfBall>()->canDestroy = true;
+				projectile->GetComponent<CPPSProjectileBall>()->canDestroy = true;
 			}
 		}
 	}

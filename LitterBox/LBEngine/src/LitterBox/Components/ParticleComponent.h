@@ -79,6 +79,9 @@ namespace LB {
 		*************************************************************************/
 		void RestartLifetime();
 
+		void SetDeletion(bool state);
+
+		void SetDeletionTime(float time);
 	public:
 		CPTransform* mTransform;
 		CPRender* mRender;
@@ -110,6 +113,9 @@ namespace LB {
 		float mEmitterLifetime{ 1.f };
 		float mEmitterLifetimeRemaining{1.f};
 
+		float mEmitterDeletionLifetime{ 1.f };
+		float mEmitterDeletionLifetimeRemaining{ 1.f };
+
 		// Particle
 		float mParticleLifetime{1.f};
 
@@ -118,5 +124,6 @@ namespace LB {
 
 		bool mIsLooping{ false };
 		bool mIsActive{ false };
+		bool mWillDelete{ false };
 	};
 }

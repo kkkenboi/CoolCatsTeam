@@ -1,29 +1,28 @@
 /*!************************************************************************
- \file				CPPSBlueMushroom.cpp
- \author(s)			Justine Carlo Villa Ilao
- \par DP email(s):	justine.c@digipen.edu
+ \file
+ \author(s)
+ \par DP email(s):
  \par Course:		CSD2451A
- \date				09-02-2024
+ \date
  \brief
-  This file contains the behviour of the Blue Mushroom obstacle.
+  This file contains
 
   Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
   disclosure of this file or its contents without the prior written consent
   of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-
-#include "CPPSBlueMushroom.h"
+#include "CPPSBramble.h"
 #include "LitterBox/Engine/Time.h"
 
 
-namespace LB 
+namespace LB
 {
 	/*!***********************************************************************
 	\brief
 	Start function where variables will be initialised
 	*************************************************************************/
-	void CPPSBlueMushroom::Start()
+	void CPPSBramble::Start()
 	{
 		mTransform = GameObj->GetComponent<CPTransform>();
 		mRender = GameObj->GetComponent<CPRender>();
@@ -33,9 +32,9 @@ namespace LB
 
 		mToMaxTimer = { 0.15f };
 		mToMinTimer = { 0.35f };
-		mScaleTimer = { 0.35f };
+		mScaleTimer = { 0.15f };
 
-		mScaleTimerRemaining = { 0.35f };
+		mScaleTimerRemaining = { 0.15f };
 
 		mScaleOG = { 1.f,1.f };
 		mScaleMax = { 1.25f , 1.25f };
@@ -48,18 +47,17 @@ namespace LB
 	\brief
 	Update function where the mushroom's scale is being changed
 	*************************************************************************/
-	void CPPSBlueMushroom::Update()
+	void CPPSBramble::Update()
 	{
-		if (mScaledUp || mScaledDown)
+		if (!(mScaledUp || mScaledDown))
 		{
-			mRender->SetSpriteTexture(mRender->spriteSheetName, 1);
-		}
-		else
-		{
-			mRender->SetSpriteTexture(mRender->spriteSheetName, 0);
+			mRender->SetSpriteTexture(mRender->spriteSheetName, 2);
 		}
 		if (mScaledUp)
 		{
+			// Set texture
+			mRender->SetSpriteTexture(mRender->spriteSheetName, 3);
+
 			// Calculate the interpolation factor
 			float t = 1.0f - (mScaleTimerRemaining / mScaleTimer);
 
@@ -83,6 +81,9 @@ namespace LB
 		}
 		else if (mScaledDown)
 		{
+			// Set texture
+			mRender->SetSpriteTexture(mRender->spriteSheetName, 4);
+
 			// Calculate the interpolation factor
 			float t = 1.0f - (mScaleTimerRemaining / mScaleTimer);
 
@@ -108,7 +109,7 @@ namespace LB
 	\brief
 	Overriden destroy function because of inheritance
 	*************************************************************************/
-	void CPPSBlueMushroom::Destroy()
+	void CPPSBramble::Destroy()
 	{
 
 	}
