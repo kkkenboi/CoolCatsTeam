@@ -406,6 +406,8 @@ namespace Renderer {
 		//map of character glyphs for different fonts
 		std::map<std::string, std::map<char, Character>> font_glyphs;
 		
+		std::map<std::string, unsigned int> font_height_adv;
+
 		//openGL handles
 		unsigned int tShader, tVao, tVbo;
 
@@ -473,12 +475,25 @@ namespace Renderer {
 		*************************************************************************/
 		inline void remove_text_component(LB::CPText* obj) { if(obj) active_msgs.remove(obj); }
 
-
 		/*!***********************************************************************
 		\brief
 		 Used by text renderer to update the text information
 		*************************************************************************/
 		void update_text();
+
+		/*!***********************************************************************
+		\brief
+		 Getter method to get the map of loaded fonts in the renderer
+		*************************************************************************/
+		std::map<std::string, std::map<char, Character>>&
+			get_font_map() { return font_glyphs; }
+
+		std::map<std::string, unsigned int>&
+			get_heights_map() { return font_height_adv; }
+
+		unsigned int& get_vertex_array() { return tVao; }
+		unsigned int& get_vertex_buffer() { return tVbo; }
+		unsigned int& get_shader() { return tShader; }
 	};
 
 	//The actual system that will get initialized into the engine

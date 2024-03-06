@@ -20,6 +20,7 @@
 #include "CPPSBaseGolfBall.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Scene/SceneManager.h"
+#include "CPPSProjectileBall.h"
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -116,7 +117,7 @@ namespace LB
 			std::vector<GameObject*> Projectiles = GOMANAGER->FindGameObjectsWithName("Projectile");
 			for (GameObject* projectile : Projectiles)
 			{
-				projectile->GetComponent<CPPSBaseGolfBall>()->canDestroy = true;
+				projectile->GetComponent<CPPSProjectileBall>()->canDestroy = true;
 			}
 		}
 		//Timer for the crowd, if the crowd texture is active then we want to do stuff
@@ -229,7 +230,8 @@ namespace LB
 	void CPPSGameManager::SpawnChargerEnemy()
 	{
 		GameObject* chargerClone = FACTORY->SpawnGameObject();
-		JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
+		JSONSerializer::DeserializeFromFile("Charger_Shield", *chargerClone);
+		//JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
 		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
 	}
 

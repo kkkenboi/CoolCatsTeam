@@ -573,6 +573,7 @@ void Renderer::Renderer::update_buff()
 			continue;
 		unsigned int obj_index{ e->get_index() };
 		const_cast<LB::CPRender*>(e)->get_transform_data();
+		
 		//set position based off camera mat
 		//edit color and uv coordinates and texture
 		for (int i{ 0 }; i < 4; ++i) {
@@ -795,7 +796,7 @@ tShader{}, tVao{}, tVbo{}, active_msgs{} //, ft{}, font{}
 
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	LB::ASSETMANAGER->LoadFonts(tVao, tVbo, tShader, reinterpret_cast<void*>(&font_glyphs));
+	LB::ASSETMANAGER->LoadFonts(reinterpret_cast<void*>(this));
 }
 /*!***********************************************************************
 \brief
@@ -823,7 +824,8 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 	size_t stroffset{ 0 };
 	while (stroffset != std::string::npos)
 	{
-		std::string word{ msg.text.substr(stroffset, msg.text.find_first_of(' ') - stroffset + 1) };
+		size_t end_of_word{ msg.text.find_first_of(' ', stroffset) == std::string::npos ? msg.text.size() : msg.text.find_first_of(' ', stroffset) - 1 };
+		std::string word{ msg.text.substr(stroffset, end_of_word - stroffset + 1) };
 
 		bool newline{ false };
 
@@ -838,7 +840,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 
 		if (x > msg.x + msg.xbound)
 		{
-			y -= (adv >> 6) * msg.scale + 5.f;
+			y -= (font_height_adv[msg.font_file_name_wo_ext] >> 6) * msg.scale;
 			x = msg.x;
 		}
 		else
@@ -879,6 +881,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 		}
 
 		stroffset = msg.text.find_first_of(' ', stroffset + 1);
+		stroffset += stroffset == std::string::npos ? 0 : 1;
 	}
 
 	//iterate through all chars
@@ -1063,8 +1066,9 @@ void Renderer::RenderSystem::Initialize()
 	//set the initial values for x and y for the camera
 	glfwGetCursorPos(LB::WINDOWSSYSTEM->GetWindow(), &cam.mouse_x, &cam.mouse_y);
 
-	shader_source shd_pgm{ shader_parser("Assets/Shaders/Basic.shader") };
-	shader_program = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
+	//shader_source shd_pgm{ shader_parser("Assets/Shaders/Basic.shader") };
+	//shader_program = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
+	LB::ASSETMANAGER->LoadShader("Assets/Shaders/Basic.shader", shader_program);
 
 	glUseProgram(shader_program);
 	glBindVertexArray(object_renderer.get_vao());
@@ -1093,7 +1097,7 @@ void Renderer::RenderSystem::Initialize()
 		 21, 8, 17, 18 });*/
 
 	//cache some values
-	float midx = 0.f;
+	/*float midx = 0.f;
 	float midy = 0.f;
 	float w = 4000.f;
 	float h = 4000.f;
@@ -1109,14 +1113,13 @@ void Renderer::RenderSystem::Initialize()
 	test2->uv[2].x = .75f;
 	test2->uv[2].y = .75f;
 	test2->uv[3].x = 0.25f;
-	test2->uv[3].y = .75f;
+	test2->uv[3].y = .75f;*/
 
 	//LB::LoadMap(tm);
 	//-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDepthFunc(GL_LESS);
 
 	//turnOnEditorMode();
 	//delete text;
@@ -1154,9 +1157,18 @@ void Renderer::RenderSystem::turnOnEditorMode() {
 
 		//ATTEMPTING SOMETHING COOL
 		//using the same render buffer, for depth testing, for both frame buffers
-		glGenRenderbuffers(1, &rbo);
+		/*glGenRenderbuffers(1, &rbo);
 		glNamedRenderbufferStorage(rbo, GL_DEPTH_COMPONENT32, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight());
-		glNamedFramebufferRenderbuffer(framebuffer, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo);
+		glNamedFramebufferRenderbuffer(framebuffer, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo);*/
+
+		glGenRenderbuffers(1, &rbo);
+		glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight());
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+			std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
 
 		//create the texture that the frame buffer writes too
 		glGenFramebuffers(1, &svfb);

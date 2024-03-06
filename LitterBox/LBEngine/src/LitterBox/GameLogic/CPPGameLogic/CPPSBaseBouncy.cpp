@@ -52,66 +52,6 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	To the sprite scale when interacting with other game objects
-	*************************************************************************/
-	void CPPSBaseBouncy::OnInteraction(int spriteIndexStart, int spriteIndexEnd)
-	{
-		if (mScaledUp || mScaledDown)
-		{
-			mRender->SetSpriteTexture(mRender->spriteSheetName, spriteIndexEnd);
-		}
-		else
-		{
-			mRender->SetSpriteTexture(mRender->spriteSheetName, spriteIndexStart);
-		}
-		if (mScaledUp)
-		{
-			// Calculate the interpolation factor
-			float t = 1.0f - (mScaleTimerRemaining / mScaleTimer);
-
-			// Lerp towards the target scale
-			Vec2<float> lerpedScale = VecLerp(mTransform->GetLocalScale(), mScaleMax, t);
-			GameObj->GetComponent<CPTransform>()->SetScale(lerpedScale);
-
-			// Update the timer
-			mScaleTimerRemaining -= static_cast<float>(TIME->GetDeltaTime());
-
-			if (mScaleTimerRemaining <= 0.f) {
-				// Ensure that the scale reaches the target exactly
-				GameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.25f, 1.25f});
-
-				// Reset the timer and flags
-				mScaleTimer = mToMinTimer;
-				mScaleTimerRemaining = mScaleTimer;
-				mScaledUp = false;
-				mScaledDown = true; // Start scaling down
-			}
-		}
-		else if (mScaledDown)
-		{
-			// Calculate the interpolation factor
-			float t = 1.0f - (mScaleTimerRemaining / mScaleTimer);
-
-			// Lerp towards the original scale
-			Vec2<float> lerpedScale = VecLerp(mTransform->GetLocalScale(), mScaleOG, t);
-			GameObj->GetComponent<CPTransform>()->SetScale(lerpedScale);
-
-			// Update the timer
-			mScaleTimerRemaining -= static_cast<float>(TIME->GetDeltaTime());
-
-			if (mScaleTimerRemaining <= 0.f) {
-				// Ensure that the scale reaches the target exactly
-				GameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
-
-				// Reset the timer and flags
-				mScaleTimerRemaining = mScaleTimer;
-				mScaledDown = false;
-			}
-		}
-	}
-
-	/*!***********************************************************************
-	\brief
 	Gets the object's render component
 	*************************************************************************/
 	CPRender* CPPSBaseBouncy::GetRender()

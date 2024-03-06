@@ -93,6 +93,7 @@ namespace LB
 		* enemy is hurt
 		**************************************************************************/
 		virtual void Hurt();
+
 	protected:
 		
 		GameObject* mPlayer{ nullptr }; //Caching the player obj

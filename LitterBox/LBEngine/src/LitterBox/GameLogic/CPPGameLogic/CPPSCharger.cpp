@@ -14,7 +14,7 @@ it handles the logic for the Mage enemy
 **************************************************************************/
 
 #include "CPPSCharger.h"
-
+//#include "CPPShield.h"
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "LitterBox/Serialization/AssetManager.h"
 
@@ -45,6 +45,8 @@ namespace LB
 		//set stats on charger
 		GetHealth() = 3;
 		GetSpeedMag() = 50000.f; //speed of movement
+
+		isChargerDead = false;
 
 		/********************************************/
 		// Idle State variables
@@ -101,6 +103,13 @@ namespace LB
 		delete mFSM.GetState("WindUp");
 		delete mFSM.GetState("Charge");
 		delete mFSM.GetState("Stunned");
+
+		// Destroy the shield gameobject
+		//CPTransform* transform = GetComponent<CPTransform>();
+		//if (transform->GetChildCount())
+		//{
+		//	transform->GetChild()->Destroy();
+		//}
 	}
 
 	void CPPSCharger::OnCollisionEnter(CollisionData colData)
@@ -113,7 +122,6 @@ namespace LB
 				Die();
 			}
 			mFSM.ChangeState("Hurt");
-			//Hurt();
 		}
 		else if (mIsCharging == true)
 		{
@@ -128,6 +136,7 @@ namespace LB
 
 	void CPPSCharger::Die()
 	{
+		isChargerDead = true;
 		CPPSBaseEnemy::Die();
 		//Code to play death anim goes here
 	}
@@ -360,4 +369,7 @@ namespace LB
 	{
 
 	}
+
+
+
 }

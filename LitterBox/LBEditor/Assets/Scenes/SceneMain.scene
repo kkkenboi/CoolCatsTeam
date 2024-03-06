@@ -1280,7 +1280,7 @@
                 }
             },
             {
-                "Name": "MUSHYroom",
+                "Name": "Mushroom",
                 "Active": true,
                 "Transform": {
                     "Active": true,
@@ -1378,104 +1378,6 @@
                 }
             },
             {
-                "Name": "Split Upgrade",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 1687.111083,
-                        "y": 421.100952
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0,
-                    "Children": [
-                        {
-                            "Name": "Header Text",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 960.0,
-                                    "y": 540.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        },
-                        {
-                            "Name": "Background",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 960.0,
-                                    "y": 540.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        },
-                        {
-                            "Name": "Upgrade Image",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 960.0,
-                                    "y": 540.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        },
-                        {
-                            "Name": "Upgrade Text 1",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 960.0,
-                                    "y": 540.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        },
-                        {
-                            "Name": "Flavour Text",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 960.0,
-                                    "y": 540.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            }
-                        }
-                    ]
-                }
-            },
-            {
                 "Name": "Bramble",
                 "Active": true,
                 "Transform": {
@@ -1499,8 +1401,8 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 125.0,
-                    "Height": 125.0,
+                    "Width": 150.0,
+                    "Height": 150.0,
                     "Layer": 0,
                     "Texture": "MushBramble_SpriteSheet",
                     "SpriteName": "MushBrambleSheet",
@@ -1520,6 +1422,26 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSBramble"
+                }
+            },
+            {
+                "Name": "MouseCursor",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSMouse"
                 }
             }
         ]

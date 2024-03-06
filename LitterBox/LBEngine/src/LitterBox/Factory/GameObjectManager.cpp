@@ -53,12 +53,11 @@ namespace LB
 
 	void GameObject::Destroy()
 	{
-		//std::cout << "Deleted " << m_name << " Children count " << GetComponent<CPTransform>()->GetChildCount() << "\n";
-		//// Delete children GO first if any
-		//for (int index{ GetComponent<CPTransform>()->GetChildCount() - 1 }; index >= 0; --index)
-		//{
-		//	GetComponent<CPTransform>()->GetChild(index)->gameObj->Destroy();
-		//}
+		// Delete children GO first if any
+		for (int index{ GetComponent<CPTransform>()->GetChildCount() - 1 }; index >= 0; --index)
+		{
+			GOMANAGER->RemoveGameObject(GetComponent<CPTransform>()->GetChild(index)->gameObj);
+		}
 
 		// Remove itself from the parent
 		if (GetComponent<CPTransform>()->GetParent())
@@ -541,9 +540,13 @@ namespace LB
     void GameObjectManager::CleanUpGOs()
     {
 		if (m_ToBeDeletedGameObjects.empty() && m_TimedDeletionGameObjects.empty()) return;
-		for (GameObject* gameObject : m_ToBeDeletedGameObjects)
+
+		while (!m_ToBeDeletedGameObjects.empty())
 		{
+			GameObject* gameObject = m_ToBeDeletedGameObjects.back();
 			// Let anyone know gameobject has been destroyed
+			m_ToBeDeletedGameObjects.pop_back();
+
 			onGameObjectDestroy.Invoke(gameObject);
 
 			auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
@@ -554,6 +557,7 @@ namespace LB
 				gameObject->Destroy();
 			}
 		}
+
 		//Now we check for the ones due for timed deletion
 		for (const auto& [go,time] : m_TimedDeletionGameObjects)
 		{

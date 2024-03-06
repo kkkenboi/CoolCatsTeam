@@ -76,6 +76,9 @@ namespace LB
         // Setting Monitor and Video Mode
         m_Data.m_Monitor = glfwGetPrimaryMonitor();
         m_Data.m_VideoMode = glfwGetVideoMode(m_Data.m_Monitor);
+        
+        // Set Monitor width and height
+        glfwGetMonitorWorkarea(m_Data.m_Monitor, nullptr, nullptr, &monitor_width, &monitor_height);
 
         //Deserialise the config settings
         //Current file path is : \LBEditor\Library\Jason\config settings.json"
@@ -266,8 +269,33 @@ namespace LB
      \return
      Height of current window
     *************************************************************************/
+    unsigned int WindowsSystem::GetMonitorHeight() const
+    {
+
+        return monitor_height;
+    }
+
+    /*!***********************************************************************
+     \brief
+     Gets the width of the current window
+
+     \return
+     Width of current window
+    *************************************************************************/
+    unsigned int WindowsSystem::GetMonitorWidth() const
+    {
+        return monitor_width;
+    }
+
+    /*!***********************************************************************
+     \brief
+     Gets the height of the current window
+
+     \return
+     Height of current window
+    *************************************************************************/
     unsigned int WindowsSystem::GetHeight() const
-    { 
+    {
         return used_height;
     }
 

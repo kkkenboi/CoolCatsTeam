@@ -332,6 +332,7 @@ namespace LB
         std::vector<std::filesystem::path> SoundFilePaths = FILESYSTEM->GetFilesOfType(".wav");
         std::vector<std::filesystem::path> ttfFontPaths = FILESYSTEM->GetFilesOfType(".ttf");
         std::vector<std::filesystem::path> otfFontPaths = FILESYSTEM->GetFilesOfType(".otf");
+        std::vector<std::filesystem::path> ShaderPaths = FILESYSTEM->GetFilesOfType(".shader");
 
         //Adding the fonts to the asset map first, probably add it to the meta file in the future
         for (const auto& f : ttfFontPaths)
@@ -342,6 +343,9 @@ namespace LB
         {
             assetMap[f.filename().stem().string()] = f.string();
         }
+
+        for (const auto& f : ShaderPaths)
+            assetMap[f.filename().stem().string()] = f.string();
 
         //We grab all the files and put them into a vector (I don't concate them because I need them separate)
         //Now we start making the meta file
@@ -802,8 +806,7 @@ namespace LB
     }
 
 
-    void AssetManager::LoadFonts(unsigned int& tVao, unsigned int& tVbo, unsigned int& tShader,
-        void* font_glyph_map)
+    void AssetManager::LoadFonts(void* textR)
     {
         //Get fonts
         auto fonts{ LB::FILESYSTEM->GetFilesOfType(".otf") };
@@ -814,10 +817,11 @@ namespace LB
         FT_Face font{};
 
         std::map<char, Renderer::Character> Characters{};
-        std::map<std::string, std::map<char, Renderer::Character>>* font_glyphs{
-            reinterpret_cast<std::map<std::string, std::map<char, Renderer::Character>>*>(font_glyph_map)
-        };
+        Renderer::TextRenderer* textRender{ 
+            reinterpret_cast<Renderer::TextRenderer*>
+            (textR) };
 
+        unsigned int largest_height{ 0 };
         //-------------------LOAD FONT------------------------
         //init freetype lib
         if (FT_Init_FreeType(&ft)) {
@@ -833,8 +837,9 @@ namespace LB
             //set default font face
             FT_Set_Pixel_Sizes(font, 0, 50); //the width is 0 so it is based off the height value
 
+            unsigned int maxAscent{}, maxDescent{};
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
+            largest_height = 0;
             for (unsigned char c{}; c < 128; ++c) {
                 //load glyph
                 if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
@@ -861,9 +866,17 @@ namespace LB
                     static_cast<unsigned int>(font->glyph->advance.x)
                 };
                 Characters.emplace(std::pair<char, Renderer::Character>(c, sc));
+
+                maxAscent = maxAscent < font->glyph->bitmap_top ? font->glyph->bitmap_top : maxAscent;
+                maxDescent = maxDescent < font->glyph->metrics.height - font->glyph->bitmap_top ?
+                    font->glyph->metrics.height - font->glyph->bitmap_top : maxDescent;
             }
+            //insert the height
+            largest_height = maxAscent + maxDescent;
+            textRender->get_heights_map().emplace(e.stem().string(), largest_height);
+
             //-------------------LOAD FONT------------------------
-            font_glyphs->emplace(std::make_pair(e.stem().string(), Characters));
+            textRender->get_font_map().emplace(std::make_pair(e.stem().string(), Characters));
             Characters.clear();
             //free up all the used resources from FT
             FT_Done_Face(font);
@@ -879,6 +892,7 @@ namespace LB
 
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
+            unsigned int maxAscent{}, maxDescent{};
             for (unsigned char c{}; c < 128; ++c) {
                 //load glyph
                 if (FT_Load_Char(font, c, FT_LOAD_RENDER)) {
@@ -905,11 +919,18 @@ namespace LB
                     static_cast<unsigned int>(font->glyph->advance.x)
                 };
                 Characters.emplace(std::pair<char, Renderer::Character>(c, sc));
+
+                maxAscent = maxAscent < font->glyph->bitmap_top ? font->glyph->bitmap_top : maxAscent;
+                maxDescent = maxDescent < font->glyph->metrics.height - font->glyph->bitmap_top ?
+                    font->glyph->metrics.height - font->glyph->bitmap_top : maxDescent;
             }
+            //insert the height
+            largest_height = maxAscent + maxDescent;
+            textRender->get_heights_map().emplace(e.stem().string(), largest_height);
             //-------------------LOAD FONT------------------------
 
             //-------------------LOAD FONT------------------------
-            font_glyphs->emplace(std::make_pair(e.stem().string(), Characters));
+            textRender->get_font_map().emplace(std::make_pair(e.stem().string(), Characters));
             Characters.clear();
             //free up all the used resources from FT
             FT_Done_Face(font);
@@ -918,10 +939,10 @@ namespace LB
         FT_Done_FreeType(ft);
 
         //create the vertex array and buffer
-        glGenVertexArrays(1, &tVao);
-        glGenBuffers(1, &tVbo);
-        glBindVertexArray(tVao);
-        glBindBuffer(GL_ARRAY_BUFFER, tVbo);
+        glGenVertexArrays(1, &textRender->get_vertex_array());
+        glGenBuffers(1, &textRender->get_vertex_buffer());
+        glBindVertexArray(textRender->get_vertex_array());
+        glBindBuffer(GL_ARRAY_BUFFER, textRender->get_vertex_buffer());
         glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
@@ -929,7 +950,12 @@ namespace LB
         glBindVertexArray(0);
 
         //setup the shader program
-        shader_source shd_pgm{ shader_parser("Assets/Shaders/text.shader") };
-        tShader = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
+        LoadShader("Assets/Shaders/text.shader", textRender->get_shader());
+    }
+
+    void AssetManager::LoadShader(const std::string& shader_file_name, unsigned int& shader_handle)
+    {
+        shader_source shd_pgm{ shader_parser(shader_file_name.c_str()) };
+        shader_handle = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
     }
 }

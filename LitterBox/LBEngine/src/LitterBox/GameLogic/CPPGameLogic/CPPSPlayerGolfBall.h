@@ -110,7 +110,7 @@ namespace LB
 		//Player shoot force is 4500, we lower it slightly 
 		float explosionForceMag{2000.f};
 
-		float mLifetime{ 1.5f }, mCurrentLifetime{ 1.5f }; //life time for the golfball to despawn after a certain timing
+		float mLifetime{ 2.5f }, mCurrentLifetime{ 2.5f }; //life time for the golfball to despawn after a certain timing
 		Event<> onBallDisappear;
 		bool canSplit{ false };	//for the upgrade to decide if the ball can split or not
 	};

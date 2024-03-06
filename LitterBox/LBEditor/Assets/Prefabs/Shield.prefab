@@ -1,11 +1,11 @@
 {
-    "Name": "Charger",
+    "Name": "Shield",
     "Active": true,
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 340.675689,
-            "y": 856.551818
+            "x": 0.0,
+            "y": 0.0
         },
         "Scale": {
             "x": 1.0,
@@ -27,7 +27,7 @@
         "Layer": 0,
         "Texture": "Charger_SpriteSheet",
         "SpriteName": "ChargerSheet",
-        "SpriteIndex": 1
+        "SpriteIndex": 5
     },
     "Collider": {
         "Active": true,
@@ -35,16 +35,13 @@
             "Layer Name": "GameEntity",
             "Layer ID": 1
         },
-        "Shape": 0,
+        "Shape": 1,
         "Width": 100.0,
         "Height": 100.0,
         "Radius": 50.0
     },
     "CPPScript": {
         "Active": true,
-        "Script": "class LB::CPPSCharger"
-    },
-    "Animator": {
-        "Controller": "No controller"
+        "Script": "class LB::CPPShield"
     }
 }

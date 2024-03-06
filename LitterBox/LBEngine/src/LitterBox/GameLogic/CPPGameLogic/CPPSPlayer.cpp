@@ -328,7 +328,6 @@ namespace LB
 		// Update the Stunned timer
 		if (mIsStunned) {
 			mStunRemaining -= TIME->GetDeltaTime();
-			//std::cout << mStunRemaining << std::endl;
 			if (mStunRemaining <= 0.f) {
 				mIsStunned = false;
 				mStunRemaining = mStunTimer;
@@ -352,7 +351,7 @@ namespace LB
 		if (colData.colliderOther->m_gameobj->GetName() == "Projectile" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
-			colData.colliderOther->m_gameobj->GetName() == "Charger" ||
+			colData.colliderOther->m_gameobj->GetName() == "Charger_Shield" ||
 			colData.colliderOther->m_gameobj->GetName() == "Bramble" )
 		{
 			if (mGotAttackedCooldown > 0) return;
@@ -375,6 +374,7 @@ namespace LB
 					{
 						colData.colliderThis->rigidbody->mVelocity += knockBack * 100.f;
 					}
+					mStunTimer = 0.5f;
 					mIsStunned = true;
 				}
 			}
@@ -391,6 +391,24 @@ namespace LB
 				//We send a COPY of the gameobj that killed the player because I think it doesn't
 				//have to be the actual thing
 				onPlayerDeathEvent.Invoke(*colData.colliderOther->gameObj);
+			}
+		}
+		if (colData.colliderOther->m_gameobj->GetName() == "Mushroom") 
+		{
+			if (!mIsStunned) {
+				//rb->mVelocity *= 10.f;
+				Vec2<float> otherPos = colData.colliderOther->transform->GetPosition();
+				Vec2<float> knockBack = colData.colliderThis->transform->GetPosition() - otherPos;
+				if (colData.colliderOther->m_gameobj->GetName() != "Projectile")
+				{
+					colData.colliderThis->rigidbody->mVelocity += knockBack * 15.f;
+				}
+				else
+				{
+					colData.colliderThis->rigidbody->mVelocity += knockBack * 100.f;
+				}
+				mStunTimer = 0.15f;
+				mIsStunned = true;
 			}
 		}
 	}

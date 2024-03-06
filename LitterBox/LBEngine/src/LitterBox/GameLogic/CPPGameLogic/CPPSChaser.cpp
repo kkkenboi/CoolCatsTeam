@@ -6,7 +6,7 @@
  \date				03-11-2023
  \brief
  This file contains the CPPSChaser class and all its functionalities,
-it handls the logic for the chaser enemy
+it handles the logic for the chaser enemy
 
   Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
   disclosure of this file or its contents without the prior written consent

@@ -15,7 +15,6 @@ it handles the logic for the Charger enemy
 
 #pragma once
 #include "CPPSBaseEnemy.h"
-//#include "CPPSBaseGolfBall.h"
 #include "LitterBox/GameLogic/StateMachine.h"
 
 namespace LB
@@ -56,6 +55,7 @@ namespace LB
 		//------------------CHARGE STATE------------------
 		float mTimerWhenStunned{};
 
+		bool isChargerDead{ false };
 		
 
 	private:

@@ -20,7 +20,7 @@
 
 namespace LB
 {
-	class CPPSBaseGolfBall : public CPPBehaviour
+	class CPPSProjectileBall : public CPPBehaviour
 	{
 	public:
 		/*!***********************************************************************
@@ -60,5 +60,5 @@ namespace LB
 
 	};
 
-	REGISTER_SCRIPT(CPPSBaseGolfBall)
+	REGISTER_SCRIPT(CPPSProjectileBall)
 }
