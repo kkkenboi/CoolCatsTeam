@@ -77,10 +77,15 @@ namespace LB
 				continue;
 			}
 			//get pointer to hand object
-			if (e->GetName() != "Hand") {
+			if (e->GetName() == "Hand") {
+				hand = e;
 				continue;
 			}
-			hand = e;
+			if (e->GetName() == "Transition Curtain")
+			{
+				curtain = e;
+				continue;
+			}
 		}
 
 		//get pos of hand object
@@ -115,8 +120,32 @@ namespace LB
 				ConfirmMenuNoButton = GO;
 			}
 		}
+		time = 0.f;
 	}
 
+	float bezier(float x)
+	{
+		constexpr float n1 = 7.5625f;
+		constexpr float d1 = 2.75f;
+
+		if (x < 1.f / d1) {
+			return n1 * x * x;
+		}
+		else if (x < 2.f / d1) {
+			return n1 * (x -= 1.5f / d1) * x + 0.75f;
+		}
+		else if (x < 2.5f / d1) {
+			return n1 * (x -= 2.25f / d1) * x + 0.9375f;
+		}
+		else if (x > 1.f) {
+			return 1.f;
+		}
+		else {
+			return n1 * (x -= 2.625f / d1) * x + 0.984375f;
+		}
+
+		//return t * t * (3.f - 2.f * t);
+	}
 	/*!***********************************************************************
 	\brief
 	 Update function will checl to see if the mouse is hovering over the collider
@@ -127,6 +156,21 @@ namespace LB
 	*************************************************************************/
 	void QuitScript::Update()
 	{
+		if (animFlag)
+		{
+			Vec2 pos{ curtain->GetComponent<CPTransform>()->GetPosition() };
+			if (time <= 1.1f)
+			{
+				pos.x = 2880.f - 1920.f * bezier(time);
+				curtain->GetComponent<CPTransform>()->SetPosition(pos);
+				time += TIME->GetDeltaTime();
+			}
+			else
+			{
+				SCENEMANAGER->LoadScene("SceneTut");
+			}
+			return;
+		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
 			DebuggerLogWarning("Mouse 1 is pressed!");
@@ -156,7 +200,8 @@ namespace LB
 					//------------------------------------------Move over the quit confirmation game objects----------------------------
 				}
 				else if (GameObj->GetName() == "StartGame") {
-					SCENEMANAGER->LoadScene("SceneMain");
+					animFlag = true;
+					//SCENEMANAGER->LoadScene("SceneMain");
 				}
 				else if (GameObj->GetName() == "Settings") {
 					WINDOWSSYSTEM->toggleFullScreen();

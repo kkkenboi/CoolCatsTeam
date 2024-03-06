@@ -573,6 +573,7 @@ void Renderer::Renderer::update_buff()
 			continue;
 		unsigned int obj_index{ e->get_index() };
 		const_cast<LB::CPRender*>(e)->get_transform_data();
+		
 		//set position based off camera mat
 		//edit color and uv coordinates and texture
 		for (int i{ 0 }; i < 4; ++i) {
@@ -1119,7 +1120,6 @@ void Renderer::RenderSystem::Initialize()
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDepthFunc(GL_LESS);
 
 	//turnOnEditorMode();
 	//delete text;
@@ -1157,9 +1157,18 @@ void Renderer::RenderSystem::turnOnEditorMode() {
 
 		//ATTEMPTING SOMETHING COOL
 		//using the same render buffer, for depth testing, for both frame buffers
-		glGenRenderbuffers(1, &rbo);
+		/*glGenRenderbuffers(1, &rbo);
 		glNamedRenderbufferStorage(rbo, GL_DEPTH_COMPONENT32, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight());
-		glNamedFramebufferRenderbuffer(framebuffer, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo);
+		glNamedFramebufferRenderbuffer(framebuffer, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo);*/
+
+		glGenRenderbuffers(1, &rbo);
+		glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, LB::WINDOWSSYSTEM->GetWidth(), LB::WINDOWSSYSTEM->GetHeight());
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+			std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
 
 		//create the texture that the frame buffer writes too
 		glGenFramebuffers(1, &svfb);
