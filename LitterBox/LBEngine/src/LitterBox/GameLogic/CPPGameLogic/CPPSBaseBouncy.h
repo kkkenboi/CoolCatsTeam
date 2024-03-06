@@ -58,12 +58,6 @@ namespace LB
 		*************************************************************************/
 		void OnCollisionEnter(CollisionData colData);
 
-		/*!***********************************************************************
-		\brief
-		To the sprite scale when interacting with other game objects
-		*************************************************************************/
-		void OnInteraction(int spriteIndexStart, int spriteIndexEnd);
-
 	protected:
 		CPTransform* mTransform{ nullptr };
 		CPRender* mRender{ nullptr };

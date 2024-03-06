@@ -183,12 +183,10 @@ namespace LB
 		// If the user is using the scene view
 		if (ImGui::IsWindowFocused())
 		{
-			DebuggerLog("SceneView is active!\n");
 			usingSceneView = true;
 		}
 		else
 		{
-			DebuggerLog("SceneView is not active!\n");
 			usingSceneView = false;
 		}
 

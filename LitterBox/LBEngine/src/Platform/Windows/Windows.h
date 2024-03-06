@@ -162,6 +162,18 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
+		 Gets the height of the current window
+		*************************************************************************/
+		unsigned int GetMonitorHeight() const;
+
+		/*!***********************************************************************
+		 \brief
+		 Gets the height of the current window
+		*************************************************************************/
+		unsigned int GetMonitorWidth() const;
+
+		/*!***********************************************************************
+		 \brief
 		 Gets the title of the current window
 		*************************************************************************/
 		std::string GetTitle() const;
@@ -236,6 +248,8 @@ namespace LB
 		WindowsData m_Data;
 		unsigned int used_width;
 		unsigned int used_height;
+		int monitor_width;
+		int monitor_height;
 	};
 
 	/*!***********************************************************************

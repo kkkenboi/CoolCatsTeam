@@ -32,6 +32,9 @@
 #include "CPPSSandpit.h"
 #include "CPPSCameraFollow.h"
 #include "CPPSBramble.h"
+#include "CPPSMouse.h"
+#include "CPPSMouseUI.h"
+#include "CPPSMouseWorld.h"
 
 namespace LB 
 {
