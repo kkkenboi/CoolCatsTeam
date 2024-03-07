@@ -23,6 +23,7 @@ it handles the logic for the chaser enemy
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "CPPGameManager.h"
+#include "CPPVFXManager.h"
 
 namespace LB 
 {
@@ -116,6 +117,8 @@ namespace LB
 			//The knock back value has been edited from 300 -> 800 -> 600
 			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 600.f)
 			{
+				/*Vec2<float> hitPos = colData.colliderOther->transform->GetPosition();
+				GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(hitPos);*/
 				DebuggerLogWarningFormat("CHASER HIT! %f", mGotAttackedCooldown);
 				if (mGotAttackedCooldown > 0.0f) {
 					return;
@@ -154,6 +157,7 @@ namespace LB
 	void CPPSChaser::Die()
 	{
 		//We access the base class first
+		//GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition());
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserDeathSounds,0.2f);
 		CPPSBaseEnemy::Die(); //We call this because the base class will have some logic to reduce enemy count
 		//Code to play death anim goes here

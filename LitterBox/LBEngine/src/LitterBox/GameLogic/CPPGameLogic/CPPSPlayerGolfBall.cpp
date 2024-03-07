@@ -28,6 +28,7 @@
 #include "CPPSMage.h"
 #include "CPPSChaser.h"
 #include "CPPGameManager.h"
+#include "CPPVFXManager.h"
 #include "LitterBox/Physics/RigidBodyManager.h"
 
 
@@ -205,8 +206,11 @@ namespace LB
 	void CPPSPlayerGolfBall::Explode()
 	{
 		Renderer::GRAPHICS->shake_camera(80.f,0.3f);
+		//Play sound
 		int channel = AUDIOMANAGER->PlaySound("EXPLOSION");
 		AUDIOMANAGER->SetChannelVolume(channel, 0.3f);
+		//Spawn explosion on pos
+		GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnExplosion(GetComponent<CPTransform>()->GetPosition());
 		std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
 		//We loop through all the colliders that were in the radius
 		for (CPCollider* col : explosionColliders) {

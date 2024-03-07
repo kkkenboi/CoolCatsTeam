@@ -16,6 +16,7 @@
 #include "CPPSBaseEnemy.h"
 #include "CPPGameManager.h"
 #include "LitterBox/Engine/Input.h"
+#include "CPPVFXManager.h"
 
 namespace LB
 {
@@ -88,6 +89,12 @@ namespace LB
 	**************************************************************************/
 	void CPPSBaseEnemy::OnCollisionEnter(CollisionData col)
 	{
+		if(col.colliderOther->gameObj->GetName() == "ball")
+		{
+			Vec2<float> hitPos = col.colliderOther->transform->GetPosition();
+			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(hitPos);
+
+		}
 		UNREFERENCED_PARAMETER(col);	//the derived classes should override this
 		//If the enemy has no hp it should be able to collide with anything anymore
 		if (mHealth <= 0) return;
@@ -176,8 +183,11 @@ namespace LB
 		//If the enemy dies, regardless we MUST reduce the enemy count
 		mGameManager->GetComponent<CPPSGameManager>()->ReduceEnemyCount();
 		//Forgive me lord for I have sinned
-		GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.0f, 10000.0f});
+		//GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.0f, 10000.0f});
+		GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition());
+
 		mShouldDestroy = true;
+
 	}
 
 	/*!************************************************************************

@@ -1,7 +1,6 @@
 #include "CPPVFXManager.h"
 #include "LitterBox/Factory/Components.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
-
 namespace LB
 {
 	void CPPSVFXManager::Start()
@@ -19,13 +18,18 @@ namespace LB
 	void CPPSVFXManager::SpawnExplosion(Vec2<float> pos)
 	{
 		GameObject* explosionClone = FACTORY->SpawnGameObject(pos);
-		JSONSerializer::DeserializeFromFile("ExplosionVFX", *explosionClone);
+		JSONSerializer::DeserializeFromFile("VFX Object", *explosionClone);
+		explosionClone->GetComponent<CPTransform>()->SetPosition(pos);
+		explosionClone->GetComponent<CPAnimator>()->Play("Explosion");
 		GOMANAGER->RemoveGameObject(explosionClone, 2.f);
 	}
 	void CPPSVFXManager::SpawnHitAnim(Vec2<float> pos)
 	{
 		GameObject* hitFXClone = FACTORY->SpawnGameObject(pos);
-		JSONSerializer::DeserializeFromFile("HitVFX", *hitFXClone);
+		JSONSerializer::DeserializeFromFile("VFX Object", *hitFXClone);
+		hitFXClone->GetComponent<CPTransform>()->SetPosition(pos);
+
+		hitFXClone->GetComponent<CPAnimator>()->Play("Hit");
 		GOMANAGER->RemoveGameObject(hitFXClone, 2.f);
 
 
@@ -33,7 +37,10 @@ namespace LB
 	void CPPSVFXManager::SpawnPoofAnim(Vec2<float> pos)
 	{
 		GameObject* poofClone = FACTORY->SpawnGameObject(pos);
-		JSONSerializer::DeserializeFromFile("HitVFX", *poofClone);
+		JSONSerializer::DeserializeFromFile("VFX Object", *poofClone);
+		poofClone->GetComponent<CPTransform>()->SetPosition(pos);
+
+		poofClone->GetComponent<CPAnimator>()->Play("Poof");
 		GOMANAGER->RemoveGameObject(poofClone, 2.f);
 
 	}
