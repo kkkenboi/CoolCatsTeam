@@ -14,9 +14,9 @@ void LB::CPPSPortal::Update()
 	{
 		timer += TIME->GetDeltaTime();
 		//Lerp the player to that pos
-		if (timer <= 1.f) //I think the lerp is implemented a bit wrongly
+		if ((timer/0.75f) <= 1.f) //I think the lerp is implemented a bit wrongly
 		{
-		Vec2<float> lerpedPos = Lerp(mCachedPlayerPos, GetComponent<CPTransform>()->GetPosition(), timer);
+		Vec2<float> lerpedPos = Lerp(mCachedPlayerPos, GetComponent<CPTransform>()->GetPosition(), timer/0.75f);
 		mPlayer->GetComponent<CPTransform>()->SetPosition(lerpedPos);
 
 		}
@@ -67,6 +67,6 @@ void LB::CPPSPortal::OnCollisionEnter(CollisionData colData)
 		mCachedPlayerPos = mPlayer->GetComponent<CPTransform>()->GetPosition();
 
 		//Disable players movement
-
+		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->isMovementDisabled = true;
 	}
 }

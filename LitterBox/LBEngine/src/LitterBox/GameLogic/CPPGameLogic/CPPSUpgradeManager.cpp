@@ -163,6 +163,7 @@ namespace LB
 		GameManagerObj->GetComponent<CPPSGameManager>()->NextWave();*/
 
 		GOMANAGER->FindGameObjectWithName("Portal")->SetActive(true);
+		
 
 		//Once we pick the upgrade we have to remove it from the available upgrade pool
 		RemoveUpgradeFromList(static_cast<UpgradeType>(chosen));

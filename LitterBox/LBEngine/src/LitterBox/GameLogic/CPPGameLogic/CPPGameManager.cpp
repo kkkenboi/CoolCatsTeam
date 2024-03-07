@@ -327,6 +327,7 @@ namespace LB
 		GenerateWave();
 		UpgradeSpawned = false;
 
+		isMovementDisabled = false;	//we allow the player to move again
 		//we need to place the player back a the correct place and reset their pos and everything
 		mPlayer->GetComponent<CPTransform>()->SetPosition(playerSpawnPoint);
 		mPlayer->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1));

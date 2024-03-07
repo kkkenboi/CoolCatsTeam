@@ -104,6 +104,12 @@ namespace LB
 	{
 		if (TIME->IsPaused()) return;
 		if (m_GameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
+		if (m_GameManager->GetComponent<CPPSGameManager>()->isMovementDisabled)
+		{
+			//We reset the velocity first just incase
+			rb->mVelocity = Vec2<float>(0, 0);
+			return;
+		}
 
 		
 		if (mGotAttackedCooldown > 0.0f) {
