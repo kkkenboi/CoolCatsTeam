@@ -249,6 +249,7 @@ namespace LB
 				ballClone1->GetComponent<CPTransform>()->SetPosition(playerPos);
 				//we don't want the ball clones to split
 				ballClone1->GetComponent<CPPSPlayerGolfBall>()->hasSplit = true;
+				ballClone1->GetComponent<CPPSPlayerGolfBall>()->isClone = true;
 				//but we want them to have the upgrades
 				ballClone1->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetBallUpgrades());
 				//Personally I think we should slightly rotate the force by a small angle to make it look better
@@ -266,6 +267,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayerGolfBall::Destroy() 
 	{
+		if(!isClone)
 		onBallDisappear.Invoke();
 	}
 

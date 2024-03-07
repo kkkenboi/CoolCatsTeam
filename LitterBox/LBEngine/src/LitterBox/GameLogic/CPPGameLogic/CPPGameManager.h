@@ -97,6 +97,7 @@ namespace LB
 		float crowdTimer{7.f};
 		float timer{};	//arbitrary timer for proper lerping
 		bool isGameOver{ false };
+		bool isMovementDisabled{ false };
 	private:
 		bool UpgradeSpawned{ false };
 		//Formula made in desmos, curve is a sexy sexy S curve.

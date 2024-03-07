@@ -84,7 +84,8 @@ namespace LB
 		**************************************************************************/
 		void Split(Vec2<float> forceToApply);
 		bool canDestroy{ false };
-		bool hasSplit{ false };
+		bool hasSplit{ false };	//to check if the ball can still be split or not
+		bool isClone{ false };	//to check if the ball should invoke the balldisappear event
 	private:
 		/*!***********************************************************************
 		\brief
@@ -112,7 +113,6 @@ namespace LB
 
 		float mLifetime{ 2.5f }, mCurrentLifetime{ 2.5f }; //life time for the golfball to despawn after a certain timing
 		Event<> onBallDisappear;
-		bool canSplit{ false };	//for the upgrade to decide if the ball can split or not
 	};
 	//Just some operator overloads to make the ball upgrade enum flags easier to read and understand lol
 

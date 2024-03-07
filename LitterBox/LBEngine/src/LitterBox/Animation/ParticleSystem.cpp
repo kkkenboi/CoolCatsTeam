@@ -269,7 +269,8 @@ namespace LB
 			}
 
 			// Update the GameObject itself
-			if (particle.mGameObj != nullptr && particle.mGameObj->IsActive() == true) {
+			// TODO: REFACTOR GO ALIVE CHECKING
+			if (GOMANAGER->IsGameObjectInScene(particle.mGameObj) && particle.mGameObj->IsActive() == true) {
 				particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
 				particle.mGameObj->GetComponent<CPTransform>()->SetRotation(particle.mRotation);
 				particle.mGameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{particle.mSize, particle.mSize});

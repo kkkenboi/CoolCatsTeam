@@ -45,10 +45,10 @@ namespace LB
 		auto rngesus = std::default_random_engine{};
 		std::shuffle(UpgradesList.begin(), UpgradesList.end(), rngesus);
 		//Debug info
-	/*	for (UpgradeType upgrade : UpgradesList)
+		for (UpgradeType upgrade : UpgradesList)
 		{
 			std::cout << static_cast<int>(upgrade) << '\n';
-		}*/
+		}
 		//SpawnUpgrades();
 		UpgradePos = GOMANAGER->FindGameObjectWithName("UpgradePosition")->GetComponent<CPTransform>()->GetPosition();
 	}
