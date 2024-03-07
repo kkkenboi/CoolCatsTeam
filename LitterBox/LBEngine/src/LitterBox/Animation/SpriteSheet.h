@@ -62,6 +62,7 @@ namespace LB
 		  \brief
 		  SpriteSheet copy constructor string name and pngName
 		*************************************************************************/
+		SpriteSheet(std::string const& name);
 		SpriteSheet(std::string const& name, std::string const& PNGName);
 
 		/*!***********************************************************************

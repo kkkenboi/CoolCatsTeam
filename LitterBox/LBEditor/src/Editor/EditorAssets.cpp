@@ -286,63 +286,6 @@ namespace LB
 					}
 				}
 
-				if (ImGui::BeginPopup("Create"))
-				{
-					ImGui::Text("New File Name");
-					ImGui::SameLine();
-					ImGui::InputText("##New Name", m_newFileName, sizeof(m_newFileName));
-					ImGui::Separator();
-					ImGui::Text("Create new...");
-					if (ImGui::MenuItem("Animation Controller"))
-					{
-						//should probably serialise a default constructed file instead
-						std::ofstream file(currentDirectory.string() + "/" + m_newFileName + ".controller");
-						if (file)
-						{
-							file.close();
-							AnimationController newController{ m_newFileName };
-							JSONSerializer::SerializeToFile(currentDirectory.string() + "/" + m_newFileName + ".controller", newController);
-							//ReimportAssets();
-						}
-						else
-						{
-							DebuggerLogError("Could not create new animation controller file!");
-						}
-					}
-					if (ImGui::MenuItem("Animation State"))
-					{
-						std::ofstream file(currentDirectory.string() + "/" + m_newFileName + ".anim");
-						if (file)
-						{
-							file.close();
-							LBAnimationState newState{m_newFileName};
-							JSONSerializer::SerializeToFile(currentDirectory.string() + "/" + m_newFileName + ".anim", newState);
-							//ReimportAssets();
-						}
-						else
-						{
-							DebuggerLogError("Could not create new animation state file!");
-						}
-
-					}
-					if (ImGui::MenuItem("SpriteSheet"))
-					{
-						std::ofstream file(currentDirectory.string() + "/" + m_newFileName + ".spritesheet");
-						if (file)
-						{
-							file.close();
-							SpriteSheet newSpriteSheet{};
-							JSONSerializer::SerializeToFile(currentDirectory.string() + "/" + m_newFileName + ".spritesheet", newSpriteSheet);
-							//ReimportAssets();
-						}
-						else
-						{
-							DebuggerLogError("Could not create new SpriteSheet file!");
-						}
-					}
-					ImGui::EndPopup();
-				}
-
 				//IF USER RIGHT CLICKS ON AN ITEM
 				if (ImGui::BeginPopupContextItem())
 				{
@@ -378,11 +321,6 @@ namespace LB
 					}
 					ImGui::EndPopup();
 				}
-				// ELSE ON AN EMPTY SPACE
-				else if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right) && !ImGui::IsItemHovered())
-				{
-					ImGui::OpenPopup("Create");
-				}
 
 				//The name of the folder is without the file extension probably...
 				ImGui::Text(directory.path().filename().stem().string().c_str());
@@ -405,6 +343,68 @@ namespace LB
 			}
 
 		}
+
+		if (ImGui::BeginPopup("Create"))
+		{
+			ImGui::Text("New File Name");
+			ImGui::SameLine();
+			ImGui::InputText("##New Name", m_newFileName, sizeof(m_newFileName));
+			ImGui::Separator();
+			ImGui::Text("Create new...");
+			if (ImGui::MenuItem("Animation Controller"))
+			{
+				//should probably serialise a default constructed file instead
+				std::ofstream file(currentDirectory.string() + "/" + m_newFileName + ".controller");
+				if (file)
+				{
+					file.close();
+					AnimationController newController{ m_newFileName };
+					JSONSerializer::SerializeToFile(currentDirectory.string() + "/" + m_newFileName + ".controller", newController);
+					//ReimportAssets();
+				}
+				else
+				{
+					DebuggerLogError("Could not create new animation controller file!");
+				}
+			}
+			if (ImGui::MenuItem("Animation State"))
+			{
+				std::ofstream file(currentDirectory.string() + "/" + m_newFileName + ".anim");
+				if (file)
+				{
+					file.close();
+					LBAnimationState newState{ m_newFileName };
+					JSONSerializer::SerializeToFile(currentDirectory.string() + "/" + m_newFileName + ".anim", newState);
+					//ReimportAssets();
+				}
+				else
+				{
+					DebuggerLogError("Could not create new animation state file!");
+				}
+
+			}
+			if (ImGui::MenuItem("SpriteSheet"))
+			{
+				std::ofstream file(currentDirectory.string() + "/" + m_newFileName + ".spritesheet");
+				if (file)
+				{
+					file.close();
+					SpriteSheet newSpriteSheet{ m_newFileName };
+					JSONSerializer::SerializeToFile(currentDirectory.string() + "/" + m_newFileName + ".spritesheet", newSpriteSheet);
+					//ReimportAssets();
+				}
+				else
+				{
+					DebuggerLogError("Could not create new SpriteSheet file!");
+				}
+			}
+			ImGui::EndPopup();
+		}
+		if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right) && !ImGui::IsItemHovered())
+		{
+			ImGui::OpenPopup("Create");
+		}
+
 		ImGui::Columns(1);
 
 		ImGui::End();

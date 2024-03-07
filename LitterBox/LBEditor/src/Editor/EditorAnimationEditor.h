@@ -119,15 +119,5 @@ namespace LB
 
 		//----------------------------------------------Animation Controller----------------------------------------------
 		AnimationController m_currentController{};
-
-
-
-
-		// To be deleted
-		int m_previewIndex{ 0 };
-		float m_previewTimeElapsed{ 0.0f }, m_allDuration{ 0.0f };
-
-		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
-		AnimationState m_currentState{};
 	};
 }

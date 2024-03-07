@@ -288,7 +288,23 @@ namespace LB
 		{
 			Save();
 		}
-		ImGui::Separator();
+
+		// Anim Preview
+		ImVec2 pos { m_loadedState.m_pos.GetCurrentExact(m_currentFrame).x, m_loadedState.m_pos.GetCurrentExact(m_currentFrame).y };
+		Vec2<float> scale = m_loadedState.m_scale.GetCurrentExact(m_currentFrame);
+		ImGui::SetCursorPos(pos);
+		if (m_spriteSheet)
+		{
+			int spriteIndex = m_loadedState.m_sprite.GetCurrentExact(m_currentFrame);
+			ImGui::Image((ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth * scale.x, smallWidth * scale.y }
+						, ImVec2{ (*m_spriteSheet)[spriteIndex].m_min.x, (*m_spriteSheet)[spriteIndex].m_max.y }
+						, ImVec2{ (*m_spriteSheet)[spriteIndex].m_max.x, (*m_spriteSheet)[spriteIndex].m_min.y });
+		}
+		else
+		{
+			ImGui::Image((ImTextureID)ASSETMANAGER->GetTextureIndex("despair"), ImVec2{ smallWidth * scale.x , smallWidth * scale.y }, {1, 1}, {0, 0});
+		}
+
 
 		// For playing/pausing the timeline 
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_SPACE))
@@ -314,20 +330,7 @@ namespace LB
 			}
 		}
 
-		ImGui::Text("Debugging Information");
-		ImGui::Text("Preview Curr %d", m_currentFrame);
-		ImGui::SameLine();
-		ImGui::Text("State Curr %d", m_loadedState.m_currentFrame);
-
-		ImGui::Text("Pos list");
-		//ImGui::Text("Pos data current %d", m_loadedState.m_pos.GetCurrentExact(m_currentFrame));
-
-		ImGui::Text("Pos current %d, next %d", m_loadedState.m_pos.m_currentIndex, m_loadedState.m_pos.m_nextIndex);
-		for (int index{ 0 }; index < m_loadedState.m_pos.GetData().Size(); ++index)
-		{
-			ImGui::Text("Frame %d, State %.2f %.2f", m_loadedState.m_pos.GetData()[index].m_frame, m_loadedState.m_pos.GetData()[index].m_data.x, m_loadedState.m_pos.GetData()[index].m_data.y);
-		}
-
+		// State frame control
 		ImGui::Separator();
 		ImGui::SetNextItemWidth(smallWidth);
 		ImGui::DragInt("Start Frame", &m_loadedState.m_startFrame);
@@ -338,7 +341,7 @@ namespace LB
 		ImGui::Columns(2);
 		ImGui::SetColumnWidth(0, columnWidth);
 
-		// Update the state values
+		//----------------------------------------------ANIM VALUE INPUTS----------------------------------------------
 		ImGui::Dummy({ 0.0f, 35.0f });
 
 		m_editActive = m_loadedState.m_active.GetCurrentExact(m_currentFrame);
@@ -403,6 +406,7 @@ namespace LB
 
 		ImGui::NextColumn();
 
+		//----------------------------------------------ANIM TIMELINE----------------------------------------------
 		ImGui::BeginChild("SequencerTable", ImVec2(0, 250), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
 		ImGui::FrameIndexType currentFrame = m_currentFrame;
@@ -467,6 +471,72 @@ namespace LB
 
 		ImGui::Columns(1);
 		ImGui::Separator();
+
+		//----------------------------------------------SPRITESHEET SELECTION----------------------------------------------
+		ImGui::Text("%-17s", "Spritesheet");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(columnWidth);
+		if (ImGui::BeginCombo("##Spritesheet", (m_spriteSheet ? m_spriteSheet->GetName().c_str() : "None") ))
+		{
+			for (auto& [str, sSheet] : ASSETMANAGER->SpriteSheets)
+			{
+				std::filesystem::path tempPath{ str };
+				if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
+				{
+					m_spriteSheet = &sSheet;
+					m_loadedState.m_spriteSheetName = sSheet.GetName();
+					break;
+				}
+			}
+
+			ImGui::EndCombo();
+		}
+
+		//display details of each tile here
+		if (m_spriteSheet)
+		{
+			if (ImGui::BeginTable("SlicedSpriteSheet", m_spriteSheet->m_col, ImGuiTableFlags_SizingFixedFit))
+			{
+				//Creating a table to place the sprites evenly by its row and cols
+				for (int r{ 0 }; r < m_spriteSheet->m_row; ++r) //go thru rows
+				{
+					ImGui::TableNextRow(); //go next row
+					for (int c{ 0 }; c < m_spriteSheet->m_col; ++c) //go thru cols
+					{
+						ImGui::TableSetColumnIndex(c);
+
+						int tileNum = (c + r * m_spriteSheet->m_col);
+					
+						ImGui::PushID(tileNum);
+						ImGui::Text("Frame %i", tileNum);
+						if (ImGui::ImageButton((ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth, smallWidth }
+							, ImVec2{ (*m_spriteSheet)[tileNum].m_min.x, (*m_spriteSheet)[tileNum].m_max.y }
+							, ImVec2{ (*m_spriteSheet)[tileNum].m_max.x, (*m_spriteSheet)[tileNum].m_min.y }))
+						{
+							m_loadedState.m_sprite.Insert(LBKeyFrame<int>{m_currentFrame, tileNum});
+							m_loadedState.UpdateLastFrame();
+							m_loadedState.Start(m_currentFrame);
+						}
+						ImGui::PopID();
+					}
+				}
+				ImGui::EndTable();
+			}
+		}
+
+		if (ImGui::CollapsingHeader("Debugging Info"))
+		{
+			ImGui::Text("Preview Curr %d", m_currentFrame);
+			ImGui::SameLine();
+			ImGui::Text("State Curr %d", m_loadedState.m_currentFrame);
+
+			ImGui::Text("Pos list");
+			ImGui::Text("Pos current %d, next %d", m_loadedState.m_pos.m_currentIndex, m_loadedState.m_pos.m_nextIndex);
+			for (int index{ 0 }; index < m_loadedState.m_pos.GetData().Size(); ++index)
+			{
+				ImGui::Text("Frame %d, State %.2f %.2f", m_loadedState.m_pos.GetData()[index].m_frame, m_loadedState.m_pos.GetData()[index].m_data.x, m_loadedState.m_pos.GetData()[index].m_data.y);
+			}
+		}
 	}
 
 	void EditorAnimationEditor::UpdateLoadedController()
@@ -555,12 +625,11 @@ namespace LB
 	*************************************************************************/
 	void EditorAnimationEditor::LoadState(std::string const& name)
 	{
-		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentState);
-		m_currentState.SetName(name);
+		JSONSerializer::DeserializeFromFile(name.c_str(), m_loadedState);
 
-		if (m_currentState.GetSpriteSheetName() != "None")
+		if (m_loadedState.m_spriteSheetName != "None")
 		{
-			m_spriteSheet = &ASSETMANAGER->SpriteSheets[m_currentState.GetSpriteSheetName()];
+			m_spriteSheet = &ASSETMANAGER->SpriteSheets[m_loadedState.m_spriteSheetName];
 		}
 		m_stateLoaded = true;
 		m_controllerLoaded = false;

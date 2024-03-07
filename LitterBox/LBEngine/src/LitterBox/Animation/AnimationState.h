@@ -291,13 +291,16 @@ namespace LB
 	class LBKeyFrameGroup
 	{
 	public:
+		LBKeyFrameGroup() {}
+		LBKeyFrameGroup(T const defaultValue ) : m_defaultValue(defaultValue) {}
+
 		void Update(int frame);
 
 		void UpdateExact(int frame);
 
 		T GetCurrent() const
 		{
-			if (m_currentIndex >= m_keyFrames.Size()) return T{};
+			if (m_currentIndex >= m_keyFrames.Size()) return m_defaultValue;
 
 			return m_keyFrames[m_currentIndex].m_data;
 		}
@@ -305,7 +308,7 @@ namespace LB
 		T GetCurrentExact(int exactFrame) const
 		{
 			// If no keyframe or current is before first keyframe, use default
-			if (m_currentIndex >= m_keyFrames.Size() || m_keyFrames[0].m_frame > exactFrame) return T{};
+			if (m_currentIndex >= m_keyFrames.Size() || m_keyFrames[0].m_frame > exactFrame) return m_defaultValue;
 
 			// If after last keyframe, use last keyframe
 			if (m_keyFrames[m_keyFrames.Size() - 1].m_frame < exactFrame) return m_keyFrames[m_keyFrames.Size() - 1].m_data;
@@ -342,6 +345,19 @@ namespace LB
 		{
 			data.SetObject();
 
+			if constexpr (std::is_fundamental_v<T>)
+			{
+				data.AddMember("Default", m_defaultValue, alloc);
+			}
+			else
+			{
+				Value defaultValue;
+				if (m_defaultValue.Serialize(defaultValue, alloc))
+				{
+					data.AddMember("Default", defaultValue, alloc);
+				}
+			}
+
 			Value frameArray(rapidjson::kArrayType);
 			for (auto& keyframe : m_keyFrames.GetData())
 			{
@@ -362,10 +378,23 @@ namespace LB
 		*************************************************************************/
 		bool Deserialize(const Value& data)
 		{
+			bool HasDefault = data.HasMember("Default");
 			bool HasFrames = data.HasMember("Frame Group");
 
 			if (data.IsObject())
 			{
+				if (HasDefault)
+				{
+					if constexpr (std::is_fundamental_v<T>)
+					{
+						m_defaultValue = data["Default"].Get<T>();
+					}
+					else
+					{
+						Value const& defaultValue = data["Default"];
+						m_defaultValue.Deserialize(defaultValue);
+					}
+				}
 				if (HasFrames)
 				{
 					Value const& frameArray = data["Frame Group"];
@@ -388,9 +417,10 @@ namespace LB
 			}
 			return false;
 		}
-		int m_currentIndex{ 0 }, m_nextIndex;
+		int m_currentIndex{ 0 }, m_nextIndex{ 0 };
 
 	private:
+		T m_defaultValue{};
 		SortedVector<LBKeyFrame<T>> m_keyFrames;
 	};
 	// If type is a vector 2, don't fully replace insert and interpolate valyes
@@ -418,7 +448,7 @@ namespace LB
 	inline Vec2<float> LBKeyFrameGroup<Vec2<float>>::GetCurrentExact(int exactFrame) const
 	{
 		// If no keyframe or current is before first keyframe, use default
-		if (m_currentIndex >= m_keyFrames.Size() || m_keyFrames[0].m_frame > exactFrame) return Vec2<float>{};
+		if (m_currentIndex >= m_keyFrames.Size() || m_keyFrames[0].m_frame > exactFrame) return m_defaultValue;
 
 		// If after last keyframe, use last keyframe
 		if (m_keyFrames[m_keyFrames.Size() - 1].m_frame <= exactFrame) return m_keyFrames[m_keyFrames.Size() - 1].m_data;
@@ -456,10 +486,10 @@ namespace LB
 		int m_currentFrame{ 0 };
 		int m_startFrame{ 0 }, m_endFrame{ 0 };
 
-		LBKeyFrameGroup<bool>			m_active;
+		LBKeyFrameGroup<bool>			m_active{ true };
 		
 		LBKeyFrameGroup<Vec2<float>>	m_pos;
-		LBKeyFrameGroup<Vec2<float>>	m_scale;
+		LBKeyFrameGroup<Vec2<float>>	m_scale{ {1.0f, 1.0f} };
 		LBKeyFrameGroup<float>			m_rot;
 
 		LBKeyFrameGroup<int>			m_sprite;
