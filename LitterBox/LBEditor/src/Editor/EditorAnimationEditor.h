@@ -22,6 +22,8 @@
 
 #include "imgui_neo_sequencer.h"
 
+#include "EditorAnimationView.h"
+
 namespace LB 
 {
 
@@ -95,6 +97,9 @@ namespace LB
 		}
 		
 	private:
+		// For animation view to use private variables for previewing
+		friend class EditorAnimationView;
+
 		// For checking what is loaded
 		bool m_stateLoaded{ false }, m_controllerLoaded{ false };
 
