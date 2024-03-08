@@ -23,185 +23,6 @@
 
 namespace LB
 {
-	/*!***********************************************************************
-	 \brief
-	 The KeyFrame is used to store the frame number and time to be used
-	 in the animation state
-	*************************************************************************/
-	struct KeyFrame
-	{
-		int m_frame;
-		float m_time;
-
-		/*!***********************************************************************
-		 \brief
-		 Serializes the KeyFrame data
-		*************************************************************************/
-		bool Serialize(Value& data, Document::AllocatorType& alloc)
-		{
-			data.SetObject();
-
-			data.AddMember("Frame", m_frame, alloc);
-			data.AddMember("Time", m_time, alloc);
-
-			return true;
-		}
-
-		/*!***********************************************************************
-		 \brief
-		 Deserializes the KeyFrame data
-		*************************************************************************/
-		bool Deserialize(const Value& data)
-		{
-			bool HasFrame = data.HasMember("Frame");
-			bool HasTime = data.HasMember("Time");
-
-			if (HasFrame && HasTime)
-			{
-				m_frame = data["Frame"].GetInt();
-				m_time = data["Time"].GetFloat();
-
-				return true;
-			}
-			return true;
-		}
-	};
-
-	class AnimationState
-	{
-	public:
-		//----------------------------------------------CONTROLS----------------------------------------------
-		/*!***********************************************************************
-		 \brief
-		 Plays the animation
-		*************************************************************************/
-		void Start();
-
-		/*!***********************************************************************
-		 \brief
-		 Updates the animation each frame
-		*************************************************************************/
-		void Update();
-
-		/*!***********************************************************************
-		 \brief
-		 Stops the animation from playing
-		*************************************************************************/
-		void Stop();
-
-		/*!***********************************************************************
-		 \brief
-		 Returns if the animation playing?
-		*************************************************************************/
-		bool IsPlaying() const;
-
-		/*!***********************************************************************
-		 \brief
-		 Checks if the next frame has changed
-		*************************************************************************/
-		bool IsNextFrame() const;
-
-		/*!***********************************************************************
-		 \brief
-		 Returns the current frame index
-		*************************************************************************/
-		int GetCurrentFrame() const;
-
-		//----------------------------------------------CREATION----------------------------------------------
-
-		/*!***********************************************************************
-		 \brief
-		 Returns the name of the state
-		*************************************************************************/
-		std::string const& GetName() const;
-
-		/*!***********************************************************************
-		 \brief
-		 Sets the name of the state
-		*************************************************************************/
-		void SetName(std::string const& name);
-
-		/*!***********************************************************************
-		 \brief
-		 Returns the name of the spritesheet the state is using
-		*************************************************************************/
-		std::string const& GetSpriteSheetName() const;
-
-		/*!***********************************************************************
-		 \brief
-		 Sets the name of the spritesheet of the state
-		*************************************************************************/
-		void SetSpriteSheetName(std::string const& name);
-
-		/*!***********************************************************************
-		 \brief
-		 Adds a keyframe to the state
-		*************************************************************************/
-		void AddFrame(KeyFrame& newFrame);
-
-		/*!***********************************************************************
-		 \brief
-		 Removes a keyframe from the state
-		*************************************************************************/
-		void RemoveFrame(int index);
-
-		//----------------------------------------------ACCESSORS----------------------------------------------
-
-		/*!***********************************************************************
-		 \brief
-		 Gets the keyframe at the index
-		*************************************************************************/
-		KeyFrame& operator[](int index);
-
-		/*!***********************************************************************
-		 \brief
-		 Gets the keyframe at the index  
-		*************************************************************************/
-		KeyFrame const& operator[](int index) const;
-
-		/*!***********************************************************************
-		 \brief
-		 Gets the keyframe at the index
-		*************************************************************************/
-		KeyFrame& At(int index);
-
-		/*!***********************************************************************
-		 \brief
-		 Gets the keyframe vector
-		*************************************************************************/
-		std::vector<KeyFrame>& GetFrames();
-
-		/*!***********************************************************************
-		 \brief
-		 Returns the total number of frames
-		*************************************************************************/
-		int GetFrameCount() const;
-
-		/*!***********************************************************************
-		 \brief
-		 Saves the state
-		*************************************************************************/
-		bool Serialize(Value& data, Document::AllocatorType& alloc);
-
-		/*!***********************************************************************
-		 \brief
-		 Loads the state
-		*************************************************************************/
-		bool Deserialize(const Value& data); //to load
-	private:
-		bool m_playing { false };
-
-		double m_timeElapsed{}; 
-		int m_index{}, m_lastIndex{};
-
-		std::string m_name{ "Unnamed State" }, m_spriteSheetName{ "None" };
-		std::vector<KeyFrame> m_keyFrames{};
-
-		//std::vector<AnimationTransition> m_transitions;
-	};
-
-
-
 	//----------------------------------------------Key Frame----------------------------------------------
 	template<typename T>
 	struct LBKeyFrame
@@ -337,6 +158,8 @@ namespace LB
 
 		inline int GetLargestFrame() { return m_keyFrames.Size() > 0 ? m_keyFrames[m_keyFrames.Size() - 1].m_frame : 0; }
 
+		inline bool Empty() { return !m_keyFrames.Size(); }
+
 		/*!***********************************************************************
 		 \brief
 		 Serializes the KeyFrame data
@@ -441,7 +264,9 @@ namespace LB
 		}
 		else
 		{
-			m_keyFrames.Insert(keyFrame);
+			Vec2<float> timing { keyFrame.m_data };
+			keyFrame.m_data.x ? timing.y = m_defaultValue.y : timing.x = m_defaultValue.x;
+			m_keyFrames.Insert({keyFrame.m_frame, timing });
 		}
 	}
 	template<>
@@ -464,23 +289,61 @@ namespace LB
 	class LBAnimationState
 	{
 	public:
+		/*!***********************************************************************
+		  \brief
+		  Constructors, loads the animation state and its name
+		*************************************************************************/
 		LBAnimationState() {}
 		LBAnimationState(std::string const& name) : m_name(name) {}
 
+		/*!***********************************************************************
+		  \brief
+		  Starts the animation from the start frame
+		*************************************************************************/
 		void Start();
+		/*!***********************************************************************
+		  \brief
+		  Starts the animation from the given frame
+		*************************************************************************/
 		void Start(int frame);
 
+		/*!***********************************************************************
+		  \brief
+		  Checks current frame and increments key frames if needed (more efficient
+		  than UpdateExact)
+		*************************************************************************/
 		void Update();
+		/*!***********************************************************************
+		  \brief
+		  Checks current frames and finds the exact key frame to use (less efficient,
+		  useful for jump between frames or moving backwards)
+		*************************************************************************/
 		void UpdateExact();
 
+		/*!***********************************************************************
+		  \brief
+		  Update the end frame based on the largest frame in all animations / given
+		  value
+		*************************************************************************/
 		void UpdateLastFrame();
 		void UpdateLastFrame(int newFrame);
 
+		/*!***********************************************************************
+		  \brief
+		  Checks if the current frame is the last frame in the state
+		*************************************************************************/
+		inline bool IsLastFrame() const { return m_currentFrame == m_endFrame; }
+
+		/*!***********************************************************************
+		 \brief
+		 Serializes the Animation State data
+		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc);
-
+		/*!***********************************************************************
+		 \brief
+		 Deserializes the Animation State data
+		*************************************************************************/
 		bool Deserialize(const Value& data);
-
-		inline bool IsLastFrame() const { m_currentFrame == m_endFrame; }
 
 		std::string m_name{"New Anim"}, m_spriteSheetName{"None"};
 		int m_currentFrame{ 0 };
@@ -495,6 +358,11 @@ namespace LB
 		LBKeyFrameGroup<int>			m_sprite;
 
 	private:
+		/*!***********************************************************************
+		  \brief
+		  Internal update call used by Update() and UpdateExact(), does the actual
+		  updating of every Key Frame Group.
+		*************************************************************************/
 		void UpdateGroups();
 		void UpdateGroupsExact();
 	};

@@ -1105,9 +1105,9 @@ namespace LB
 				{
 					for (auto& [str, controller] : ASSETMANAGER->AnimControllers)
 					{
-						if (ImGui::Selectable(controller.GetName().c_str()))
+						if (ImGui::Selectable(controller.m_name.c_str()))
 						{
-							m_inspectedGO->GetComponent<CPAnimator>()->SetControllerName(controller.GetName());
+							m_inspectedGO->GetComponent<CPAnimator>()->SetControllerName(controller.m_name);
 						}
 					}
 

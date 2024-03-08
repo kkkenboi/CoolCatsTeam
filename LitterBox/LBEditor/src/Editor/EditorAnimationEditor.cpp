@@ -310,7 +310,7 @@ namespace LB
 		//----------------------------------------------CONTROLLER NAME----------------------------------------------
 		ImGui::Text("%-17s", "Name");
 		ImGui::SameLine();
-		ImGui::Text(m_currentController.GetName().c_str());
+		ImGui::Text(m_currentController.m_name.c_str());
 
 		//----------------------------------------------ADD STATE----------------------------------------------
 		ImGui::Text("%-17s", "Add State");
@@ -332,7 +332,7 @@ namespace LB
 
 		//----------------------------------------------CONTROLLER STATES----------------------------------------------
 		ImGui::Text("States");
-		for (int index{ 0 }; index < m_currentController.GetStateCount(); ++index)
+		for (int index{ 0 }; index < m_currentController.Count(); ++index)
 		{
 			ImGui::PushID(index);
 
@@ -368,12 +368,12 @@ namespace LB
 		}
 		else if (m_controllerLoaded)
 		{
-			JSONSerializer::SerializeToFile(m_currentController.GetName().c_str(), m_currentController);
+			JSONSerializer::SerializeToFile(m_currentController.m_name.c_str(), m_currentController);
 
 			// Update asset manager's anim controller if it exists
-			if (ASSETMANAGER->AnimControllers.find(m_currentController.GetName()) != ASSETMANAGER->AnimControllers.end())
+			if (ASSETMANAGER->AnimControllers.find(m_currentController.m_name) != ASSETMANAGER->AnimControllers.end())
 			{
-				ASSETMANAGER->AnimControllers[m_currentController.GetName()] = m_currentController;
+				ASSETMANAGER->AnimControllers[m_currentController.m_name] = m_currentController;
 			}
 		}
 	}
@@ -402,7 +402,7 @@ namespace LB
 	void EditorAnimationEditor::LoadController(std::string const& name)
 	{
 		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentController);
-		m_currentController.SetName(name);
+		m_currentController.m_name = name;
 
 		m_controllerLoaded = true;
 		m_stateLoaded = false;

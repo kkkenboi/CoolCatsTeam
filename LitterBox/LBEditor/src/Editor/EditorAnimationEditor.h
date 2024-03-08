@@ -116,7 +116,7 @@ namespace LB
 
 		// For preview
 		bool m_previewPlaying{ false };
-		float m_elapsedTime{ 0.0f }, m_frameDuration{ 0.016f };
+		float m_elapsedTime{ 0.0f }, m_frameDuration{ 1.0f / 60.0f };
 		ImGui::FrameIndexType m_currentFrame{ 0 }, m_startFrame{ 0 }, m_endFrame{ 60 };
 
 		// For sprite editting
