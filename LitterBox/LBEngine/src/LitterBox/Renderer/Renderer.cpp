@@ -1055,6 +1055,8 @@ void change_vp()
 	height *= (float)LB::WINDOWSSYSTEM->GetWidth();
 	float diff{ (float)LB::WINDOWSSYSTEM->GetHeight() - height };
 	glViewport(0, (int)(diff * 0.5f), LB::WINDOWSSYSTEM->GetWidth(), (int)height);
+
+	LB::WINDOWSSYSTEM->updateScreenSize(LB::WINDOWSSYSTEM->GetWidth(), height, diff * 0.5f);
 }
 
 glm::mat4 cameraMat{ glm::perspective(glm::radians(90.f), 1920.f/1080.f, 0.1f, 10.f) };
@@ -1130,12 +1132,6 @@ void Renderer::RenderSystem::Initialize()
 	if (!editor_mode) {
 		change_vp();
 		LB::WINDOWSSYSTEM->screenSizeChange.Subscribe(change_vp, 0);
-	
-		//hacky way to calculate height offset for others to use
-		float height{ 9.f / 16.f };
-		height *= (float)LB::WINDOWSSYSTEM->GetWidth();
-		float diff{ (float)LB::WINDOWSSYSTEM->GetHeight() - height };
-		screenHeightOffest = diff * 0.5f;
 	}
 }
 

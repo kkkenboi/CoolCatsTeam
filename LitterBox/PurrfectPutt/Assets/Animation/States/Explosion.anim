@@ -1,0 +1,42 @@
+{
+    "Name": "Explosion",
+    "SpriteSheet Name": "VFXSheet",
+    "Frames": [
+        {
+            "Frame": 8,
+            "Time": 0.1
+        },
+        {
+            "Frame": 9,
+            "Time": 0.1
+        },
+        {
+            "Frame": 10,
+            "Time": 0.1
+        },
+        {
+            "Frame": 11,
+            "Time": 0.1
+        },
+        {
+            "Frame": 12,
+            "Time": 0.1
+        },
+        {
+            "Frame": 13,
+            "Time": 0.1
+        },
+        {
+            "Frame": 14,
+            "Time": 0.1
+        },
+        {
+            "Frame": 15,
+            "Time": 0.1
+        },
+        {
+            "Frame": 31,
+            "Time": 0.1
+        }
+    ]
+}

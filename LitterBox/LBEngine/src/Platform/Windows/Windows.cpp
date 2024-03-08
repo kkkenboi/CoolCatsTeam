@@ -431,4 +431,27 @@ namespace LB
 
         screenSizeChange.Invoke();
     }
+
+
+    /*!***********************************************************************
+     \brief
+     Updates crucial values required to convert mouse position from screen space
+     to camera space.
+
+     \param
+     xVP - The width of the viewport which the game is rendering on
+
+     \param
+     yVP - The height of the viewport which the game is rendering on
+
+     \param
+     hBO - The height of the border offset from the bottom of the screen to
+     the bottome of the viewport.
+    *************************************************************************/
+    void WindowsSystem::updateScreenSize(float xVP, float yVP, float hBO)
+    {
+        xVPConversion = 1920.f / xVP;
+        yVPConversion = 1080.f / yVP;
+        heightBorderOffset = hBO;
+    }
 }
