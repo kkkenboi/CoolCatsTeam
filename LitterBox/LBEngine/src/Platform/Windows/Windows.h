@@ -240,6 +240,36 @@ namespace LB
 		*************************************************************************/
 		void				toggleFullScreen();
 
+		/*!***********************************************************************
+		 \brief
+		 Updates crucial values required to convert mouse position from screen space
+		 to camera space.
+
+		 \param
+		 xVP - The width of the viewport which the game is rendering on
+
+		 \param
+		 yVP - The height of the viewport which the game is rendering on
+
+		 \param
+		 hBO - The height of the border offset from the bottom of the screen to
+		 the bottome of the viewport.
+		*************************************************************************/
+		void				updateScreenSize(float xVP, float yVP, float hBO);
+
+		/*!***********************************************************************
+		 \brief
+		 Returns the height of the border offset for the viewport to window
+		*************************************************************************/
+		float				getBorderHeight() { return heightBorderOffset; }
+
+		/*!***********************************************************************
+		 \brief
+		 Returns the fractions required for viewport to camera space transformation
+		*************************************************************************/
+		Vec2<float>			getViewPortConversion() { return Vec2{xVPConversion, yVPConversion}; }
+
+
 		Event<> OnApplicationFocus;
 		Event<> OnApplicationUnFocus;
 		Event<> screenSizeChange;
@@ -250,6 +280,8 @@ namespace LB
 		unsigned int used_height;
 		int monitor_width;
 		int monitor_height;
+
+		float xVPConversion, yVPConversion, heightBorderOffset;
 	};
 
 	/*!***********************************************************************

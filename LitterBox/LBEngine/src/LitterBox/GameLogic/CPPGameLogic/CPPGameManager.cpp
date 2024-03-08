@@ -17,13 +17,13 @@
 #include "CPPSUpgradeManager.h"
 #include <random>
 #include "CPPSPlayerGolfBall.h"
+#include "LitterBox/Physics/ColliderManager.h"
+#include "LitterBox/Scene/SceneManager.h"
 #include "CPPSProjectileBall.h"
 namespace LB
 {
 	void CPPSGameManager::Start()
 	{
-		DebuggerLog("GAME MANAGER HAS STARTED!!!");
-
 		// Initialising player values
 		m_PlayerMaxHealth = 3;
 		m_PlayerCurrentHealth = 3;
@@ -33,19 +33,28 @@ namespace LB
 		m_PlayerMaxSpeed = 1750.0f;
 		m_PlayerArbitraryFriction = 0.95f;
 
+		//We also need to grab the crowdTexture
+		//By default, the render is set active false
+		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+		crowdTexture = GOMANAGER->FindGameObjectWithName("CrowdTextureObject");
+		gameOverTexture = GOMANAGER->FindGameObjectWithName("GameOverTextureObject");
+		//we also wanna cache the position of the UI so we can set it back later
+		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
+		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
 
-		//loading the gameobjects with data
-		//then adding it to our pair list
-		//EnemyPrefabList.emplace_back(std::make_pair(chaserEnemy, 2));
-		//EnemyPrefabList.emplace_back(std::make_pair(mageEnemy, 5));
-
+		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
+		//into a list
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChaserEnemy, 2));
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnMageEnemy, 5));
 		EnemyList.emplace_back(std::make_pair(&CPPSGameManager::SpawnChargerEnemy, 8));
-		//in the future
-		//EnemyList.emplace_back(std::make_pair(SpawnChargerEnemy, 8));
 
-		//In the future, Charger enemy will be 8 credits probably
+		//We grab all the GO's called spawnpoints
+		std::vector<GameObject*> temp = GOMANAGER->FindGameObjectsWithName("Spawnpoint");
+		for (const auto& go : temp)
+		{	//then we add their positions to the vector 
+			SpawnPoints.push_back(go->GetComponent<CPTransform>()->GetPosition());
+		}
+
 		//For the first level we just make it such that it's always 2 melee enemies
 		if (currentWave == 1) 
 		{
@@ -106,6 +115,7 @@ namespace LB
 		{
 			UpgradeSpawned = true;
 			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
+			SpawnCrowdAnim();
 			//We want to remove all the balls when the upgrade spawns
 			std::vector<GameObject*> Balls = GOMANAGER->FindGameObjectsWithName("ball");
 			for (GameObject* ball : Balls)
@@ -116,6 +126,56 @@ namespace LB
 			for (GameObject* projectile : Projectiles)
 			{
 				projectile->GetComponent<CPPSProjectileBall>()->canDestroy = true;
+			}
+		}
+		//Timer for the crowd, if the crowd texture is active then we want to do stuff
+		if (crowdTexture->IsActive())
+		{
+			timer += TIME->GetDeltaTime();
+			Vec2<float> crowdPos{ cachedCrowdPos };
+			//temporary thing until we get the anim in
+			//This basically just lerps the thing down in 7 seconds
+			float smoothTime = timer / crowdTimer;
+			//thank you Prof Ronald and Desmos 
+			smoothTime = smoothTime * smoothTime * (3.f - 2.f * smoothTime);
+			crowdTexture->GetComponent<CPTransform>()->SetPosition(Lerp(crowdPos, Vec2<float>(cachedCrowdPos.x, 0), smoothTime));
+			//This one below needs to stay though
+			if (timer >= crowdTimer)	//once the sound finishes playing we hide it all and reset pos
+			{
+				crowdTexture->SetActive(false);
+				crowdTexture->GetComponent<CPTransform>()->SetPosition(cachedCrowdPos);
+				timer = 0;
+			}
+		}
+		//Update the GAME OVER UI 
+		if (gameOverTexture->IsActive())
+		{
+			//We get the mouse position
+			Vec2<float> mouse_pos = INPUT->GetMousePos();
+			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			//Then we get all the colliders near the mouse
+			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
+			if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1)) //if we click we see what we clicked on
+			{
+				for (const auto& col : vec_colliders) //then we loop through all the cols to find our buttons
+				{
+					if (col->gameObj->GetName() == "RestartGameButton")
+					{
+						gameOverTexture->SetActive(false);
+						std::cout << "Restart Game!\n";
+						SCENEMANAGER->ReloadScene();
+						break;
+					}
+					if (col->gameObj->GetName() == "MainMenuButton")
+					{
+						std::cout << "GotoMainMenu!\n";
+						gameOverTexture->SetActive(false);
+						SCENEMANAGER->LoadScene("SceneMainMenu");
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -157,7 +217,7 @@ namespace LB
 	{
 		GameObject* mageClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Mage", *mageClone);
-		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		mageClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
 	}
 
 	/*!************************************************************************
@@ -168,7 +228,7 @@ namespace LB
 	{
 		GameObject* chaserClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserClone);
-		//chaserClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		chaserClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
 	}
 
 	/*!************************************************************************
@@ -180,7 +240,19 @@ namespace LB
 		GameObject* chargerClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Charger_Shield", *chargerClone);
 		//JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
-		//mageClone->GetComponent<CPTransform>()->SetPosition(mouse_pos);
+		chargerClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+	}
+
+	void CPPSGameManager::SpawnCrowdAnim()
+	{
+		//First we play the sound
+		AUDIOMANAGER->PlaySound("Spliced_Cheering");
+		//then we show the crowd texture
+		crowdTexture->SetActive(true);
+		//for now the animation will be hard coded
+		//but in the future it should be an anim with the same duration as the sound
+		
+
 	}
 
 	/*!************************************************************************
@@ -196,6 +268,34 @@ namespace LB
 			//By right we should never have this
 			DebuggerLogWarning("Enemy Count Error! Please check enemy count logic");
 		}
+	}
+	void CPPSGameManager::ShowGameOver(GameObject enemyObj)
+	{
+		AUDIOMANAGER->PlaySound("GameOver");
+		//AUDIOMANAGER->PlaySound("GameOverBGM");
+		isGameOver = true;
+		//We see who the killer is 
+		if (enemyObj.GetName() == "Projectile") std::cout << "Killed by a mage\n";
+		else if (enemyObj.GetName() == "EnemyChaser1") std::cout << "Killed by chaser\n";
+		else if (enemyObj.GetName() == "Bramble") std::cout << "Killed by carelessness\n";
+		else if (enemyObj.GetName() == "Charger") std::cout << "Killed by charger\n";
+		else std::cout << "Killed by " << enemyObj.GetName() << '\n';
+
+		gameOverTexture->SetActive(true);
+	}
+	Vec2<float> CPPSGameManager::GetRandomSpawnPoint()
+	{
+		//First we get a random number generator
+		std::random_device rngesus;
+		//Then we get a random index from the vector list from 0 to maxsize-1
+		std::uniform_int_distribution<int> distribution(0, static_cast<int>(SpawnPoints.size()) - 1);
+		int spawnIndex = distribution(rngesus);	//then we generate the number
+		if (!SpawnPoints.empty())
+		{
+			return SpawnPoints[spawnIndex];
+		}
+		DebuggerLogWarning("Somehow unable to find a valid spawnpoint for enemy!");
+		return Vec2<float>();
 	}
 	/*!************************************************************************
 	* \brief Function to generate the wave
@@ -226,6 +326,18 @@ namespace LB
 		currentWave++;
 		GenerateWave();
 		UpgradeSpawned = false;
-	}
 
+		isMovementDisabled = false;	//we allow the player to move again
+		//we need to place the player back a the correct place and reset their pos and everything
+		mPlayer->GetComponent<CPTransform>()->SetPosition(playerSpawnPoint);
+		mPlayer->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1));
+		mPlayer->GetComponent<CPTransform>()->SetRotation(0);
+		//By right should set the camera to player too
+	}
+	
+	void ShowGameOver(GameObject enemyObj)
+	{
+		//enemy obj is the one that killed the player
+		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ShowGameOver(enemyObj);
+	}
 }

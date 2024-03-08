@@ -1,0 +1,148 @@
+{
+    "Root": {
+        "Active": true,
+        "Position": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "PauseMenuQuitConfirmTexture",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 19.2,
+                        "y": 10.8
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 0,
+                    "Texture": "QuitMenu",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmYesObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 220.0,
+                    "Height": 90.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::Butt"
+                }
+            },
+            {
+                "Name": "PauseMenuQuitConfirmNoObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 220.0,
+                    "Height": 91.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::Butt"
+                }
+            },
+            {
+                "Name": "PauseMenuHolderObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::PauseMenuScript"
+                }
+            },
+            {
+                "Name": "Transition Curtain",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 1920.0,
+                    "Height": 1080.0,
+                    "Layer": 0,
+                    "Texture": "",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            }
+        ]
+    }
+}

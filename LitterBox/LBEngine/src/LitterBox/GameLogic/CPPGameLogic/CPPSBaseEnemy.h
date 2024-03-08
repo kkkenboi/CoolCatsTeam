@@ -78,10 +78,16 @@ namespace LB
 		**************************************************************************/
 		float& GetSpeedMag();
 
+		float GetDistToPlayer();
+
 		CPRender* mRender{nullptr};
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
 		CPAnimator* mAnimator{ nullptr };
+		//I have to make this public because I need to access this
+		//and I'm lazy to make a getter/setter for it
+		float mDetectionRange{};	//distance before enemy aggros
+		bool isAggro{ false };
 
 		/*!************************************************************************
 		* \brief Die function of the base enemy that handles the dying
@@ -109,6 +115,7 @@ namespace LB
 		//We technically do not want to randomly expose these variables
 		int mHealth{};		//normal health of the enemy
 		float mSpeedMagnitude{};	//movespeed of the enemy
+		float mDistanceToPlayer{};	//distance between enemy and player
 	};
 }
 

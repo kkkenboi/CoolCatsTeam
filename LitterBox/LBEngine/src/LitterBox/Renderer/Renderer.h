@@ -542,7 +542,6 @@ namespace Renderer {
 		float shakeIntensity{ 100.f };
 
 	public:
-
 		/*!***********************************************************************
 		\brief
 		 RenderSystem constructor

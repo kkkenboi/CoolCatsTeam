@@ -1045,13 +1045,18 @@ textbutt* button;
  REsponsible for updating the opengl viewport. Meant to subscribe to an
  event that is invoked everytime the window changes size. (Goes from fullscreen,
  to windowed mode)
-*************************************************************************/
-void change_vp() {
 
+\param
+ float to store the height offset of the new viewport if any
+*************************************************************************/
+void change_vp() 
+{
 	float height{ 9.f / 16.f };
 	height *= (float)LB::WINDOWSSYSTEM->GetWidth();
 	float diff{ (float)LB::WINDOWSSYSTEM->GetHeight() - height };
 	glViewport(0, (int)(diff * 0.5f), LB::WINDOWSSYSTEM->GetWidth(), (int)height);
+
+	LB::WINDOWSSYSTEM->updateScreenSize(LB::WINDOWSSYSTEM->GetWidth(), height, diff * 0.5f);
 }
 
 glm::mat4 cameraMat{ glm::perspective(glm::radians(90.f), 1920.f/1080.f, 0.1f, 10.f) };

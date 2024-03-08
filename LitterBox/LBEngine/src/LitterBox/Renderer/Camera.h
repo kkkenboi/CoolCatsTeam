@@ -45,7 +45,7 @@ namespace Renderer {
 
 		//-------------Required to move a free cam-------------
 		double longitude{}, azimuth{};
-		float zoomx{}, zoomy{}, aspect{};
+		float zoomx{}, zoomy{}, aspect{}, oldX{0.f}, oldY{0.f};
 
 		glm::vec3 view_vector{ 0.f, 0.f, 1.f };
 		glm::vec4 cam_pos{ 0.f, 0.f, 5.f, 1.f };
@@ -97,8 +97,8 @@ namespace Renderer {
 		*************************************************************************/
 		void reset_cam()
 		{
-			pos.x = 0.f;
-			pos.y = 0.f;
+			pos.x = oldX;
+			pos.y = oldY;
 		}
 
 		/*!***********************************************************************
@@ -114,6 +114,9 @@ namespace Renderer {
 			pos.y = new_pos.y;
 			nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });
 			world_NDC = ortho * nel;
+
+			oldX = pos.x;
+			oldY = pos.y;
 		}
 		/*!***********************************************************************
 		\brief

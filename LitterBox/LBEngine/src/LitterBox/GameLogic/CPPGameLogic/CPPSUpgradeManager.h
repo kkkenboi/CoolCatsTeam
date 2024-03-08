@@ -28,12 +28,13 @@ namespace LB
 		BOMB,			//Ball explodes on contact
 		BIGBALL,		//Ball increase size and mass
 		MOVESPEED,		//Increase player movespeed
+		POTION,
 		MOREHEALTH,		//Increase Max health by 1 (capped at 6/9)
 		MOREBALL,		//Increase ball count by 3	(capped at 6/9)
 		MAXCOUNT		//Enum to keep track of the count of upgrades
 	};
 
-	class CPPSUpgradeManager : public CPPBehaviour , public Singleton<CPPSUpgradeManager>
+	class CPPSUpgradeManager : public CPPBehaviour 
 	{
 	public:
 		/*!************************************************************************
@@ -96,11 +97,12 @@ namespace LB
 		int currentBallUpgrades{0};
 		bool hasUpgraded{ false };
 
+		//Event for when player gets a NEW upgrade
 		Event<UpgradeType> onNewUpgrade{};
 	private:
 		//Temporary upgrade positions for now, in the future these will be calculated 
 		//and placed at the "end point" of the bigger map
-		
+		Vec2<float> UpgradePos{};
 		std::vector<Vec2<float>> UpgradePositions{ {650.f,785.f}, {950.f,785.f} ,{1250.f,785.f} };
 		GameObject* leftUpgrade{ nullptr };
 		GameObject* middleUpgrade{ nullptr };

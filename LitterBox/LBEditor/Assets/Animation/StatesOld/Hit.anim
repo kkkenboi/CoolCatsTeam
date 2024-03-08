@@ -1,6 +1,6 @@
 {
-    "Name": "newState",
-    "SpriteSheet Name": "None",
+    "Name": "Hit",
+    "SpriteSheet Name": "VFXSheet",
     "Frames": [
         {
             "Frame": 16,
@@ -24,6 +24,10 @@
         },
         {
             "Frame": 21,
+            "Time": 0.1
+        },
+        {
+            "Frame": 31,
             "Time": 0.1
         }
     ]

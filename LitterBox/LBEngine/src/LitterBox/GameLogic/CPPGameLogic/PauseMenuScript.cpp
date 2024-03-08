@@ -151,7 +151,7 @@ namespace LB
 
 		Vec2<float> mouse_pos = INPUT->GetMousePos();
 
-		Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
+		//Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
 
 		mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 
