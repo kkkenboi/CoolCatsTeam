@@ -120,9 +120,9 @@
                                 "Width": 100.0,
                                 "Height": 100.0,
                                 "Layer": 0,
-                                "Texture": "DustParticle",
-                                "SpriteName": "None",
-                                "SpriteIndex": 1
+                                "Texture": "VFXCompile_SpriteSheet",
+                                "SpriteName": "VFXSheet",
+                                "SpriteIndex": 0
                             },
                             "Particle": {
                                 "EmitterType": 0,
@@ -1138,6 +1138,128 @@
                 }
             },
             {
+                "Name": "UpgradePosition",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1800.0,
+                        "y": -10.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                }
+            },
+            {
+                "Name": "CrowdTextureObject",
+                "Active": false,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 1920.0,
+                    "Height": 1080.0,
+                    "Layer": 3,
+                    "Texture": "Audience",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "GameOverTextureObject",
+                "Active": false,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "RestartGameButton",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 755.520019,
+                                    "y": -419.880004
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 8.8
+                            },
+                            "Collider": {
+                                "Active": true,
+                                "ColliderLayer": {
+                                    "Layer Name": "UI",
+                                    "Layer ID": 2
+                                },
+                                "Shape": 1,
+                                "Width": 265.0,
+                                "Height": 222.0,
+                                "Radius": 50.0
+                            }
+                        },
+                        {
+                            "Name": "MainMenuButton",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -741.25,
+                                    "y": -460.880004
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": -8.8
+                            },
+                            "Collider": {
+                                "Active": true,
+                                "ColliderLayer": {
+                                    "Layer Name": "UI",
+                                    "Layer ID": 2
+                                },
+                                "Shape": 1,
+                                "Width": 265.0,
+                                "Height": 222.0,
+                                "Radius": 50.0
+                            }
+                        }
+                    ]
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 1920.0,
+                    "Height": 1080.0,
+                    "Layer": 3,
+                    "Texture": "Game_Over_Menu_Everything",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
                 "Name": "FPS",
                 "Active": true,
                 "Transform": {
@@ -1158,7 +1280,7 @@
                 }
             },
             {
-                "Name": "MUSHYroom",
+                "Name": "Mushroom",
                 "Active": true,
                 "Transform": {
                     "Active": true,
@@ -1279,8 +1401,8 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 125.0,
-                    "Height": 125.0,
+                    "Width": 150.0,
+                    "Height": 150.0,
                     "Layer": 0,
                     "Texture": "MushBramble_SpriteSheet",
                     "SpriteName": "MushBrambleSheet",
@@ -1320,6 +1442,162 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSMouse"
+                }
+            },
+            {
+                "Name": "Spawnpoint",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 42.337265,
+                        "y": 478.481018
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                }
+            },
+            {
+                "Name": "Spawnpoint",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 873.353637,
+                        "y": 626.582275
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                }
+            },
+            {
+                "Name": "Spawnpoint",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 1105.063354
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                }
+            },
+            {
+                "Name": "Spawnpoint",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1607.875732,
+                        "y": 720.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                }
+            },
+            {
+                "Name": "Spawnpoint",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1798.892333,
+                        "y": 175.442932
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                }
+            },
+            {
+                "Name": "Player Spawn",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 87.631858,
+                        "y": -72.911453
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                }
+            },
+            {
+                "Name": "Portal",
+                "Active": false,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1808.738281,
+                        "y": -4.557034
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 800.0,
+                    "Height": 800.0,
+                    "Layer": 0,
+                    "Texture": "black-hole",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 337.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSPortal"
+                }
+            },
+            {
+                "Name": "VFXManager",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSVFXManager"
                 }
             }
         ]

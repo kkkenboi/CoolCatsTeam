@@ -1557,10 +1557,10 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
+                    "Width": 800.0,
+                    "Height": 800.0,
                     "Layer": 0,
-                    "Texture": "",
+                    "Texture": "black-hole",
                     "SpriteName": "None",
                     "SpriteIndex": -1
                 },
