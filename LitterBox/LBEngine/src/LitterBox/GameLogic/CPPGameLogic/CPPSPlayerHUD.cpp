@@ -95,11 +95,16 @@ namespace LB {
 					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
+				default:
+					continue;
 			}
 
 			// Save to all popups container 
 			m_totalUpgradePopUps.push_back(std::pair(verticalPopUp, horizontalPopUp));
+			DebuggerLogFormat("Pushed back: %s, %s", verticalPopUp->GetName().c_str(), horizontalPopUp->GetName().c_str());
 		}
+
+		DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
 
 		// Create game objects to display the health and balls
 		for (int i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth; ++i)
@@ -197,6 +202,7 @@ namespace LB {
 				//{
 				//	m_totalUpgradePopUps[i].second->SetActive(false);
 				//}
+				//DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
 			}
 			else
 			{
