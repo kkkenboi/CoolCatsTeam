@@ -113,8 +113,6 @@ namespace LB {
 		float mEmitterLifetime{ 1.f };
 		float mEmitterLifetimeRemaining{1.f};
 
-		float mEmitterDeletionLifetime{ 1.f };
-		float mEmitterDeletionLifetimeRemaining{ 1.f };
 
 		// Particle
 		float mParticleLifetime{1.f};
@@ -124,6 +122,15 @@ namespace LB {
 
 		bool mIsLooping{ false };
 		bool mIsActive{ false };
+
+		// Deletion
+		float mEmitterDeletionLifetime{ 1.f };
+		float mEmitterDeletionLifetimeRemaining{ 1.f };
 		bool mWillDelete{ false };
+
+		// Rotation randonmization
+		float mRotationSpeed{ 0.f };
+		float mRotationSpeedVariationMin{ 0.f };
+		float mRotationSpeedVariationMax{ 0.f };
 	};
 }

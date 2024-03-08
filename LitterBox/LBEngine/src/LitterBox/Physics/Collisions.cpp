@@ -585,6 +585,10 @@ namespace LB
 		COLLIDERS->RemoveColliderFromPool(this);
 	}
 	
+	void CPCollider::ToggleActive(bool isActive) 
+	{
+	
+	}
 
 
 	// ============================================================================= !!!!!!!!!

@@ -37,7 +37,6 @@ namespace LB
 
 	void CPPSSandpit::OnCollisionEnter(CollisionData colData)
 	{
-		
 	}
 
 	void CPPSSandpit::OnCollisionStay(CollisionData colData)
