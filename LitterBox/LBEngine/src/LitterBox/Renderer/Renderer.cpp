@@ -1045,9 +1045,12 @@ textbutt* button;
  REsponsible for updating the opengl viewport. Meant to subscribe to an
  event that is invoked everytime the window changes size. (Goes from fullscreen,
  to windowed mode)
-*************************************************************************/
-void change_vp() {
 
+\param
+ float to store the height offset of the new viewport if any
+*************************************************************************/
+void change_vp() 
+{
 	float height{ 9.f / 16.f };
 	height *= (float)LB::WINDOWSSYSTEM->GetWidth();
 	float diff{ (float)LB::WINDOWSSYSTEM->GetHeight() - height };
@@ -1127,6 +1130,12 @@ void Renderer::RenderSystem::Initialize()
 	if (!editor_mode) {
 		change_vp();
 		LB::WINDOWSSYSTEM->screenSizeChange.Subscribe(change_vp, 0);
+	
+		//hacky way to calculate height offset for others to use
+		float height{ 9.f / 16.f };
+		height *= (float)LB::WINDOWSSYSTEM->GetWidth();
+		float diff{ (float)LB::WINDOWSSYSTEM->GetHeight() - height };
+		screenHeightOffest = diff * 0.5f;
 	}
 }
 

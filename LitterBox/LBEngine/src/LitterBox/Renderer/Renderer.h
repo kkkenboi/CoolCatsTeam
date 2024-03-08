@@ -542,7 +542,7 @@ namespace Renderer {
 		float shakeIntensity{ 100.f };
 
 	public:
-
+		float screenHeightOffest{ 0.f };
 		/*!***********************************************************************
 		\brief
 		 RenderSystem constructor
