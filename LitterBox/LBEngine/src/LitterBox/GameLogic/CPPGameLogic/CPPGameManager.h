@@ -65,11 +65,16 @@ namespace LB
 		**************************************************************************/
 		void SpawnChargerEnemy();
 
+		void SpawnCrowdAnim();
+
 		/*!************************************************************************
 		 * \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 		 * 
 		**************************************************************************/
 		void ReduceEnemyCount();
+
+		void ShowGameOver(GameObject enemyObj);
+		Vec2<float> GetRandomSpawnPoint();
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy
 		//Each wave also has a certain value
@@ -88,6 +93,11 @@ namespace LB
 		float m_PlayerMaxSpeed{};
 		float m_PlayerArbitraryFriction{};
 		
+		//Cheering sound is 7 seconds
+		float crowdTimer{7.f};
+		float timer{};	//arbitrary timer for proper lerping
+		bool isGameOver{ false };
+		bool isMovementDisabled{ false };
 	private:
 		bool UpgradeSpawned{ false };
 		//Formula made in desmos, curve is a sexy sexy S curve.
@@ -96,11 +106,16 @@ namespace LB
 		int currentWave{ 1 };	//starting wave is always 1
 		int currentEnemyCount{ 0 }; //Really scuffed way of tracking enemies imo
 		//We try to store references to the enemies
-		GameObject* mageEnemy{nullptr};
-		GameObject* chaserEnemy{ nullptr };
-		GameObject* chargerEnemy{ nullptr };
+		//GameObject* mageEnemy{nullptr};
+		//GameObject* chaserEnemy{ nullptr };
+		//GameObject* chargerEnemy{ nullptr };
+		GameObject* crowdTexture{ nullptr };
+		GameObject* gameOverTexture{ nullptr };
+		Vec2<float> playerSpawnPoint{};
+		Vec2<float> cachedCrowdPos{};
 		Vec2<float> mouse_pos{};
-
+		std::vector<Vec2<float>> SpawnPoints;
 	};
+	void ShowGameOver(GameObject enemyObj);
 	REGISTER_SCRIPT(CPPSGameManager)
 }

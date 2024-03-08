@@ -509,6 +509,16 @@ namespace LB
 		const auto& it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
 		if (it != m_GameObjects.end()) 
 		{
+			//Then we see if this same object is inside the timed deletion. If yes then we kinda don't want to double delete
+			for (const auto& [go, time] : m_TimedDeletionGameObjects)
+			{
+				if (go == gameObject)
+				{
+					//This means the GO exists inside time deletion! so we don't wanna delete it
+					std::cout << "GO exists in timed deletion so we don't delete!\n";
+					return;
+				}
+			}
 			m_ToBeDeletedGameObjects.push_back(*it);
 		}
 		else
@@ -550,11 +560,32 @@ namespace LB
 			onGameObjectDestroy.Invoke(gameObject);
 
 			auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
-
 			if (it != m_GameObjects.end())
 			{
 				m_GameObjects.erase(it);
 				gameObject->Destroy();
+			}
+		}
+
+		auto timeObject = m_TimedDeletionGameObjects.begin();
+		while (timeObject != m_TimedDeletionGameObjects.end())
+		{
+			if (TIME->GetTime() >= timeObject->second) //then it's due for deletion
+			{
+					onGameObjectDestroy.Invoke(timeObject->first);
+
+					auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), timeObject->first);
+					if (it != m_GameObjects.end())
+					{
+						m_GameObjects.erase(it);
+						timeObject->first->Destroy();
+					}
+
+					timeObject = m_TimedDeletionGameObjects.erase(timeObject);
+			}
+			else
+			{
+				++timeObject;
 			}
 		}
 
@@ -568,18 +599,31 @@ namespace LB
 				//destroyed 1 frame later, like it literally doesn't make that much of a diff..
 
 				//But well... First we call the necessary destroy stuff
-				onGameObjectDestroy.Invoke(go);
-				auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), go);
-				//now we need to remove it from our own timed deletion vector...
-				//     _=+`^*~ get ready for some lambda magic ~*^`+=_
-				//We capture by reference and search the vector list of pairs
-				//if we find something that matches our GO by pointer, then we gottem
+			/*	onGameObjectDestroy.Invoke(go);
+
 				auto it2 = std::find_if(m_TimedDeletionGameObjects.begin(), m_TimedDeletionGameObjects.end(),
 					[&](const auto& pair) {return pair.first == go; });
-				m_GameObjects.erase(it);	//remove it from the list of GO's
-				go->Destroy();				//the order of destruction matters here!
-				//Once the GO is destroyed, then I can erase it from the vector
 				m_TimedDeletionGameObjects.erase(it2);
+
+				auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), go);
+				if (it != m_GameObjects.end())
+				{
+					m_GameObjects.erase(it);
+					go->Destroy();
+				}*/
+
+				//onGameObjectDestroy.Invoke(go);
+				//auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), go);
+				////now we need to remove it from our own timed deletion vector...
+				////     _=+`^*~ get ready for some lambda magic ~*^`+=_
+				////We capture by reference and search the vector list of pairs
+				////if we find something that matches our GO by pointer, then we gottem
+				//auto it2 = std::find_if(m_TimedDeletionGameObjects.begin(), m_TimedDeletionGameObjects.end(),
+				//	[&](const auto& pair) {return pair.first == go; });
+				//m_GameObjects.erase(it);	//remove it from the list of GO's
+				//go->Destroy();				//the order of destruction matters here!
+				////Once the GO is destroyed, then I can erase it from the vector
+				//m_TimedDeletionGameObjects.erase(it2);
 			}
 		}
 
@@ -635,6 +679,9 @@ namespace LB
 	*************************************************************************/
 	void GameObjectManager::DestroyAllGOs()
 	{
+		// Remove all timed deletion, delete NOW!!
+		m_TimedDeletionGameObjects.clear();
+
 		// Destroying gameobjects
 		for (int i{ (int)m_GameObjects.size() - 1 }; i >= 0; --i)
 		{

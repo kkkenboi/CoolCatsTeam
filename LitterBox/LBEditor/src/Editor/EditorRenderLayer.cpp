@@ -93,10 +93,10 @@ namespace LB {
 				{
 					//TODO: ADD A BACKGROUND GAME OBJECT WITH A NAME IN THE GAME
 					//OTHERWISE THIS SHIT WON'T WORK
-					if (layer == Renderer::Renderer_Types::RT_BACKGROUND) {
+					/*if (layer == Renderer::Renderer_Types::RT_BACKGROUND) {
 						ImGui::TreePop();
 						continue;
-					}
+					}*/
 					const auto& obj_list = Renderer::GRAPHICS->get_layer_objs(layer);
 					for (auto& e : obj_list)
 					{

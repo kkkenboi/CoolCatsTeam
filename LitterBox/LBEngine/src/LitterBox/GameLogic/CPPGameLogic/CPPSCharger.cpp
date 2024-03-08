@@ -117,10 +117,6 @@ namespace LB
 		CPPSBaseEnemy::OnCollisionEnter(colData);
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") 
 		{
-			if (GetHealth() <= 0)
-			{
-				Die();
-			}
 			mFSM.ChangeState("Hurt");
 		}
 		else if (mIsCharging == true)
@@ -131,6 +127,10 @@ namespace LB
 
 	void CPPSCharger::Hurt()
 	{
+		if (GetHealth() <= 0)
+		{
+			Die();
+		}
 		CPPSBaseEnemy::Hurt();
 	}
 

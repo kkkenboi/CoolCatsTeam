@@ -16,6 +16,7 @@
 #include "CPPSBaseEnemy.h"
 #include "CPPGameManager.h"
 #include "LitterBox/Engine/Input.h"
+#include "CPPVFXManager.h"
 
 namespace LB
 {
@@ -50,6 +51,13 @@ namespace LB
 	**************************************************************************/
 	void CPPSBaseEnemy::Update()
 	{
+		//We want to constantly update the distance between enemy and player
+		mDistanceToPlayer =  Distance(GetComponent<CPTransform>()->GetPosition(), mPlayer->GetComponent<CPTransform>()->GetPosition());
+		//if (mGameManager->GetComponent<CPPSGameManager>()->isGameOver) 
+		//{
+		//	//mSpeedMagnitude = 0;
+		//	return;
+		//} 
 		//All enemies must always face player (?) Might not work for charger who knows
 		DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
 		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
@@ -57,7 +65,6 @@ namespace LB
 			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
 		}
 		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
-
 		//All enemies will sepuku if you press K
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_K))
 		{
@@ -82,6 +89,12 @@ namespace LB
 	**************************************************************************/
 	void CPPSBaseEnemy::OnCollisionEnter(CollisionData col)
 	{
+		if(col.colliderOther->gameObj->GetName() == "ball")
+		{
+			Vec2<float> hitPos = col.colliderOther->transform->GetPosition();
+			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(hitPos);
+
+		}
 		UNREFERENCED_PARAMETER(col);	//the derived classes should override this
 		//If the enemy has no hp it should be able to collide with anything anymore
 		if (mHealth <= 0) return;
@@ -156,6 +169,11 @@ namespace LB
 		return mSpeedMagnitude;
 	}
 
+	float CPPSBaseEnemy::GetDistToPlayer()
+	{
+		return mDistanceToPlayer;
+	}
+
 	/*!************************************************************************
 	 * \brief Die function of the base enemy that handles the dying
 	 * It will send a call to the Game Manager to reduce the current enemy count
@@ -165,8 +183,11 @@ namespace LB
 		//If the enemy dies, regardless we MUST reduce the enemy count
 		mGameManager->GetComponent<CPPSGameManager>()->ReduceEnemyCount();
 		//Forgive me lord for I have sinned
-		GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.0f, 10000.0f});
+		//GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.0f, 10000.0f});
+		GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition(),2);
+
 		mShouldDestroy = true;
+
 	}
 
 	/*!************************************************************************

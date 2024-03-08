@@ -1,0 +1,8 @@
+{
+    "Name": "VFXController",
+    "States": [
+        "Explosion",
+        "Hit",
+        "Poof"
+    ]
+}
