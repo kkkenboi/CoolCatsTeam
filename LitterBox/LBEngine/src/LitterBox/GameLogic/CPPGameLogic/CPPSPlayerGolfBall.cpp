@@ -28,6 +28,7 @@
 #include "CPPSMage.h"
 #include "CPPSChaser.h"
 #include "CPPGameManager.h"
+#include "CPPVFXManager.h"
 #include "LitterBox/Physics/RigidBodyManager.h"
 
 
@@ -125,7 +126,11 @@ namespace LB
 			mTransform->SetRotation(mRotation);
 		}
 
-		if (canDestroy) GOMANAGER->RemoveGameObject(this->GameObj);
+		if (canDestroy) 
+		{ 
+			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition(), 1);
+			GOMANAGER->RemoveGameObject(this->GameObj); 
+		}
 		//if (PHY_MATH::Length(GetRigidBody()->mVelocity) > 300.f) std::cout << PHY_MATH::Length(GetRigidBody()->mVelocity) << '\n';
 	}
 
@@ -156,10 +161,12 @@ namespace LB
 			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 		}
-		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar")
+		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit" && 
+			colData.colliderOther->m_gameobj->GetName()!= "MouseWorld")
 		{
 			//play ball knocking sound
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BallCollisionSounds, 0.4f);
+			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(GetComponent<CPTransform>()->GetPosition());
 		}
 	}
 
@@ -205,8 +212,11 @@ namespace LB
 	void CPPSPlayerGolfBall::Explode()
 	{
 		Renderer::GRAPHICS->shake_camera(80.f,0.3f);
+		//Play sound
 		int channel = AUDIOMANAGER->PlaySound("EXPLOSION");
 		AUDIOMANAGER->SetChannelVolume(channel, 0.3f);
+		//Spawn explosion on pos
+		GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnExplosion(GetComponent<CPTransform>()->GetPosition());
 		std::vector<CPCollider*> explosionColliders = COLLIDERS->OverlapCircle(this->GameObj->GetComponent<CPTransform>()->GetPosition(), 100.f);
 		//We loop through all the colliders that were in the radius
 		for (CPCollider* col : explosionColliders) {
@@ -249,6 +259,7 @@ namespace LB
 				ballClone1->GetComponent<CPTransform>()->SetPosition(playerPos);
 				//we don't want the ball clones to split
 				ballClone1->GetComponent<CPPSPlayerGolfBall>()->hasSplit = true;
+				ballClone1->GetComponent<CPPSPlayerGolfBall>()->isClone = true;
 				//but we want them to have the upgrades
 				ballClone1->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetBallUpgrades());
 				//Personally I think we should slightly rotate the force by a small angle to make it look better
@@ -266,6 +277,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayerGolfBall::Destroy() 
 	{
+		if(!isClone)
 		onBallDisappear.Invoke();
 	}
 
