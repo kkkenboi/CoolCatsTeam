@@ -95,6 +95,13 @@ namespace LB {
 					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
+				case POTION:
+				{
+					verticalPopUp->SetName("PotionV"), horizontalPopUp->SetName("PotionH");
+					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					break;
+				}
 				default:
 					continue;
 			}

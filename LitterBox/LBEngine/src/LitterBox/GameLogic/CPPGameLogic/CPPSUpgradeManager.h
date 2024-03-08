@@ -28,9 +28,9 @@ namespace LB
 		BOMB,			//Ball explodes on contact
 		BIGBALL,		//Ball increase size and mass
 		MOVESPEED,		//Increase player movespeed
-		POTION,
 		MOREHEALTH,		//Increase Max health by 1 (capped at 6/9)
 		MOREBALL,		//Increase ball count by 3	(capped at 6/9)
+		POTION,
 		MAXCOUNT		//Enum to keep track of the count of upgrades
 	};
 
