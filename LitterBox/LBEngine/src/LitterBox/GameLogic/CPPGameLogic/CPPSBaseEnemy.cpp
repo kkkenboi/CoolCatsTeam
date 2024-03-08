@@ -184,7 +184,7 @@ namespace LB
 		mGameManager->GetComponent<CPPSGameManager>()->ReduceEnemyCount();
 		//Forgive me lord for I have sinned
 		//GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.0f, 10000.0f});
-		GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition());
+		GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition(),2);
 
 		mShouldDestroy = true;
 

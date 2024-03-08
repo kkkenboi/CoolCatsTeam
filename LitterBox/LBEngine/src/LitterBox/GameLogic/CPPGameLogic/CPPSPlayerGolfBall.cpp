@@ -126,7 +126,11 @@ namespace LB
 			mTransform->SetRotation(mRotation);
 		}
 
-		if (canDestroy) GOMANAGER->RemoveGameObject(this->GameObj);
+		if (canDestroy) 
+		{ 
+			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition(), 1);
+			GOMANAGER->RemoveGameObject(this->GameObj); 
+		}
 		//if (PHY_MATH::Length(GetRigidBody()->mVelocity) > 300.f) std::cout << PHY_MATH::Length(GetRigidBody()->mVelocity) << '\n';
 	}
 
@@ -157,10 +161,12 @@ namespace LB
 			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 		}
-		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit")
+		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit" && 
+			colData.colliderOther->m_gameobj->GetName()!= "MouseWorld")
 		{
 			//play ball knocking sound
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BallCollisionSounds, 0.4f);
+			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(GetComponent<CPTransform>()->GetPosition());
 		}
 	}
 

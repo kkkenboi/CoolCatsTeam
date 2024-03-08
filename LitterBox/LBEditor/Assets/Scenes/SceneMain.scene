@@ -120,9 +120,9 @@
                                 "Width": 100.0,
                                 "Height": 100.0,
                                 "Layer": 0,
-                                "Texture": "DustParticle",
-                                "SpriteName": "None",
-                                "SpriteIndex": 1
+                                "Texture": "VFXCompile_SpriteSheet",
+                                "SpriteName": "VFXSheet",
+                                "SpriteIndex": 0
                             },
                             "Particle": {
                                 "EmitterType": 0,

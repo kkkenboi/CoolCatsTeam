@@ -45,7 +45,6 @@ void LB::CPPSPortal::Update()
 		if (!temp)//temp fix so that it's only called once
 		{//will not be needed once cols have their setactive done
 		this->GameObj->SetActive(false);
-		std::cout << "Spawn next wave!\n";
 		mGameManager->GetComponent<CPPSGameManager>()->NextWave();
 		temp = true;
 		}

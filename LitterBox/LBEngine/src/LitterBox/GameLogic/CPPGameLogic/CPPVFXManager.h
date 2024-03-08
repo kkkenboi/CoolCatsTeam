@@ -13,7 +13,7 @@ namespace LB
 
 		void SpawnExplosion(Vec2<float> pos);
 		void SpawnHitAnim(Vec2<float> pos);
-		void SpawnPoofAnim(Vec2<float> pos);
+		void SpawnPoofAnim(Vec2<float> pos, float scaleMult);
 	private:
 		
 	};

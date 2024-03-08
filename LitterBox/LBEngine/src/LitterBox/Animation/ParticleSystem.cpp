@@ -82,13 +82,24 @@ namespace LB
 			particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 			particle.mGameObj->GetComponent<CPRender>()->Initialise();
 			// Get the texture ID from the emitter
-			int textureID = emitter->mRender->texture;
-			std::string textureName = ASSETMANAGER->GetTextureName(textureID);
+
+			//First we check if it's using a sprite from a sprite sheet. 
+			//Since -1 means we're using a texture and not a sprite sheet,
+			if (emitter->mRender->spriteIndex < 0)
+			{	//We have to do the standard grabbing of texture from the asset manager stuff
+				int textureID = emitter->mRender->texture;
+				std::string textureName = ASSETMANAGER->GetTextureName(textureID);
+				particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter->mRender->w), static_cast<int>(emitter->mRender->h));
+			}
+			else
+			{	//if we do happen to have a sprite index, this means we're using the sprite sheet so
+				//we just use the CPRender function to set sprite texture
+				particle.mGameObj->GetComponent<CPRender>()->SetSpriteTexture(emitter->mRender->spriteSheetName, emitter->mRender->spriteIndex);
+			}
 			//std::cout << emitter.mRender->w << '\n';
 			//std::cout << emitter.mRender->h << '\n';
 			//std::cout << ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second << std::endl;
 			//std::cout << ASSETMANAGER->GetTextureName(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second) << std::endl;
-			particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter->mRender->w), static_cast<int>(emitter->mRender->h));
 		}
 		else if (emitter->mEmitterType == RADIAL)
 		{
@@ -121,11 +132,19 @@ namespace LB
 				particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 				particle.mGameObj->GetComponent<CPRender>()->Initialise();
 
-				// Get the texture ID from the emitter
-				int textureID = emitter->mRender->texture;
-				std::string textureName = ASSETMANAGER->GetTextureName(textureID);
-				particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter->mRender->w), static_cast<int>(emitter->mRender->h));
-
+				//First we check if it's using a sprite from a sprite sheet. 
+				//Since -1 means we're using a texture and not a sprite sheet,
+				if (emitter->mRender->spriteIndex < 0)
+				{	//We have to do the standard grabbing of texture from the asset manager stuff
+					int textureID = emitter->mRender->texture;
+					std::string textureName = ASSETMANAGER->GetTextureName(textureID);
+					particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter->mRender->w), static_cast<int>(emitter->mRender->h));
+				}
+				else
+				{	//if we do happen to have a sprite index, this means we're using the sprite sheet so
+					//we just use the CPRender function to set sprite texture
+					particle.mGameObj->GetComponent<CPRender>()->SetSpriteTexture(emitter->mRender->spriteSheetName, emitter->mRender->spriteIndex);
+				}
 				// Move to the next index in the particle pool
 				mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
 			}
