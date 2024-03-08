@@ -35,6 +35,7 @@
 #include "CPPSMouse.h"
 #include "CPPSMouseUI.h"
 #include "CPPSMouseWorld.h"
+#include "CPPShield.h"
 
 namespace LB 
 {

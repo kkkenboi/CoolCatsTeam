@@ -312,7 +312,7 @@ namespace LB
 	*************************************************************************/
 	void CheckGameObjectDeleted(GameObject* deletedGO)
 	{
-		if (EDITORHIERACHY->GetClickedItem() && EDITORHIERACHY->GetClickedItem() == deletedGO->GetComponent<CPTransform>())
+		if (GOMANAGER->IsGameObjectInScene(deletedGO) && EDITORHIERACHY->GetClickedItem() && EDITORHIERACHY->GetClickedItem() == deletedGO->GetComponent<CPTransform>())
 		{
 			EDITORHIERACHY->DeselectSelectedObject();
 		}
