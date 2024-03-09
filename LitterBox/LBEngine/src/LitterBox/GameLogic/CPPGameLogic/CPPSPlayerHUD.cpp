@@ -124,9 +124,11 @@ namespace LB {
 			// Set the texture for lost health
 			if (i > m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
 			{
-				healthObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"),
+				healthObject->GetComponent<CPRender>()->SetSpriteTexture(healthObject->GetComponent<CPRender>()->spriteSheetName, 49);
+
+				/*healthObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"),
 					static_cast<int>(healthObject->GetComponent<CPRender>()->w),
-					static_cast<int>(healthObject->GetComponent<CPRender>()->h));
+					static_cast<int>(healthObject->GetComponent<CPRender>()->h));*/
 			}
 			m_totalHeartDisplay.push_back(healthObject);
 		}
@@ -317,9 +319,11 @@ namespace LB {
 			// Set the texture for lost health
 			if (i > m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
 			{
-				healthObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"),
-					static_cast<int>(healthObject->GetComponent<CPRender>()->w),
-					static_cast<int>(healthObject->GetComponent<CPRender>()->h));
+				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->spriteSheetName, 49);
+
+				//healthObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"),
+				//	static_cast<int>(healthObject->GetComponent<CPRender>()->w),
+				//	static_cast<int>(healthObject->GetComponent<CPRender>()->h));
 			}
 			//healthObject->GetComponent<CPTransform>()->SetParent(GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPTransform>());
 
@@ -369,12 +373,12 @@ namespace LB {
 		m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)].second->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradeObject->GetComponent<CPTransform>()->GetPosition().x, upgradeObject->GetComponent<CPTransform>()->GetPosition().y + 100.f));
 
 		// - Set image and spritesheet + index
-		upgradeObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Items"),
-																static_cast<int>(upgradeObject->GetComponent<CPRender>()->w),
-																static_cast<int>(upgradeObject->GetComponent<CPRender>()->h));
+		//upgradeObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Items"),
+		//														static_cast<int>(upgradeObject->GetComponent<CPRender>()->w),
+		//														static_cast<int>(upgradeObject->GetComponent<CPRender>()->h));
 
-		upgradeObject->GetComponent<CPRender>()->spriteIndex = static_cast<int>(upgrade - 1); // Minus 1 since the enum starts from 1
-		upgradeObject->GetComponent<CPRender>()->SetSpriteTexture("Upgrades", static_cast<int>(upgrade - 1)); // Minus 1 since the enum starts from 1
+		upgradeObject->GetComponent<CPRender>()->spriteIndex = static_cast<int>(upgrade + 31); // Minus 1 since the enum starts from 1
+		upgradeObject->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", upgradeObject->GetComponent<CPRender>()->spriteIndex); // Minus 1 since the enum starts from 1
 
 		m_totalUpgradeDisplay.push_back(upgradeObject);
 	}

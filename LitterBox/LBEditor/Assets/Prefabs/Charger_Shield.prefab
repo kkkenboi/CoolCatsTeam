@@ -41,8 +41,8 @@
                     "Height": 120.0,
                     "Layer": 0,
                     "Texture": "EditorIcons",
-                    "SpriteName": "ChargerSheet",
-                    "SpriteIndex": 5
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 31
                 },
                 "Collider": {
                     "Active": true,

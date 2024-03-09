@@ -64,7 +64,7 @@ namespace LB
 			{
 				DebuggerLog("Colliding with upgrade!\n");
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = true;
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteIndex); // Check again when actual sprites are added
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteIndex - 31); // Check again when actual sprites are added
 
 				UpgradeType tempIndex{ m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex };
 
@@ -76,7 +76,7 @@ namespace LB
 
 				DebuggerLogFormat("Final Position set at: %f, %f", finalPos.x , finalPos.y);
 
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_totalUpgradePopUps[static_cast<size_t>(tempIndex)].first->GetComponent<CPTransform>()->SetPosition(finalPos);
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_totalUpgradePopUps[static_cast<size_t>(tempIndex) - 1].first->GetComponent<CPTransform>()->SetPosition(finalPos);
 			}
 		}
 	}
