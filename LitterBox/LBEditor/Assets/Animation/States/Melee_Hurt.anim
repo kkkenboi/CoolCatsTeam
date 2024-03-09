@@ -1,6 +1,6 @@
 {
-    "Name": "Felix_Hurt",
-    "SpriteSheet Name": "FelixSheet",
+    "Name": "Melee_Hurt",
+    "SpriteSheet Name": "MultiSheet",
     "Active": {
         "Default": true,
         "Frame Group": []
@@ -28,43 +28,43 @@
         "Frame Group": [
             {
                 "Frame": 0,
-                "Data": 2
+                "Data": 6
             },
             {
                 "Frame": 6,
-                "Data": 42
+                "Data": 3
             },
             {
                 "Frame": 12,
-                "Data": 2
+                "Data": 6
             },
             {
                 "Frame": 18,
-                "Data": 42
+                "Data": 3
             },
             {
                 "Frame": 24,
-                "Data": 2
+                "Data": 6
             },
             {
                 "Frame": 30,
-                "Data": 42
+                "Data": 3
             },
             {
                 "Frame": 36,
-                "Data": 2
+                "Data": 6
             },
             {
                 "Frame": 42,
-                "Data": 42
+                "Data": 3
             },
             {
                 "Frame": 48,
-                "Data": 2
+                "Data": 6
             },
             {
                 "Frame": 54,
-                "Data": 42
+                "Data": 3
             }
         ]
     },

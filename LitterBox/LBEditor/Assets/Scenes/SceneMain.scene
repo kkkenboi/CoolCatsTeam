@@ -776,7 +776,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Layer": 0,
-                    "Texture": "Bush_SpriteSheet",
+                    "Texture": "EditorIcons",
                     "SpriteName": "BushSheet",
                     "SpriteIndex": 1
                 }
@@ -801,7 +801,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Layer": 0,
-                    "Texture": "Bush_SpriteSheet",
+                    "Texture": "EditorIcons",
                     "SpriteName": "BushSheet",
                     "SpriteIndex": 0
                 }
@@ -826,7 +826,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Layer": 0,
-                    "Texture": "Bush_SpriteSheet",
+                    "Texture": "EditorIcons",
                     "SpriteName": "BushSheet",
                     "SpriteIndex": 2
                 }
@@ -1326,7 +1326,7 @@
                     "Width": 125.0,
                     "Height": 125.0,
                     "Layer": 0,
-                    "Texture": "MushBramble_SpriteSheet",
+                    "Texture": "EditorIcons",
                     "SpriteName": "MushBrambleSheet",
                     "SpriteIndex": 0
                 },
@@ -1424,7 +1424,7 @@
                     "Width": 150.0,
                     "Height": 150.0,
                     "Layer": 0,
-                    "Texture": "MushBramble_SpriteSheet",
+                    "Texture": "EditorIcons",
                     "SpriteName": "MushBrambleSheet",
                     "SpriteIndex": 2
                 },

@@ -1,6 +1,6 @@
 {
-    "Name": "Felix_Hurt",
-    "SpriteSheet Name": "FelixSheet",
+    "Name": "Mage_Projectile",
+    "SpriteSheet Name": "VFXSheet",
     "Active": {
         "Default": true,
         "Frame Group": []
@@ -28,15 +28,15 @@
         "Frame Group": [
             {
                 "Frame": 0,
-                "Data": 2
+                "Data": 39
             },
             {
                 "Frame": 6,
-                "Data": 42
+                "Data": 40
             },
             {
                 "Frame": 12,
-                "Data": 2
+                "Data": 41
             },
             {
                 "Frame": 18,
@@ -44,27 +44,23 @@
             },
             {
                 "Frame": 24,
-                "Data": 2
+                "Data": 43
             },
             {
                 "Frame": 30,
-                "Data": 42
+                "Data": 44
             },
             {
                 "Frame": 36,
-                "Data": 2
+                "Data": 45
             },
             {
                 "Frame": 42,
-                "Data": 42
+                "Data": 46
             },
             {
                 "Frame": 48,
-                "Data": 2
-            },
-            {
-                "Frame": 54,
-                "Data": 42
+                "Data": 47
             }
         ]
     },

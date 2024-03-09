@@ -1,5 +1,5 @@
 {
-    "Name": "Felix_Hurt",
+    "Name": "Felix_Walk",
     "SpriteSheet Name": "FelixSheet",
     "Active": {
         "Default": true,
@@ -28,46 +28,46 @@
         "Frame Group": [
             {
                 "Frame": 0,
-                "Data": 2
+                "Data": 32
+            },
+            {
+                "Frame": 2,
+                "Data": 33
+            },
+            {
+                "Frame": 4,
+                "Data": 34
             },
             {
                 "Frame": 6,
-                "Data": 42
+                "Data": 35
+            },
+            {
+                "Frame": 8,
+                "Data": 36
+            },
+            {
+                "Frame": 10,
+                "Data": 37
             },
             {
                 "Frame": 12,
-                "Data": 2
+                "Data": 39
+            },
+            {
+                "Frame": 14,
+                "Data": 40
+            },
+            {
+                "Frame": 16,
+                "Data": 41
             },
             {
                 "Frame": 18,
-                "Data": 42
-            },
-            {
-                "Frame": 24,
-                "Data": 2
-            },
-            {
-                "Frame": 30,
-                "Data": 42
-            },
-            {
-                "Frame": 36,
-                "Data": 2
-            },
-            {
-                "Frame": 42,
-                "Data": 42
-            },
-            {
-                "Frame": 48,
-                "Data": 2
-            },
-            {
-                "Frame": 54,
-                "Data": 42
+                "Data": 38
             }
         ]
     },
     "Start": 0,
-    "End": 54
+    "End": 20
 }

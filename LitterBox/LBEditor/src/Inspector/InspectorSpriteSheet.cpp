@@ -248,6 +248,10 @@ namespace LB
 
 		//display details of each tile here
 		if (!m_inspectedSheet.Size()) return;
+
+		// Scalable image size
+		float imageWidth = ImGui::GetContentRegionAvail().x / m_inspectedSheet.m_col;
+
 		if (ImGui::BeginTable("SlicedSpriteSheet", m_inspectedSheet.m_col))
 		{
 			//Creating a table to place the sprites evenly by its row and cols
@@ -260,7 +264,7 @@ namespace LB
 					int tileNum = (c + r * m_inspectedSheet.m_col);
 					ImGui::PushID(tileNum);
 					ImGui::Text("Sprite %i", tileNum);
-					if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef()))), ImVec2{normalWidth, normalWidth}
+					if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(m_inspectedSheet.GetPNGRef()))), ImVec2{ imageWidth, imageWidth }
 						, ImVec2{ m_inspectedSheet[tileNum].m_min.x, m_inspectedSheet[tileNum].m_max.y }
 						, ImVec2{ m_inspectedSheet[tileNum].m_max.x, m_inspectedSheet[tileNum].m_min.y }))
 					{

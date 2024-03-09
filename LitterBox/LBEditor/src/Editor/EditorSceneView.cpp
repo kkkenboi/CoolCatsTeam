@@ -195,7 +195,7 @@ namespace LB
 		}
 
 		// If the user is using the scene view
-		usingSceneView = ImGui::IsWindowFocused();
+		usingSceneView = ImGui::IsWindowHovered();
 
 		// If a prefab json file has been dropped onto the scene view
 		if (ImGui::BeginDragDropTarget())

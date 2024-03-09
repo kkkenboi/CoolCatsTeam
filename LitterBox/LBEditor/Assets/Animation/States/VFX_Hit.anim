@@ -1,6 +1,6 @@
 {
-    "Name": "Felix_Hurt",
-    "SpriteSheet Name": "FelixSheet",
+    "Name": "VFX_Hit",
+    "SpriteSheet Name": "VFXSheet",
     "Active": {
         "Default": true,
         "Frame Group": []
@@ -28,46 +28,34 @@
         "Frame Group": [
             {
                 "Frame": 0,
-                "Data": 2
+                "Data": 16
             },
             {
                 "Frame": 6,
-                "Data": 42
+                "Data": 17
             },
             {
                 "Frame": 12,
-                "Data": 2
+                "Data": 18
             },
             {
                 "Frame": 18,
-                "Data": 42
+                "Data": 19
             },
             {
                 "Frame": 24,
-                "Data": 2
+                "Data": 20
             },
             {
                 "Frame": 30,
-                "Data": 42
+                "Data": 21
             },
             {
                 "Frame": 36,
-                "Data": 2
-            },
-            {
-                "Frame": 42,
-                "Data": 42
-            },
-            {
-                "Frame": 48,
-                "Data": 2
-            },
-            {
-                "Frame": 54,
-                "Data": 42
+                "Data": 31
             }
         ]
     },
     "Start": 0,
-    "End": 54
+    "End": 36
 }
