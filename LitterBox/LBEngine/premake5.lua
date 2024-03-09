@@ -60,7 +60,8 @@ project "LBEngine"
         "freetype",
         "avutil.lib",
         "avcodec.lib",
-        "avformat.lib"
+        "avformat.lib",
+        "swscale.lib"
     }
 
     filter "system:windows"

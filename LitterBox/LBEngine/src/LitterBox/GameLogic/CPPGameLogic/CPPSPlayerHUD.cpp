@@ -55,7 +55,7 @@ namespace LB {
 				// Set their names and text for each upgrade
 				case SPLIT:
 				{
-					verticalPopUp->SetName("SplitVPopUp"), horizontalPopUp->SetName("SplitHPopUp");
+					verticalPopUp->SetName("DuplimirrorVPopUp"), horizontalPopUp->SetName("DuplimirrorHPopUp");
 					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
@@ -69,39 +69,46 @@ namespace LB {
 				}
 				case BIGBALL:
 				{
-					verticalPopUp->SetName("BiggieBallVPopUp"), horizontalPopUp->SetName("BiggieBallHPopUp");
+					verticalPopUp->SetName("BagOfGolfingVPopUp"), horizontalPopUp->SetName("BagOfGolfingHPopUp");
 					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case MOVESPEED:
 				{
-					verticalPopUp->SetName("SpeedsterVPopUp"), horizontalPopUp->SetName("SpeedsterHPopUp");
+					verticalPopUp->SetName("BootsOfAgilityVPopUp"), horizontalPopUp->SetName("BootsOfAgilityHPopUp");
 					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case MOREHEALTH:
 				{
-					verticalPopUp->SetName("ExtraLivesVPopUp"), horizontalPopUp->SetName("ExtraLivesHPopUp");
+					verticalPopUp->SetName("HeartLocketVPopUp"), horizontalPopUp->SetName("HeartLocketHPopUp");
 					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case MOREBALL:
 				{
-					verticalPopUp->SetName("BagOfHoldingVPopUp"), horizontalPopUp->SetName("BagOfHoldingHPopUp");
+					verticalPopUp->SetName("GrowthPowderVPopUp"), horizontalPopUp->SetName("GrowthPowderHopUp");
 					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case POTION:
 				{
-					verticalPopUp->SetName("PotionV"), horizontalPopUp->SetName("PotionH");
+					verticalPopUp->SetName("PotionVPopUp"), horizontalPopUp->SetName("PotionHPopUp");
 					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
+				//case SLIPPERY:
+				//{
+				//	verticalPopUp->SetName("SlipperyVPopUp"), horizontalPopUp->SetName("SlipperyHPopUp");
+				//	verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+				//	horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+				//	break;
+				//}
 				default:
 					continue;
 			}

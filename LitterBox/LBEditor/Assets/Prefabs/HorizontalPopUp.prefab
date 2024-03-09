@@ -1,5 +1,5 @@
 {
-    "Name": "VerticalPopUp",
+    "Name": "HorizontalPopUp",
     "Active": true,
     "Transform": {
         "Active": true,
@@ -18,8 +18,8 @@
         "Width": 757.0,
         "Height": 432.0,
         "Layer": 3,
-        "Texture": "UpgradeBG_H",
-        "SpriteName": "None",
-        "SpriteIndex": -1
+        "Texture": "UpgradePopUp_Spritesheet",
+        "SpriteName": "Upgrades",
+        "SpriteIndex": 0
     }
 }
