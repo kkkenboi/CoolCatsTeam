@@ -28,7 +28,7 @@ Constructor of the Animation Editor
 
 namespace LB
 {
-	static float columnWidth = 60.0f;
+	static float columnWidth = 65.0f;
 	static float normalWidth = 150.f;
 	static float smallWidth = 60.f;
 
@@ -90,14 +90,20 @@ namespace LB
 			}
 		}
 
-		// State frame control
+		//----------------------------------------------STATE CONTROLS----------------------------------------------
 		ImGui::Separator();
+		ImGui::Text("State Controls");
 		ImGui::SetNextItemWidth(smallWidth);
 		ImGui::DragInt("Start Frame", &m_loadedState.m_startFrame);
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(smallWidth);
 		ImGui::DragInt("End Frame", &m_loadedState.m_endFrame);
+		ImGui::SameLine();
+		ImGui::Dummy({15.0f, 0.0f});
+		ImGui::SameLine();
+		ImGui::Text("%d Current Frame", m_currentFrame);
 
+		ImGui::Separator();
 		ImGui::Columns(2);
 		ImGui::SetColumnWidth(0, columnWidth);
 
@@ -238,6 +244,12 @@ namespace LB
 		ImGui::SetNextItemWidth(normalWidth);
 		if (ImGui::BeginCombo("##Spritesheet", (m_spriteSheet ? m_spriteSheet->GetName().c_str() : "None") ))
 		{
+			// Default option
+			if (ImGui::Selectable("None"))
+			{
+				m_spriteSheet = nullptr;
+				m_loadedState.m_spriteSheetName = "None";
+			}
 			for (auto& [str, sSheet] : ASSETMANAGER->SpriteSheets)
 			{
 				std::filesystem::path tempPath{ str };
@@ -390,6 +402,10 @@ namespace LB
 		if (m_loadedState.m_spriteSheetName != "None")
 		{
 			m_spriteSheet = &ASSETMANAGER->SpriteSheets[m_loadedState.m_spriteSheetName];
+		}
+		else
+		{
+			m_spriteSheet = nullptr;
 		}
 		m_stateLoaded = true;
 		m_controllerLoaded = false;
