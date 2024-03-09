@@ -103,7 +103,9 @@ namespace LB
 		bool m_displayUpgrade{false};
 		bool m_decreaseHealth{ false };
 		bool m_decreaseBalls{ false };
-		Vec2<float> m_displayOffset = { 130.f, 130.f };
+		Vec2<float> m_heartDisplayOffset = { 110.f, 110.f };
+		Vec2<float> m_ballDisplayOffset = { 68.f, 68.f };
+		Vec2<float> m_upgradeDisplayOffset = { 106.f, 106.f };
 
 		GameObject* m_GameManager{ nullptr };
 		GameObject* m_UpgradeManager{ nullptr };

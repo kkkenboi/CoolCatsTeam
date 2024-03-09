@@ -19,7 +19,7 @@
         "Height": 432.0,
         "Layer": 3,
         "Texture": "UpgradePopUp_Spritesheet",
-        "SpriteName": "Upgrades",
+        "SpriteName": "UpgradesSheet",
         "SpriteIndex": 0
     }
 }
