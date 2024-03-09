@@ -1,8 +1,8 @@
 #pragma once
 extern "C" {
-#include "libavformat/avformat.h"	//for the av format
-#include "libavcodec/avcodec.h"		//for the codec stuff
-#include <libswscale/swscale.h>		//for scaling the video
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
 #include <inttypes.h>
 }
 //
@@ -27,11 +27,20 @@ namespace LB
 {
 	class VideoPlayerSystem
 	{
+		struct VideoRenderState
+		{
+
+		};
+
 	public:
 		//ctor for the video player system (only sets the extern)
 		VideoPlayerSystem();
 		//Function to attempt to play the video
 		void OnPlayVideo();
+
+		void load_video_file();
+		void load_video_frame();
+		void free_video_state();
 	private:
 		//Helper functions to decode the packet
 		int decode_packet(AVPacket* pPacket, AVCodecContext* pCodecContext, AVFrame* pFrame);
@@ -40,5 +49,6 @@ namespace LB
 		//Helper function to test to see if I can read the data
 		void save_gray_frame(unsigned char* buf, int wrap, int xsize, int ysize);
 	};
+
 	extern VideoPlayerSystem* VIDEOPLAYER;
 }

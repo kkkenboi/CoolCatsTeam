@@ -1229,7 +1229,7 @@
                                 "Rotation": 8.8
                             },
                             "Collider": {
-                                "Active": true,
+                                "Active": false,
                                 "ColliderLayer": {
                                     "Layer Name": "UI",
                                     "Layer ID": 2
@@ -1565,7 +1565,7 @@
                     "SpriteIndex": -1
                 },
                 "Collider": {
-                    "Active": true,
+                    "Active": false,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0

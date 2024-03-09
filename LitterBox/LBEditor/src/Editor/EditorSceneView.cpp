@@ -37,6 +37,7 @@
 
 extern unsigned int svtcb;
 extern Renderer::RenderSystem* Renderer::GRAPHICS;
+extern unsigned int tex_handle;
 
 namespace LB
 {
@@ -172,8 +173,11 @@ namespace LB
 		ImGui::BeginChild("GameRender");
 		m_windowSize = ImGui::GetWindowSize();
 		uint64_t warning_remover = (uint64_t)Renderer::GRAPHICS->get_scene_view();
-		if(warning_remover != static_cast<unsigned int>(-1))
+		if(warning_remover != static_cast<unsigned int>(-1) && !tex_handle)
 			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(Renderer::GRAPHICS->get_scene_view())), m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
+
+		if(tex_handle)
+			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(tex_handle)), m_windowSize);
 
 		m_mousePosInWorld.x = (((ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) / (ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x)) * WINDOWSSYSTEM->GetWidth()) / zoomCurrent + Renderer::GRAPHICS->get_cam()->get_cam_pos().x;
 		m_mousePosInWorld.y = ((1.0f - (ImGui::GetMousePos().y - ImGui::GetItemRectMin().y) / (ImGui::GetItemRectMax().y - ImGui::GetItemRectMin().y)) * WINDOWSSYSTEM->GetHeight()) / zoomCurrent + Renderer::GRAPHICS->get_cam()->get_cam_pos().y;

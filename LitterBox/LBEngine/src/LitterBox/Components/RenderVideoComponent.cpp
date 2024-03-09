@@ -6,6 +6,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+unsigned int tex_handle{ 0 };
 
 namespace LB
 {
@@ -16,11 +17,22 @@ namespace LB
 		if (!VIDEOPLAYER) VIDEOPLAYER = this;
 	}
 
+	static AVPixelFormat correct_for_deprecated_pixel_format(AVPixelFormat pix_fmt) {
+		// Fix swscaler deprecated pixel format warning
+		// (YUVJ has been deprecated, change pixel format to regular YUV)
+		switch (pix_fmt) {
+		case AV_PIX_FMT_YUVJ420P: return AV_PIX_FMT_YUV420P;
+		case AV_PIX_FMT_YUVJ422P: return AV_PIX_FMT_YUV422P;
+		case AV_PIX_FMT_YUVJ444P: return AV_PIX_FMT_YUV444P;
+		case AV_PIX_FMT_YUVJ440P: return AV_PIX_FMT_YUV440P;
+		default:                  return pix_fmt;
+		}
+	}
+
 	//Function to play the video
 	void VideoPlayerSystem::OnPlayVideo()
 	{
 		//openGL stuff, shoddy attempt at trying to throw something to the screen. Can delete, not crucial
-		GLuint tex_handle;
 		glGenTextures(1, &tex_handle);
 		glBindTexture(GL_TEXTURE_2D, tex_handle);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -28,109 +40,149 @@ namespace LB
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
-		//========= HOW VIDEOS WORK APPARENTLY =============================
-		// Video.mp4 -> AVFormatContext -> AVStream -> AVPacket -> AVCodec -> AVFrame
-		//1) Load the media file into AVFormatContext 
-		//[Once they're loaded we can access their streams.]
-		//2) From the stream we can extract the packets (I think it's still compressed)
-		//3) We use the codec to uncompress the packets to load them into the frame
-		//4) Once we have the frame, we technically have the raw frame data.
-		//5) Videos are mostly done in YUV format. So we need to use sws to convert it to RGB...
-		//[But somehow sws scaler gives a linker error so I think we need to do it manually...]
-
-
-		//This sets the context for the video
-		AVFormatContext* ctx = avformat_alloc_context();
-		if (!ctx) std::cout << "Could not allocate memory for format context\n";
-
-		//We try to open the file
-		int test = avformat_open_input(&ctx, FILESYSTEM->GetFilePath("samplevideo").string().c_str(), NULL, NULL);
-		if (test != 0) std::cout << "Could not open the file! \n";
-
-		//Then we find the stream
-		test = avformat_find_stream_info(ctx, NULL);
-		if (test < 0) std::cout << "Could not get stream info! \n";
-
-		//We try to find the stream and get the correct codec
-		const AVCodec* codec = NULL;
-		AVCodecParameters* pCodecParameters = NULL;
-		int videoIndex = -1;
-
-		for (int i = 0; i < ctx->nb_streams; ++i)
+		AVFormatContext* av_format_ctx = avformat_alloc_context();
+		if (!av_format_ctx)
 		{
-			AVCodecParameters* localCodecParams = NULL;
-			localCodecParams = ctx->streams[i]->codecpar;
-			const AVCodec* localCodec = NULL;
-			localCodec = avcodec_find_decoder(localCodecParams->codec_id);
-			if (localCodec == NULL) std::cout << "Unsupported codec! \n";
+			DebuggerLogError("Could not create AVFormatContxt");
+			return;
+		}
 
-			if (localCodecParams->codec_type == AVMEDIA_TYPE_VIDEO)
+		if (avformat_open_input(&av_format_ctx, FILESYSTEM->GetFilePath("samplevideo").string().c_str(), NULL, NULL) != 0)
+		{
+			DebuggerLogError("Could not Open video file");
+			return;
+		}
+
+		int video_stream_index = -1;
+		AVCodecParameters* av_codec_params{ nullptr };
+		AVCodec* av_codec{ nullptr };
+
+		for (int i{ 0 }; i < av_format_ctx->nb_streams; ++i)
+		{
+			auto stream = av_format_ctx->streams[i];
+			av_codec_params = av_format_ctx->streams[i]->codecpar;
+			const AVCodec* av_codec_inside = avcodec_find_decoder(av_codec_params->codec_id);
+
+			if (!av_codec_inside)
 			{
-				if (videoIndex == -1)
-				{
-					videoIndex = i;
-					codec = localCodec;
-					pCodecParameters = localCodecParams;
-				}
+				continue;
+			}
+
+			if (av_codec_inside->type == AVMEDIA_TYPE_VIDEO)
+			{
+				av_codec = const_cast<AVCodec*>(av_codec_inside);
+				video_stream_index = i;
+				break;
 			}
 		}
 
-		if (videoIndex == -1) std::cout << "File does not contain video stream!\n";
-		//This dump function will tell you more about the video
-		//av_dump_format(ctx, videoIndex, FILESYSTEM->GetFilePath("samplevideo").string().c_str(), false);
-
-		//Now we need to get the codec stuff
-		AVCodecContext* avcc = avcodec_alloc_context3(codec);
-		if (!avcc) std::cout << "failed to allocate mem for AVCodecContext\n";
-		//And the correct codec params
-		test = avcodec_parameters_to_context(avcc, ctx->streams[videoIndex]->codecpar);
-		if (test < 0) std::cout << "failed to copy codec params to codec context\n";
-		test = avcodec_open2(avcc, codec, NULL);
-		if (test < 0) std::cout << "failed to open codec through avcodec_open2\n";
-		//Allocating space for frame
-		AVFrame* frame = av_frame_alloc();
-		if (!frame) std::cout << "failed to allocate memory for frame\n";
-		//Allocating space for packet
-		AVPacket* packet = av_packet_alloc();
-		if (!packet) std::cout << "failed to allocate memory for packet\n";
-
-		int response = 0;
-		//Helper int to limit the number of packets we process
-		//int packets_to_process = 8;
-
-		//As long as there are packets to be read
-		while (av_read_frame(ctx, packet) >= 0)
-		{	//if the packet is from the video stream
-			if (packet->stream_index == videoIndex)
-			{
-				//Helper function to decode and read through the frame data
-				response = decode_packet(packet, avcc, frame);
-				//response = avcodec_receive_frame(avcc, frame);
-				if (response < 0) break;
-				//Helper check to limit the number of packets we process
-				//if (--packets_to_process <= 0) break;
-			}
-			av_packet_unref(packet);
+		if (video_stream_index == -1)
+		{
+			DebuggerLogError("Could not find valid video stream inside file");
+			return;
 		}
 
-		//By right we should be able to use this but I get linker errors :C
-		//const int width = frame->width;
-		//const int height = frame->height;
-		//uint8_t* frameBuffer;		//I think I need to like memalign this to 16 or something???? Honestly not sure
-		//Set up scaler 
-		//SwsContext* swsScaler = sws_getContext(frame->width, frame->height, avcc->pix_fmt, frame->width, frame->height, AV_PIX_FMT_RGB0, SWS_BILINEAR, NULL, NULL, NULL);
-		//uint8_t* dest[4] = { frameBuffer, NULL,NULL,NULL };
-		//int dest_lineSize[4] = {width * 4,0,0,0};
-		//sws_scale(swsScaler, frame->data, frame->linesize, 0, frame->height, dest, dest_lineSize);
-		
+		AVCodecContext* av_codec_ctx = avcodec_alloc_context3(av_codec);
+		if (!av_codec_ctx)
+		{
+			DebuggerLogError("Could not create AVCodecContext");
+			return;
+		}
 
+		if (avcodec_parameters_to_context(av_codec_ctx, av_codec_params) < 0)
+		{
+			DebuggerLogError("Could not initialize AVCodecContext");
+			return;
+		}
+		if (avcodec_open2(av_codec_ctx, av_codec, NULL) < 0)
+		{
+			DebuggerLogError("Could not open codec");
+			return;
+		}
 
-		//Need to remember to do this or there will be leaks!
-		//avformat_close_input(&ctx);
-		//av_packet_free(&packet);
-		//av_frame_free(&frame);
+		AVFrame* av_frame = av_frame_alloc();
+		if (!av_frame)
+		{
+			DebuggerLogError("Could not allocate AVFrame");
+			return;
+		}
+		AVPacket* av_packet = av_packet_alloc();
+		if (!av_packet)
+		{
+			DebuggerLogError("Could not allocate AVPacket");
+			return;
+		}
+
+		int response{ 0 };
+		while (av_read_frame(av_format_ctx, av_packet) >= 0)
+		{
+			if (av_packet->stream_index != video_stream_index)
+			{
+				continue;
+			}
+
+			response = avcodec_send_packet(av_codec_ctx, av_packet);
+			if (response < 0)
+			{
+				DebuggerLogError("failed to decode packet");
+				return;
+			}
+
+			response = avcodec_receive_frame(av_codec_ctx, av_frame);
+			if (response == AVERROR(EAGAIN) || response == AVERROR_EOF)
+			{
+				continue;
+			}
+			else if (response < 0)
+			{
+				DebuggerLogError("failed to decode packet");
+				return;
+			}
+
+			av_packet_unref(av_packet);
+			break;
+		}
+
+		unsigned char* data = new unsigned char[av_frame->width * av_frame->height * 4];
+		/*for (int x{ 0 }; x < av_frame->width; ++x)
+			for (int y{ 0 }; y < av_frame->height; ++y)
+			{
+				data[y * av_frame->width * 3 + x * 3] = av_frame->data[0][y * av_frame->linesize[0] + x];
+				data[y * av_frame->width * 3 + x * 3 + 1] = av_frame->data[0][y * av_frame->linesize[0] + x];
+				data[y * av_frame->width * 3 + x * 3 + 2] = av_frame->data[0][y * av_frame->linesize[0] + x];
+			}*/
+
+		SwsContext* sws_scalar_ctx = sws_getContext(av_frame->width,
+			av_frame->height,
+			av_codec_ctx->pix_fmt,
+			av_frame->width,
+			av_frame->height,
+			AV_PIX_FMT_RGB0,
+			SWS_BILINEAR,
+			NULL, NULL, NULL);
+
+		if (!sws_scalar_ctx)
+		{
+			DebuggerLogError("Could not initialize sw scalar");
+			return;
+		}
+		uint8_t* dest[4] = { data, NULL, NULL, NULL };
+		int dest_linesize[4] = { av_frame->width * 4, 0, 0, 0 };
+		sws_scale(sws_scalar_ctx, av_frame->data, av_frame->linesize, 0, av_frame->height, dest, dest_linesize);
+		sws_freeContext(sws_scalar_ctx);
+
+		glBindTexture(GL_TEXTURE_2D, tex_handle);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, av_frame->width, av_frame->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		avformat_close_input(&av_format_ctx);
+		avformat_free_context(av_format_ctx);
+		av_frame_free(&av_frame);
+		av_packet_free(&av_packet);
+		avcodec_free_context(&av_codec_ctx);
 	}
 
 	void VideoPlayerSystem::logging(const char* fmt, ...)
@@ -175,7 +227,11 @@ namespace LB
 			if (response >= 0)
 			{	
 				//We pass in the first index and alignment and save it to a PGM
-				save_gray_frame(pFrame->data[0], pFrame->linesize[0], pFrame->width, pFrame->height);
+				//save_gray_frame(pFrame->data[0], pFrame->linesize[0], pFrame->width, pFrame->height);
+
+				/*glBindTexture(GL_TEXTURE_2D, tex_handle);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, pFrame->width, pFrame->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pFrame->data);
+				glBindTexture(GL_TEXTURE_2D, 0);*/
 			}
 		}
 		pts = pFrame->pts;
