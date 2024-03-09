@@ -685,7 +685,7 @@
                     "Active": true,
                     "Position": {
                         "x": 701.569824,
-                        "y": 602.243041
+                        "y": 573.775146
                     },
                     "Scale": {
                         "x": 1.0,
@@ -701,7 +701,7 @@
                     },
                     "Shape": 1,
                     "Width": 637.0,
-                    "Height": 246.0,
+                    "Height": 191.0,
                     "Radius": 50.0
                 },
                 "CPPScript": {
@@ -716,7 +716,7 @@
                     "Active": true,
                     "Position": {
                         "x": 511.061187,
-                        "y": 294.545227
+                        "y": 271.4151
                     },
                     "Scale": {
                         "x": 1.0,
@@ -746,14 +746,211 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 960.0,
-                        "y": 540.0
+                        "x": 319.456787,
+                        "y": 217.957168
                     },
                     "Scale": {
                         "x": 1.0,
                         "y": 1.0
                     },
                     "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 121.0,
+                    "Height": 126.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Sandpit",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 352.122497,
+                        "y": 300.617248
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 169.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sandpit",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 392.950134,
+                        "y": 94.741943
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 266.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sandpit",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 539.490783,
+                        "y": 15.123538
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 205.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sandpit",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 704.004333,
+                        "y": 698.656066
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 509.0,
+                    "Height": 54.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sandpit",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 454.138671,
+                        "y": 662.967651
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sandpit",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 955.006103,
+                        "y": 658.117004
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
                 }
             },
             {
@@ -1229,7 +1426,7 @@
                                 "Rotation": 8.8
                             },
                             "Collider": {
-                                "Active": true,
+                                "Active": false,
                                 "ColliderLayer": {
                                     "Layer Name": "UI",
                                     "Layer ID": 2
@@ -1565,7 +1762,7 @@
                     "SpriteIndex": -1
                 },
                 "Collider": {
-                    "Active": true,
+                    "Active": false,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
