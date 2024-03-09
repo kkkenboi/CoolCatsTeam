@@ -397,8 +397,13 @@ namespace LB
 					continue;
 				}
 
-				// Check if component is active
 				if (colA->m_active == false || colB->m_active == false) 
+				{
+					continue;
+				}
+
+				// Check if component is active
+				if (colA->m_colliderIsActive == false || colB->m_colliderIsActive == false) 
 				{
 					continue;
 				}

@@ -103,7 +103,7 @@ namespace LB
 		this->m_grid_frames.push_back(1);
 
 		// Set component to be active
-		this->m_active = true;
+		this->m_colliderIsActive = true;
 
 		COLLIDERS->AddColliderToPool(this);
 	}
@@ -570,6 +570,7 @@ namespace LB
 		this->UpdateColliderAABB();
 
 		this->UpdateGridFrame();
+
 	}
 
 	/*!***********************************************************************
