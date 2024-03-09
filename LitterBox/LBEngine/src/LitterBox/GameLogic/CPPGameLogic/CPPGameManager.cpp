@@ -20,6 +20,7 @@
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Scene/SceneManager.h"
 #include "CPPSProjectileBall.h"
+#include "Litterbox/Components/RenderVideoComponent.h"
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -88,6 +89,10 @@ namespace LB
 		{
 			GenerateWave();
 			GameStart = true;
+		}
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
+		{
+			VIDEOPLAYER->OnPlayVideo();
 		}
 		//Test function to see if the remove gameobject code works
 		//You have to comment out the ball's canDestroy code in order for this

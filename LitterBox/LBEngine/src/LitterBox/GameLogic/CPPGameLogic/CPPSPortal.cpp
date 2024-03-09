@@ -10,6 +10,12 @@ void LB::CPPSPortal::Start()
 
 void LB::CPPSPortal::Update()
 {
+	//we have to check this because CPPBehaviour runs things even though in active (for now)
+	if (GameObj->IsActive())
+	{
+		rotAngle += TIME->GetDeltaTime() * 100;
+		GetComponent<CPTransform>()->SetRotation(rotAngle);
+	}
 	if (isTransitioning)
 	{
 		timer += TIME->GetDeltaTime();
@@ -32,8 +38,7 @@ void LB::CPPSPortal::Update()
 				isTransitioning = false;
 				finishTransition = true;
 			}
-		}
-		
+		}		
 	}
 	else
 	{
