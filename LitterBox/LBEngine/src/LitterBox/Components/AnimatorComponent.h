@@ -61,6 +61,12 @@ namespace LB
 
 		/*!************************************************************************
 		 \brief
+		 Adds the animation to a queue to play after the current animation.
+		**************************************************************************/
+		void PlayNext(std::string const& name);
+
+		/*!************************************************************************
+		 \brief
 		 Pauses/unpauses the current animation
 		**************************************************************************/
 		void Pause(bool state);
@@ -152,7 +158,9 @@ namespace LB
 		int m_oldID, m_oldSSIndex;
 		std::string m_oldSSName;
 
+		// Internal timer
 		float m_elapsedTime{ 0.0f }, m_targetTime{ 1.0f / 60.0f };
+		std::vector<std::string> m_queue;
 
 		// Flags
 		bool m_playing{ false }, m_repeating{ false }, m_paused{ false }, m_resetAfterPlay{ false };

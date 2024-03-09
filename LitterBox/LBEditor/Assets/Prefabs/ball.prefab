@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1113.5,
-            "y": 287.420013
+            "x": 0.0,
+            "y": 0.0
         },
         "Scale": {
             "x": 0.6,
@@ -22,8 +22,8 @@
     },
     "Render": {
         "Active": true,
-        "Width": 100.0,
-        "Height": 100.0,
+        "Width": 200.0,
+        "Height": 200.0,
         "Layer": 0,
         "Texture": "Multi_Spritesheet",
         "SpriteName": "MultiSheet",

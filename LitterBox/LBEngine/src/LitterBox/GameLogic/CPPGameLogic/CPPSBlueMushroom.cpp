@@ -52,11 +52,11 @@ namespace LB
 	{
 		if (mScaledUp || mScaledDown)
 		{
-			mRender->SetSpriteTexture(mRender->spriteSheetName, 1);
+			mRender->SetSpriteTexture(mRender->spriteSheetName, 41);
 		}
 		else
 		{
-			mRender->SetSpriteTexture(mRender->spriteSheetName, 0);
+			mRender->SetSpriteTexture(mRender->spriteSheetName, 40);
 		}
 		if (mScaledUp)
 		{

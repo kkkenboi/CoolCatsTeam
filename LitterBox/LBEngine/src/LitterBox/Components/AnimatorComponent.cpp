@@ -51,9 +51,16 @@ namespace LB
 		if (!m_playing || m_paused) return;
 
 		// If the animation has reached the end and not repeating, stop the animation
-		if (m_controller.IsLastFrame() && !m_repeating)
+		if (m_controller.IsLastFrame())
 		{
-			m_resetAfterPlay ? Stop() : StopAndReset();
+			if (!m_repeating)
+			{
+				m_resetAfterPlay ? StopAndReset() : Stop();
+			}
+			else
+			{
+				m_controller.GetCurrentState().m_currentFrame = m_controller.GetCurrentState().m_startFrame;
+			}
 			return;
 		}
 
@@ -138,12 +145,12 @@ namespace LB
 
 	/*!************************************************************************
 	 \brief
-	 Plays the animation based on the name
+	 Plays the animation and stops (and stays) at the last frame
 	**************************************************************************/
 	void CPAnimator::Play(std::string const& name)
 	{
 		// Save old data
-		if (m_render->spriteSheetName == "None")
+		if (m_render->spriteIndex < 0)
 		{
 			m_oldID = m_render->texture;
 		}
@@ -153,8 +160,13 @@ namespace LB
 			m_oldSSIndex = m_render->spriteIndex;
 		}
 		m_playing = true;
+		m_controller.Load(name);
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Plays the animation and resets the object to before the animation began
+	**************************************************************************/
 	void CPAnimator::PlayAndReset(std::string const& name)
 	{
 		Play(name);
@@ -163,12 +175,24 @@ namespace LB
 
 	/*!************************************************************************
 	 \brief
-	 Plays the animation based on the name on loop
+	 Plays the animation on repeat forever, until Stop() is called or GO is gone
 	**************************************************************************/
 	void CPAnimator::PlayRepeat(std::string const& name)
 	{
 		Play(name);
 		m_repeating = true;
+	}
+
+	void CPAnimator::PlayNext(std::string const& name)
+	{
+		if (!m_playing)
+		{
+			Play(name);
+		}
+		else
+		{
+			m_queue.push_back(name);
+		}
 	}
 
 	/*!************************************************************************
@@ -182,11 +206,16 @@ namespace LB
 
 	/*!************************************************************************
 	 \brief
-	 Stops the current animation playing
+	 Stops the current animation and leaves the object at its current state
 	**************************************************************************/
 	void CPAnimator::Stop()
 	{
 		m_playing = m_repeating = false;
+		if (!m_queue.empty())
+		{
+			Play(m_queue.front());
+			m_queue.erase(m_queue.begin());
+		}
 	}
 
 	/*!************************************************************************
@@ -195,7 +224,6 @@ namespace LB
 	**************************************************************************/
 	void CPAnimator::StopAndReset()
 	{
-		Stop();
 		m_resetAfterPlay = false;
 		// Reset the texture to the original before the animation began
 		if (m_oldSSName != "None")
@@ -208,6 +236,7 @@ namespace LB
 			m_render->texture = m_oldID;
 			m_render->UpdateTexture(m_oldID, static_cast<int>(m_render->w), static_cast<int>(m_render->h));
 		}
+		Stop();
 	}
 
 	/*!************************************************************************

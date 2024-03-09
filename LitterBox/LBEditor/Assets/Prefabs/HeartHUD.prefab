@@ -15,8 +15,8 @@
     },
     "Render": {
         "Active": true,
-        "Width": 100.0,
-        "Height": 100.0,
+        "Width": 200.0,
+        "Height": 200.0,
         "Layer": 3,
         "Texture": "Multi_Spritesheet",
         "SpriteName": "MultiSheet",

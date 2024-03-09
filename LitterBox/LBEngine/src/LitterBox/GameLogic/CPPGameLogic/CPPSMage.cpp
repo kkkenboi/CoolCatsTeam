@@ -390,7 +390,7 @@ namespace LB
 	*************************************************************************/
 	void MageHurtState::Enter()
 	{
-		mEnemy->GetAnimator()->Play("MageHurt");
+		mEnemy->GetAnimator()->PlayAndReset("Mage_Hurt");
 		mEnemy->Hurt();
 		this->Update();
 	}
@@ -429,7 +429,7 @@ namespace LB
 		//mEnemy->mRender->stop_anim();
 		//mEnemy->mRender->play_repeat("mage_float");
 
-		mEnemy->GetAnimator()->Play("MageAttack");
+		mEnemy->GetAnimator()->PlayAndReset("Mage_Attack");
 
 		mEnemy->mNumOfProjectileCurrent = 0;
 		mEnemy->mProjCooldownCurrent = 0.0f;

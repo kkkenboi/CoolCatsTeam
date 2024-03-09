@@ -1113,12 +1113,6 @@ namespace LB
 
 					ImGui::EndCombo();
 				}
-
-				if (ImGui::Button("Test"))
-				{
-					m_inspectedGO->GetComponent<CPAnimator>()->Play("MageAttack");
-				}
-
 				if (ImGui::Button("Delete Animator Component"))
 				{
 					m_inspectedGO->RemoveComponent(C_CPAnimator);

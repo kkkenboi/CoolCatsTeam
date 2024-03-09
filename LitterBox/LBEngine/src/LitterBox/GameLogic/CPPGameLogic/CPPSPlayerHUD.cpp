@@ -157,16 +157,20 @@ namespace LB {
 			// Set the texture for lost health
 			if (i > m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
 			{
-				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"), 
-																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->w), 
-																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
+				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->spriteSheetName, 49);
+
+				//m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"), 
+				//																	static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->w), 
+				//																	static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
 
 			}
 			else if ( i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
 			{
-				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Heart"),
-																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->w),
-																					static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
+				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->spriteSheetName, 48);
+
+				//m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Heart"),
+				//																	static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->w),
+				//																	static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
 			}
 			// Update the location of the heart based on the camera follow
 			//std::cout << m_totalHeartDisplay[i - 1]->GetComponent<CPTransform>()->GetParent()->gameObj->GetName() << std::endl;
