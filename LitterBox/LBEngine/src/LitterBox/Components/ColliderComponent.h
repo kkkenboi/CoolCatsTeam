@@ -264,6 +264,9 @@ namespace LB {
 			return C_CPCollider;
 		}
 
+
+		void ToggleActive(bool isActive);
+
 	};
 
 }

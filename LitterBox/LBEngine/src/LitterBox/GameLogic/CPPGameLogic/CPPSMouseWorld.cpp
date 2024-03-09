@@ -62,14 +62,20 @@ namespace LB
 					 colData.colliderOther->m_gameobj->GetName() == "middleUpgrade" ||
 					 colData.colliderOther->m_gameobj->GetName() == "rightUpgrade")
 			{
+				DebuggerLog("Colliding with upgrade!\n");
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = true;
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteIndex); // Check again when actual sprites are added
 
 				UpgradeType tempIndex{ m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex };
 
+				DebuggerLogFormat("CurrentPopUpIndex: %d", static_cast<int>(tempIndex));
+
 				m_UpgradeObject = colData.colliderOther->m_gameobj;
 				Vec2 finalPos = m_UpgradeObject->GetComponent<CPTransform>()->GetPosition();
 				finalPos -= Vec2<float>(0.f, 40.f);
+
+				DebuggerLogFormat("Final Position set at: %f, %f", finalPos.x , finalPos.y);
+
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_totalUpgradePopUps[static_cast<size_t>(tempIndex)].first->GetComponent<CPTransform>()->SetPosition(finalPos);
 			}
 		}
@@ -82,7 +88,6 @@ namespace LB
 	*************************************************************************/
 	void CPPSMouseWorld::OnCollisionExit(CollisionData colData)
 	{
-		DebuggerLog("Exiting World");
 		if (colData.colliderOther->m_gameobj->GetName() == "leftUpgrade" ||
 			colData.colliderOther->m_gameobj->GetName() == "middleUpgrade" ||
 			colData.colliderOther->m_gameobj->GetName() == "rightUpgrade")

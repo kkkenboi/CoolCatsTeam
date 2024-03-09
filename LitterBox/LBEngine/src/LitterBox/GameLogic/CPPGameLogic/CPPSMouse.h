@@ -44,6 +44,18 @@ namespace LB
 		*************************************************************************/
 		void Destroy() override;
 
+		/*!***********************************************************************
+		\brief
+		Getter function for m_MouseUI
+		*************************************************************************/
+		inline GameObject* GetMouseUI() const { return m_MouseUI; }
+
+		/*!***********************************************************************
+		\brief
+		Getter function for m_MouseWorld
+		*************************************************************************/
+		inline GameObject* GetMouseWorld() const { return m_MouseWorld; }
+
 	private:
 		GameObject* m_MouseUI { nullptr };
 		GameObject* m_MouseWorld { nullptr };

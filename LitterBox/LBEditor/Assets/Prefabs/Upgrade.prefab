@@ -4,7 +4,7 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1024.7,
+            "x": 1024.699951,
             "y": 785.0
         },
         "Scale": {
@@ -24,8 +24,10 @@
         "Active": true,
         "Width": 150.0,
         "Height": 150.0,
-        "Texture": "mage_attack",
-        "SpriteIndex": 4
+        "Layer": 0,
+        "Texture": "Items",
+        "SpriteName": "Upgrades",
+        "SpriteIndex": 0
     },
     "Collider": {
         "Active": true,

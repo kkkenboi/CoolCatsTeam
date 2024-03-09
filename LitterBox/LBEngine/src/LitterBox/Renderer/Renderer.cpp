@@ -538,7 +538,8 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 {
 	for (int i{ 0 }; i < 4; ++i) {
-		quad_buff[obj->get_index()].data[i].active = false;
+		memset(quad_buff + obj->get_index(), 0, sizeof(quad));
+		//quad_buff[obj->get_index()].data[i].active = false;
 	}
 
 	//set the indices to 0
@@ -1045,13 +1046,18 @@ textbutt* button;
  REsponsible for updating the opengl viewport. Meant to subscribe to an
  event that is invoked everytime the window changes size. (Goes from fullscreen,
  to windowed mode)
-*************************************************************************/
-void change_vp() {
 
+\param
+ float to store the height offset of the new viewport if any
+*************************************************************************/
+void change_vp() 
+{
 	float height{ 9.f / 16.f };
 	height *= (float)LB::WINDOWSSYSTEM->GetWidth();
 	float diff{ (float)LB::WINDOWSSYSTEM->GetHeight() - height };
 	glViewport(0, (int)(diff * 0.5f), LB::WINDOWSSYSTEM->GetWidth(), (int)height);
+
+	LB::WINDOWSSYSTEM->updateScreenSize(LB::WINDOWSSYSTEM->GetWidth(), height, diff * 0.5f);
 }
 
 glm::mat4 cameraMat{ glm::perspective(glm::radians(90.f), 1920.f/1080.f, 0.1f, 10.f) };

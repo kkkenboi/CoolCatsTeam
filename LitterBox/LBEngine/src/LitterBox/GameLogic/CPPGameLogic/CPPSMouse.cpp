@@ -65,21 +65,21 @@ namespace LB
 		}
 		else
 		{
-			// I have no idea how to fix this rn cause even in game the aim is broken T_T
+			Vec2<float> mousePos = INPUT->GetMousePos();
+			mousePos.x *= WINDOWSSYSTEM->getViewPortConversion().x;
+			mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
 
-			//Vec2<float> mousePos = INPUT->GetMousePos();
-			//mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
-			//mousePos.y -= m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
-			//mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
-			////mousePos.y = (mousePos.y * -1.f) * 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-			//m_MouseWorld->GetComponent<CPTransform>()->SetPosition(mousePos);
+			mousePos.y = ((float)WINDOWSSYSTEM->GetHeight() - mousePos.y - WINDOWSSYSTEM->getBorderHeight()) * WINDOWSSYSTEM->getViewPortConversion().y;
+			mousePos.y += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
+			m_MouseWorld->GetComponent<CPTransform>()->SetPosition(mousePos);
+			//std::cout << m_MouseWorld->GetComponent<CPTransform>()->GetPosition().x << " " << m_MouseWorld->GetComponent<CPTransform>()->GetPosition().y << std::endl;
 
-			//mousePos = INPUT->GetMousePos();
-			//m_mWidth = (float)WINDOWSSYSTEM->GetWidth();
-			//mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
-			//mousePos.y = (m_mHeight - mousePos.y) * 1080.f / m_mHeight + m_BorderHeight;
-			////Vec2 finalPos = Vec2<float>(mousePos.x, );
-			//m_MouseUI->GetComponent<CPTransform>()->SetPosition(mousePos);
+			mousePos = INPUT->GetMousePos();
+			mousePos.x *= WINDOWSSYSTEM->getViewPortConversion().x;
+			mousePos.y = ((float)WINDOWSSYSTEM->GetHeight() - mousePos.y - WINDOWSSYSTEM->getBorderHeight()) * WINDOWSSYSTEM->getViewPortConversion().y;
+			m_MouseUI->GetComponent<CPTransform>()->SetPosition(mousePos);
+
+
 		}
 	}
 

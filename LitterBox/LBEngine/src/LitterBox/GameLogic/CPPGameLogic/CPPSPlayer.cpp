@@ -28,6 +28,8 @@
 #include "CPPGameManager.h"
 #include "CPPSCameraFollow.h"
 #include "CPPSBramble.h"
+#include "CPPSMouseWorld.h"
+#include "LitterBox/Core/Core.h"
 
 namespace LB
 {
@@ -52,6 +54,7 @@ namespace LB
 		//--------------------------Variables initializaiton----------------------------
 		m_GameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 		m_CameraFollow = GOMANAGER->FindGameObjectWithName("CameraFollow");
+		m_MouseWorld = GOMANAGER->FindGameObjectWithName("MouseWorld");
 
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
@@ -315,11 +318,7 @@ namespace LB
 		*************************************************************************/
 		//------------------Player face mouse pos------------------
 		Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
-		Vec2<float> mousePos = INPUT->GetMousePos();
-		
-		mousePos.y = mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-		mousePos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-		mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+		Vec2<float> mousePos = m_MouseWorld->GetComponent<CPPSMouseWorld>()->GetComponent<CPTransform>()->GetPosition();
 		
 		Vec2<float> playerToMouseDir = mousePos - playerPos;
 		Vec2<float> TransformRight{ 1,0 };

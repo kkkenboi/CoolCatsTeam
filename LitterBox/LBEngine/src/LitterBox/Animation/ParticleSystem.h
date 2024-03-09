@@ -37,6 +37,7 @@ namespace LB {
 		Vec2<float> mPosition;
 		Vec2<float> mVelocity;
 		float mRotation;
+		float mRotationSpeed;
 
 		float mSize;
 		float mSizeBegin;

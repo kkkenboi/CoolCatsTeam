@@ -102,8 +102,8 @@ namespace LB
 		// Set the initial grid number to default 1 so it checks with everything
 		this->m_grid_frames.push_back(1);
 
-		// Update the length and width of the RigidBody depending
-		// on the Collider
+		// Set component to be active
+		this->m_active = true;
 
 		COLLIDERS->AddColliderToPool(this);
 	}
@@ -585,6 +585,10 @@ namespace LB
 		COLLIDERS->RemoveColliderFromPool(this);
 	}
 	
+	void CPCollider::ToggleActive(bool isActive) 
+	{
+		m_active = isActive;
+	}
 
 
 	// ============================================================================= !!!!!!!!!
