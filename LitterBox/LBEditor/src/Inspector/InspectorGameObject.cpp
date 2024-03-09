@@ -718,7 +718,7 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				isActive = m_inspectedGO->GetComponent<CPCollider>()->m_active;
+				isActive = m_inspectedGO->GetComponent<CPCollider>()->m_colliderIsActive;
 				ImGui::PushID("ColliderActive");
 				ImGui::Checkbox("Active", &isActive);
 				ImGui::PopID();
