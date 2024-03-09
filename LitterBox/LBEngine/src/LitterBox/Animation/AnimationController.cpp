@@ -22,15 +22,6 @@ namespace LB
 {
 	/*!***********************************************************************
 	 \brief
-	 Initializes the animation controller
-	*************************************************************************/
-	void AnimationController::Initialize()
-	{
-
-	}
-
-	/*!***********************************************************************
-	 \brief
 	 Updates the animation controller each frame
 	*************************************************************************/
 	void AnimationController::Update()
@@ -40,9 +31,9 @@ namespace LB
 
 	/*!***********************************************************************
 	 \brief
-	 Sets the current state of the animation controller
+	 Plays the state of the animation controller
 	*************************************************************************/
-	void AnimationController::SetState(std::string const& stateName)
+	void AnimationController::Load(std::string const& stateName)
 	{
 		for (auto& state : m_states)
 		{
@@ -53,86 +44,6 @@ namespace LB
 			}
 		}
 		DebuggerLogErrorFormat("Animator Controller : %s does not have a state named: %s!", m_name.c_str(), stateName.c_str());
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Plays the state of the animation controller
-	*************************************************************************/
-	void AnimationController::Play(std::string const& stateName)
-	{
-		if (m_current.GetName() != stateName)
-		{
-			SetState(stateName);
-		}
-		Play();
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Plays the current state of the animation controller
-	*************************************************************************/
-	void AnimationController::Play()
-	{
-		m_current.Start();
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Stops the current state of the animation controller
-	*************************************************************************/
-	void AnimationController::Stop()
-	{
-		m_current.Stop();
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Gets the current sprite sheet name
-	*************************************************************************/
-	std::string const& AnimationController::GetCurrentSpriteSheet()
-	{
-		return m_current.GetSpriteSheetName();
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Checks if the animation is playing
-	*************************************************************************/
-	bool AnimationController::IsPlaying() const
-	{
-		return m_current.IsPlaying();
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Checks if the next frame of the animation is playing
-	*************************************************************************/
-	int AnimationController::IsNextFrame() const
-	{
-		if (m_current.IsNextFrame())
-		{
-			return m_current.GetCurrentFrame();
-		}
-		return 0;
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Gets the number of states
-	*************************************************************************/
-	int AnimationController::GetStateCount() const
-	{
-		return static_cast<int>(m_states.size());
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Gets the actual vector of states
-	*************************************************************************/
-	std::vector<std::string>& AnimationController::GetStates()
-	{
-		return m_states;
 	}
 
 	/*!***********************************************************************
@@ -169,24 +80,6 @@ namespace LB
 	std::string const& AnimationController::operator[](int index) const
 	{
 		return m_states[index];
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Gets the name of the animation controller
-	*************************************************************************/
-	std::string const& AnimationController::GetName() const
-	{
-		return m_name;
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Sets the name of the animation controller
-	*************************************************************************/
-	void AnimationController::SetName(std::string const& name)
-	{
-		m_name = name;
 	}
 
 	/*!***********************************************************************

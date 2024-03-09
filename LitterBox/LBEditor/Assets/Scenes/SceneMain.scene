@@ -776,9 +776,9 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Layer": 0,
-                    "Texture": "Bush_SpriteSheet",
-                    "SpriteName": "BushSheet",
-                    "SpriteIndex": 1
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 45
                 }
             },
             {
@@ -801,9 +801,9 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Layer": 0,
-                    "Texture": "Bush_SpriteSheet",
-                    "SpriteName": "BushSheet",
-                    "SpriteIndex": 0
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 46
                 }
             },
             {
@@ -826,9 +826,9 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "Layer": 0,
-                    "Texture": "Bush_SpriteSheet",
-                    "SpriteName": "BushSheet",
-                    "SpriteIndex": 2
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 47
                 }
             },
             {
@@ -1323,12 +1323,12 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 125.0,
-                    "Height": 125.0,
+                    "Width": 150.0,
+                    "Height": 150.0,
                     "Layer": 0,
-                    "Texture": "MushBramble_SpriteSheet",
-                    "SpriteName": "MushBrambleSheet",
-                    "SpriteIndex": 0
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 40
                 },
                 "Collider": {
                     "Active": true,
@@ -1421,12 +1421,12 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 150.0,
-                    "Height": 150.0,
+                    "Width": 225.0,
+                    "Height": 225.0,
                     "Layer": 0,
-                    "Texture": "MushBramble_SpriteSheet",
-                    "SpriteName": "MushBrambleSheet",
-                    "SpriteIndex": 2
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 42
                 },
                 "Collider": {
                     "Active": true,

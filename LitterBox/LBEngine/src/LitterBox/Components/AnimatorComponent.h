@@ -38,7 +38,53 @@ namespace LB
 		{
 			return C_CPAnimator;
 		}
+
+		//----------------------------------------------ANIMATION CONTROLS----------------------------------------------
+
+		/*!************************************************************************
+		 \brief
+		 Plays the animation and stops (and stays) at the last frame
+		**************************************************************************/
+		void Play(std::string const& name);
+
+		/*!************************************************************************
+		 \brief
+		 Plays the animation and resets the object to before the animation began
+		**************************************************************************/
+		void PlayAndReset(std::string const& name);
+
+		/*!************************************************************************
+		 \brief
+		 Plays the animation on repeat forever, until Stop() is called or GO is gone
+		**************************************************************************/
+		void PlayRepeat(std::string const& name);
+
+		/*!************************************************************************
+		 \brief
+		 Adds the animation to a queue to play after the current animation.
+		**************************************************************************/
+		void PlayNext(std::string const& name);
+
+		/*!************************************************************************
+		 \brief
+		 Pauses/unpauses the current animation
+		**************************************************************************/
+		void Pause(bool state);
+
+		/*!************************************************************************
+		 \brief
+		 Stops the current animation and leaves the object at its current state
+		**************************************************************************/
+		void Stop();
 		
+		/*!************************************************************************
+		 \brief
+		 Stops the current animation and resets it to before the animation began
+		**************************************************************************/
+		void StopAndReset();
+		
+		//----------------------------------------------COMPONENT FUNCTIONS----------------------------------------------
+
 		/*!************************************************************************
 		\brief
 		 Initialise function where it will initialise the variables
@@ -78,33 +124,15 @@ namespace LB
 
 		/*!************************************************************************
 		 \brief
-		 Plays the animation based on the name
-		**************************************************************************/
-		void Play(std::string const& name);
-
-		/*!************************************************************************
-		 \brief
-		 Plays the animation based on the name on loop
-		**************************************************************************/
-		void PlayRepeat(std::string const& name);
-
-		/*!************************************************************************
-		 \brief
-		 Stops the current animation playing
-		**************************************************************************/
-		void Stop();
-
-		/*!************************************************************************
-		 \brief
 		 Gets the controller name
 		**************************************************************************/
-		std::string const& GetControllerName();
+		inline std::string const& GetControllerName() { return m_controller.m_name; }
 
 		/*!************************************************************************
 		 \brief
 		 Sets the controller name
 		**************************************************************************/
-		void SetControllerName(std::string const& name);
+		inline void SetControllerName(std::string const& name) { m_controller.m_name = name; }
 
 		//// Trigger setters
 		////BOOL
@@ -122,12 +150,20 @@ namespace LB
 		//
 		//int GetInt(std::string const& triggerName);
 
+		// Modifiers
+		float m_playSpeed{ 1.0f };
+
 	private:
-		// Save data prior to anim
+		// Save render data prior to anim for resetting
 		int m_oldID, m_oldSSIndex;
 		std::string m_oldSSName;
 
-		bool m_playing{ false }, m_repeating{ false };
+		// Internal timer
+		float m_elapsedTime{ 0.0f }, m_targetTime{ 1.0f / 60.0f };
+		std::vector<std::string> m_queue;
+
+		// Flags
+		bool m_playing{ false }, m_repeating{ false }, m_paused{ false }, m_resetAfterPlay{ false };
 
 		CPRender* m_render;
 		AnimationController m_controller; //state machine

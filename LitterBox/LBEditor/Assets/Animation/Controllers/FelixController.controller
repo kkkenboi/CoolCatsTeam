@@ -1,7 +1,7 @@
 {
     "Name": "FelixController",
     "States": [
-        "FelixHurt",
-        "FelixWalk"
+        "Felix_Hurt",
+        "Felix_Walk"
     ]
 }

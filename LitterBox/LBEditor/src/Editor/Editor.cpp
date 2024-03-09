@@ -31,9 +31,9 @@
 #include "EditorAnimationEditor.h"
 #include "EditorCollisionLayer.h"
 #include "EditorTMGridView.h"
-#include "EditorTMEditor.h"
 #include "EditorRenderLayer.h"
 #include "EditorCollisionGrid.h"
+#include "EditorAnimationView.h"
 
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Input.h"
@@ -82,6 +82,7 @@ namespace LB
 
 		// Construct editor layers
 		EditorAnimationEditor::InitializeSingleton("Animation Editor");
+		EditorAnimationView::InitializeSingleton("Animation View");
 
 		// Initialize editor layers
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorToolBar>("ToolBar"));
@@ -93,6 +94,7 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorProfiler>("Profiler"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorAssets>("Assets"));
 		m_ImGuiLayers.AddLayer(EditorAnimationEditor::Instance());
+		m_ImGuiLayers.AddLayer(EditorAnimationView::Instance());
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorPrefabWindow>("Prefab Viewer"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorCollisionLayer>("Collision Layers"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorTMGridView>("TileMap Editor"));

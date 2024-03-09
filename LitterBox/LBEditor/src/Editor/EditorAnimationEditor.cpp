@@ -19,6 +19,8 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Animation/SpriteSheet.h" //Since it uses sprite sheet to animate
 
+#include "Utils/SequencerHelper.h" // Helper functions for neo sequencer
+
 /*!***********************************************************************
 \brief
 Constructor of the Animation Editor
@@ -26,9 +28,9 @@ Constructor of the Animation Editor
 
 namespace LB
 {
-	static float columnWidth = 250.0f;
+	static float columnWidth = 65.0f;
 	static float normalWidth = 150.f;
-	static float smallWidth = 100.f;
+	static float smallWidth = 60.f;
 
 	/*!***********************************************************************
 	  \brief
@@ -46,246 +48,318 @@ namespace LB
 	void EditorAnimationEditor::UpdateLayer()
 	{
 		ImGui::Begin(GetName().c_str());
-
-		static bool transformOpen = false;
-		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame)) {
-			// Timeline code here
-			if (ImGui::BeginNeoGroup("Transform", &transformOpen)) {
-				std::vector<ImGui::FrameIndexType> keys = { 0, 10, 24 };
-				if (ImGui::BeginNeoTimeline("Position", keys)) {
-
-
-
-					ImGui::EndNeoTimeLine();
-				}
-				ImGui::EndNeoGroup();
-			}
-
-			ImGui::EndNeoSequencer();
+		if (m_stateLoaded)
+		{
+			UpdateLoadedState();
 		}
+		else if (m_controllerLoaded)
+		{
+			UpdateLoadedController();
+		}
+		ImGui::End();
+	}
 
+	void EditorAnimationEditor::UpdateLoadedState()
+	{
 		if (ImGui::Button("Save"))
 		{
 			Save();
 		}
 
-		//----------------------------------------------ANIMATION STATE EDITING----------------------------------------------
-		if (m_stateLoaded)
+		// For playing/pausing the timeline 
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_SPACE))
 		{
-			//----------------------------------------------STATE NAME----------------------------------------------
-			ImGui::Text("%-17s", "Name");
-			ImGui::SameLine();
-			ImGui::Text(m_currentState.GetName().c_str());
+			m_previewPlaying = !m_previewPlaying;
+		}
 
-			//----------------------------------------------SPRITESHEET SELECTION----------------------------------------------
-			ImGui::Text("%-17s", "Spritesheet");
-			ImGui::SameLine();
-			ImGui::SetNextItemWidth(columnWidth);
-			if (ImGui::BeginCombo("##Spritesheet", (m_spriteSheet ? m_spriteSheet->GetName().c_str() : "None") ))
+		// If previewing, update the current frame
+		if (m_previewPlaying)
+		{
+			m_elapsedTime += static_cast<float>(TIME->GetUnscaledDeltaTime());
+			if (m_elapsedTime >= m_frameDuration)
 			{
-				for (auto& [str, sSheet] : ASSETMANAGER->SpriteSheets)
+				m_elapsedTime -= m_frameDuration;
+
+				++m_currentFrame;
+				if (m_currentFrame > m_loadedState.m_endFrame)
 				{
-					std::filesystem::path tempPath{ str };
-					if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
-					{
-						m_spriteSheet = &sSheet;
-						m_currentState.SetSpriteSheetName(sSheet.GetName());
-						break;
-					}
+					m_currentFrame = m_loadedState.m_startFrame;
 				}
 
-				ImGui::EndCombo();
+				m_loadedState.Update();
+			}
+		}
+
+		//----------------------------------------------STATE CONTROLS----------------------------------------------
+		ImGui::Separator();
+		ImGui::Text("State Controls");
+		ImGui::SetNextItemWidth(smallWidth);
+		ImGui::DragInt("Start Frame", &m_loadedState.m_startFrame);
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(smallWidth);
+		ImGui::DragInt("End Frame", &m_loadedState.m_endFrame);
+		ImGui::SameLine();
+		ImGui::Dummy({15.0f, 0.0f});
+		ImGui::SameLine();
+		ImGui::Text("%d Current Frame", m_currentFrame);
+
+		ImGui::Separator();
+		ImGui::Columns(2);
+		ImGui::SetColumnWidth(0, columnWidth);
+
+		//----------------------------------------------ANIM VALUE INPUTS----------------------------------------------
+		ImGui::Dummy({ 0.0f, 35.0f });
+
+		m_editActive = m_loadedState.m_active.GetCurrentExact(m_currentFrame);
+		if (ImGui::Checkbox("##Active", &m_editActive))
+		{
+			m_loadedState.m_active.Insert(LBKeyFrame<bool>{m_currentFrame, m_editActive});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		ImGui::Dummy({ 0.0f, 32.5f });
+
+		m_editPosX = m_loadedState.m_pos.GetCurrentExact(m_currentFrame).x;
+		if (ImGui::DragFloat("##PosX", &m_editPosX))
+		{
+			m_loadedState.m_pos.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { m_editPosX, 0.0f }});
+			m_loadedState.UpdateLastFrame(m_currentFrame);
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		m_editPosY = m_loadedState.m_pos.GetCurrentExact(m_currentFrame).y;
+		if (ImGui::DragFloat("##PosY", &m_editPosY))
+		{
+			m_loadedState.m_pos.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { 0.0f, m_editPosY }});
+			m_loadedState.UpdateLastFrame();
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		ImGui::Dummy({ 0.0f, 10.0f });
+
+		m_editScaleX = m_loadedState.m_scale.GetCurrentExact(m_currentFrame).x;
+		if (ImGui::DragFloat("##ScaleX", &m_editScaleX))
+		{
+			m_loadedState.m_scale.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { m_editScaleX, 0.0f }});
+			m_loadedState.UpdateLastFrame();
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		m_editScaleY = m_loadedState.m_scale.GetCurrentExact(m_currentFrame).y;
+		if (ImGui::DragFloat("##ScaleY", &m_editScaleY))
+		{
+			m_loadedState.m_scale.Insert(LBKeyFrame<Vec2<float>>{m_currentFrame, { 0.0f, m_editScaleY }});
+			m_loadedState.UpdateLastFrame();
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		m_editRot = m_loadedState.m_rot.GetCurrentExact(m_currentFrame);
+		if (ImGui::DragFloat("##Rotation", &m_editRot))
+		{
+			m_loadedState.m_rot.Insert(LBKeyFrame<float>{m_currentFrame, m_editRot});
+			m_loadedState.UpdateLastFrame();
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		m_editSprite = m_loadedState.m_sprite.GetCurrentExact(m_currentFrame);
+		if (ImGui::DragInt("##Sprite", &m_editSprite))
+		{
+			m_loadedState.m_sprite.Insert(LBKeyFrame<int>{m_currentFrame, m_editSprite});
+			m_loadedState.UpdateLastFrame();
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		ImGui::NextColumn();
+
+		//----------------------------------------------ANIM TIMELINE----------------------------------------------
+		ImGui::BeginChild("SequencerTable", ImVec2(0, 250), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+
+		ImGui::FrameIndexType currentFrame = m_currentFrame;
+		if (ImGui::BeginNeoSequencer("Sequencer", &m_currentFrame, &m_startFrame, &m_endFrame, { 0, 0 },
+			ImGuiNeoSequencerFlags_AllowLengthChanging | ImGuiNeoSequencerFlags_EnableSelection | ImGuiNeoSequencerFlags_Selection_EnableDragging | ImGuiNeoSequencerFlags_Selection_EnableDeletion)) {
+			if (ImGui::BeginTimeline("Set Active", m_loadedState.m_active))
+			{
+				CheckDeleteKeyFrame(m_loadedState.m_active);
+				ImGui::EndNeoTimeLine();
+			}
+			if (ImGui::BeginNeoGroup("Transform", &m_transformOpen))
+			{
+				if (ImGui::BeginNeoGroup("Position", &m_posOpen))
+				{
+					if (ImGui::BeginTimeline("X", m_loadedState.m_pos))
+					{
+						CheckDeleteKeyFrame(m_loadedState.m_pos);
+						ImGui::EndNeoTimeLine();
+					}
+					if (ImGui::BeginTimeline("Y", m_loadedState.m_pos))
+					{
+						CheckDeleteKeyFrame(m_loadedState.m_pos);
+						ImGui::EndNeoTimeLine();
+					}
+					ImGui::EndNeoGroup();
+				}
+				if (ImGui::BeginNeoGroup("Scale", &m_scaleOpen))
+				{
+					if (ImGui::BeginTimeline("X", m_loadedState.m_scale))
+					{
+						CheckDeleteKeyFrame(m_loadedState.m_scale);
+						ImGui::EndNeoTimeLine();
+					}
+					if (ImGui::BeginTimeline("Y", m_loadedState.m_scale))
+					{
+						CheckDeleteKeyFrame(m_loadedState.m_scale);
+						ImGui::EndNeoTimeLine();
+					}
+					ImGui::EndNeoGroup();
+				}
+				if (ImGui::BeginTimeline("Rotation", m_loadedState.m_rot))
+				{
+					CheckDeleteKeyFrame(m_loadedState.m_rot);
+					ImGui::EndNeoTimeLine();
+				}
+				ImGui::EndNeoGroup();
+			}
+			if (ImGui::BeginTimeline("Sprite", m_loadedState.m_sprite))
+			{
+				CheckDeleteKeyFrame(m_loadedState.m_sprite);
+				ImGui::EndNeoTimeLine();
+			}
+			ImGui::EndNeoSequencer();
+		}
+		ImGui::EndChild();
+
+		// If the player dragged the sequencer, update the current frame
+		if (currentFrame != m_currentFrame)
+		{
+			m_loadedState.Start(m_currentFrame);
+		}
+
+		ImGui::Columns(1);
+		ImGui::Separator();
+
+		//----------------------------------------------SPRITESHEET SELECTION----------------------------------------------
+		ImGui::Text("%-17s", "Spritesheet");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(normalWidth);
+		if (ImGui::BeginCombo("##Spritesheet", (m_spriteSheet ? m_spriteSheet->GetName().c_str() : "None") ))
+		{
+			// Default option
+			if (ImGui::Selectable("None"))
+			{
+				m_spriteSheet = nullptr;
+				m_loadedState.m_spriteSheetName = "None";
+			}
+			for (auto& [str, sSheet] : ASSETMANAGER->SpriteSheets)
+			{
+				std::filesystem::path tempPath{ str };
+				if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
+				{
+					m_spriteSheet = &sSheet;
+					m_loadedState.m_spriteSheetName = sSheet.GetName();
+					break;
+				}
 			}
 
-			//display details of each tile here
-			if (m_spriteSheet)
+			ImGui::EndCombo();
+		}
+
+		//display details of each tile here
+		if (m_spriteSheet)
+		{
+			if (ImGui::BeginTable("SlicedSpriteSheet", m_spriteSheet->m_col, ImGuiTableFlags_SizingFixedFit))
 			{
-				if (ImGui::BeginTable("SlicedSpriteSheet", m_spriteSheet->m_col, ImGuiTableFlags_SizingFixedFit))
+				//Creating a table to place the sprites evenly by its row and cols
+				for (int r{ 0 }; r < m_spriteSheet->m_row; ++r) //go thru rows
 				{
-					//Creating a table to place the sprites evenly by its row and cols
-					for (int r{ 0 }; r < m_spriteSheet->m_row; ++r) //go thru rows
+					ImGui::TableNextRow(); //go next row
+					for (int c{ 0 }; c < m_spriteSheet->m_col; ++c) //go thru cols
 					{
-						ImGui::TableNextRow(); //go next row
-						for (int c{ 0 }; c < m_spriteSheet->m_col; ++c) //go thru cols
+						ImGui::TableSetColumnIndex(c);
+
+						int tileNum = (c + r * m_spriteSheet->m_col);
+					
+						ImGui::PushID(tileNum);
+						ImGui::Text("Frame %i", tileNum);
+						if (ImGui::ImageButton((ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth, smallWidth }
+							, ImVec2{ (*m_spriteSheet)[tileNum].m_min.x, (*m_spriteSheet)[tileNum].m_max.y }
+							, ImVec2{ (*m_spriteSheet)[tileNum].m_max.x, (*m_spriteSheet)[tileNum].m_min.y }))
 						{
-							ImGui::TableSetColumnIndex(c);
-
-							int tileNum = (c + r * m_spriteSheet->m_col);
-							
-							ImGui::PushID(tileNum);
-							ImGui::Text("Frame %i", tileNum);
-							if (ImGui::ImageButton((ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ smallWidth, smallWidth }
-								, ImVec2{ (*m_spriteSheet)[tileNum].m_min.x, (*m_spriteSheet)[tileNum].m_max.y }
-								, ImVec2{ (*m_spriteSheet)[tileNum].m_max.x, (*m_spriteSheet)[tileNum].m_min.y }))
-							{
-								m_currentKeyFrame.m_frame = tileNum;
-								m_currentState.AddFrame(m_currentKeyFrame);
-							}
-							ImGui::PopID();
+							m_loadedState.m_sprite.Insert(LBKeyFrame<int>{m_currentFrame, tileNum});
+							m_loadedState.UpdateLastFrame();
+							m_loadedState.Start(m_currentFrame);
 						}
+						ImGui::PopID();
 					}
-					ImGui::EndTable();
 				}
-			}
-
-			//----------------------------------------------ADD FRAME----------------------------------------------
-			ImGui::Text("Frame");
-			ImGui::SameLine();
-			ImGui::SetNextItemWidth(normalWidth);
-			if (ImGui::InputInt("##FrameIndex", &m_currentKeyFrame.m_frame))
-			{
-				if (m_currentKeyFrame.m_frame < 0) m_currentKeyFrame.m_frame = 0;
-			}
-			ImGui::SameLine();
-			ImGui::Text("Duration");
-			ImGui::SameLine();
-			
-			ImGui::SetNextItemWidth(normalWidth);
-			if (ImGui::DragFloat("##FrameTime", &m_currentKeyFrame.m_time))
-			{
-				if (m_currentKeyFrame.m_time < 0.0f) m_currentKeyFrame.m_time = 0.0f;
-			}
-
-			if (ImGui::Button("Add KeyFrame"))
-			{
-				m_currentState.AddFrame(m_currentKeyFrame);
-			}
-
-			ImGui::Dummy(ImVec2(0.0f, 35.0f));
-
-			//----------------------------------------------ANIM PREVIEW----------------------------------------------
-			if (ImGui::Button("Preview"))
-			{
-				m_previewPlaying = true;
-			}
-			ImGui::Text("Preview Time");
-			ImGui::SameLine();
-			ImGui::Text("%.4f", m_previewTimeElapsed);
-			if (m_previewPlaying)
-			{
-				m_previewTimeElapsed += static_cast<float>(TIME->GetUnscaledDeltaTime());
-			}
-			if (m_currentState.GetFrameCount())
-			{
-				ImGui::Image((ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_spriteSheet->GetPNGRef()), ImVec2{ normalWidth, normalWidth }
-					, ImVec2{ (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.x, (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.y }
-					, ImVec2{ (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_max.x, (*m_spriteSheet)[m_currentState[m_previewIndex].m_frame].m_min.y });
-
-				if (m_previewTimeElapsed > m_currentState[m_previewIndex].m_time)
-				{
-					++m_previewIndex;
-					m_previewTimeElapsed = 0.0f;
-				}
-				if (m_previewIndex >= m_currentState.GetFrameCount()) {
-					m_previewPlaying = false;
-					m_previewIndex = 0;
-				}
-			}
-
-			//----------------------------------------------KEYFRAME LIST----------------------------------------------
-			ImGui::Text("Frames");
-
-			ImGui::Text("Set All Duration");
-			ImGui::SameLine();
-			ImGui::SetNextItemWidth(normalWidth);
-			if (ImGui::DragFloat("##SetAllFrameTime", &m_allDuration))
-			{
-
-			}
-			ImGui::SameLine();
-			if (ImGui::Button("Set"))
-			{
-				for (int index{ 0 }; index < m_currentState.GetFrameCount(); ++index)
-				{
-					m_currentState[index].m_time = m_allDuration;
-				}
-			}
-
-			for (int index{ 0 }; index < m_currentState.GetFrameCount(); ++index)
-			{
-				ImGui::Text("Frame");
-				ImGui::SameLine();
-
-				ImGui::PushID(index);
-				m_tempKeyFrame.m_frame = m_currentState[index].m_frame;
-				
-				ImGui::SetNextItemWidth(normalWidth);
-				if (ImGui::InputInt("##FrameIndex", &m_tempKeyFrame.m_frame))
-				{
-					if (m_tempKeyFrame.m_frame < 0) m_tempKeyFrame.m_frame = 0;
-					m_currentState[index].m_frame = m_tempKeyFrame.m_frame;
-				}
-				ImGui::SameLine();
-
-				ImGui::Text("Duration");
-				ImGui::SameLine();
-				m_tempKeyFrame.m_time = m_currentState[index].m_time;
-				
-				ImGui::SetNextItemWidth(normalWidth);
-				if (ImGui::DragFloat("##FrameTime", &m_tempKeyFrame.m_time))
-				{
-					if (m_tempKeyFrame.m_time < 0.0f) m_tempKeyFrame.m_time = 0.0f;
-					m_currentState[index].m_time = m_tempKeyFrame.m_time;
-				}
-				ImGui::SameLine();
-
-				if (ImGui::Button("X"))
-				{
-					m_currentState.GetFrames().erase(m_currentState.GetFrames().begin() + index);
-				}
-				ImGui::SameLine();
-				ImGui::Text("Delete");
-
-				ImGui::PopID();
+				ImGui::EndTable();
 			}
 		}
-		//----------------------------------------------ANIMATION CONTROLLER EDITING----------------------------------------------
-		else if (m_controllerLoaded)
+
+		if (ImGui::CollapsingHeader("Debugging Info"))
 		{
-			//----------------------------------------------CONTROLLER NAME----------------------------------------------
-			ImGui::Text("%-17s", "Name");
+			ImGui::Text("Preview Curr %d", m_currentFrame);
 			ImGui::SameLine();
-			ImGui::Text(m_currentController.GetName().c_str());
+			ImGui::Text("State Curr %d", m_loadedState.m_currentFrame);
 
-			//----------------------------------------------ADD STATE----------------------------------------------
-			ImGui::Text("%-17s", "Add State");
-			ImGui::SameLine();
-			ImGui::SetNextItemWidth(columnWidth);
-			if (ImGui::BeginCombo("##State", "Select State"))
+			ImGui::Text("Pos list");
+			ImGui::Text("Pos current %d, next %d", m_loadedState.m_pos.m_currentIndex, m_loadedState.m_pos.m_nextIndex);
+			for (int index{ 0 }; index < m_loadedState.m_pos.GetData().Size(); ++index)
 			{
-				for (auto& [str, state] : ASSETMANAGER->AnimStates)
-				{
-					if (ImGui::Selectable(state.GetName().c_str()))
-					{
-						m_currentController.AddState(state.GetName());
-					}
-				}
-				ImGui::EndCombo();
-			}
-
-			ImGui::Dummy(ImVec2(0.0f, 35.0f));
-
-			//----------------------------------------------CONTROLLER STATES----------------------------------------------
-			ImGui::Text("States");
-			for (int index{ 0 }; index < m_currentController.GetStateCount(); ++index)
-			{
-				ImGui::PushID(index);
-
-				ImGui::Text(m_currentController[index].c_str());
-				ImGui::SameLine();
-
-				if (ImGui::Button("X"))
-				{
-					m_currentController.RemoveState(index);
-				}
-				ImGui::SameLine();
-				ImGui::Text("Delete");
-
-				ImGui::PopID();
+				ImGui::Text("Frame %d, State %.2f %.2f", m_loadedState.m_pos.GetData()[index].m_frame, m_loadedState.m_pos.GetData()[index].m_data.x, m_loadedState.m_pos.GetData()[index].m_data.y);
 			}
 		}
+	}
 
-		ImGui::End();
+	void EditorAnimationEditor::UpdateLoadedController()
+	{
+		if (ImGui::Button("Save"))
+		{
+			Save();
+		}
+		ImGui::Separator();
+
+		//----------------------------------------------CONTROLLER NAME----------------------------------------------
+		ImGui::Text("%-17s", "Name");
+		ImGui::SameLine();
+		ImGui::Text(m_currentController.m_name.c_str());
+
+		//----------------------------------------------ADD STATE----------------------------------------------
+		ImGui::Text("%-17s", "Add State");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(columnWidth);
+		if (ImGui::BeginCombo("##State", "Select State"))
+		{
+			for (auto& [str, state] : ASSETMANAGER->AnimStates)
+			{
+				if (ImGui::Selectable(state.m_name.c_str()))
+				{
+					m_currentController.AddState(state.m_name);
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		ImGui::Dummy(ImVec2(0.0f, 35.0f));
+
+		//----------------------------------------------CONTROLLER STATES----------------------------------------------
+		ImGui::Text("States");
+		for (int index{ 0 }; index < m_currentController.Count(); ++index)
+		{
+			ImGui::PushID(index);
+
+			ImGui::Text(m_currentController[index].c_str());
+			ImGui::SameLine();
+
+			if (ImGui::Button("X"))
+			{
+				m_currentController.RemoveState(index);
+			}
+			ImGui::SameLine();
+			ImGui::Text("Delete");
+
+			ImGui::PopID();
+		}
 	}
 
 	/*!***********************************************************************
@@ -296,22 +370,22 @@ namespace LB
 	{
 		if (m_stateLoaded)
 		{
-			JSONSerializer::SerializeToFile(m_currentState.GetName().c_str(), m_currentState);
+			JSONSerializer::SerializeToFile(m_loadedState.m_name.c_str(), m_loadedState);
 
 			// Update asset manager's anim state if it exists
-			if (ASSETMANAGER->AnimStates.find(m_currentState.GetName()) != ASSETMANAGER->AnimStates.end())
+			if (ASSETMANAGER->AnimStates.find(m_loadedState.m_name) != ASSETMANAGER->AnimStates.end())
 			{
-				ASSETMANAGER->AnimStates[m_currentState.GetName()] = m_currentState;
+				ASSETMANAGER->AnimStates[m_loadedState.m_name] = m_loadedState;
 			}
 		}
 		else if (m_controllerLoaded)
 		{
-			JSONSerializer::SerializeToFile(m_currentController.GetName().c_str(), m_currentController);
+			JSONSerializer::SerializeToFile(m_currentController.m_name.c_str(), m_currentController);
 
 			// Update asset manager's anim controller if it exists
-			if (ASSETMANAGER->AnimControllers.find(m_currentController.GetName()) != ASSETMANAGER->AnimControllers.end())
+			if (ASSETMANAGER->AnimControllers.find(m_currentController.m_name) != ASSETMANAGER->AnimControllers.end())
 			{
-				ASSETMANAGER->AnimControllers[m_currentController.GetName()] = m_currentController;
+				ASSETMANAGER->AnimControllers[m_currentController.m_name] = m_currentController;
 			}
 		}
 	}
@@ -323,12 +397,15 @@ namespace LB
 	*************************************************************************/
 	void EditorAnimationEditor::LoadState(std::string const& name)
 	{
-		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentState);
-		m_currentState.SetName(name);
+		JSONSerializer::DeserializeFromFile(name.c_str(), m_loadedState);
 
-		if (m_currentState.GetSpriteSheetName() != "None")
+		if (m_loadedState.m_spriteSheetName != "None")
 		{
-			m_spriteSheet = &ASSETMANAGER->SpriteSheets[m_currentState.GetSpriteSheetName()];
+			m_spriteSheet = &ASSETMANAGER->SpriteSheets[m_loadedState.m_spriteSheetName];
+		}
+		else
+		{
+			m_spriteSheet = nullptr;
 		}
 		m_stateLoaded = true;
 		m_controllerLoaded = false;
@@ -341,7 +418,7 @@ namespace LB
 	void EditorAnimationEditor::LoadController(std::string const& name)
 	{
 		JSONSerializer::DeserializeFromFile(name.c_str(), m_currentController);
-		m_currentController.SetName(name);
+		m_currentController.m_name = name;
 
 		m_controllerLoaded = true;
 		m_stateLoaded = false;

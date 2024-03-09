@@ -203,7 +203,7 @@ namespace LB
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         std::map<std::string, AnimationController> AnimControllers;
 
-        std::map<std::string, AnimationState> AnimStates;
+        std::map<std::string, LBAnimationState> AnimStates;
 
         //std::vector<std::string> fontNames;
 

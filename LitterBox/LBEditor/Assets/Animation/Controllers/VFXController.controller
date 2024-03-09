@@ -1,8 +1,8 @@
 {
     "Name": "VFXController",
     "States": [
-        "Explosion",
-        "Hit",
-        "Poof"
+        "VFX_Explosion",
+        "VFX_Hit",
+        "VFX_Poof"
     ]
 }

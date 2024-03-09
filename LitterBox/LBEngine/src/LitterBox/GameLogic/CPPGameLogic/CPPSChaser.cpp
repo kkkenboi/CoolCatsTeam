@@ -102,7 +102,7 @@ namespace LB
 	void CPPSChaser::Hurt()
 	{
 		isAggro = true;
-		GetAnimator()->Play("MeleeHurt");
+		GetAnimator()->PlayAndReset("Melee_Hurt");
 		CPPSBaseEnemy::Hurt();
 	}
 
@@ -148,7 +148,7 @@ namespace LB
 			Hurt();	//This is here to play the anim
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") { 
-			GetAnimator()->Play("MeleeAttack");
+			GetAnimator()->PlayAndReset("Melee_Attack");
 			mFSM.ChangeState("Hurt"); 
 		}
 

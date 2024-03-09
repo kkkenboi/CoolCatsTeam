@@ -70,6 +70,12 @@ namespace LB
 
 		/*!***********************************************************************
 		 \brief
+		 Virtual destructor in case any components has a destructor to call
+		*************************************************************************/
+		virtual ~IComponent() {}
+
+		/*!***********************************************************************
+		 \brief
 		 Toggles the FLAG for the active state for this component
 		*************************************************************************/
 		void ToggleActiveFlag(bool isActive)
@@ -85,11 +91,11 @@ namespace LB
 			}
 		}
 
-		/*!***********************************************************************
-		 \brief
-		 Virtual destructor in case any components has a destructor to call
-		*************************************************************************/
-		virtual ~IComponent() {}
+		template <typename T>
+		T* GetComponent()
+		{
+			return gameObj->GetComponent<T>();
+		}
 
 		GameObject* gameObj{ nullptr }; // Every component has a reference to its object it is part of
 		bool m_active{ true };

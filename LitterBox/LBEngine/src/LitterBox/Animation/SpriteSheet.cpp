@@ -78,6 +78,7 @@ namespace LB
 	  \brief
 	  copy constructor name and pngname
 	*************************************************************************/
+	SpriteSheet::SpriteSheet(std::string const& name) : m_name{ name }, m_row{}, m_col{} {}
 	SpriteSheet::SpriteSheet(std::string const& name, std::string const& PNGName) : m_name{name}, m_pngName{PNGName}, m_row{}, m_col{} {}
 
 	/*!***********************************************************************
