@@ -538,7 +538,8 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 void Renderer::Renderer::remove_render_object(const LB::CPRender* obj)
 {
 	for (int i{ 0 }; i < 4; ++i) {
-		quad_buff[obj->get_index()].data[i].active = false;
+		memset(quad_buff + obj->get_index(), 0, sizeof(quad));
+		//quad_buff[obj->get_index()].data[i].active = false;
 	}
 
 	//set the indices to 0

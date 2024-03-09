@@ -72,15 +72,19 @@ namespace LB {
 
 		mEmitterPos = mTransform->GetPosition();
 		
+		// If emitter is still live and is active
 		if (mEmitterLifetimeRemaining > 0.f && mIsActive)
 		{
 			if (mIsLooping == false)
 			{
+				// Reduce the lifetime remaining if not looping
 				mEmitterLifetimeRemaining -= static_cast<float>(TIME->GetDeltaTime());
 			}
+			// For emission rate
 			mTimeSinceLastEmit += static_cast<float>(TIME->GetDeltaTime());
 		}
 
+		// No more lifetime remaining
 		if (mEmitterLifetimeRemaining <= 0.f) 
 		{
 			mIsActive = false;

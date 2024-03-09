@@ -111,6 +111,8 @@ namespace LB
 				particle.mIsActive = true;
 				particle.mPosition = emitter->mEmitterPos;
 				particle.mRotation = 0.f;
+				particle.mRotationSpeed = emitter->mRotationSpeed;
+				particle.mRotationSpeed += RandomRange(emitter->mRotationSpeedVariationMin, emitter->mRotationSpeedVariationMax);
 
 				// Velocity (calculated in radial form)
 				float angle = static_cast<float>(i) / static_cast<float>(emitter->mRadialParticles) * 2.0f * static_cast<float>(PI);
@@ -260,10 +262,11 @@ namespace LB
 			// Update the particle stats
 			particle.mLifetimeRemaining -= static_cast<float>(TIME->GetDeltaTime());
 			particle.mPosition += particle.mVelocity * static_cast<float>(TIME->GetDeltaTime());
-			particle.mRotation += 0.01f * static_cast<float>(TIME->GetDeltaTime());
+			particle.mRotation += particle.mRotationSpeed * static_cast<float>(TIME->GetDeltaTime());
 
 
 			// Check if size is enlarging or getting smaller
+			// Getting smaller
 			if (particle.mSizeBegin > particle.mSizeEnd) {
 				// Getting smaller
 				float sizeChangePerSecond = (particle.mSizeBegin - particle.mSizeEnd) / particle.mLifetime;
