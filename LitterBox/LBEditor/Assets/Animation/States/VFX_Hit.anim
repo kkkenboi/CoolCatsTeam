@@ -1,0 +1,61 @@
+{
+    "Name": "VFX_Hit",
+    "SpriteSheet Name": "VFXSheet",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": []
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": []
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": []
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 16
+            },
+            {
+                "Frame": 6,
+                "Data": 17
+            },
+            {
+                "Frame": 12,
+                "Data": 18
+            },
+            {
+                "Frame": 18,
+                "Data": 19
+            },
+            {
+                "Frame": 24,
+                "Data": 20
+            },
+            {
+                "Frame": 30,
+                "Data": 21
+            },
+            {
+                "Frame": 36,
+                "Data": 31
+            }
+        ]
+    },
+    "Start": 0,
+    "End": 36
+}

@@ -1,0 +1,69 @@
+{
+    "Name": "VFX_Explosion",
+    "SpriteSheet Name": "VFXSheet",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": []
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": []
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": []
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 8
+            },
+            {
+                "Frame": 6,
+                "Data": 9
+            },
+            {
+                "Frame": 12,
+                "Data": 10
+            },
+            {
+                "Frame": 18,
+                "Data": 11
+            },
+            {
+                "Frame": 24,
+                "Data": 12
+            },
+            {
+                "Frame": 30,
+                "Data": 13
+            },
+            {
+                "Frame": 36,
+                "Data": 14
+            },
+            {
+                "Frame": 42,
+                "Data": 15
+            },
+            {
+                "Frame": 48,
+                "Data": 31
+            }
+        ]
+    },
+    "Start": 0,
+    "End": 48
+}

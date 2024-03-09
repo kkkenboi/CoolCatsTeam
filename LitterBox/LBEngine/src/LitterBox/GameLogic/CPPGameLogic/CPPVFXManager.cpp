@@ -23,7 +23,7 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("VFX Object", *explosionClone);
 		explosionClone->GetComponent<CPTransform>()->SetPosition(pos);
 		explosionClone->GetComponent<CPTransform>()->SetScale(Vec2<float>(5,5));
-		explosionClone->GetComponent<CPAnimator>()->Play("Explosion");
+		explosionClone->GetComponent<CPAnimator>()->Play("VFX_Explosion");
 		GOMANAGER->RemoveGameObject(explosionClone, 2.f);
 	}
 	void CPPSVFXManager::SpawnHitAnim(Vec2<float> pos)
@@ -31,7 +31,7 @@ namespace LB
 		GameObject* hitFXClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("VFX Object", *hitFXClone);
 		hitFXClone->GetComponent<CPTransform>()->SetPosition(pos);
-		hitFXClone->GetComponent<CPAnimator>()->Play("Hit");
+		hitFXClone->GetComponent<CPAnimator>()->Play("VFX_Hit");
 		//Setting the scale UNIFORMLY
 		std::mt19937 generator(TIME->GetTime());
 		std::uniform_real_distribution<float> uniform_distribution(-0.5f, 0.5f);
@@ -50,7 +50,7 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("VFX Object", *poofClone);
 		poofClone->GetComponent<CPTransform>()->SetPosition(pos);
 		poofClone->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1)*scaleMult);
-		poofClone->GetComponent<CPAnimator>()->Play("Poof");
+		poofClone->GetComponent<CPAnimator>()->Play("VFX_Poof");
 		GOMANAGER->RemoveGameObject(poofClone, 2.f);
 
 	}

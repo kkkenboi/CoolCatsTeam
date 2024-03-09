@@ -130,7 +130,7 @@ namespace LB
 			//rend->stop_anim();
 			//rend->play_repeat("player_walk");
 
-			GetComponent<CPAnimator>()->PlayRepeat("FelixWalk");
+			GetComponent<CPAnimator>()->PlayRepeat("Felix_Walk");
 
 			isWalkingAnim = true;
 		}
@@ -139,7 +139,7 @@ namespace LB
 			//rend->stop_anim();
 			//rend->play_repeat("player_walk");
 
-			GetComponent<CPAnimator>()->PlayRepeat("FelixWalk");
+			GetComponent<CPAnimator>()->PlayRepeat("Felix_Walk");
 
 			isWalkingAnim = true;
 		}
@@ -148,7 +148,7 @@ namespace LB
 			//rend->stop_anim();
 			//rend->play_repeat("player_walk");
 
-			GetComponent<CPAnimator>()->PlayRepeat("FelixWalk");
+			GetComponent<CPAnimator>()->PlayRepeat("Felix_Walk");
 
 			isWalkingAnim = true;
 		}
@@ -157,7 +157,7 @@ namespace LB
 			//rend->stop_anim();
 			//rend->play_repeat("player_walk");
 
-			GetComponent<CPAnimator>()->PlayRepeat("FelixWalk");
+			GetComponent<CPAnimator>()->PlayRepeat("Felix_Walk");
 
 			isWalkingAnim = true;
 		}
@@ -227,7 +227,7 @@ namespace LB
 			 	//rend->stop_anim();
 			 	//rend->play_repeat("player_idle");
 				 if (!mIsStunned) {
-					 GetComponent<CPAnimator>()->Stop();
+					 GetComponent<CPAnimator>()->StopAndReset();
 				 }
 			 	isWalkingAnim = false;
 			 }
@@ -385,7 +385,7 @@ namespace LB
 			}
 			mGotAttackedCooldown = mGotAttacked;
 
-			GetComponent<CPAnimator>()->Play("FelixHurt");
+			GetComponent<CPAnimator>()->PlayAndReset("Felix_Hurt");
 
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.4f);
 			// Update the HUD as well

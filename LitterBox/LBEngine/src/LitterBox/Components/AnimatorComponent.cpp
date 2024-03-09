@@ -38,7 +38,7 @@ namespace LB
 	void CPAnimator::LoadController()
 	{
 		m_render = gameObj->GetComponent<CPRender>();
-		m_controller = ASSETMANAGER->AnimControllers[m_controller.GetName()];
+		m_controller = ASSETMANAGER->AnimControllers[m_controller.m_name];
 	}
 
 	/*!************************************************************************
@@ -47,48 +47,110 @@ namespace LB
 	**************************************************************************/
 	void CPAnimator::Update()
 	{
-		if (!m_controller.IsPlaying())
+		// If no state is playing, just return
+		if (!m_playing || m_paused) return;
+
+		// If the animation has reached the end and not repeating, stop the animation
+		if (m_controller.IsLastFrame())
 		{
-			if (m_repeating)
+			if (!m_repeating)
 			{
-				m_controller.Play();
+				m_resetAfterPlay ? StopAndReset() : Stop();
 			}
 			else
 			{
-				if (m_playing)
-				{
-					// Reset the texture to the original before the animation began
-					if (m_oldSSName != "None")
-					{
-						m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_controller.IsNextFrame());
-					}
-					else
-					{
-						m_render->spriteSheetName = "None";
-						m_render->texture = m_oldSSIndex;
-						m_render->UpdateTexture(m_oldID, static_cast<int>(m_render->w), static_cast<int>(m_render->h));
-					}
-					m_playing = false;
-				}
-				return;
+				m_controller.GetCurrentState().m_currentFrame = m_controller.GetCurrentState().m_startFrame;
 			}
+			return;
 		}
 
-		m_controller.Update();
-		if (m_controller.IsNextFrame())
+		// Otherwise, update the animation
+		m_elapsedTime += static_cast<float>(TIME->GetDeltaTime() * m_playSpeed);
+		if (m_elapsedTime >= m_targetTime)
 		{
-			m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_controller.IsNextFrame());
+			m_elapsedTime -= m_targetTime;
+
+			LBAnimationState& currentState = m_controller.GetCurrentState();
+
+			// Update active
+			if (!currentState.m_active.Empty())
+			{
+				bool shouldBeActive = currentState.m_active.GetCurrentExact(currentState.m_currentFrame);
+				if (gameObj->IsActive() != shouldBeActive)
+				{
+					gameObj->SetActive(shouldBeActive);
+				}
+			}
+			// Update pos
+			if (!currentState.m_pos.Empty())
+			{
+				Vec2<float> animPos = currentState.m_pos.GetCurrentExact(currentState.m_currentFrame);
+				GetComponent<CPTransform>()->SetPosition(animPos);
+			}
+			// Update scale
+			if (!currentState.m_scale.Empty())
+			{
+				Vec2<float> animScale = currentState.m_scale.GetCurrentExact(currentState.m_currentFrame);
+				GetComponent<CPTransform>()->SetScale(animScale);
+			}
+			// Update rotation
+			if (!currentState.m_rot.Empty())
+			{
+				float animRot = currentState.m_rot.GetCurrentExact(currentState.m_currentFrame);
+				GetComponent<CPTransform>()->SetRotation(animRot);
+			}
+			// Update image
+			if (!currentState.m_sprite.Empty())
+			{
+				int spriteIndex = currentState.m_sprite.GetCurrentExact(currentState.m_currentFrame);
+				m_render->SetSpriteTexture(currentState.m_spriteSheetName, spriteIndex);
+			}
+
+			m_controller.Update();
 		}
+
+		//if (!m_controller.IsPlaying())
+		//{
+		//	if (m_repeating)
+		//	{
+		//		m_controller.Play();
+		//	}
+		//	else
+		//	{
+		//		if (m_playing)
+		//		{
+		//			// Reset the texture to the original before the animation began
+		//			if (m_oldSSName != "None")
+		//			{
+		//				m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_controller.IsNextFrame());
+		//			}
+		//			else
+		//			{
+		//				m_render->spriteSheetName = "None";
+		//				m_render->texture = m_oldSSIndex;
+		//				m_render->UpdateTexture(m_oldID, static_cast<int>(m_render->w), static_cast<int>(m_render->h));
+		//			}
+		//			m_playing = false;
+		//		}
+		//		return;
+		//	}
+		//}
+
+		//m_controller.Update();
+		//if (m_controller.IsNextFrame())
+		//{
+		//	m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_controller.IsNextFrame());
+		//}
 	}
 
 	/*!************************************************************************
 	 \brief
-	 Plays the animation based on the name
+	 Plays the animation and stops (and stays) at the last frame
 	**************************************************************************/
 	void CPAnimator::Play(std::string const& name)
 	{
 		// Save old data
-		if (m_render->spriteSheetName == "None")
+		if (m_render->spriteIndex < 0)
 		{
 			m_oldID = m_render->texture;
 		}
@@ -98,39 +160,83 @@ namespace LB
 			m_oldSSIndex = m_render->spriteIndex;
 		}
 		m_playing = true;
-		m_controller.Play(name);
+		m_controller.Load(name);
 	}
 
 	/*!************************************************************************
 	 \brief
-	 Plays the animation based on the name on loop
+	 Plays the animation and resets the object to before the animation began
+	**************************************************************************/
+	void CPAnimator::PlayAndReset(std::string const& name)
+	{
+		Play(name);
+		m_resetAfterPlay = true;
+	}
+
+	/*!************************************************************************
+	 \brief
+	 Plays the animation on repeat forever, until Stop() is called or GO is gone
 	**************************************************************************/
 	void CPAnimator::PlayRepeat(std::string const& name)
 	{
-		m_repeating = true;
 		Play(name);
+		m_repeating = true;
+	}
+
+	void CPAnimator::PlayNext(std::string const& name)
+	{
+		if (!m_playing)
+		{
+			Play(name);
+		}
+		else
+		{
+			m_queue.push_back(name);
+		}
 	}
 
 	/*!************************************************************************
 	 \brief
-	 Stops the current animation playing
+	 Pauses/unpauses the current animation
+	**************************************************************************/
+	void CPAnimator::Pause(bool state)
+	{
+		m_paused = state;
+	}
+
+	/*!************************************************************************
+	 \brief
+	 Stops the current animation and leaves the object at its current state
 	**************************************************************************/
 	void CPAnimator::Stop()
 	{
 		m_playing = m_repeating = false;
-		m_controller.Stop();
+		if (!m_queue.empty())
+		{
+			Play(m_queue.front());
+			m_queue.erase(m_queue.begin());
+		}
+	}
 
+	/*!************************************************************************
+	 \brief
+	 Stops the current animation and resets it to before the animation began
+	**************************************************************************/
+	void CPAnimator::StopAndReset()
+	{
+		m_resetAfterPlay = false;
 		// Reset the texture to the original before the animation began
 		if (m_oldSSName != "None")
 		{
-			m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_controller.IsNextFrame());
+			m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_oldSSIndex);
 		}
 		else
 		{
 			m_render->spriteSheetName = "None";
-			m_render->texture = m_oldSSIndex;
+			m_render->texture = m_oldID;
 			m_render->UpdateTexture(m_oldID, static_cast<int>(m_render->w), static_cast<int>(m_render->h));
 		}
+		Stop();
 	}
 
 	/*!************************************************************************
@@ -150,7 +256,7 @@ namespace LB
 	{
 		data.SetObject();
 
-		Value controllerValue(m_controller.GetName().c_str(), alloc);
+		Value controllerValue(m_controller.m_name.c_str(), alloc);
 		data.AddMember("Controller", controllerValue, alloc);
 
 		return true;
@@ -176,77 +282,4 @@ namespace LB
 
 		return false;
 	}
-
-	/*!************************************************************************
-	 \brief
-	 Gets the controller name
-	**************************************************************************/
-	std::string const& CPAnimator::GetControllerName()
-	{
-		return m_controller.GetName();
-	}
-
-	/*!************************************************************************
-	 \brief
-	 Sets the controller name
-	**************************************************************************/
-	void CPAnimator::SetControllerName(std::string const& name)
-	{
-		m_controller.SetName(name);
-	}
-
-	///*!***********************************************************************
-	//\brief
-	// Getting the size of the sprite sheet
-	//*************************************************************************/
-	//void CPAnimator::SizeOfImage(std::string spriteSheet) //getting the size of the SpriteSheet
-	//{
-	//	spriteWidth = LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[spriteSheet])->second.first->width;
-	//	spriteHeight = LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[spriteSheet])->second.first->height;
-	//}
-
-	/*!***********************************************************************
-	\brief
-	 This function sets the animation
-	*************************************************************************/
-	//void CPAnimator::SetAnimation(const std::string animationName, int count, float timer) //I want it to allow the user to set the name of the animation
-	//{
-	//	(void)timer;
-	//	//frames.resize(count, std::vector<LB::Vec2<float>>(frameCount));
-	//	std::vector<LB::Vec2<float>*> pointers(frames.size());
-
-	//	for (size_t i = 0; i < frames.size(); ++i) 
-	//	{
-	//		pointers[i] = frames[i].data();  // Get the pointer to the data of each inner vector
-	//	}
-
-	//	//Renderer::GRAPHICS->init_anim(animationName, pointers.data(), timer, frameCount);
-	//}
-
-	///*!***********************************************************************
-	//\brief
-	// Starting of the animation
-	//*************************************************************************/
-	//void CPAnimator::SetAnimation(const std::string& animationName, float speedOfAnim, int numOfFrame)
-	//{
-	//	//(void)animationName;
-	//	if (ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap[animationName]) != LB::ASSETMANAGER->Textures.end()) {
-
-	//		float x_inc{ 1.f / 4.f };
-
-	//		for (int y{ 0 }; y < 4; ++y)
-	//		{
-	//			for (int x{ 0 }; x < 4; ++x) 
-	//			{
-	//				anim_frames[x + y * 4].at(0) = { x * x_inc, 1.f - (y + 1) * x_inc };//bottom left
-	//				anim_frames[x + y * 4].at(1) = { (x + 1) * x_inc, 1.f - (y + 1) * x_inc };//bottom right
-	//				anim_frames[x + y * 4].at(2) = { (x + 1) * x_inc, 1.f - y * x_inc };//top right
-	//				anim_frames[x + y * 4].at(3) = { x * x_inc, 1.f - y * x_inc };//top left
-	//			}
-
-	//		}
-
-	//		//Renderer::GRAPHICS->init_anim(animationName, anim_frames.data(), speedOfAnim, numOfFrame);
-	//	}
-	//}
 }

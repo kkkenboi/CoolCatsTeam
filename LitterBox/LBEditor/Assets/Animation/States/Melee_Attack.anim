@@ -1,0 +1,41 @@
+{
+    "Name": "Melee_Attack",
+    "SpriteSheet Name": "MultiSheet",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": []
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": []
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": []
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 4
+            },
+            {
+                "Frame": 1,
+                "Data": 5
+            }
+        ]
+    },
+    "Start": 0,
+    "End": 30
+}

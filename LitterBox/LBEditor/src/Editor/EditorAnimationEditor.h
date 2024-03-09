@@ -5,7 +5,7 @@
  \par Course:		CSD2401A
  \date				25-11-2023
  \brief
- This file contains the EditorAniamtionEditor class and all its functionalities
+ This file contains the EditorAnimationEditor class and all its functionalities
  for the aniamtion view layer of the Editor.
 
  Editor.
@@ -18,8 +18,11 @@
 
 #include "Editor.h"
 #include "Litterbox/Engine/Layer.h"
+#include "LitterBox/Engine/Input.h"
 
 #include "imgui_neo_sequencer.h"
+
+#include "EditorAnimationView.h"
 
 namespace LB 
 {
@@ -50,6 +53,10 @@ namespace LB
 		*************************************************************************/
 		void UpdateLayer() override;
 
+		void UpdateLoadedState();
+
+		void UpdateLoadedController();
+
 		/*!***********************************************************************
 		  \brief
 		  Loads the animation state for editing.
@@ -73,18 +80,47 @@ namespace LB
 		  Destroys the animation editor layer.
 		*************************************************************************/
 		void Destroy() {}
+
+		template <typename T>
+		void CheckDeleteKeyFrame(LBKeyFrameGroup<T>& group)
+		{
+			if (INPUT->IsKeyTriggered(KeyCode::KEY_DELETE) && ImGui::GetNeoKeyframeSelectionSize())
+			{
+				ImGui::FrameIndexType* keyFramesToRemove = new ImGui::FrameIndexType[ImGui::GetNeoKeyframeSelectionSize()];
+				ImGui::GetNeoKeyframeSelection(keyFramesToRemove);
+
+				for (int index{ 0 }; index < ImGui::GetNeoKeyframeSelectionSize(); ++index)
+				{
+					group.Remove(LBKeyFrame<T>{keyFramesToRemove[index]});
+				}
+			}
+		}
 		
 	private:
+		// For animation view to use private variables for previewing
+		friend class EditorAnimationView;
+
+		// For checking what is loaded
+		bool m_stateLoaded{ false }, m_controllerLoaded{ false };
+
 		//----------------------------------------------Animation State----------------------------------------------
-		bool m_stateLoaded{ false }, m_controllerLoaded{ false }, m_previewPlaying{ false };
-		int m_previewIndex{ 0 };
-		float m_previewTimeElapsed{ 0.0f }, m_allDuration{ 0.0f };
+		LBAnimationState m_loadedState{};
+
+		// For editing state values
+		bool m_editActive{};
+		float m_editPosX{}, m_editPosY{}, m_editScaleX{}, m_editScaleY{}, m_editRot{};
+		int m_editSprite{};
+
+		// For timeline state
+		bool m_transformOpen{ true }, m_posOpen{ true }, m_scaleOpen{ true };
+
+		// For preview
+		bool m_previewPlaying{ false };
+		float m_elapsedTime{ 0.0f }, m_frameDuration{ 1.0f / 60.0f };
+		ImGui::FrameIndexType m_currentFrame{ 0 }, m_startFrame{ 0 }, m_endFrame{ 60 };
+
+		// For sprite editting
 		SpriteSheet* m_spriteSheet{ nullptr };
-
-		ImGui::FrameIndexType m_startFrame{ 0 }, m_endFrame{ 64 }, m_currentFrame{ 0 };
-
-		KeyFrame m_currentKeyFrame{}, m_tempKeyFrame{};
-		AnimationState m_currentState{};
 
 		//----------------------------------------------Animation Controller----------------------------------------------
 		AnimationController m_currentController{};

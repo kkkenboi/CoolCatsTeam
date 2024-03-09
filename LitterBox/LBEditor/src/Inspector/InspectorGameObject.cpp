@@ -718,7 +718,7 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				isActive = m_inspectedGO->GetComponent<CPCollider>()->m_active;
+				isActive = m_inspectedGO->GetComponent<CPCollider>()->m_colliderIsActive;
 				ImGui::PushID("ColliderActive");
 				ImGui::Checkbox("Active", &isActive);
 				ImGui::PopID();
@@ -1105,20 +1105,14 @@ namespace LB
 				{
 					for (auto& [str, controller] : ASSETMANAGER->AnimControllers)
 					{
-						if (ImGui::Selectable(controller.GetName().c_str()))
+						if (ImGui::Selectable(controller.m_name.c_str()))
 						{
-							m_inspectedGO->GetComponent<CPAnimator>()->SetControllerName(controller.GetName());
+							m_inspectedGO->GetComponent<CPAnimator>()->SetControllerName(controller.m_name);
 						}
 					}
 
 					ImGui::EndCombo();
 				}
-
-				if (ImGui::Button("Test"))
-				{
-					m_inspectedGO->GetComponent<CPAnimator>()->Play("MageAttack");
-				}
-
 				if (ImGui::Button("Delete Animator Component"))
 				{
 					m_inspectedGO->RemoveComponent(C_CPAnimator);

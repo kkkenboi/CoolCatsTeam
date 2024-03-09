@@ -108,6 +108,9 @@ namespace LB {
 		// Implicit Grid
 		std::vector<int> m_grid_frames;
 
+		// Collider isActive
+		bool m_colliderIsActive;
+
 		/*!***********************************************************************
 		  \brief
 		  Constructor for the Collider class

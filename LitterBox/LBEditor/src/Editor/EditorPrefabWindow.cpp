@@ -15,8 +15,11 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 #include "pch.h"
+
 #include "EditorPrefabWindow.h"
 #include "EditorInspector.h"
+#include "EditorAssets.h"
+
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Utils/Math.h"
 namespace LB
@@ -64,7 +67,7 @@ namespace LB
 		{
 			DebuggerLogFormat("Saving %s prefab", InspectorGameObject::Instance()->GetInspectedGO()->GetName().c_str());
 			//Save the prefab to file by it's name
-			JSONSerializer::SerializeToFile(InspectorGameObject::Instance()->GetInspectedGO()->GetName() + ".prefab", *InspectorGameObject::Instance()->GetInspectedGO());
+			JSONSerializer::SerializeToFile(EDITORASSETS->currentDirectory.string() + "/" + InspectorGameObject::Instance()->GetInspectedGO()->GetName() + ".prefab", *InspectorGameObject::Instance()->GetInspectedGO());
 		}
 		if (InspectorGameObject::Instance()->isPrefab)
 		{
@@ -78,7 +81,16 @@ namespace LB
 			//this sets the prefab texture
 			if (!prefabGO->HasComponent<CPRender>()) { ImGui::End(); return; }
 
-			int prefabTexture = ASSETMANAGER->GetTextureIndex(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
+			CPRender* render = prefabGO->GetComponent<CPRender>();
+			int prefabTexture;
+			if (render->spriteIndex >= 0)
+			{
+				prefabTexture = ASSETMANAGER->GetTextureIndex(ASSETMANAGER->GetSpriteSheet(render->spriteSheetName).GetPNGRef());
+			}
+			else
+			{
+				prefabTexture = ASSETMANAGER->GetTextureIndex(ASSETMANAGER->GetTextureName(prefabGO->GetComponent<CPRender>()->texture));
+			}
 			
 			//Getting the imgui draw list so we can apply transformations to the image
 			ImDrawList* drawList = ImGui::GetWindowDrawList();
@@ -89,22 +101,33 @@ namespace LB
 			float sin_a = sinf((-DegToRad(angle)) + static_cast<float>(PI));
 			//ImVec2 center{ prefabGO->GetComponent<CPTransform>()->GetPosition().x+100,prefabGO->GetComponent<CPTransform>()->GetPosition().y+100 };
 			ImVec2 center{ p.x+ImGui::GetWindowWidth()/2,p.y + yScale/2};
+			ImVec2 size{ render->w * 0.1f, render->h * 0.1f };
 
 			//Applying the rotation
 			ImVec2 pos[4] =
 			{
-				center + ImRotate(ImVec2(-xScale * 0.5f, -yScale * 0.5f), cos_a, sin_a),
-				center + ImRotate(ImVec2(+xScale * 0.5f, -yScale * 0.5f), cos_a, sin_a),
-				center + ImRotate(ImVec2(+xScale * 0.5f, +yScale * 0.5f), cos_a, sin_a),
-				center + ImRotate(ImVec2(-xScale * 0.5f, +yScale * 0.5f), cos_a, sin_a)
+				center + ImRotate(ImVec2(-size.x * xScale * 0.5f, -size.y * yScale * 0.5f), cos_a, sin_a),
+				center + ImRotate(ImVec2(size.x * xScale * 0.5f, -size.y * yScale * 0.5f), cos_a, sin_a),
+				center + ImRotate(ImVec2(size.x * xScale * 0.5f, size.y * yScale * 0.5f), cos_a, sin_a),
+				center + ImRotate(ImVec2(-size.x * xScale * 0.5f, size.y * yScale * 0.5f), cos_a, sin_a)
 			};
-			ImVec2 uvs[4] =
+			ImVec2 uvs[4];
+			
+			if (render->spriteIndex >= 0)
 			{
-				ImVec2(0.0f, 0.0f),
-				ImVec2(1.0f, 0.0f),
-				ImVec2(1.0f, 1.0f),
-				ImVec2(0.0f, 1.0f)
-			};
+				uvs[0] = ImVec2(render->uv[0].x, render->uv[0].y);
+				uvs[1] = ImVec2(render->uv[1].x, render->uv[1].y);
+				uvs[2] = ImVec2(render->uv[2].x, render->uv[2].y);
+				uvs[3] = ImVec2(render->uv[3].x, render->uv[3].y);
+			}
+			else
+			{
+				uvs[0] = ImVec2(0.0f, 0.0f);
+				uvs[1] = ImVec2(1.0f, 0.0f);
+				uvs[2] = ImVec2(1.0f, 1.0f);
+				uvs[3] = ImVec2(0.0f, 1.0f);
+			}
+			
 			//then we draw it
 			drawList->AddImageQuad(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(prefabTexture)), pos[0], pos[1], pos[2], pos[3], uvs[0], uvs[1], uvs[2], uvs[3], IM_COL32_WHITE);
 		}

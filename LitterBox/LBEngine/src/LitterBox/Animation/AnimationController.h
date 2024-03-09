@@ -25,14 +25,10 @@ namespace LB
 	class AnimationController
 	{
 	public:
-		//----------------------------------------------CONTROLS----------------------------------------------
+		AnimationController() {}
+		AnimationController(std::string const& name) : m_name{ name } {}
 
-		/*!***********************************************************************
-		 \brief
-		 Initializes the animation controller
-		*************************************************************************/
-		void Initialize();
-
+		//----------------------------------------------PLAYING----------------------------------------------
 		/*!***********************************************************************
 		 \brief
 		 Updates the animation controller each frame
@@ -43,56 +39,38 @@ namespace LB
 		 \brief
 		 Sets the current state of the animation controller
 		*************************************************************************/
-		void SetState(std::string const& stateName);
+		void Load(std::string const& stateName);
 
 		/*!***********************************************************************
 		 \brief
-		 Plays the state of the animation controller
+		 Returns true if the current animation is on the last frame
 		*************************************************************************/
-		void Play(std::string const& stateName);
+		inline bool IsLastFrame() { return m_current.IsLastFrame(); }
 
 		/*!***********************************************************************
 		 \brief
-		 Plays the current state of the animation controller
+		 Returns the current animation state
 		*************************************************************************/
-		void Play();
-
-		/*!***********************************************************************
-		 \brief
-		 Stops the current state of the animation controller
-		*************************************************************************/
-		void Stop();
+		inline LBAnimationState& GetCurrentState() { return m_current; }
 
 		/*!***********************************************************************
 		 \brief
 		 Gets the current sprite sheet name
 		*************************************************************************/
-		std::string const& GetCurrentSpriteSheet();
-
-		/*!***********************************************************************
-		 \brief
-		 Checks if the next frame of the animation is playing
-		*************************************************************************/
-		int IsNextFrame() const;
-
-		/*!***********************************************************************
-		 \brief
-		 Checks if the animation is playing
-		*************************************************************************/
-		bool IsPlaying() const;
+		inline std::string const& GetCurrentSpriteSheet() { return m_current.m_spriteSheetName; }
 
 		//----------------------------------------------CREATION----------------------------------------------
 		/*!***********************************************************************
 		 \brief
 		 Gets the number of states
 		*************************************************************************/
-		int GetStateCount() const;
+		inline int Count() { return static_cast<int>(m_states.size()); }
 
 		/*!***********************************************************************
 		 \brief
 		 Gets the actual vector of states
 		*************************************************************************/
-		std::vector<std::string>& GetStates();
+		inline std::vector<std::string>& GetStates() { return m_states; }
 
 		/*!***********************************************************************
 		 \brief
@@ -112,24 +90,7 @@ namespace LB
 		 Gets the state at the index
 		*************************************************************************/
 		std::string& operator[](int index);
-
-		/*!***********************************************************************
-		 \brief
-		 Gets the state at the index
-		*************************************************************************/
 		std::string const& operator[](int index) const;
-
-		/*!***********************************************************************
-		 \brief
-		 Gets the name of the animation controller
-		*************************************************************************/
-		std::string const& GetName() const;
-
-		/*!***********************************************************************
-		 \brief
-		 Sets the name of the animation controller
-		*************************************************************************/
-		void SetName(std::string const& name);
 
 		/*!***********************************************************************
 		 \brief
@@ -143,10 +104,10 @@ namespace LB
 		*************************************************************************/
 		bool Deserialize(const Value& data);
 
-	private:
-		AnimationState m_current; // The current state loaded
-
 		std::string m_name { "No controller" };
+
+	private:
+		LBAnimationState m_current; // The current state loaded
 		std::vector<std::string> m_states;
 	};
 }

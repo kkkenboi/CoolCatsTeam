@@ -25,8 +25,8 @@
         "Width": 125.0,
         "Height": 125.0,
         "Layer": 0,
-        "Texture": "Mage_SpriteSheet",
-        "SpriteName": "MageSheet",
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
         "SpriteIndex": 0
     },
     "Collider": {

@@ -1,28 +1,36 @@
 {
     "Name": "ball",
+    "Active": true,
     "Transform": {
+        "Active": true,
         "Position": {
-            "x": 1113.5,
-            "y": 287.42
+            "x": 0.0,
+            "y": 0.0
         },
         "Scale": {
-            "x": 0.3,
-            "y": 0.3
+            "x": 0.6,
+            "y": 0.6
         },
         "Rotation": 0.0
     },
     "RigidBody": {
+        "Active": true,
         "Width": 100.0,
         "Height": 100.0,
         "Density": 10.0,
         "IsStatic": false
     },
     "Render": {
-        "Width": 100.0,
-        "Height": 100.0,
-        "Texture": "GolfBall"
+        "Active": true,
+        "Width": 200.0,
+        "Height": 200.0,
+        "Layer": 0,
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 50
     },
     "Collider": {
+        "Active": true,
         "ColliderLayer": {
             "Layer Name": "PlayerBall",
             "Layer ID": 4
@@ -33,6 +41,7 @@
         "Radius": 30.0
     },
     "CPPScript": {
+        "Active": true,
         "Script": "class LB::CPPSPlayerGolfBall"
     }
 }
