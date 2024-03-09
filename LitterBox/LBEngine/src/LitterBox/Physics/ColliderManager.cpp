@@ -397,12 +397,19 @@ namespace LB
 					continue;
 				}
 
+				// Check if component is active
+				if (colA->m_active == false || colB->m_active == false) 
+				{
+					continue;
+				}
 
+				// Check if the same collider
 				if (colA == colB)
 				{
 					continue;
 				}
 
+				// Check if static for both
 				if (colA->rigidbody != nullptr && colB->rigidbody != nullptr)
 				{
 					if (colA->rigidbody->isStatic == true && colB->rigidbody->isStatic)
