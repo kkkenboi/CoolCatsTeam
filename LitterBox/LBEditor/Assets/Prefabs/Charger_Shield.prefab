@@ -30,8 +30,8 @@
                 },
                 "RigidBody": {
                     "Active": true,
-                    "Width": 120.0,
-                    "Height": 120.0,
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "Density": 10.0,
                     "IsStatic": false
                 },
@@ -40,7 +40,7 @@
                     "Width": 120.0,
                     "Height": 120.0,
                     "Layer": 0,
-                    "Texture": "Charger_SpriteSheet",
+                    "Texture": "EditorIcons",
                     "SpriteName": "ChargerSheet",
                     "SpriteIndex": 5
                 },
@@ -64,8 +64,8 @@
     },
     "RigidBody": {
         "Active": true,
-        "Width": 135.0,
-        "Height": 135.0,
+        "Width": 100.0,
+        "Height": 100.0,
         "Density": 10.0,
         "IsStatic": false
     },
@@ -74,9 +74,9 @@
         "Width": 135.0,
         "Height": 135.0,
         "Layer": 0,
-        "Texture": "Charger_SpriteSheet",
-        "SpriteName": "ChargerSheet",
-        "SpriteIndex": 1
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 26
     },
     "Collider": {
         "Active": true,

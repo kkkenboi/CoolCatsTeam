@@ -18,8 +18,8 @@
         "Width": 100.0,
         "Height": 100.0,
         "Layer": 3,
-        "Texture": "Heart",
-        "SpriteName": "None",
-        "SpriteIndex": -1
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 48
     }
 }

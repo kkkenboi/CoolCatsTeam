@@ -25,9 +25,9 @@
         "Width": 150.0,
         "Height": 150.0,
         "Layer": 0,
-        "Texture": "Items",
-        "SpriteName": "Upgrades",
-        "SpriteIndex": 0
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 32
     },
     "Collider": {
         "Active": true,

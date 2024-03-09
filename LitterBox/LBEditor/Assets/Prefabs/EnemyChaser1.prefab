@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 456.23,
-            "y": 640.78
+            "x": 456.23001,
+            "y": 640.780029
         },
         "Scale": {
             "x": 1.25,
@@ -25,9 +25,9 @@
         "Width": 110.0,
         "Height": 110.0,
         "Layer": 0,
-        "Texture": "Melee_SpriteSheet",
-        "SpriteName": "MeleeSheet",
-        "SpriteIndex": 0
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 4
     },
     "Collider": {
         "Active": true,

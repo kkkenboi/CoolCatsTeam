@@ -18,8 +18,8 @@
         "Width": 50.0,
         "Height": 50.0,
         "Layer": 3,
-        "Texture": "GolfBall",
-        "SpriteName": "None",
-        "SpriteIndex": -1
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 50
     }
 }
