@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Audio/AudioManager.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -33,6 +34,7 @@ namespace LB
 			playCutscene = false;
 			free_video_state();
 			SCENEMANAGER->LoadScene(scene_to_transition);
+			AUDIOMANAGER->StopAllChannels();
 		}
 	}
 
@@ -63,7 +65,7 @@ namespace LB
 
 		scene_to_transition = next_scene;
 		load_video_file(video_file_name);
-
+		AUDIOMANAGER->PlaySound(video_file_name);
 		playCutscene = true;
 	}
 
