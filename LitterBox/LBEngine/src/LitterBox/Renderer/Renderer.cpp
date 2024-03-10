@@ -676,6 +676,7 @@ void Renderer::Renderer::Destroy_Renderer()
 Renderer::TextRenderer::TextRenderer() : //Characters{}, 
 tShader{}, tVao{}, tVbo{}, active_msgs{} //, ft{}, font{} 
 {
+	//--------------------------------DEPRECATED---------------------------------------
 	////Get fonts
 	//auto fonts{ LB::FILESYSTEM->GetFilesOfType(".otf") };
 	//auto fonts2{ LB::FILESYSTEM->GetFilesOfType(".ttf") };
@@ -797,6 +798,7 @@ tShader{}, tVao{}, tVbo{}, active_msgs{} //, ft{}, font{}
 
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//--------------------------------DEPRECATED---------------------------------------
 	LB::ASSETMANAGER->LoadFonts(reinterpret_cast<void*>(this));
 }
 /*!***********************************************************************

@@ -92,7 +92,7 @@ namespace LB
 		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{
-			VIDEOPLAYER->OnPlayVideo();
+			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "MainMenu");
 		}
 		//Test function to see if the remove gameobject code works
 		//You have to comment out the ball's canDestroy code in order for this

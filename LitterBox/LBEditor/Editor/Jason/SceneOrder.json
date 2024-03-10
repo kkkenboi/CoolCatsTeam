@@ -1,6 +1,7 @@
 {
     "SceneOrder": [
         "SceneMain",
+        "SceneCutscene",
         "SceneTut",
         "SceneMainMenu"
     ]

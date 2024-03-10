@@ -1,4 +1,8 @@
 #pragma once
+#include "LitterBox/Core/System.h" // For ISystem
+#include "LitterBox/Scene/SceneManager.h" //For SCENEMANAGER
+#include <string>
+
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -25,30 +29,46 @@ extern "C" {
 
 namespace LB
 {
-	class VideoPlayerSystem
+	class VideoPlayerSystem : public ISystem, public Singleton<VideoPlayerSystem>
 	{
 		struct VideoRenderState
 		{
+			int width{ 0 }, height{ 0 }, video_stream_index{ -1 };
+			unsigned char* fbuffer{ nullptr };
+			unsigned int tex_handle{ 0 };
 
+			AVFormatContext* av_format_ctx{ nullptr };
+			AVCodecContext* av_codec_ctx{ nullptr };
+			AVCodecParameters* av_codec_params{ nullptr };
+			AVCodec* av_codec{ nullptr };
+			AVFrame* av_frame{ nullptr };
+			AVPacket* av_packet{ nullptr };
+			SwsContext* sws_scaler_ctx{ nullptr };
 		};
 
 	public:
+		/*!***********************************************************************
+		 \brief
+		 Initalises the Game Logic system
+		*************************************************************************/
+		void Initialize() override;
+		//void Update() override;
+		//void FixedUpdate() override;
+		void Destroy() override;
+
+		void PlayCutscene(const char* video_file_name, const char* next_scene);
+
 		//ctor for the video player system (only sets the extern)
-		VideoPlayerSystem();
-		//Function to attempt to play the video
-		void OnPlayVideo();
+		VideoPlayerSystem() = default;
+		~VideoPlayerSystem() = default;
 
-		void load_video_file();
-		void load_video_frame();
-		void free_video_state();
+		const unsigned int& get_frame() const { return vrs.tex_handle; };
 	private:
-		//Helper functions to decode the packet
-		int decode_packet(AVPacket* pPacket, AVCodecContext* pCodecContext, AVFrame* pFrame);
-		//Helper function to log the data
-		void logging(const char* fmt, ...);
-		//Helper function to test to see if I can read the data
-		void save_gray_frame(unsigned char* buf, int wrap, int xsize, int ysize);
-	};
+		void load_video_file(const char* video_file_name);
+		bool load_video_frame();
+		void free_video_state();
 
-	extern VideoPlayerSystem* VIDEOPLAYER;
+		VideoRenderState vrs;
+		std::string scene_to_transition;
+	};
 }

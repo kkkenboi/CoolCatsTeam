@@ -49,6 +49,7 @@ namespace LB {
 		std::shared_ptr<ColliderManager> colliders = std::make_shared<ColliderManager>();
 		std::shared_ptr<AudioManager> audio = std::make_shared<AudioManager>();
 		std::shared_ptr<Renderer::RenderSystem> graphics = std::make_shared<Renderer::RenderSystem>();
+		VideoPlayerSystem::InitializeSingleton();
 		std::shared_ptr<Memory> memory = std::make_shared<Memory>();
 		std::shared_ptr<SceneManager> sceneManager = std::make_shared<SceneManager>();
 
@@ -68,6 +69,7 @@ namespace LB {
 		Engine->AddSystem(audio);
 		Engine->AddSystem(memory);
 		Engine->AddSystem(graphics);
+		Engine->AddSystem(VideoPlayerSystem::Instance());
 		Engine->AddSystem(debug);
 		Engine->AddSystem(sceneManager);
 		

@@ -38,6 +38,7 @@
 #include "CPPShield.h"
 #include "CPPSPortal.h"
 #include "CPPSTutorialSubs.h"
+#include "CPPSCutscene.h"
 
 namespace LB 
 {

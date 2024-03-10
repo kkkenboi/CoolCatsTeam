@@ -37,7 +37,6 @@
 
 extern unsigned int svtcb;
 extern Renderer::RenderSystem* Renderer::GRAPHICS;
-extern unsigned int tex_handle;
 
 namespace LB
 {
@@ -174,11 +173,13 @@ namespace LB
 		ImGui::BeginChild("GameRender");
 		m_windowSize = ImGui::GetWindowSize();
 		uint64_t warning_remover = (uint64_t)Renderer::GRAPHICS->get_scene_view();
-		if(warning_remover != static_cast<unsigned int>(-1) && !tex_handle)
+
+		if(warning_remover != static_cast<unsigned int>(-1))// && !VideoPlayerSystem::Instance()->get_frame())
 			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(Renderer::GRAPHICS->get_scene_view())), m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
-		if(tex_handle)
-			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(tex_handle)), m_windowSize);
+		//WAS USED FOR TESTING REOMVE LATER
+		/*if(VideoPlayerSystem::Instance()->get_frame())
+			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(VideoPlayerSystem::Instance()->get_frame())), m_windowSize);*/
 		
 		if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle))
 		{
