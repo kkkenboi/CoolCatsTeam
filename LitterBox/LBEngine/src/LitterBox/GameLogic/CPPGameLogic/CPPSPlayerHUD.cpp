@@ -43,11 +43,11 @@ namespace LB {
 		{
 			GameObject* verticalPopUp = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("VerticalPopUp", *verticalPopUp);
-			verticalPopUp->SetActive(false);
+			verticalPopUp->GetComponent<CPRender>()->ToggleActive(false);
 
 			GameObject* horizontalPopUp = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("HorizontalPopUp", *horizontalPopUp);
-			horizontalPopUp->SetActive(false);
+			horizontalPopUp->GetComponent<CPRender>()->ToggleActive(false);
 
 			// Since UpgradeType's based off enum, name them in that order
 			switch (i)
@@ -55,95 +55,160 @@ namespace LB {
 				// Set their names and text for each upgrade
 				case SPLIT:
 				{
-					verticalPopUp->SetName("SplitVPopUp"), horizontalPopUp->SetName("SplitHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->SetName("DuplimirrorVPopUp"), horizontalPopUp->SetName("DuplimirrorHPopUp");
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case BOMB:
 				{
 					verticalPopUp->SetName("GolfBombVPopUp"), horizontalPopUp->SetName("GolfBombHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case BIGBALL:
 				{
-					verticalPopUp->SetName("BiggieBallVPopUp"), horizontalPopUp->SetName("BiggieBallHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->SetName("GrowthPowderVPopUp"), horizontalPopUp->SetName("GrowthPowderHPopUp");
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case MOVESPEED:
 				{
-					verticalPopUp->SetName("SpeedsterVPopUp"), horizontalPopUp->SetName("SpeedsterHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					break;
-				}
-				case MOREHEALTH:
-				{
-					verticalPopUp->SetName("ExtraLivesVPopUp"), horizontalPopUp->SetName("ExtraLivesHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					break;
-				}
-				case MOREBALL:
-				{
-					verticalPopUp->SetName("BagOfHoldingVPopUp"), horizontalPopUp->SetName("BagOfHoldingHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->SetName("BootsOfAgilityVPopUp"), horizontalPopUp->SetName("BootsOfAgilityHPopUp");
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case POTION:
 				{
-					verticalPopUp->SetName("PotionV"), horizontalPopUp->SetName("PotionH");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->SetName("PotionVPopUp"), horizontalPopUp->SetName("PotionHPopUp");
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
+				case MOREHEALTH:
+				{
+					verticalPopUp->SetName("HeartLocketVPopUp"), horizontalPopUp->SetName("HeartLocketHPopUp");
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					break;
+				}
+				case MOREBALL:
+				{
+					verticalPopUp->SetName("BagOfGolfingVPopUp"), horizontalPopUp->SetName("BagOfGolfingHPopUp");
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					break;
+				}
+				//case SLIPPERY:
+				//{
+				//	verticalPopUp->SetName("SlipperyVPopUp"), horizontalPopUp->SetName("SlipperyHPopUp");
+				//verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+				//horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+				//	break;
+				//}
 				default:
 					continue;
 			}
 
 			// Save to all popups container 
 			m_totalUpgradePopUps.push_back(std::pair(verticalPopUp, horizontalPopUp));
-			DebuggerLogFormat("Pushed back: %s, %s", verticalPopUp->GetName().c_str(), horizontalPopUp->GetName().c_str());
+			//DebuggerLogFormat("Pushed back: %s, %s", verticalPopUp->GetName().c_str(), horizontalPopUp->GetName().c_str());
 		}
 
-		DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
+		//// MANUALLY shifting the map to the last thing rendered ----------------------------------------------------------------------------------------------
+		//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_OBJECT, GOMANAGER->FindGameObjectWithName("Map")->GetComponent<CPRender>());
+		//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_BACKGROUND, GOMANAGER->FindGameObjectWithName("Map")->GetComponent<CPRender>());
+
+		//DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
 
 		// Create game objects to display the health and balls
-		for (int i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth; ++i)
+		// - Health, hardcoding max value cause will be hidden behind
+		for (int i{}; i < 9; ++i)
 		{
 			GameObject* healthObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
+
+			healthObject->SetName("Heart " + std::to_string(i + 1));
+
 			Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
-			healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * (i - 1), startPos.y));
+			healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_heartDisplayOffset.x * i, startPos.y));
 
 			// Set the texture for lost health
 			if (i > m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
 			{
 				healthObject->GetComponent<CPRender>()->SetSpriteTexture(healthObject->GetComponent<CPRender>()->spriteSheetName, 49);
-
-				/*healthObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"),
-					static_cast<int>(healthObject->GetComponent<CPRender>()->w),
-					static_cast<int>(healthObject->GetComponent<CPRender>()->h));*/
 			}
+
+			// Those extra health we will hide them first, only when upgrades added to make more, turn them on
+			if (i >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth)
+			{
+				healthObject->GetComponent<CPRender>()->ToggleActive(false);
+			}
+
 			m_totalHeartDisplay.push_back(healthObject);
 		}
 
-		for (int i{}; i < m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls; ++i)
+		// - Balls, hardcoding max value cause will be hidden behind
+		for (int i{}; i < 9; ++i)
 		{
 			GameObject* ballObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
+
+			ballObject->SetName("Ball " + std::to_string(i + 1));
+
 			Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
-			ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * i, startPos.y));
+			ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_ballDisplayOffset.x * i, startPos.y));
+
+			// Those extra balls we will hide them first, only when upgrades added to make more, turn them on
+			if (i >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls)
+			{
+				ballObject->GetComponent<CPRender>()->ToggleActive(false);
+			}
 
 			m_totalBallsDisplay.push_back(ballObject);
 		}
 
-		// - To know when new upgrades are obtained
+		// Check if big balls upgrade is obtained
+		if (m_UpgradeManager->GetComponent<CPPSUpgradeManager>()->currentBallUpgrades & (1 << (UpgradeType::BIGBALL - 1)))
+		{
+			activeBallTexture += 2;
+			inactiveBallTexture += 2;
+
+			for (int i{}; i < 9; ++i)
+			{
+				m_totalBallsDisplay[i]->GetComponent<CPTransform>()->SetScale(Vec2<float>(0.9f, 0.9f));
+			}
+		}
+
+		// - Upgrades
+		for (int i{}; i < m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxUpgrades; ++i)
+		{
+			GameObject* upgradeObject = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile("UpgradeHUD", *upgradeObject);
+
+			upgradeObject->SetName("Upgrade " + std::to_string(i + 1));
+
+			upgradeObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradeObject->GetComponent<CPTransform>()->GetPosition().x + m_upgradeDisplayOffset.x * m_totalUpgradeDisplay.size(),
+																				upgradeObject->GetComponent<CPTransform>()->GetPosition().y));
+
+			upgradeObject->GetComponent<CPRender>()->ToggleActive(false);
+
+			m_totalUpgradeDisplay.push_back(upgradeObject);
+		}
+
+		// - Backboards
+		GameObject* heartBackboard = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("HeartBackboard", *heartBackboard);
+		GameObject* ballBackboard = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("BallBackboard", *ballBackboard);
+		GameObject* upgradeBackboard = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("UpgradeBackboard", *upgradeBackboard);
+
+
+		// New Upgrade Event: To know when new upgrades are obtained
 		m_UpgradeManager->GetComponent<CPPSUpgradeManager>()->onNewUpgrade.Subscribe(LB::AddNewUpgrade);
 	}
 
@@ -154,90 +219,49 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::Update()
 	{
-		for (size_t i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth; ++i)
+		// Health Update
+		for (size_t i{ 1 }; i <= static_cast<size_t>(m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth); ++i)
 		{
 			// Set the texture for lost health
 			if (i > m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
 			{
 				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->spriteSheetName, 49);
-
-				//m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"), 
-				//																	static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->w), 
-				//																	static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
-
 			}
 			else if ( i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
 			{
 				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->spriteSheetName, 48);
-
-				//m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Heart"),
-				//																	static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->w),
-				//																	static_cast<int>(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->h));
 			}
-			// Update the location of the heart based on the camera follow
-			//std::cout << m_totalHeartDisplay[i - 1]->GetComponent<CPTransform>()->GetParent()->gameObj->GetName() << std::endl;
 		}
 
-		for (size_t i{ 1 }; i <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls; ++i)
+		// Ball Update
+		for (size_t i{}; i < static_cast<size_t>(m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls); ++i)
 		{
-			// Set the texture for lost health
-			if (i > static_cast<size_t>(m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls - m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls))
+			if (i >= static_cast<size_t>(m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls - m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls))
 			{
-				m_totalBallsDisplay[i - 1]->GetComponent<CPRender>()->ToggleActive(false);
+				m_totalBallsDisplay[i]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i]->GetComponent<CPRender>()->spriteSheetName, inactiveBallTexture);
 			}
 			else
 			{
-				m_totalBallsDisplay[i - 1]->GetComponent<CPRender>()->ToggleActive(true);
+				m_totalBallsDisplay[i]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i]->GetComponent<CPRender>()->spriteSheetName, activeBallTexture);
 			}
 		}
 		
 		// If there is a collision, based on the index given, set the position of the popup and toggleActive
 		for (size_t i = 0; i < m_totalUpgradePopUps.size(); ++i)
 		{
-			if (i == static_cast<size_t>(m_currentPopUpIndex))
+			if (i + 1 == static_cast<size_t>(m_currentPopUpIndex))
 			{
-				m_totalUpgradePopUps[i].first->SetActive(m_mouseHoverWorld);
-				m_totalUpgradePopUps[i].second->SetActive(m_mouseHoverUI);
-				//if (m_mouseHoverWorld)
-				//{
-				//	m_totalUpgradePopUps[i].first->SetActive(true);
-				//}
-				//else
-				//{
-				//	m_totalUpgradePopUps[i].first->SetActive(false);
-				//}
-
-				//if (m_mouseHoverUI)
-				//{
-				//	m_totalUpgradePopUps[i].second->SetActive(true);
-				//}
-				//else
-				//{
-				//	m_totalUpgradePopUps[i].second->SetActive(false);
-				//}
+				//DebuggerLogFormat("Setting Active for %d", m_currentPopUpIndex);
+				m_totalUpgradePopUps[i].first->GetComponent<CPRender>()->ToggleActive(m_mouseHoverWorld);
+				m_totalUpgradePopUps[i].second->GetComponent<CPRender>()->ToggleActive(m_mouseHoverUI);
 				//DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
 			}
 			else
 			{
-				m_totalUpgradePopUps[i].first->SetActive(false);
-				m_totalUpgradePopUps[i].second->SetActive(false);
+				m_totalUpgradePopUps[i].first->GetComponent<CPRender>()->ToggleActive(false);
+				m_totalUpgradePopUps[i].second->GetComponent<CPRender>()->ToggleActive(false);
 			}
 		}
-
-		// Set mouse to not hover incase the mouse isn't hovering anymore
-		// - This is very bad fix to make it remove because the hovering still occurs
-		// - even if it's being collided with other stuff that's not the UpgradeHUD and 
-		// - my brain literally cannot right now, I WANT TO SLEEP PLEASE FORGIVE ME
-		//if (!m_MouseUI->GetComponent<CPCollider>()->m_collided)
-		//{
-		//	m_mouseHovering = false;
-		//	m_mouseHovering2 = false;
-		//	for (size_t i = 0; i < m_totalUpgradePopUps.size(); ++i)
-		//	{
-		//		m_totalUpgradePopUps[i].first->SetActive(false);
-		//		m_totalUpgradePopUps[i].second->SetActive(false);
-		//	}
-		//}
 	}
 
 	/*!***********************************************************************
@@ -307,31 +331,30 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseMaxHealth(int amount)
 	{
-		// Create game objects to display the health and balls
-		for (int i{ 1 }; i <= amount; i++)
-		{
-			GameObject* healthObject = FACTORY->SpawnGameObject();
-			JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
-			Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
-			//Vec2 startPos = Vec2<float>(-(WINDOWSSYSTEM->GetScreenWidth() / 4.0f), WINDOWSSYSTEM->GetScreenHeight() / 4.0f - m_displayOffset.y);
-			healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth + i - 1), startPos.y));
-			//m_currentHealth = 2;
-			// Set the texture for lost health
-			if (i > m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
-			{
-				m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i - 1]->GetComponent<CPRender>()->spriteSheetName, 49);
+		//for (int i{ 1 }; i <= amount; i++)
+		//{
+		//	GameObject* healthObject = FACTORY->SpawnGameObject();
+		//	JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
+		//	Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
+		//	healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_heartDisplayOffset.x * (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth + i - 1), startPos.y));
 
-				//healthObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Broken Heart"),
-				//	static_cast<int>(healthObject->GetComponent<CPRender>()->w),
-				//	static_cast<int>(healthObject->GetComponent<CPRender>()->h));
-			}
-			//healthObject->GetComponent<CPTransform>()->SetParent(GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPTransform>());
+		//	// Set the texture for lost health
+		//	if (i > m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
+		//	{
+		//		m_totalHeartDisplay[static_cast<size_t>(i - 1)]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[static_cast<size_t>(i - 1)]->GetComponent<CPRender>()->spriteSheetName, 49);
+		//	}
 
-			m_totalHeartDisplay.push_back(healthObject);
-		}
+		//	m_totalHeartDisplay.push_back(healthObject);
+		//}
 
 		m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth += amount;
 		m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth += amount;
+
+		// Sets toggleActive back to true for previous inactive hearts
+		for (size_t i{}; i < m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth; ++i)
+		{
+			m_totalHeartDisplay[i]->GetComponent<CPRender>()->ToggleActive(true);
+		}
 	}
 
 	/*!***********************************************************************
@@ -340,20 +363,23 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseMaxBalls(int amount)
 	{
-		for (int i{}; i < amount; i++)
-		{
-			GameObject* ballObject = FACTORY->SpawnGameObject();
-			JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
-			Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
-			//Vec2 startPos = Vec2<float>(-(WINDOWSSYSTEM->GetScreenWidth() / 4.0f), WINDOWSSYSTEM->GetScreenHeight() / 4.0f - m_displayOffset.y * 2.0f);
-			ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_displayOffset.x * (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls + i), startPos.y));
-			//ballObject->GetComponent<CPTransform>()->SetParent(GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPTransform>());
+		//for (int i{}; i < amount; i++)
+		//{
+		//	GameObject* ballObject = FACTORY->SpawnGameObject();
+		//	JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
+		//	Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
+		//	ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_ballDisplayOffset.x * (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls + i), startPos.y));
 
-			m_totalBallsDisplay.push_back(ballObject);
-		}
+		//	m_totalBallsDisplay.push_back(ballObject);
+		//}
 
 		m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls += amount;
-		//m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls += amount;
+
+		// Sets toggleActive back to true for previous inactive balls
+		for (size_t i{}; i < m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls; ++i)
+		{
+			m_totalBallsDisplay[i]->GetComponent<CPRender>()->ToggleActive(true);
+		}
 	}
 
 	/*!***********************************************************************
@@ -362,25 +388,42 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::AddNewUpgrade(UpgradeType upgrade)
 	{
-		// Create a new upgrade display for HUD
-		GameObject* upgradeObject = FACTORY->SpawnGameObject();
-		JSONSerializer::DeserializeFromFile("UpgradeHUD", *upgradeObject);
-		
-		// - Set position on screen for the upgrade and the horizontal popup
-		upgradeObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradeObject->GetComponent<CPTransform>()->GetPosition().x - m_displayOffset.x * m_totalUpgradeDisplay.size(), 
-																			upgradeObject->GetComponent<CPTransform>()->GetPosition().y));
+		// - Check if the upgrade changes any UI backborder visuals
+		if (upgrade == UpgradeType::MOREHEALTH)
+		{
+			GOMANAGER->FindGameObjectWithName("HeartBackboard")->GetComponent<CPRender>()->SetSpriteTexture("BackboardSheet", 1);
+		}
+		else if (upgrade == UpgradeType::MOREBALL)
+		{
+			GOMANAGER->FindGameObjectWithName("BallBackboard")->GetComponent<CPRender>()->SetSpriteTexture("BackboardSheet", 3);
+		}
 
-		m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)].second->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradeObject->GetComponent<CPTransform>()->GetPosition().x, upgradeObject->GetComponent<CPTransform>()->GetPosition().y + 100.f));
+		// Check if the upgrade changes the ball texture
+		else if (upgrade == UpgradeType::BIGBALL)
+		{
+			activeBallTexture += 2;
+			inactiveBallTexture += 2;
 
-		// - Set image and spritesheet + index
-		//upgradeObject->GetComponent<CPRender>()->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("Items"),
-		//														static_cast<int>(upgradeObject->GetComponent<CPRender>()->w),
-		//														static_cast<int>(upgradeObject->GetComponent<CPRender>()->h));
+			for (int i{}; i < 9; ++i)
+			{
+				m_totalBallsDisplay[i]->GetComponent<CPTransform>()->SetScale(Vec2<float>(0.9f, 0.9f));
+			}
+		}
 
-		upgradeObject->GetComponent<CPRender>()->spriteIndex = static_cast<int>(upgrade + 31); // Minus 1 since the enum starts from 1
-		upgradeObject->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", upgradeObject->GetComponent<CPRender>()->spriteIndex); // Minus 1 since the enum starts from 1
+		// - Set image and spritesheet + index, toggle active to true
+		auto upgradePtr = m_totalUpgradeDisplay[m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentUpgrades];
+		upgradePtr->GetComponent<CPRender>()->spriteIndex = static_cast<int>(upgrade + 31); // Minus 1 since the enum starts from 1
+		upgradePtr->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", upgradePtr->GetComponent<CPRender>()->spriteIndex); // Minus 1 since the enum starts from 1
+		upgradePtr->GetComponent<CPRender>()->ToggleActive(true);
 
-		m_totalUpgradeDisplay.push_back(upgradeObject);
+
+		// - Set position on screen for the horizontal popup
+		auto popUpHPtr = m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)].second;
+		popUpHPtr->GetComponent<CPTransform>()->SetPosition(Vec2<float>(popUpHPtr->GetComponent<CPTransform>()->GetPosition().x + m_horizontalPopUpOffset.x * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentUpgrades,
+																		popUpHPtr->GetComponent<CPTransform>()->GetPosition().y));
+
+		// - Update how many upgrades the player has
+		m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentUpgrades += 1;
 	}
 
 
@@ -391,16 +434,7 @@ namespace LB {
 	void DecreaseHealth()
 	{
 		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
-		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->DecreaseHealth();
-		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		//{
-		//	// Find out which object is the player
-		//	if (gameObj->GetName() == "PlayerHUD")
-		//	{
-		//		gameObj->GetComponent<CPPSPlayerHUD>()->DecreaseHealth();
-		//		break;
-		//	}
-		//}
+			GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->DecreaseHealth();
 	}
 
 	/*!***********************************************************************
@@ -410,16 +444,7 @@ namespace LB {
 	void DecreaseBalls()
 	{
 		if(GOMANAGER->FindGameObjectWithName("PlayerHUD"))
-		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->DecreaseBalls();
-		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		//{
-		//	// Find out which object is the player
-		//	if (gameObj->GetName() == "PlayerHUD")
-		//	{
-		//		gameObj->GetComponent<CPPSPlayerHUD>()->DecreaseBalls();
-		//		break;
-		//	}
-		//}
+			GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->DecreaseBalls();
 	}
 
 	/*!***********************************************************************
@@ -429,16 +454,7 @@ namespace LB {
 	void IncreaseHealth()
 	{
 		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
-		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseHealth();
-		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		//{
-		//	// Find out which object is the player
-		//	if (gameObj->GetName() == "PlayerHUD")
-		//	{
-		//		gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseHealth();
-		//		break;
-		//	}
-		//}
+			GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseHealth();
 	}
 
 	/*!***********************************************************************
@@ -448,16 +464,7 @@ namespace LB {
 	void IncreaseBalls()
 	{
 		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
-		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
-		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		//{
-		//	// Find out which object is the player
-		//	if (gameObj->GetName() == "PlayerHUD")
-		//	{
-		//		gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
-		//		break;
-		//	}
-		//}
+			GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseBalls();
 	}
 
 	/*!***********************************************************************
@@ -467,16 +474,7 @@ namespace LB {
 	void IncreaseMaxHealth(int amount)
 	{
 		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
-		GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(amount);
-		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		//{
-		//	// Find out which object is the player
-		//	if (gameObj->GetName() == "PlayerHUD")
-		//	{
-		//		gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(amount);
-		//		break;
-		//	}
-		//}
+			GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(amount);
 	}
 
 	/*!***********************************************************************
@@ -487,15 +485,6 @@ namespace LB {
 	{
 		if (GOMANAGER->FindGameObjectWithName("PlayerHUD"))
 			GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(amount);
-		//for (GameObject* gameObj : GOMANAGER->GetGameObjects())
-		//{
-		//	// Find out which object is the player
-		//	if (gameObj->GetName() == "PlayerHUD")
-		//	{
-		//		gameObj->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(amount);
-		//		break;
-		//	}
-		//}
 	}
 
 	/*!***********************************************************************

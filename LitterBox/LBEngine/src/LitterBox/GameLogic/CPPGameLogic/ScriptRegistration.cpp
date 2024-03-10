@@ -28,6 +28,7 @@
 #include "CPPSUpgradeManager.h"
 #include "CPPSFPS.h"
 #include "CPPSBlueMushroom.h"
+#include "CPPSBush.h"
 #include "CPPSCharger.h"
 #include "CPPSSandpit.h"
 #include "CPPSCameraFollow.h"

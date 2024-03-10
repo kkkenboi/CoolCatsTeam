@@ -54,7 +54,7 @@ namespace LB
 		this->m_simpleCol = true;
 		this->m_collided = false;
 
-		this->m_pos = transform->GetPosition();
+		this->m_pos = transform->GetLocalPosition();
 
 		// Get m_widthUnscaled, m_heightUnscaled and m_radiusUnscaled from render component
 		if (this->m_gameobj->HasComponent<CPRender>())
@@ -562,7 +562,7 @@ namespace LB
 	*************************************************************************/
 	void CPCollider::FixedUpdate()
 	{
-		this->m_pos = transform->GetPosition();
+		this->m_pos = transform->GetLocalPosition();
 		this->m_rotation = transform->GetRotation();
 		this->m_vertAmount = static_cast<int>(this->m_untransformedVerts.size());
 

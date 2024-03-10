@@ -30,6 +30,7 @@ namespace LB
 		// Based on the FPS prefab, create the object, position is already set in the prefab
 		m_FPSObject = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("FPS", *m_FPSObject);
+		m_CameraFollow = GOMANAGER->FindGameObjectWithName("CameraFollow");
 
 		// Set it to 0.f when not active ( wanted to do ToggleActive but didn't work )
 		m_FPSObject->GetComponent<CPText>()->get_msg().scale = 0.0f;
@@ -75,6 +76,10 @@ namespace LB
 			strcpy_s(finalFps, sizeof(finalFps), fpsBuffer.c_str());
 
 			m_FPSObject->GetComponent<CPText>()->set_msg(finalFps);
+
+			// Follow the camera to ensure that it's always on the top right
+			m_FPSObject->GetComponent<CPTransform>()->SetPosition(m_CameraFollow->GetComponent<CPTransform>()->GetPosition() + Vec2<float>(750.f, 500.f));
+			//DebuggerLogFormat("m_FPSObject Position: %f, %f", m_FPSObject->GetComponent<CPTransform>()->GetPosition().x, m_FPSObject->GetComponent<CPTransform>()->GetPosition().y);
 		}
 
 		// If key J is pressed, show the FPS.

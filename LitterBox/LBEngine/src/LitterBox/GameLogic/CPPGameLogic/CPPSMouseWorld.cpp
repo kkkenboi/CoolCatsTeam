@@ -56,27 +56,34 @@ namespace LB
 	{
 		if (CORE->IsPlaying())
 		{
-			// Do gaming stuff here lets fkin goooooooo
-		// If hovering over new upgrades
+			// If hovering over new upgrades
 			if (colData.colliderOther->m_gameobj->GetName() == "leftUpgrade" ||
 					 colData.colliderOther->m_gameobj->GetName() == "middleUpgrade" ||
 					 colData.colliderOther->m_gameobj->GetName() == "rightUpgrade")
 			{
-				DebuggerLog("Colliding with upgrade!\n");
+				//DebuggerLog("Colliding with upgrade!\n");
+
+				// m_currentPopUpIndex should be from 1 - 7 to match the enum
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = true;
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteIndex - 31); // Check again when actual sprites are added
 
 				UpgradeType tempIndex{ m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex };
 
-				DebuggerLogFormat("CurrentPopUpIndex: %d", static_cast<int>(tempIndex));
+				//DebuggerLogFormat("CurrentPopUpIndex: %d", static_cast<int>(tempIndex));
 
 				m_UpgradeObject = colData.colliderOther->m_gameobj;
 				Vec2 finalPos = m_UpgradeObject->GetComponent<CPTransform>()->GetPosition();
-				finalPos -= Vec2<float>(0.f, 40.f);
+				finalPos -= Vec2<float>(0.f, 60.f);
 
-				DebuggerLogFormat("Final Position set at: %f, %f", finalPos.x , finalPos.y);
+				//DebuggerLogFormat("Final Position set at: %f, %f", finalPos.x , finalPos.y);
+				//DebuggerLogFormat("Upgrade Name: %s", m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_totalUpgradePopUps[static_cast<size_t>(tempIndex - 1)].first->GetName().c_str());
 
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_totalUpgradePopUps[static_cast<size_t>(tempIndex) - 1].first->GetComponent<CPTransform>()->SetPosition(finalPos);
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_totalUpgradePopUps[static_cast<size_t>(tempIndex - 1)].first->GetComponent<CPTransform>()->SetPosition(finalPos);
+			}
+			else
+			{
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
 			}
 		}
 	}
@@ -92,7 +99,11 @@ namespace LB
 			colData.colliderOther->m_gameobj->GetName() == "middleUpgrade" ||
 			colData.colliderOther->m_gameobj->GetName() == "rightUpgrade")
 		{
-			m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
+			if (!GetComponent<CPCollider>()->m_collided)
+			{
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
+			}
 		}
 	}
 }
