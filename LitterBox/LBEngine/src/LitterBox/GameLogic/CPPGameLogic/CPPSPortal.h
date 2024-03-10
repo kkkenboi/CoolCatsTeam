@@ -40,6 +40,7 @@ namespace LB
 		float rotAnglePerSec{ 720.f };	
 		float timer{};		//generic timer for the lerp
 		float rotTimer{};	//separate timer for the rotation
+		float rotAngle{ 0 };
 	};
 	REGISTER_SCRIPT(CPPSPortal)
 }

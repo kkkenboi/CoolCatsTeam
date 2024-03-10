@@ -1,0 +1,261 @@
+#include "RenderVideoComponent.h"
+#include "LitterBox/Serialization/FileSystemManager.h"
+#include <stdlib.h>
+#include "LitterBox/Components/RenderComponent.h"
+#include "LitterBox/Serialization/AssetManager.h"
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+namespace LB
+{
+	//For the extern
+	//VideoPlayerSystem* VIDEOPLAYER = { nullptr };
+	void VideoPlayerSystem::Initialize()
+	{
+		//openGL stuff, shoddy attempt at trying to throw something to the screen. Can delete, not crucial
+		glGenTextures(1, &vrs.tex_handle);
+		glBindTexture(GL_TEXTURE_2D, vrs.tex_handle);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		ASSETMANAGER->AddReservedTexture(vrs.tex_handle);
+	}
+
+	void VideoPlayerSystem::Destroy()
+	{
+		auto& tex_handle = vrs.tex_handle;
+		if (tex_handle)
+			glDeleteTextures(1, &tex_handle);
+		if (vrs.av_codec_ctx)
+			free_video_state();
+	}
+
+	static AVPixelFormat correct_for_deprecated_pixel_format(AVPixelFormat pix_fmt) {
+		// Fix swscaler deprecated pixel format warning
+		// (YUVJ has been deprecated, change pixel format to regular YUV)
+		switch (pix_fmt) {
+		case AV_PIX_FMT_YUVJ420P: return AV_PIX_FMT_YUV420P;
+		case AV_PIX_FMT_YUVJ422P: return AV_PIX_FMT_YUV422P;
+		case AV_PIX_FMT_YUVJ444P: return AV_PIX_FMT_YUV444P;
+		case AV_PIX_FMT_YUVJ440P: return AV_PIX_FMT_YUV440P;
+		default:                  return pix_fmt;
+		}
+	}
+
+	void VideoPlayerSystem::PlayCutscene(const char* video_file_name, const char* next_scene)
+	{
+		SCENEMANAGER->LoadScene("SceneCutscene");
+
+		scene_to_transition = next_scene;
+		load_video_file(video_file_name);
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+		load_video_frame();
+	}
+
+	void VideoPlayerSystem::load_video_file(const char* video_file_name)
+	{
+		AVCodecParameters*& av_codec_params = vrs.av_codec_params;
+		auto&	av_format_ctx	= vrs.av_format_ctx;
+		AVCodecContext*&	av_codec_ctx	= vrs.av_codec_ctx;
+		unsigned char*&		data			= vrs.fbuffer;
+		AVPacket*&			av_packet		= vrs.av_packet;
+		AVCodec*&			av_codec		= vrs.av_codec;
+		AVFrame*&			av_frame		= vrs.av_frame;
+		int&				video_stream_index = vrs.video_stream_index;
+
+		//1. open the file
+		av_format_ctx = avformat_alloc_context();
+		if (!av_format_ctx)
+		{
+			DebuggerLogError("Could not create AVFormatContxt");
+			return;
+		}
+
+		if (avformat_open_input(&av_format_ctx, FILESYSTEM->GetFilePath(video_file_name).string().c_str(), NULL, NULL) != 0)
+		{
+			DebuggerLogError("Could not Open video file");
+			return;
+		}
+
+		//2. find the video stream that we want in the file
+		video_stream_index = -1;
+		for (int i{ 0 }; i < av_format_ctx->nb_streams; ++i)
+		{
+			auto stream = av_format_ctx->streams[i];
+			av_codec_params = av_format_ctx->streams[i]->codecpar;
+			const AVCodec* av_codec_inside = avcodec_find_decoder(av_codec_params->codec_id);
+
+			if (!av_codec_inside)
+			{
+				continue;
+			}
+
+			if (av_codec_inside->type == AVMEDIA_TYPE_VIDEO)
+			{
+				av_codec = const_cast<AVCodec*>(av_codec_inside);
+				video_stream_index = i;
+				break;
+			}
+		}
+
+		if (video_stream_index == -1)
+		{
+			DebuggerLogError("Could not find valid video stream inside file");
+			return;
+		}
+
+		//3. set up decoder
+		av_codec_ctx = avcodec_alloc_context3(av_codec);
+		if (!av_codec_ctx)
+		{
+			DebuggerLogError("Could not create AVCodecContext");
+			return;
+		}
+
+		if (avcodec_parameters_to_context(av_codec_ctx, av_codec_params) < 0)
+		{
+			DebuggerLogError("Could not initialize AVCodecContext");
+			return;
+		}
+		if (avcodec_open2(av_codec_ctx, av_codec, NULL) < 0)
+		{
+			DebuggerLogError("Could not open codec");
+			return;
+		}
+
+		//4. create necessary tools for decoding the frame
+		av_frame = av_frame_alloc();
+		if (!av_frame)
+		{
+			DebuggerLogError("Could not allocate AVFrame");
+			return;
+		}
+		av_packet = av_packet_alloc();
+		if (!av_packet)
+		{
+			DebuggerLogError("Could not allocate AVPacket");
+			return;
+		}
+
+		data = new unsigned char[av_codec_params->width * av_codec_params->height * 4];
+	}
+
+	bool VideoPlayerSystem::load_video_frame()
+	{
+		AVCodecParameters*& av_codec_params		= vrs.av_codec_params;
+		AVFormatContext*&	av_format_ctx		= vrs.av_format_ctx;
+		AVCodecContext*&	av_codec_ctx		= vrs.av_codec_ctx;
+		unsigned char*&		data				= vrs.fbuffer;
+		SwsContext*&		sws_scalar_ctx		= vrs.sws_scaler_ctx;
+		AVPacket*&			av_packet			= vrs.av_packet;
+		AVCodec*&			av_codec			= vrs.av_codec;
+		AVFrame*&			av_frame			= vrs.av_frame;
+		auto&				tex_handle			= vrs.tex_handle;
+		int&				video_stream_index	= vrs.video_stream_index;
+
+		//1. decode one frame
+		int response{ 0 };
+		while (av_read_frame(av_format_ctx, av_packet) >= 0)
+		{
+			if (av_packet->stream_index != video_stream_index)
+			{
+				av_packet_unref(av_packet);
+				continue;
+			}
+
+			response = avcodec_send_packet(av_codec_ctx, av_packet);
+			if (response < 0)
+			{
+				DebuggerLogError("failed to decode packet");
+				return false;
+			}
+
+			response = avcodec_receive_frame(av_codec_ctx, av_frame);
+			if (response == AVERROR(EAGAIN) || response == AVERROR_EOF)
+			{
+				continue;
+			}
+			else if (response < 0)
+			{
+				DebuggerLogError("failed to decode packet");
+				return false;
+			}
+
+			av_packet_unref(av_packet);
+			break;
+		}
+
+		if (!sws_scalar_ctx)
+		{
+			sws_scalar_ctx = sws_getContext(av_frame->width,
+				av_frame->height,
+				av_codec_ctx->pix_fmt,
+				av_frame->width,
+				av_frame->height,
+				AV_PIX_FMT_RGB0,
+				SWS_BILINEAR,
+				NULL, NULL, NULL);
+		}
+
+		if (!sws_scalar_ctx)
+		{
+			DebuggerLogError("Could not initialize sw scalar");
+			return false;
+		}
+		uint8_t* dest[4] = { data, NULL, NULL, NULL };
+		int dest_linesize[4] = { av_frame->width * 4, 0, 0, 0 };
+		sws_scale(sws_scalar_ctx, av_frame->data, av_frame->linesize, 0, av_frame->height, dest, dest_linesize);
+		
+
+		glBindTexture(GL_TEXTURE_2D, tex_handle);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, av_frame->width, av_frame->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		std::cout << "Frame number: " << av_codec_ctx->frame_number << std::endl;
+
+		return true;
+	}
+
+	void VideoPlayerSystem::free_video_state()
+	{
+		ASSETMANAGER->RemoveReservedTexture();
+		AVFormatContext*& av_format_ctx = vrs.av_format_ctx;
+		AVCodecContext*& av_codec_ctx = vrs.av_codec_ctx;
+		unsigned char*& data = vrs.fbuffer;
+		SwsContext*& sws_scalar_ctx = vrs.sws_scaler_ctx;
+		AVPacket*& av_packet = vrs.av_packet;
+		AVFrame*& av_frame = vrs.av_frame;
+
+		sws_freeContext(sws_scalar_ctx);
+		avformat_close_input(&av_format_ctx);
+		avformat_free_context(av_format_ctx);
+		av_frame_free(&av_frame);
+		av_packet_free(&av_packet);
+		avcodec_free_context(&av_codec_ctx);
+
+		delete[] data;
+		memset(&vrs, 0, sizeof(vrs));
+	}
+}
+
+
+
+
