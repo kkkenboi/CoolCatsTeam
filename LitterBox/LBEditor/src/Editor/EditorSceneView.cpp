@@ -174,12 +174,12 @@ namespace LB
 		m_windowSize = ImGui::GetWindowSize();
 		uint64_t warning_remover = (uint64_t)Renderer::GRAPHICS->get_scene_view();
 
-		if(warning_remover != static_cast<unsigned int>(-1))// && !VideoPlayerSystem::Instance()->get_frame())
+		if(warning_remover != static_cast<unsigned int>(-1)) //&& !test)//!VideoPlayerSystem::Instance()->get_frame())
 			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(Renderer::GRAPHICS->get_scene_view())), m_windowSize, ImVec2(0, 1), ImVec2(1, 0));
 
 		//WAS USED FOR TESTING REOMVE LATER
 		/*if(VideoPlayerSystem::Instance()->get_frame())
-			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(VideoPlayerSystem::Instance()->get_frame())), m_windowSize);*/
+			ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(test)), m_windowSize);*/
 		
 		if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle))
 		{
