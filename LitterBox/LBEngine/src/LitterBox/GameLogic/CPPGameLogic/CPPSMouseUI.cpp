@@ -78,8 +78,12 @@ namespace LB
 	{
 		if (colData.colliderOther->m_gameobj->GetName().substr(0, 7) == "Upgrade" && colData.colliderOther->m_gameobj->GetComponent<CPRender>()->activated)
 		{
-			m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverUI = false;
-			m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
+			// To ensure that when upon exiting, and it switches to another upgrade quickly, it doesn't stop showing
+			if (!GetComponent<CPCollider>()->m_collided)
+			{
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverUI = false;
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
+			}
 		}
 	}
 }
