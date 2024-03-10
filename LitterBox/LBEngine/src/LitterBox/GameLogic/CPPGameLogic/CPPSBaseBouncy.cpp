@@ -15,7 +15,7 @@
 
 #include "CPPSBaseBouncy.h"
 #include "LitterBox/Engine/Time.h"
-
+#include "LitterBox/Audio/AudioManager.h"
 
 namespace LB
 {
@@ -38,10 +38,22 @@ namespace LB
 				Vec2<float> playerPos = colData.colliderOther->transform->GetPosition();
 
 				Vec2<float> forceToApply = playerPos - bouncyPos;
-
+				
 				//std::cout << "After : " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.x <<
 				//	", " << mPlayer->GetComponent<CPRigidBody>()->mVelocity.y << std::endl;
 			}
+			if (GameObj->GetName() == "Bramble")
+			{
+				int Channel = AUDIOMANAGER->PlaySound("Bramble");
+				AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
+			}
+			else
+			{
+				AUDIOMANAGER->PlaySound("Shroom Bounce");
+			}
+			int Channel = AUDIOMANAGER->PlaySound("Thud");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
+				
 
 			// Start scaling down in the next update loop
 			mScaleTimer = mToMaxTimer;

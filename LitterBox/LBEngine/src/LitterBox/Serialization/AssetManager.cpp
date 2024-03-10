@@ -496,7 +496,7 @@ namespace LB
         //TODO have a check for editor vs game
         //      if editor then start from 0 otherwise start from 1
         int i{1}; //START FROM 2 BECAUSE texture unit 0 will be reserved for ImGUI texture
-        for(; i<32; ++i)
+        for(; i<31; ++i)
         {
             if(!TextureSlots[i]) break;
         }
@@ -511,6 +511,33 @@ namespace LB
 	    TextureSlots[i] = true;
 
 	    return true;
+    }
+
+    /*!***********************************************************************
+     * \brief
+     * Adds the texture from a file to the texture map
+     * The texture map consists of TEXTUREDATA : ID
+    **************************************************************************/
+    bool AssetManager::AddReservedTexture(unsigned int texture)
+    {
+        //getting the pair then the texture id
+        glBindTextureUnit(31, texture);
+        TextureSlots[31] = true;
+
+        return true;
+    }
+
+    /*!***********************************************************************
+     * \brief
+     * Adds the texture from a file to the texture map
+     * The texture map consists of TEXTUREDATA : ID
+    **************************************************************************/
+    bool AssetManager::RemoveReservedTexture()
+    {
+        //else we set it to true and bind the texture
+        glBindTextureUnit(31, 0);
+        TextureSlots[0] = false;
+        return true;
     }
 
     /*!***********************************************************************

@@ -64,12 +64,12 @@ namespace LB
 			{
 				//DebuggerLog("Found!");
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverUI = true;
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteIndex - 31); // Check again when actual sprites are added
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentHPopUpIndex = static_cast<UpgradeType>(colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteIndex - 31); // Check again when actual sprites are added
 			}
 			else
 			{
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverUI = false;
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverUI = false;				
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentHPopUpIndex = static_cast<UpgradeType>(0);
 			}
 		}
 	}
@@ -87,7 +87,7 @@ namespace LB
 			if (!GetComponent<CPCollider>()->m_collided)
 			{
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverUI = false;
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentHPopUpIndex = static_cast<UpgradeType>(0);
 			}
 		}
 	}

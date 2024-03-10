@@ -151,6 +151,20 @@ namespace LB
         bool AddTexture(const std::string& fileName, const std::string& textureName);
 
         /*!***********************************************************************
+         * \brief
+         * Adds the texture from a file to the texture map
+         * The texture map consists of TEXTUREDATA : ID
+        **************************************************************************/
+        bool AddReservedTexture(unsigned int texture);
+
+        /*!***********************************************************************
+         * \brief
+         * Adds the texture from a file to the texture map
+         * The texture map consists of TEXTUREDATA : ID
+        **************************************************************************/
+        bool RemoveReservedTexture();
+
+        /*!***********************************************************************
         * \brief Removes the specified texture from the map and from the 
         * buffer thing e.g RemoveTexture("joe"); 
         * The function assumes you're removing .pngs that have been stemmed

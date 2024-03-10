@@ -79,7 +79,6 @@ namespace LB
 			mRigidBody = GameObj->GetComponent<CPRigidBody>();
 			return;
 		}
-		
 		if (mRigidBody->mVelocity.LengthSquared() < 50.0f)
 		{
 			mCurrentLifetime -= static_cast<float>(TIME->GetDeltaTime());
@@ -156,10 +155,13 @@ namespace LB
 			return;
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
-			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
+			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
+			colData.colliderOther->m_gameobj->GetName() == "Charger" ||
+			colData.colliderOther->m_gameobj->GetName() == "Bramble" ||
+			colData.colliderOther->m_gameobj->GetName() == "Mushroom")
 		{
-			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
+			int Channel = AUDIOMANAGER->PlaySound("Thud");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
 		}
 		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit" && 
 			colData.colliderOther->m_gameobj->GetName()!= "MouseWorld")
@@ -184,8 +186,10 @@ namespace LB
 		if (currentBallUpgrades & BIGBALL)
 		{
 			//This doubles the size of the ball
-			mSize = 2.0f;
+			mSize = 1.5f;
 			Vec2<float> newSize = GetComponent<CPTransform>()->GetScale() * mSize;
+			//We set the ball sprite to the big ball
+			GetComponent<CPRender>()->SetSpriteTexture(GetComponent<CPRender>()->spriteSheetName, 52);
 			GetComponent<CPTransform>()->SetScale(newSize);
 		}
 	}

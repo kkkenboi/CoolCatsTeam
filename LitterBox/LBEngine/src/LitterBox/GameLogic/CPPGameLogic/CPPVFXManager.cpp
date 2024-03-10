@@ -40,7 +40,7 @@ namespace LB
 
 		//Setting the rotation randomly
 		int rotOffset = (rand() % 360);
-		hitFXClone->GetComponent<CPTransform>()->SetScale(randomScale);
+		hitFXClone->GetComponent<CPTransform>()->SetScale(randomScale*2);
 		hitFXClone->GetComponent<CPTransform>()->SetRotation(rotOffset);
 		GOMANAGER->RemoveGameObject(hitFXClone, 2.f);
 	}

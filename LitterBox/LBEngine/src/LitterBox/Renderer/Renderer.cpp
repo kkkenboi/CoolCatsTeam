@@ -676,6 +676,7 @@ void Renderer::Renderer::Destroy_Renderer()
 Renderer::TextRenderer::TextRenderer() : //Characters{}, 
 tShader{}, tVao{}, tVbo{}, active_msgs{} //, ft{}, font{} 
 {
+	//--------------------------------DEPRECATED---------------------------------------
 	////Get fonts
 	//auto fonts{ LB::FILESYSTEM->GetFilesOfType(".otf") };
 	//auto fonts2{ LB::FILESYSTEM->GetFilesOfType(".ttf") };
@@ -797,6 +798,7 @@ tShader{}, tVao{}, tVbo{}, active_msgs{} //, ft{}, font{}
 
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//--------------------------------DEPRECATED---------------------------------------
 	LB::ASSETMANAGER->LoadFonts(reinterpret_cast<void*>(this));
 }
 /*!***********************************************************************
@@ -825,7 +827,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 	size_t stroffset{ 0 };
 	while (stroffset != std::string::npos)
 	{
-		size_t end_of_word{ msg.text.find_first_of(' ', stroffset) == std::string::npos ? msg.text.size() : msg.text.find_first_of(' ', stroffset) - 1 };
+		size_t end_of_word{ msg.text.find_first_of(' ', stroffset) == std::string::npos ? msg.text.size() : msg.text.find_first_of(' ', stroffset) };
 		std::string word{ msg.text.substr(stroffset, end_of_word - stroffset + 1) };
 
 		bool newline{ false };
@@ -1806,7 +1808,7 @@ bool LB::CPText::Deserialize(const Value& data)
 \param str
  The text to be rendered
 *************************************************************************/
-inline void LB::CPText::update_msg_text(const std::string& str)
+void LB::CPText::update_msg_text(const std::string& str)
 {
 	msg.text = str;
 }
@@ -1820,7 +1822,7 @@ inline void LB::CPText::update_msg_text(const std::string& str)
 \param col
  The values of the new color in vector format
 *************************************************************************/
-inline void LB::CPText::update_msg_color(const LB::Vec3<float>& col)
+void LB::CPText::update_msg_color(const LB::Vec3<float>& col)
 {
 	msg.color = col;
 }
@@ -1835,9 +1837,24 @@ inline void LB::CPText::update_msg_color(const LB::Vec3<float>& col)
 \param file_name_wo_ext
  Font file name without the extension
 *************************************************************************/
-inline void LB::CPText::update_msg_font(const std::string& file_name_wo_ext)
+void LB::CPText::update_msg_font(const std::string& file_name_wo_ext)
 {
 	msg.font_file_name_wo_ext = file_name_wo_ext;
+}
+
+/*!***********************************************************************
+\brief
+ Updates the bounding box of the text component
+
+ NOTE: Text should follow camera size. Therefore, left is 0 and right is
+ 1920
+
+\param new_bound
+ The new size of the bounding box for the text
+*************************************************************************/
+void LB::CPText::update_msg_xbound(float new_bound)
+{
+	msg.xbound = new_bound;
 }
 
 /*!***********************************************************************
