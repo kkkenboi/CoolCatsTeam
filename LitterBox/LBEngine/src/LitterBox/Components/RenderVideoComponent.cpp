@@ -14,8 +14,8 @@ namespace LB
 	void VideoPlayerSystem::Initialize()
 	{
 		//openGL stuff, shoddy attempt at trying to throw something to the screen. Can delete, not crucial
-		glGenTextures(1, &vrs.tex_handle);
-		glBindTexture(GL_TEXTURE_2D, vrs.tex_handle);
+		glGenTextures(1, &tex_handle);
+		glBindTexture(GL_TEXTURE_2D, tex_handle);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -23,12 +23,22 @@ namespace LB
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		ASSETMANAGER->AddReservedTexture(vrs.tex_handle);
+		ASSETMANAGER->AddReservedTexture(tex_handle);
+	}
+
+	void VideoPlayerSystem::FixedUpdate()
+	{
+		if (playCutscene && !load_video_frame())
+		{
+			playCutscene = false;
+			free_video_state();
+			SCENEMANAGER->LoadScene(scene_to_transition);
+		}
 	}
 
 	void VideoPlayerSystem::Destroy()
 	{
-		auto& tex_handle = vrs.tex_handle;
+		ASSETMANAGER->RemoveReservedTexture();
 		if (tex_handle)
 			glDeleteTextures(1, &tex_handle);
 		if (vrs.av_codec_ctx)
@@ -53,26 +63,14 @@ namespace LB
 
 		scene_to_transition = next_scene;
 		load_video_file(video_file_name);
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
-		load_video_frame();
+
+		playCutscene = true;
 	}
 
 	void VideoPlayerSystem::load_video_file(const char* video_file_name)
 	{
 		AVCodecParameters*& av_codec_params = vrs.av_codec_params;
-		auto&	av_format_ctx	= vrs.av_format_ctx;
+		auto&				av_format_ctx	= vrs.av_format_ctx;
 		AVCodecContext*&	av_codec_ctx	= vrs.av_codec_ctx;
 		unsigned char*&		data			= vrs.fbuffer;
 		AVPacket*&			av_packet		= vrs.av_packet;
@@ -167,12 +165,11 @@ namespace LB
 		AVPacket*&			av_packet			= vrs.av_packet;
 		AVCodec*&			av_codec			= vrs.av_codec;
 		AVFrame*&			av_frame			= vrs.av_frame;
-		auto&				tex_handle			= vrs.tex_handle;
 		int&				video_stream_index	= vrs.video_stream_index;
 
 		//1. decode one frame
-		int response{ 0 };
-		while (av_read_frame(av_format_ctx, av_packet) >= 0)
+		int response{ 0 }, test{ -1 };
+		while (test = av_read_frame(av_format_ctx, av_packet) >= 0)
 		{
 			if (av_packet->stream_index != video_stream_index)
 			{
@@ -204,9 +201,11 @@ namespace LB
 
 		if (!sws_scalar_ctx)
 		{
-			sws_scalar_ctx = sws_getContext(av_frame->width,
+			auto source_pix_fmt = correct_for_deprecated_pixel_format(av_codec_ctx->pix_fmt);
+			sws_scalar_ctx = sws_getContext(
+				av_frame->width,
 				av_frame->height,
-				av_codec_ctx->pix_fmt,
+				source_pix_fmt,
 				av_frame->width,
 				av_frame->height,
 				AV_PIX_FMT_RGB0,
@@ -229,14 +228,26 @@ namespace LB
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, av_frame->width, av_frame->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		std::cout << "Frame number: " << av_codec_ctx->frame_number << std::endl;
+		
+
+		/*printf(
+			"Frame %c (%d) pts %ld dts %ld key_frame %d [coded_picture_number %d, display_picture_number %d]\n",
+			av_get_picture_type_char(av_frame->pict_type),
+			av_codec_ctx->frame_number,
+			av_frame->pts,
+			av_frame->pkt_dts,
+			av_frame->key_frame,
+			av_frame->coded_picture_number,
+			av_frame->display_picture_number
+		);*/
+		if (!test)
+			return false;
 
 		return true;
 	}
 
 	void VideoPlayerSystem::free_video_state()
 	{
-		ASSETMANAGER->RemoveReservedTexture();
 		AVFormatContext*& av_format_ctx = vrs.av_format_ctx;
 		AVCodecContext*& av_codec_ctx = vrs.av_codec_ctx;
 		unsigned char*& data = vrs.fbuffer;
@@ -253,9 +264,6 @@ namespace LB
 
 		delete[] data;
 		memset(&vrs, 0, sizeof(vrs));
+		vrs.video_stream_index = -1;
 	}
 }
-
-
-
-
