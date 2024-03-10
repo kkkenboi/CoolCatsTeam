@@ -97,7 +97,8 @@ namespace LB
 		bool m_mouseHoverWorld{ false };
 		GameObject* m_UpgradeObject{ nullptr };
 
-		UpgradeType m_currentPopUpIndex{ UpgradeType::SPLIT };
+		UpgradeType m_currentVPopUpIndex{ UpgradeType::SPLIT };
+		UpgradeType m_currentHPopUpIndex{ UpgradeType::SPLIT };
 		std::vector<std::pair<GameObject*, GameObject*>> m_totalUpgradePopUps;
 	private:
 		bool m_displayUpgrade{false};
