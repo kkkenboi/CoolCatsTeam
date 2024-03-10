@@ -191,6 +191,8 @@ namespace LB {
 			return "Trail";
 		case RADIAL:
 			return "Radial";
+		case INVERSERADIAL:
+			return "InverseRadial";
 		default:
 			return "ERROR!";
 		}

@@ -718,13 +718,13 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				isActive = m_inspectedGO->GetComponent<CPCollider>()->m_colliderIsActive;
+				bool& isColActive = m_inspectedGO->GetComponent<CPCollider>()->m_active;
 				ImGui::PushID("ColliderActive");
-				ImGui::Checkbox("Active", &isActive);
+				ImGui::Checkbox("Active", &isColActive);
 				ImGui::PopID();
-				if (isActive != m_inspectedGO->GetComponent<CPCollider>()->m_active)
+				if (isColActive != m_inspectedGO->GetComponent<CPCollider>()->m_active)
 				{
-					m_inspectedGO->GetComponent<CPCollider>()->ToggleActiveFlag(isActive);
+					m_inspectedGO->GetComponent<CPCollider>()->ToggleActiveFlag(isColActive);
 				}
 
 				// Interface Buttons
@@ -1197,6 +1197,23 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##RadialSpeed", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterRadialSpeed, 1.0, 0.f, 0.f, "%.2f");
+				
+				// Emitter Rotation
+				ImGui::Text("%-17s", "Rotation Speed");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##RotationSpeed", &m_inspectedGO->GetComponent<CPParticle>()->mRotationSpeed, 1.0, 0.f, 0.f, "%.2f");
+
+				ImGui::Text("%-17s Min", "Rotation Spd Variation");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##RotSpdVariaionMin", &m_inspectedGO->GetComponent<CPParticle>()->mRotationSpeedVariationMin, 1.0, 0.f, 0.f, "%.2f");
+				ImGui::Text("%-17s Max", "Rotation Spd Variation");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##RotSpdVariaionMax", &m_inspectedGO->GetComponent<CPParticle>()->mRotationSpeedVariationMax, 1.0, 0.f, 0.f, "%.2f");
+
+				
 				// Emitter Size
 				ImGui::Text("%-17s Begin", "Emitter Size");
 				ImGui::SameLine();
@@ -1225,6 +1242,18 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##ParticleLifeTime", &m_inspectedGO->GetComponent<CPParticle>()->mParticleLifetime, 0.5f, 0.0f, 0.0f, "%.2f");
+				// Particle Lifetime Delay
+				ImGui::Text("%-17s Min", "Particle Lifetime Delay");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##ParticleLifeTimeDelayMin", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeDelayMin, 0.1f, 0.0f, 0.0f, "%.2f");
+
+				ImGui::Text("%-17s Max", "Particle Lifetime Delay");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##ParticleLifeTimeDelayMax", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeDelayMax, 0.1f, 0.0f, 0.0f, "%.2f");
+
+
 				// Emitter Active
 				bool& isEmitterActive = m_inspectedGO->GetComponent<CPParticle>()->mIsActive;
 				ImGui::PushID("EmitterActive");
