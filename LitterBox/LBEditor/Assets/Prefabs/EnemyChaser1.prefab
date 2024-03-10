@@ -4,14 +4,42 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 456.23001,
-            "y": 640.780029
+            "x": 0.0,
+            "y": 0.0
         },
         "Scale": {
             "x": 1.25,
             "y": 1.25
         },
-        "Rotation": 0.0
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "Shadow",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": -58.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 80.0,
+                    "Height": 20.0,
+                    "ZLayer": 5.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 54
+                }
+            }
+        ]
     },
     "RigidBody": {
         "Active": true,
@@ -24,6 +52,7 @@
         "Active": true,
         "Width": 110.0,
         "Height": 110.0,
+        "ZLayer": 1.0,
         "Layer": 0,
         "Texture": "Multi_Spritesheet",
         "SpriteName": "MultiSheet",

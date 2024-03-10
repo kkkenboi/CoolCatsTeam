@@ -80,6 +80,11 @@ namespace LB
 
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_totalUpgradePopUps[static_cast<size_t>(tempIndex - 1)].first->GetComponent<CPTransform>()->SetPosition(finalPos);
 			}
+			else
+			{
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
+			}
 		}
 	}
 

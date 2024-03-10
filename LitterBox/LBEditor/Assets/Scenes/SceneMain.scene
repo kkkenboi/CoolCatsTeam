@@ -70,6 +70,7 @@
                     "Active": true,
                     "Width": 157.0,
                     "Height": 100.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "Aim",
                     "SpriteName": "None",
@@ -99,6 +100,7 @@
                     "Active": true,
                     "Width": 3072.0,
                     "Height": 2048.0,
+                    "ZLayer": 1.0,
                     "Layer": 1,
                     "Texture": "Map1",
                     "SpriteName": "None",
@@ -139,6 +141,7 @@
                                 "Active": false,
                                 "Width": 100.0,
                                 "Height": 100.0,
+                                "ZLayer": 1.0,
                                 "Layer": 0,
                                 "Texture": "VFXCompile_SpriteSheet",
                                 "SpriteName": "VFXSheet",
@@ -164,6 +167,32 @@
                                 "EmitterActive": true,
                                 "EmitterLooping": true
                             }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -54.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 90.0,
+                                "Height": 20.0,
+                                "ZLayer": 5.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 54
+                            }
                         }
                     ]
                 },
@@ -178,6 +207,7 @@
                     "Active": true,
                     "Width": 115.0,
                     "Height": 115.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "Felix_SpriteSheet",
                     "SpriteName": "FelixSheet",
@@ -954,78 +984,72 @@
                 }
             },
             {
-                "Name": "Bush_1",
+                "Name": "Bush",
                 "Active": true,
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 45.059692,
-                        "y": 451.42517
+                        "x": 0.0,
+                        "y": 0.0
                     },
                     "Scale": {
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "Rotation": 0.0
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -27.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 125.0,
+                                "Height": 25.0,
+                                "ZLayer": 5.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 54
+                            }
+                        }
+                    ]
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
+                    "Width": 150.0,
+                    "Height": 150.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
                     "SpriteIndex": 45
-                }
-            },
-            {
-                "Name": "Bush_2",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 1575.059692,
-                        "y": 588.89746
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
                 },
-                "Render": {
+                "Collider": {
                     "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Layer": 0,
-                    "Texture": "Multi_Spritesheet",
-                    "SpriteName": "MultiSheet",
-                    "SpriteIndex": 46
-                }
-            },
-            {
-                "Name": "Bush_3",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 240.477523,
-                        "y": 926.826904
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
                     },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
+                    "Shape": 0,
+                    "Width": 175.0,
+                    "Height": 175.0,
+                    "Radius": 45.0
                 },
-                "Render": {
+                "CPPScript": {
                     "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Layer": 0,
-                    "Texture": "Multi_Spritesheet",
-                    "SpriteName": "MultiSheet",
-                    "SpriteIndex": 47
+                    "Script": "class LB::CPPSBush"
                 }
             },
             {
@@ -1067,6 +1091,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "Pause Menu",
                     "SpriteName": "None",
@@ -1173,6 +1198,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "HowToPlay",
                     "SpriteName": "None",
@@ -1225,6 +1251,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "QuitMenu",
                     "SpriteName": "None",
@@ -1328,6 +1355,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "Underline",
                     "SpriteName": "None",
@@ -1389,6 +1417,7 @@
                     "Active": true,
                     "Width": 1920.0,
                     "Height": 1080.0,
+                    "ZLayer": 1.0,
                     "Layer": 3,
                     "Texture": "Audience",
                     "SpriteName": "None",
@@ -1416,8 +1445,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 755.520019,
-                                    "y": -419.880004
+                                    "x": 1715.0,
+                                    "y": 121.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -1443,8 +1472,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": -741.25,
-                                    "y": -460.880004
+                                    "x": 219.0,
+                                    "y": 80.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -1470,6 +1499,7 @@
                     "Active": true,
                     "Width": 1920.0,
                     "Height": 1080.0,
+                    "ZLayer": 1.0,
                     "Layer": 3,
                     "Texture": "Game_Over_Menu_Everything",
                     "SpriteName": "None",
@@ -1494,53 +1524,6 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSFPS"
-                }
-            },
-            {
-                "Name": "Mushroom",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 1166.856689,
-                        "y": 932.179443
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": true
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 150.0,
-                    "Height": 150.0,
-                    "Layer": 0,
-                    "Texture": "Multi_Spritesheet",
-                    "SpriteName": "MultiSheet",
-                    "SpriteIndex": 40
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 0,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Radius": 42.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::CPPSBlueMushroom"
                 }
             },
             {
@@ -1600,14 +1583,42 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 743.256774,
-                        "y": 901.74768
+                        "x": 757.698059,
+                        "y": 905.526733
                     },
                     "Scale": {
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "Rotation": 0.0
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1.0,
+                                    "y": -25.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 160.0,
+                                "Height": 40.0,
+                                "ZLayer": 5.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 54
+                            }
+                        }
+                    ]
                 },
                 "RigidBody": {
                     "Active": true,
@@ -1618,8 +1629,9 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 225.0,
-                    "Height": 225.0,
+                    "Width": 300.0,
+                    "Height": 300.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
@@ -1639,6 +1651,82 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSBramble"
+                }
+            },
+            {
+                "Name": "Mushroom",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1215.714355,
+                        "y": 889.130859
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1.0,
+                                    "y": -36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 122.0,
+                                "Height": 25.0,
+                                "ZLayer": 5.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 54
+                            }
+                        }
+                    ]
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 230.0,
+                    "Height": 230.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 40
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 45.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSBlueMushroom"
                 }
             },
             {
@@ -1754,8 +1842,9 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 800.0,
-                    "Height": 800.0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "UpgradePopUp_Spritesheet",
                     "SpriteName": "UpgradesSheet",
