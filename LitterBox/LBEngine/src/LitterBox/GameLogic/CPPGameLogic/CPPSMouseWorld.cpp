@@ -83,7 +83,9 @@ namespace LB
 			else
 			{
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
+				// By right index should be set to 0, but solves edge case when both mouse are touching something
+				if (!m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverUI)
+					m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
 			}
 		}
 	}
@@ -99,11 +101,10 @@ namespace LB
 			colData.colliderOther->m_gameobj->GetName() == "middleUpgrade" ||
 			colData.colliderOther->m_gameobj->GetName() == "rightUpgrade")
 		{
-			if (!GetComponent<CPCollider>()->m_collided)
-			{
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
+			m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
+			// By right index should be set to 0, but solves edge case when both mouse are touching something
+			if (!m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverUI)
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
-			}
 		}
 	}
 }

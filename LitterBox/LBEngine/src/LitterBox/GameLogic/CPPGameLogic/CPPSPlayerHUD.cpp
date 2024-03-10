@@ -416,6 +416,8 @@ namespace LB {
 		upgradePtr->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", upgradePtr->GetComponent<CPRender>()->spriteIndex); // Minus 1 since the enum starts from 1
 		upgradePtr->GetComponent<CPRender>()->ToggleActive(true);
 
+		// - This makes the vertical popup to toggle off
+		m_mouseHoverWorld = false;
 
 		// - Set position on screen for the horizontal popup
 		auto popUpHPtr = m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)].second;

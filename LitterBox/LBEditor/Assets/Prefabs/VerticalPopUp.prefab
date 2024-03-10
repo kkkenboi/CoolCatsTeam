@@ -17,7 +17,7 @@
         "Active": true,
         "Width": 768.0,
         "Height": 768.0,
-        "Layer": 1,
+        "Layer": 0,
         "Texture": "UpgradePopUp_Spritesheet",
         "SpriteName": "UpgradesSheet",
         "SpriteIndex": 0
