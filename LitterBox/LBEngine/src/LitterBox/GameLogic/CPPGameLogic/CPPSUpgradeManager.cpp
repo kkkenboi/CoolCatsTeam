@@ -85,14 +85,14 @@ namespace LB
 		if (isSpawned)
 		{
 			DebuggerLog("Upgrades are spawned, playing VFX...");
-			leftUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
-			leftUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
+			//leftUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
+			//leftUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
 
-			middleUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
-			middleUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
+			//middleUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
+			//middleUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
 
-			rightUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
-			rightUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
+			//rightUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
+			//rightUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
 		}
 	}
 
