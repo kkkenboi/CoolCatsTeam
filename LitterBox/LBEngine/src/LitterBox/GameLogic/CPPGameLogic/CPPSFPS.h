@@ -35,6 +35,7 @@ namespace LB
 		
 		// Member variables to help with forming the FPS string
 		GameObject* m_FPSObject{ nullptr };
+		GameObject* m_CameraFollow{ nullptr };
 		std::string fpsBuffer{};
 		char finalFps[256];
 		
