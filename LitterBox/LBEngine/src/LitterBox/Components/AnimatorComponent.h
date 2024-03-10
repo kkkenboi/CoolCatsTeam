@@ -157,6 +157,10 @@ namespace LB
 		// Modifiers
 		float m_playSpeed{ 1.0f };
 
+		// For animating without scripts
+		std::string m_defaultState{ "None" };
+		bool m_playOnAwake{ false }, m_repeating{ false };
+
 	private:
 		// Save render data prior to anim for resetting
 		int m_oldID, m_oldSSIndex;
@@ -167,9 +171,9 @@ namespace LB
 		std::vector<std::string> m_queue;
 
 		// Flags
-		bool m_playing{ false }, m_repeating{ false }, m_paused{ false }, m_resetAfterPlay{ false };
+		bool m_playing{ false }, m_paused{ false }, m_resetAfterPlay{ false };
 
-		CPRender* m_render;
+		CPRender* m_render{ nullptr };
 		AnimationController m_controller; //state machine
 	};
 }

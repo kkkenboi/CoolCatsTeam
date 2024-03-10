@@ -35,6 +35,9 @@ namespace LB
 	void CPPSMage::Start()
 	{
 		CPPSBaseEnemy::Start();
+		// Cache the render and animator
+		mRender = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPRender>();
+		mAnimator = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPAnimator>();
 		
 		//initialse the state of the mage
 		//STATES : IDLE, CHASING, BACKOFF, HURT, SHOOTING

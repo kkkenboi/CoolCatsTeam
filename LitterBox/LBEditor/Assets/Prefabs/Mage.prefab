@@ -4,15 +4,99 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 0.0,
-            "y": 0.0
+            "x": 203.268127,
+            "y": 272.993347
         },
         "Scale": {
-            "x": 1.25,
-            "y": 1.25
+            "x": 1.0,
+            "y": 1.0
         },
         "Rotation": 0.0,
         "Children": [
+            {
+                "Name": "Hover",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Body",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Hands",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 40.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 2
+                                        }
+                                    }
+                                ]
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 160.0,
+                                "Height": 160.0,
+                                "ZLayer": 2.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 0
+                            },
+                            "Animator": {
+                                "Default State": "None",
+                                "Play On Awake": false,
+                                "Repeating": false,
+                                "Controller": "MageController"
+                            }
+                        }
+                    ]
+                },
+                "Animator": {
+                    "Default State": "Action_Bob",
+                    "Play On Awake": true,
+                    "Repeating": true,
+                    "Controller": "ActionController"
+                }
+            },
             {
                 "Name": "Shadow",
                 "Active": true,
@@ -48,16 +132,6 @@
         "Density": 10.0,
         "IsStatic": false
     },
-    "Render": {
-        "Active": true,
-        "Width": 125.0,
-        "Height": 125.0,
-        "ZLayer": 1.0,
-        "Layer": 0,
-        "Texture": "Multi_Spritesheet",
-        "SpriteName": "MultiSheet",
-        "SpriteIndex": 0
-    },
     "Collider": {
         "Active": true,
         "ColliderLayer": {
@@ -74,6 +148,9 @@
         "Script": "class LB::CPPSMage"
     },
     "Animator": {
+        "Default State": "None",
+        "Play On Awake": true,
+        "Repeating": false,
         "Controller": "MageController"
     }
 }

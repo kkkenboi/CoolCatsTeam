@@ -70,7 +70,7 @@ namespace LB
 				return;
 			}
 			ImVec2 pos{ m_windowSize.x * 0.5f + animEditor->m_loadedState.m_pos.GetCurrentExact(animEditor->m_currentFrame).x
-				, m_windowSize.y * 0.5f + animEditor->m_loadedState.m_pos.GetCurrentExact(animEditor->m_currentFrame).y };
+				, m_windowSize.y * 0.5f - animEditor->m_loadedState.m_pos.GetCurrentExact(animEditor->m_currentFrame).y };
 
 			Vec2<float> scale = animEditor->m_loadedState.m_scale.GetCurrentExact(animEditor->m_currentFrame);
 			pos.x -= scale.x * smallWidth * 0.5f;

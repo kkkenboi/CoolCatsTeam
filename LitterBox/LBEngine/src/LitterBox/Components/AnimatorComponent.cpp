@@ -37,8 +37,14 @@ namespace LB
 	**************************************************************************/
 	void CPAnimator::LoadController()
 	{
-		m_render = gameObj->GetComponent<CPRender>();
+		if (gameObj->HasComponent<CPRender>()) m_render = gameObj->GetComponent<CPRender>();
 		m_controller = ASSETMANAGER->AnimControllers[m_controller.m_name];
+
+		// If set to play on awake and a default state is set, play the default state
+		if (m_playOnAwake)
+		{
+			m_repeating ? PlayRepeat(m_defaultState) : Play(m_defaultState);
+		}
 	}
 
 	/*!************************************************************************
@@ -129,14 +135,17 @@ namespace LB
 		}
 
 		// Save old data
-		if (m_render->spriteIndex < 0)
+		if (m_render)
 		{
-			m_oldID = m_render->texture;
-		}
-		else
-		{
-			m_oldSSName = m_render->spriteSheetName;
-			m_oldSSIndex = m_render->spriteIndex;
+			if (m_render->spriteIndex < 0)
+			{
+				m_oldID = m_render->texture;
+			}
+			else
+			{
+				m_oldSSName = m_render->spriteSheetName;
+				m_oldSSIndex = m_render->spriteIndex;
+			}
 		}
 		m_playing = true;
 		m_controller.Load(name);
@@ -205,15 +214,18 @@ namespace LB
 	{
 		m_resetAfterPlay = false;
 		// Reset the texture to the original before the animation began
-		if (m_oldSSName != "None")
+		if (m_render)
 		{
-			m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_oldSSIndex);
-		}
-		else
-		{
-			m_render->spriteSheetName = "None";
-			m_render->texture = m_oldID;
-			m_render->UpdateTexture(m_oldID, static_cast<int>(m_render->w), static_cast<int>(m_render->h));
+			if (m_oldSSName != "None")
+			{
+				m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_oldSSIndex);
+			}
+			else
+			{
+				m_render->spriteSheetName = "None";
+				m_render->texture = m_oldID;
+				m_render->UpdateTexture(m_oldID, static_cast<int>(m_render->w), static_cast<int>(m_render->h));
+			}
 		}
 		Stop();
 	}
@@ -235,6 +247,12 @@ namespace LB
 	{
 		data.SetObject();
 
+		Value defaultStateValue(m_defaultState.c_str(), alloc);
+		data.AddMember("Default State", defaultStateValue, alloc);
+
+		data.AddMember("Play On Awake", m_playOnAwake, alloc);
+		data.AddMember("Repeating", m_repeating, alloc);
+
 		Value controllerValue(m_controller.m_name.c_str(), alloc);
 		data.AddMember("Controller", controllerValue, alloc);
 
@@ -247,10 +265,26 @@ namespace LB
 	**************************************************************************/
 	bool CPAnimator::Deserialize(const Value& data)
 	{
+		bool HasDefaultState = data.HasMember("Default State");
+		bool HasPlayOnAwake = data.HasMember("Play On Awake");
+		bool HasRepeating = data.HasMember("Repeating");
 		bool HasController = data.HasMember("Controller");
 
 		if (data.IsObject())
 		{
+			if (HasDefaultState)
+			{
+				const Value& defaultStateValue = data["Default State"];
+				m_defaultState = defaultStateValue.GetString();
+			}
+			if (HasPlayOnAwake)
+			{
+				m_playOnAwake = data["Play On Awake"].GetBool();
+			}
+			if (HasRepeating)
+			{
+				m_repeating = data["Repeating"].GetBool();
+			}
 			if (HasController)
 			{
 				const Value& nameValue = data["Controller"];
