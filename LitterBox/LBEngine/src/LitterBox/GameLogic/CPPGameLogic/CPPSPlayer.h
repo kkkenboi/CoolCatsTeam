@@ -42,6 +42,7 @@ namespace LB
 		CPRender*		rend{ nullptr };
 		CPTransform*	trans{ nullptr };
 		CPAnimator*		anim{ nullptr };
+		CPParticle*		particle{ nullptr };
 
 		//------------------variables------------------
 		GameObject* m_GameManager{ nullptr };
@@ -58,6 +59,8 @@ namespace LB
 		float m_shootForce, m_shootRadius; //shooting of the golf ball force and the radius to shoot
 
 		bool m_isFacingLeft; //facing which direction
+
+		float m_particleEmitRate;
 
 		Event<> onTakingDamage;
 		Event<> onPlacingBall;

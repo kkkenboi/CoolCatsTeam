@@ -1,0 +1,69 @@
+{
+    "Name": "Bush",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "Shadow",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": -27.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 125.0,
+                    "Height": 25.0,
+                    "ZLayer": 5.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 54
+                }
+            }
+        ]
+    },
+    "Render": {
+        "Active": true,
+        "Width": 150.0,
+        "Height": 150.0,
+        "ZLayer": 1.0,
+        "Layer": 0,
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 45
+    },
+    "Collider": {
+        "Active": true,
+        "ColliderLayer": {
+            "Layer Name": "Default",
+            "Layer ID": 0
+        },
+        "Shape": 0,
+        "Width": 175.0,
+        "Height": 175.0,
+        "Radius": 45.0
+    },
+    "CPPScript": {
+        "Active": true,
+        "Script": "class LB::CPPSBush"
+    }
+}

@@ -47,6 +47,7 @@ namespace LB
 		trans = GameObj->GetComponent<CPTransform>();
 		col = GameObj->GetComponent<CPCollider>();
 		anim = GameObj->GetComponent<CPAnimator>();
+		particle = trans->GetChild()->GetComponent<CPParticle>();
 
 		right_face = trans->GetScale();
 		left_face = trans->GetScale();
@@ -71,6 +72,8 @@ namespace LB
 		mIsStunned = false;
 		mStunTimer = 0.5f;
 		mStunRemaining = mStunTimer;
+
+		m_particleEmitRate = particle->mEmitterRate;
 
 		// So that balls don't spawn on top each other
 		rb->addForce(Vec2<float>{10.0f, 0.0f} * TIME->GetDeltaTime());
@@ -181,14 +184,14 @@ namespace LB
 			rb->mVelocity *= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction;
 			 if (isWalkingAnim)
 			 {
-				 if (!mIsStunned) {
-					 anim->StopAndReset();
-				 }
+				 //if (!mIsStunned) {
+				anim->StopAndReset();
+				 //}
 			 	isWalkingAnim = false;
 			 }
-			GameObj->GetComponent<CPTransform>()->GetChild()->gameObj->GetComponent<CPParticle>()->mIsActive = false;
+			 particle->mIsActive = false;
 		}
-		if (isMoving) GameObj->GetComponent<CPTransform>()->GetChild()->gameObj->GetComponent<CPParticle>()->mIsActive = true;
+		if (isMoving) particle->mIsActive = true;
 		//------------------Play step sound------------------
 		if (isMoving && m_stepSoundCurrent > m_stepSoundInterval)
 		{
@@ -378,6 +381,7 @@ namespace LB
 		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
 		{
 			anim->m_playSpeed = 0.6f;
+			particle->mEmitterRate = m_particleEmitRate * 0.6f;
 		}
 	}
 
@@ -386,6 +390,7 @@ namespace LB
 		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
 		{
 			anim->m_playSpeed = 1.0f;
+			particle->mEmitterRate = m_particleEmitRate;
 		}
 	}
 }

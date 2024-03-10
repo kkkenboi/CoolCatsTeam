@@ -56,7 +56,7 @@ namespace LB
 		\brief
 		Every time the bouncy collides with anything its scale changes
 		*************************************************************************/
-		void OnCollisionEnter(CollisionData colData);
+		virtual void OnCollisionEnter(CollisionData colData);
 
 	protected:
 		CPTransform* mTransform{ nullptr };

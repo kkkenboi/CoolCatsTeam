@@ -108,39 +108,6 @@ namespace LB
 
 			m_controller.Update();
 		}
-
-		//if (!m_controller.IsPlaying())
-		//{
-		//	if (m_repeating)
-		//	{
-		//		m_controller.Play();
-		//	}
-		//	else
-		//	{
-		//		if (m_playing)
-		//		{
-		//			// Reset the texture to the original before the animation began
-		//			if (m_oldSSName != "None")
-		//			{
-		//				m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_controller.IsNextFrame());
-		//			}
-		//			else
-		//			{
-		//				m_render->spriteSheetName = "None";
-		//				m_render->texture = m_oldSSIndex;
-		//				m_render->UpdateTexture(m_oldID, static_cast<int>(m_render->w), static_cast<int>(m_render->h));
-		//			}
-		//			m_playing = false;
-		//		}
-		//		return;
-		//	}
-		//}
-
-		//m_controller.Update();
-		//if (m_controller.IsNextFrame())
-		//{
-		//	m_render->SetSpriteTexture(m_controller.GetCurrentSpriteSheet(), m_controller.IsNextFrame());
-		//}
 	}
 
 	/*!************************************************************************
@@ -149,14 +116,15 @@ namespace LB
 	**************************************************************************/
 	void CPAnimator::Play(std::string const& name)
 	{
+		// TODO : REFACTOR THIS LOGIC, MAY CAUSE BUGS IN THE FUTURE
 		if (m_playing)
 		{
-			Stop();
-
-			// If a queue is present, add to queue instead
+			m_resetAfterPlay ? StopAndReset() : Stop();
+			// If a queue is still present, add to queue instead
 			if (m_playing)
 			{
 				m_queue.push_back(name);
+				return;
 			}
 		}
 
