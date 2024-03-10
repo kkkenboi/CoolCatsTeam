@@ -1,5 +1,5 @@
 {
-    "Name": "Mage",
+    "Name": "Bramble",
     "Active": true,
     "Transform": {
         "Active": true,
@@ -8,8 +8,8 @@
             "y": 0.0
         },
         "Scale": {
-            "x": 1.25,
-            "y": 1.25
+            "x": 1.0,
+            "y": 1.0
         },
         "Rotation": 0.0,
         "Children": [
@@ -19,8 +19,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": -5.0,
-                        "y": -80.0
+                        "x": 1.0,
+                        "y": -25.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -30,8 +30,8 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 70.0,
-                    "Height": 20.0,
+                    "Width": 160.0,
+                    "Height": 40.0,
                     "ZLayer": 5.0,
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
@@ -46,34 +46,31 @@
         "Width": 100.0,
         "Height": 100.0,
         "Density": 10.0,
-        "IsStatic": false
+        "IsStatic": true
     },
     "Render": {
         "Active": true,
-        "Width": 125.0,
-        "Height": 125.0,
+        "Width": 300.0,
+        "Height": 300.0,
         "ZLayer": 1.0,
         "Layer": 0,
         "Texture": "Multi_Spritesheet",
         "SpriteName": "MultiSheet",
-        "SpriteIndex": 0
+        "SpriteIndex": 42
     },
     "Collider": {
         "Active": true,
         "ColliderLayer": {
-            "Layer Name": "GameEntity",
-            "Layer ID": 1
+            "Layer Name": "Default",
+            "Layer ID": 0
         },
         "Shape": 0,
         "Width": 100.0,
         "Height": 100.0,
-        "Radius": 40.0
+        "Radius": 50.0
     },
     "CPPScript": {
         "Active": true,
-        "Script": "class LB::CPPSMage"
-    },
-    "Animator": {
-        "Controller": "MageController"
+        "Script": "class LB::CPPSBramble"
     }
 }
