@@ -43,11 +43,11 @@ namespace LB {
 		{
 			GameObject* verticalPopUp = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("VerticalPopUp", *verticalPopUp);
-			verticalPopUp->SetActive(false);
+			verticalPopUp->GetComponent<CPRender>()->ToggleActive(false);
 
 			GameObject* horizontalPopUp = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("HorizontalPopUp", *horizontalPopUp);
-			horizontalPopUp->SetActive(false);
+			horizontalPopUp->GetComponent<CPRender>()->ToggleActive(false);
 
 			// Since UpgradeType's based off enum, name them in that order
 			switch (i)
@@ -56,57 +56,57 @@ namespace LB {
 				case SPLIT:
 				{
 					verticalPopUp->SetName("DuplimirrorVPopUp"), horizontalPopUp->SetName("DuplimirrorHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case BOMB:
 				{
 					verticalPopUp->SetName("GolfBombVPopUp"), horizontalPopUp->SetName("GolfBombHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case BIGBALL:
 				{
-					verticalPopUp->SetName("BagOfGolfingVPopUp"), horizontalPopUp->SetName("BagOfGolfingHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->SetName("GrowthPowderVPopUp"), horizontalPopUp->SetName("GrowthPowderHPopUp");
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case MOVESPEED:
 				{
 					verticalPopUp->SetName("BootsOfAgilityVPopUp"), horizontalPopUp->SetName("BootsOfAgilityHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case POTION:
 				{
 					verticalPopUp->SetName("PotionVPopUp"), horizontalPopUp->SetName("PotionHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case MOREHEALTH:
 				{
 					verticalPopUp->SetName("HeartLocketVPopUp"), horizontalPopUp->SetName("HeartLocketHPopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				case MOREBALL:
 				{
-					verticalPopUp->SetName("GrowthPowderVPopUp"), horizontalPopUp->SetName("GrowthPowderHopUp");
-					verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-					horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					verticalPopUp->SetName("BagOfGolfingVPopUp"), horizontalPopUp->SetName("BagOfGolfingHPopUp");
+					verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+					horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 					break;
 				}
 				//case SLIPPERY:
 				//{
 				//	verticalPopUp->SetName("SlipperyVPopUp"), horizontalPopUp->SetName("SlipperyHPopUp");
-				//	verticalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
-				//	horizontalPopUp->GetComponent<CPRender>()->spriteIndex = 0; // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+				//verticalPopUp->GetComponent<CPRender>()->SetSpriteTexture(verticalPopUp->GetComponent<CPRender>()->spriteSheetName, 0); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
+				//horizontalPopUp->GetComponent<CPRender>()->SetSpriteTexture(horizontalPopUp->GetComponent<CPRender>()->spriteSheetName, 6); // TO BE EDITED WHEN SPRITESHEET IS RECEIVED
 				//	break;
 				//}
 				default:
@@ -115,13 +115,16 @@ namespace LB {
 
 			// Save to all popups container 
 			m_totalUpgradePopUps.push_back(std::pair(verticalPopUp, horizontalPopUp));
-			DebuggerLogFormat("Pushed back: %s, %s", verticalPopUp->GetName().c_str(), horizontalPopUp->GetName().c_str());
+			//DebuggerLogFormat("Pushed back: %s, %s", verticalPopUp->GetName().c_str(), horizontalPopUp->GetName().c_str());
 		}
 
-		DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
+		//// MANUALLY shifting the map to the last thing rendered ----------------------------------------------------------------------------------------------
+		//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_OBJECT, GOMANAGER->FindGameObjectWithName("Map")->GetComponent<CPRender>());
+		//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_BACKGROUND, GOMANAGER->FindGameObjectWithName("Map")->GetComponent<CPRender>());
+
+		//DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
 
 		// Create game objects to display the health and balls
-
 		// - Health, hardcoding max value cause will be hidden behind
 		for (int i{}; i < 9; ++i)
 		{
@@ -234,16 +237,17 @@ namespace LB {
 		// If there is a collision, based on the index given, set the position of the popup and toggleActive
 		for (size_t i = 0; i < m_totalUpgradePopUps.size(); ++i)
 		{
-			if (i == static_cast<size_t>(m_currentPopUpIndex))
+			if (i + 1 == static_cast<size_t>(m_currentPopUpIndex))
 			{
-				m_totalUpgradePopUps[i].first->SetActive(m_mouseHoverWorld);
-				m_totalUpgradePopUps[i].second->SetActive(m_mouseHoverUI);
+				//DebuggerLogFormat("Setting Active for %d", m_currentPopUpIndex);
+				m_totalUpgradePopUps[i].first->GetComponent<CPRender>()->ToggleActive(m_mouseHoverWorld);
+				m_totalUpgradePopUps[i].second->GetComponent<CPRender>()->ToggleActive(m_mouseHoverUI);
 				//DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
 			}
 			else
 			{
-				m_totalUpgradePopUps[i].first->SetActive(false);
-				m_totalUpgradePopUps[i].second->SetActive(false);
+				m_totalUpgradePopUps[i].first->GetComponent<CPRender>()->ToggleActive(false);
+				m_totalUpgradePopUps[i].second->GetComponent<CPRender>()->ToggleActive(false);
 			}
 		}
 	}
@@ -315,7 +319,6 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseMaxHealth(int amount)
 	{
-		// Create game objects to display the health and balls
 		//for (int i{ 1 }; i <= amount; i++)
 		//{
 		//	GameObject* healthObject = FACTORY->SpawnGameObject();
@@ -389,12 +392,14 @@ namespace LB {
 		upgradePtr->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", upgradePtr->GetComponent<CPRender>()->spriteIndex); // Minus 1 since the enum starts from 1
 		upgradePtr->GetComponent<CPRender>()->ToggleActive(true);
 
-		// - Update how many upgrades the player has
-		m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentUpgrades += 1;
 
 		// - Set position on screen for the horizontal popup
-		m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)].second->GetComponent<CPTransform>()->SetPosition(Vec2<float>(upgradePtr->GetComponent<CPTransform>()->GetPosition().x, 
-																															upgradePtr->GetComponent<CPTransform>()->GetPosition().y + 100.f));
+		auto popUpHPtr = m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)].second;
+		popUpHPtr->GetComponent<CPTransform>()->SetPosition(Vec2<float>(popUpHPtr->GetComponent<CPTransform>()->GetPosition().x + m_horizontalPopUpOffset.x * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentUpgrades,
+																		popUpHPtr->GetComponent<CPTransform>()->GetPosition().y));
+
+		// - Update how many upgrades the player has
+		m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentUpgrades += 1;
 	}
 
 

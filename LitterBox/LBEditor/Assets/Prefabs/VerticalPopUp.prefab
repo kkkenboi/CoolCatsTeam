@@ -8,15 +8,15 @@
             "y": 540.0
         },
         "Scale": {
-            "x": 0.3,
-            "y": 0.3
+            "x": 0.45,
+            "y": 0.45
         },
         "Rotation": 0.0
     },
     "Render": {
         "Active": true,
-        "Width": 453.0,
-        "Height": 727.0,
+        "Width": 768.0,
+        "Height": 768.0,
         "Layer": 1,
         "Texture": "UpgradePopUp_Spritesheet",
         "SpriteName": "UpgradesSheet",
