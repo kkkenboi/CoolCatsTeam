@@ -718,13 +718,13 @@ namespace LB
 		{
 			if (ImGui::CollapsingHeader("Collider", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				isActive = m_inspectedGO->GetComponent<CPCollider>()->m_colliderIsActive;
+				bool& isColActive = m_inspectedGO->GetComponent<CPCollider>()->m_active;
 				ImGui::PushID("ColliderActive");
-				ImGui::Checkbox("Active", &isActive);
+				ImGui::Checkbox("Active", &isColActive);
 				ImGui::PopID();
-				if (isActive != m_inspectedGO->GetComponent<CPCollider>()->m_active)
+				if (isColActive != m_inspectedGO->GetComponent<CPCollider>()->m_active)
 				{
-					m_inspectedGO->GetComponent<CPCollider>()->ToggleActiveFlag(isActive);
+					m_inspectedGO->GetComponent<CPCollider>()->ToggleActiveFlag(isColActive);
 				}
 
 				// Interface Buttons
