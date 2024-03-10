@@ -103,6 +103,10 @@ namespace LB
 		bool m_displayUpgrade{false};
 		bool m_decreaseHealth{ false };
 		bool m_decreaseBalls{ false };
+
+		int activeBallTexture{ 50 };
+		int inactiveBallTexture{ 51 };
+
 		Vec2<float> m_heartDisplayOffset = { 110.f, 110.f };
 		Vec2<float> m_ballDisplayOffset = { 68.f, 68.f };
 		Vec2<float> m_upgradeDisplayOffset = { 106.f, 106.f };
@@ -112,7 +116,6 @@ namespace LB
 		GameObject* m_UpgradeManager{ nullptr };
 		GameObject* m_Mouse{ nullptr };
 		GameObject* m_CameraFollow{ nullptr };
-
 
 		std::vector<GameObject*> m_totalHeartDisplay;
 		std::vector<GameObject*> m_totalBallsDisplay;

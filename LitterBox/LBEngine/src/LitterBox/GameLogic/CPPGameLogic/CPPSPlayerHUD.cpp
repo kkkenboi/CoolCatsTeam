@@ -171,6 +171,18 @@ namespace LB {
 			m_totalBallsDisplay.push_back(ballObject);
 		}
 
+		// Check if big balls upgrade is obtained
+		if (m_UpgradeManager->GetComponent<CPPSUpgradeManager>()->currentBallUpgrades & (1 << (UpgradeType::BIGBALL - 1)))
+		{
+			activeBallTexture += 2;
+			inactiveBallTexture += 2;
+
+			for (int i{}; i < 9; ++i)
+			{
+				m_totalBallsDisplay[i]->GetComponent<CPTransform>()->SetScale(Vec2<float>(0.9f, 0.9f));
+			}
+		}
+
 		// - Upgrades
 		for (int i{}; i < m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxUpgrades; ++i)
 		{
@@ -226,11 +238,11 @@ namespace LB {
 		{
 			if (i >= static_cast<size_t>(m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls - m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls))
 			{
-				m_totalBallsDisplay[i]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i]->GetComponent<CPRender>()->spriteSheetName, 51);
+				m_totalBallsDisplay[i]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i]->GetComponent<CPRender>()->spriteSheetName, inactiveBallTexture);
 			}
 			else
 			{
-				m_totalBallsDisplay[i]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i]->GetComponent<CPRender>()->spriteSheetName, 50);
+				m_totalBallsDisplay[i]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[i]->GetComponent<CPRender>()->spriteSheetName, activeBallTexture);
 			}
 		}
 		
@@ -384,6 +396,18 @@ namespace LB {
 		else if (upgrade == UpgradeType::MOREBALL)
 		{
 			GOMANAGER->FindGameObjectWithName("BallBackboard")->GetComponent<CPRender>()->SetSpriteTexture("BackboardSheet", 3);
+		}
+
+		// Check if the upgrade changes the ball texture
+		else if (upgrade == UpgradeType::BIGBALL)
+		{
+			activeBallTexture += 2;
+			inactiveBallTexture += 2;
+
+			for (int i{}; i < 9; ++i)
+			{
+				m_totalBallsDisplay[i]->GetComponent<CPTransform>()->SetScale(Vec2<float>(0.9f, 0.9f));
+			}
 		}
 
 		// - Set image and spritesheet + index, toggle active to true
