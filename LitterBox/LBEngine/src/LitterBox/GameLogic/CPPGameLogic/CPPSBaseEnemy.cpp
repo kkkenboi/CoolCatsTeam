@@ -59,12 +59,17 @@ namespace LB
 		//	return;
 		//} 
 		//All enemies must always face player (?) Might not work for charger who knows
-		DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
+		/*DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
 		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
 		{
 			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
+		}*/
+
+		if (mShouldFace)
+		{
+			FacePlayer();
 		}
-		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
+
 		//All enemies will sepuku if you press K
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_K))
 		{
@@ -202,5 +207,15 @@ namespace LB
 		{
 			Die();
 		}
+	}
+
+	void CPPSBaseEnemy::FacePlayer()
+	{
+		DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
+		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
+		{
+			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
+		}
+		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
 	}
 }

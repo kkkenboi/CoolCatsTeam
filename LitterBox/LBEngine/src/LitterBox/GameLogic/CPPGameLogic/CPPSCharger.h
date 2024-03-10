@@ -30,7 +30,8 @@ namespace LB
 		
 		void Hurt() override;
 		void Die() override;
-
+		
+		void SetShouldFace(bool state);
 		
 		Vec2<float> GetPlayerPos();
 		Vec2<float> GetChargerPos();
@@ -59,6 +60,8 @@ namespace LB
 		//*********************************************************
 
 		bool isChargerDead{ false };
+
+		CPTransform* mTransform;
 
 		//Charger's Dizzy Effects
 		//void ChargerDizzy();

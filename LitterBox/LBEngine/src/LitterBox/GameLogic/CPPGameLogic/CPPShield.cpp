@@ -1,16 +1,15 @@
 /*!************************************************************************
- \file				CPPShield.cpp
- \author(s)			Justine Carlo Villa Ilao, Vanessa Chua Siew Jin
- \par DP email(s):	justine.c@digipen.edu, vanessasiewjin@digipen.edu
- \par Course:		CSD2401A
- \date				28/02/2024
- \brief
- This file contains the Shield class and all its functionalities,
-it handles the logic for the Shield
-
-  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
-  disclosure of this file or its contents without the prior written consent
-  of DigiPen Institute of Technology is prohibited.
+ * \file				CPPShield.cpp
+ * \author(s)			Vanessa Chua Siew Jin
+ * \par DP email(s):  	vanessasiewjin@digipen.edu
+ * \par Course:       	CSD2450A
+ * \date				28/02/2024
+ * \brief 				This file contains the file definition for the
+ *						Shield
+ *
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "CPPShield.h"
@@ -30,6 +29,7 @@ namespace LB
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 		mCharger = GOMANAGER->FindGameObjectWithName("Charger_Shield");
 
+		
 		//mTransform = 
 		//mCollider->m_pos.x = 0.f;
 		//mCollider->m_pos.y = 0.f;
@@ -46,6 +46,8 @@ namespace LB
 		// Rotation : Face the player
 		//mCollider->m_pos.x = 0.f;
 		//mCollider->m_pos.y = 0.f;
+
+		
 
 		if (!mLock)
 		{
@@ -71,10 +73,6 @@ namespace LB
 			//DebuggerLogErrorFormat("COLLIDERS Y: %f", mCollider->m_pos.y);
 			
 		}
-			//mLock = true;
-		//}
-		//else
-		//{
 
 		// Scale : If facing left, set scale x = -1
 		if ((mTransform->GetParent()->GetScale().x < 0 && mTransform->GetLocalScale().x > 0) ||

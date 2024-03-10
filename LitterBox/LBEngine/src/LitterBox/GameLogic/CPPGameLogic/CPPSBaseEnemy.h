@@ -80,6 +80,8 @@ namespace LB
 
 		float GetDistToPlayer();
 
+		void FacePlayer();
+
 		CPRender* mRender{nullptr};
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
@@ -88,6 +90,7 @@ namespace LB
 		//and I'm lazy to make a getter/setter for it
 		float mDetectionRange{};	//distance before enemy aggros
 		bool isAggro{ false };
+
 
 		/*!************************************************************************
 		* \brief Die function of the base enemy that handles the dying
@@ -111,6 +114,8 @@ namespace LB
 		Vec2<float> DirToPlayer;
 		Vec2<float> TransformRight{ 1,0 };
 		bool mShouldDestroy{ false };
+		bool mShouldFace{true};
+
 	private:
 		//We technically do not want to randomly expose these variables
 		int mHealth{};		//normal health of the enemy

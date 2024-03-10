@@ -1,11 +1,12 @@
 /*!************************************************************************
- * \file				CPPSAimUI.h
- * \author(s)			Amadeus Chia
- * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
+ * \file				CPPShield.h
+ * \author(s)			Vanessa Chua Siew Jin
+ * \par DP email(s):  	vanessasiewjin@digipen.edu
  * \par Course:       	CSD2450A
- * \date				09/02/2024
+ * \date				28/02/2024
  * \brief 				This file contains the file declarations for the
- * 						Aim script. (Basically points UI to mouse cursor)
+ *						Shield
+ *
  *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
  *  disclosure of this file or its contents without the prior written consent
  *  of DigiPen Institute of Technology is prohibited.
@@ -53,7 +54,9 @@ namespace LB
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
 
-	
+		void SetShouldFace(bool state);
+
+		//bool mShouldFace{ false };
 	
 	};
 	REGISTER_SCRIPT(CPPShield)

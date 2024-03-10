@@ -77,7 +77,7 @@
                     "Rotation": 0.0
                 },
                 "Render": {
-                    "Active": true,
+                    "Active": false,
                     "Width": 150.0,
                     "Height": 150.0,
                     "ZLayer": 1.0,
