@@ -155,10 +155,13 @@ namespace LB
 			return;
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
-			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
+			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
+			colData.colliderOther->m_gameobj->GetName() == "Charger" ||
+			colData.colliderOther->m_gameobj->GetName() == "Bramble" ||
+			colData.colliderOther->m_gameobj->GetName() == "Mushroom")
 		{
-			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
+			int Channel = AUDIOMANAGER->PlaySound("Thud");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
 		}
 		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit" && 
 			colData.colliderOther->m_gameobj->GetName()!= "MouseWorld")

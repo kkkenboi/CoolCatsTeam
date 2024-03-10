@@ -61,8 +61,6 @@ void LB::CPPSPortal::Update()
 				if (!expandOut && circleTimer >= 0.8f)
 				{
 					mPlayer->GetComponent<CPTransform>()->SetPosition(mGameManager->GetComponent<CPPSGameManager>()->playerSpawnPoint);
-					mPlayer->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1));
-					mPlayer->GetComponent<CPTransform>()->SetRotation(0);
 					GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPTransform>()->SetPosition(mGameManager->GetComponent<CPPSGameManager>()->playerSpawnPoint);
 				}
 
@@ -88,7 +86,8 @@ void LB::CPPSPortal::Update()
 			this->GameObj->SetActive(false);
 			//Next wave just handles starting the wave... 
 			mGameManager->GetComponent<CPPSGameManager>()->NextWave();
-		
+			mPlayer->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1));
+			mPlayer->GetComponent<CPTransform>()->SetRotation(0);
 			temp = true;
 		}
 		finishTransition = false;
