@@ -57,6 +57,8 @@ namespace LB
 			particle.mIsActive = true;
 			particle.mPosition = emitter->mEmitterPos;
 			particle.mRotation = 0.f;
+			particle.mRotationSpeed = emitter->mRotationSpeed;
+			particle.mRotationSpeed += RandomRange(emitter->mRotationSpeedVariationMin, emitter->mRotationSpeedVariationMax);
 
 			// Velocity
 			particle.mVelocity = emitter->mEmitterVelocity;
@@ -68,6 +70,9 @@ namespace LB
 			// Lifetime
 			particle.mLifetime = emitter->mParticleLifetime;
 			particle.mLifetimeRemaining = emitter->mParticleLifetime;
+
+			// Particle's lifetime delay to show visible
+			particle.mLifetimeDelay = RandomRange(emitter->mEmitterLifetimeDelayMin, emitter->mEmitterLifetimeDelayMax);
 
 			// Size
 			particle.mSizeBegin = emitter->mEmitterSizeBegin;
@@ -81,6 +86,18 @@ namespace LB
 			particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
 			particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 			particle.mGameObj->GetComponent<CPRender>()->Initialise();
+
+			// Make the render be invisible if delay is 0>
+			if (particle.mLifetimeDelay >= 0.f)
+			{
+				particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			}
+			else 
+			{
+				particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(true);
+			}
+
+
 			// Get the texture ID from the emitter
 
 			//First we check if it's using a sprite from a sprite sheet. 
@@ -96,10 +113,6 @@ namespace LB
 				//we just use the CPRender function to set sprite texture
 				particle.mGameObj->GetComponent<CPRender>()->SetSpriteTexture(emitter->mRender->spriteSheetName, emitter->mRender->spriteIndex);
 			}
-			//std::cout << emitter.mRender->w << '\n';
-			//std::cout << emitter.mRender->h << '\n';
-			//std::cout << ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second << std::endl;
-			//std::cout << ASSETMANAGER->GetTextureName(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second) << std::endl;
 		}
 		else if (emitter->mEmitterType == RADIAL)
 		{
@@ -122,6 +135,10 @@ namespace LB
 				// Lifetime
 				particle.mLifetime = emitter->mParticleLifetime;
 				particle.mLifetimeRemaining = emitter->mParticleLifetime;
+
+				// Particle's lifetime delay to show visible
+				particle.mLifetimeDelay = RandomRange(emitter->mEmitterLifetimeDelayMin, emitter->mEmitterLifetimeDelayMax);
+
 
 				// Size
 				particle.mSizeBegin = emitter->mEmitterSizeBegin;
@@ -150,6 +167,10 @@ namespace LB
 				// Move to the next index in the particle pool
 				mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
 			}
+		}
+		else if (emitter->mEmitterType == INVERSERADIAL) 
+		{
+			
 		}
 	}
 
@@ -194,6 +215,8 @@ namespace LB
 			return "Trail";
 		case RADIAL:
 			return "Radial";
+		case INVERSERADIAL:
+			return "InverseRadial";
 		default:
 			return "ERROR!";
 		}
@@ -243,11 +266,13 @@ namespace LB
 	void ParticleManager::UpdateParticles() {
 		for (Particle& particle : mParticlePool)
 		{
+			// If particle is not active ignore it
 			if (!particle.mIsActive)
 			{
 				continue;
 			}
 
+			// Check if particle needs to be destroyed
 			if (particle.mLifetimeRemaining <= 0.f)
 			{
 				particle.mIsActive = false;
@@ -259,43 +284,60 @@ namespace LB
 				continue;
 			}
 
-			// Update the particle stats
-			particle.mLifetimeRemaining -= static_cast<float>(TIME->GetDeltaTime());
-			particle.mPosition += particle.mVelocity * static_cast<float>(TIME->GetDeltaTime());
-			particle.mRotation += particle.mRotationSpeed * static_cast<float>(TIME->GetDeltaTime());
+			// Check if particle should be shown
+			if (particle.mLifetimeDelay <= 0.f)
+			{
+				if (GOMANAGER->IsGameObjectInScene(particle.mGameObj))
+				{
+					if (particle.mGameObj->GetComponent<CPRender>()->m_active == false)
+					{
+						particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(true);
+					}
+				}
+
+				// Update the particle stats
+				particle.mLifetimeRemaining -= static_cast<float>(TIME->GetDeltaTime());
+				particle.mPosition += particle.mVelocity * static_cast<float>(TIME->GetDeltaTime());
+				particle.mRotation += particle.mRotationSpeed * static_cast<float>(TIME->GetDeltaTime());
 
 
-			// Check if size is enlarging or getting smaller
-			// Getting smaller
-			if (particle.mSizeBegin > particle.mSizeEnd) {
+				// Check if size is enlarging or getting smaller
 				// Getting smaller
-				float sizeChangePerSecond = (particle.mSizeBegin - particle.mSizeEnd) / particle.mLifetime;
-				if (particle.mSize > particle.mSizeEnd) {
-					particle.mSize -= sizeChangePerSecond * static_cast<float>(TIME->GetDeltaTime());
-					if (particle.mSize <= particle.mSizeEnd) 
-					{
-						particle.mSize = particle.mSizeEnd;
+				if (particle.mSizeBegin > particle.mSizeEnd) {
+					// Getting smaller
+					float sizeChangePerSecond = (particle.mSizeBegin - particle.mSizeEnd) / particle.mLifetime;
+					if (particle.mSize > particle.mSizeEnd) {
+						particle.mSize -= sizeChangePerSecond * static_cast<float>(TIME->GetDeltaTime());
+						if (particle.mSize <= particle.mSizeEnd)
+						{
+							particle.mSize = particle.mSizeEnd;
+						}
 					}
 				}
-			}
-			// Getting larger
-			else if (particle.mSizeBegin < particle.mSizeEnd) {
-				float sizeChangePerSecond = (particle.mSizeEnd - particle.mSizeBegin) / particle.mLifetime;
-				if (particle.mSize < particle.mSizeEnd) {
-					particle.mSize += sizeChangePerSecond * static_cast<float>(TIME->GetDeltaTime());
-					if (particle.mSize >= particle.mSizeEnd) 
-					{
-						particle.mSize = particle.mSizeEnd;
+				// Getting larger
+				else if (particle.mSizeBegin < particle.mSizeEnd) {
+					float sizeChangePerSecond = (particle.mSizeEnd - particle.mSizeBegin) / particle.mLifetime;
+					if (particle.mSize < particle.mSizeEnd) {
+						particle.mSize += sizeChangePerSecond * static_cast<float>(TIME->GetDeltaTime());
+						if (particle.mSize >= particle.mSizeEnd)
+						{
+							particle.mSize = particle.mSizeEnd;
+						}
 					}
 				}
-			}
 
-			// Update the GameObject itself
-			// TODO: REFACTOR GO ALIVE CHECKING
-			if (GOMANAGER->IsGameObjectInScene(particle.mGameObj) && particle.mGameObj->IsActive() == true) {
-				particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
-				particle.mGameObj->GetComponent<CPTransform>()->SetRotation(particle.mRotation);
-				particle.mGameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{particle.mSize, particle.mSize});
+				// Update the GameObject itself
+				// TODO: REFACTOR GO ALIVE CHECKING
+				if (GOMANAGER->IsGameObjectInScene(particle.mGameObj) && particle.mGameObj->IsActive() == true) {
+					particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+					particle.mGameObj->GetComponent<CPTransform>()->SetRotation(particle.mRotation);
+					particle.mGameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{particle.mSize, particle.mSize});
+				}
+			}
+			else 
+			{
+				// Particle lifetime delay still active so reduce it
+				particle.mLifetimeDelay -= TIME->GetDeltaTime();
 			}
 		}
 	}
