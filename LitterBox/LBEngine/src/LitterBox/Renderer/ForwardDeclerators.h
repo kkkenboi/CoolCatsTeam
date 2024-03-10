@@ -145,7 +145,7 @@ namespace Renderer {
 	*************************************************************************/
 	struct message {
 		std::string text{"Hello World"};
-		float x{}, y{}, scale{1.0f}, xbound{100.0f}, scaleSaved{};
+		float x{}, y{}, scale{1.0f}, xbound{300.0f}, scaleSaved{};
 		LB::Vec3<float> color{};
 		std::string font_file_name_wo_ext{"ZillaSlab-Regular"};
 
