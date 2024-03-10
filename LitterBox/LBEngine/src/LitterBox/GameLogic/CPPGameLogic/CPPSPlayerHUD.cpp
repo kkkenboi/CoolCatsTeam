@@ -118,10 +118,6 @@ namespace LB {
 			//DebuggerLogFormat("Pushed back: %s, %s", verticalPopUp->GetName().c_str(), horizontalPopUp->GetName().c_str());
 		}
 
-		//// MANUALLY shifting the map to the last thing rendered ----------------------------------------------------------------------------------------------
-		//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_OBJECT, GOMANAGER->FindGameObjectWithName("Map")->GetComponent<CPRender>());
-		//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_BACKGROUND, GOMANAGER->FindGameObjectWithName("Map")->GetComponent<CPRender>());
-
 		//DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
 
 		// Create game objects to display the health and balls

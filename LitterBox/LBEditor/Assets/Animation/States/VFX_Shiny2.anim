@@ -1,0 +1,50 @@
+{
+    "Name": "VFX_Shiny2",
+    "SpriteSheet Name": "VFXSheet",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": []
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": []
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 0.0
+            },
+            {
+                "Frame": 60,
+                "Data": 360.0
+            }
+        ]
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 23
+            },
+            {
+                "Frame": 60,
+                "Data": 23
+            }
+        ]
+    },
+    "Start": 0,
+    "End": 60
+}

@@ -3,6 +3,8 @@
     "States": [
         "VFX_Explosion",
         "VFX_Hit",
-        "VFX_Poof"
+        "VFX_Poof",
+        "VFX_Shiny1",
+        "VFX_Shiny2"
     ]
 }

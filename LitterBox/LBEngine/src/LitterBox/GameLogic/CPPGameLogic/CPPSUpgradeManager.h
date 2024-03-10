@@ -84,6 +84,13 @@ namespace LB
 		**************************************************************************/
 		int GetBallUpgrades();
 
+		/*!************************************************************************
+		* \brief Function to set whether upgrades are spawned
+		*
+		* \param Whether spawned or not
+		**************************************************************************/
+		void SetSpawned(bool spawned);
+
 		//Really scuffed way of making upgrades
 		//Upgrade manager assigns the upgrade type to the upgrade
 		//then the upgrade tells the upgrade manager which upgrades

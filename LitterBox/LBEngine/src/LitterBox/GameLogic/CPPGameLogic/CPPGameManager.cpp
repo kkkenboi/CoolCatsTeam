@@ -326,6 +326,7 @@ namespace LB
 		currentWave++;
 		GenerateWave();
 		UpgradeSpawned = false;
+		GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SetSpawned(false);
 
 		isMovementDisabled = false;	//we allow the player to move again
 		//we need to place the player back a the correct place and reset their pos and everything
