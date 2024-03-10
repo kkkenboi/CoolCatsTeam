@@ -149,6 +149,17 @@ namespace LB
 	**************************************************************************/
 	void CPAnimator::Play(std::string const& name)
 	{
+		if (m_playing)
+		{
+			Stop();
+
+			// If a queue is present, add to queue instead
+			if (m_playing)
+			{
+				m_queue.push_back(name);
+			}
+		}
+
 		// Save old data
 		if (m_render->spriteIndex < 0)
 		{

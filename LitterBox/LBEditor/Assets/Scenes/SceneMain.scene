@@ -1401,8 +1401,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 960.0,
-                        "y": 540.0
+                        "x": 0.0,
+                        "y": 0.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1416,8 +1416,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 755.520019,
-                                    "y": -419.880004
+                                    "x": 1715.0,
+                                    "y": 121.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -1443,8 +1443,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": -741.25,
-                                    "y": -460.880004
+                                    "x": 219.0,
+                                    "y": 80.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -1520,8 +1520,8 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 150.0,
-                    "Height": 150.0,
+                    "Width": 230.0,
+                    "Height": 230.0,
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
@@ -1536,7 +1536,7 @@
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Radius": 42.0
+                    "Radius": 45.0
                 },
                 "CPPScript": {
                     "Active": true,
@@ -1618,8 +1618,8 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 225.0,
-                    "Height": 225.0,
+                    "Width": 300.0,
+                    "Height": 300.0,
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",

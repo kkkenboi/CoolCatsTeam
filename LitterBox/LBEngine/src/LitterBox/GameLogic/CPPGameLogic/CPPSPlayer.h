@@ -33,12 +33,15 @@ namespace LB
 		On collision function if it collides with any other colliders
 		*************************************************************************/
 		void OnCollisionEnter(CollisionData colData) override;
+		void OnCollisionStay(CollisionData colData) override;
+		void OnCollisionExit(CollisionData colData) override;
 
 		//------------------Rendering,RB,Collider,Transform------------------
-		CPRigidBody* rb{ nullptr };
-		CPCollider* col{ nullptr };
-		CPRender* rend{ nullptr };
-		CPTransform* trans{ nullptr };
+		CPRigidBody*	rb{ nullptr };
+		CPCollider*		col{ nullptr };
+		CPRender*		rend{ nullptr };
+		CPTransform*	trans{ nullptr };
+		CPAnimator*		anim{ nullptr };
 
 		//------------------variables------------------
 		GameObject* m_GameManager{ nullptr };

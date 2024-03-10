@@ -46,6 +46,7 @@ namespace LB
 		rend = GameObj->GetComponent<CPRender>();
 		trans = GameObj->GetComponent<CPTransform>();
 		col = GameObj->GetComponent<CPCollider>();
+		anim = GameObj->GetComponent<CPAnimator>();
 
 		right_face = trans->GetScale();
 		left_face = trans->GetScale();
@@ -73,26 +74,6 @@ namespace LB
 
 		// So that balls don't spawn on top each other
 		rb->addForce(Vec2<float>{10.0f, 0.0f} * TIME->GetDeltaTime());
-
-		//---------------------------getting the uvs for the run------------------------
-		//if (LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"]) != LB::ASSETMANAGER->Textures.end()) {
-		//	//int img_width{ LB::ASSETMANAGER->Textures.find(ASSETMANAGER->assetMap["walking_cat"])->second.first->width }; NOTREFERENCED
-
-		//	float x_inc{ 1.f / 10.f };
-
-		//	for (int x{ 0 }; x < 10; ++x) {
-		//		frames[x].at(0) = { x * x_inc, 0.f };//bottom left
-		//		frames[x].at(1) = { (x + 1) * x_inc, 0.f };//bottom right
-		//		frames[x].at(2) = { (x + 1) * x_inc, 1.f };//top right
-		//		frames[x].at(3) = { x * x_inc, 1.f };//top left
-		//	}
-		//}
-		//else DebuggerLogWarning("Can't find!");
-		//Renderer::GRAPHICS->init_anim("player_walk", frames.data(), 0.1f, 10);
-		//Renderer::GRAPHICS->init_anim("player_idle", frames.data(), 1.f, 1);
-
-		//rend->UpdateTexture(LB::ASSETMANAGER->GetTextureUnit("walking_cat"), static_cast<int>(rend->w), static_cast<int>(rend->h));
-		//rend->play_repeat("player_idle");
 
 		onTakingDamage.Subscribe(DecreaseHealth);
 		onPlacingBall.Subscribe(IncreaseBalls);
@@ -127,37 +108,25 @@ namespace LB
 		static bool isWalkingAnim{ false };
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W) && !mIsStunned)
 		{
-			//rend->stop_anim();
-			//rend->play_repeat("player_walk");
-
-			GetComponent<CPAnimator>()->PlayRepeat("Felix_Walk");
+			anim->PlayRepeat("Felix_Walk");
 
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A) && !mIsStunned)
 		{
-			//rend->stop_anim();
-			//rend->play_repeat("player_walk");
-
-			GetComponent<CPAnimator>()->PlayRepeat("Felix_Walk");
+			anim->PlayRepeat("Felix_Walk");
 
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D) && !mIsStunned)
 		{
-			//rend->stop_anim();
-			//rend->play_repeat("player_walk");
-
-			GetComponent<CPAnimator>()->PlayRepeat("Felix_Walk");
+			anim->PlayRepeat("Felix_Walk");
 
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S) && !mIsStunned)
 		{
-			//rend->stop_anim();
-			//rend->play_repeat("player_walk");
-
-			GetComponent<CPAnimator>()->PlayRepeat("Felix_Walk");
+			anim->PlayRepeat("Felix_Walk");
 
 			isWalkingAnim = true;
 		}
@@ -173,33 +142,21 @@ namespace LB
 		Vec2<float> externalForce = rb->mVelocity;
 		if (INPUT->IsKeyPressed(KeyCode::KEY_W) && !mIsStunned)
 		{
-			//rb->addForce(Vec2<float>{0.f, m_walkSpeed} * TIME->GetDeltaTime());
-			//rb->mVelocity += Vec2<float>{0.f, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed} *TIME->GetDeltaTime(); 
-			//movement += Vec2<float>{ 0.f, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed };
 			movement.y += 1.f;
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_S) && !mIsStunned)
 		{
-			//rb->addForce(Vec2<float>{0.f, -m_walkSpeed} * TIME->GetDeltaTime());
-			//rb->mVelocity -= Vec2<float>{0.f, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed} *TIME->GetDeltaTime();
-			//movement += Vec2<float>{ 0.f, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed };
 			movement.y += -1.f;
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_A) && !mIsStunned)
 		{
-			//rb->addForce(Vec2<float>{-m_walkSpeed, 0.f} * TIME->GetDeltaTime());
-			//rb->mVelocity += Vec2<float>{-m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f} *TIME->GetDeltaTime();
-			//movement += Vec2<float>{ -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f };
 			movement.x += -1.f;
 			isMoving = true;
 		}
 		if (INPUT->IsKeyPressed(KeyCode::KEY_D) && !mIsStunned)
 		{
-			//rb->addForce(Vec2<float>{m_walkSpeed, 0.f} * TIME->GetDeltaTime());
-			//rb->mVelocity += Vec2<float>{m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f} *TIME->GetDeltaTime();
-			//movement += Vec2<float>{ m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed, 0.f };
 			movement.x += 1.f;
 			isMoving = true;
 		}
@@ -224,10 +181,8 @@ namespace LB
 			rb->mVelocity *= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction;
 			 if (isWalkingAnim)
 			 {
-			 	//rend->stop_anim();
-			 	//rend->play_repeat("player_idle");
 				 if (!mIsStunned) {
-					 GetComponent<CPAnimator>()->StopAndReset();
+					 anim->StopAndReset();
 				 }
 			 	isWalkingAnim = false;
 			 }
@@ -240,7 +195,7 @@ namespace LB
 			m_stepSoundCurrent = 0.0f;
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.5f);
 		}
-		m_stepSoundCurrent += static_cast<float>(TIME->GetDeltaTime());
+		m_stepSoundCurrent += static_cast<float>(TIME->GetDeltaTime()) * anim->m_playSpeed;
 		
 		/*!***********************************************************************
 		\brief
@@ -385,7 +340,7 @@ namespace LB
 			}
 			mGotAttackedCooldown = mGotAttacked;
 
-			GetComponent<CPAnimator>()->PlayAndReset("Felix_Hurt");
+			anim->PlayAndReset("Felix_Hurt");
 
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.4f);
 			// Update the HUD as well
@@ -415,6 +370,22 @@ namespace LB
 				mStunTimer = 0.15f;
 				mIsStunned = true;
 			}
+		}
+	}
+
+	void CPPSPlayer::OnCollisionStay(CollisionData colData)
+	{
+		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
+		{
+			anim->m_playSpeed = 0.6f;
+		}
+	}
+
+	void CPPSPlayer::OnCollisionExit(CollisionData colData)
+	{
+		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
+		{
+			anim->m_playSpeed = 1.0f;
 		}
 	}
 }
