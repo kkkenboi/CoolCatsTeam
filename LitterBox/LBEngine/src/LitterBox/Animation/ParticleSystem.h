@@ -46,6 +46,8 @@ namespace LB {
 		float mLifetime;
 		float mLifetimeRemaining;
 
+		float mLifetimeDelay;
+
 
 		GameObject* mGameObj;
 

@@ -92,7 +92,7 @@ namespace LB
 		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{
-			VIDEOPLAYER->OnPlayVideo();
+			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "MainMenu");
 		}
 		//Test function to see if the remove gameobject code works
 		//You have to comment out the ball's canDestroy code in order for this
@@ -331,6 +331,7 @@ namespace LB
 		currentWave++;
 		GenerateWave();
 		UpgradeSpawned = false;
+		GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SetSpawned(false);
 
 		isMovementDisabled = false;	//we allow the player to move again
 		//we need to place the player back a the correct place and reset their pos and everything

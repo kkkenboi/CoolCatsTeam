@@ -104,6 +104,7 @@ namespace LB
 
 		// Set component to be active
 		this->m_colliderIsActive = true;
+		this->m_active = true;
 
 		COLLIDERS->AddColliderToPool(this);
 	}
@@ -570,7 +571,6 @@ namespace LB
 		this->UpdateColliderAABB();
 
 		this->UpdateGridFrame();
-
 	}
 
 	/*!***********************************************************************
@@ -588,7 +588,7 @@ namespace LB
 	
 	void CPCollider::ToggleActive(bool isActive) 
 	{
-		m_active = isActive;
+		//m_active = isActive;
 	}
 
 

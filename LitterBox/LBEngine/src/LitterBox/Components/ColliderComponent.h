@@ -268,7 +268,7 @@ namespace LB {
 		}
 
 
-		void ToggleActive(bool isActive);
+		void ToggleActive(bool isActive) override;
 
 	};
 

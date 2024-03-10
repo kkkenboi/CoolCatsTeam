@@ -118,10 +118,6 @@ namespace LB {
 			//DebuggerLogFormat("Pushed back: %s, %s", verticalPopUp->GetName().c_str(), horizontalPopUp->GetName().c_str());
 		}
 
-		//// MANUALLY shifting the map to the last thing rendered ----------------------------------------------------------------------------------------------
-		//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_OBJECT, GOMANAGER->FindGameObjectWithName("Map")->GetComponent<CPRender>());
-		//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_BACKGROUND, GOMANAGER->FindGameObjectWithName("Map")->GetComponent<CPRender>());
-
 		//DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
 
 		// Create game objects to display the health and balls
@@ -416,6 +412,8 @@ namespace LB {
 		upgradePtr->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", upgradePtr->GetComponent<CPRender>()->spriteIndex); // Minus 1 since the enum starts from 1
 		upgradePtr->GetComponent<CPRender>()->ToggleActive(true);
 
+		// - This makes the vertical popup to toggle off
+		m_mouseHoverWorld = false;
 
 		// - Set position on screen for the horizontal popup
 		auto popUpHPtr = m_totalUpgradePopUps[static_cast<size_t>(upgrade - 1)].second;

@@ -81,6 +81,19 @@ namespace LB
 		//	GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPPSUpgrade>()->AssignUpgradeID(UpgradesList[UpgradesList.size() - 1]);
 		//	//UpgradesList.pop_back();
 		//}
+
+		if (isSpawned)
+		{
+			DebuggerLog("Upgrades are spawned, playing VFX...");
+			leftUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
+			leftUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
+
+			middleUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
+			middleUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
+
+			rightUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
+			rightUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
+		}
 	}
 
 	/*!************************************************************************
@@ -100,6 +113,10 @@ namespace LB
 		//if no upgrades left we just don't spawn anything
 		if (UpgradesList.empty()) return;
 		if (UpgradesList.size() < 1) return;		//This check is to know how many to spawn
+
+		// Let anim knows that upgrades are spawned
+		isSpawned = true;
+
 		leftUpgrade = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Upgrade", *leftUpgrade);
 		leftUpgrade->SetName("leftUpgrade");	//health
@@ -244,6 +261,11 @@ namespace LB
 	int CPPSUpgradeManager::GetBallUpgrades()
 	{
 		return currentBallUpgrades;
+	}
+
+	void CPPSUpgradeManager::SetSpawned(bool spawned)
+	{
+		isSpawned = spawned;
 	}
 
 	

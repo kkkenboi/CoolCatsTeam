@@ -78,7 +78,7 @@ namespace LB {
 		\param str
 		 The text to be rendered
 		*************************************************************************/
-		inline void update_msg_text(const std::string& str);
+		void update_msg_text(const std::string& str);
 		/*!***********************************************************************
 		\brief
 		 Updates the font color of the text
@@ -88,7 +88,7 @@ namespace LB {
 		\param col
 		 The values of the new color in vector format
 		*************************************************************************/
-		inline void update_msg_color(const LB::Vec3<float>& col);
+		void update_msg_color(const LB::Vec3<float>& col);
 		/*!***********************************************************************
 		\brief
 		 Updates the scale of the text
@@ -99,7 +99,7 @@ namespace LB {
 		\param font_size
 		 The new scaling value for the text
 		*************************************************************************/
-		inline void update_msg_size(float font_size)
+		void update_msg_size(float font_size)
 		{
 			msg.scale = font_size;
 		}
@@ -112,7 +112,7 @@ namespace LB {
 		\param pos
 		 The new position in vector format
 		*************************************************************************/
-		inline void update_msg_pos(const LB::Vec2<float>& pos)
+		void update_msg_pos(const LB::Vec2<float>& pos)
 		{
 			msg.x = pos.x;
 			msg.y = pos.y;
@@ -127,7 +127,19 @@ namespace LB {
 		\param file_name_wo_ext
 		 Font file name without the extension
 		*************************************************************************/
-		inline void update_msg_font(const std::string& file_name_wo_ext);
+		void update_msg_font(const std::string& file_name_wo_ext);
+
+		/*!***********************************************************************
+		\brief
+		 Updates the bounding box of the text component
+
+		 NOTE: Text should follow camera size. Therefore, left is 0 and right is
+		 1920
+
+		\param new_bound
+		 The new size of the bounding box for the text
+		*************************************************************************/
+		void update_msg_xbound(float new_bound);
 
 		/*!***********************************************************************
 		\brief

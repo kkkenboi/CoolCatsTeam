@@ -35,6 +35,7 @@
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Animation/AnimationManager.h"
 #include "LitterBox/Animation/ParticleSystem.h"
+#include "LitterBox/Components/RenderVideoComponent.h"
 #include "Core.h"
 
 namespace LB {

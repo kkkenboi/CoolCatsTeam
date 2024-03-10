@@ -397,16 +397,19 @@ namespace LB
 					continue;
 				}
 
+				
+				if (colA->gameObj->IsActive() == false || colB->gameObj->IsActive() == false)
+				{
+					continue;
+				}
+				
+
+				// Check if component is active
 				if (colA->m_active == false || colB->m_active == false) 
 				{
 					continue;
 				}
-
-				// Check if component is active
-				if (colA->m_colliderIsActive == false || colB->m_colliderIsActive == false) 
-				{
-					continue;
-				}
+				
 
 				// Check if the same collider
 				if (colA == colB)
