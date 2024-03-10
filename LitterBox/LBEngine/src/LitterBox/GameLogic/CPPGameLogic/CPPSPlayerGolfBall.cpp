@@ -79,7 +79,6 @@ namespace LB
 			mRigidBody = GameObj->GetComponent<CPRigidBody>();
 			return;
 		}
-		
 		if (mRigidBody->mVelocity.LengthSquared() < 50.0f)
 		{
 			mCurrentLifetime -= static_cast<float>(TIME->GetDeltaTime());
@@ -184,8 +183,10 @@ namespace LB
 		if (currentBallUpgrades & BIGBALL)
 		{
 			//This doubles the size of the ball
-			mSize = 2.0f;
+			mSize = 1.5f;
 			Vec2<float> newSize = GetComponent<CPTransform>()->GetScale() * mSize;
+			//We set the ball sprite to the big ball
+			GetComponent<CPRender>()->SetSpriteTexture(GetComponent<CPRender>()->spriteSheetName, 52);
 			GetComponent<CPTransform>()->SetScale(newSize);
 		}
 	}

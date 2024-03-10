@@ -31,16 +31,22 @@ namespace LB
 	private:
 		GameObject* mPlayer{nullptr};
 		GameObject* mGameManager{ nullptr };
+		//this is NOT the portal! it's the black circle!
+		//I'm using this black circle to do the transition effect!!!
+		GameObject* mPortalCenter{ nullptr };	
 		Vec2<float> mCachedPlayerPos{};
 		bool isTransitioning;
 		bool finishTransition;
+		bool finishRot;
 		bool temp; //this is a temp bool for a temp fix
+		bool expandOut{ true };	//this bool is to toggle the circle expanding out or in
 		//roughly how long it'll take for the player to fly to centre of black hole
 		//float lerpDuration{1.f};	commented out for now because I'm hacking in the lerp
 		float rotAnglePerSec{ 720.f };	
 		float timer{};		//generic timer for the lerp
 		float rotTimer{};	//separate timer for the rotation
 		float rotAngle{ 0 };
+		float circleTimer{};	//separate timer for the circle expansion
 	};
 	REGISTER_SCRIPT(CPPSPortal)
 }
