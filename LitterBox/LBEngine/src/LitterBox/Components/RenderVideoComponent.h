@@ -35,7 +35,6 @@ namespace LB
 		{
 			int width{ 0 }, height{ 0 }, video_stream_index{ -1 };
 			unsigned char* fbuffer{ nullptr };
-			unsigned int tex_handle{ 0 };
 
 			AVFormatContext* av_format_ctx{ nullptr };
 			AVCodecContext* av_codec_ctx{ nullptr };
@@ -53,7 +52,7 @@ namespace LB
 		*************************************************************************/
 		void Initialize() override;
 		//void Update() override;
-		//void FixedUpdate() override;
+		void FixedUpdate() override;
 		void Destroy() override;
 
 		void PlayCutscene(const char* video_file_name, const char* next_scene);
@@ -62,7 +61,7 @@ namespace LB
 		VideoPlayerSystem() = default;
 		~VideoPlayerSystem() = default;
 
-		const unsigned int& get_frame() const { return vrs.tex_handle; };
+		const unsigned int& get_frame() const { return tex_handle; };
 	private:
 		void load_video_file(const char* video_file_name);
 		bool load_video_frame();
@@ -70,5 +69,7 @@ namespace LB
 
 		VideoRenderState vrs;
 		std::string scene_to_transition;
+		unsigned int tex_handle{ 0 };
+		bool playCutscene{ false };
 	};
 }
