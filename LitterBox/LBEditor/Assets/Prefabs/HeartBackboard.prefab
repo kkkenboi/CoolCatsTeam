@@ -1,25 +1,25 @@
 {
-    "Name": "HeartHUD",
+    "Name": "HeartBackboard",
     "Active": true,
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 86.0,
+            "x": 368.0,
             "y": 996.0
         },
         "Scale": {
-            "x": 1.2,
-            "y": 1.2
+            "x": 0.6,
+            "y": 0.6
         },
         "Rotation": 0.0
     },
     "Render": {
         "Active": true,
-        "Width": 200.0,
-        "Height": 200.0,
+        "Width": 1218.0,
+        "Height": 250.0,
         "Layer": 3,
-        "Texture": "Multi_Spritesheet",
-        "SpriteName": "MultiSheet",
-        "SpriteIndex": 48
+        "Texture": "Backboard UI",
+        "SpriteName": "BackboardSheet",
+        "SpriteIndex": 0
     }
 }

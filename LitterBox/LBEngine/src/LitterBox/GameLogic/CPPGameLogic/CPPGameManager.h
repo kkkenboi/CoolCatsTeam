@@ -89,6 +89,8 @@ namespace LB
 		int m_PlayerCurrentHealth{};
 		int m_PlayerMaxBalls{};
 		int m_PlayerCurrentBalls{};
+		int m_PlayerMaxUpgrades{ 4 };
+		int m_PlayerCurrentUpgrades{};
 		float m_PlayerWalkSpeed{};
 		float m_PlayerMaxSpeed{};
 		float m_PlayerArbitraryFriction{};
