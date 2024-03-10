@@ -112,25 +112,21 @@ namespace LB
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W) && !mIsStunned)
 		{
 			anim->PlayRepeat("Felix_Walk");
-
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A) && !mIsStunned)
 		{
 			anim->PlayRepeat("Felix_Walk");
-
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D) && !mIsStunned)
 		{
 			anim->PlayRepeat("Felix_Walk");
-
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S) && !mIsStunned)
 		{
 			anim->PlayRepeat("Felix_Walk");
-
 			isWalkingAnim = true;
 		}
 
@@ -172,6 +168,13 @@ namespace LB
 			//rb->mVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
 			Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
 			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());
+
+			// If move anim is not playing when it should, e.g. after stun or damage
+			if (isMoving && !anim->IsPlaying())
+			{
+				anim->PlayRepeat("Felix_Walk");
+				isWalkingAnim = true;
+			}
 		}
 
 		//clamping of the speed of the player movement
@@ -185,7 +188,8 @@ namespace LB
 			 if (isWalkingAnim)
 			 {
 				 //if (!mIsStunned) {
-				anim->StopAndReset();
+				 if (anim->IsPlaying("Felix_Walk"))
+					anim->StopAndReset();
 				 //}
 			 	isWalkingAnim = false;
 			 }

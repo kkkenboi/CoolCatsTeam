@@ -82,6 +82,10 @@ namespace LB
 		 Stops the current animation and resets it to before the animation began
 		**************************************************************************/
 		void StopAndReset();
+
+		inline bool IsPlaying() { return m_playing; }
+
+		inline bool IsPlaying(std::string const& name) { return m_controller.GetCurrentState().m_name == name; }
 		
 		//----------------------------------------------COMPONENT FUNCTIONS----------------------------------------------
 

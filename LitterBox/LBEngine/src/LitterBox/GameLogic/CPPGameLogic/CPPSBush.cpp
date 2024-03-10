@@ -13,6 +13,7 @@
 **************************************************************************/
 
 #include "CPPSBush.h"
+#include "LitterBox/Audio/AudioManager.h"
 
 namespace LB
 {
@@ -101,6 +102,8 @@ namespace LB
 			mScaleTimer = mToMaxTimer;
 			mScaleTimerRemaining = mScaleTimer;
 			mScaledUp = true;
+
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerAttackSounds);
 		}
 
 		if (colData.colliderOther->gameObj->GetName() == "ball")
