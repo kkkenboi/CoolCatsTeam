@@ -32,6 +32,7 @@ namespace LB
 		
 		//Charger GameObject, getter and position
 		GameObject* mCharger;
+		CPPSCharger* mChargerScript;
 		GameObject* GetCharger();
 		Vec2<float> GetChargerPos();
 
@@ -43,8 +44,10 @@ namespace LB
 		//Vec2<float> DirOfThePlayer;
 		bool mLock{ false };
 
-		float offset{ 50.0f };
-		//bool isChargerDead{ false };
+		float offset{ 75.0f };
+
+		CPCollider* GetCollider();
+
 
 		CPRender* mRender{ nullptr };
 		CPRigidBody* mRigidBody{ nullptr };

@@ -36,6 +36,7 @@ namespace LB
 		Vec2<float> GetChargerPos();
 		Vec2<float> DirBToA(Vec2<float> a, Vec2<float> b);
 
+		//*********************************************************
 
 		//------------------IDLE STATE------------------
 		float mIdleCooldown{};
@@ -53,10 +54,17 @@ namespace LB
 		Vec2<float> mChargeNormalForce{};
 
 		//------------------CHARGE STATE------------------
-		float mTimerWhenStunned{};
+		float mTimerWhenStunned{}, mStunTimerElapsed{};
+
+		//*********************************************************
 
 		bool isChargerDead{ false };
-		
+
+		//Charger's Dizzy Effects
+		//void ChargerDizzy();
+		GameObject* mDizzyObj; //will be spawnned when got stunned
+		CPTransform* mDizzyObjTrans;
+		CPRender* mDizzyRender;
 
 	private:
 		FiniteStateMachine mFSM{};

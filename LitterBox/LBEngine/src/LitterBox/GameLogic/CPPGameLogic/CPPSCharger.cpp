@@ -17,6 +17,7 @@ it handles the logic for the Mage enemy
 //#include "CPPShield.h"
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Animation/AnimationController.h"
 
 namespace LB
 {
@@ -47,7 +48,7 @@ namespace LB
 		GetSpeedMag() = 50000.f; //speed of movement
 
 		isChargerDead = false;
-
+		mDetectionRange = 800.f;
 		/********************************************/
 		// Idle State variables
 		/********************************************/
@@ -67,17 +68,28 @@ namespace LB
 		// Charge State variables
 		/********************************************/
 		mChargingSpeed = 150000.f;
-		mIsCharging = false;
+		//mIsCharging = false;
 
 		/********************************************/
 		// Stunned State variables
 		/********************************************/
-		mTimerWhenStunned = 3.0f;
+		mTimerWhenStunned = mStunTimerElapsed = 3.0f;
 
 		mInitialised = true;
 
 		//mAttackCooldown = 2.0f;
 		//mAttackCooldownCurrent = 0.0f;
+
+		//********************EFFECTS ON CHARGER***********************
+		mDizzyObj = GOMANAGER->FindGameObjectWithName("DizzyEffect");
+		mDizzyRender = mDizzyObj->GetComponent<CPRender>();
+		DebuggerLogErrorFormat("CAN IT FIND: %d", mDizzyObj->GetComponent<CPRender>());
+
+		mDizzyObjTrans = mDizzyObj->GetComponent<CPTransform>();
+		mDizzyObjTrans->SetPosition(Vec2<float>(0.f, 80.f));
+
+		mDizzyRender->ToggleActiveFlag(false);
+
 	}
 
 	void CPPSCharger::Update()
@@ -115,18 +127,26 @@ namespace LB
 	void CPPSCharger::OnCollisionEnter(CollisionData colData)
 	{
 		CPPSBaseEnemy::OnCollisionEnter(colData);
+		std::string str(colData.colliderOther->m_gameobj->GetName());
+		size_t foundName = str.find("Wall");
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") 
 		{
 			mFSM.ChangeState("Hurt");
 		}
-		else if (mIsCharging == true)
-		{
+		else if (foundName != std::string::npos)
+		{	
 			mFSM.ChangeState("Stunned");
 		}
+		//else if (mIsCharging == true)
+		//{
+		//	mFSM.ChangeState("Stunned");
+		//}
+		//else if (colData.colliderOther->m_gameobj->GetName() == "")
 	}
 
 	void CPPSCharger::Hurt()
 	{
+		isAggro = true;
 		if (GetHealth() <= 0)
 		{
 			Die();
@@ -178,9 +198,8 @@ namespace LB
 		//this->Update();
 		//NEED TO CALCULATE THE DISTANCE BWN THE CHARGER AND THE PLAYER BECOS THE MAP IS GG TO BE BIGGER!!!!
 		//DebuggerLogWarning("CHARGER IDLE STATE");
-		mEnemy->mIdleCooldown -= static_cast<float>(TIME->GetDeltaTime());
-		//DebuggerLogErrorFormat("Timer Idle: %i", mEnemy->mIdleCooldown);
-		if (mEnemy->mIdleCooldown <= 0.0f) //4 secs
+		if (mEnemy->GetDistToPlayer() <= mEnemy->mDetectionRange) mEnemy->isAggro = true;
+		if (mEnemy->isAggro)
 		{
 			GetFSM().ChangeState("Move");
 		}
@@ -308,7 +327,7 @@ namespace LB
 		//DebuggerLogWarning("CHARGER CHARGE STATE");
 		mEnemy->mChargeDirection = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
 		mEnemy->mChargeNormalForce = mEnemy->mChargeDirection * mEnemy->mChargingSpeed;
-		mEnemy->mIsCharging = true;
+		//mEnemy->mIsCharging = true;
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerAttackSounds, 0.2f);
 		this->Update();
 	}
@@ -316,19 +335,7 @@ namespace LB
 	void ChargerChargeState::Update()
 	{
 		//Now when charge, it suppose to calculate the direction once and thats it
-		//DebuggerLogWarning("CHARGER CHARGE STATE");
 		mEnemy->GetRigidBody()->addForce(mEnemy->mChargeNormalForce * static_cast<float>(TIME->GetDeltaTime())); //add force to move
-		//DebuggerLogErrorFormat("Is Charging bool: %i", mEnemy->mIsCharging);
-		//After it collides with any other game object
-		//Check on collision
-		//it will change it state back to idle
-		//rinse and repeat
-
-		//if (mEnemy->mIsCharging == true)
-		//{
-		//	GetFSM().ChangeState("Stunned");
-		//}
-
 	}
 
 	void ChargerChargeState::Exit()
@@ -348,8 +355,11 @@ namespace LB
 
 	void ChargerStunnedState::Enter()
 	{
-		//DebuggerLogWarning("CHARGER STUNNED STATE");
-		mEnemy->mIsCharging = false;
+		DebuggerLogWarning("CHARGER STUNNED STATE");
+		//mEnemy->mIsCharging = false;
+		mEnemy->mStunTimerElapsed = mEnemy->mTimerWhenStunned;
+		mEnemy->mDizzyRender->ToggleActiveFlag(true);
+		DebuggerLogErrorFormat("Dizzy is spawned %d", mEnemy->mDizzyObj);
 		this->Update();
 	}
 
@@ -358,9 +368,13 @@ namespace LB
 		//DebuggerLogWarning("CHARGER STUNNED STATE");
 		//mEnemy->mIsCharging = false;
 		//DebuggerLogErrorFormat("Is Charging bool: %i", mEnemy->mIsCharging);
-		mEnemy->mTimerWhenStunned -= static_cast<float>(TIME->GetDeltaTime());
-		if (mEnemy->mTimerWhenStunned <= 0.0f)
+
+		mEnemy->mStunTimerElapsed -= static_cast<float>(TIME->GetDeltaTime());
+		//mEnemy->mDizzyObj->SetActive(true);
+
+		if (mEnemy->mStunTimerElapsed <= 0.0f)
 		{
+			mEnemy->mDizzyRender->ToggleActiveFlag(false);
 			GetFSM().ChangeState("Idle");
 		}
 	}
@@ -369,7 +383,4 @@ namespace LB
 	{
 
 	}
-
-
-
 }

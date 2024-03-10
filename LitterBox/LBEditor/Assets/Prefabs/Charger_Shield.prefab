@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 960.0,
-            "y": 540.0
+            "x": 1683.692382,
+            "y": 369.599975
         },
         "Scale": {
             "x": 1.0,
@@ -39,16 +39,17 @@
                     "Active": true,
                     "Width": 120.0,
                     "Height": 120.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
-                    "Texture": "EditorIcons",
+                    "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
                     "SpriteIndex": 31
                 },
                 "Collider": {
                     "Active": true,
                     "ColliderLayer": {
-                        "Layer Name": "GameEntity",
-                        "Layer ID": 1
+                        "Layer Name": "EnemyBall",
+                        "Layer ID": 5
                     },
                     "Shape": 1,
                     "Width": 100.0,
@@ -58,6 +59,32 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPShield"
+                }
+            },
+            {
+                "Name": "DizzyEffect",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": 59.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 150.0,
+                    "Height": 150.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "VFXCompile_SpriteSheet",
+                    "SpriteName": "VFXSheet",
+                    "SpriteIndex": 25
                 }
             }
         ]
@@ -73,6 +100,7 @@
         "Active": true,
         "Width": 135.0,
         "Height": 135.0,
+        "ZLayer": 1.0,
         "Layer": 0,
         "Texture": "Multi_Spritesheet",
         "SpriteName": "MultiSheet",
