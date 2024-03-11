@@ -102,8 +102,6 @@ namespace LB
 				Vec2<float> hitPos = col.colliderOther->transform->GetPosition();
 				GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(hitPos);
 			}
-
-
 		}
 		UNREFERENCED_PARAMETER(col);	//the derived classes should override this
 		//If the enemy has no hp it should be able to collide with anything anymore

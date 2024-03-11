@@ -316,6 +316,7 @@ namespace LB
 			colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
 			colData.colliderOther->m_gameobj->GetName() == "Charger_Shield" ||
+			colData.colliderOther->m_gameobj->GetName() == "Shield" ||
 			colData.colliderOther->m_gameobj->GetName() == "Bramble" )
 		{
 			if (mGotAttackedCooldown > 0) return;

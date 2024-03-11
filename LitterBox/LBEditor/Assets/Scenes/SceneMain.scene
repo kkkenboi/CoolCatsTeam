@@ -1885,6 +1885,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "ZLayer": 1.0,
                     "Layer": 3,
                     "Texture": "black-hole",
                     "SpriteName": "None",
@@ -1990,7 +1991,7 @@
                                 "Rotation": 0.0
                             },
                             "Render": {
-                                "Active": true,
+                                "Active": false,
                                 "Width": 150.0,
                                 "Height": 150.0,
                                 "ZLayer": 1.0,
@@ -1998,6 +1999,78 @@
                                 "Texture": "VFXCompile_SpriteSheet",
                                 "SpriteName": "VFXSheet",
                                 "SpriteIndex": 25
+                            }
+                        },
+                        {
+                            "Name": "AngerEffect",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -29.0,
+                                    "y": 52.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 1.299998
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 100.0,
+                                "Height": 100.0,
+                                "ZLayer": 1.0,
+                                "Layer": 0,
+                                "Texture": "VFXCompile_SpriteSheet",
+                                "SpriteName": "VFXSheet",
+                                "SpriteIndex": 37
+                            }
+                        },
+                        {
+                            "Name": "FootStepsParticles",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -46.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 100.0,
+                                "Height": 100.0,
+                                "ZLayer": 1.0,
+                                "Layer": 0,
+                                "Texture": "VFXCompile_SpriteSheet",
+                                "SpriteName": "VFXSheet",
+                                "SpriteIndex": 0
+                            },
+                            "Particle": {
+                                "EmitterType": 0,
+                                "EmitterRate": 0.05,
+                                "RadialNum": 10,
+                                "EmitterVelocity": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "VelocityMinX": -15.0,
+                                "VelocityMaxX": 10.0,
+                                "VelocityMinY": -50.0,
+                                "VelocityMaxY": 40.0,
+                                "RadialSpeed": 100.0,
+                                "SizeBegin": 0.8,
+                                "SizeEnd": 0.3,
+                                "EmitterLifetime": 1.0,
+                                "ParticleLifetime": 0.15,
+                                "EmitterActive": true,
+                                "EmitterLooping": true
                             }
                         }
                     ]

@@ -46,7 +46,6 @@ namespace LB
 		// Rotation : Face the player
 		//mCollider->m_pos.x = 0.f;
 		//mCollider->m_pos.y = 0.f;
-
 		
 
 		if (!mLock)
@@ -71,7 +70,6 @@ namespace LB
 			mTransform->SetPosition(shieldPos);
 			//DebuggerLogErrorFormat("COLLIDERS X: %f", mCollider->m_pos.x);
 			//DebuggerLogErrorFormat("COLLIDERS Y: %f", mCollider->m_pos.y);
-			
 		}
 
 		// Scale : If facing left, set scale x = -1
@@ -85,14 +83,15 @@ namespace LB
 		}
 	}
 
-	void CPPShield::Destroy()
+	void CPPShield::Destroy() { }
+
+	void CPPShield::OnCollisionEnter(CollisionData colData)
 	{
-		//CPTransform* transform = GetComponent<CPTransform>();
-		//if (!transform->GetParent())
+		//if (colData.colliderOther->m_gameobj->GetName() == "ball")
 		//{
-		//	transform->Destroy();
+		//	mRigidBody->addImpulse(Vec2<float>(1000.0f, 1000.0f));
 		//}
-	}
+;	}
 
 	GameObject* CPPShield::GetCharger()
 	{

@@ -49,12 +49,13 @@ namespace LB
 
 		CPCollider* GetCollider();
 
-
 		CPRender* mRender{ nullptr };
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
 
-		void SetShouldFace(bool state);
+		void OnCollisionEnter(CollisionData colData);
+
+		//void SetShouldFace(bool state);
 
 		//bool mShouldFace{ false };
 	

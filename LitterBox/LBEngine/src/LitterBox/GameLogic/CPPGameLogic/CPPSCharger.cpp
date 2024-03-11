@@ -14,7 +14,6 @@ it handles the logic for the Mage enemy
 **************************************************************************/
 
 #include "CPPSCharger.h"
-//#include "CPPShield.h"
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Animation/AnimationController.h"
@@ -68,7 +67,7 @@ namespace LB
 		// Charge State variables
 		/********************************************/
 		mChargingSpeed = 2500.f;
-		mIsCharging = false;
+		//mIsCharging = false;
 
 		/********************************************/
 		// Stunned State variables
@@ -81,16 +80,31 @@ namespace LB
 		//mAttackCooldownCurrent = 0.0f;
 
 		//********************EFFECTS ON CHARGER***********************
+		//DIZZY
 		mTransform = GameObj->GetComponent<CPTransform>();
-		mDizzyObj = mTransform->GetChild()->gameObj; //CANNOT GET CHILD?
-		mDizzyObj = GOMANAGER->FindGameObjectWithName("DizzyEffect");
+
+		mDizzyObj = mTransform->GetChild(1)->gameObj; //CANNOT GET CHILD?
+		//mDizzyObj = GOMANAGER->FindGameObjectWithName("DizzyEffect");
 		mDizzyRender = mDizzyObj->GetComponent<CPRender>();
 
 		mDizzyObjTrans = mDizzyObj->GetComponent<CPTransform>();
 		mDizzyObjTrans->SetPosition(Vec2<float>(0.f, 80.f));
-
 		mDizzyRender->ToggleActiveFlag(false);
 
+		//ANGER
+		mAngerObj = mTransform->GetChild(2)->gameObj;
+		//mAngerObj = GOMANAGER->FindGameObjectWithName("AngerEffect");
+		mAngerRender = mAngerObj->GetComponent<CPRender>();
+
+		mAngerObjTrans = mAngerObj->GetComponent<CPTransform>();
+		mAngerObjTrans->SetPosition(Vec2<float>(0.f, 80.f));
+		mAngerRender->ToggleActiveFlag(false);
+
+		//FootSteps
+		FootstepsParticle = mTransform->GetChild(3)->GetComponent<CPParticle>();
+		m_FootstepsParticleEmitRate = FootstepsParticle->mEmitterRate;
+		mAngerRender->ToggleActiveFlag(false);
+		isCharging = false;
 	}
 
 	void CPPSCharger::Update()
@@ -105,6 +119,11 @@ namespace LB
 			GOMANAGER->RemoveGameObject(this->GameObj);
 			return;
 		}
+		if (isCharging == true)
+		{
+			FootstepsParticle->mIsActive = true;
+		}
+
 		mFSM.Update();
 	}
 
@@ -116,22 +135,25 @@ namespace LB
 		delete mFSM.GetState("WindUp");
 		delete mFSM.GetState("Charge");
 		delete mFSM.GetState("Stunned");
-
 	}
 
 	void CPPSCharger::OnCollisionEnter(CollisionData colData)
 	{
 		CPPSBaseEnemy::OnCollisionEnter(colData);
 		std::string str(colData.colliderOther->m_gameobj->GetName());
-		size_t foundName = str.find("Wall");
+		size_t wallStr = str.find("Wall");
+		size_t brambleStr = str.find("Bramble");
+		size_t MushroomStr = str.find("Mushroom");
+
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") 
 		{
 			mFSM.ChangeState("Hurt");
 		}
-		else if (foundName != std::string::npos)
+		else if (wallStr != std::string::npos || brambleStr != std::string::npos || MushroomStr != std::string::npos)
 		{	
 			mFSM.ChangeState("Stunned");
 		}
+
 		//else if (mIsCharging == true)
 		//{
 		//	mFSM.ChangeState("Stunned");
@@ -177,6 +199,7 @@ namespace LB
 		return (a - b).Normalise();
 	}
 
+	//STATES : IDLE, MOVE, HURT, WINDUP, CHARGE, STUNNED
 	/*!***********************************************************************
 	\brief
 	Idle state of the Charger enemy
@@ -209,7 +232,6 @@ namespace LB
 
 	void ChargerIdleState::Exit(){ }
 
-	//STATES : IDLE, MOVE, HURT, WINDUP, CHARGE, STUNNED
 	/*!***********************************************************************
 	\brief
 	Move state of the Charger enemy
@@ -243,7 +265,6 @@ namespace LB
 		}
 		else
 		{
-
 			Vec2<float> Direction = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
 			Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
 
@@ -255,11 +276,7 @@ namespace LB
 
 			mEnemy->GetRigidBody()->mVelocity.x = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.x, -(mEnemy->GetSpeedMag()), mEnemy->GetSpeedMag());
 			mEnemy->GetRigidBody()->mVelocity.y = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.y, -(mEnemy->GetSpeedMag()), mEnemy->GetSpeedMag());
-
-
 		}
-		
-
 	}
 
 	void ChargerMoveState::Exit() { }
@@ -289,7 +306,6 @@ namespace LB
 
 	void ChargerHurtState::Exit()
 	{
-
 	}
 
 	/*!***********************************************************************
@@ -305,6 +321,7 @@ namespace LB
 	void ChargerWindUpState::Enter()
 	{
 		//DebuggerLogWarning("CHARGER WINDUP STATE");
+		mEnemy->mAngerRender->ToggleActiveFlag(true);
 		mEnemy->mTimerToCharge = 1.0f;
 		this->Update();
 	}
@@ -319,7 +336,10 @@ namespace LB
 		}
 	}
 
-	void ChargerWindUpState::Exit() { }
+	void ChargerWindUpState::Exit() 
+	{
+		mEnemy->mAngerRender->ToggleActiveFlag(false);
+	}
 
 	/*!***********************************************************************
 	\brief
@@ -335,31 +355,22 @@ namespace LB
 	void ChargerChargeState::Enter()
 	{
 		//DebuggerLogWarning("CHARGER CHARGE STATE");
+		mEnemy->isCharging = true;
 		mEnemy->mChargeDirection = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
 		mEnemy->mChargeNormalForce = mEnemy->mChargeDirection * mEnemy->mChargingSpeed;
-		mEnemy->mIsCharging = true;
+		//mEnemy->mIsCharging = true;
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerAttackSounds, 0.2f);
-		mEnemy->GetRigidBody()->mVelocity = Vec2<float>(0.0f, 0.0f);
+		//mEnemy->GetRigidBody()->mVelocity = Vec2<float>(0.0f, 0.0f);
 		mEnemy->SetShouldFace(false);
+		
 		this->Update();
 	}
 
 	void ChargerChargeState::Update()
 	{
-		//Now when charge, it suppose to calculate the direction once and thats it
-		//mEnemy->GetRigidBody()->addForce(mEnemy->mChargeNormalForce * static_cast<float>(TIME->GetDeltaTime())); //add force to move
-
-
-		//Vec2<float> Direction = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
-		//Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
-
-		//walk towards the player
-		//mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime())); //add force to move
-
 		mEnemy->GetRigidBody()->mVelocity += mEnemy->mChargeNormalForce  * static_cast<float>(TIME->GetDeltaTime());
 		//DebuggerLogErrorFormat("Charger's vel x: %f", mEnemy->GetRigidBody()->mVelocity.x);
 		//DebuggerLogErrorFormat("Charger's vel y: %f", mEnemy->GetRigidBody()->mVelocity.y);
-
 		mEnemy->GetRigidBody()->mVelocity.x = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.x, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
 		mEnemy->GetRigidBody()->mVelocity.y = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.y, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
 
@@ -368,6 +379,7 @@ namespace LB
 
 	void ChargerChargeState::Exit()
 	{
+		mEnemy->isCharging = false;
 	}
 
 	/*!***********************************************************************
@@ -383,11 +395,7 @@ namespace LB
 	void ChargerStunnedState::Enter()
 	{
 		DebuggerLogWarning("CHARGER STUNNED STATE");
-		mEnemy->mIsCharging = false;
-
-		//!!! MAY WANT TO CHANGE DUE TO HOW IT LOOKS
-		mEnemy->GetRigidBody()->mVelocity.x = 0.0f;
-		mEnemy->GetRigidBody()->mVelocity.y = 0.0f;
+		//mEnemy->mIsCharging = false;
 
 		mEnemy->mStunTimerElapsed = mEnemy->mTimerWhenStunned;
 		mEnemy->mDizzyRender->ToggleActiveFlag(true);
@@ -401,6 +409,10 @@ namespace LB
 		//mEnemy->mIsCharging = false;
 		//DebuggerLogErrorFormat("Is Charging bool: %i", mEnemy->mIsCharging);
 
+		//!!! MAY WANT TO CHANGE DUE TO HOW IT LOOKS
+		//mEnemy->GetRigidBody()->mVelocity.x = 0.0f;
+		//mEnemy->GetRigidBody()->mVelocity.y = 0.0f;
+
 		mEnemy->mStunTimerElapsed -= static_cast<float>(TIME->GetDeltaTime());
 		//mEnemy->mDizzyObj->SetActive(true);
 
@@ -413,6 +425,5 @@ namespace LB
 
 	void ChargerStunnedState::Exit()
 	{
-
 	}
 }

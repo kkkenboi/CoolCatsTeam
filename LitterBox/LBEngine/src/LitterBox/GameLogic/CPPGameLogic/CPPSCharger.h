@@ -50,7 +50,7 @@ namespace LB
 
 		//------------------CHARGE STATE------------------
 		float mChargingSpeed{};
-		bool mIsCharging{};
+		//bool mIsCharging{};
 		Vec2<float> mChargeDirection{};
 		Vec2<float> mChargeNormalForce{};
 
@@ -61,13 +61,26 @@ namespace LB
 
 		bool isChargerDead{ false };
 
+		CPParticle* FootstepsParticle{ nullptr };
+		CPParticle* DizzyParticle{ nullptr };
+		CPParticle* AngerParticle{ nullptr };
+
+		float m_FootstepsParticleEmitRate;
+
+
 		CPTransform* mTransform;
 
 		//Charger's Dizzy Effects
-		//void ChargerDizzy();
 		GameObject* mDizzyObj; //will be spawnned when got stunned
 		CPTransform* mDizzyObjTrans;
 		CPRender* mDizzyRender;
+
+		//Charger's Anger Effects
+		GameObject* mAngerObj; //will be spawnned when got stunned
+		CPTransform* mAngerObjTrans;
+		CPRender* mAngerRender;
+
+		bool isCharging{ false };
 
 	private:
 		FiniteStateMachine mFSM{};
