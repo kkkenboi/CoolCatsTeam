@@ -1,5 +1,5 @@
 {
-    "Name": "RealVerticalPopUp",
+    "Name": "VerticalPopUp",
     "Active": true,
     "Transform": {
         "Active": true,
@@ -8,18 +8,19 @@
             "y": 540.0
         },
         "Scale": {
-            "x": 0.3,
-            "y": 0.3
+            "x": 0.45,
+            "y": 0.45
         },
         "Rotation": 0.0
     },
     "Render": {
         "Active": true,
-        "Width": 453.0,
-        "Height": 727.0,
-        "Layer": 1,
-        "Texture": "UpgradeBG_V",
-        "SpriteName": "None",
-        "SpriteIndex": -1
+        "Width": 768.0,
+        "Height": 768.0,
+        "ZLayer": 5.0,
+        "Layer": 0,
+        "Texture": "UpgradePopUp_Spritesheet",
+        "SpriteName": "UpgradesSheet",
+        "SpriteIndex": 0
     }
 }

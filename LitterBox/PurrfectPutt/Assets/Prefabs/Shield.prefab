@@ -25,9 +25,9 @@
         "Width": 100.0,
         "Height": 100.0,
         "Layer": 0,
-        "Texture": "Charger_SpriteSheet",
-        "SpriteName": "ChargerSheet",
-        "SpriteIndex": 5
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 31
     },
     "Collider": {
         "Active": true,

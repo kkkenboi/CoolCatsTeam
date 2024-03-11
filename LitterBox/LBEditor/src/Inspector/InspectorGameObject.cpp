@@ -1017,6 +1017,18 @@ namespace LB
 				//ImGui::SetNextItemWidth(normalWidth);
 				//ImGui::DragFloat("##TextPosY", &textYPos, 1.0f, 0.0f, 0.0f, "%.2f");
 
+				//when coord sys is true we are using world space
+				//when its false we are using screen space
+				ImGui::SameLine();
+				isActive = m_inspectedGO->GetComponent<CPText>()->get_coord_sys();
+				ImGui::PushID("WorldCoords");
+				ImGui::Checkbox("Use World coordinates", &isActive);
+				ImGui::PopID();
+				if (isActive != m_inspectedGO->GetComponent<CPText>()->get_coord_sys())
+				{
+					m_inspectedGO->GetComponent<CPText>()->use_world_coords(isActive);
+				}
+
 				ImGui::Text("%-17s", "Scale");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);

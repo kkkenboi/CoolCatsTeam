@@ -63,6 +63,15 @@ namespace LB
 			GenerateWave();
 			GameStart = true;
 		}
+
+		// For the tutorial stage
+		if (currentWave == 0) 
+		{
+			SpawnDummyEnemy();
+			SpawnDummyEnemy();
+			SpawnDummyEnemy();
+			GameStart = true;
+		}
 	}
 
 	void CPPSGameManager::Update()
@@ -263,7 +272,16 @@ namespace LB
 		
 
 	}
-
+	
+	void CPPSGameManager::SpawnDummyEnemy()
+	{
+		GameObject* dummyClone = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("Dummy", *dummyClone);
+		dummyClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+		// Need to increment it here as we are not adding it to the list of enemies
+		currentEnemyCount++;
+	}
+	
 	/*!************************************************************************
 	* \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 	* 
@@ -333,6 +351,10 @@ namespace LB
 	void CPPSGameManager::NextWave()
 	{
 		currentWave++;
+		if (currentWave == 1)
+		{
+			SpawnCredits = 4;
+		}
 		GenerateWave();
 		UpgradeSpawned = false;
 		GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SetSpawned(false);

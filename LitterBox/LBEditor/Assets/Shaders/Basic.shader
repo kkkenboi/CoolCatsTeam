@@ -146,7 +146,6 @@ void main()
 			case 17:
 			color = texture(u_SamplerID[17], v_TexCoord);
 			break;
-			
 			case 18:
 			color = texture(u_SamplerID[18], v_TexCoord);
 			break;
