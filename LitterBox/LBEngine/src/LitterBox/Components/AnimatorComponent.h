@@ -82,6 +82,10 @@ namespace LB
 		 Stops the current animation and resets it to before the animation began
 		**************************************************************************/
 		void StopAndReset();
+
+		inline bool IsPlaying() { return m_playing; }
+
+		inline bool IsPlaying(std::string const& name) { return m_controller.GetCurrentState().m_name == name; }
 		
 		//----------------------------------------------COMPONENT FUNCTIONS----------------------------------------------
 
@@ -153,8 +157,14 @@ namespace LB
 		// Modifiers
 		float m_playSpeed{ 1.0f };
 
+		// For animating without scripts
+		std::string m_defaultState{ "None" };
+		bool m_playOnAwake{ false }, m_repeating{ false };
+
 	private:
 		// Save render data prior to anim for resetting
+		Vec2<float> m_oldPos, m_oldScale;
+		float m_oldRot;
 		int m_oldID, m_oldSSIndex;
 		std::string m_oldSSName;
 
@@ -163,9 +173,10 @@ namespace LB
 		std::vector<std::string> m_queue;
 
 		// Flags
-		bool m_playing{ false }, m_repeating{ false }, m_paused{ false }, m_resetAfterPlay{ false };
+		bool m_playing{ false }, m_paused{ false }, m_resetAfterPlay{ false };
 
-		CPRender* m_render;
+		CPRender* m_render{ nullptr };
+		CPTransform* m_transform{ nullptr };
 		AnimationController m_controller; //state machine
 	};
 }

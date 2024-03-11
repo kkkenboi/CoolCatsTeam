@@ -35,6 +35,10 @@ namespace LB
 	void CPPSChaser::Start()
 	{
 		CPPSBaseEnemy::Start();
+		// Cache the render and animator
+		mRender = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPRender>();
+		mAnimator = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPAnimator>();
+		m_moveAnimator = GetComponent<CPTransform>()->GetChild()->GetComponent<CPAnimator>();
 
 		//Then we init all the states
 		IdleState* IDLESTATE = DBG_NEW IdleState(this, mFSM, "Idle");
@@ -51,7 +55,7 @@ namespace LB
 		//mGotAttackedCooldown = 0.0f;
 
 		GetHealth() = 3;
-		GetSpeedMag() = 100000.f;
+		GetSpeedMag() = 60000.f;
 		//since this value is the equivalent of the pixels, 
 		//screen is 1920x1080. 800 should be just nice
 		mDetectionRange = 800.f;
@@ -103,6 +107,7 @@ namespace LB
 	{
 		isAggro = true;
 		GetAnimator()->PlayAndReset("Melee_Hurt");
+		m_moveAnimator->StopAndReset();
 		CPPSBaseEnemy::Hurt();
 	}
 
@@ -149,9 +154,26 @@ namespace LB
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") { 
 			GetAnimator()->PlayAndReset("Melee_Attack");
+			m_moveAnimator->StopAndReset();
 			mFSM.ChangeState("Hurt"); 
 		}
 
+	}
+
+	void CPPSChaser::OnCollisionStay(CollisionData colData)
+	{
+		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
+		{
+			m_moveAnimator->m_playSpeed = 0.6f;
+		}
+	}
+
+	void CPPSChaser::OnCollisionExit(CollisionData colData)
+	{
+		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
+		{
+			m_moveAnimator->m_playSpeed = 1.0f;
+		}
 	}
 
 	void CPPSChaser::Die()
@@ -237,6 +259,7 @@ namespace LB
 	{
 		//DebuggerLog("Entered ChaseState");
 		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds);
+		mEnemy->m_moveAnimator->PlayRepeat("Action_Move");
 		this->Update();
 	}
 

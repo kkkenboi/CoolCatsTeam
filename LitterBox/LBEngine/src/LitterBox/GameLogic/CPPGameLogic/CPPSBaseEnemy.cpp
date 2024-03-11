@@ -29,10 +29,10 @@ namespace LB
 	void CPPSBaseEnemy::Start()
 	{
 		//We just cache some values
-		mRender = GameObj->GetComponent<CPRender>();
+		if (GameObj->HasComponent<CPRender>()) mRender = GameObj->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
-		mAnimator = GameObj->GetComponent<CPAnimator>();
+		if (GameObj->HasComponent<CPAnimator>()) mAnimator = GameObj->GetComponent<CPAnimator>();
 
 		//Grabbing the player GO reference
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");

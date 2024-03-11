@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 126.0,
-            "y": 830.0
+            "x": 153.0,
+            "y": 862.0
         },
         "Scale": {
             "x": 1.2,
@@ -15,11 +15,11 @@
     },
     "Render": {
         "Active": true,
-        "Width": 50.0,
-        "Height": 50.0,
+        "Width": 200.0,
+        "Height": 200.0,
         "Layer": 3,
-        "Texture": "GolfBall",
-        "SpriteName": "None",
-        "SpriteIndex": -1
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 50
     }
 }

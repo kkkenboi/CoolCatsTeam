@@ -1,0 +1,25 @@
+{
+    "Name": "BallBackboard",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 359.455993,
+            "y": 862.018554
+        },
+        "Scale": {
+            "x": 0.6,
+            "y": 0.6
+        },
+        "Rotation": 0.0
+    },
+    "Render": {
+        "Active": true,
+        "Width": 1218.0,
+        "Height": 250.0,
+        "Layer": 3,
+        "Texture": "Backboard UI",
+        "SpriteName": "BackboardSheet",
+        "SpriteIndex": 2
+    }
+}

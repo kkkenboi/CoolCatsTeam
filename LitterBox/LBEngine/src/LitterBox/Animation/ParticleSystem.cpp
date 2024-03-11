@@ -96,7 +96,7 @@ namespace LB
 			{
 				particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(true);
 			}
-
+			particle.mGameObj->GetComponent<CPRender>()->z_val = emitter->mRender->z_val;
 
 			// Get the texture ID from the emitter
 

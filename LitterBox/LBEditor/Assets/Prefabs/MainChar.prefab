@@ -8,10 +8,168 @@
             "y": -183.310607
         },
         "Scale": {
-            "x": 1.25,
-            "y": 1.25
+            "x": 1.0,
+            "y": 1.0
         },
-        "Rotation": 0.0
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "Walk",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Body",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Hands",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 35.0,
+                                                "y": -50.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 100.0,
+                                            "Height": 100.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Felix_SpriteSheet",
+                                            "SpriteName": "FelixSheet",
+                                            "SpriteIndex": 3
+                                        }
+                                    }
+                                ]
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 135.0,
+                                "Height": 135.0,
+                                "ZLayer": 2.0,
+                                "Layer": 0,
+                                "Texture": "Felix_SpriteSheet",
+                                "SpriteName": "FelixSheet",
+                                "SpriteIndex": 1
+                            },
+                            "Animator": {
+                                "Default State": "None",
+                                "Play On Awake": false,
+                                "Repeating": false,
+                                "Controller": "FelixController"
+                            }
+                        }
+                    ]
+                },
+                "Animator": {
+                    "Default State": "Action_Move",
+                    "Play On Awake": false,
+                    "Repeating": false,
+                    "Controller": "ActionController"
+                }
+            },
+            {
+                "Name": "DeDust2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": -10.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": false,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 3.0,
+                    "Layer": 0,
+                    "Texture": "VFXCompile_SpriteSheet",
+                    "SpriteName": "VFXSheet",
+                    "SpriteIndex": 0
+                },
+                "Particle": {
+                    "EmitterType": 0,
+                    "EmitterRate": 0.05,
+                    "RadialNum": 10,
+                    "EmitterVelocity": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "VelocityMinX": -15.0,
+                    "VelocityMaxX": 10.0,
+                    "VelocityMinY": -50.0,
+                    "VelocityMaxY": 40.0,
+                    "RadialSpeed": 100.0,
+                    "SizeBegin": 0.8,
+                    "SizeEnd": 0.3,
+                    "EmitterLifetime": 1.0,
+                    "ParticleLifetime": 0.15,
+                    "EmitterActive": true,
+                    "EmitterLooping": true
+                }
+            },
+            {
+                "Name": "Shadow",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": -51.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 90.0,
+                    "Height": 20.0,
+                    "ZLayer": 5.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 55
+                }
+            }
+        ]
     },
     "RigidBody": {
         "Active": true,
@@ -19,16 +177,6 @@
         "Height": 100.0,
         "Density": 10.0,
         "IsStatic": false
-    },
-    "Render": {
-        "Active": true,
-        "Width": 115.0,
-        "Height": 115.0,
-        "ZLayer": 1.0,
-        "Layer": 0,
-        "Texture": "Felix_SpriteSheet",
-        "SpriteName": "FelixSheet",
-        "SpriteIndex": 1
     },
     "Collider": {
         "Active": true,
@@ -44,8 +192,5 @@
     "CPPScript": {
         "Active": true,
         "Script": "class LB::CPPSPlayer"
-    },
-    "Animator": {
-        "Controller": "FelixController"
     }
 }

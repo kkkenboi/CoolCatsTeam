@@ -42,12 +42,13 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayer::Start()
 	{
-		rb = GameObj->GetComponent<CPRigidBody>();
-		rend = GameObj->GetComponent<CPRender>();
 		trans = GameObj->GetComponent<CPTransform>();
+		rend = trans->GetChild()->GetChild()->GetComponent<CPRender>();
+		anim = trans->GetChild()->GetChild()->GetComponent<CPAnimator>();
+		m_moveAnim = trans->GetChild()->GetComponent<CPAnimator>();
+		rb = GameObj->GetComponent<CPRigidBody>();
 		col = GameObj->GetComponent<CPCollider>();
-		anim = GameObj->GetComponent<CPAnimator>();
-		particle = trans->GetChild()->GetComponent<CPParticle>();
+		particle = trans->GetChild(1)->GetComponent<CPParticle>();
 
 		right_face = trans->GetScale();
 		left_face = trans->GetScale();
@@ -111,26 +112,26 @@ namespace LB
 		static bool isWalkingAnim{ false };
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W) && !mIsStunned)
 		{
+			//m_moveAnim->PlayRepeat("Action_Move");
 			anim->PlayRepeat("Felix_Walk");
-
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A) && !mIsStunned)
 		{
+			//m_moveAnim->PlayRepeat("Action_Move");
 			anim->PlayRepeat("Felix_Walk");
-
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D) && !mIsStunned)
 		{
+			//m_moveAnim->PlayRepeat("Action_Move");
 			anim->PlayRepeat("Felix_Walk");
-
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S) && !mIsStunned)
 		{
+			//m_moveAnim->PlayRepeat("Action_Move");
 			anim->PlayRepeat("Felix_Walk");
-
 			isWalkingAnim = true;
 		}
 
@@ -172,6 +173,14 @@ namespace LB
 			//rb->mVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
 			Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
 			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());
+
+			// If move anim is not playing when it should, e.g. after stun or damage
+			if (isMoving && !anim->IsPlaying())
+			{
+				//m_moveAnim->PlayRepeat("Action_Move");
+				anim->PlayRepeat("Felix_Walk");
+				isWalkingAnim = true;
+			}
 		}
 
 		//clamping of the speed of the player movement
@@ -185,7 +194,9 @@ namespace LB
 			 if (isWalkingAnim)
 			 {
 				 //if (!mIsStunned) {
-				anim->StopAndReset();
+				if (anim->IsPlaying("Felix_Walk"))
+					anim->StopAndReset();
+				//if (m_moveAnim->IsPlaying("Action_Move"))
 				 //}
 			 	isWalkingAnim = false;
 			 }

@@ -1,0 +1,89 @@
+{
+    "Name": "Action_Move",
+    "SpriteSheet Name": "None",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": {
+                    "x": 0.0,
+                    "y": 3.0
+                }
+            },
+            {
+                "Frame": 6,
+                "Data": {
+                    "x": 3.0,
+                    "y": 0.0
+                }
+            },
+            {
+                "Frame": 12,
+                "Data": {
+                    "x": 0.0,
+                    "y": 3.0
+                }
+            },
+            {
+                "Frame": 18,
+                "Data": {
+                    "x": -3.0,
+                    "y": 0.0
+                }
+            },
+            {
+                "Frame": 24,
+                "Data": {
+                    "x": 0.0,
+                    "y": 5.0
+                }
+            }
+        ]
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": []
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 0.0
+            },
+            {
+                "Frame": 6,
+                "Data": -5.0
+            },
+            {
+                "Frame": 12,
+                "Data": 0.0
+            },
+            {
+                "Frame": 18,
+                "Data": 5.0
+            },
+            {
+                "Frame": 24,
+                "Data": 0.0
+            }
+        ]
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": []
+    },
+    "Start": 0,
+    "End": 25
+}
