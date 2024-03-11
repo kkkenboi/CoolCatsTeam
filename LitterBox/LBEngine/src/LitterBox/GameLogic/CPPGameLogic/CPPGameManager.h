@@ -115,7 +115,7 @@ namespace LB
 		//GameObject* chargerEnemy{ nullptr };
 		GameObject* crowdTexture{ nullptr };
 		GameObject* gameOverTexture{ nullptr };
-		
+		GameObject* killerTexture{ nullptr }; //texture of the player killer for gameover
 		Vec2<float> cachedCrowdPos{};
 		Vec2<float> mouse_pos{};
 		std::vector<Vec2<float>> SpawnPoints;

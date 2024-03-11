@@ -1494,6 +1494,32 @@
                                 "Height": 222.0,
                                 "Radius": 50.0
                             }
+                        },
+                        {
+                            "Name": "Killer",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 320.0,
+                                    "y": 175.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 240.0,
+                                "Height": 240.0,
+                                "ZLayer": 0.899999,
+                                "Layer": 3,
+                                "Texture": "Multi_Spritesheet2",
+                                "SpriteName": "MultiSheet2",
+                                "SpriteIndex": 0
+                            }
                         }
                     ]
                 },
