@@ -39,6 +39,7 @@ namespace LB
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 		crowdTexture = GOMANAGER->FindGameObjectWithName("CrowdTextureObject");
 		gameOverTexture = GOMANAGER->FindGameObjectWithName("GameOverTextureObject");
+		killerTexture = GOMANAGER->FindGameObjectWithName("Killer");
 		//we also wanna cache the position of the UI so we can set it back later
 		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
@@ -320,11 +321,30 @@ namespace LB
 		AUDIOMANAGER->PlaySound("GameOver");
 		//AUDIOMANAGER->PlaySound("GameOverBGM");
 		isGameOver = true;
+		killerTexture->SetActive(true);
 		//We see who the killer is 
-		if (enemyObj.GetName() == "Projectile") std::cout << "Killed by a mage\n";
-		else if (enemyObj.GetName() == "EnemyChaser1") std::cout << "Killed by chaser\n";
-		else if (enemyObj.GetName() == "Bramble") std::cout << "Killed by carelessness\n";
-		else if (enemyObj.GetName() == "Charger") std::cout << "Killed by charger\n";
+		//0 = chaser , 1 = mage, 2 = charger, 3 = bramble
+		if (enemyObj.GetName() == "EnemyChaser1")
+		{
+			std::cout << "Killed by chaser\n";
+			//Default is chaser so we don't do anything
+		}
+		else if (enemyObj.GetName() == "Projectile")
+		{
+			std::cout << "Killed by a mage\n";
+			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName,1);
+		}
+		else if (enemyObj.GetName() == "Charger")
+		{
+			std::cout << "Killed by charger\n";
+			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 2);
+
+		}
+		else if (enemyObj.GetName() == "Bramble")
+		{
+			std::cout << "Killed by carelessness\n";
+			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 3);
+		}
 		else std::cout << "Killed by " << enemyObj.GetName() << '\n';
 
 		gameOverTexture->SetActive(true);

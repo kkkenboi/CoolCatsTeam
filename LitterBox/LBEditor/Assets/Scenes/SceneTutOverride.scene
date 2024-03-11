@@ -626,24 +626,78 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 2067.131835,
-                        "y": 310.562377
+                        "x": 2278.106445,
+                        "y": 240.475463
                     },
                     "Scale": {
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "Rotation": 0.0
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "hollowpurple",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 300.0,
+                                "Height": 300.0,
+                                "ZLayer": 1.299998,
+                                "Layer": 0,
+                                "Texture": "UpgradePopUp_Spritesheet",
+                                "SpriteName": "UpgradesSheet",
+                                "SpriteIndex": 18
+                            }
+                        },
+                        {
+                            "Name": "blackcircle",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 300.0,
+                                "Height": 300.0,
+                                "ZLayer": 1.1,
+                                "Layer": 0,
+                                "Texture": "UpgradePopUp_Spritesheet",
+                                "SpriteName": "UpgradesSheet",
+                                "SpriteIndex": 16
+                            }
+                        }
+                    ]
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "ZLayer": 1.0,
+                    "Width": 300.0,
+                    "Height": 300.0,
+                    "ZLayer": 1.2,
                     "Layer": 0,
-                    "Texture": "",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
+                    "Texture": "UpgradePopUp_Spritesheet",
+                    "SpriteName": "UpgradesSheet",
+                    "SpriteIndex": 17
                 },
                 "Collider": {
                     "Active": true,
@@ -654,7 +708,7 @@
                     "Shape": 0,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "Radius": 337.0
+                    "Radius": 149.0
                 },
                 "CPPScript": {
                     "Active": true,
@@ -682,7 +736,7 @@
                     "Height": 100.0,
                     "ZLayer": 1.0,
                     "Layer": 3,
-                    "Texture": "black-hole",
+                    "Texture": "",
                     "SpriteName": "None",
                     "SpriteIndex": -1
                 }
@@ -1155,8 +1209,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": -431.928131,
-                        "y": 539.999877
+                        "x": -425.647338,
+                        "y": 496.308929
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1200,24 +1254,48 @@
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
-                                                            "x": 35.0,
+                                                            "x": 25.0,
                                                             "y": -50.0
                                                         },
                                                         "Scale": {
                                                             "x": 1.0,
                                                             "y": 1.0
                                                         },
-                                                        "Rotation": 0.0
-                                                    },
-                                                    "Render": {
-                                                        "Active": true,
-                                                        "Width": 100.0,
-                                                        "Height": 100.0,
-                                                        "ZLayer": 1.0,
-                                                        "Layer": 0,
-                                                        "Texture": "Felix_SpriteSheet",
-                                                        "SpriteName": "FelixSheet",
-                                                        "SpriteIndex": 3
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Club",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": 0.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 100.0,
+                                                                    "Height": 100.0,
+                                                                    "ZLayer": 1.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Felix_SpriteSheet",
+                                                                    "SpriteName": "FelixSheet",
+                                                                    "SpriteIndex": 3
+                                                                },
+                                                                "Animator": {
+                                                                    "Default State": "None",
+                                                                    "Play On Awake": false,
+                                                                    "Repeating": false,
+                                                                    "Controller": "FelixController"
+                                                                }
+                                                            }
+                                                        ]
                                                     }
                                                 }
                                             ]
@@ -1230,7 +1308,7 @@
                                             "Layer": 0,
                                             "Texture": "Felix_SpriteSheet",
                                             "SpriteName": "FelixSheet",
-                                            "SpriteIndex": 1
+                                            "SpriteIndex": 0
                                         },
                                         "Animator": {
                                             "Default State": "None",
@@ -1242,9 +1320,9 @@
                                 ]
                             },
                             "Animator": {
-                                "Default State": "Action_Move",
-                                "Play On Awake": false,
-                                "Repeating": false,
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
                                 "Controller": "ActionController"
                             }
                         },
@@ -1255,7 +1333,7 @@
                                 "Active": true,
                                 "Position": {
                                     "x": 0.0,
-                                    "y": -10.0
+                                    "y": -44.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -1301,7 +1379,7 @@
                                 "Active": true,
                                 "Position": {
                                     "x": 0.0,
-                                    "y": -51.0
+                                    "y": -48.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -1343,6 +1421,200 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSPlayer"
+                }
+            },
+            {
+                "Name": "GrandpaTalkingHead",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 225.827819,
+                        "y": 128.039993
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "BubbleWASD",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 418.0,
+                                    "y": 70.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 600.0,
+                                "Height": 600.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Felix_SpriteSheet",
+                                "SpriteName": "FelixSheet",
+                                "SpriteIndex": 39
+                            }
+                        },
+                        {
+                            "Name": "BubbleMouse",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 418.0,
+                                    "y": 70.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 600.0,
+                                "Height": 600.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Felix_SpriteSheet",
+                                "SpriteName": "FelixSheet",
+                                "SpriteIndex": 40
+                            }
+                        },
+                        {
+                            "Name": "BubbleEnemies",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 418.00418,
+                                    "y": 70.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 600.0,
+                                "Height": 600.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Felix_SpriteSheet",
+                                "SpriteName": "FelixSheet",
+                                "SpriteIndex": 41
+                            }
+                        },
+                        {
+                            "Name": "BubbleItems",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 418.0,
+                                    "y": 70.007003
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 600.0,
+                                "Height": 600.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Felix_SpriteSheet",
+                                "SpriteName": "FelixSheet",
+                                "SpriteIndex": 42
+                            }
+                        },
+                        {
+                            "Name": "BubbleScore",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 418.0,
+                                    "y": 70.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 600.0,
+                                "Height": 600.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Felix_SpriteSheet",
+                                "SpriteName": "FelixSheet",
+                                "SpriteIndex": 43
+                            }
+                        },
+                        {
+                            "Name": "BubblePortal",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 418.0,
+                                    "y": 70.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 600.0,
+                                "Height": 600.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Felix_SpriteSheet",
+                                "SpriteName": "FelixSheet",
+                                "SpriteIndex": 44
+                            }
+                        }
+                    ]
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 500.0,
+                    "Height": 450.0,
+                    "ZLayer": 1.0,
+                    "Layer": 3,
+                    "Texture": "Felix_SpriteSheet",
+                    "SpriteName": "FelixSheet",
+                    "SpriteIndex": 36
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSTutorialGrandpa"
+                },
+                "Animator": {
+                    "Default State": "GrandpaTalking",
+                    "Play On Awake": true,
+                    "Repeating": true,
+                    "Controller": "GrandpaTalkingController"
                 }
             }
         ]
