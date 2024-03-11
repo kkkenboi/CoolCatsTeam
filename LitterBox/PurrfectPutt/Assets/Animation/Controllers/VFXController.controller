@@ -5,6 +5,7 @@
         "VFX_Hit",
         "VFX_Poof",
         "VFX_Shiny1",
-        "VFX_Shiny2"
+        "VFX_Shiny2",
+        "VFX_Expand"
     ]
 }
