@@ -1,0 +1,73 @@
+{
+    "Name": "Felix_Walk",
+    "SpriteSheet Name": "FelixSheet",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": []
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": []
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": []
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 32
+            },
+            {
+                "Frame": 2,
+                "Data": 33
+            },
+            {
+                "Frame": 4,
+                "Data": 34
+            },
+            {
+                "Frame": 6,
+                "Data": 35
+            },
+            {
+                "Frame": 8,
+                "Data": 36
+            },
+            {
+                "Frame": 10,
+                "Data": 37
+            },
+            {
+                "Frame": 12,
+                "Data": 39
+            },
+            {
+                "Frame": 14,
+                "Data": 40
+            },
+            {
+                "Frame": 16,
+                "Data": 41
+            },
+            {
+                "Frame": 18,
+                "Data": 38
+            }
+        ]
+    },
+    "Start": 0,
+    "End": 20
+}

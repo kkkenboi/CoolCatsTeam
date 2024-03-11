@@ -819,7 +819,10 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 	GLuint uni_loc = glGetUniformLocation(tShader, "projection");
 	if (uni_loc == -1)
 		DebuggerLogError("Unable to find uniform location");
-	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &GRAPHICS->get_game_cam_mat()[0][0]);
+	if(msg.use_world_space)
+		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &GRAPHICS->get_game_cam_mat()[0][0]);
+	else
+		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &GRAPHICS->get_ui_cam_mat()[0][0]);
 
 	float x = msg.x;
 	float y = msg.y;
@@ -1896,6 +1899,27 @@ inline const std::string& LB::CPText::get_msg_font() const
 {
 	// TODO: insert return statement here
 	return msg.font_file_name_wo_ext;
+}
+
+/*!***********************************************************************
+\brief
+ Setter method to update the type of coordinate system we want to use
+*************************************************************************/
+void LB::CPText::use_world_coords(bool use_world)
+{
+	msg.use_world_space = use_world;
+}
+
+/*!***********************************************************************
+\brief
+ Getter method to figure out what type of coordinate system we want to use
+
+\return
+ returns the boolean 
+*************************************************************************/
+bool LB::CPText::get_coord_sys()
+{
+	return msg.use_world_space;
 }
 
 /*!***********************************************************************

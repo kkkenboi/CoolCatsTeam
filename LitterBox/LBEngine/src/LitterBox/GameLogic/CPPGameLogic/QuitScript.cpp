@@ -19,7 +19,7 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Scene/SceneManager.h"
-
+//#include "LitterBox/Components/AudioSourceComponent.h"
 extern const float deg_to_rads;
 
 namespace LB 
@@ -160,7 +160,8 @@ namespace LB
 		{
 			Vec2 pos{ curtain->GetComponent<CPTransform>()->GetPosition() };
 			if (time <= 1.1f)
-			{
+			{	//This is where the sound should fade
+				GOMANAGER->FindGameObjectWithName("MenuMusic")->GetComponent<CPAudioSource>()->FadeOut(0.8f);
 				pos.x = 2880.f - 1920.f * bezier(time);
 				curtain->GetComponent<CPTransform>()->SetPosition(pos);
 				time += TIME->GetDeltaTime();

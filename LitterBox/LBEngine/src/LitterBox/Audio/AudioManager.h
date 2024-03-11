@@ -170,6 +170,9 @@ namespace LB
 		**************************************************************************/
 		void SetChannelVolume(int ChannelID, float _vol);
 
+		void FadeOutChannels(float duration);
+		void FadeinChannels(float duration);
+
 		//bool IsPlaying(std::string soundName);
 		//void StopAllSounds();
 
@@ -262,16 +265,12 @@ namespace LB
 	private:
 		int channelID{ 0 };
 		std::map<int, FMOD::Channel*> Channels;
-
+		float fadeOutTimer{};
+		float fadeInTimer{};
+		bool fadeOut, fadeIn;
 	};
 
-	/*!***********************************************************************
-	 * \brief Functions to play specific sounds
-	 * 
-	 **************************************************************************/
-	void PlayTestSound();
-	void PlayExplosionSound();
-	void PlayAHHSound();
+
 	void RemoveAllAudioSources(bool isPlaying);
 
 
@@ -281,7 +280,8 @@ namespace LB
 	**************************************************************************/
 	void Pause();	//Wrapper for PauseAllChannels
 	void UnPause();	//Wrapper for UnPauseAllChannels
-
+	void FadeOut();	//Wrapper to fadeout all channels
+	void FadeIn();	//Wrapper to fadein all channels
 	/*!***********************************************************************
 	 * \brief Global Pointer for the AudioManager
 	 * 

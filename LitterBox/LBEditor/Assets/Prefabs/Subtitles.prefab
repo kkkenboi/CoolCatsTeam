@@ -1,0 +1,35 @@
+{
+    "Name": "Subtitles",
+    "Active": false,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 960.0,
+            "y": 540.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0
+    },
+    "CPPScript": {
+        "Active": true,
+        "Script": "class LB::CPPSTutorialSubs"
+    },
+    "Text": {
+        "Active": true,
+        "Message": {
+            "text": "",
+            "x": 960.0,
+            "y": 540.0,
+            "scale": 0.0,
+            "Color": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "Font name": "ZillaSlab-Regular"
+        }
+    }
+}
