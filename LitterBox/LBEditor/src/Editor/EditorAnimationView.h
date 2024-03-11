@@ -37,6 +37,6 @@ namespace LB
 		void Destroy() override;
 
 	private:
-
+		SpriteSheet* m_editorSSheet;
 	};
 }

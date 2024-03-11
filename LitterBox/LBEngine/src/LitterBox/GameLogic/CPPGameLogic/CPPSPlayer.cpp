@@ -43,6 +43,7 @@ namespace LB
 	void CPPSPlayer::Start()
 	{
 		trans = GameObj->GetComponent<CPTransform>();
+		m_clubTrans = trans->GetChild()->GetChild()->GetChild();
 		rend = trans->GetChild()->GetChild()->GetComponent<CPRender>();
 		anim = trans->GetChild()->GetChild()->GetComponent<CPAnimator>();
 		m_moveAnim = trans->GetChild()->GetComponent<CPAnimator>();
@@ -73,6 +74,9 @@ namespace LB
 		mIsStunned = false;
 		mStunTimer = 0.5f;
 		mStunRemaining = mStunTimer;
+
+		// Hand position from body
+		m_handOffset = 40.0f;
 
 		m_particleEmitRate = particle->mEmitterRate;
 
@@ -287,18 +291,33 @@ namespace LB
 		Getting direction of where the mous is and making the player face to that direction
 		*************************************************************************/
 		//------------------Player face mouse pos------------------
-		Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
+		Vec2<float> playerPos = trans->GetPosition();
 		Vec2<float> mousePos = m_MouseWorld->GetComponent<CPPSMouseWorld>()->GetComponent<CPTransform>()->GetPosition();
 		
 		Vec2<float> playerToMouseDir = mousePos - playerPos;
-		Vec2<float> TransformRight{ 1,0 };
+		playerToMouseDir = playerToMouseDir.Normalise();
 
-		m_isFacingLeft = DotProduct(playerToMouseDir.Normalise(), TransformRight) < 0.0f;
+		Vec2<float> TransformRight{ 1,0 };
+		m_isFacingLeft = DotProduct(playerToMouseDir, TransformRight) < 0.0f;
+
+		// Set the club to face the mouse pos
+		float angle = atan2f(playerToMouseDir.y, playerToMouseDir.x);
+		m_clubTrans->SetRotation(RadToDeg(angle));
+
+		playerToMouseDir *= m_handOffset;
+		playerToMouseDir.y -= 20.0f;
+		m_clubTrans->SetPosition(playerToMouseDir);
 
 		if (m_isFacingLeft)
 		{
 			trans->SetScale(left_face);
-		} else trans->SetScale(right_face);
+			m_clubTrans->SetScale({-1.0f, -1.0f});
+		} 
+		else
+		{
+			trans->SetScale(right_face);
+			m_clubTrans->SetScale(right_face);
+		}
 
 		// Update the Stunned timer
 		if (mIsStunned) {

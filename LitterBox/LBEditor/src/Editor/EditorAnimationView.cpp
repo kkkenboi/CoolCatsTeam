@@ -37,7 +37,7 @@ namespace LB
 	*************************************************************************/
 	void EditorAnimationView::Initialize()
 	{
-
+		m_editorSSheet = &ASSETMANAGER->GetSpriteSheet("EditorSpriteSheet");
 	}
 
 	/*!***********************************************************************
@@ -86,7 +86,9 @@ namespace LB
 			}
 			else
 			{
-				ImGui::Image((ImTextureID)ASSETMANAGER->GetTextureIndex("despair"), ImVec2{ smallWidth * scale.x , smallWidth * scale.y }, { 1, 1 }, { 0, 0 });
+				ImGui::Image((ImTextureID)ASSETMANAGER->GetTextureIndex(m_editorSSheet->GetPNGRef()), ImVec2{ smallWidth * scale.x , smallWidth * scale.y }
+					, ImVec2{ (*m_editorSSheet)[5].m_min.x, (*m_editorSSheet)[5].m_max.y }
+					, ImVec2{ (*m_editorSSheet)[5].m_max.x, (*m_editorSSheet)[5].m_min.y });
 			}
 
 		}
