@@ -78,7 +78,7 @@ namespace LB
 			m_FPSObject->GetComponent<CPText>()->set_msg(finalFps);
 
 			// Follow the camera to ensure that it's always on the top right
-			m_FPSObject->GetComponent<CPTransform>()->SetPosition(m_CameraFollow->GetComponent<CPTransform>()->GetPosition() + Vec2<float>(750.f, 500.f));
+			//m_FPSObject->GetComponent<CPTransform>()->SetPosition(m_CameraFollow->GetComponent<CPTransform>()->GetPosition() + Vec2<float>(750.f, 500.f));
 			//DebuggerLogFormat("m_FPSObject Position: %f, %f", m_FPSObject->GetComponent<CPTransform>()->GetPosition().x, m_FPSObject->GetComponent<CPTransform>()->GetPosition().y);
 		}
 

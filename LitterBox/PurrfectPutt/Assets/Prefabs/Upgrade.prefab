@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1646.708984,
-            "y": 327.761199
+            "x": 1889.159423,
+            "y": 60.509704
         },
         "Scale": {
             "x": 1.0,
@@ -23,8 +23,8 @@
                         "y": 0.0
                     },
                     "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                        "x": 2.0,
+                        "y": 2.0
                     },
                     "Rotation": 0.0
                 },
@@ -39,9 +39,9 @@
                     "SpriteIndex": 22
                 },
                 "Animator": {
-                    "Default State": "None",
-                    "Play On Awake": false,
-                    "Repeating": false,
+                    "Default State": "VFX_Shiny1",
+                    "Play On Awake": true,
+                    "Repeating": true,
                     "Controller": "VFXController"
                 }
             },
@@ -55,8 +55,8 @@
                         "y": 0.0
                     },
                     "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                        "x": 2.0,
+                        "y": 2.0
                     },
                     "Rotation": 0.0
                 },
@@ -71,9 +71,9 @@
                     "SpriteIndex": 23
                 },
                 "Animator": {
-                    "Default State": "None",
-                    "Play On Awake": false,
-                    "Repeating": false,
+                    "Default State": "VFX_Shiny2",
+                    "Play On Awake": true,
+                    "Repeating": true,
                     "Controller": "VFXController"
                 }
             }
