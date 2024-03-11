@@ -38,6 +38,7 @@ namespace LB
 	void CPAnimator::LoadController()
 	{
 		if (gameObj->HasComponent<CPRender>()) m_render = gameObj->GetComponent<CPRender>();
+		m_transform = gameObj->GetComponent<CPTransform>();
 		m_controller = ASSETMANAGER->AnimControllers[m_controller.m_name];
 
 		// If set to play on awake and a default state is set, play the default state
@@ -134,8 +135,11 @@ namespace LB
 			}
 		}
 
+		m_controller.Load(name);
+
 		// Save old data
-		if (m_render)
+		LBAnimationState& currentState = m_controller.GetCurrentState();
+		if (!currentState.m_sprite.Empty())
 		{
 			if (m_render->spriteIndex < 0)
 			{
@@ -147,8 +151,20 @@ namespace LB
 				m_oldSSIndex = m_render->spriteIndex;
 			}
 		}
+		if (!currentState.m_pos.Empty())
+		{
+			m_oldPos = m_transform->GetLocalPosition();
+		}
+		if (!currentState.m_scale.Empty())
+		{
+			m_oldScale = m_transform->GetLocalScale();
+		}
+		if (!currentState.m_rot.Empty())
+		{
+			m_oldRot = m_transform->GetLocalRotation();
+		}
+
 		m_playing = true;
-		m_controller.Load(name);
 	}
 
 	/*!************************************************************************
@@ -213,8 +229,10 @@ namespace LB
 	void CPAnimator::StopAndReset()
 	{
 		m_resetAfterPlay = false;
+
+		LBAnimationState& currentState = m_controller.GetCurrentState();
 		// Reset the texture to the original before the animation began
-		if (m_render)
+		if (!currentState.m_sprite.Empty())
 		{
 			if (m_oldSSName != "None")
 			{
@@ -226,6 +244,18 @@ namespace LB
 				m_render->texture = m_oldID;
 				m_render->UpdateTexture(m_oldID, static_cast<int>(m_render->w), static_cast<int>(m_render->h));
 			}
+		}
+		if (!currentState.m_pos.Empty())
+		{
+			m_transform->SetPosition(m_oldPos);
+		}
+		if (!currentState.m_scale.Empty())
+		{
+			m_transform->SetScale(m_oldScale);
+		}
+		if (!currentState.m_rot.Empty())
+		{
+			m_transform->SetRotation(m_oldRot);
 		}
 		Stop();
 	}

@@ -92,8 +92,8 @@
                 },
                 "Animator": {
                     "Default State": "Action_Move",
-                    "Play On Awake": true,
-                    "Repeating": true,
+                    "Play On Awake": false,
+                    "Repeating": false,
                     "Controller": "ActionController"
                 }
             },

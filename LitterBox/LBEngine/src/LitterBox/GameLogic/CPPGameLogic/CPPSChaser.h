@@ -32,6 +32,9 @@ namespace LB
 		void Hurt() override;
 
 		void OnCollisionEnter(CollisionData colData) override;
+		void OnCollisionStay(CollisionData colData) override;
+		void OnCollisionExit(CollisionData colData) override;
+
 		void Die() override;
 
 		/*!***********************************************************************

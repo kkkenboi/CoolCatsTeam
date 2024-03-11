@@ -163,6 +163,8 @@ namespace LB
 
 	private:
 		// Save render data prior to anim for resetting
+		Vec2<float> m_oldPos, m_oldScale;
+		float m_oldRot;
 		int m_oldID, m_oldSSIndex;
 		std::string m_oldSSName;
 
@@ -174,6 +176,7 @@ namespace LB
 		bool m_playing{ false }, m_paused{ false }, m_resetAfterPlay{ false };
 
 		CPRender* m_render{ nullptr };
+		CPTransform* m_transform{ nullptr };
 		AnimationController m_controller; //state machine
 	};
 }

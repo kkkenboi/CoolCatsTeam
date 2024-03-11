@@ -160,6 +160,22 @@ namespace LB
 
 	}
 
+	void CPPSChaser::OnCollisionStay(CollisionData colData)
+	{
+		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
+		{
+			m_moveAnimator->m_playSpeed = 0.6f;
+		}
+	}
+
+	void CPPSChaser::OnCollisionExit(CollisionData colData)
+	{
+		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
+		{
+			m_moveAnimator->m_playSpeed = 1.0f;
+		}
+	}
+
 	void CPPSChaser::Die()
 	{
 		//We access the base class first
