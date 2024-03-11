@@ -43,9 +43,11 @@ namespace LB
 		Vec2<float> GetPlayerPos();
 
 		//Vec2<float> DirOfThePlayer;
-		bool mLock{ false };
 
 		float offset{ 75.0f };
+
+		// TODO: REFACTOR, TEMP HACK UNTIL CHILD STARTING IS FIXED
+		bool m_ScriptSet{ false };
 
 		CPCollider* GetCollider();
 

@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1683.692382,
-            "y": 369.599975
+            "x": 531.692321,
+            "y": 588.430541
         },
         "Scale": {
             "x": 1.0,
@@ -28,13 +28,6 @@
                     },
                     "Rotation": 0.0
                 },
-                "RigidBody": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "Density": 10.0,
-                    "IsStatic": false
-                },
                 "Render": {
                     "Active": true,
                     "Width": 120.0,
@@ -51,8 +44,8 @@
                         "Layer Name": "EnemyBall",
                         "Layer ID": 5
                     },
-                    "Shape": 1,
-                    "Width": 100.0,
+                    "Shape": 0,
+                    "Width": 66.0,
                     "Height": 100.0,
                     "Radius": 50.0
                 },
@@ -194,6 +187,9 @@
         "Script": "class LB::CPPSCharger"
     },
     "Animator": {
+        "Default State": "None",
+        "Play On Awake": false,
+        "Repeating": false,
         "Controller": "No controller"
     }
 }

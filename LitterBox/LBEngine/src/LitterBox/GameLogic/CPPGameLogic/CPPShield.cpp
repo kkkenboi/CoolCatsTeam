@@ -47,8 +47,13 @@ namespace LB
 		//mCollider->m_pos.x = 0.f;
 		//mCollider->m_pos.y = 0.f;
 		
+		if (!m_ScriptSet)
+		{
+			mChargerScript = mCharger->GetComponent<CPPSCharger>();
+			m_ScriptSet = true;
+		}
 
-		if (!mLock)
+		if (!mChargerScript->isCharging && !mChargerScript->m_isStunned)
 		{
 			Vec2<float> Direction = (GetPlayerPos() - mTransform->GetParent()->GetPosition()).Normalise();
 			//DebuggerLogFormat("Player x %.2f Player y %.2f", GetPlayerPos().x, GetPlayerPos().y);

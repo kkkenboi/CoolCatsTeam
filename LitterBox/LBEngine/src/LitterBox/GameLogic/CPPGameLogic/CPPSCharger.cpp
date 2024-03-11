@@ -396,6 +396,8 @@ namespace LB
 	{
 		DebuggerLogWarning("CHARGER STUNNED STATE");
 		//mEnemy->mIsCharging = false;
+		mEnemy->m_isStunned = true;
+		mEnemy->mStunStopMovingElapsed = 0.0f;
 
 		mEnemy->mStunTimerElapsed = mEnemy->mTimerWhenStunned;
 		mEnemy->mDizzyRender->ToggleActiveFlag(true);
@@ -405,6 +407,15 @@ namespace LB
 
 	void ChargerStunnedState::Update()
 	{
+		if (mEnemy->mStunStopMovingElapsed < 0.15f)
+		{
+			mEnemy->mStunStopMovingElapsed += static_cast<float>(TIME->GetDeltaTime());
+			if (mEnemy->mStunStopMovingElapsed >= 0.15f)
+			{
+				mEnemy->GetRigidBody()->mVelocity.x = 0.0f;
+				mEnemy->GetRigidBody()->mVelocity.y = 0.0f;
+			}
+		}
 		//DebuggerLogWarning("CHARGER STUNNED STATE");
 		//mEnemy->mIsCharging = false;
 		//DebuggerLogErrorFormat("Is Charging bool: %i", mEnemy->mIsCharging);
@@ -425,5 +436,6 @@ namespace LB
 
 	void ChargerStunnedState::Exit()
 	{
+		mEnemy->m_isStunned = false;
 	}
 }

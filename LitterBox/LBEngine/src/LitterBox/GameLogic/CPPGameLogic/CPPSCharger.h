@@ -55,7 +55,7 @@ namespace LB
 		Vec2<float> mChargeNormalForce{};
 
 		//------------------CHARGE STATE------------------
-		float mTimerWhenStunned{}, mStunTimerElapsed{};
+		float mTimerWhenStunned{}, mStunTimerElapsed{}, mStunStopMovingElapsed{};
 
 		//*********************************************************
 
@@ -80,7 +80,7 @@ namespace LB
 		CPTransform* mAngerObjTrans;
 		CPRender* mAngerRender;
 
-		bool isCharging{ false };
+		bool isCharging{ false }, m_isStunned{ false };
 
 	private:
 		FiniteStateMachine mFSM{};
