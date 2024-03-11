@@ -426,7 +426,7 @@
                     "Active": true,
                     "Width": 1920.0,
                     "Height": 1080.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "",
                     "SpriteName": "None",
                     "SpriteIndex": -1

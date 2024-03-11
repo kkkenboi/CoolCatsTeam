@@ -787,6 +787,16 @@ namespace Renderer {
 
 		/*!***********************************************************************
 		\brief
+		 get_game_cam_mat is a getter function that will return the a matrix for
+		 screen space.
+
+		\return
+		 returns the 4x4 matrix of the screen
+		*************************************************************************/
+		inline auto get_ui_cam_mat() { return cam.ui_NDC; }
+
+		/*!***********************************************************************
+		\brief
 		 get_cam_proj_mat is a getter function that will return the matrix of the
 		 orthographic projection used for the game.
 
@@ -794,6 +804,7 @@ namespace Renderer {
 		 returns the 4x4 matrix of the game ortho projection
 		*************************************************************************/
 		inline auto get_cam_proj_mat() { return cam.ortho; }
+
 		/*!***********************************************************************
 		\brief
 		 get_cam is a getter function that will return the camera object with all

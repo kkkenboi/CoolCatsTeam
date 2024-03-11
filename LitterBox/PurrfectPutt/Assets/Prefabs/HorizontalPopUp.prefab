@@ -1,25 +1,25 @@
 {
-    "Name": "VerticalPopUp",
+    "Name": "HorizontalPopUp",
     "Active": true,
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 960.0,
-            "y": 540.0
+            "x": 1510.0,
+            "y": 215.0
         },
         "Scale": {
-            "x": 0.3,
-            "y": 0.3
+            "x": 0.45,
+            "y": 0.45
         },
         "Rotation": 0.0
     },
     "Render": {
         "Active": true,
-        "Width": 757.0,
-        "Height": 432.0,
+        "Width": 768.0,
+        "Height": 768.0,
         "Layer": 3,
-        "Texture": "UpgradeBG_H",
-        "SpriteName": "None",
-        "SpriteIndex": -1
+        "Texture": "UpgradePopUp_Spritesheet",
+        "SpriteName": "UpgradesSheet",
+        "SpriteIndex": 0
     }
 }

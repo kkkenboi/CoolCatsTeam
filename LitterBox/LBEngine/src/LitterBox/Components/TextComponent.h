@@ -173,6 +173,9 @@ namespace LB {
 			return msg;
 		}
 
+		void use_world_coords(bool use_world);
+		bool get_coord_sys();
+
 		/*!***********************************************************************
 		 \brief
 		 Updates the text displayed
@@ -182,6 +185,10 @@ namespace LB {
 			msg.text = _msg;
 		}
 
+		/*!***********************************************************************
+		 \brief
+		 Toggles the text displayed
+		*************************************************************************/
 		void ToggleActive(bool flag)
 		{
 			if (flag)
