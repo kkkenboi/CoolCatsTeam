@@ -52,6 +52,12 @@
                                 "Texture": "Multi_Spritesheet",
                                 "SpriteName": "MultiSheet",
                                 "SpriteIndex": 26
+                            },
+                            "Animator": {
+                                "Default State": "None",
+                                "Play On Awake": false,
+                                "Repeating": false,
+                                "Controller": "ChargerController"
                             }
                         }
                     ]
@@ -94,8 +100,8 @@
                         "Layer Name": "EnemyBall",
                         "Layer ID": 5
                     },
-                    "Shape": 0,
-                    "Width": 66.0,
+                    "Shape": 1,
+                    "Width": 36.0,
                     "Height": 100.0,
                     "Radius": 50.0
                 },
@@ -252,8 +258,8 @@
     "Collider": {
         "Active": true,
         "ColliderLayer": {
-            "Layer Name": "GameEntity",
-            "Layer ID": 1
+            "Layer Name": "EnemyBall",
+            "Layer ID": 5
         },
         "Shape": 1,
         "Width": 100.0,

@@ -21,9 +21,11 @@ namespace LB
 	{
 		//mRender = GameObj->GetComponent<CPRender>();
 		//mRigidBody = GameObj->GetComponent<CPRigidBody>();
-		mCollider = GameObj->GetComponent<CPCollider>();
 
 		mTransform = GameObj->GetComponent<CPTransform>();
+		mCollider = mTransform->gameObj->GetComponent<CPCollider>();
+
+
 		mCharger = mTransform->GetParent()->gameObj;
 		//mChargerScript = mCharger->GetComponent<CPPSCharger>(); // <<!!!the script is getting loaded before the object is done constructing
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");

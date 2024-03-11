@@ -62,8 +62,8 @@ namespace LB
 		bool isChargerDead{ false };
 
 		CPParticle* FootstepsParticle{ nullptr };
-		CPParticle* DizzyParticle{ nullptr };
-		CPParticle* AngerParticle{ nullptr };
+
+		CPAnimator* mDizzyAnim, *mAngerAnim, *mPuffAnim, *mMoveAnim;
 
 		float m_FootstepsParticleEmitRate;
 

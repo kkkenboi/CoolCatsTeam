@@ -23,6 +23,16 @@ namespace LB
 	void CPPSCharger::Start()
 	{
 		CPPSBaseEnemy::Start();
+		
+		mTransform = GameObj->GetComponent<CPTransform>();
+
+		// Cache the render and animator
+		mRender = mTransform->GetChild()->GetChild()->GetComponent<CPRender>();
+		mAnimator = mTransform->GetChild()->GetChild()->GetComponent<CPAnimator>();
+		mMoveAnim = mTransform->GetChild()->GetComponent<CPAnimator>();
+		mDizzyAnim = mTransform->GetChild(2)->GetComponent<CPAnimator>();
+		mAngerAnim = mTransform->GetChild(3)->GetComponent<CPAnimator>();
+		//mPuffAnim
 
 		ChargerIdleState* IDLESTATE = DBG_NEW ChargerIdleState(this, mFSM, "Idle");
 		ChargerMoveState* MOVESTATE = DBG_NEW ChargerMoveState(this, mFSM, "Move");
@@ -81,9 +91,8 @@ namespace LB
 
 		//********************EFFECTS ON CHARGER***********************
 		//DIZZY
-		mTransform = GameObj->GetComponent<CPTransform>();
 
-		mDizzyObj = mTransform->GetChild(1)->gameObj; //CANNOT GET CHILD?
+		mDizzyObj = mTransform->GetChild(2)->gameObj; //CANNOT GET CHILD?
 		//mDizzyObj = GOMANAGER->FindGameObjectWithName("DizzyEffect");
 		mDizzyRender = mDizzyObj->GetComponent<CPRender>();
 
@@ -92,7 +101,7 @@ namespace LB
 		mDizzyRender->ToggleActiveFlag(false);
 
 		//ANGER
-		mAngerObj = mTransform->GetChild(2)->gameObj;
+		mAngerObj = mTransform->GetChild(3)->gameObj;
 		//mAngerObj = GOMANAGER->FindGameObjectWithName("AngerEffect");
 		mAngerRender = mAngerObj->GetComponent<CPRender>();
 
@@ -101,7 +110,7 @@ namespace LB
 		mAngerRender->ToggleActiveFlag(false);
 
 		//FootSteps
-		FootstepsParticle = mTransform->GetChild(3)->GetComponent<CPParticle>();
+		FootstepsParticle = mTransform->GetChild(4)->GetComponent<CPParticle>();
 		m_FootstepsParticleEmitRate = FootstepsParticle->mEmitterRate;
 		mAngerRender->ToggleActiveFlag(false);
 		isCharging = false;
@@ -245,8 +254,8 @@ namespace LB
 	void ChargerMoveState::Enter()
 	{
 		//DebuggerLogWarning("CHARGER MOVE STATE");
+		mEnemy->mMoveAnim->PlayRepeat("Action_Move");
 		this->Update();
-
 	}
 
 	void ChargerMoveState::Update()
@@ -279,7 +288,10 @@ namespace LB
 		}
 	}
 
-	void ChargerMoveState::Exit() { }
+	void ChargerMoveState::Exit() 
+	{ 
+		mEnemy->mMoveAnim->StopAndReset();
+	}
 
 	/*!***********************************************************************
 	\brief
@@ -294,6 +306,8 @@ namespace LB
 	void ChargerHurtState::Enter()
 	{
 		//DebuggerLogWarning("CHARGER HURT STATE");
+		mEnemy->mAnimator->PlayAndReset("Charger_Hurt");
+
 		mEnemy->Hurt();
 		this->Update();
 	}
@@ -306,6 +320,7 @@ namespace LB
 
 	void ChargerHurtState::Exit()
 	{
+
 	}
 
 	/*!***********************************************************************
@@ -321,6 +336,8 @@ namespace LB
 	void ChargerWindUpState::Enter()
 	{
 		//DebuggerLogWarning("CHARGER WINDUP STATE");
+		mEnemy->mAnimator->PlayRepeat("Charger_Prep");
+
 		mEnemy->mAngerRender->ToggleActiveFlag(true);
 		mEnemy->mTimerToCharge = 1.0f;
 		this->Update();
@@ -338,6 +355,8 @@ namespace LB
 
 	void ChargerWindUpState::Exit() 
 	{
+		mEnemy->mAnimator->StopAndReset();
+
 		mEnemy->mAngerRender->ToggleActiveFlag(false);
 	}
 
@@ -354,6 +373,8 @@ namespace LB
 
 	void ChargerChargeState::Enter()
 	{
+		mEnemy->mAnimator->PlayRepeat("Charger_Charging");
+
 		//DebuggerLogWarning("CHARGER CHARGE STATE");
 		mEnemy->isCharging = true;
 		mEnemy->mChargeDirection = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
@@ -379,6 +400,8 @@ namespace LB
 
 	void ChargerChargeState::Exit()
 	{
+		mEnemy->mAnimator->StopAndReset();
+
 		mEnemy->isCharging = false;
 	}
 
@@ -395,6 +418,10 @@ namespace LB
 	void ChargerStunnedState::Enter()
 	{
 		DebuggerLogWarning("CHARGER STUNNED STATE");
+
+		mEnemy->mDizzyAnim->PlayRepeat("Charger_StunVFX");
+		mEnemy->mAnimator->PlayRepeat("Charger_Stunny");
+
 		//mEnemy->mIsCharging = false;
 		mEnemy->m_isStunned = true;
 		mEnemy->mStunStopMovingElapsed = 0.0f;
@@ -436,6 +463,9 @@ namespace LB
 
 	void ChargerStunnedState::Exit()
 	{
+		mEnemy->mDizzyAnim->StopAndReset();
+		mEnemy->mAnimator->StopAndReset();
+
 		mEnemy->m_isStunned = false;
 	}
 }
