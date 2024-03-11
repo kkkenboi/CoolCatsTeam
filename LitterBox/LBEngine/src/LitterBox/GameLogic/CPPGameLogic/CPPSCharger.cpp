@@ -93,7 +93,6 @@ namespace LB
 		//DIZZY
 
 		mDizzyObj = mTransform->GetChild(2)->gameObj; //CANNOT GET CHILD?
-		//mDizzyObj = GOMANAGER->FindGameObjectWithName("DizzyEffect");
 		mDizzyRender = mDizzyObj->GetComponent<CPRender>();
 
 		mDizzyObjTrans = mDizzyObj->GetComponent<CPTransform>();
@@ -102,7 +101,6 @@ namespace LB
 
 		//ANGER
 		mAngerObj = mTransform->GetChild(3)->gameObj;
-		//mAngerObj = GOMANAGER->FindGameObjectWithName("AngerEffect");
 		mAngerRender = mAngerObj->GetComponent<CPRender>();
 
 		mAngerObjTrans = mAngerObj->GetComponent<CPTransform>();
@@ -162,12 +160,6 @@ namespace LB
 		{	
 			mFSM.ChangeState("Stunned");
 		}
-
-		//else if (mIsCharging == true)
-		//{
-		//	mFSM.ChangeState("Stunned");
-		//}
-		//else if (colData.colliderOther->m_gameobj->GetName() == "")
 	}
 
 	void CPPSCharger::Hurt()

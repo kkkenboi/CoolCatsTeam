@@ -29,7 +29,9 @@ namespace LB
 
 
 
+		GameObject* DigiPenTexture{ nullptr };
+
 	private:
-		float mDuration = 3.0f;
+		float mDuration{};
 	};
 }

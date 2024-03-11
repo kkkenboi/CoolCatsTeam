@@ -13,8 +13,34 @@
 **************************************************************************/
 
 #include "CPPSplashScreen.h"
+#include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Scene/SceneManager.h"
+
 
 namespace LB
 {
+	void SplashScreen::Start()
+	{
+		//DigiPenTexture->GetAllComponents();
+		DigiPenTexture = GOMANAGER->FindGameObjectWithName("Digipen");
+		DigiPenTexture->SetActive(true);
+		mDuration = 3.0f;
+	}
+
+	void SplashScreen::Update()
+	{
+		mDuration -= static_cast<float>(TIME->GetDeltaTime());
+		if (mDuration <= 0.0f)
+		{
+			DigiPenTexture->SetActive(false);
+			SCENEMANAGER->LoadScene("SceneMainMenu");
+			//go to next scene
+		}
+	}
+
+	void SplashScreen::Destroy()
+	{
+
+	}
 
 }
