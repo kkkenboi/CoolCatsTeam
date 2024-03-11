@@ -58,38 +58,45 @@ namespace LB
 		//If the upgrade collides with a ball
 		if (colData.colliderOther->m_gameobj->GetName() == "ball")
 		{
-			//If upgrade has been hit, it tells the UpgradeManager by calling set ball upgrade		
-			//CPPSUpgradeManager::Instance()->SetBallUpgrade(assignedUpgradeType);
-			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SetBallUpgrade(assignedUpgradeType);
-			switch (assignedUpgradeType)
+			auto gameManager = GOMANAGER->FindGameObjectWithName("GameManager");
+			if (gameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentUpgrades < gameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxUpgrades)
 			{
-			case MOREBALL:
-				// Should move functions from PlayerHUD to the GameManager in the future
-				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(3);
-				break;
-			case MOREHEALTH:
-				// Should move functions from PlayerHUD to the GameManager in the future
-				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(3);
-				break;
-			case MOVESPEED:
-				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed *= 1.5f;
-				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction *= 0.8f;
-				break;
-			case BIGBALL:
-				// std::cout << "Bigger Balls!\n";
+				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
+				//If upgrade has been hit, it tells the UpgradeManager by calling set ball upgrade		
+				//CPPSUpgradeManager::Instance()->SetBallUpgrade(assignedUpgradeType);
+				GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SetBallUpgrade(assignedUpgradeType);
+				switch (assignedUpgradeType)
+				{
+				case MOREBALL:
+					// Should move functions from PlayerHUD to the GameManager in the future
+					GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxBalls(3);
+					break;
+				case MOREHEALTH:
+					// Should move functions from PlayerHUD to the GameManager in the future
+					GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(3);
+					break;
+				case MOVESPEED:
+					GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed *= 1.5f;
+					GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction *= 0.8f;
+					break;
+				case BIGBALL:
+					// std::cout << "Bigger Balls!\n";
 
-			default:
-				//do nothing
-				break;
+				default:
+					//do nothing
+					break;
+				}
+				/*	BallGameObj = GOMANAGER->FindGameObjectWithName("ball");
+					BallGameObj->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(1);*/
 			}
-		/*	BallGameObj = GOMANAGER->FindGameObjectWithName("ball");
-			BallGameObj->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(1);*/
+
 			canDestroy = true;
 			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->HideUpgrades(assignedUpgradeType);
 			/*this->GameObj->SetActive(false);*/
 			//std::cout << this->GameObj->GetName() << '\n';
 			//GameObj->GetComponent<CPTransform>()->SetPosition({ 10000.f,10000.f });
 			//GOMANAGER->RemoveGameObject(this->GameObj);
+
 		}
 	}
 

@@ -230,7 +230,7 @@ namespace LB {
 		{
 			if (i + 1 == static_cast<size_t>(m_currentVPopUpIndex))
 			{
-				//DebuggerLogFormat("Setting Active for %d", m_currentPopUpIndex);
+				//DebuggerLogFormat("m_MouseHoverWorld: %d", m_mouseHoverWorld);
 				m_totalUpgradePopUps[i].first->GetComponent<CPRender>()->ToggleActive(m_mouseHoverWorld);
 				if (m_playOnceWorld)
 				{
