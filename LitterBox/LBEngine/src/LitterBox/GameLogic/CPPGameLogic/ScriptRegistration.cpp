@@ -40,6 +40,7 @@
 #include "CPPSPortal.h"
 #include "CPPSTutorialSubs.h"
 #include "CPPSCutscene.h"
+#include "CPPSDummy.h"
 
 namespace LB 
 {
