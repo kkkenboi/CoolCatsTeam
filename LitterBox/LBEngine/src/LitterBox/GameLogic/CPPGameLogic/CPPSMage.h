@@ -37,8 +37,10 @@ namespace LB
 		GameObject* GetProjectile();
 
 		//Hand transform
+		float m_handOffset{ 50.0f };
 		CPTransform* m_trans{ nullptr };
 		CPTransform* m_handTrans{ nullptr };
+		CPTransform* m_wandTipTrans{ nullptr };
 
 		//spawn function
 		void SpawnProjectile();
