@@ -117,26 +117,26 @@ namespace LB
 		static bool isWalkingAnim{ false };
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W) && !mIsStunned)
 		{
-			//m_moveAnim->PlayRepeat("Action_Move");
-			anim->PlayRepeat("Felix_Walk");
+			m_moveAnim->PlayRepeat("Action_BigMove");
+			//anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A) && !mIsStunned)
 		{
-			//m_moveAnim->PlayRepeat("Action_Move");
-			anim->PlayRepeat("Felix_Walk");
+			m_moveAnim->PlayRepeat("Action_BigMove");
+			//anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D) && !mIsStunned)
 		{
-			//m_moveAnim->PlayRepeat("Action_Move");
-			anim->PlayRepeat("Felix_Walk");
+			m_moveAnim->PlayRepeat("Action_BigMove");
+			//anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S) && !mIsStunned)
 		{
-			//m_moveAnim->PlayRepeat("Action_Move");
-			anim->PlayRepeat("Felix_Walk");
+			m_moveAnim->PlayRepeat("Action_BigMove");
+			//anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 
@@ -180,10 +180,10 @@ namespace LB
 			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());
 
 			// If move anim is not playing when it should, e.g. after stun or damage
-			if (isMoving && !anim->IsPlaying())
+			if (isMoving && !m_moveAnim->IsPlaying())
 			{
-				//m_moveAnim->PlayRepeat("Action_Move");
-				anim->PlayRepeat("Felix_Walk");
+				m_moveAnim->PlayRepeat("Action_BigMove");
+				//anim->PlayRepeat("Felix_Walk");
 				isWalkingAnim = true;
 			}
 		}
@@ -199,9 +199,9 @@ namespace LB
 			 if (isWalkingAnim)
 			 {
 				 //if (!mIsStunned) {
-				if (anim->IsPlaying("Felix_Walk"))
-					anim->StopAndReset();
-				//if (m_moveAnim->IsPlaying("Action_Move"))
+				//if (anim->IsPlaying("Felix_Walk"))
+				if (m_moveAnim->IsPlaying("Action_BigMove"))
+					m_moveAnim->StopAndReset();
 				 //}
 			 	isWalkingAnim = false;
 			 }
@@ -422,7 +422,7 @@ namespace LB
 	{
 		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
 		{
-			anim->m_playSpeed = 0.6f;
+			m_moveAnim->m_playSpeed = 0.6f;
 			particle->mEmitterRate = m_particleEmitRate * 0.6f;
 		}
 	}
@@ -431,7 +431,7 @@ namespace LB
 	{
 		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
 		{
-			anim->m_playSpeed = 1.0f;
+			m_moveAnim->m_playSpeed = 1.0f;
 			particle->mEmitterRate = m_particleEmitRate;
 		}
 	}
