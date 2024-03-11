@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 231.877258,
-            "y": 62.363693
+            "x": 88.715881,
+            "y": 484.945343
         },
         "Scale": {
             "x": 1.0,
@@ -62,7 +62,7 @@
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
-                    "SpriteIndex": 54
+                    "SpriteIndex": 55
                 }
             }
         ]

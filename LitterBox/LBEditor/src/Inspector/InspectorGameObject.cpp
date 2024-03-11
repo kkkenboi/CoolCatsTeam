@@ -1276,12 +1276,12 @@ namespace LB
 				ImGui::Text("%-17s Min", "Particle Lifetime Delay");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##ParticleLifeTimeDelayMin", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeDelayMin, 0.1f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##ParticleLifeTimeDelayMin", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeDelayMin, 0.01f, 0.0f, 0.0f, "%.2f");
 
 				ImGui::Text("%-17s Max", "Particle Lifetime Delay");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##ParticleLifeTimeDelayMax", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeDelayMax, 0.1f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##ParticleLifeTimeDelayMax", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeDelayMax, 0.01f, 0.0f, 0.0f, "%.2f");
 
 
 				// Emitter Active

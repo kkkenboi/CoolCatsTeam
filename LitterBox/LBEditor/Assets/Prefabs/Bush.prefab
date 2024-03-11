@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 0.0,
-            "y": 0.0
+            "x": 233.063583,
+            "y": 624.220153
         },
         "Scale": {
             "x": 1.0,
@@ -46,7 +46,7 @@
                     "Active": true,
                     "Position": {
                         "x": 0.0,
-                        "y": -25.0
+                        "y": -23.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -57,12 +57,12 @@
                 "Render": {
                     "Active": true,
                     "Width": 125.0,
-                    "Height": 25.0,
+                    "Height": 27.0,
                     "ZLayer": 5.0,
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
-                    "SpriteIndex": 54
+                    "SpriteIndex": 55
                 }
             }
         ]

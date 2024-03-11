@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": -37.67395,
-            "y": 163.229324
+            "x": -78.123016,
+            "y": 552.046936
         },
         "Scale": {
             "x": 1.0,
@@ -56,13 +56,13 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 150.0,
-                    "Height": 40.0,
-                    "ZLayer": 5.0,
+                    "Width": 145.0,
+                    "Height": 35.0,
+                    "ZLayer": 4.0,
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
-                    "SpriteIndex": 54
+                    "SpriteIndex": 55
                 }
             }
         ]
@@ -83,7 +83,7 @@
         "Shape": 0,
         "Width": 100.0,
         "Height": 100.0,
-        "Radius": 50.0
+        "Radius": 45.0
     },
     "CPPScript": {
         "Active": true,

@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 203.268127,
-            "y": 272.993347
+            "x": 45.305969,
+            "y": 719.899169
         },
         "Scale": {
             "x": 1.0,
@@ -114,7 +114,7 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 80.0,
+                    "Width": 90.0,
                     "Height": 20.0,
                     "ZLayer": 5.0,
                     "Layer": 0,
