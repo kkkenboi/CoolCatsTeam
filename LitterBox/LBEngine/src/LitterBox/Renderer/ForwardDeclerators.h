@@ -144,10 +144,11 @@ namespace Renderer {
 	 text at specified locations on the screen with changeable color.
 	*************************************************************************/
 	struct message {
-		std::string text{"Hello World"};
 		float x{}, y{}, scale{1.0f}, xbound{300.0f}, scaleSaved{};
 		LB::Vec3<float> color{};
 		std::string font_file_name_wo_ext{"ZillaSlab-Regular"};
+		std::string text{"Hello World"};
+		bool use_world_space{ true };
 
 		/*!***********************************************************************
 		 \brief
@@ -162,6 +163,7 @@ namespace Renderer {
 			data.AddMember("x", x, alloc);
 			data.AddMember("y", y, alloc);
 			data.AddMember("scale", scale, alloc);
+			data.AddMember("World Coords", use_world_space, alloc);
 			Value colorValue;
 			if (color.Serialize(colorValue, alloc))
 			{
@@ -186,6 +188,7 @@ namespace Renderer {
 			bool HasScale = data.HasMember("scale");
 			bool HasColor = data.HasMember("Color");
 			bool HasFontName = data.HasMember("Font name");
+			bool HasCoordSys = data.HasMember("World Coords");
 			if (HasText)
 			{
 				const Value& textValue = data["text"];
@@ -206,6 +209,11 @@ namespace Renderer {
 			{
 				const Value& textValue = data["Font name"];
 				font_file_name_wo_ext = textValue.GetString();
+			}
+			if (HasCoordSys)
+			{
+				const Value& coordValue = data["World Coords"];
+				use_world_space = coordValue.GetBool();
 			}
 			return true;
 		}

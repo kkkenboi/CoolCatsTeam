@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1800.0,
-            "y": 100.0
+            "x": 1510.0,
+            "y": 83.0
         },
         "Scale": {
             "x": 1.0,
@@ -18,9 +18,9 @@
         "Width": 150.0,
         "Height": 150.0,
         "Layer": 3,
-        "Texture": "Items",
-        "SpriteName": "Upgrades",
-        "SpriteIndex": 0
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 32
     },
     "Collider": {
         "Active": true,
@@ -29,8 +29,8 @@
             "Layer ID": 2
         },
         "Shape": 1,
-        "Width": 100.0,
-        "Height": 100.0,
+        "Width": 80.0,
+        "Height": 80.0,
         "Radius": 75.0
     }
 }
