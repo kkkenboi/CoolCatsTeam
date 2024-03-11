@@ -924,7 +924,7 @@
                     "Active": true,
                     "Width": 3456.0,
                     "Height": 1408.0,
-                    "ZLayer": 1.0,
+                    "ZLayer": 5.0,
                     "Layer": 1,
                     "Texture": "MapTutorial",
                     "SpriteName": "None",
