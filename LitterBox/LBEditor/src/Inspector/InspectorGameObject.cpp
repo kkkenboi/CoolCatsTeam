@@ -1113,6 +1113,36 @@ namespace LB
 
 					ImGui::EndCombo();
 				}
+				if (m_inspectedGO->GetComponent<CPAnimator>()->GetControllerName() != "No controller")
+				{
+					ImGui::Text("%-17s", "Default State");
+					ImGui::SameLine();
+					if (ImGui::BeginCombo("##DefaultState", m_inspectedGO->GetComponent<CPAnimator>()->m_defaultState.c_str()))
+					{
+						if (ImGui::Selectable("None"))
+						{
+							m_inspectedGO->GetComponent<CPAnimator>()->m_defaultState = "None";
+						}
+						for (auto const& state : ASSETMANAGER->AnimControllers[m_inspectedGO->GetComponent<CPAnimator>()->GetControllerName()].GetStates())
+						{
+							if (ImGui::Selectable(state.c_str()))
+							{
+								m_inspectedGO->GetComponent<CPAnimator>()->m_defaultState = state;
+							}
+						}
+
+						ImGui::EndCombo();
+					}
+				}
+				ImGui::Text("%-17s", "Play on Awake");
+				ImGui::SameLine();
+				if (ImGui::Checkbox("##PlayOnAwake", &m_inspectedGO->GetComponent<CPAnimator>()->m_playOnAwake))
+				{ }
+				ImGui::Text("%-17s", "Repeating");
+				ImGui::SameLine();
+				if (ImGui::Checkbox("##Repeating", &m_inspectedGO->GetComponent<CPAnimator>()->m_repeating))
+				{ }
+
 				if (ImGui::Button("Delete Animator Component"))
 				{
 					m_inspectedGO->RemoveComponent(C_CPAnimator);
@@ -1246,12 +1276,12 @@ namespace LB
 				ImGui::Text("%-17s Min", "Particle Lifetime Delay");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##ParticleLifeTimeDelayMin", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeDelayMin, 0.1f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##ParticleLifeTimeDelayMin", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeDelayMin, 0.01f, 0.0f, 0.0f, "%.2f");
 
 				ImGui::Text("%-17s Max", "Particle Lifetime Delay");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##ParticleLifeTimeDelayMax", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeDelayMax, 0.1f, 0.0f, 0.0f, "%.2f");
+				ImGui::DragFloat("##ParticleLifeTimeDelayMax", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterLifetimeDelayMax, 0.01f, 0.0f, 0.0f, "%.2f");
 
 
 				// Emitter Active

@@ -227,13 +227,9 @@ namespace LB
 
 		onNewSceneLoad.Invoke(m_currentScene);
 
-		DebuggerLog("INIT CALLED!!!");
-
 		m_currentScene->Init();
 
 		m_nextScene = nullptr;
-
-		DebuggerLog("SCRIPTS STARTED!!!");
 
 		m_fullyLoaded = true;
 		// Start the scripts!! TODO: Refactor this

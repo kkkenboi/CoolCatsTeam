@@ -42,6 +42,7 @@ namespace LB
 		CPRender*		rend{ nullptr };
 		CPTransform*	trans{ nullptr };
 		CPAnimator*		anim{ nullptr };
+		CPAnimator*		m_moveAnim{ nullptr };
 		CPParticle*		particle{ nullptr };
 
 		//------------------variables------------------

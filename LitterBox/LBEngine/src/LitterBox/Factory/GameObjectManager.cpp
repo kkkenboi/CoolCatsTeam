@@ -534,7 +534,7 @@ namespace LB
 		{
 			//if we can find the game object, we push it into the vector of GO's to be destroyed.
 			//We also store the timing at which it needs to be destructed by
-			m_TimedDeletionGameObjects.push_back(std::make_pair(gameObject, TIME->GetTime() + timer));
+			m_TimedDeletionGameObjects.push_back(std::make_pair(gameObject, timer));
 		}
 		else
 		{
@@ -570,7 +570,8 @@ namespace LB
 		auto timeObject = m_TimedDeletionGameObjects.begin();
 		while (timeObject != m_TimedDeletionGameObjects.end())
 		{
-			if (TIME->GetTime() >= timeObject->second) //then it's due for deletion
+			timeObject->second -= TIME->GetDeltaTime();
+			if (timeObject->second < 0.0f) //then it's due for deletion
 			{
 					onGameObjectDestroy.Invoke(timeObject->first);
 

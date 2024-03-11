@@ -1,11 +1,11 @@
 {
-    "Name": "Bush",
+    "Name": "Bramble",
     "Active": true,
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 233.063583,
-            "y": 624.220153
+            "x": -78.123016,
+            "y": 552.046936
         },
         "Scale": {
             "x": 1.0,
@@ -34,8 +34,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 0.0,
-                                    "y": -23.0
+                                    "x": 1.0,
+                                    "y": -25.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -45,9 +45,9 @@
                             },
                             "Render": {
                                 "Active": true,
-                                "Width": 125.0,
-                                "Height": 27.0,
-                                "ZLayer": 5.0,
+                                "Width": 145.0,
+                                "Height": 35.0,
+                                "ZLayer": 4.0,
                                 "Layer": 0,
                                 "Texture": "Multi_Spritesheet",
                                 "SpriteName": "MultiSheet",
@@ -58,16 +58,23 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 150.0,
-                    "Height": 150.0,
+                    "Width": 275.0,
+                    "Height": 300.0,
                     "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
-                    "SpriteIndex": 45
+                    "SpriteIndex": 42
                 }
             }
         ]
+    },
+    "RigidBody": {
+        "Active": true,
+        "Width": 100.0,
+        "Height": 100.0,
+        "Density": 10.0,
+        "IsStatic": true
     },
     "Collider": {
         "Active": true,
@@ -76,13 +83,13 @@
             "Layer ID": 0
         },
         "Shape": 0,
-        "Width": 175.0,
-        "Height": 175.0,
-        "Radius": 40.0
+        "Width": 100.0,
+        "Height": 100.0,
+        "Radius": 45.0
     },
     "CPPScript": {
         "Active": true,
-        "Script": "class LB::CPPSBush"
+        "Script": "class LB::CPPSBramble"
     },
     "Animator": {
         "Default State": "Action_Squish",
