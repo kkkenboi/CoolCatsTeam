@@ -61,7 +61,7 @@ namespace LB
 
 		//initialise the variables for the Mage
 		GetHealth() = 3; //health {inherited from base class}
-		GetSpeedMag() = 100000.f; //speed of movement {inherited from base class}
+		GetSpeedMag() = 40000.f; //speed of movement {inherited from base class}
 		//mBackOffSpeed = 50000.f; //speed of movement
 		mDetectionRange = 800.f;
 

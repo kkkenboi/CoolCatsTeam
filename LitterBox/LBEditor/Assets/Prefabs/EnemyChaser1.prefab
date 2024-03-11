@@ -4,15 +4,75 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 0.0,
-            "y": 0.0
+            "x": -3.966308,
+            "y": 329.858367
         },
         "Scale": {
-            "x": 1.25,
-            "y": 1.25
+            "x": 1.0,
+            "y": 1.0
         },
         "Rotation": 0.0,
         "Children": [
+            {
+                "Name": "Body",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Hands",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 8.0,
+                                    "y": -50.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 100.0,
+                                "Height": 100.0,
+                                "ZLayer": 1.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 7
+                            }
+                        }
+                    ]
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 135.0,
+                    "Height": 135.0,
+                    "ZLayer": 2.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 4
+                },
+                "Animator": {
+                    "Default State": "None",
+                    "Play On Awake": false,
+                    "Repeating": false,
+                    "Controller": "MeleeController"
+                }
+            },
             {
                 "Name": "Shadow",
                 "Active": true,
@@ -20,7 +80,7 @@
                     "Active": true,
                     "Position": {
                         "x": 0.0,
-                        "y": -58.0
+                        "y": -55.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -30,8 +90,8 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 80.0,
-                    "Height": 20.0,
+                    "Width": 100.0,
+                    "Height": 25.0,
                     "ZLayer": 5.0,
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
@@ -48,16 +108,6 @@
         "Density": 10.0,
         "IsStatic": false
     },
-    "Render": {
-        "Active": true,
-        "Width": 110.0,
-        "Height": 110.0,
-        "ZLayer": 1.0,
-        "Layer": 0,
-        "Texture": "Multi_Spritesheet",
-        "SpriteName": "MultiSheet",
-        "SpriteIndex": 4
-    },
     "Collider": {
         "Active": true,
         "ColliderLayer": {
@@ -72,8 +122,5 @@
     "CPPScript": {
         "Active": true,
         "Script": "class LB::CPPSChaser"
-    },
-    "Animator": {
-        "Controller": "MeleeController"
     }
 }

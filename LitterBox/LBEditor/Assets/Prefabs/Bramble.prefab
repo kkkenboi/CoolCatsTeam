@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 0.0,
-            "y": 0.0
+            "x": -37.67395,
+            "y": 163.229324
         },
         "Scale": {
             "x": 1.0,
@@ -13,6 +13,32 @@
         },
         "Rotation": 0.0,
         "Children": [
+            {
+                "Name": "Body",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 275.0,
+                    "Height": 300.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 42
+                }
+            },
             {
                 "Name": "Shadow",
                 "Active": true,
@@ -30,7 +56,7 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 160.0,
+                    "Width": 150.0,
                     "Height": 40.0,
                     "ZLayer": 5.0,
                     "Layer": 0,
@@ -48,16 +74,6 @@
         "Density": 10.0,
         "IsStatic": true
     },
-    "Render": {
-        "Active": true,
-        "Width": 300.0,
-        "Height": 300.0,
-        "ZLayer": 1.0,
-        "Layer": 0,
-        "Texture": "Multi_Spritesheet",
-        "SpriteName": "MultiSheet",
-        "SpriteIndex": 42
-    },
     "Collider": {
         "Active": true,
         "ColliderLayer": {
@@ -72,5 +88,11 @@
     "CPPScript": {
         "Active": true,
         "Script": "class LB::CPPSBramble"
+    },
+    "Animator": {
+        "Default State": "Action_Squish",
+        "Play On Awake": true,
+        "Repeating": true,
+        "Controller": "ActionController"
     }
 }

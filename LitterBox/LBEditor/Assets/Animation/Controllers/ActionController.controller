@@ -1,6 +1,7 @@
 {
     "Name": "ActionController",
     "States": [
-        "Action_Bob"
+        "Action_Bob",
+        "Action_Squish"
     ]
 }

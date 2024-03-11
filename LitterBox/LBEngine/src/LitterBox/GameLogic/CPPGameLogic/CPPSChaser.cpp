@@ -35,6 +35,9 @@ namespace LB
 	void CPPSChaser::Start()
 	{
 		CPPSBaseEnemy::Start();
+		// Cache the render and animator
+		mRender = GetComponent<CPTransform>()->GetChild()->GetComponent<CPRender>();
+		mAnimator = GetComponent<CPTransform>()->GetChild()->GetComponent<CPAnimator>();
 
 		//Then we init all the states
 		IdleState* IDLESTATE = DBG_NEW IdleState(this, mFSM, "Idle");
@@ -51,7 +54,7 @@ namespace LB
 		//mGotAttackedCooldown = 0.0f;
 
 		GetHealth() = 3;
-		GetSpeedMag() = 100000.f;
+		GetSpeedMag() = 60000.f;
 		//since this value is the equivalent of the pixels, 
 		//screen is 1920x1080. 800 should be just nice
 		mDetectionRange = 800.f;

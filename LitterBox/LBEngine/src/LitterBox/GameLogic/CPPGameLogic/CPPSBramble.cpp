@@ -24,8 +24,8 @@ namespace LB
 	*************************************************************************/
 	void CPPSBramble::Start()
 	{
-		mTransform = GameObj->GetComponent<CPTransform>();
-		mRender = GameObj->GetComponent<CPRender>();
+		mTransform = GameObj->GetComponent<CPTransform>()->GetChild();
+		mRender = mTransform->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
 		mCollider = GameObj->GetComponent<CPCollider>();
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
@@ -63,14 +63,14 @@ namespace LB
 
 			// Lerp towards the target scale
 			Vec2<float> lerpedScale = VecLerp(mTransform->GetLocalScale(), mScaleMax, t);
-			GameObj->GetComponent<CPTransform>()->SetScale(lerpedScale);
+			mTransform->SetScale(lerpedScale);
 
 			// Update the timer
 			mScaleTimerRemaining -= static_cast<float>(TIME->GetDeltaTime());
 
 			if (mScaleTimerRemaining <= 0.f) {
 				// Ensure that the scale reaches the target exactly
-				GameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.25f, 1.25f});
+				mTransform->SetScale(Vec2<float>{1.25f, 1.25f});
 
 				// Reset the timer and flags
 				mScaleTimer = mToMinTimer;
@@ -89,14 +89,14 @@ namespace LB
 
 			// Lerp towards the original scale
 			Vec2<float> lerpedScale = VecLerp(mTransform->GetLocalScale(), mScaleOG, t);
-			GameObj->GetComponent<CPTransform>()->SetScale(lerpedScale);
+			mTransform->SetScale(lerpedScale);
 
 			// Update the timer
 			mScaleTimerRemaining -= static_cast<float>(TIME->GetDeltaTime());
 
 			if (mScaleTimerRemaining <= 0.f) {
 				// Ensure that the scale reaches the target exactly
-				GameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
+				mTransform->SetScale(Vec2<float>{1.f, 1.f});
 
 				// Reset the timer and flags
 				mScaleTimerRemaining = mScaleTimer;

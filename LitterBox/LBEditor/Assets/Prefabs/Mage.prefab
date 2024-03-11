@@ -73,8 +73,8 @@
                             },
                             "Render": {
                                 "Active": true,
-                                "Width": 160.0,
-                                "Height": 160.0,
+                                "Width": 170.0,
+                                "Height": 170.0,
                                 "ZLayer": 2.0,
                                 "Layer": 0,
                                 "Texture": "Multi_Spritesheet",
@@ -104,7 +104,7 @@
                     "Active": true,
                     "Position": {
                         "x": -5.0,
-                        "y": -80.0
+                        "y": -85.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -114,7 +114,7 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 70.0,
+                    "Width": 80.0,
                     "Height": 20.0,
                     "ZLayer": 5.0,
                     "Layer": 0,
@@ -141,16 +141,10 @@
         "Shape": 0,
         "Width": 100.0,
         "Height": 100.0,
-        "Radius": 40.0
+        "Radius": 45.0
     },
     "CPPScript": {
         "Active": true,
         "Script": "class LB::CPPSMage"
-    },
-    "Animator": {
-        "Default State": "None",
-        "Play On Awake": true,
-        "Repeating": false,
-        "Controller": "MageController"
     }
 }

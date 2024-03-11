@@ -42,12 +42,12 @@ namespace LB
 	*************************************************************************/
 	void CPPSPlayer::Start()
 	{
-		rb = GameObj->GetComponent<CPRigidBody>();
-		rend = GameObj->GetComponent<CPRender>();
 		trans = GameObj->GetComponent<CPTransform>();
+		rend = trans->GetChild()->GetComponent<CPRender>();
+		anim = trans->GetChild()->GetComponent<CPAnimator>();
+		rb = GameObj->GetComponent<CPRigidBody>();
 		col = GameObj->GetComponent<CPCollider>();
-		anim = GameObj->GetComponent<CPAnimator>();
-		particle = trans->GetChild()->GetComponent<CPParticle>();
+		particle = trans->GetChild(1)->GetComponent<CPParticle>();
 
 		right_face = trans->GetScale();
 		left_face = trans->GetScale();
