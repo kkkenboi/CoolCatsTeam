@@ -101,12 +101,12 @@ namespace LB
 		//Test function to see if the remove gameobject code works
 		//You have to comment out the ball's canDestroy code in order for this
 		//to not crash the game
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_V))
-		{
-			GameObject* ballObject = FACTORY->SpawnGameObject();
-			JSONSerializer::DeserializeFromFile("ball", *ballObject);
-			GOMANAGER->RemoveGameObject(ballObject, 2.f);
-		}
+		//if (INPUT->IsKeyTriggered(KeyCode::KEY_V))
+		//{
+		//	GameObject* ballObject = FACTORY->SpawnGameObject();
+		//	JSONSerializer::DeserializeFromFile("ball", *ballObject);
+		//	GOMANAGER->RemoveGameObject(ballObject, 2.f);
+		//}
 
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_P))
 		{

@@ -16,6 +16,13 @@ void LB::CPPSPortal::Update()
 	{
 		rotAngle += TIME->GetDeltaTime() * 100;
 		GetComponent<CPTransform>()->SetRotation(rotAngle);
+		GetComponent<CPTransform>()->GetChild(0)->gameObj->SetActive(true);
+		GetComponent<CPTransform>()->GetChild(1)->gameObj->SetActive(true);
+	}
+	else
+	{
+		GetComponent<CPTransform>()->GetChild(0)->gameObj->SetActive(false);
+		GetComponent<CPTransform>()->GetChild(1)->gameObj->SetActive(false);
 	}
 	//If the transition is happening, we want to increment all our timers and do the transition
 	if (isTransitioning)
@@ -43,6 +50,7 @@ void LB::CPPSPortal::Update()
 			if (rotTimer >= 2.f)
 			{
 				mPortalCenter->SetActive(true);
+		
 				//At the start the expandout bool is true so the circle expands
 				if(expandOut) circleTimer += TIME->GetDeltaTime();
 				else circleTimer -= TIME->GetDeltaTime();
@@ -75,6 +83,7 @@ void LB::CPPSPortal::Update()
 		timer = 0;
 		rotTimer = 0;
 		circleTimer = 0;
+		expandOut = true;
 	}
 
 	//This handles what happens when the animations are all done, the circle has expanded and shrunk.
