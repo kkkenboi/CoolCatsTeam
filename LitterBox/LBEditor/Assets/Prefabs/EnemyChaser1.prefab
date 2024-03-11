@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": -3.966308,
-            "y": 329.858367
+            "x": 201.636993,
+            "y": 781.883178
         },
         "Scale": {
             "x": 1.0,
@@ -121,6 +121,52 @@
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
                     "SpriteIndex": 55
+                }
+            },
+            {
+                "Name": "DeDust2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": -30.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": false,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 3.0,
+                    "Layer": 0,
+                    "Texture": "VFXCompile_SpriteSheet",
+                    "SpriteName": "VFXSheet",
+                    "SpriteIndex": 0
+                },
+                "Particle": {
+                    "EmitterType": 0,
+                    "EmitterRate": 0.05,
+                    "RadialNum": 10,
+                    "EmitterVelocity": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "VelocityMinX": -15.0,
+                    "VelocityMaxX": 10.0,
+                    "VelocityMinY": -50.0,
+                    "VelocityMaxY": 40.0,
+                    "RadialSpeed": 100.0,
+                    "SizeBegin": 0.8,
+                    "SizeEnd": 0.3,
+                    "EmitterLifetime": 1.0,
+                    "ParticleLifetime": 0.15,
+                    "EmitterActive": true,
+                    "EmitterLooping": true
                 }
             }
         ]

@@ -26,7 +26,35 @@
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "Rotation": 0.0
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1.0,
+                                    "y": -36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 122.0,
+                                "Height": 25.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
                 },
                 "Render": {
                     "Active": true,
@@ -37,32 +65,6 @@
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
                     "SpriteIndex": 40
-                }
-            },
-            {
-                "Name": "Shadow",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 1.0,
-                        "y": -36.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 122.0,
-                    "Height": 25.0,
-                    "ZLayer": 3.0,
-                    "Layer": 0,
-                    "Texture": "Multi_Spritesheet",
-                    "SpriteName": "MultiSheet",
-                    "SpriteIndex": 55
                 }
             }
         ]

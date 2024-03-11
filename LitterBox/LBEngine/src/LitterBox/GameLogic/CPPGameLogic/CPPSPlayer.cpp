@@ -43,8 +43,9 @@ namespace LB
 	void CPPSPlayer::Start()
 	{
 		trans = GameObj->GetComponent<CPTransform>();
-		rend = trans->GetChild()->GetComponent<CPRender>();
-		anim = trans->GetChild()->GetComponent<CPAnimator>();
+		rend = trans->GetChild()->GetChild()->GetComponent<CPRender>();
+		anim = trans->GetChild()->GetChild()->GetComponent<CPAnimator>();
+		m_moveAnim = trans->GetChild()->GetComponent<CPAnimator>();
 		rb = GameObj->GetComponent<CPRigidBody>();
 		col = GameObj->GetComponent<CPCollider>();
 		particle = trans->GetChild(1)->GetComponent<CPParticle>();
@@ -111,21 +112,25 @@ namespace LB
 		static bool isWalkingAnim{ false };
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W) && !mIsStunned)
 		{
+			//m_moveAnim->PlayRepeat("Action_Move");
 			anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A) && !mIsStunned)
 		{
+			//m_moveAnim->PlayRepeat("Action_Move");
 			anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D) && !mIsStunned)
 		{
+			//m_moveAnim->PlayRepeat("Action_Move");
 			anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S) && !mIsStunned)
 		{
+			//m_moveAnim->PlayRepeat("Action_Move");
 			anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
@@ -172,6 +177,7 @@ namespace LB
 			// If move anim is not playing when it should, e.g. after stun or damage
 			if (isMoving && !anim->IsPlaying())
 			{
+				//m_moveAnim->PlayRepeat("Action_Move");
 				anim->PlayRepeat("Felix_Walk");
 				isWalkingAnim = true;
 			}
@@ -188,8 +194,9 @@ namespace LB
 			 if (isWalkingAnim)
 			 {
 				 //if (!mIsStunned) {
-				 if (anim->IsPlaying("Felix_Walk"))
+				if (anim->IsPlaying("Felix_Walk"))
 					anim->StopAndReset();
+				//if (m_moveAnim->IsPlaying("Action_Move"))
 				 //}
 			 	isWalkingAnim = false;
 			 }
