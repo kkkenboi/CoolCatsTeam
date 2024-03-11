@@ -119,6 +119,7 @@ namespace LB
 		Vec2<float> cachedCrowdPos{};
 		Vec2<float> mouse_pos{};
 		std::vector<Vec2<float>> SpawnPoints;
+		bool isSoundSwapped{ false };
 	};
 	void ShowGameOver(GameObject enemyObj);
 	REGISTER_SCRIPT(CPPSGameManager)

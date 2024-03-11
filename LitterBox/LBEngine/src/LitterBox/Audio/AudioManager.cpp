@@ -22,6 +22,7 @@
 #include "LitterBox/Core/Core.h"
 #include "Platform/Windows/Windows.h"
 #include "LitterBox/Engine/Time.h"
+#include "LitterBox/Scene/SceneManager.h"
 namespace LB
 {
 	AudioManager* AUDIOMANAGER = nullptr;
@@ -58,22 +59,7 @@ namespace LB
 		WINDOWSSYSTEM->OnApplicationUnFocus.Subscribe(Pause);
 	}
 
-	/*!***********************************************************************
-	* \brief Functions to play specific sounds
-	* Currently they're global, but in the future they will be C#
-	**************************************************************************/
-	void PlayTestSound()
-	{
-		AUDIOMANAGER->PlaySound("Oof");
-	}
-	void PlayExplosionSound()
-	{
-		AUDIOMANAGER->PlaySound("EXPLOSION");
-	}
-	void PlayAHHSound()
-	{
-		AUDIOMANAGER->PlaySound("Enemy hurt");
-	}
+
 	void RemoveAllAudioSources(bool isPlaying)
 	{
 		if(!isPlaying)
@@ -97,6 +83,14 @@ namespace LB
 	void UnPause()
 	{
 		AUDIOMANAGER->UnPauseAllChannels();
+	}
+
+	void FadeOut()
+	{
+	}
+
+	void FadeIn()
+	{
 	}
 
 	/*!***********************************************************************
@@ -124,6 +118,12 @@ namespace LB
 			{
 				stoppedChannels.push_back(iter);
 			}
+
+			//Check for fades here
+		/*	if (FadeIn)
+			{
+
+			}*/
 		}
 		//Now we remove all the channels we don't need
 		for (auto& channel : stoppedChannels)
@@ -357,6 +357,17 @@ namespace LB
 			Channels[ChannelID]->setVolume(_vol);
 		}// else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 	}
+
+	void AudioManager::FadeOutChannels(float duration)
+	{
+
+	}
+
+	void AudioManager::FadeinChannels(float duration)
+	{
+	}
+
+
 
 	/*!************************************************************************
 	* \brief Function to pause ALL channels
