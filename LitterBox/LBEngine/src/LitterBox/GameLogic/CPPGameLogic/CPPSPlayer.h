@@ -41,7 +41,9 @@ namespace LB
 		CPCollider*		col{ nullptr };
 		CPRender*		rend{ nullptr };
 		CPTransform*	trans{ nullptr };
+		CPTransform*	m_clubTrans{ nullptr };
 		CPAnimator*		anim{ nullptr };
+		CPAnimator*		m_clubAnim{ nullptr };
 		CPAnimator*		m_moveAnim{ nullptr };
 		CPParticle*		particle{ nullptr };
 
@@ -58,6 +60,7 @@ namespace LB
 		float mStunRemaining, mStunTimer; // when getting attack get stunned
 
 		float m_shootForce, m_shootRadius; //shooting of the golf ball force and the radius to shoot
+		float m_handOffset;
 
 		bool m_isFacingLeft; //facing which direction
 

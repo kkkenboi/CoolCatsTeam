@@ -26,8 +26,8 @@ namespace Renderer {
 		ortho{},
 		world_NDC{}
 	{
-		float onear = 4.f;
-		float ofar = -6.f;
+		float onear = 100.f;
+		float ofar = -100.f;
 		float hvf = 1080.f;
 		float wvf = 1920.f;
 		float lvf = 0.f;
@@ -43,22 +43,10 @@ namespace Renderer {
 
 		editor_ortho = ortho;
 
-		float near { 2.f };
-		float far{ -6.f };
+		float near { 100.f };
+		float far{ -100.f };
 		//complete the rest of the perspective matrix
 		aspect = (float)LB::WINDOWSSYSTEM->GetWidth() / (float)LB::WINDOWSSYSTEM->GetHeight();
-		// -- Not referenced --
-		//float const fov{ 90.f };
-		//float const tn{ tanf(fov / 2.f) };
-
-		//perspective =
-		//{
-		//	1.f/(tn*aspect), 0.f,0.f,0.f,
-		//	0.f, 1.f/(tn), 0.f, 0.f,
-		//	//rvf / rvf, hvf / hvf, -((far + near) / (far - near)), -1.f,
-		//	0.f, 0.f, far/(near - far ), -1.f,
-		//	0.f, 0.f, -(2.f*far*near)/(far - near), 0.f
-		//};
 
 		perspective =
 		{
@@ -68,25 +56,6 @@ namespace Renderer {
 			0.2f, 0.2f, -((far + near) / (far - near)), -1.f,
 			0.f, 0.f, -((2.f*near * far) / (far - near)), 0.f
 		};
-
-		/////////////////////////////////DEPRECATED//////////////////////////////////
-		//-------------for calculating the looking angles for the freecam-----------
-		{
-			azimuth = asinf(view_vector.y);
-
-			if (view_vector.z != 0.f)
-				if (view_vector.x >= 0.f)
-					longitude = atan2f(view_vector.x, view_vector.z);
-				else
-					longitude = atan2f(view_vector.x, view_vector.z) + 2.f * 3.1415926535897931f;
-			else
-				if (view_vector.x > 0.f)
-					longitude = 3.1415926535897931f * 0.5f;
-				else
-					longitude = 3.1415926535897931f * 1.5f;
-		}
-		//-------------for calculating the looking angles for the freecam-----------
-		/////////////////////////////////DEPRECATED//////////////////////////////////
 
 		editor_world_NDC = editor_ortho * free_cam_coords;
 		world_NDC = ortho * nel;

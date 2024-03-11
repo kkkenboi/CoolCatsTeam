@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 193.311553,
-            "y": 156.596374
+            "x": 1646.708984,
+            "y": 327.761199
         },
         "Scale": {
             "x": 1.0,
@@ -39,6 +39,9 @@
                     "SpriteIndex": 22
                 },
                 "Animator": {
+                    "Default State": "None",
+                    "Play On Awake": false,
+                    "Repeating": false,
                     "Controller": "VFXController"
                 }
             },
@@ -61,13 +64,16 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "ZLayer": 4.0,
+                    "ZLayer": 3.01,
                     "Layer": 0,
                     "Texture": "VFXCompile_SpriteSheet",
                     "SpriteName": "VFXSheet",
                     "SpriteIndex": 23
                 },
                 "Animator": {
+                    "Default State": "None",
+                    "Play On Awake": false,
+                    "Repeating": false,
                     "Controller": "VFXController"
                 }
             }

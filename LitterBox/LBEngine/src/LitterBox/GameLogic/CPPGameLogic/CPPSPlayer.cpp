@@ -43,8 +43,10 @@ namespace LB
 	void CPPSPlayer::Start()
 	{
 		trans = GameObj->GetComponent<CPTransform>();
+		m_clubTrans = trans->GetChild()->GetChild()->GetChild();
 		rend = trans->GetChild()->GetChild()->GetComponent<CPRender>();
 		anim = trans->GetChild()->GetChild()->GetComponent<CPAnimator>();
+		m_clubAnim = trans->GetChild()->GetChild()->GetChild()->GetChild()->GetComponent<CPAnimator>();
 		m_moveAnim = trans->GetChild()->GetComponent<CPAnimator>();
 		rb = GameObj->GetComponent<CPRigidBody>();
 		col = GameObj->GetComponent<CPCollider>();
@@ -73,6 +75,9 @@ namespace LB
 		mIsStunned = false;
 		mStunTimer = 0.5f;
 		mStunRemaining = mStunTimer;
+
+		// Hand position from body
+		m_handOffset = 5.0f;
 
 		m_particleEmitRate = particle->mEmitterRate;
 
@@ -112,26 +117,26 @@ namespace LB
 		static bool isWalkingAnim{ false };
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_W) && !mIsStunned)
 		{
-			//m_moveAnim->PlayRepeat("Action_Move");
-			anim->PlayRepeat("Felix_Walk");
+			m_moveAnim->PlayRepeat("Action_BigMove");
+			//anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_A) && !mIsStunned)
 		{
-			//m_moveAnim->PlayRepeat("Action_Move");
-			anim->PlayRepeat("Felix_Walk");
+			m_moveAnim->PlayRepeat("Action_BigMove");
+			//anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_D) && !mIsStunned)
 		{
-			//m_moveAnim->PlayRepeat("Action_Move");
-			anim->PlayRepeat("Felix_Walk");
+			m_moveAnim->PlayRepeat("Action_BigMove");
+			//anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 		else if (INPUT->IsKeyTriggered(KeyCode::KEY_S) && !mIsStunned)
 		{
-			//m_moveAnim->PlayRepeat("Action_Move");
-			anim->PlayRepeat("Felix_Walk");
+			m_moveAnim->PlayRepeat("Action_BigMove");
+			//anim->PlayRepeat("Felix_Walk");
 			isWalkingAnim = true;
 		}
 
@@ -175,10 +180,10 @@ namespace LB
 			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());
 
 			// If move anim is not playing when it should, e.g. after stun or damage
-			if (isMoving && !anim->IsPlaying())
+			if (isMoving && !m_moveAnim->IsPlaying())
 			{
-				//m_moveAnim->PlayRepeat("Action_Move");
-				anim->PlayRepeat("Felix_Walk");
+				m_moveAnim->PlayRepeat("Action_BigMove");
+				//anim->PlayRepeat("Felix_Walk");
 				isWalkingAnim = true;
 			}
 		}
@@ -194,9 +199,9 @@ namespace LB
 			 if (isWalkingAnim)
 			 {
 				 //if (!mIsStunned) {
-				if (anim->IsPlaying("Felix_Walk"))
-					anim->StopAndReset();
-				//if (m_moveAnim->IsPlaying("Action_Move"))
+				//if (anim->IsPlaying("Felix_Walk"))
+				if (m_moveAnim->IsPlaying("Action_BigMove"))
+					m_moveAnim->StopAndReset();
 				 //}
 			 	isWalkingAnim = false;
 			 }
@@ -224,6 +229,16 @@ namespace LB
 
 			// Pushes the ball
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
+
+			// Play the swing anim
+			if (m_isFacingLeft)
+			{
+				m_clubAnim->PlayAndReset("Felix_SwingLeft");
+			}
+			else
+			{
+				m_clubAnim->PlayAndReset("Felix_SwingRight");
+			}
 
 			DEBUG->DrawCircle(current_pos, m_shootRadius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, m_shootRadius);
@@ -287,18 +302,33 @@ namespace LB
 		Getting direction of where the mous is and making the player face to that direction
 		*************************************************************************/
 		//------------------Player face mouse pos------------------
-		Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
+		Vec2<float> playerPos = trans->GetPosition();
 		Vec2<float> mousePos = m_MouseWorld->GetComponent<CPPSMouseWorld>()->GetComponent<CPTransform>()->GetPosition();
 		
 		Vec2<float> playerToMouseDir = mousePos - playerPos;
-		Vec2<float> TransformRight{ 1,0 };
+		playerToMouseDir = playerToMouseDir.Normalise();
 
-		m_isFacingLeft = DotProduct(playerToMouseDir.Normalise(), TransformRight) < 0.0f;
+		Vec2<float> TransformRight{ 1,0 };
+		m_isFacingLeft = DotProduct(playerToMouseDir, TransformRight) < 0.0f;
+
+		// Set the club to face the mouse pos
+		float angle = atan2f(playerToMouseDir.y, playerToMouseDir.x);
+		m_clubTrans->SetRotation(RadToDeg(angle));
+
+		playerToMouseDir *= m_handOffset;
+		playerToMouseDir.y -= 40.0f;
+		m_clubTrans->SetPosition(playerToMouseDir);
 
 		if (m_isFacingLeft)
 		{
 			trans->SetScale(left_face);
-		} else trans->SetScale(right_face);
+			m_clubTrans->SetScale({-1.0f, -1.0f});
+		} 
+		else
+		{
+			trans->SetScale(right_face);
+			m_clubTrans->SetScale(right_face);
+		}
 
 		// Update the Stunned timer
 		if (mIsStunned) {
@@ -392,7 +422,7 @@ namespace LB
 	{
 		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
 		{
-			anim->m_playSpeed = 0.6f;
+			m_moveAnim->m_playSpeed = 0.6f;
 			particle->mEmitterRate = m_particleEmitRate * 0.6f;
 		}
 	}
@@ -401,7 +431,7 @@ namespace LB
 	{
 		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
 		{
-			anim->m_playSpeed = 1.0f;
+			m_moveAnim->m_playSpeed = 1.0f;
 			particle->mEmitterRate = m_particleEmitRate;
 		}
 	}

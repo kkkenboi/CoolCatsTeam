@@ -36,8 +36,10 @@ namespace LB
 	{
 		CPPSBaseEnemy::Start();
 		// Cache the render and animator
-		mRender = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPRender>();
-		mAnimator = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPAnimator>();
+		m_trans = GetComponent<CPTransform>();
+		mRender = m_trans->GetChild()->GetChild()->GetComponent<CPRender>();
+		mAnimator = m_trans->GetChild()->GetChild()->GetComponent<CPAnimator>();
+		m_handTrans = m_trans->GetChild()->GetChild()->GetChild()->GetComponent<CPTransform>();
 		
 		//initialse the state of the mage
 		//STATES : IDLE, CHASING, BACKOFF, HURT, SHOOTING
@@ -102,6 +104,14 @@ namespace LB
 		{
 			return;
 		}
+
+		// Update the hand position
+		Vec2<float> playerToMouseDir = m_trans->GetPosition() - GetHero()->GetComponent<CPTransform>()->GetPosition();
+		playerToMouseDir = playerToMouseDir.Normalise();
+
+		float angle = atan2f(playerToMouseDir.y, playerToMouseDir.x);
+		m_handTrans->SetRotation(RadToDeg(angle));
+		
 		if (mShouldDestroy)
 		{
 			GOMANAGER->RemoveGameObject(this->GameObj);
