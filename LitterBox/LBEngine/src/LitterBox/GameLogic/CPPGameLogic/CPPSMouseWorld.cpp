@@ -65,9 +65,9 @@ namespace LB
 
 				// m_currentPopUpIndex should be from 1 - 7 to match the enum
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = true;
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteIndex - 31); // Check again when actual sprites are added
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentVPopUpIndex = static_cast<UpgradeType>(colData.colliderOther->m_gameobj->GetComponent<CPRender>()->spriteIndex - 31); // Check again when actual sprites are added
 
-				UpgradeType tempIndex{ m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex };
+				UpgradeType tempIndex{ m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentVPopUpIndex };
 
 				//DebuggerLogFormat("CurrentPopUpIndex: %d", static_cast<int>(tempIndex));
 
@@ -83,7 +83,7 @@ namespace LB
 			else
 			{
 				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
+				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentVPopUpIndex = static_cast<UpgradeType>(0);
 			}
 		}
 	}
@@ -99,11 +99,8 @@ namespace LB
 			colData.colliderOther->m_gameobj->GetName() == "middleUpgrade" ||
 			colData.colliderOther->m_gameobj->GetName() == "rightUpgrade")
 		{
-			if (!GetComponent<CPCollider>()->m_collided)
-			{
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
-				m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentPopUpIndex = static_cast<UpgradeType>(0);
-			}
+			m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
+			m_PlayerHUD->GetComponent<CPPSPlayerHUD>()->m_currentVPopUpIndex = static_cast<UpgradeType>(0);
 		}
 	}
 }

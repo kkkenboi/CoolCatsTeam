@@ -31,6 +31,7 @@ namespace LB
 		POTION,			//Heal player
 		MOREHEALTH,		//Increase Max health by 1 (capped at 6/9)
 		MOREBALL,		//Increase ball count by 3	(capped at 6/9)
+		//GOLFSWING,		//Increases club swing range
 		MAXCOUNT		//Enum to keep track of the count of upgrades
 	};
 
@@ -83,6 +84,13 @@ namespace LB
 		* \return int Upgrades that the ball should currently have 
 		**************************************************************************/
 		int GetBallUpgrades();
+
+		/*!************************************************************************
+		* \brief Function to set whether upgrades are spawned
+		*
+		* \param Whether spawned or not
+		**************************************************************************/
+		void SetSpawned(bool spawned);
 
 		//Really scuffed way of making upgrades
 		//Upgrade manager assigns the upgrade type to the upgrade

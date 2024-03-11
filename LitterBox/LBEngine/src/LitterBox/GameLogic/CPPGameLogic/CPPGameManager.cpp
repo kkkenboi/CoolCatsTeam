@@ -20,6 +20,7 @@
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Scene/SceneManager.h"
 #include "CPPSProjectileBall.h"
+#include "Litterbox/Components/RenderVideoComponent.h"
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -88,6 +89,14 @@ namespace LB
 		{
 			GenerateWave();
 			GameStart = true;
+		}
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
+		{
+			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
+		}
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
+		{
+			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMainMenu");
 		}
 		//Test function to see if the remove gameobject code works
 		//You have to comment out the ball's canDestroy code in order for this
@@ -326,12 +335,13 @@ namespace LB
 		currentWave++;
 		GenerateWave();
 		UpgradeSpawned = false;
+		GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SetSpawned(false);
 
 		isMovementDisabled = false;	//we allow the player to move again
 		//we need to place the player back a the correct place and reset their pos and everything
-		mPlayer->GetComponent<CPTransform>()->SetPosition(playerSpawnPoint);
+		/*mPlayer->GetComponent<CPTransform>()->SetPosition(playerSpawnPoint);
 		mPlayer->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1));
-		mPlayer->GetComponent<CPTransform>()->SetRotation(0);
+		mPlayer->GetComponent<CPTransform>()->SetRotation(0);*/
 		//By right should set the camera to player too
 	}
 	

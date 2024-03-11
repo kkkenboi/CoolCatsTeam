@@ -94,7 +94,7 @@ namespace LB
 		float m_PlayerWalkSpeed{};
 		float m_PlayerMaxSpeed{};
 		float m_PlayerArbitraryFriction{};
-		
+		Vec2<float> playerSpawnPoint{};
 		//Cheering sound is 7 seconds
 		float crowdTimer{7.f};
 		float timer{};	//arbitrary timer for proper lerping
@@ -113,7 +113,7 @@ namespace LB
 		//GameObject* chargerEnemy{ nullptr };
 		GameObject* crowdTexture{ nullptr };
 		GameObject* gameOverTexture{ nullptr };
-		Vec2<float> playerSpawnPoint{};
+		
 		Vec2<float> cachedCrowdPos{};
 		Vec2<float> mouse_pos{};
 		std::vector<Vec2<float>> SpawnPoints;

@@ -200,7 +200,7 @@ namespace LB
 		if (isMoving && m_stepSoundCurrent > m_stepSoundInterval)
 		{
 			m_stepSoundCurrent = 0.0f;
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.5f);
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.3f);
 		}
 		m_stepSoundCurrent += static_cast<float>(TIME->GetDeltaTime()) * anim->m_playSpeed;
 		
@@ -271,6 +271,7 @@ namespace LB
 			playerPos.x += m_isFacingLeft ? -50.0f : 50.0f;
 
 			ballObject->GetComponent<CPTransform>()->SetPosition(playerPos);
+			ballObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{0.8f, 0.8f});
 			ballObject->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetBallUpgrades());
 		}
 

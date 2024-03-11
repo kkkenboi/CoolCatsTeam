@@ -27,7 +27,8 @@ namespace LB {
 	enum EmitterType
 	{
 		TRAIL = 0,
-		RADIAL = 1
+		RADIAL = 1,
+		INVERSERADIAL = 2
 	};
 
 	class CPParticle : public IComponent {
@@ -110,9 +111,11 @@ namespace LB {
 		float mEmitterSizeBegin{ 1.f };
 		float mEmitterSizeEnd{ 1.f };
 		
+		// Lifetimes
 		float mEmitterLifetime{ 1.f };
 		float mEmitterLifetimeRemaining{1.f};
-
+		float mEmitterLifetimeDelayMin{ 0.1f };
+		float mEmitterLifetimeDelayMax{ 0.1f };
 
 		// Particle
 		float mParticleLifetime{1.f};
@@ -130,7 +133,11 @@ namespace LB {
 
 		// Rotation randonmization
 		float mRotationSpeed{ 0.f };
-		float mRotationSpeedVariationMin{ 0.f };
-		float mRotationSpeedVariationMax{ 0.f };
+		float mRotationSpeedVariationMin{ -500.f };
+		float mRotationSpeedVariationMax{ 500.f };
+
+		// Inverse Radial Emitters
+		// Need how far away from the center
+		// 
 	};
 }

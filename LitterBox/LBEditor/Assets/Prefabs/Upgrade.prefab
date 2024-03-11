@@ -4,14 +4,74 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1024.699951,
-            "y": 785.0
+            "x": 193.311553,
+            "y": 156.596374
         },
         "Scale": {
             "x": 1.0,
             "y": 1.0
         },
-        "Rotation": 0.0
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "Shiny1",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 3.0,
+                    "Layer": 0,
+                    "Texture": "VFXCompile_SpriteSheet",
+                    "SpriteName": "VFXSheet",
+                    "SpriteIndex": 22
+                },
+                "Animator": {
+                    "Controller": "VFXController"
+                }
+            },
+            {
+                "Name": "Shiny2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 4.0,
+                    "Layer": 0,
+                    "Texture": "VFXCompile_SpriteSheet",
+                    "SpriteName": "VFXSheet",
+                    "SpriteIndex": 23
+                },
+                "Animator": {
+                    "Controller": "VFXController"
+                }
+            }
+        ]
     },
     "RigidBody": {
         "Active": true,
@@ -24,6 +84,7 @@
         "Active": true,
         "Width": 150.0,
         "Height": 150.0,
+        "ZLayer": 1.0,
         "Layer": 0,
         "Texture": "Multi_Spritesheet",
         "SpriteName": "MultiSheet",

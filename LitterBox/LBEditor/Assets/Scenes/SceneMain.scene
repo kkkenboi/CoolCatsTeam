@@ -261,7 +261,7 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 1043.0,
+                    "Width": 1067.0,
                     "Height": 190.0,
                     "Radius": 50.0
                 }
@@ -1455,7 +1455,7 @@
                                 "Rotation": 8.8
                             },
                             "Collider": {
-                                "Active": false,
+                                "Active": true,
                                 "ColliderLayer": {
                                     "Layer Name": "UI",
                                     "Layer ID": 2
@@ -1846,12 +1846,12 @@
                     "Height": 100.0,
                     "ZLayer": 1.0,
                     "Layer": 0,
-                    "Texture": "",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
+                    "Texture": "UpgradePopUp_Spritesheet",
+                    "SpriteName": "UpgradesSheet",
+                    "SpriteIndex": 12
                 },
                 "Collider": {
-                    "Active": false,
+                    "Active": true,
                     "ColliderLayer": {
                         "Layer Name": "Default",
                         "Layer ID": 0
@@ -1864,6 +1864,31 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSPortal"
+                }
+            },
+            {
+                "Name": "PortalCenter",
+                "Active": false,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Layer": 3,
+                    "Texture": "black-hole",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
                 }
             },
             {

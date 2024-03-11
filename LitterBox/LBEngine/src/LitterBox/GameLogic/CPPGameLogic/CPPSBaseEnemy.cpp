@@ -16,6 +16,7 @@
 #include "CPPSBaseEnemy.h"
 #include "CPPGameManager.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Physics/PhysicsMath.h"
 #include "CPPVFXManager.h"
 
 namespace LB
@@ -91,8 +92,12 @@ namespace LB
 	{
 		if(col.colliderOther->gameObj->GetName() == "ball")
 		{
-			Vec2<float> hitPos = col.colliderOther->transform->GetPosition();
-			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(hitPos);
+			if (PHY_MATH::Length(col.colliderOther->GetRigidBody()->mVelocity) > 600.f)
+			{
+				Vec2<float> hitPos = col.colliderOther->transform->GetPosition();
+				GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(hitPos);
+			}
+
 
 		}
 		UNREFERENCED_PARAMETER(col);	//the derived classes should override this

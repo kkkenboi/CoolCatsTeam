@@ -196,6 +196,13 @@ namespace LB
 													 "Footsteps-Grass-Far-Small_3",
 													 "Footsteps-Grass-Far-Small_4" };
 
+		std::vector<std::string> PlayerSandStepSounds = {	"Footsteps sand 1",
+															"Footsteps sand 2",
+															"Footsteps sand 3",
+															"Footsteps sand 4",
+															"Footsteps sand 5",
+															"Footsteps sand 6"};
+
 		std::vector<std::string> PlayerSlashSounds = { "Sward-Whoosh_1",
 													   "Sward-Whoosh_2",
 													   "Sward-Whoosh_3",
