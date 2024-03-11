@@ -1,0 +1,76 @@
+{
+    "Name": "Dummy",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 575.020629,
+            "y": 833.257324
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "Shadow",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": -67.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 95.0,
+                    "Height": 20.0,
+                    "ZLayer": 2.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 55
+                }
+            }
+        ]
+    },
+    "RigidBody": {
+        "Active": true,
+        "Width": 100.0,
+        "Height": 100.0,
+        "Density": 10.0,
+        "IsStatic": true
+    },
+    "Render": {
+        "Active": true,
+        "Width": 175.0,
+        "Height": 175.0,
+        "ZLayer": 1.0,
+        "Layer": 0,
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 56
+    },
+    "Collider": {
+        "Active": true,
+        "ColliderLayer": {
+            "Layer Name": "Default",
+            "Layer ID": 0
+        },
+        "Shape": 1,
+        "Width": 79.0,
+        "Height": 132.0,
+        "Radius": 87.5
+    },
+    "CPPScript": {
+        "Active": true,
+        "Script": "class LB::CPPSDummy"
+    }
+}

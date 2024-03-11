@@ -55,12 +55,25 @@ namespace LB
 		{	//then we add their positions to the vector 
 			SpawnPoints.push_back(go->GetComponent<CPTransform>()->GetPosition());
 		}
-
+		//Forgive me lord for I have sinned
+		if (SCENEMANAGER->GetCurrentScene()->GetName() == "SceneMain")
+		{
+			currentWave = 1;
+		}
 		//For the first level we just make it such that it's always 2 melee enemies
 		if (currentWave == 1) 
 		{
 			SpawnCredits = 4;
 			GenerateWave();
+			GameStart = true;
+		}
+
+		// For the tutorial stage
+		if (currentWave == 0) 
+		{
+			SpawnDummyEnemy();
+			SpawnDummyEnemy();
+			SpawnDummyEnemy();
 			GameStart = true;
 		}
 	}
@@ -92,8 +105,13 @@ namespace LB
 		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{
+			//GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeOut(5.f);
 			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
 		}
+		/*if (INPUT->IsKeyTriggered(KeyCode::KEY_I))
+		{
+			GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeIn(5.f,0.5f);
+		}*/
 		//if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
 		//{
 		//	VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMainMenu");
@@ -101,12 +119,12 @@ namespace LB
 		//Test function to see if the remove gameobject code works
 		//You have to comment out the ball's canDestroy code in order for this
 		//to not crash the game
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_V))
-		{
-			GameObject* ballObject = FACTORY->SpawnGameObject();
-			JSONSerializer::DeserializeFromFile("ball", *ballObject);
-			GOMANAGER->RemoveGameObject(ballObject, 2.f);
-		}
+		//if (INPUT->IsKeyTriggered(KeyCode::KEY_V))
+		//{
+		//	GameObject* ballObject = FACTORY->SpawnGameObject();
+		//	JSONSerializer::DeserializeFromFile("ball", *ballObject);
+		//	GOMANAGER->RemoveGameObject(ballObject, 2.f);
+		//}
 
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_P))
 		{
@@ -186,6 +204,13 @@ namespace LB
 					}
 				}
 			}
+			if (!isSoundSwapped && !GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->volume)
+			{
+				//more sinful code :pensive:
+				GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->UpdateAudio("GameOverBGM");
+				GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeIn(2.f,0.4f);
+				isSoundSwapped = true;
+			}
 		}
 	}
 	void CPPSGameManager::Destroy()
@@ -263,7 +288,16 @@ namespace LB
 		
 
 	}
-
+	
+	void CPPSGameManager::SpawnDummyEnemy()
+	{
+		GameObject* dummyClone = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("Dummy", *dummyClone);
+		dummyClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+		// Need to increment it here as we are not adding it to the list of enemies
+		currentEnemyCount++;
+	}
+	
 	/*!************************************************************************
 	* \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 	* 
@@ -280,6 +314,9 @@ namespace LB
 	}
 	void CPPSGameManager::ShowGameOver(GameObject enemyObj)
 	{
+		//first we fade out the music	
+		GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeOut(2.5f);
+
 		AUDIOMANAGER->PlaySound("GameOver");
 		//AUDIOMANAGER->PlaySound("GameOverBGM");
 		isGameOver = true;
@@ -333,6 +370,10 @@ namespace LB
 	void CPPSGameManager::NextWave()
 	{
 		currentWave++;
+		if (currentWave == 1)
+		{
+			SpawnCredits = 4;
+		}
 		GenerateWave();
 		UpgradeSpawned = false;
 		GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SetSpawned(false);

@@ -67,6 +67,8 @@ namespace LB
 
 		void SpawnCrowdAnim();
 
+		void SpawnDummyEnemy();
+
 		/*!************************************************************************
 		 * \brief Function to reduce the enemy count (should be called by base enemy's hurt)
 		 * 
@@ -105,7 +107,7 @@ namespace LB
 		//Formula made in desmos, curve is a sexy sexy S curve.
 		//Formula => 12/(0.5f + e^(-x/5 + 4))
 		int SpawnCredits{}; //Spawn credits allowed for the game manager 
-		int currentWave{ 1 };	//starting wave is always 1
+		int currentWave{ 0 };	//starting wave is now 0 due to tutorial level
 		int currentEnemyCount{ 0 }; //Really scuffed way of tracking enemies imo
 		//We try to store references to the enemies
 		//GameObject* mageEnemy{nullptr};
@@ -117,6 +119,7 @@ namespace LB
 		Vec2<float> cachedCrowdPos{};
 		Vec2<float> mouse_pos{};
 		std::vector<Vec2<float>> SpawnPoints;
+		bool isSoundSwapped{ false };
 	};
 	void ShowGameOver(GameObject enemyObj);
 	REGISTER_SCRIPT(CPPSGameManager)

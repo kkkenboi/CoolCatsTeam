@@ -3,6 +3,7 @@
     "States": [
         "Action_Bob",
         "Action_Squish",
-        "Action_Move"
+        "Action_Move",
+        "Action_BigMove"
     ]
 }

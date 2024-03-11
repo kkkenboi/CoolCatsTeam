@@ -73,7 +73,7 @@ namespace LB
 
 		// Otherwise, update the animation
 		m_elapsedTime += static_cast<float>(TIME->GetDeltaTime() * m_playSpeed);
-		if (m_elapsedTime >= m_targetTime)
+		while (m_elapsedTime >= m_targetTime)
 		{
 			m_elapsedTime -= m_targetTime;
 
@@ -114,6 +114,20 @@ namespace LB
 			}
 
 			m_controller.Update();
+
+			// If the animation has reached the end and not repeating, stop the animation
+			if (m_controller.IsLastFrame())
+			{
+				if (!m_repeating)
+				{
+					m_resetAfterPlay ? StopAndReset() : Stop();
+				}
+				else
+				{
+					m_controller.GetCurrentState().m_currentFrame = m_controller.GetCurrentState().m_startFrame;
+				}
+				return;
+			}
 		}
 	}
 

@@ -28,43 +28,43 @@
         "Frame Group": [
             {
                 "Frame": 0,
-                "Data": 32
+                "Data": 0
             },
             {
                 "Frame": 2,
-                "Data": 33
+                "Data": 0
             },
             {
                 "Frame": 4,
-                "Data": 34
+                "Data": 0
             },
             {
                 "Frame": 6,
-                "Data": 35
+                "Data": 0
             },
             {
                 "Frame": 8,
-                "Data": 36
+                "Data": 0
             },
             {
                 "Frame": 10,
-                "Data": 37
+                "Data": 0
             },
             {
                 "Frame": 12,
-                "Data": 39
+                "Data": 0
             },
             {
                 "Frame": 14,
-                "Data": 40
+                "Data": 0
             },
             {
                 "Frame": 16,
-                "Data": 41
+                "Data": 0
             },
             {
                 "Frame": 18,
-                "Data": 38
+                "Data": 0
             }
         ]
     },
