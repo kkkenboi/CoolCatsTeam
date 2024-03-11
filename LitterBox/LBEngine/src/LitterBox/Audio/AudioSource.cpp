@@ -58,6 +58,28 @@ namespace LB
 				Play();//hasPlayed = true;
 				playDelayed = false;
 			}
+			if (fadeIn)
+			{
+				fadeTimer+= static_cast<float>(TIME->GetDeltaTime());
+				SetVolume(volToSet * fadeTimer / fadeTime);
+				if (fadeTimer >= fadeTime)
+				{
+					fadeIn = false;
+					fadeTimer = 0;
+					SetVolume(volToSet);
+				}
+			}
+			if (fadeOut)
+			{
+				fadeTimer += static_cast<float>(TIME->GetDeltaTime());
+				SetVolume(volume * (1.0 - fadeTimer/fadeTime));
+				if (fadeTimer >= fadeTime)
+				{
+					fadeOut = false;
+					fadeTimer = 0;
+					SetVolume(0);
+				}
+			}
 			//If it's looping and it has been played 
 			if (loop && !isPlaying() && hasPlayed)
 			{
@@ -247,6 +269,24 @@ namespace LB
 		if (!CORE->IsPlaying()) return;
 		AUDIOMANAGER->SetChannelVolume(channelID, volume);
 		
+	}
+
+	void CPAudioSource::FadeOut(float time)
+	{
+		fadeTime = time;
+		fadeTimer = 0;
+		fadeOut = true;
+		fadeIn = false;
+	}
+
+	void CPAudioSource::FadeIn(float time, float volumeToSet)
+	{
+		fadeTime = time;	
+		fadeTimer = 0;
+
+		fadeIn = true;
+		volToSet = volumeToSet;
+		fadeOut = false;
 	}
 
 	

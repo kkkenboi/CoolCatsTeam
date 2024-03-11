@@ -63,7 +63,7 @@ namespace LB
 		mVelocity = 1000.0f; //with direction
 		mRotation = 0.f;
 		
-		mCurrentLifetime = mLifetime = 1.0f;
+		mCurrentLifetime = mLifetime = 2.5f;
 		onBallDisappear.Subscribe(DecreaseBalls);
 
 	}

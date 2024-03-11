@@ -36,6 +36,10 @@ namespace LB
 		//Getter for the mage projectile
 		GameObject* GetProjectile();
 
+		//Hand transform
+		CPTransform* m_trans{ nullptr };
+		CPTransform* m_handTrans{ nullptr };
+
 		//spawn function
 		void SpawnProjectile();
 

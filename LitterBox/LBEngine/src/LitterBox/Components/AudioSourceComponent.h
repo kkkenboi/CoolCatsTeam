@@ -79,7 +79,8 @@ namespace LB
 		**************************************************************************/
 		void SetVolume(float _vol);
 
-
+		void FadeOut(float time = 1.f);
+		void FadeIn(float time = 1.f, float volume = 1.f);
 
 		/*!***********************************************************************
 		* PUBLIC VARIABLES
@@ -89,7 +90,12 @@ namespace LB
 		bool playOnAwake{false};		//Determines if the audio source should play on awake
 		bool loop{false};				//Determines if the audio source should loop
 		float volume{ 1.0f };			//Clamped at 0.0f - 1.0f
+		float volToSet{};				//Volume to set for fading
 		float pitch{ 1.0f };			//Clamped at 0.0f - 1.0f (idk if clamping this is normal)
+		float fadeTimer{ 0.f };			//Timer for fading in/out
+		float fadeTime{ 0.f };			//Time for fading in/out
+		bool fadeIn{ false };				//Determines if the audio source should fade in
+		bool fadeOut{ false };			//Determines if the audio source should fade out
 		std::string AudioClipName{};		//Name of the audioclip 
 
 		/*!***********************************************************************

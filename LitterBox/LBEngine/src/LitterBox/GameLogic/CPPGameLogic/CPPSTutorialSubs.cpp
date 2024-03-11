@@ -14,6 +14,7 @@ void LB::CPPSTutorialSubs::Start()
 
 	mSubtitles = GOMANAGER->FindGameObjectWithName("Subtitles");
 	mCurtain = GOMANAGER->FindGameObjectWithName("Transition Curtain");
+	mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 
 	//if object not found we need to create the object
 	if (!mSubtitles)
@@ -29,7 +30,8 @@ void LB::CPPSTutorialSubs::Start()
 		mCurtain = FACTORY->SpawnGameObject();
 	}
 
-	mSubtitles->GetComponent<CPTransform>()->SetPosition(LB::Vec2<float>(50.f, 80.f));
+	mSubtitles->GetComponent<CPTransform>()->SetPosition(Vec2<float>{-400.f, 400.0f});
+	mCurtain->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f});
 	//we put in the first subtitle here for now
 	//maybe put it somewhere else in future???
 	title = titles[0];

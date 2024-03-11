@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1568.08,
-            "y": 868.59
+            "x": 1686.079956,
+            "y": 1036.589965
         },
         "Scale": {
             "x": 1.0,
@@ -17,9 +17,10 @@
         "Active": true,
         "Message": {
             "text": "FPS:",
-            "x": 1670.0,
-            "y": 1025.0,
+            "x": 1686.079956,
+            "y": 1036.589965,
             "scale": 1.0,
+            "World Coords": false,
             "Color": {
                 "x": 1.0,
                 "y": 1.0,

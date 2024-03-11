@@ -138,6 +138,6 @@ namespace LB {
 
 		// Inverse Radial Emitters
 		// Need how far away from the center
-		// 
+		float mInvRadDistance{ 0.f };
 	};
 }

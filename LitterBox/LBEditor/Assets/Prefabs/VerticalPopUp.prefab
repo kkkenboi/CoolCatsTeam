@@ -8,8 +8,8 @@
             "y": 540.0
         },
         "Scale": {
-            "x": 0.45,
-            "y": 0.45
+            "x": 0.449999,
+            "y": 0.449999
         },
         "Rotation": 0.0
     },
@@ -17,10 +17,16 @@
         "Active": true,
         "Width": 768.0,
         "Height": 768.0,
-        "ZLayer": 5.0,
-        "Layer": 0,
+        "ZLayer": 3.0,
+        "Layer": 1,
         "Texture": "UpgradePopUp_Spritesheet",
         "SpriteName": "UpgradesSheet",
         "SpriteIndex": 0
+    },
+    "Animator": {
+        "Default State": "VFX_Expand",
+        "Play On Awake": false,
+        "Repeating": false,
+        "Controller": "VFXController"
     }
 }

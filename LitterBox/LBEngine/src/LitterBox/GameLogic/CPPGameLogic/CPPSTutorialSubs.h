@@ -31,6 +31,7 @@ namespace LB
 		void Destroy() override;
 	private:
 		GameObject* mSubtitles{ nullptr }, *mCurtain{ nullptr };
+		GameObject* mPlayer{ nullptr };
 		std::string title{};
 		float timer{ 0.f }, startingDelay{ 0.f };
 		int currletter{ 0 };
