@@ -42,6 +42,7 @@ namespace LB
 		rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
 		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
 		leftFace.x = -leftFace.x;	//forgive me lord for I have sinned
+		facingLeft = false;
 	}
 
 	/*!************************************************************************
@@ -60,12 +61,17 @@ namespace LB
 		//	return;
 		//} 
 		//All enemies must always face player (?) Might not work for charger who knows
-		DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
+		/*DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
 		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
 		{
 			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
+		}*/
+
+		if (mShouldFace)
+		{
+			FacePlayer();
 		}
-		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
+
 		//All enemies will sepuku if you press K
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_K))
 		{
@@ -97,8 +103,6 @@ namespace LB
 				Vec2<float> hitPos = col.colliderOther->transform->GetPosition();
 				GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(hitPos);
 			}
-
-
 		}
 		UNREFERENCED_PARAMETER(col);	//the derived classes should override this
 		//If the enemy has no hp it should be able to collide with anything anymore
@@ -206,6 +210,21 @@ namespace LB
 		if (mHealth < 1)
 		{
 			Die();
+		}
+	}
+
+	void CPPSBaseEnemy::FacePlayer()
+	{
+		DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
+		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
+		{
+			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
+			facingLeft = true;
+		}
+		else
+		{
+			GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
+			facingLeft = false;
 		}
 	}
 }

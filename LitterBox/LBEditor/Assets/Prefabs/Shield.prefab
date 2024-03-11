@@ -13,17 +13,11 @@
         },
         "Rotation": 0.0
     },
-    "RigidBody": {
-        "Active": true,
-        "Width": 100.0,
-        "Height": 100.0,
-        "Density": 10.0,
-        "IsStatic": false
-    },
     "Render": {
         "Active": true,
-        "Width": 100.0,
-        "Height": 100.0,
+        "Width": 120.0,
+        "Height": 120.0,
+        "ZLayer": 1.0,
         "Layer": 0,
         "Texture": "Multi_Spritesheet",
         "SpriteName": "MultiSheet",
@@ -32,12 +26,12 @@
     "Collider": {
         "Active": true,
         "ColliderLayer": {
-            "Layer Name": "GameEntity",
-            "Layer ID": 1
+            "Layer Name": "EnemyBall",
+            "Layer ID": 5
         },
         "Shape": 1,
-        "Width": 100.0,
-        "Height": 100.0,
+        "Width": 62.0,
+        "Height": 105.0,
         "Radius": 50.0
     },
     "CPPScript": {

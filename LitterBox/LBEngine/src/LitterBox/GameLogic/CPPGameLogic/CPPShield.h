@@ -1,11 +1,12 @@
 /*!************************************************************************
- * \file				CPPSAimUI.h
- * \author(s)			Amadeus Chia
- * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
+ * \file				CPPShield.h
+ * \author(s)			Vanessa Chua Siew Jin
+ * \par DP email(s):  	vanessasiewjin@digipen.edu
  * \par Course:       	CSD2450A
- * \date				09/02/2024
+ * \date				28/02/2024
  * \brief 				This file contains the file declarations for the
- * 						Aim script. (Basically points UI to mouse cursor)
+ *						Shield
+ *
  *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
  *  disclosure of this file or its contents without the prior written consent
  *  of DigiPen Institute of Technology is prohibited.
@@ -32,6 +33,7 @@ namespace LB
 		
 		//Charger GameObject, getter and position
 		GameObject* mCharger;
+		CPPSCharger* mChargerScript;
 		GameObject* GetCharger();
 		Vec2<float> GetChargerPos();
 
@@ -41,16 +43,25 @@ namespace LB
 		Vec2<float> GetPlayerPos();
 
 		//Vec2<float> DirOfThePlayer;
-		bool mLock{ false };
 
-		float offset{ 50.0f };
-		//bool isChargerDead{ false };
+		float offset{ 75.0f };
+
+		// TODO: REFACTOR, TEMP HACK UNTIL CHILD STARTING IS FIXED
+		bool m_ScriptSet{ false };
+
+		CPCollider* GetCollider();
 
 		CPRender* mRender{ nullptr };
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
 
-	
+		GameObject* mBall;
+
+		void OnCollisionEnter(CollisionData colData);
+
+		//void SetShouldFace(bool state);
+
+		//bool mShouldFace{ false };
 	
 	};
 	REGISTER_SCRIPT(CPPShield)

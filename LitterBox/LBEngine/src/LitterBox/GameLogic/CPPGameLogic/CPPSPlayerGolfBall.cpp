@@ -170,6 +170,11 @@ namespace LB
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BallCollisionSounds, 0.4f);
 			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(GetComponent<CPTransform>()->GetPosition());
 		}
+
+		if (colData.colliderOther->m_gameobj->GetName() == "Shield")
+		{
+			mRigidBody->addImpulse(Vec2<float>(5.0f, 5.0f));
+		}
 	}
 
 	//Function to set the current upgrade for the ball

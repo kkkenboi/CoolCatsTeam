@@ -1,0 +1,26 @@
+{
+    "Name": "DizzyEffect",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 0.0,
+            "y": 59.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0
+    },
+    "Render": {
+        "Active": false,
+        "Width": 150.0,
+        "Height": 150.0,
+        "ZLayer": 1.0,
+        "Layer": 0,
+        "Texture": "VFXCompile_SpriteSheet",
+        "SpriteName": "VFXSheet",
+        "SpriteIndex": 25
+    }
+}
