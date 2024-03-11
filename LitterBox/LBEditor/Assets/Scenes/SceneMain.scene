@@ -98,11 +98,63 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 3072.0,
-                    "Height": 2048.0,
+                    "Width": 3840.0,
+                    "Height": 2816.0,
                     "ZLayer": 5.0,
                     "Layer": 1,
                     "Texture": "Map1",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "MapFiller",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -1081.0,
+                        "y": 412.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 2432.0,
+                    "Height": 2560.0,
+                    "ZLayer": 7.0,
+                    "Layer": 1,
+                    "Texture": "MapBG",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "MapFiller2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 3072.196289,
+                        "y": 413.682067
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 2432.0,
+                    "Height": 2560.0,
+                    "ZLayer": 7.0,
+                    "Layer": 1,
+                    "Texture": "MapBG",
                     "SpriteName": "None",
                     "SpriteIndex": -1
                 }
@@ -334,7 +386,7 @@
                     "Active": true,
                     "Position": {
                         "x": 130.817291,
-                        "y": -387.483245
+                        "y": -371.225128
                     },
                     "Scale": {
                         "x": 1.0,
@@ -356,7 +408,7 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 1067.0,
+                    "Width": 1265.0,
                     "Height": 190.0,
                     "Radius": 50.0
                 }
@@ -537,8 +589,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 2318.972656,
-                        "y": 603.79248
+                        "x": 2305.036621,
+                        "y": 589.857543
                     },
                     "Scale": {
                         "x": 1.0,
@@ -571,7 +623,7 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 2403.064697,
+                        "x": 2396.651123,
                         "y": 139.543945
                     },
                     "Scale": {
@@ -606,7 +658,7 @@
                     "Active": true,
                     "Position": {
                         "x": 1778.682739,
-                        "y": -389.794647
+                        "y": -371.214019
                     },
                     "Scale": {
                         "x": 1.0,
