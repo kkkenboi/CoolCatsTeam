@@ -31,7 +31,7 @@ namespace LB
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 		mCharger = GOMANAGER->FindGameObjectWithName("Charger_Shield");
 
-		
+		mBall = GOMANAGER->FindGameObjectWithName("ball");
 		//mTransform = 
 		//mCollider->m_pos.x = 0.f;
 		//mCollider->m_pos.y = 0.f;
@@ -94,10 +94,14 @@ namespace LB
 
 	void CPPShield::OnCollisionEnter(CollisionData colData)
 	{
-		//if (colData.colliderOther->m_gameobj->GetName() == "ball")
-		//{
-		//	mRigidBody->addImpulse(Vec2<float>(1000.0f, 1000.0f));
-		//}
+		Vec2<float> currPos = { mTransform->GetPosition().x , mTransform->GetPosition().y };
+		Vec2<float> nextPos = { GetPlayerPos().x, GetPlayerPos().y };
+		Vec2<float> Direction = (nextPos - currPos).Normalise();
+		Vec2<float> Force = Direction * 1000.0f;
+		if (colData.colliderOther->m_gameobj->GetName() == "ball")
+		{
+			mBall->GetComponent<CPRigidBody>()->addImpulse(Force);
+		}
 ;	}
 
 	GameObject* CPPShield::GetCharger()

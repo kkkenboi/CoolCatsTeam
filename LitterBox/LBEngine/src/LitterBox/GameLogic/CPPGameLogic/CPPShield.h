@@ -55,6 +55,8 @@ namespace LB
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
 
+		GameObject* mBall;
+
 		void OnCollisionEnter(CollisionData colData);
 
 		//void SetShouldFace(bool state);

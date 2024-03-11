@@ -111,6 +111,8 @@ namespace LB
 		Vec2<float> leftFace;
 		Vec2<float> rightFace;
 
+		bool facingLeft;
+
 		Vec2<float> DirToPlayer;
 		Vec2<float> TransformRight{ 1,0 };
 		bool mShouldDestroy{ false };

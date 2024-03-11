@@ -50,7 +50,6 @@ namespace LB
 
 		//------------------CHARGE STATE------------------
 		float mChargingSpeed{};
-		//bool mIsCharging{};
 		Vec2<float> mChargeDirection{};
 		Vec2<float> mChargeNormalForce{};
 
@@ -63,7 +62,7 @@ namespace LB
 
 		CPParticle* FootstepsParticle{ nullptr };
 
-		CPAnimator* mDizzyAnim, *mAngerAnim, *mPuffAnim, *mMoveAnim;
+		CPAnimator* mDizzyAnim, *mAngerAnim, *mPuffAnim, *mMoveAnim, *mAngerTwoAnim;
 
 		float m_FootstepsParticleEmitRate;
 
@@ -79,6 +78,11 @@ namespace LB
 		GameObject* mAngerObj; //will be spawnned when got stunned
 		CPTransform* mAngerObjTrans;
 		CPRender* mAngerRender;
+
+		GameObject* mAngerTwoObj; //will be spawnned when got stunned
+		CPTransform* mAngerObjTwoTrans;
+		CPRender* mAngerTwoRender;
+
 
 		bool isCharging{ false }, m_isStunned{ false };
 

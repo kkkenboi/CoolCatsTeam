@@ -32,6 +32,7 @@ namespace LB
 		mMoveAnim = mTransform->GetChild()->GetComponent<CPAnimator>();
 		mDizzyAnim = mTransform->GetChild(2)->GetComponent<CPAnimator>();
 		mAngerAnim = mTransform->GetChild(3)->GetComponent<CPAnimator>();
+		mAngerTwoAnim = mTransform->GetChild(6)->GetComponent<CPAnimator>();
 		//mPuffAnim
 
 		ChargerIdleState* IDLESTATE = DBG_NEW ChargerIdleState(this, mFSM, "Idle");
@@ -92,7 +93,7 @@ namespace LB
 		//********************EFFECTS ON CHARGER***********************
 		//DIZZY
 
-		mDizzyObj = mTransform->GetChild(2)->gameObj; //CANNOT GET CHILD?
+		mDizzyObj = mTransform->GetChild(2)->gameObj;
 		mDizzyRender = mDizzyObj->GetComponent<CPRender>();
 
 		mDizzyObjTrans = mDizzyObj->GetComponent<CPTransform>();
@@ -102,21 +103,40 @@ namespace LB
 		//ANGER
 		mAngerObj = mTransform->GetChild(3)->gameObj;
 		mAngerRender = mAngerObj->GetComponent<CPRender>();
-
 		mAngerObjTrans = mAngerObj->GetComponent<CPTransform>();
 		mAngerObjTrans->SetPosition(Vec2<float>(0.f, 80.f));
 		mAngerRender->ToggleActiveFlag(false);
 
+		mAngerTwoObj = mTransform->GetChild(6)->gameObj; //will be spawnned when got stunned
+		mAngerTwoRender = mAngerTwoObj->GetComponent<CPRender>();
+		mAngerObjTwoTrans = mAngerTwoObj->GetComponent<CPTransform>();
+		mAngerTwoRender->ToggleActiveFlag(false);
+
+
+
 		//FootSteps
 		FootstepsParticle = mTransform->GetChild(4)->GetComponent<CPParticle>();
 		m_FootstepsParticleEmitRate = FootstepsParticle->mEmitterRate;
-		mAngerRender->ToggleActiveFlag(false);
 		isCharging = false;
+
+		FootstepsParticle->mIsActive = false;
 	}
 
 	void CPPSCharger::Update()
 	{
 		CPPSBaseEnemy::Update();
+
+		if (!facingLeft)
+		{
+			mAngerObjTwoTrans->SetPosition(Vec2<float>(58.0f, 7.0f));
+			mAngerObjTwoTrans->SetRotation(5.10f);
+		}
+		else if (facingLeft)
+		{
+			mAngerObjTwoTrans->SetPosition(Vec2<float>(-58.0f, 7.0f));
+			mAngerObjTwoTrans->SetRotation(-5.10f);
+		}
+
 		if (mInitialised == false)
 		{
 			return;
@@ -156,8 +176,9 @@ namespace LB
 		{
 			mFSM.ChangeState("Hurt");
 		}
-		else if (wallStr != std::string::npos || brambleStr != std::string::npos || MushroomStr != std::string::npos)
+		else if ((wallStr != std::string::npos || brambleStr != std::string::npos || MushroomStr != std::string::npos) && isCharging)
 		{	
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHitSounds, 0.2f);
 			mFSM.ChangeState("Stunned");
 		}
 	}
@@ -167,9 +188,13 @@ namespace LB
 		isAggro = true;
 		if (GetHealth() <= 0)
 		{
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerDeathSounds, 0.2f);
 			Die();
 		}
-		CPPSBaseEnemy::Hurt();
+		else
+		{
+			CPPSBaseEnemy::Hurt();
+		}
 	}
 
 	void CPPSCharger::Die()
@@ -246,6 +271,7 @@ namespace LB
 	void ChargerMoveState::Enter()
 	{
 		//DebuggerLogWarning("CHARGER MOVE STATE");
+		mEnemy->mMoveAnim->m_playSpeed = 1.0f;
 		mEnemy->mMoveAnim->PlayRepeat("Action_Move");
 		this->Update();
 	}
@@ -256,7 +282,6 @@ namespace LB
 		//when charger is near the player, state will change to windup
 
 		//DebuggerLogWarning("CHARGER MOVE STATE");
-		//DebuggerLogFormat("Dist In Between enemy and Hero: %f", DistInBwn);
 
 		float DistInBwn = Vec2<float>::Distance(mEnemy->GetChargerPos(), mEnemy->GetPlayerPos());
 
@@ -269,14 +294,16 @@ namespace LB
 			Vec2<float> Direction = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
 			Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
 
-			if (NormalForce.x != 0.0f || NormalForce.y != 0.0f)
-				NormalForce = Normalise(NormalForce);
-			//walk towards the player
-			mEnemy->GetRigidBody()->mVelocity += (NormalForce * 0.5f - mEnemy->GetRigidBody()->mVelocity) * 
-				10.f * static_cast<float>(TIME->GetDeltaTime());
+			mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime()));
 
-			mEnemy->GetRigidBody()->mVelocity.x = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.x, -(mEnemy->GetSpeedMag()), mEnemy->GetSpeedMag());
-			mEnemy->GetRigidBody()->mVelocity.y = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.y, -(mEnemy->GetSpeedMag()), mEnemy->GetSpeedMag());
+			//if (NormalForce.x != 0.0f || NormalForce.y != 0.0f)
+			//	NormalForce = Normalise(NormalForce);
+			////walk towards the player
+			//mEnemy->GetRigidBody()->mVelocity += (NormalForce * 0.5f - mEnemy->GetRigidBody()->mVelocity) * 
+			//	10.f * static_cast<float>(TIME->GetDeltaTime());
+
+			//mEnemy->GetRigidBody()->mVelocity.x = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.x, -(mEnemy->GetSpeedMag()), mEnemy->GetSpeedMag());
+			//mEnemy->GetRigidBody()->mVelocity.y = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.y, -(mEnemy->GetSpeedMag()), mEnemy->GetSpeedMag());
 		}
 	}
 
@@ -299,7 +326,7 @@ namespace LB
 	{
 		//DebuggerLogWarning("CHARGER HURT STATE");
 		mEnemy->mAnimator->PlayAndReset("Charger_Hurt");
-
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHurtSounds, 0.2f);
 		mEnemy->Hurt();
 		this->Update();
 	}
@@ -328,10 +355,15 @@ namespace LB
 	void ChargerWindUpState::Enter()
 	{
 		//DebuggerLogWarning("CHARGER WINDUP STATE");
-		mEnemy->mAnimator->PlayRepeat("Charger_Prep");
-
 		mEnemy->mAngerRender->ToggleActiveFlag(true);
-		mEnemy->mTimerToCharge = 1.0f;
+		mEnemy->mAngerTwoRender->ToggleActiveFlag(true);
+		mEnemy->mAnimator->PlayRepeat("Charger_Prep");
+		mEnemy->mAngerAnim->PlayRepeat("Charger_PrepVFX");
+		mEnemy->mAngerTwoAnim->PlayRepeat("Charger_PrepVFX2");
+
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerChargingSounds, 0.2f);
+
+		mEnemy->mTimerToCharge = 2.0f;
 		this->Update();
 	}
 
@@ -348,8 +380,11 @@ namespace LB
 	void ChargerWindUpState::Exit() 
 	{
 		mEnemy->mAnimator->StopAndReset();
-
+		mEnemy->mAngerAnim->StopAndReset();
 		mEnemy->mAngerRender->ToggleActiveFlag(false);
+		mEnemy->mAngerTwoRender->ToggleActiveFlag(false);
+
+		//mEnemy->mAngerRender->ToggleActiveFlag(false);
 	}
 
 	/*!***********************************************************************
@@ -366,7 +401,8 @@ namespace LB
 	void ChargerChargeState::Enter()
 	{
 		mEnemy->mAnimator->PlayRepeat("Charger_Charging");
-
+		mEnemy->mMoveAnim->m_playSpeed = 2.0f;
+		mEnemy->mMoveAnim->PlayRepeat("Action_Move");
 		//DebuggerLogWarning("CHARGER CHARGE STATE");
 		mEnemy->isCharging = true;
 		mEnemy->mChargeDirection = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
@@ -393,6 +429,7 @@ namespace LB
 	void ChargerChargeState::Exit()
 	{
 		mEnemy->mAnimator->StopAndReset();
+		mEnemy->mMoveAnim->StopAndReset();
 
 		mEnemy->isCharging = false;
 	}
@@ -414,7 +451,6 @@ namespace LB
 		mEnemy->mDizzyAnim->PlayRepeat("Charger_StunVFX");
 		mEnemy->mAnimator->PlayRepeat("Charger_Stunny");
 
-		//mEnemy->mIsCharging = false;
 		mEnemy->m_isStunned = true;
 		mEnemy->mStunStopMovingElapsed = 0.0f;
 
@@ -436,15 +472,12 @@ namespace LB
 			}
 		}
 		//DebuggerLogWarning("CHARGER STUNNED STATE");
-		//mEnemy->mIsCharging = false;
-		//DebuggerLogErrorFormat("Is Charging bool: %i", mEnemy->mIsCharging);
 
 		//!!! MAY WANT TO CHANGE DUE TO HOW IT LOOKS
 		//mEnemy->GetRigidBody()->mVelocity.x = 0.0f;
 		//mEnemy->GetRigidBody()->mVelocity.y = 0.0f;
 
 		mEnemy->mStunTimerElapsed -= static_cast<float>(TIME->GetDeltaTime());
-		//mEnemy->mDizzyObj->SetActive(true);
 
 		if (mEnemy->mStunTimerElapsed <= 0.0f)
 		{

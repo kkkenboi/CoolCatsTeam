@@ -42,6 +42,7 @@ namespace LB
 		rightFace = GameObj->GetComponent<CPTransform>()->GetScale();
 		leftFace = GameObj->GetComponent<CPTransform>()->GetScale();
 		leftFace.x = -leftFace.x;	//forgive me lord for I have sinned
+		facingLeft = false;
 	}
 
 	/*!************************************************************************
@@ -218,7 +219,12 @@ namespace LB
 		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
 		{
 			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
+			facingLeft = true;
 		}
-		else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
+		else
+		{
+			GameObj->GetComponent<CPTransform>()->SetScale(rightFace);
+			facingLeft = false;
+		}
 	}
 }

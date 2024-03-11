@@ -259,6 +259,23 @@ namespace LB
 														 "Rhyno_Attack_5",
 														 "Rhyno_Attack_6" };
 
+		std::vector<std::string> ChargerDeathSounds = { "Rhyno_Death_1",
+														 "Rhyno_Death_2",
+														 "Rhyno_Death_3",
+														 "Rhyno_Death_4",
+														 "Rhyno_Death_5",
+														 "Rhyno_Death_6" };
+
+		std::vector<std::string> ChargerHurtSounds = { "Rhyno Hurt_1",
+														"Rhyno Hurt_2",
+														"Rhyno Hurt_3",
+														"Rhyno Hurt_4",
+														"Rhyno Hurt_5"};
+
+		std::vector<std::string> ChargerHitSounds = { "Bullets_Impact_Hit_Metal_01_SND50289_1"};
+
+		std::vector<std::string> ChargerChargingSounds = { "Trains_Horn_Train_Whistle_Old_SND59554" };
+
 	private:
 		int channelID{ 0 };
 		std::map<int, FMOD::Channel*> Channels;
