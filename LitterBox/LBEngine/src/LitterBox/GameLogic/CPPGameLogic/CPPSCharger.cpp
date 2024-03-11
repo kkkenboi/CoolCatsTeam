@@ -150,6 +150,10 @@ namespace LB
 		{
 			FootstepsParticle->mIsActive = true;
 		}
+		else
+		{
+			FootstepsParticle->mIsActive = false;
+		}
 
 		mFSM.Update();
 	}
