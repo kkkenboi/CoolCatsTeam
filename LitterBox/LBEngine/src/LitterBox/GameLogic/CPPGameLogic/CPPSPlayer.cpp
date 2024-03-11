@@ -46,6 +46,7 @@ namespace LB
 		m_clubTrans = trans->GetChild()->GetChild()->GetChild();
 		rend = trans->GetChild()->GetChild()->GetComponent<CPRender>();
 		anim = trans->GetChild()->GetChild()->GetComponent<CPAnimator>();
+		m_clubAnim = trans->GetChild()->GetChild()->GetChild()->GetChild()->GetComponent<CPAnimator>();
 		m_moveAnim = trans->GetChild()->GetComponent<CPAnimator>();
 		rb = GameObj->GetComponent<CPRigidBody>();
 		col = GameObj->GetComponent<CPCollider>();
@@ -76,7 +77,7 @@ namespace LB
 		mStunRemaining = mStunTimer;
 
 		// Hand position from body
-		m_handOffset = 40.0f;
+		m_handOffset = 5.0f;
 
 		m_particleEmitRate = particle->mEmitterRate;
 
@@ -229,6 +230,16 @@ namespace LB
 			// Pushes the ball
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
 
+			// Play the swing anim
+			if (m_isFacingLeft)
+			{
+				m_clubAnim->PlayAndReset("Felix_SwingLeft");
+			}
+			else
+			{
+				m_clubAnim->PlayAndReset("Felix_SwingRight");
+			}
+
 			DEBUG->DrawCircle(current_pos, m_shootRadius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, m_shootRadius);
 
@@ -305,7 +316,7 @@ namespace LB
 		m_clubTrans->SetRotation(RadToDeg(angle));
 
 		playerToMouseDir *= m_handOffset;
-		playerToMouseDir.y -= 20.0f;
+		playerToMouseDir.y -= 40.0f;
 		m_clubTrans->SetPosition(playerToMouseDir);
 
 		if (m_isFacingLeft)

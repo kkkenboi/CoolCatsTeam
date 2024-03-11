@@ -2,6 +2,8 @@
     "Name": "FelixController",
     "States": [
         "Felix_Hurt",
-        "Felix_Walk"
+        "Felix_Walk",
+        "Felix_SwingLeft",
+        "Felix_SwingRight"
     ]
 }

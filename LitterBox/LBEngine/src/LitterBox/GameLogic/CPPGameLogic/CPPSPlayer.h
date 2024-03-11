@@ -43,6 +43,7 @@ namespace LB
 		CPTransform*	trans{ nullptr };
 		CPTransform*	m_clubTrans{ nullptr };
 		CPAnimator*		anim{ nullptr };
+		CPAnimator*		m_clubAnim{ nullptr };
 		CPAnimator*		m_moveAnim{ nullptr };
 		CPParticle*		particle{ nullptr };
 
