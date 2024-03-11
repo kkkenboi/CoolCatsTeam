@@ -36,8 +36,9 @@ namespace LB
 	{
 		CPPSBaseEnemy::Start();
 		// Cache the render and animator
-		mRender = GetComponent<CPTransform>()->GetChild()->GetComponent<CPRender>();
-		mAnimator = GetComponent<CPTransform>()->GetChild()->GetComponent<CPAnimator>();
+		mRender = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPRender>();
+		mAnimator = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPAnimator>();
+		m_moveAnimator = GetComponent<CPTransform>()->GetChild()->GetComponent<CPAnimator>();
 
 		//Then we init all the states
 		IdleState* IDLESTATE = DBG_NEW IdleState(this, mFSM, "Idle");
@@ -106,6 +107,7 @@ namespace LB
 	{
 		isAggro = true;
 		GetAnimator()->PlayAndReset("Melee_Hurt");
+		m_moveAnimator->StopAndReset();
 		CPPSBaseEnemy::Hurt();
 	}
 
@@ -152,6 +154,7 @@ namespace LB
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") { 
 			GetAnimator()->PlayAndReset("Melee_Attack");
+			m_moveAnimator->StopAndReset();
 			mFSM.ChangeState("Hurt"); 
 		}
 
@@ -240,6 +243,7 @@ namespace LB
 	{
 		//DebuggerLog("Entered ChaseState");
 		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds);
+		mEnemy->m_moveAnimator->PlayRepeat("Action_Move");
 		this->Update();
 	}
 

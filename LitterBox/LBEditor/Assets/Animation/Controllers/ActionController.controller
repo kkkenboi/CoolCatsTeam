@@ -2,6 +2,7 @@
     "Name": "ActionController",
     "States": [
         "Action_Bob",
-        "Action_Squish"
+        "Action_Squish",
+        "Action_Move"
     ]
 }

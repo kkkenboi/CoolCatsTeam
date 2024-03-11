@@ -14,7 +14,7 @@
         "Rotation": 0.0,
         "Children": [
             {
-                "Name": "Body",
+                "Name": "Walk",
                 "Active": true,
                 "Transform": {
                     "Active": true,
@@ -29,48 +29,72 @@
                     "Rotation": 0.0,
                     "Children": [
                         {
-                            "Name": "Hands",
+                            "Name": "Body",
                             "Active": true,
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 8.0,
-                                    "y": -50.0
+                                    "x": 0.0,
+                                    "y": 0.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
                                     "y": 1.0
                                 },
-                                "Rotation": 0.0
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Hands",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 8.0,
+                                                "y": -50.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 100.0,
+                                            "Height": 100.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 7
+                                        }
+                                    }
+                                ]
                             },
                             "Render": {
                                 "Active": true,
-                                "Width": 100.0,
-                                "Height": 100.0,
-                                "ZLayer": 1.0,
+                                "Width": 135.0,
+                                "Height": 135.0,
+                                "ZLayer": 2.0,
                                 "Layer": 0,
                                 "Texture": "Multi_Spritesheet",
                                 "SpriteName": "MultiSheet",
-                                "SpriteIndex": 7
+                                "SpriteIndex": 4
+                            },
+                            "Animator": {
+                                "Default State": "None",
+                                "Play On Awake": false,
+                                "Repeating": false,
+                                "Controller": "MeleeController"
                             }
                         }
                     ]
                 },
-                "Render": {
-                    "Active": true,
-                    "Width": 135.0,
-                    "Height": 135.0,
-                    "ZLayer": 2.0,
-                    "Layer": 0,
-                    "Texture": "Multi_Spritesheet",
-                    "SpriteName": "MultiSheet",
-                    "SpriteIndex": 4
-                },
                 "Animator": {
-                    "Default State": "None",
-                    "Play On Awake": false,
-                    "Repeating": false,
-                    "Controller": "MeleeController"
+                    "Default State": "Action_Move",
+                    "Play On Awake": true,
+                    "Repeating": true,
+                    "Controller": "ActionController"
                 }
             },
             {

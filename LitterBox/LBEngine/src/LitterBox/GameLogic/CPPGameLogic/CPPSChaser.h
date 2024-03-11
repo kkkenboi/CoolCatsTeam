@@ -45,6 +45,9 @@ namespace LB
 		//int& GetHealth();
 		//float& GetSpeedMag();	//Getter function for the speed of the chaser
 		float& GetHurtTimer();
+
+		CPAnimator* m_moveAnimator{ nullptr };
+
 	private:
 
 		// Holds the different state and the current state

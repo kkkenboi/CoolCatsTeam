@@ -284,6 +284,21 @@ namespace LB
 
 		return interpo;
 	}
+	template<>
+	inline float LBKeyFrameGroup<float>::GetCurrentExact(int exactFrame) const
+	{
+		// If no keyframe or current is before first keyframe, use default
+		if (m_currentIndex >= m_keyFrames.Size() || m_keyFrames[0].m_frame > exactFrame) return m_defaultValue;
+
+		// If after last keyframe, use last keyframe
+		if (m_keyFrames[m_keyFrames.Size() - 1].m_frame <= exactFrame) return m_keyFrames[m_keyFrames.Size() - 1].m_data;
+
+		float lerp = (float)(exactFrame - m_keyFrames[m_currentIndex].m_frame) / (float)(m_keyFrames[m_nextIndex].m_frame - m_keyFrames[m_currentIndex].m_frame);
+
+		float interpo = m_keyFrames[m_currentIndex].m_data + (m_keyFrames[m_nextIndex].m_data - m_keyFrames[m_currentIndex].m_data) * lerp;
+
+		return interpo;
+	}
 
 	//----------------------------------------------Animation State----------------------------------------------
 	class LBAnimationState

@@ -60,8 +60,8 @@
                                         },
                                         "Render": {
                                             "Active": true,
-                                            "Width": 125.0,
-                                            "Height": 125.0,
+                                            "Width": 115.0,
+                                            "Height": 115.0,
                                             "ZLayer": 1.0,
                                             "Layer": 0,
                                             "Texture": "Multi_Spritesheet",
