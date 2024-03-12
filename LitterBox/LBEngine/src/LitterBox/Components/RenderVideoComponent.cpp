@@ -27,7 +27,7 @@ namespace LB
 		ASSETMANAGER->AddReservedTexture(tex_handle);
 	}
 
-	void VideoPlayerSystem::Update()
+	void VideoPlayerSystem::FixedUpdate()
 	{
 		if (playCutscene && !load_video_frame())
 		{

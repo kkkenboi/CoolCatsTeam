@@ -51,8 +51,8 @@ namespace LB
 		 Initalises the Game Logic system
 		*************************************************************************/
 		void Initialize() override;
-		void Update() override;
-		//void FixedUpdate() override;
+		//void Update() override;
+		void FixedUpdate() override;
 		void Destroy() override;
 
 		void PlayCutscene(const char* video_file_name, const char* next_scene);
