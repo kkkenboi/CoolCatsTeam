@@ -1,5 +1,5 @@
 {
-    "Name": "Felix_Hurt",
+    "Name": "GrandpaTalking",
     "SpriteSheet Name": "FelixSheet",
     "Active": {
         "Default": true,
@@ -21,53 +21,58 @@
     },
     "Rotation": {
         "Default": 0.0,
-        "Frame Group": []
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 0.0
+            },
+            {
+                "Frame": 18,
+                "Data": -0.75
+            },
+            {
+                "Frame": 34,
+                "Data": 0.0
+            },
+            {
+                "Frame": 49,
+                "Data": 0.75
+            },
+            {
+                "Frame": 64,
+                "Data": 0.0
+            }
+        ]
     },
     "Sprite": {
         "Default": 0,
         "Frame Group": [
             {
                 "Frame": 0,
-                "Data": 5
-            },
-            {
-                "Frame": 6,
-                "Data": 2
+                "Data": 36
             },
             {
                 "Frame": 12,
-                "Data": 5
+                "Data": 37
             },
             {
-                "Frame": 18,
-                "Data": 2
+                "Frame": 23,
+                "Data": 38
             },
             {
-                "Frame": 24,
-                "Data": 5
+                "Frame": 34,
+                "Data": 36
             },
             {
-                "Frame": 30,
-                "Data": 2
+                "Frame": 45,
+                "Data": 37
             },
             {
-                "Frame": 36,
-                "Data": 5
-            },
-            {
-                "Frame": 42,
-                "Data": 2
-            },
-            {
-                "Frame": 48,
-                "Data": 5
-            },
-            {
-                "Frame": 54,
-                "Data": 2
+                "Frame": 55,
+                "Data": 38
             }
         ]
     },
     "Start": 0,
-    "End": 54
+    "End": 65
 }

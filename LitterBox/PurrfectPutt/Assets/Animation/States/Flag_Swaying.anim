@@ -1,6 +1,6 @@
 {
-    "Name": "Felix_Hurt",
-    "SpriteSheet Name": "FelixSheet",
+    "Name": "Flag_Swaying",
+    "SpriteSheet Name": "FlagSheet",
     "Active": {
         "Default": true,
         "Frame Group": []
@@ -28,46 +28,58 @@
         "Frame Group": [
             {
                 "Frame": 0,
-                "Data": 5
+                "Data": 32
             },
             {
-                "Frame": 6,
-                "Data": 2
+                "Frame": 4,
+                "Data": 33
+            },
+            {
+                "Frame": 8,
+                "Data": 34
             },
             {
                 "Frame": 12,
-                "Data": 5
+                "Data": 35
             },
             {
-                "Frame": 18,
-                "Data": 2
+                "Frame": 16,
+                "Data": 36
+            },
+            {
+                "Frame": 20,
+                "Data": 37
             },
             {
                 "Frame": 24,
-                "Data": 5
+                "Data": 38
             },
             {
-                "Frame": 30,
-                "Data": 2
+                "Frame": 28,
+                "Data": 39
+            },
+            {
+                "Frame": 32,
+                "Data": 40
             },
             {
                 "Frame": 36,
-                "Data": 5
+                "Data": 41
             },
             {
-                "Frame": 42,
-                "Data": 2
+                "Frame": 40,
+                "Data": 42
+            },
+            {
+                "Frame": 44,
+                "Data": 43
             },
             {
                 "Frame": 48,
-                "Data": 5
-            },
-            {
-                "Frame": 54,
-                "Data": 2
+                "Data": 44
             }
         ]
     },
     "Start": 0,
-    "End": 54
+    "End": 48
 }

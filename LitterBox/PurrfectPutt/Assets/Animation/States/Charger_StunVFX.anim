@@ -1,6 +1,6 @@
 {
-    "Name": "Felix_Hurt",
-    "SpriteSheet Name": "FelixSheet",
+    "Name": "Charger_StunVFX",
+    "SpriteSheet Name": "VFXSheet",
     "Active": {
         "Default": true,
         "Frame Group": []
@@ -28,46 +28,34 @@
         "Frame Group": [
             {
                 "Frame": 0,
-                "Data": 5
+                "Data": 24
             },
             {
                 "Frame": 6,
-                "Data": 2
+                "Data": 25
             },
             {
                 "Frame": 12,
-                "Data": 5
+                "Data": 26
             },
             {
                 "Frame": 18,
-                "Data": 2
+                "Data": 27
             },
             {
                 "Frame": 24,
-                "Data": 5
+                "Data": 28
             },
             {
                 "Frame": 30,
-                "Data": 2
+                "Data": 29
             },
             {
                 "Frame": 36,
-                "Data": 5
-            },
-            {
-                "Frame": 42,
-                "Data": 2
-            },
-            {
-                "Frame": 48,
-                "Data": 5
-            },
-            {
-                "Frame": 54,
-                "Data": 2
+                "Data": 30
             }
         ]
     },
     "Start": 0,
-    "End": 54
+    "End": 42
 }
