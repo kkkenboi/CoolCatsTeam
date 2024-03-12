@@ -1,6 +1,6 @@
 {
-    "Name": "Felix_Hurt",
-    "SpriteSheet Name": "FelixSheet",
+    "Name": "Charger_Hurt",
+    "SpriteSheet Name": "MultiSheet",
     "Active": {
         "Default": true,
         "Frame Group": []
@@ -28,46 +28,46 @@
         "Frame Group": [
             {
                 "Frame": 0,
-                "Data": 5
+                "Data": 30
             },
             {
                 "Frame": 6,
-                "Data": 2
+                "Data": 3
             },
             {
                 "Frame": 12,
-                "Data": 5
+                "Data": 30
             },
             {
                 "Frame": 18,
-                "Data": 2
+                "Data": 3
             },
             {
                 "Frame": 24,
-                "Data": 5
+                "Data": 30
             },
             {
                 "Frame": 30,
-                "Data": 2
+                "Data": 3
             },
             {
                 "Frame": 36,
-                "Data": 5
+                "Data": 30
             },
             {
                 "Frame": 42,
-                "Data": 2
+                "Data": 3
             },
             {
                 "Frame": 48,
-                "Data": 5
+                "Data": 30
             },
             {
                 "Frame": 54,
-                "Data": 2
+                "Data": 3
             }
         ]
     },
     "Start": 0,
-    "End": 54
+    "End": 55
 }

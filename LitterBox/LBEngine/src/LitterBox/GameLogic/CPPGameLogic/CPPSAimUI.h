@@ -42,6 +42,8 @@ namespace LB
 		GameObject* mPlayer;
 		//Caching the CameraFollow GO for easy access
 		GameObject* mCameraFollow;
+		//Caching the MouseWorld GO for easy access
+		GameObject* mMouseWorld;
 		//Mouse position for caching
 		Vec2<float> MousePos;
 		//Vector for calculating the direction to the mouse
