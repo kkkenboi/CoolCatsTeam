@@ -1,16 +1,15 @@
 /*!************************************************************************
- \file				CPPShield.cpp
- \author(s)			Justine Carlo Villa Ilao, Vanessa Chua Siew Jin
- \par DP email(s):	justine.c@digipen.edu, vanessasiewjin@digipen.edu
- \par Course:		CSD2401A
- \date				28/02/2024
- \brief
- This file contains the Shield class and all its functionalities,
-it handles the logic for the Shield
-
-  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
-  disclosure of this file or its contents without the prior written consent
-  of DigiPen Institute of Technology is prohibited.
+ * \file				CPPShield.cpp
+ * \author(s)			Vanessa Chua Siew Jin
+ * \par DP email(s):  	vanessasiewjin@digipen.edu
+ * \par Course:       	CSD2450A
+ * \date				28/02/2024
+ * \brief 				This file contains the file definition for the
+ *						Shield
+ *
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "CPPShield.h"
@@ -20,85 +19,90 @@ namespace LB
 {
 	void CPPShield::Start()
 	{
-		mTransform = CPPBehaviour::GameObj->GetComponent<CPTransform>();
-		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
-		//mCharger = GOMANAGER->FindGameObjectWithName("Charger_Shield");
-		mCharger = mTransform->GetParent()->gameObj;
+		//mRender = GameObj->GetComponent<CPRender>();
+		//mRigidBody = GameObj->GetComponent<CPRigidBody>();
 
-		mLock = false;
+		mTransform = GameObj->GetComponent<CPTransform>();
+		mCollider = mTransform->gameObj->GetComponent<CPCollider>();
+
+
+		mCharger = mTransform->GetParent()->gameObj;
+		//mChargerScript = mCharger->GetComponent<CPPSCharger>(); // <<!!!the script is getting loaded before the object is done constructing
+		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+		mCharger = GOMANAGER->FindGameObjectWithName("Charger_Shield");
+
+		mBall = GOMANAGER->FindGameObjectWithName("ball");
+		//mTransform = 
+		//mCollider->m_pos.x = 0.f;
+		//mCollider->m_pos.y = 0.f;
+
+
+		//mLock = false;
 	}
 
 	void CPPShield::Update()
 	{
 		//set the pos of the shield onto the charger
 		//setting the pos of the shield to be on the charger
-		//Vec2<float> pos = Vec2<float>(GetChargerPos().x, GetChargerPos().y);
 
 		// Rotation : Face the player
-		if (!mLock)
+		//mCollider->m_pos.x = 0.f;
+		//mCollider->m_pos.y = 0.f;
+		
+		if (!m_ScriptSet)
 		{
-			Vec2<float> Direction = (GetPlayerPos() - mTransform->GetParent()->GetPosition()).Normalise();
-			DebuggerLogFormat("Player x %.2f Player y %.2f", GetPlayerPos().x, GetPlayerPos().y);
-			DebuggerLogFormat("Charger x %.2f Charger y %.2f", mTransform->GetPosition().x, mTransform->GetPosition().y);
-			DebuggerLogFormat("Dir x %.2f Dir y %.2f", Direction.x, Direction.y);
-
-			mTransform->SetRotation(RadToDeg(atan2f(Direction.y, Direction.x)));
+			mChargerScript = mCharger->GetComponent<CPPSCharger>();
+			m_ScriptSet = true;
 		}
 
-		// Position : Offset from charger
-		Vec2<float> shieldPos{ offset, 0.0f };
-		float angle_radians = DegToRad(mTransform->GetLocalRotation());
-		// Calculate sine and cosine of the angle
-		float cos_theta = std::cos(angle_radians);
-		float sin_theta = std::sin(angle_radians);
-		// Perform rotation transformation
-		float newX = shieldPos.x * cos_theta - shieldPos.y * sin_theta;
-		float newY = shieldPos.x * sin_theta + shieldPos.y * cos_theta;
-		shieldPos.x = newX;
-		shieldPos.y = newY;
-		mTransform->SetPosition(shieldPos);
+		if (!mChargerScript->isCharging && !mChargerScript->m_isStunned)
+		{
+			Vec2<float> Direction = (GetPlayerPos() - mTransform->GetParent()->GetPosition()).Normalise();
+			//DebuggerLogFormat("Player x %.2f Player y %.2f", GetPlayerPos().x, GetPlayerPos().y);
+			//DebuggerLogFormat("Charger x %.2f Charger y %.2f", mTransform->GetPosition().x, mTransform->GetPosition().y);
+			//DebuggerLogFormat("Dir x %.2f Dir y %.2f", Direction.x, Direction.y);
+
+			mTransform->SetRotation(RadToDeg(atan2f(Direction.y, Direction.x)));
+			// Position : Offset from charger
+			Vec2<float> shieldPos{ offset, 0.0f };
+			float angle_radians = DegToRad(mTransform->GetLocalRotation());
+			// Calculate sine and cosine of the angle
+			float cos_theta = std::cos(angle_radians);
+			float sin_theta = std::sin(angle_radians);
+			// Perform rotation transformation
+			float newX = shieldPos.x * cos_theta - shieldPos.y * sin_theta;
+			float newY = shieldPos.x * sin_theta + shieldPos.y * cos_theta;
+			shieldPos.x = newX;
+			shieldPos.y = newY;
+			mTransform->SetPosition(shieldPos);
+			//DebuggerLogErrorFormat("COLLIDERS X: %f", mCollider->m_pos.x);
+			//DebuggerLogErrorFormat("COLLIDERS Y: %f", mCollider->m_pos.y);
+		}
 
 		// Scale : If facing left, set scale x = -1
 		if ((mTransform->GetParent()->GetScale().x < 0 && mTransform->GetLocalScale().x > 0) ||
-			 mTransform->GetParent()->GetScale().x > 0 && mTransform->GetLocalScale().x < 0)
+				mTransform->GetParent()->GetScale().x > 0 && mTransform->GetLocalScale().x < 0)
 		{
 			Vec2<float> newScale{ mTransform->GetLocalScale() };
 			newScale.x = -newScale.x;
 
 			mTransform->SetScale(newScale);
 		}
-
-		//mTransform->SetPosition(shieldPos);
-
-		//if (mLock == false)
-		//{
-		//	//getting the direction from the charger to the player, so shield can face the player
-		//	Vec2<float> Direction = (GetPlayerPos() - GetChargerPos()).Normalise();
-		//	Vec2<float> shieldPos = GetChargerPos() + (Direction * distance);
-		//	mTransform->SetRotation(RadToDeg(atan2f(Direction.y, Direction.x)));
-		//	mTransform->SetPosition(shieldPos);
-		//	mLock = true;
-		//}
-		//else
-		//{
-		//	mLock = true;
-		//}
-		//Vec2<float> NormalForce = Direction * 
-		//grabbing pos of the player
-		//mPlayerPos = mCharger
-		//have the shield to face the player, direction
-		//after it set it eyes on the player, it will stop the shield from moving
-
 	}
 
-	void CPPShield::Destroy()
+	void CPPShield::Destroy() { }
+
+	void CPPShield::OnCollisionEnter(CollisionData colData)
 	{
-		//CPTransform* transform = GetComponent<CPTransform>();
-		//if (!transform->GetParent())
-		//{
-		//	transform->Destroy();
-		//}
-	}
+		Vec2<float> currPos = { mTransform->GetPosition().x , mTransform->GetPosition().y };
+		Vec2<float> nextPos = { GetPlayerPos().x, GetPlayerPos().y };
+		Vec2<float> Direction = (nextPos - currPos).Normalise();
+		Vec2<float> Force = Direction * 1000.0f;
+		if (colData.colliderOther->m_gameobj->GetName() == "ball")
+		{
+			mBall->GetComponent<CPRigidBody>()->addImpulse(Force);
+		}
+;	}
 
 	GameObject* CPPShield::GetCharger()
 	{
@@ -120,5 +124,8 @@ namespace LB
 		return GetPlayer()->GetComponent<CPRigidBody>()->getPos();
 	}
 
-
+	CPCollider* CPPShield::GetCollider()
+	{
+		return mCollider;
+	}
 }

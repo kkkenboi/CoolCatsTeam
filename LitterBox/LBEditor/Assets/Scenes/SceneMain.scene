@@ -98,11 +98,63 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 3072.0,
-                    "Height": 2048.0,
-                    "ZLayer": 1.0,
+                    "Width": 3840.0,
+                    "Height": 2816.0,
+                    "ZLayer": 5.0,
                     "Layer": 1,
                     "Texture": "Map1",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "MapFiller",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -1081.0,
+                        "y": 412.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 2432.0,
+                    "Height": 2560.0,
+                    "ZLayer": 7.0,
+                    "Layer": 1,
+                    "Texture": "MapBG",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "MapFiller2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 3072.196289,
+                        "y": 413.682067
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 2432.0,
+                    "Height": 2560.0,
+                    "ZLayer": 7.0,
+                    "Layer": 1,
+                    "Texture": "MapBG",
                     "SpriteName": "None",
                     "SpriteIndex": -1
                 }
@@ -283,7 +335,7 @@
                                 "Active": true,
                                 "Position": {
                                     "x": 0.0,
-                                    "y": -51.0
+                                    "y": -48.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -334,7 +386,7 @@
                     "Active": true,
                     "Position": {
                         "x": 130.817291,
-                        "y": -387.483245
+                        "y": -371.225128
                     },
                     "Scale": {
                         "x": 1.0,
@@ -356,7 +408,7 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 1067.0,
+                    "Width": 1265.0,
                     "Height": 190.0,
                     "Radius": 50.0
                 }
@@ -537,8 +589,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 2318.972656,
-                        "y": 603.79248
+                        "x": 2305.036621,
+                        "y": 589.857543
                     },
                     "Scale": {
                         "x": 1.0,
@@ -571,7 +623,7 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 2403.064697,
+                        "x": 2396.651123,
                         "y": 139.543945
                     },
                     "Scale": {
@@ -606,7 +658,7 @@
                     "Active": true,
                     "Position": {
                         "x": 1778.682739,
-                        "y": -389.794647
+                        "y": -371.214019
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1518,6 +1570,32 @@
                                 "Height": 222.0,
                                 "Radius": 50.0
                             }
+                        },
+                        {
+                            "Name": "Killer",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 320.0,
+                                    "y": 175.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 240.0,
+                                "Height": 240.0,
+                                "ZLayer": 0.899999,
+                                "Layer": 3,
+                                "Texture": "Multi_Spritesheet2",
+                                "SpriteName": "MultiSheet2",
+                                "SpriteIndex": 0
+                            }
                         }
                     ]
                 },
@@ -1733,7 +1811,7 @@
                                 "Active": true,
                                 "Width": 300.0,
                                 "Height": 300.0,
-                                "ZLayer": 1.299998,
+                                "ZLayer": 5.3,
                                 "Layer": 0,
                                 "Texture": "UpgradePopUp_Spritesheet",
                                 "SpriteName": "UpgradesSheet",
@@ -1759,7 +1837,7 @@
                                 "Active": true,
                                 "Width": 300.0,
                                 "Height": 300.0,
-                                "ZLayer": 1.1,
+                                "ZLayer": 5.099997,
                                 "Layer": 0,
                                 "Texture": "UpgradePopUp_Spritesheet",
                                 "SpriteName": "UpgradesSheet",
@@ -1772,7 +1850,7 @@
                     "Active": true,
                     "Width": 300.0,
                     "Height": 300.0,
-                    "ZLayer": 1.2,
+                    "ZLayer": 5.199995,
                     "Layer": 0,
                     "Texture": "UpgradePopUp_Spritesheet",
                     "SpriteName": "UpgradesSheet",
@@ -2131,6 +2209,1514 @@
                     "Play On Awake": true,
                     "Repeating": true,
                     "Controller": "ActionController"
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 773.396545,
+                        "y": 364.167236
+                    },
+                    "Scale": {
+                        "x": 1.25,
+                        "y": 1.25
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 24
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 9.0,
+                                    "y": -44.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -447.921844,
+                        "y": -61.726226
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 3.0,
+                                    "y": -32.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -416.459991,
+                        "y": -294.160003
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 27
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -34.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Do Not Litter",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -296.357604,
+                        "y": 984.766174
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 135.0,
+                    "Height": 135.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 19
+                }
+            },
+            {
+                "Name": "Rock1",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -247.413879,
+                        "y": 1189.02893
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 150.0,
+                    "Height": 150.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 17
+                }
+            },
+            {
+                "Name": "Rock2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 871.425415,
+                        "y": 131.474258
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 120.0,
+                    "Height": 120.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 16
+                }
+            },
+            {
+                "Name": "Red flower",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 736.234375,
+                        "y": 259.962127
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 150.0,
+                    "Height": 150.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 14
+                }
+            },
+            {
+                "Name": "Blue flower",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -304.370605,
+                        "y": 862.289611
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 120.0,
+                    "Height": 120.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 13
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -152.021469,
+                        "y": 1084.467285
+                    },
+                    "Scale": {
+                        "x": 1.2,
+                        "y": 1.2
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 29
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2.49,
+                                    "y": -31.719999
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 78.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -35.042892,
+                        "y": 1232.45996
+                    },
+                    "Scale": {
+                        "x": 1.2,
+                        "y": 1.2
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 26
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -6.0,
+                                    "y": -42.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 136.569366,
+                        "y": 1281.047851
+                    },
+                    "Scale": {
+                        "x": 1.2,
+                        "y": 1.2
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 27
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -3.0,
+                                    "y": -43.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Rock3",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -450.645904,
+                        "y": 941.674316
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 150.0,
+                    "Height": 150.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 15
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -235.757171,
+                        "y": 936.167114
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 28
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 3.0,
+                                    "y": -32.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Tree1",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 956.311157,
+                        "y": 281.854064
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 300.0,
+                    "Height": 300.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Felix_SpriteSheet",
+                    "SpriteName": "FelixSheet",
+                    "SpriteIndex": 45
+                }
+            },
+            {
+                "Name": "Tree2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 78.431495,
+                        "y": 1415.871215
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 300.0,
+                    "Height": 300.0,
+                    "ZLayer": 1.1,
+                    "Layer": 0,
+                    "Texture": "Felix_SpriteSheet",
+                    "SpriteName": "FelixSheet",
+                    "SpriteIndex": 46
+                }
+            },
+            {
+                "Name": "Sign2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2002.509277,
+                        "y": 711.059204
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 150.0,
+                    "Height": 150.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 18
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 604.221557,
+                        "y": 1466.111206
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 3.0,
+                                    "y": -39.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 673.795776,
+                        "y": 1496.548461
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 29
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 3.0,
+                                    "y": -32.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1150.985839,
+                        "y": 1444.758056
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 28
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 3.0,
+                                    "y": -35.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 28.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1742.707519,
+                        "y": 1366.478515
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 27
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -1.0,
+                                    "y": -35.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1986.728027,
+                        "y": 917.319213
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": -1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 26
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 3.0,
+                                    "y": -40.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Tree3",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2095.058349,
+                        "y": 1065.934326
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 300.0,
+                    "Height": 300.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Felix_SpriteSheet",
+                    "SpriteName": "FelixSheet",
+                    "SpriteIndex": 46
+                }
+            },
+            {
+                "Name": "Generic Audience",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2115.509277,
+                        "y": 754.120239
+                    },
+                    "Scale": {
+                        "x": -1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Audience",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Audience Sprite",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 125.0,
+                                            "Height": 125.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Squish",
+                                "Play On Awake": true,
+                                "Repeating": true,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 3.0,
+                                    "y": -41.0
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 96.0,
+                                "Height": 32.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Rock3",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2328.835693,
+                        "y": 828.051635
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 150.0,
+                    "Height": 150.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 16
                 }
             }
         ]

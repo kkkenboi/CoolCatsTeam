@@ -103,7 +103,7 @@ namespace LB
 			mScaleTimerRemaining = mScaleTimer;
 			mScaledUp = true;
 
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerAttackSounds);
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSandStepSounds);
 		}
 
 		if (colData.colliderOther->gameObj->GetName() == "ball")

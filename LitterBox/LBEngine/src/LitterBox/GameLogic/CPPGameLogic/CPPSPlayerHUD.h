@@ -93,6 +93,8 @@ namespace LB
 		*************************************************************************/
 		void AddNewUpgrade(UpgradeType upgrade);
 
+		bool m_playOnceUI{ false };
+		bool m_playOnceWorld{ false };
 		bool m_mouseHoverUI{ false };
 		bool m_mouseHoverWorld{ false };
 		GameObject* m_UpgradeObject{ nullptr };

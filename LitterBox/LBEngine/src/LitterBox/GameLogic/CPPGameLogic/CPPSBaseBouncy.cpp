@@ -27,8 +27,9 @@ namespace LB
 	{
 		if (colData.colliderOther->rigidbody != nullptr)
 		{
-			colData.colliderOther->rigidbody->mVelocity.x *= 1.75f;
-			colData.colliderOther->rigidbody->mVelocity.y *= 1.75f;
+			//Modify this value to change the velocity of the bounce
+			colData.colliderOther->rigidbody->mVelocity.x *= bounceForce;
+			colData.colliderOther->rigidbody->mVelocity.y *= bounceForce;
 
 			if (colData.colliderOther->gameObj == mPlayer) {
 				//std::cout << "hitting player!" << std::endl;

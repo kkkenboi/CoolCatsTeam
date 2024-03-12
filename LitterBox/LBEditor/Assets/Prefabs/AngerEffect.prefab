@@ -1,0 +1,26 @@
+{
+    "Name": "AngerEffect",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": -29.0,
+            "y": 52.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 1.299998
+    },
+    "Render": {
+        "Active": false,
+        "Width": 100.0,
+        "Height": 100.0,
+        "ZLayer": 1.0,
+        "Layer": 0,
+        "Texture": "VFXCompile_SpriteSheet",
+        "SpriteName": "VFXSheet",
+        "SpriteIndex": 37
+    }
+}

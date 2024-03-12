@@ -30,12 +30,14 @@ namespace LB
 		
 		void Hurt() override;
 		void Die() override;
-
+		
+		void SetShouldFace(bool state);
 		
 		Vec2<float> GetPlayerPos();
 		Vec2<float> GetChargerPos();
 		Vec2<float> DirBToA(Vec2<float> a, Vec2<float> b);
 
+		//*********************************************************
 
 		//------------------IDLE STATE------------------
 		float mIdleCooldown{};
@@ -48,15 +50,41 @@ namespace LB
 
 		//------------------CHARGE STATE------------------
 		float mChargingSpeed{};
-		bool mIsCharging{};
 		Vec2<float> mChargeDirection{};
 		Vec2<float> mChargeNormalForce{};
 
 		//------------------CHARGE STATE------------------
-		float mTimerWhenStunned{};
+		float mTimerWhenStunned{}, mStunTimerElapsed{}, mStunStopMovingElapsed{};
+
+		//*********************************************************
 
 		bool isChargerDead{ false };
-		
+
+		CPParticle* FootstepsParticle{ nullptr };
+
+		CPAnimator* mDizzyAnim, *mAngerAnim, *mPuffAnim, *mMoveAnim, *mAngerTwoAnim;
+
+		float m_FootstepsParticleEmitRate;
+
+
+		CPTransform* mTransform;
+
+		//Charger's Dizzy Effects
+		GameObject* mDizzyObj; //will be spawnned when got stunned
+		CPTransform* mDizzyObjTrans;
+		CPRender* mDizzyRender;
+
+		//Charger's Anger Effects
+		GameObject* mAngerObj; //will be spawnned when got stunned
+		CPTransform* mAngerObjTrans;
+		CPRender* mAngerRender;
+
+		GameObject* mAngerTwoObj; //will be spawnned when got stunned
+		CPTransform* mAngerObjTwoTrans;
+		CPRender* mAngerTwoRender;
+
+
+		bool isCharging{ false }, m_isStunned{ false };
 
 	private:
 		FiniteStateMachine mFSM{};

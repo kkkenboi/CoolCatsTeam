@@ -82,17 +82,10 @@ namespace LB
 		//	//UpgradesList.pop_back();
 		//}
 
+		// Should put flag anim here
 		if (isSpawned)
 		{
-			DebuggerLog("Upgrades are spawned, playing VFX...");
-			//leftUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
-			//leftUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
-
-			//middleUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
-			//middleUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
-
-			//rightUpgrade->GetComponent<CPTransform>()->GetChild(0)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny1");
-			//rightUpgrade->GetComponent<CPTransform>()->GetChild(1)->gameObj->GetComponent<CPAnimator>()->PlayRepeat("VFX_Shiny2");
+			//DebuggerLog("Upgrades are spawned, playing VFX...");
 		}
 	}
 
@@ -191,17 +184,20 @@ namespace LB
 
 		GOMANAGER->FindGameObjectWithName("Portal")->SetActive(true);
 		
-
-		//Once we pick the upgrade we have to remove it from the available upgrade pool
-		RemoveUpgradeFromList(static_cast<UpgradeType>(chosen));
-
-		// Add to the Player's upgrade list to keep track and let the HUD know that there is a new update
-		// If it doesn't exist, add it in
-		auto it = std::find(PlayerUpgradesList.begin(), PlayerUpgradesList.end(), chosen);
-		if (it == PlayerUpgradesList.end()) 
+		auto gameManager = GOMANAGER->FindGameObjectWithName("GameManager");
+		if (gameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentUpgrades < gameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxUpgrades)
 		{
-			PlayerUpgradesList.push_back(static_cast<UpgradeType>(chosen));
-			onNewUpgrade.Invoke(static_cast<UpgradeType>(chosen));
+			//Once we pick the upgrade we have to remove it from the available upgrade pool
+			RemoveUpgradeFromList(static_cast<UpgradeType>(chosen));
+
+			// Add to the Player's upgrade list to keep track and let the HUD know that there is a new update
+			// If it doesn't exist, add it in
+			auto it = std::find(PlayerUpgradesList.begin(), PlayerUpgradesList.end(), chosen);
+			if (it == PlayerUpgradesList.end())
+			{
+				PlayerUpgradesList.push_back(static_cast<UpgradeType>(chosen));
+				onNewUpgrade.Invoke(static_cast<UpgradeType>(chosen));
+			}
 		}
 
 		//then we hide all the other upgrades

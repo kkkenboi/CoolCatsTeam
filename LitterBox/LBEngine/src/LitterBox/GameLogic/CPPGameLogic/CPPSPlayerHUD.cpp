@@ -230,8 +230,13 @@ namespace LB {
 		{
 			if (i + 1 == static_cast<size_t>(m_currentVPopUpIndex))
 			{
-				//DebuggerLogFormat("Setting Active for %d", m_currentPopUpIndex);
+				//DebuggerLogFormat("m_MouseHoverWorld: %d", m_mouseHoverWorld);
 				m_totalUpgradePopUps[i].first->GetComponent<CPRender>()->ToggleActive(m_mouseHoverWorld);
+				if (m_playOnceWorld)
+				{
+					m_totalUpgradePopUps[i].first->GetComponent<CPAnimator>()->PlayAndReset("VFX_Expand");
+					m_playOnceWorld = false;
+				}
 				//DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
 			}
 			else
@@ -242,6 +247,11 @@ namespace LB {
 			if (i + 1 == static_cast<size_t>(m_currentHPopUpIndex))
 			{
 				m_totalUpgradePopUps[i].second->GetComponent<CPRender>()->ToggleActive(m_mouseHoverUI);
+				if (m_playOnceUI)
+				{
+					m_totalUpgradePopUps[i].second->GetComponent<CPAnimator>()->PlayAndReset("VFX_Expand");
+					m_playOnceUI = false;
+				}
 			}
 			else
 			{

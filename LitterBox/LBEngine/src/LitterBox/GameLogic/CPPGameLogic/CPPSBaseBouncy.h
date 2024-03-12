@@ -76,6 +76,7 @@ namespace LB
 
 		bool mScaledUp{ false };
 		bool mScaledDown{ true };
+		float bounceForce{ 1.55f };
 
 	private:
 
