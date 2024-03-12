@@ -50,7 +50,9 @@ namespace LB
 			}
 			else
 			{
-				AUDIOMANAGER->PlaySound("Shroom Bounce");
+				int chnl = AUDIOMANAGER->PlaySound("Shroom Bounce");
+				AUDIOMANAGER->SetChannelVolume(chnl, 0.2f);
+
 			}
 			int Channel = AUDIOMANAGER->PlaySound("Thud");
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
