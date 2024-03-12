@@ -77,6 +77,9 @@ namespace LB
 
 		void ShowGameOver(GameObject enemyObj);
 		Vec2<float> GetRandomSpawnPoint();
+
+		int GetCurrentWave();
+
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy
 		//Each wave also has a certain value

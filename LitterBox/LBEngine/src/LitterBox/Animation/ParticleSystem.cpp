@@ -18,6 +18,7 @@
 
 
 #include "ParticleSystem.h"
+#include "LitterBox/Scene/SceneManager.h"
 
 namespace LB
 {
@@ -30,9 +31,10 @@ namespace LB
 	void ParticleManager::Initialize() 
 	{
 		SetSystemName("Particle System");
-		std::cout << "Particle System Initialized\n";
 		mEmitterPoolIndex = static_cast<int>(mEmitterPool.size()) - 1;
 		mParticlePoolIndex = static_cast<int>(mParticlePool.size()) - 1;
+
+		SCENEMANAGER->onNewSceneLoad.Subscribe(ClearPool);
 
 		const EmitterType EmitterTypeVector[] = { TRAIL, RADIAL };
 		for (EmitterType emit : EmitterTypeVector)
@@ -200,6 +202,15 @@ namespace LB
 		for (int i = 0; i < mEmitterPool.size(); ++i) 
 		{
 			mEmitterPool[i] = nullptr;
+		}
+		for (Particle& particle : mParticlePool)
+		{
+			particle.mIsActive = false;
+			if (particle.mGameObj != nullptr)
+			{
+				GOMANAGER->RemoveGameObject(particle.mGameObj);
+			}
+			particle.mGameObj = nullptr;
 		}
 	}
 
@@ -446,6 +457,11 @@ namespace LB
 		// Update index
 		mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
 
+	}
+
+	void ClearPool(Scene* newScene)
+	{
+		ParticleManager::Instance()->Destroy();
 	}
 
 	/*!***********************************************************************

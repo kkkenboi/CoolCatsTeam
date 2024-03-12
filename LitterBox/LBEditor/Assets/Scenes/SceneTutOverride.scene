@@ -736,9 +736,9 @@
                     "Height": 100.0,
                     "ZLayer": 1.0,
                     "Layer": 3,
-                    "Texture": "",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
+                    "Texture": "UpgradePopUp_Spritesheet",
+                    "SpriteName": "UpgradesSheet",
+                    "SpriteIndex": 16
                 }
             },
             {
@@ -767,8 +767,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": -578.224243,
-                        "y": 405.853881
+                        "x": 0.0,
+                        "y": 0.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -784,10 +784,10 @@
                     "Active": true,
                     "Message": {
                         "text": "",
-                        "x": -578.224243,
-                        "y": 405.853881,
-                        "scale": 0.0,
-                        "World Coords": true,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "scale": 1.0,
+                        "World Coords": false,
                         "Color": {
                             "x": 1.0,
                             "y": 1.0,
@@ -799,7 +799,7 @@
             },
             {
                 "Name": "Transition Curtain",
-                "Active": false,
+                "Active": true,
                 "Transform": {
                     "Active": true,
                     "Position": {

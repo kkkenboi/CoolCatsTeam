@@ -13,7 +13,7 @@ namespace LB
 		void Update();
 		void Destroy();
 
-		float timerRemaining{ 30.f };
+		float timerRemaining{ 45.f };
 
 		GameObject* BubbleWASD;
 		GameObject* BubbleMouse;
