@@ -13,6 +13,7 @@
 **************************************************************************/
 #include "CPPSAimUI.h"
 #include "CPPSCameraFollow.h"
+#include "CPPSMouseWorld.h"
 
 namespace LB
 {
@@ -33,6 +34,7 @@ namespace LB
 			}
 		}
 		mCameraFollow = GOMANAGER->FindGameObjectWithName("CameraFollow");
+		mMouseWorld = GOMANAGER->FindGameObjectWithName("MouseWorld");
 	}
 
 	/*!************************************************************************
@@ -44,12 +46,7 @@ namespace LB
 		//Setting the position of the aim script to the player
 		mTransform->SetPosition(mPlayer->GetComponent<CPTransform>()->GetPosition());
 		//All this funky code is just to account for editor/release mode difference
-		MousePos = INPUT->GetMousePos();
-		MousePos.x += mCameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
-		MousePos.y -= mCameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
-		MousePos.y = MousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-		MousePos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-		MousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+		MousePos = mMouseWorld->GetComponent<CPPSMouseWorld>()->GetComponent<CPTransform>()->GetPosition();
 
 		//Getting the direction from player to mouse
 		DirToMouse = MousePos - mPlayer->GetComponent<CPTransform>()->GetPosition();

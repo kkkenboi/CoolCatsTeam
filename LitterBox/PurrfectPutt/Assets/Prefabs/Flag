@@ -1,0 +1,26 @@
+{
+    "Name": "Flag",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 106.953727,
+            "y": 83.180648
+        },
+        "Scale": {
+            "x": 0.4,
+            "y": 0.4
+        },
+        "Rotation": 0.0
+    },
+    "Render": {
+        "Active": true,
+        "Width": 440.0,
+        "Height": 440.0,
+        "ZLayer": 1.0,
+        "Layer": 0,
+        "Texture": "FlagPole_Spritesheet",
+        "SpriteName": "FlagSheet",
+        "SpriteIndex": 26
+    }
+}

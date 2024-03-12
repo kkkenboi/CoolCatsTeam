@@ -243,12 +243,7 @@ namespace LB
 			DEBUG->DrawCircle(current_pos, m_shootRadius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, m_shootRadius);
 
-			Vec2<float> mouse_pos = INPUT->GetMousePos();
-			mouse_pos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
-			mouse_pos.y -= m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
-			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			Vec2<float> mouse_pos = m_MouseWorld->GetComponent<CPPSMouseWorld>()->GetComponent<CPTransform>()->GetPosition();
 
 			for (size_t i = 0; i < vec_colliders.size(); ++i) {
 				Vec2<float> force_to_apply = mouse_pos - vec_colliders[i]->m_pos;
