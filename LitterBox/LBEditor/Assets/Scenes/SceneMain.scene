@@ -1434,7 +1434,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "Underline",
                     "SpriteName": "None",
                     "SpriteIndex": -1
