@@ -143,6 +143,8 @@ namespace LB {
 		std::vector<std::pair<std::string, EmitterType>> mEmitterTypes{};
 	};
 
+	void ClearPool(Scene* newScene);
+
 	/*!***********************************************************************
 	\brief
 	Returns a random float from the given min and max

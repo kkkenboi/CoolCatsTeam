@@ -1,6 +1,7 @@
 #include "CPPSPortal.h"
 #include "CPPGameManager.h"
 #include "CPPSPlayer.h"
+#include "LitterBox/Scene/SceneManager.h"
 
 void LB::CPPSPortal::Start()
 {
@@ -57,6 +58,9 @@ void LB::CPPSPortal::Update()
 				if (circleTimer >= 1.f)
 				{	//Once the 1 second time has been reached, it should be max size
 					expandOut = false;
+					if (mGameManager->GetComponent<CPPSGameManager>()->GetCurrentWave() == 0)
+					SCENEMANAGER->LoadScene("SceneMain");
+
 				}
 				else if (circleTimer <= 0.f)
 				{	//then it'll start shrinking, and at 0s, it means it's done and we can start the wave
@@ -92,12 +96,14 @@ void LB::CPPSPortal::Update()
 	{
 		if (!temp)//temp fix so that it's only called once
 		{//will not be needed once cols have their setactive done
-			this->GameObj->SetActive(false);
-			//Next wave just handles starting the wave... 
-			mGameManager->GetComponent<CPPSGameManager>()->NextWave();
-			mPlayer->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1));
-			mPlayer->GetComponent<CPTransform>()->SetRotation(0);
 			temp = true;
+
+	
+				this->GameObj->SetActive(false);
+				//Next wave just handles starting the wave... 
+				mGameManager->GetComponent<CPPSGameManager>()->NextWave();
+				mPlayer->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1));
+				mPlayer->GetComponent<CPTransform>()->SetRotation(0);
 		}
 		finishTransition = false;
 		//spawn the big black circle

@@ -281,7 +281,8 @@ namespace LB
 	void CPPSGameManager::SpawnCrowdAnim()
 	{
 		//First we play the sound
-		AUDIOMANAGER->PlaySound("Spliced_Cheering");
+		int chnl = AUDIOMANAGER->PlaySound("Spliced_Cheering");
+		AUDIOMANAGER->SetChannelVolume(chnl, 0.3f);
 		//then we show the crowd texture
 		crowdTexture->SetActive(true);
 		//for now the animation will be hard coded
@@ -363,6 +364,12 @@ namespace LB
 		DebuggerLogWarning("Somehow unable to find a valid spawnpoint for enemy!");
 		return Vec2<float>();
 	}
+
+	int CPPSGameManager::GetCurrentWave()
+	{
+		return currentWave;
+	}
+
 	/*!************************************************************************
 	* \brief Function to generate the wave
 	* 

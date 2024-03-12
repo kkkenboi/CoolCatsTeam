@@ -30,7 +30,7 @@ void LB::CPPSTutorialSubs::Start()
 		mCurtain = FACTORY->SpawnGameObject();
 	}
 
-	mSubtitles->GetComponent<CPTransform>()->SetPosition(Vec2<float>{-400.f, 400.0f});
+	mSubtitles->GetComponent<CPTransform>()->SetPosition(Vec2<float>{300.f, 540.0f});
 	mCurtain->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f});
 	//we put in the first subtitle here for now
 	//maybe put it somewhere else in future???
@@ -87,8 +87,11 @@ void LB::CPPSTutorialSubs::Update()
 	//we turn off the game object when we pass a certain threshold
 	if (mCurtain->GetComponent<CPTransform>()->GetPosition().y > 1650.f)
 	{
-		GameObj->SetActive(false);
 		mCurtain->SetActive(false);
+	}
+	if (mCurtain->GetComponent<CPTransform>()->GetPosition().y > 1000.f)
+	{
+		GameObj->SetActive(false);
 	}
 }
 
