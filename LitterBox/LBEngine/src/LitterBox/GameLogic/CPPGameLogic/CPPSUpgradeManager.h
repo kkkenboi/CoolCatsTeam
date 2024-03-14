@@ -92,6 +92,8 @@ namespace LB
 		**************************************************************************/
 		void SetSpawned(bool spawned);
 
+		bool HasUpgrade(int upgradeType);
+
 		//Really scuffed way of making upgrades
 		//Upgrade manager assigns the upgrade type to the upgrade
 		//then the upgrade tells the upgrade manager which upgrades
@@ -104,7 +106,7 @@ namespace LB
 		//Default is 0 for no upgrades
 		int currentBallUpgrades{0};
 		bool hasUpgraded{ false };
-
+		int upgradeCount{ 0 };
 		//Event for when player gets a NEW upgrade
 		Event<UpgradeType> onNewUpgrade{};
 	private:
