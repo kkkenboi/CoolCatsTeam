@@ -195,7 +195,7 @@ namespace LB
 				{
 					if (!restartHovered)
 					{
-						GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->GetComponent<CPTransform>()->SetPosition(cachedRestartPos + Vec2<float>(0, 20));
+						GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->GetComponent<CPTransform>()->SetPosition(cachedRestartPos + Vec2<float>(0, 40));
 						restartHovered = true;
 					}
 					_restartHovered = true;
@@ -205,7 +205,7 @@ namespace LB
 				{
 					if (!quitHovered)
 					{
-						GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->GetComponent<CPTransform>()->SetPosition(cachedQuitPos + Vec2<float>(0, 20));
+						GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->GetComponent<CPTransform>()->SetPosition(cachedQuitPos + Vec2<float>(0, 40));
 						quitHovered = true;
 					}
 					_quitHovered = true;

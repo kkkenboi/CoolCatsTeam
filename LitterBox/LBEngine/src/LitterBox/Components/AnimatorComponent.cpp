@@ -140,7 +140,7 @@ namespace LB
 		// TODO : REFACTOR THIS LOGIC, MAY CAUSE BUGS IN THE FUTURE
 		if (m_playing)
 		{
-			m_resetAfterPlay ? StopAndReset() : Stop();
+			(m_resetAfterPlay || m_repeating) ? StopAndReset() : Stop();
 			// If a queue is still present, add to queue instead
 			if (m_playing)
 			{
