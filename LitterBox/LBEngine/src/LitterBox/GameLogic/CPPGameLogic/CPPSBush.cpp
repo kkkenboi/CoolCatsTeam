@@ -17,6 +17,10 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	Start function where variables will be initialised
+	*************************************************************************/
 	void CPPSBush::Start()
 	{
 		mTransform = GameObj->GetComponent<CPTransform>()->GetChild();
@@ -41,6 +45,10 @@ namespace LB
 		mRender->SetSpriteTexture(mRender->spriteSheetName, mRender->spriteIndex);
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update function where the bush's scale is being changed
+	*************************************************************************/
 	void CPPSBush::Update()
 	{
 		if (mScaledUp)
@@ -89,11 +97,19 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Overriden destroy function because of inheritance
+	*************************************************************************/
 	void CPPSBush::Destroy()
 	{
 
 	}
 
+	/*!***********************************************************************
+	\brief
+	Overriden OnCollisionEnter to prevent velocity changing
+	*************************************************************************/
 	void CPPSBush::OnCollisionEnter(CollisionData colData)
 	{
 		if (colData.colliderOther->rigidbody != nullptr)

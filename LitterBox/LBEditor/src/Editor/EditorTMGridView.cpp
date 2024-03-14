@@ -272,6 +272,10 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Resizes the tilemap grid
+	*************************************************************************/
 	void EditorTMGridView::ResizeGrid(int newRow, int newCol)
 	{
 		int colNum { m_tiles[m_layer].getCols() };
@@ -301,6 +305,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Loads a map from the file given
+	*************************************************************************/
 	void EditorTMGridView::LoadMap(std::string const& mapName)
 	{
 		JSONSerializer::DeserializeFromFile(mapName.c_str(), m_tiles);
@@ -311,6 +319,10 @@ namespace LB
 		strcpy_s(m_textBuffer, sizeof(m_textBuffer), m_tiles.m_name.c_str());
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Saves the current loaded map
+	*************************************************************************/
 	void EditorTMGridView::SaveMap()
 	{
 		std::filesystem::path tilemapPath{ m_tiles.m_name + ".tilemap" };

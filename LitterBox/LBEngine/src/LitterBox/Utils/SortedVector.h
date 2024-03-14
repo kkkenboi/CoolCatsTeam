@@ -40,6 +40,10 @@ namespace LB
 			m_data.insert(it, value);
 		}
 
+		/*!**********************************************************************
+		\brief
+		 Finds the value given inside the vector
+		*************************************************************************/
 		T* Find(T const& value)
 		{
 			auto it = std::find(m_data.begin(), m_data.end(), value);

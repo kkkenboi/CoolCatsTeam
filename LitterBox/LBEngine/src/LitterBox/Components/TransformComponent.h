@@ -225,10 +225,13 @@ namespace LB
 		{
 			// If parent exists, remove this from the old parent
 			if (m_parent)
+			{
 				m_parent->RemoveChild(this);
+				m_parent = nullptr;
+			}
 
+			newParent->AddChild(this);
 			m_parent = newParent;
-			m_parent->AddChild(this);
 		}
 
 		/*!***********************************************************************
@@ -261,6 +264,27 @@ namespace LB
 			// Check if this object is already a child
 			if (std::find(m_children.begin(), m_children.end(), newChild) != m_children.end()) return;
 
+			// Keep the transform as it was before
+			newChild->SetPosition(newChild->GetPosition() - GetPosition());
+
+			Vec2<float>	newScale{ newChild->GetScale().x / GetScale().x, newChild->GetScale().y / GetScale().y };
+			newChild->SetScale(newScale);
+
+			newChild->SetRotation(newChild->GetRotation() - GetRotation());
+
+			m_children.push_back(newChild);
+		}
+
+		/*!***********************************************************************
+		\brief
+		 Same as AddChild but does not modify the child's position, scale and rotation,
+		 for use in deserialization only
+		*************************************************************************/
+		void DeserializeAddChild(CPTransform* newChild)
+		{
+			// Check if this object is already a child
+			if (std::find(m_children.begin(), m_children.end(), newChild) != m_children.end()) return;
+
 			m_children.push_back(newChild);
 		}
 
@@ -271,6 +295,16 @@ namespace LB
 		*************************************************************************/
 		void RemoveChild(int indexToRemove)
 		{
+			// Keep the transform as it was before
+			CPTransform* byeChild{ m_children[indexToRemove] };
+			
+			byeChild->SetPosition(byeChild->GetLocalPosition() + GetPosition());
+
+			Vec2<float>	newScale{ byeChild->GetLocalScale().x * GetScale().x, byeChild->GetLocalScale().y * GetScale().y };
+			byeChild->SetScale(newScale);
+
+			byeChild->SetRotation(byeChild->GetLocalRotation() + GetRotation());
+
 			m_children.erase(m_children.begin() + indexToRemove);
 		}
 
