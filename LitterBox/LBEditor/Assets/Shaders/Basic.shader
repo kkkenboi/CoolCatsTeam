@@ -84,7 +84,6 @@ layout(location = 0) out vec4 color;
 in float tIO;
 
 uniform sampler2D u_SamplerID[32];
-uniform int pass = 0;
 
 void main()
 {
@@ -191,7 +190,7 @@ void main()
 			break;
 		} 
 		//color = texture(u_SamplerID[int(tIO)], v_TexCoord);
-		if(pass == 0 && color.w <= 0.0)
+		if(color.w <= 0.0)
 			discard;
 	}
 	else {

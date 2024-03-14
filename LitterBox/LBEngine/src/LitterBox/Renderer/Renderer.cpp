@@ -1227,7 +1227,6 @@ void Renderer::RenderSystem::Update()
 	}*/
 
 	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
-	GLint pass_loc = glGetUniformLocation(shader_program, "pass");
 	if (uni_loc == -1)
 		DebuggerLogError("Unable to find uniform location");
 	//glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cameraMat[0][0]);
@@ -1267,9 +1266,6 @@ void Renderer::RenderSystem::Update()
 		glUniformMatrix4fv(glGetUniformLocation(shader_program, "uicam"), 1, GL_FALSE, &cam.ui_NDC[0][0]);
 		glBindVertexArray(ui_renderer.get_vao());
 		glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
-		/*glUniform1i(pass_loc, 1);
-		glDrawElements(GL_TRIANGLES, (GLsizei)(ui_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
-		glUniform1i(pass_loc, 0);*/
 		glUniform1i(glGetUniformLocation(shader_program, "UI"), false);
 	}
 	//print all messages here
