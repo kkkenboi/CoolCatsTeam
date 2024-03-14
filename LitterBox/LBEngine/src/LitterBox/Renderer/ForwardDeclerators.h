@@ -119,6 +119,7 @@ namespace Renderer {
 		RT_BACKGROUND,
 		RT_DEBUG,
 		RT_UI,
+		RT_MENU,
 		Last
 	};
 
