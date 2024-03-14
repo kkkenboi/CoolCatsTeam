@@ -1521,6 +1521,32 @@
                     "Rotation": 0.0,
                     "Children": [
                         {
+                            "Name": "ActualTexture",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 1920.0,
+                                "Height": 1080.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Game_Over_Menu_Everything",
+                                "SpriteName": "None",
+                                "SpriteIndex": -1
+                            }
+                        },
+                        {
                             "Name": "RestartGameButtonUI",
                             "Active": false,
                             "Transform": {
@@ -1539,7 +1565,7 @@
                                 "Active": true,
                                 "Width": 500.0,
                                 "Height": 500.0,
-                                "ZLayer": 1.0,
+                                "ZLayer": 0.0,
                                 "Layer": 3,
                                 "Texture": "Multi_Spritesheet",
                                 "SpriteName": "MultiSheet",
@@ -1565,7 +1591,7 @@
                                 "Active": true,
                                 "Width": 400.0,
                                 "Height": 400.0,
-                                "ZLayer": 1.0,
+                                "ZLayer": 0.0,
                                 "Layer": 3,
                                 "Texture": "Multi_Spritesheet",
                                 "SpriteName": "MultiSheet",
@@ -1650,32 +1676,6 @@
                                 "Texture": "Multi_Spritesheet2",
                                 "SpriteName": "MultiSheet2",
                                 "SpriteIndex": 0
-                            }
-                        },
-                        {
-                            "Name": "ActualTexture",
-                            "Active": false,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 0.0,
-                                    "y": 0.0
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0
-                            },
-                            "Render": {
-                                "Active": true,
-                                "Width": 1920.0,
-                                "Height": 1080.0,
-                                "ZLayer": 1.0,
-                                "Layer": 3,
-                                "Texture": "Game_Over_Menu_Everything",
-                                "SpriteName": "None",
-                                "SpriteIndex": -1
                             }
                         }
                     ]
