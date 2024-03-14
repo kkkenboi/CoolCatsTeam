@@ -15,6 +15,8 @@
 **************************************************************************/
 
 #include "ColliderLayers.h"
+#include "LitterBox/Serialization/Serializer.h"
+#include "ColliderManager.h"
 
 namespace LB {
 
@@ -49,6 +51,9 @@ namespace LB {
 		SetCollisionLayer(EnemyBallLayer, PlayerLayer, true);
 
 		SetCollisionLayerAllTrue(DefaultLayer);
+		//JSONSerializer::DeserializeFromFile()
+		JSONSerializer::DeserializeFromFile("CollisionMatrix.json", COLLIDERS->GetLayerSystem());
+
 	}
 
 	/*!***********************************************************************

@@ -39,6 +39,7 @@ namespace LB
 		bool finishTransition;
 		bool temp; //this is a temp bool for a temp fix
 		bool expandOut{ true };	//this bool is to toggle the circle expanding out or in
+		bool playPortalSound{ false };
 		//roughly how long it'll take for the player to fly to centre of black hole
 		//float lerpDuration{1.f};	commented out for now because I'm hacking in the lerp
 		float rotAnglePerSec{ 720.f };

@@ -47,6 +47,11 @@ void LB::CPPSPortal::Update()
 			Vec2<float> lerpedScale = Lerp(Vec2<float>(1, 1), Vec2<float>(0, 0), rotTimer / 2.f);
 			mPlayer->GetComponent<CPTransform>()->SetScale(lerpedScale);
 
+			if (!playPortalSound)
+			{
+				AUDIOMANAGER->PlaySound("Sucked In");
+				playPortalSound = true;
+			}
 			//Once the player is tiny as all hell, we expand the portal center to fill the screen
 			if (rotTimer >= 2.f)
 			{
@@ -104,6 +109,7 @@ void LB::CPPSPortal::Update()
 		circleTimer = 0;
 		intermissionTimer = 0;
 		expandOut = true;
+		playPortalSound = false;
 	}
 
 	//This handles what happens when the animations are all done, the circle has expanded and shrunk.
@@ -137,7 +143,6 @@ void LB::CPPSPortal::OnCollisionEnter(CollisionData colData)
 	{
 		isTransitioning = true;
 		mCachedPlayerPos = mPlayer->GetComponent<CPTransform>()->GetPosition();
-
 		//Disable players movement
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->isMovementDisabled = true;
 	}

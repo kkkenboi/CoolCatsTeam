@@ -15,6 +15,7 @@
 #pragma once
 
 #include "CPPBehaviour.h"
+#include "LitterBox/Audio/AudioManager.h"
 
 namespace LB
 {
@@ -30,8 +31,10 @@ namespace LB
 
 
 		GameObject* DigiPenTexture{ nullptr };
+		GameObject* PurrfectPuttTexture{ nullptr };
+
 
 	private:
-		float mDuration{};
+		float mDuration{}, mSecondDuration{};
 	};
 }

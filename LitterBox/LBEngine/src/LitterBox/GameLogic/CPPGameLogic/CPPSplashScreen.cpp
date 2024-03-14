@@ -22,9 +22,13 @@ namespace LB
 	void SplashScreen::Start()
 	{
 		//DigiPenTexture->GetAllComponents();
-		DigiPenTexture = GOMANAGER->FindGameObjectWithName("Digipen");
+		DigiPenTexture = GOMANAGER->FindGameObjectWithName("DigipenTexture");
 		DigiPenTexture->SetActive(true);
+
+		PurrfectPuttTexture = GOMANAGER->FindGameObjectWithName("PurrfectPuttTexture");
+		PurrfectPuttTexture->SetActive(false);
 		mDuration = 3.0f;
+		mSecondDuration = 3.0f;
 	}
 
 	void SplashScreen::Update()
@@ -33,7 +37,14 @@ namespace LB
 		if (mDuration <= 0.0f)
 		{
 			DigiPenTexture->SetActive(false);
-			SCENEMANAGER->LoadScene("SceneMainMenu");
+			PurrfectPuttTexture->SetActive(true);
+			mSecondDuration -= static_cast<float>(TIME->GetDeltaTime());
+			AUDIOMANAGER->PlaySound("Purrfect Putt!!!_Group");
+			if (mSecondDuration <= 0.0f)
+			{
+				PurrfectPuttTexture->SetActive(false);
+				SCENEMANAGER->LoadScene("SceneMainMenu");
+			}
 			//go to next scene
 		}
 	}

@@ -22,6 +22,7 @@
 #include "CPPSProjectileBall.h"
 #include "Litterbox/Components/RenderVideoComponent.h"
 #include "CPPSDirectionHelper.h"
+#include "CPPSPlayer.h"
 
 namespace LB
 {
@@ -44,10 +45,12 @@ namespace LB
 		killerTexture = GOMANAGER->FindGameObjectWithName("Killer");
 		//we also wanna cache the position of the UI so we can set it back later
 		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
-		cachedRestartPos = GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->GetComponent<CPTransform>()->GetLocalPosition();
-		cachedQuitPos = GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->GetComponent<CPTransform>()->GetLocalPosition();
-
+	
+		//Set the player's spawn point
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
+
+	
+
 
 		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
 		//into a list
@@ -69,6 +72,15 @@ namespace LB
 		//For the first level we just make it such that it's always 2 melee enemies
 		if (currentWave == 1) 
 		{
+			//Extremely bad way of doing this
+			ItemLost1 = GOMANAGER->FindGameObjectWithName("ItemLost1")->GetComponent<CPRender>();
+			ItemLost2 = GOMANAGER->FindGameObjectWithName("ItemLost2")->GetComponent<CPRender>();
+			ItemLost3 = GOMANAGER->FindGameObjectWithName("ItemLost3")->GetComponent<CPRender>();
+			ItemLost4 = GOMANAGER->FindGameObjectWithName("ItemLost4")->GetComponent<CPRender>();
+
+			cachedRestartPos = GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->GetComponent<CPTransform>()->GetLocalPosition();
+			cachedQuitPos = GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->GetComponent<CPTransform>()->GetLocalPosition();
+
 			SpawnCredits = 4;
 			GenerateWave();
 			GameStart = true;
@@ -104,8 +116,10 @@ namespace LB
 		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_G))
 		{
-			GenerateWave();
-			GameStart = true;
+			mPlayer->GetComponent<CPPSPlayer>()->isGod = !mPlayer->GetComponent<CPPSPlayer>()->isGod;
+			GOMANAGER->FindGameObjectWithName("GodModeIndicator")->SetActive(mPlayer->GetComponent<CPPSPlayer>()->isGod);
+			//GenerateWave();
+			//GameStart = true;
 		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{
@@ -143,7 +157,9 @@ namespace LB
 		//	GenerateWave();
 		//	UpgradePicked = false;
 		//}
-		if (SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned)
+		
+		//If game's started, upgrade hasn't spawned and no enemies and not tutorial
+		if (SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned && currentWave)
 		{
 			UpgradeSpawned = true;
 			if (currentWave % 2)
@@ -421,7 +437,27 @@ namespace LB
 		{
 			//std::cout << "Killed by " << enemyObj.GetName() << '\n';
 		} 
-
+		switch (GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->upgradeCount)
+		{
+		case 1:
+			ItemLost1->gameObj->SetActive(true);
+			break;
+		case 2:
+			ItemLost1->gameObj->SetActive(true);
+			ItemLost2->gameObj->SetActive(true);
+			break; 
+		case 3:
+			ItemLost1->gameObj->SetActive(true);
+			ItemLost2->gameObj->SetActive(true);
+			ItemLost3->gameObj->SetActive(true);
+			break;
+		case 4:
+			ItemLost1->gameObj->SetActive(true);
+			ItemLost2->gameObj->SetActive(true);
+			ItemLost3->gameObj->SetActive(true);
+			ItemLost4->gameObj->SetActive(true);
+			break;
+		}
 		// Show UI
 		gameOverTexture->SetActive(true);
 		GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->SetActive(true);

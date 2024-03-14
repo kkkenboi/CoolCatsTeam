@@ -116,6 +116,11 @@ namespace LB
 		float timer{};	//arbitrary timer for proper lerping
 		bool isGameOver{ false };
 		bool isMovementDisabled{ false };
+		//forgive me for I have sinned yet again
+		CPRender* ItemLost1{ nullptr };
+		CPRender* ItemLost2{ nullptr };
+		CPRender* ItemLost3{ nullptr };
+		CPRender* ItemLost4{ nullptr };
 	private:
 		bool UpgradeSpawned{ false };
 		//Formula made in desmos, curve is a sexy sexy S curve.
@@ -137,6 +142,7 @@ namespace LB
 		std::vector<Vec2<float>> SpawnPoints;
 		bool isSoundSwapped{ false };
 		std::vector<GameObject*> SpawnedeEnemiesList;
+
 	};
 	void ShowGameOver(GameObject enemyObj);
 	REGISTER_SCRIPT(CPPSGameManager)

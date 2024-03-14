@@ -356,6 +356,39 @@
                                 "SpriteName": "MultiSheet",
                                 "SpriteIndex": 55
                             }
+                        },
+                        {
+                            "Name": "GodModeIndicator",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 300.0,
+                                "Height": 300.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "VFXCompile_SpriteSheet",
+                                "SpriteName": "VFXSheet",
+                                "SpriteIndex": 23
+                            },
+                            "Animator": {
+                                "Default State": "VFX_Shiny1",
+                                "Play On Awake": true,
+                                "Awake Delay": 0.0,
+                                "Repeating": true,
+                                "Controller": "VFXController"
+                            }
                         }
                     ]
                 },
@@ -1631,7 +1664,7 @@
                         },
                         {
                             "Name": "MainMenuButton",
-                            "Active": true,
+                            "Active": false,
                             "Transform": {
                                 "Active": true,
                                 "Position": {
@@ -1680,6 +1713,110 @@
                                 "Texture": "Multi_Spritesheet2",
                                 "SpriteName": "MultiSheet2",
                                 "SpriteIndex": 0
+                            }
+                        },
+                        {
+                            "Name": "ItemLost1",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -414.0,
+                                    "y": -235.059997
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 200.0,
+                                "Height": 200.0,
+                                "ZLayer": 0.99,
+                                "Layer": 3,
+                                "Texture": "Multi_Spritesheet2",
+                                "SpriteName": "MultiSheet2",
+                                "SpriteIndex": 4
+                            }
+                        },
+                        {
+                            "Name": "ItemLost2",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -314.0,
+                                    "y": -235.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 200.0,
+                                "Height": 200.0,
+                                "ZLayer": 0.99,
+                                "Layer": 3,
+                                "Texture": "Multi_Spritesheet2",
+                                "SpriteName": "MultiSheet2",
+                                "SpriteIndex": 6
+                            }
+                        },
+                        {
+                            "Name": "ItemLost3",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -214.0,
+                                    "y": -235.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 200.0,
+                                "Height": 200.0,
+                                "ZLayer": 0.99,
+                                "Layer": 3,
+                                "Texture": "Multi_Spritesheet2",
+                                "SpriteName": "MultiSheet2",
+                                "SpriteIndex": 6
+                            }
+                        },
+                        {
+                            "Name": "ItemLost4",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -114.0,
+                                    "y": -235.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 200.0,
+                                "Height": 200.0,
+                                "ZLayer": 0.99,
+                                "Layer": 3,
+                                "Texture": "Multi_Spritesheet2",
+                                "SpriteName": "MultiSheet2",
+                                "SpriteIndex": 6
                             }
                         }
                     ]
