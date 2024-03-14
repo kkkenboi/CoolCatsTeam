@@ -59,8 +59,13 @@ void LB::CPPSPortal::Update()
 				{	//Once the 1 second time has been reached, it should be max size
 					expandOut = false;
 					if (mGameManager->GetComponent<CPPSGameManager>()->GetCurrentWave() == 0)
-					SCENEMANAGER->LoadScene("SceneMain");
-
+					{
+						SCENEMANAGER->LoadScene("SceneMain");
+					}
+					else if (mGameManager->GetComponent<CPPSGameManager>()->GetCurrentWave() == 9)
+					{
+						mGameManager->GetComponent<CPPSGameManager>()->ShowGameWin();
+					}
 				}
 				else if (circleTimer <= 0.f)
 				{	//then it'll start shrinking, and at 0s, it means it's done and we can start the wave

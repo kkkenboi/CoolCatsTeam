@@ -107,7 +107,8 @@ namespace LB
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{
 			//GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeOut(5.f);
-			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
+			//VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
+			ShowGameWin();
 		}
 		/*if (INPUT->IsKeyTriggered(KeyCode::KEY_I))
 		{
@@ -139,10 +140,17 @@ namespace LB
 		//	GenerateWave();
 		//	UpgradePicked = false;
 		//}
-		if (currentEnemyCount == 0 && GameStart && !UpgradeSpawned)
+		if (SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned)
 		{
 			UpgradeSpawned = true;
-			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
+			if (currentWave % 2)
+			{
+				GOMANAGER->FindGameObjectWithName("Portal")->SetActive(true);
+			}
+			else
+			{
+				GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
+			}
 			SpawnCrowdAnim();
 			//We want to remove all the balls when the upgrade spawns
 			std::vector<GameObject*> Balls = GOMANAGER->FindGameObjectsWithName("ball");
@@ -253,6 +261,7 @@ namespace LB
 		GameObject* mageClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Mage", *mageClone);
 		mageClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+		SpawnedeEnemiesList.push_back(mageClone);
 	}
 
 	/*!************************************************************************
@@ -264,6 +273,7 @@ namespace LB
 		GameObject* chaserClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserClone);
 		chaserClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+		SpawnedeEnemiesList.push_back(chaserClone);
 	}
 
 	/*!************************************************************************
@@ -276,6 +286,7 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("Charger_Shield", *chargerClone);
 		//JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
 		chargerClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+		SpawnedeEnemiesList.push_back(chargerClone);
 	}
 
 	void CPPSGameManager::SpawnCrowdAnim()
@@ -296,6 +307,7 @@ namespace LB
 		GameObject* dummyClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Dummy", *dummyClone);
 		dummyClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+		SpawnedeEnemiesList.push_back(dummyClone);
 		// Need to increment it here as we are not adding it to the list of enemies
 		currentEnemyCount++;
 	}
@@ -312,6 +324,15 @@ namespace LB
 		{
 			//By right we should never have this
 			DebuggerLogWarning("Enemy Count Error! Please check enemy count logic");
+		}
+	}
+	void CPPSGameManager::RemoveSpawnedEnemy(GameObject* enemyToRemove)
+	{
+		DebuggerLogFormat("Spawned Enemy Count : %d", SpawnedeEnemiesList.size());
+		auto itr = std::find(SpawnedeEnemiesList.begin(), SpawnedeEnemiesList.end(), enemyToRemove);
+		if (itr != SpawnedeEnemiesList.end())
+		{
+			SpawnedeEnemiesList.erase(itr);
 		}
 	}
 	void CPPSGameManager::ShowGameOver(GameObject enemyObj)
@@ -349,6 +370,10 @@ namespace LB
 		else std::cout << "Killed by " << enemyObj.GetName() << '\n';
 
 		gameOverTexture->SetActive(true);
+	}
+	void CPPSGameManager::ShowGameWin()
+	{
+		VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
 	}
 	Vec2<float> CPPSGameManager::GetRandomSpawnPoint()
 	{
