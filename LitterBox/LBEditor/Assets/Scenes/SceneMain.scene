@@ -1173,7 +1173,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "Pause Menu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -1280,7 +1280,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "HowToPlay",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -1333,7 +1333,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "QuitMenu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
