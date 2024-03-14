@@ -64,6 +64,13 @@ namespace LB
 				GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->m_mouseHoverWorld = false;
 				//If upgrade has been hit, it tells the UpgradeManager by calling set ball upgrade		
 				//CPPSUpgradeManager::Instance()->SetBallUpgrade(assignedUpgradeType);
+
+				//This prevents the player from getting the same upgrade twice
+				if (GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->HasUpgrade(assignedUpgradeType))
+				{
+					return;
+				}
+
 				GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SetBallUpgrade(assignedUpgradeType);
 				switch (assignedUpgradeType)
 				{
@@ -81,17 +88,41 @@ namespace LB
 					break;
 				case BIGBALL:
 					// std::cout << "Bigger Balls!\n";
-
+					break;
 				default:
 					//do nothing
 					break;
 				}
-				/*	BallGameObj = GOMANAGER->FindGameObjectWithName("ball");
-					BallGameObj->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(1);*/
+			
 			}
 
 			canDestroy = true;
 			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->HideUpgrades(assignedUpgradeType);
+			switch (GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->upgradeCount)
+			{
+			case 1:
+				
+				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ItemLost1->SetSpriteTexture("MultiSheet2", 3 + assignedUpgradeType);
+				//GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ItemLost1->gameObj->SetActive(true);
+				break;
+			case 2:
+				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ItemLost2->SetSpriteTexture("MultiSheet2", 3 + assignedUpgradeType);
+				//GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ItemLost2->gameObj->SetActive(true);
+				break;
+			case 3:
+				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ItemLost3->SetSpriteTexture("MultiSheet2", 3 + assignedUpgradeType);
+				//GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ItemLost3->gameObj->SetActive(true);
+
+				break;
+			case 4:
+				GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ItemLost4->SetSpriteTexture("MultiSheet2", 3 + assignedUpgradeType);
+				//GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ItemLost4->gameObj->SetActive(true);
+
+				break;
+			default:
+				DebuggerLogWarningFormat("Invalid upgrade count of %d!", GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->upgradeCount);
+				break;
+			}
 			/*this->GameObj->SetActive(false);*/
 			//std::cout << this->GameObj->GetName() << '\n';
 			//GameObj->GetComponent<CPTransform>()->SetPosition({ 10000.f,10000.f });

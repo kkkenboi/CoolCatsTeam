@@ -234,6 +234,7 @@ namespace LB
 		//We just use it as ints for now to set ball upgrades
 		//std::cout << "upgrade type set " << upgradeType << '\n';
 		currentBallUpgrades |= (1 << upgradeType);
+		upgradeCount++;
 		//Then we loop through and remove the upgrade that we got from the list
 		/*for (std::vector<UpgradeType>::iterator it = UpgradesList.end(); it != UpgradesList.begin();)
 		{
@@ -262,6 +263,11 @@ namespace LB
 	void CPPSUpgradeManager::SetSpawned(bool spawned)
 	{
 		isSpawned = spawned;
+	}
+
+	bool CPPSUpgradeManager::HasUpgrade(int upgradeType)
+	{
+		return (currentBallUpgrades & (1 << upgradeType));
 	}
 
 	
