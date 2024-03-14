@@ -416,12 +416,15 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 		quad_buff_size = 3000;
 		break;
 	case Renderer_Types::RT_BACKGROUND:
-		quad_buff_size = 1000;
+		quad_buff_size = 100;
 		break;
 	case Renderer_Types::RT_DEBUG:
 		quad_buff_size = 200;
 		break;
 	case Renderer_Types::RT_UI:
+		quad_buff_size = 50;
+		break;
+	case Renderer_Types::RT_MENU:
 		quad_buff_size = 50;
 		break;
 	}
@@ -973,6 +976,7 @@ Renderer::RenderSystem::RenderSystem() : shader_program{0},
 object_renderer{Renderer_Types::RT_OBJECT},
 bg_renderer{Renderer_Types::RT_BACKGROUND},
 ui_renderer{Renderer_Types::RT_UI},
+menu_renderer{Renderer_Types::RT_MENU},
 text_renderer{},
 framebuffer{},
 svfb{},
@@ -1237,6 +1241,7 @@ void Renderer::RenderSystem::Update()
 	bg_renderer.update_buff();
 	object_renderer.update_buff();
 	ui_renderer.update_buff();
+	menu_renderer.update_buff();
 
 	//NOTE: for the depth buffer, because OpenGL is left handed
 	//the higher the z-axis value, the further away it is from the camera
@@ -1266,6 +1271,15 @@ void Renderer::RenderSystem::Update()
 	//print all messages here
 	text_renderer.update_text();
 	//print all messages here
+	//menu layer
+	if (menu_renderer.getActive())
+	{
+		glUseProgram(shader_program);
+		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
+		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
+		glBindVertexArray(menu_renderer.get_vao());
+		glDrawElements(GL_TRIANGLES, (GLsizei)(menu_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+	}
 
 	if (editor_mode) {
 		glUseProgram(shader_program);
@@ -1287,6 +1301,13 @@ void Renderer::RenderSystem::Update()
 			glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 			glBindVertexArray(object_renderer.get_vao());
 			glDrawElements(GL_TRIANGLES, (GLsizei)(object_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+		}
+		//menu layer
+		if (menu_renderer.getActive())
+		{
+			glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
+			glBindVertexArray(menu_renderer.get_vao());
+			glDrawElements(GL_TRIANGLES, (GLsizei)(menu_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
 		}
 		//UI and TEXT don't get rendered in scene view
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -1413,7 +1434,10 @@ unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const 
 	//TODO for UI and DEBUG
 	case Renderer_Types::RT_UI:
 		return ui_renderer.create_render_object(obj);
+	case Renderer_Types::RT_MENU:
+		return menu_renderer.create_render_object(obj);
 	}
+
 	return 0;
 }
 /*!***********************************************************************
@@ -1470,6 +1494,9 @@ void Renderer::RenderSystem::swap_object_type(Renderer_Types new_type, LB::CPRen
 	case Renderer_Types::RT_UI:
 		ui_renderer.remove_render_object(obj);
 		break;
+	case Renderer_Types::RT_MENU:
+		menu_renderer.remove_render_object(obj);
+		break;
 	}
 	//add the object to the new layer
 	switch (new_type) {
@@ -1481,6 +1508,9 @@ void Renderer::RenderSystem::swap_object_type(Renderer_Types new_type, LB::CPRen
 		break;
 	case Renderer_Types::RT_UI:
 		newid = ui_renderer.create_render_object(obj);
+		break;
+	case Renderer_Types::RT_MENU:
+		newid = menu_renderer.create_render_object(obj);
 		break;
 	}
 
@@ -1517,6 +1547,9 @@ inline void Renderer::RenderSystem::change_object_state(Renderer_Types r_type, c
 		break;
 	case Renderer_Types::RT_UI:
 		ui_renderer.change_render_state(*obj);
+		break;
+	case Renderer_Types::RT_MENU:
+		menu_renderer.change_render_state(*obj);
 		break;
 	}
 }
@@ -1580,6 +1613,8 @@ const std::list<const LB::CPRender*>& Renderer::RenderSystem::get_layer_objs(Ren
 		return bg_renderer.getObjectList();
 	case Renderer_Types::RT_UI:
 		return ui_renderer.getObjectList();
+	case Renderer_Types::RT_MENU:
+		return menu_renderer.getObjectList();
 	}
 	return object_renderer.getObjectList();
 }
@@ -1603,6 +1638,8 @@ const bool& Renderer::RenderSystem::get_layer_active(Renderer_Types layer) const
 		return bg_renderer.getActive();
 	case Renderer_Types::RT_UI:
 		return ui_renderer.getActive();
+	case Renderer_Types::RT_MENU:
+		return menu_renderer.getActive();
 	}
 
 	return object_renderer.getActive();

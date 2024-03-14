@@ -83,6 +83,9 @@ namespace LB {
 				case Renderer::Renderer_Types::RT_UI:
 					dropdowntitle = "UI layer";
 					break;
+				case Renderer::Renderer_Types::RT_MENU:
+					dropdowntitle = "Menu layer";
+					break;
 				}
 
 				//check box to toggle the layer list

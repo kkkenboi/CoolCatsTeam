@@ -21,6 +21,8 @@
 #include "LitterBox/Scene/SceneManager.h"
 #include "CPPSProjectileBall.h"
 #include "Litterbox/Components/RenderVideoComponent.h"
+#include "CPPSDirectionHelper.h"
+
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -75,9 +77,7 @@ namespace LB
 		// For the tutorial stage
 		if (currentWave == 0) 
 		{
-			SpawnDummyEnemy();
-			SpawnDummyEnemy();
-			SpawnDummyEnemy();
+			FillSpawnPoints("Dummy");
 			GameStart = true;
 		}
 	}
@@ -346,6 +346,16 @@ namespace LB
 	{
 		DebuggerLogFormat("Enemy count : %d", currentEnemyCount);
 		currentEnemyCount--;
+
+		if (currentEnemyCount == 1)
+		{
+			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = true;
+		}
+		else if (currentEnemyCount == 0)
+		{
+			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = false;
+		}
+
 		if (currentEnemyCount < 0)
 		{
 			//By right we should never have this
@@ -406,9 +416,30 @@ namespace LB
 		return Vec2<float>();
 	}
 
+	void CPPSGameManager::FillSpawnPoints(std::string name) 
+	{
+		for (Vec2<float> pos : SpawnPoints) 
+		{
+			GameObject* dummyClone = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile(name, *dummyClone);
+			dummyClone->GetComponent<CPTransform>()->SetPosition(pos);
+			// Need to increment it here as we are not adding it to the list of enemies
+			currentEnemyCount++;
+		}
+	}
+
 	int CPPSGameManager::GetCurrentWave()
 	{
 		return currentWave;
+	}
+
+	/*!************************************************************************
+	 * \brief Gets the current number of enemies
+	 *
+	**************************************************************************/
+	int CPPSGameManager::GetCurrentEnemyCount() const
+	{
+		return currentEnemyCount;
 	}
 
 	/*!************************************************************************
@@ -459,4 +490,5 @@ namespace LB
 		//enemy obj is the one that killed the player
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ShowGameOver(enemyObj);
 	}
+
 }

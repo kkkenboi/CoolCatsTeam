@@ -570,6 +570,9 @@ namespace LB
 				case Renderer::Renderer_Types::RT_UI:
 					renderdroplayer = "UI layer";
 					break;
+				case Renderer::Renderer_Types::RT_MENU:
+					renderdroplayer = "Menu layer";
+					break;
 				}
 
 				//TODO: Add ability to get c string based on render layer
@@ -595,6 +598,9 @@ namespace LB
 							break;
 						case Renderer::Renderer_Types::RT_UI:
 							renderdroplayer = "UI layer";
+							break;
+						case Renderer::Renderer_Types::RT_MENU:
+							renderdroplayer = "Menu layer";
 							break;
 						}
 

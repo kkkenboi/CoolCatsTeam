@@ -328,21 +328,11 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseMaxHealth(int amount)
 	{
-		//for (int i{ 1 }; i <= amount; i++)
-		//{
-		//	GameObject* healthObject = FACTORY->SpawnGameObject();
-		//	JSONSerializer::DeserializeFromFile("HeartHUD", *healthObject);
-		//	Vec2 startPos = healthObject->GetComponent<CPTransform>()->GetPosition();
-		//	healthObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_heartDisplayOffset.x * (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth + i - 1), startPos.y));
-
-		//	// Set the texture for lost health
-		//	if (i > m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth)
-		//	{
-		//		m_totalHeartDisplay[static_cast<size_t>(i - 1)]->GetComponent<CPRender>()->SetSpriteTexture(m_totalHeartDisplay[static_cast<size_t>(i - 1)]->GetComponent<CPRender>()->spriteSheetName, 49);
-		//	}
-
-		//	m_totalHeartDisplay.push_back(healthObject);
-		//}
+		// Prevents player health to be more than 6
+		if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth == 6)
+		{
+			return;
+		}
 
 		m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxHealth += amount;
 		m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth += amount;
@@ -360,15 +350,12 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::IncreaseMaxBalls(int amount)
 	{
-		//for (int i{}; i < amount; i++)
-		//{
-		//	GameObject* ballObject = FACTORY->SpawnGameObject();
-		//	JSONSerializer::DeserializeFromFile("BallHUD", *ballObject);
-		//	Vec2 startPos = ballObject->GetComponent<CPTransform>()->GetPosition();
-		//	ballObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>(startPos.x + m_ballDisplayOffset.x * (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls + i), startPos.y));
 
-		//	m_totalBallsDisplay.push_back(ballObject);
-		//}
+		// Prevent balls from going more than 6
+		if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls == 6)
+		{
+			return;
+		}
 
 		m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls += amount;
 

@@ -78,7 +78,15 @@ namespace LB
 		void ShowGameOver(GameObject enemyObj);
 		Vec2<float> GetRandomSpawnPoint();
 
+		void FillSpawnPoints(std::string name);
+
 		int GetCurrentWave();
+
+		/*!************************************************************************
+		 * \brief Gets the current number of enemies
+		 *
+		**************************************************************************/
+		int GetCurrentEnemyCount() const;
 
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy
