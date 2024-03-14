@@ -83,8 +83,16 @@ namespace LB
 		**************************************************************************/
 		void StopAndReset();
 
+		/*!************************************************************************
+		 \brief
+		 Returns true if the current state is playing
+		**************************************************************************/
 		inline bool IsPlaying() { return m_playing; }
 
+		/*!************************************************************************
+		 \brief
+		 Returns true if the state that is playing is the given state
+		**************************************************************************/
 		inline bool IsPlaying(std::string const& name) { return m_controller.GetCurrentState().m_name == name; }
 		
 		//----------------------------------------------COMPONENT FUNCTIONS----------------------------------------------
