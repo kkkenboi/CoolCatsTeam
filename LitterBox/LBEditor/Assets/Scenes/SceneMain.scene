@@ -4360,8 +4360,8 @@
                         "y": 540.0
                     },
                     "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
+                        "x": 2.0,
+                        "y": 2.0
                     },
                     "Rotation": 0.0
                 },
@@ -4370,7 +4370,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 3,
+                    "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
                     "SpriteIndex": 54

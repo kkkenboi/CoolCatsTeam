@@ -54,6 +54,8 @@ namespace LB
 
 		bool mLastEnemy{ false };
 		bool mUpgradeSpawned{ false };
+
+		float distance;
 	};
 	REGISTER_SCRIPT(CPPSDirectionHelper)
 

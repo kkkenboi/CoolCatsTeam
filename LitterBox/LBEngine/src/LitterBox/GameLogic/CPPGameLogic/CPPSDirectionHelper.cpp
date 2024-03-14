@@ -14,6 +14,7 @@
 #include "CPPSDirectionHelper.h"
 #include "CPPSCameraFollow.h"
 #include "CPPGameManager.h"
+#include <algorithm>
 
 namespace LB
 {
@@ -26,9 +27,13 @@ namespace LB
 		// Initialising pointers for easy reference
 		mPlayerTransform = GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPTransform>();
 		mCameraFollow = GOMANAGER->FindGameObjectWithName("CameraFollow");
-		mGameManager = GOMANAGER->FindGameObjectWithName("CameraFollow");
+		mGameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 
 		mTransform = GameObj->GetComponent<CPTransform>();
+
+
+		// Set how far direction helper should be from the player
+		distance = 400.0f;
 	}
 
 	/*!************************************************************************
@@ -40,11 +45,6 @@ namespace LB
 		// If left 1 enemy, show position of last enemy
 		if (mLastEnemy)
 		{
-			// Turn the directionhelper on
-			GameObj->GetComponent<CPRender>()->ToggleActive(true);
-
-			//Setting the position of the aim script to the player
-			mTransform->SetPosition(mPlayerTransform->GetPosition());
 
 			if (GOMANAGER->FindGameObjectWithName("EnemyChaser1"))
 			{
@@ -59,46 +59,104 @@ namespace LB
 				mEventTransform = GOMANAGER->FindGameObjectWithName("Charger_Shield")->GetComponent<CPTransform>();
 			}
 
-			// Get the direction to event, as well as how far it is away from the screen since it is a relative length now
-			// Event Position - Player Position = Distance from player to event
-			DirToEvent = mEventTransform->GetPosition() - mTransform->GetPosition();
+			DirToEvent = mEventTransform->GetPosition() - mPlayerTransform->GetPosition();
 
-			Vec2<Vec2<float>> CurrentEdgePosition = mTransform->GetPosition() + 
-			
-			// To REDO: If using UI layer, the screen space is actually from 0 to 1960 for x and 0 to 540 for y
-			// If the length is lesser or greater than the screen size, show the direction helper
-			if (DirToEvent.x > 1920.f || DirToEvent.y > 1080.f || DirToEvent.x < 0.f || DirToEvent.y < 0.f)
+			Vec2<Vec2<float>> CurrentScreenBorder = { (mPlayerTransform->GetPosition() + Vec2<float>{800.f, 450.f}), (mPlayerTransform->GetPosition() - Vec2<float>{800.f, 450.f}) };
+
+			bool EnemyNotWithinScreen = !(mEventTransform->GetPosition().x < CurrentScreenBorder.x.x && mEventTransform->GetPosition().x > CurrentScreenBorder.y.x && mEventTransform->GetPosition().y < CurrentScreenBorder.x.y && mEventTransform->GetPosition().y > CurrentScreenBorder.y.y);
+			if (EnemyNotWithinScreen)
 			{
+				// Turn the direction helper on
+				GameObj->GetComponent<CPRender>()->ToggleActive(true);
 
-				// Find where the direction helper should be placed before the border
-				Vec2<float> borderPos{};
-
-				// - Setting one/two of the max values
-				if (DirToEvent.x > 1920.f) {
-					borderPos.x = 1900.f;
-					borderPos.y = 1080.f - DirToEvent.y;
-				}
-				else if (DirToEvent.x < 0.f) {
-					borderPos.x = 20.f;
-					borderPos.y = 1080.f - DirToEvent.y;
-				}
-
-				else if (DirToEvent.y > 1080.f) {
-					borderPos.x = DirToEvent.x;
-					borderPos.y = 1060.f;
-				}
-				else if (DirToEvent.y < 0.f) {
-					borderPos.x = DirToEvent.x;
-					borderPos.y = 20.f;
-				}
-
-				// Normalise to just get the general direction
 				DirToEvent.Normalise();
 
-				// Get the position before the border of the screen, update the position and rotation
-				mTransform->SetPosition(borderPos);
+				// Set position and direction of the direction helper
+				mTransform->SetPosition(Vec2<float>{960.f, 540.f} + DirToEvent.Normalise() * distance);
 				mTransform->SetRotation(RadToDeg(atan2f(DirToEvent.y, DirToEvent.x)));
+
+				// Indicate which enemy is left
+
 			}
+			else
+			{
+				// Turn the direction helper off
+				GameObj->GetComponent<CPRender>()->ToggleActive(false);
+			}
+
+			// Find where the direction helper should be placed 
+			//Vec2<float> {};
+
+			//// If top right portion of the screen
+			//if (DirToEvent.x > 0.f && DirToEvent.y > 0.f)
+			//{
+			//	cosTheta = DotProduct(DirToEvent, Vec2<float>(1.f, 0.f));
+
+			//	// If right-top border of the screen
+			//	if (acos(cosTheta) <= 0.785f)
+			//	{
+			//		borderPos.x = mPlayerTransform->GetPosition().x + 960.f;
+			//		borderPos.y = mPlayerTransform->GetPosition().y + (960.f / cosTheta);
+			//	}
+			//	// If top-right border of the screen
+			//	else if (acos(cosTheta) > 0.785f)
+			//	{
+			//		cosTheta = DotProduct(DirToEvent, Vec2<float>(0.f, 1.f));
+			//		borderPos.x = mPlayerTransform->GetPosition().x + (540.f / cosTheta);
+			//		borderPos.y = mPlayerTransform->GetPosition().y + 540.f;
+			//	}
+
+			//}
+			//else if (DirToEvent.x < 0.f && DirToEvent.y < 0.f)
+			//{
+
+			//}
+			//else if (DirToEvent.x < 0.f && DirToEvent.y > 0.f)
+			//{
+
+			//}
+			//else if (DirToEvent.x > 0.f && DirToEvent.y < 0.f)
+			//{
+
+			//}
+
+			//float angle = atan2f(DirToEvent.y, DirToEvent.x);
+			//float cosTheta = cos(angle);
+			//float sinTheta = sin(angle);
+
+			//// Calculate the distance to the borders based on the angle
+			//float distanceToRightBorder = 960.0f / cosTheta;
+			//float distanceToLeftBorder = -960.0f / cosTheta;
+			//float distanceToTopBorder = 540.0f / sinTheta;
+			//float distanceToBottomBorder = -540.0f / sinTheta;
+
+			//// Calculate the final position of the direction helper based on the angle and border distances
+			//if (cosTheta >= 0 && sinTheta >= 0) // Top-right
+			//{
+			//	borderPos.x = mPlayerTransform->GetPosition().x + distanceToRightBorder * cosTheta;
+			//	borderPos.y = mPlayerTransform->GetPosition().y + distanceToTopBorder * sinTheta;
+			//}
+			//else if (cosTheta >= 0 && sinTheta < 0) // Bottom-right
+			//{
+			//	borderPos.x = mPlayerTransform->GetPosition().x + distanceToRightBorder * cosTheta;
+			//	borderPos.y = mPlayerTransform->GetPosition().y + distanceToBottomBorder * sinTheta;
+			//}
+			//else if (cosTheta < 0 && sinTheta >= 0) // Top-left
+			//{
+			//	borderPos.x = mPlayerTransform->GetPosition().x + distanceToLeftBorder * cosTheta;
+			//	borderPos.y = mPlayerTransform->GetPosition().y + distanceToTopBorder * sinTheta;
+			//}
+			//else if (cosTheta < 0 && sinTheta < 0) // Bottom-left
+			//{
+			//	borderPos.x = mPlayerTransform->GetPosition().x + distanceToLeftBorder * cosTheta;
+			//	borderPos.y = mPlayerTransform->GetPosition().y + distanceToBottomBorder * sinTheta;
+			//}
+			//// Normalise to just get the general direction
+			//DirToEvent.Normalise();
+
+			//// Get the position before the border of the screen, update the position and rotation
+			//mTransform->SetPosition(borderPos);
+			//mTransform->SetRotation(RadToDeg(atan2f(DirToEvent.y, DirToEvent.x)));
 		}
 		else if (mUpgradeSpawned)
 		{
@@ -121,5 +179,4 @@ namespace LB
 	{
 		//Should be empty
 	}
-
 }
