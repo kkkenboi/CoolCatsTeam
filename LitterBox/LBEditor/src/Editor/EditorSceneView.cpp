@@ -259,18 +259,20 @@ namespace LB
 				finalScale -= scale;
 				finalScale += InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>()->GetLocalScale();
 
+				//DebuggerLogFormat("Rotation before %f after %f final %f", rot, decompRot.z, finalRot);
+
 				// Set the new values to translate, rotate and scale 
-				if (fabs(finalTrans.x) > EPSILON_F || fabs(finalTrans.y) > EPSILON_F)
+				if (fabs(decompTrans.x - trans.x) > EPSILON_F || fabs(decompTrans.y - trans.y) > EPSILON_F)
 				{
 					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>(), finalTrans);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
 				}
-				if (fabs(finalScale.x - scale.x) > EPSILON_F || fabs(finalScale.y - scale.y) > EPSILON_F)
+				if (fabs(decompScale.x - scale.x) > EPSILON_F || fabs(decompScale.y - scale.y) > EPSILON_F)
 				{
 					std::shared_ptr<ScaleCommand> scaleCommand = std::make_shared<ScaleCommand>(InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>(), finalScale);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(scaleCommand));
 				}
-				if (fabs(finalRot - rot) > EPSILON_F)
+				if (fabs(decompRot.z - rot) > EPSILON_F)
 				{
 					std::shared_ptr<RotateCommand> rotateCommand = std::make_shared<RotateCommand>(InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>(), finalRot);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(rotateCommand));

@@ -57,7 +57,7 @@ namespace LB
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
 			std::shared_ptr<MoveCommand> incomingMoveCommand = std::dynamic_pointer_cast<MoveCommand>(incomingCommand);
-			if (incomingMoveCommand->m_transform == m_transform && incomingMoveCommand->m_oldPos == m_newPos)
+			if (incomingMoveCommand->m_transform == m_transform)
 			{
 				m_newPos = incomingMoveCommand->m_newPos;
 				return true;
