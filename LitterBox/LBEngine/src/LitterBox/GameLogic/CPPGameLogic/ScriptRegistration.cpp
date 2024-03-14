@@ -46,6 +46,7 @@
 #include "CPPSTutorial1.h"
 #include "CPPSTutorial2.h"
 #include "CPPSTutorial3.h"
+#include "CPPSAudienceManager.h"
 
 namespace LB 
 {

@@ -74,6 +74,7 @@ namespace LB
 		 * 
 		**************************************************************************/
 		void ReduceEnemyCount();
+		Event<> onEnemyKill{};
 
 		void ShowGameOver(GameObject enemyObj);
 		Vec2<float> GetRandomSpawnPoint();

@@ -345,7 +345,8 @@ namespace LB
 	void CPPSGameManager::ReduceEnemyCount()
 	{
 		DebuggerLogFormat("Enemy count : %d", currentEnemyCount);
-		currentEnemyCount--;
+		--currentEnemyCount;
+		onEnemyKill.Invoke();
 
 		if (currentEnemyCount == 1)
 		{
