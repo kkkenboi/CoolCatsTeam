@@ -21,6 +21,8 @@
 #include "LitterBox/Scene/SceneManager.h"
 #include "CPPSProjectileBall.h"
 #include "Litterbox/Components/RenderVideoComponent.h"
+#include "CPPSDirectionHelper.h"
+
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -308,6 +310,16 @@ namespace LB
 	{
 		DebuggerLogFormat("Enemy count : %d", currentEnemyCount);
 		currentEnemyCount--;
+
+		if (currentEnemyCount == 1)
+		{
+			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = true;
+		}
+		else if (currentEnemyCount == 0)
+		{
+			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = false;
+		}
+
 		if (currentEnemyCount < 0)
 		{
 			//By right we should never have this
@@ -371,6 +383,15 @@ namespace LB
 	}
 
 	/*!************************************************************************
+	 * \brief Gets the current number of enemies
+	 *
+	**************************************************************************/
+	int CPPSGameManager::GetCurrentEnemyCount() const
+	{
+		return currentEnemyCount;
+	}
+
+	/*!************************************************************************
 	* \brief Function to generate the wave
 	* 
 	**************************************************************************/
@@ -418,4 +439,5 @@ namespace LB
 		//enemy obj is the one that killed the player
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ShowGameOver(enemyObj);
 	}
+
 }
