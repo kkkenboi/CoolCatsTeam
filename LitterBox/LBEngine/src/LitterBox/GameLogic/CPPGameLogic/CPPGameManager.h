@@ -78,6 +78,8 @@ namespace LB
 		void ShowGameOver(GameObject enemyObj);
 		Vec2<float> GetRandomSpawnPoint();
 
+		void FillSpawnPoints(std::string name);
+
 		int GetCurrentWave();
 
 		/*!************************************************************************

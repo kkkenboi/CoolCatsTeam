@@ -43,6 +43,9 @@
 #include "CPPSDummy.h"
 #include "CPPSTutorialGrandpa.h"
 #include "CPPSDirectionHelper.h"
+#include "CPPSTutorial1.h"
+#include "CPPSTutorial2.h"
+#include "CPPSTutorial3.h"
 
 namespace LB 
 {

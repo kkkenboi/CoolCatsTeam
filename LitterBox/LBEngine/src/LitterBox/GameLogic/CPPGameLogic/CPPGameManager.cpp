@@ -74,9 +74,7 @@ namespace LB
 		// For the tutorial stage
 		if (currentWave == 0) 
 		{
-			SpawnDummyEnemy();
-			SpawnDummyEnemy();
-			SpawnDummyEnemy();
+			FillSpawnPoints("Dummy");
 			GameStart = true;
 		}
 	}
@@ -375,6 +373,18 @@ namespace LB
 		}
 		DebuggerLogWarning("Somehow unable to find a valid spawnpoint for enemy!");
 		return Vec2<float>();
+	}
+
+	void CPPSGameManager::FillSpawnPoints(std::string name) 
+	{
+		for (Vec2<float> pos : SpawnPoints) 
+		{
+			GameObject* dummyClone = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile(name, *dummyClone);
+			dummyClone->GetComponent<CPTransform>()->SetPosition(pos);
+			// Need to increment it here as we are not adding it to the list of enemies
+			currentEnemyCount++;
+		}
 	}
 
 	int CPPSGameManager::GetCurrentWave()
