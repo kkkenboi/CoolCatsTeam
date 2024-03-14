@@ -42,6 +42,7 @@
 #include "CPPSCutscene.h"
 #include "CPPSDummy.h"
 #include "CPPSTutorialGrandpa.h"
+#include "CPPSDirectionHelper.h"
 
 namespace LB 
 {

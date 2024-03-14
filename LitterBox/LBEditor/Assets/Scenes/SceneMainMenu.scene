@@ -30,6 +30,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "ZLayer": 1.0,
                     "Layer": 1,
                     "Texture": "Main_Menu_M2",
                     "SpriteName": "None",
@@ -210,6 +211,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "lefthand",
                     "SpriteName": "None",
@@ -235,6 +237,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "QuitMenu",
                     "SpriteName": "None",
@@ -366,6 +369,7 @@
                     "Active": true,
                     "Width": 896.0,
                     "Height": 728.0,
+                    "ZLayer": 1.0,
                     "Layer": 0,
                     "Texture": "Underline",
                     "SpriteName": "None",
@@ -390,21 +394,6 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSFPS"
-                },
-                "Text": {
-                    "Active": true,
-                    "Message": {
-                        "text": "FPS:",
-                        "x": 1568.060058,
-                        "y": 868.590026,
-                        "scale": 1.0,
-                        "Color": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "Font name": "TiltNeon-Regular"
-                    }
                 }
             },
             {
@@ -426,6 +415,7 @@
                     "Active": true,
                     "Width": 1920.0,
                     "Height": 1080.0,
+                    "ZLayer": 1.0,
                     "Layer": 3,
                     "Texture": "",
                     "SpriteName": "None",

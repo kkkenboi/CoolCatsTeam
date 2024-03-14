@@ -279,6 +279,12 @@ namespace LB
 
 		std::vector<std::string> ChargerChargingSounds = { "Trains_Horn_Train_Whistle_Old_SND59554" };
 
+		std::vector<std::string> BushSounds = { "Passing Through Shrug_SFX_1",
+												"Passing Through Shrug_SFX_2",
+												"Passing Through Shrug_SFX_3",
+												"Passing Through Shrug_SFX_4" };
+
+
 	private:
 		int channelID{ 0 };
 		std::map<int, FMOD::Channel*> Channels;

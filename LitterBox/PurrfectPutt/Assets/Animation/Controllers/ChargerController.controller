@@ -1,0 +1,13 @@
+{
+    "Name": "ChargerController",
+    "States": [
+        "Charger_Charging",
+        "Charger_Hurt",
+        "Charger_Prep",
+        "Charger_PrepVFX",
+        "Charger_PrepVFX2",
+        "Charger_Idle",
+        "Charger_StunVFX",
+        "Charger_Stunny"
+    ]
+}

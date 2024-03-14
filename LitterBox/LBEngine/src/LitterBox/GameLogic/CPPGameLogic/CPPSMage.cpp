@@ -40,6 +40,7 @@ namespace LB
 		mRender = m_trans->GetChild()->GetChild()->GetComponent<CPRender>();
 		mAnimator = m_trans->GetChild()->GetChild()->GetComponent<CPAnimator>();
 		m_handTrans = m_trans->GetChild()->GetChild()->GetChild()->GetComponent<CPTransform>();
+		m_wandTipTrans = m_trans->GetChild()->GetChild()->GetChild()->GetChild()->GetComponent<CPTransform>();
 		
 		//initialse the state of the mage
 		//STATES : IDLE, CHASING, BACKOFF, HURT, SHOOTING
@@ -110,7 +111,7 @@ namespace LB
 		playerToMouseDir = playerToMouseDir.Normalise();
 
 		float angle = atan2f(playerToMouseDir.y, playerToMouseDir.x);
-		m_handTrans->SetRotation(RadToDeg(angle));
+		m_handTrans->SetRotation(RadToDeg(angle) + 90.0f);
 		
 		if (mShouldDestroy)
 		{
@@ -202,13 +203,13 @@ namespace LB
 	void CPPSMage::SpawnProjectile()
 	{
 		Vec2<float> CurHeroPos = GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
-		Vec2<float> CurEnemyPos = GetRigidBody()->getPos(); //Getting the current Mage Position
+		Vec2<float> CurEnemyPos = m_handTrans->GetPosition(); //Getting the current Mage Position
 
 		//having offset where it will shoot at the side of the mage
 		// float offset = 50.0f; NOTREFERENCED
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> ShootingForce = Direction * mProjSpeed;
-
+		CurEnemyPos += Direction * m_handOffset;
 
 		Vec2<float> PosToSpawn{ CurEnemyPos.x, CurEnemyPos.y};
 		int Channel = AUDIOMANAGER->PlaySound("Fire, Whoosh, Flame, Fireball, Fast x4 SND11948 1");

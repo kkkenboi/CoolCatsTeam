@@ -21,6 +21,8 @@
 #include "LitterBox/Scene/SceneManager.h"
 #include "CPPSProjectileBall.h"
 #include "Litterbox/Components/RenderVideoComponent.h"
+#include "CPPSDirectionHelper.h"
+
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -281,7 +283,8 @@ namespace LB
 	void CPPSGameManager::SpawnCrowdAnim()
 	{
 		//First we play the sound
-		AUDIOMANAGER->PlaySound("Spliced_Cheering");
+		int chnl = AUDIOMANAGER->PlaySound("Spliced_Cheering");
+		AUDIOMANAGER->SetChannelVolume(chnl, 0.3f);
 		//then we show the crowd texture
 		crowdTexture->SetActive(true);
 		//for now the animation will be hard coded
@@ -307,6 +310,16 @@ namespace LB
 	{
 		DebuggerLogFormat("Enemy count : %d", currentEnemyCount);
 		currentEnemyCount--;
+
+		if (currentEnemyCount == 1)
+		{
+			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = true;
+		}
+		else if (currentEnemyCount == 0)
+		{
+			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = false;
+		}
+
 		if (currentEnemyCount < 0)
 		{
 			//By right we should never have this
@@ -363,6 +376,21 @@ namespace LB
 		DebuggerLogWarning("Somehow unable to find a valid spawnpoint for enemy!");
 		return Vec2<float>();
 	}
+
+	int CPPSGameManager::GetCurrentWave()
+	{
+		return currentWave;
+	}
+
+	/*!************************************************************************
+	 * \brief Gets the current number of enemies
+	 *
+	**************************************************************************/
+	int CPPSGameManager::GetCurrentEnemyCount() const
+	{
+		return currentEnemyCount;
+	}
+
 	/*!************************************************************************
 	* \brief Function to generate the wave
 	* 
@@ -411,4 +439,5 @@ namespace LB
 		//enemy obj is the one that killed the player
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ShowGameOver(enemyObj);
 	}
+
 }

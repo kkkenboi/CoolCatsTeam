@@ -168,7 +168,7 @@ namespace LB
 			}
 			else
 			{
-				SCENEMANAGER->LoadScene("SceneTut");
+				SCENEMANAGER->LoadScene("SceneMain");
 			}
 			return;
 		}
@@ -208,7 +208,7 @@ namespace LB
 					WINDOWSSYSTEM->toggleFullScreen();
 				}
 				else if (GameObj->GetName() == "Controls") {
-					SCENEMANAGER->LoadScene("SceneHowTo");
+					SCENEMANAGER->LoadScene("SceneTutOverride");
 				}
 			}
 		}

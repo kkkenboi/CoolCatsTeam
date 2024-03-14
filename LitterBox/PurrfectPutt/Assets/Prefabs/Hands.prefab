@@ -1,0 +1,44 @@
+{
+    "Name": "Hands",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 0.0,
+            "y": -35.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "Wand Tip",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": 40.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                }
+            }
+        ]
+    },
+    "Render": {
+        "Active": true,
+        "Width": 115.0,
+        "Height": 115.0,
+        "ZLayer": 1.0,
+        "Layer": 0,
+        "Texture": "Multi_Spritesheet",
+        "SpriteName": "MultiSheet",
+        "SpriteIndex": 2
+    }
+}
