@@ -1,15 +1,8 @@
 {
     "SceneOrder": [
-<<<<<<< HEAD
         "SceneTutOverride",
         "SceneMain",
         "SceneCutscene",
         "SceneMainMenu"
-=======
-        "SceneMainMenu",
-        "SceneMain",
-        "SceneTutOverride",
-        "SceneCutscene"
->>>>>>> parent of f2874c7 (Revert "Merge branch 'main' into Ryan")
     ]
 }
