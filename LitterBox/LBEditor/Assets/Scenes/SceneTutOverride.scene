@@ -121,7 +121,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "Pause Menu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -228,7 +228,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "HowToPlay",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -281,7 +281,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "QuitMenu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -384,8 +384,8 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "ZLayer": 1.0,
-                    "Layer": 0,
+                    "ZLayer": 0.0,
+                    "Layer": 3,
                     "Texture": "Underline",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -891,18 +891,34 @@
                                 "Height": 222.0,
                                 "Radius": 50.0
                             }
+                        },
+                        {
+                            "Name": "ActualTexture",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 1920.0,
+                                "Height": 1080.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Game_Over_Menu_Everything",
+                                "SpriteName": "None",
+                                "SpriteIndex": -1
+                            }
                         }
                     ]
-                },
-                "Render": {
-                    "Active": false,
-                    "Width": 1920.0,
-                    "Height": 1080.0,
-                    "ZLayer": 1.0,
-                    "Layer": 3,
-                    "Texture": "Game_Over_Menu_Everything",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
                 }
             },
             {
