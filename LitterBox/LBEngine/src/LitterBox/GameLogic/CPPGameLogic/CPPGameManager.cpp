@@ -40,7 +40,7 @@ namespace LB
 		//By default, the render is set active false
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 		crowdTexture = GOMANAGER->FindGameObjectWithName("CrowdTextureObject");
-		gameOverTexture = GOMANAGER->FindGameObjectWithName("GameOverTextureObject");
+		gameOverTexture = GOMANAGER->FindGameObjectWithName("ActualTexture");
 		killerTexture = GOMANAGER->FindGameObjectWithName("Killer");
 		//we also wanna cache the position of the UI so we can set it back later
 		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
