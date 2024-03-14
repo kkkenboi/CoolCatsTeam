@@ -212,7 +212,7 @@ namespace LB
 		if (isMoving && m_stepSoundCurrent > m_stepSoundInterval)
 		{
 			m_stepSoundCurrent = 0.0f;
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.3f);
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.2f);
 		}
 		m_stepSoundCurrent += static_cast<float>(TIME->GetDeltaTime()) * anim->m_playSpeed;
 		

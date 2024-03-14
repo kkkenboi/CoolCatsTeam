@@ -218,6 +218,7 @@ namespace LB
 				//more sinful code :pensive:
 				GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->UpdateAudio("GameOverBGM");
 				GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeIn(2.f,0.4f);
+				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerDeathSounds, 0.2f);
 				isSoundSwapped = true;
 			}
 		}

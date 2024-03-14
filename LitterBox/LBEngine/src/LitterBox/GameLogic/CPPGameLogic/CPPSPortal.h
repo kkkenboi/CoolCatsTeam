@@ -37,7 +37,6 @@ namespace LB
 		Vec2<float> mCachedPlayerPos{};
 		bool isTransitioning;
 		bool finishTransition;
-		bool finishIntermission;
 		bool temp; //this is a temp bool for a temp fix
 		bool expandOut{ true };	//this bool is to toggle the circle expanding out or in
 		//roughly how long it'll take for the player to fly to centre of black hole
@@ -48,6 +47,7 @@ namespace LB
 		float rotAngle{ 0 };
 		float circleTimer{};	//separate timer for the circle expansion
 		float intermissionTimer{};
+		float intermissionDuration{ 2.f };
 
 	};
 	REGISTER_SCRIPT(CPPSPortal)
