@@ -114,6 +114,12 @@ namespace LB
 		*************************************************************************/
 		bool Deserialize(const Value& data);
 
+		/*!***********************************************************************
+		 \brief
+		 Returns true once the scene is fully loaded, last scene destroyed, new
+		 scene data deserialized, etc.
+		 Does not check if scripts are loaded.
+		*************************************************************************/
 		bool IsSceneFullyLoaded();
 
 		// Lets any subscribers know when a new scene is loaded
