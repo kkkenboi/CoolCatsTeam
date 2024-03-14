@@ -191,7 +191,7 @@ void main()
 			break;
 		} 
 		//color = texture(u_SamplerID[int(tIO)], v_TexCoord);
-		if(color.w <= 0.0)
+		if(pass == 0 && color.w <= 0.0)
 			discard;
 	}
 	else {

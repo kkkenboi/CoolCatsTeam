@@ -39,8 +39,7 @@ namespace LB
 			if (GO->GetName() == "PauseMenuTextureObject")
 			{
 				MenuTexture = GO;
-				//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
-				GO->GetComponent<CPRender>()->z_val = 0.f;
+				Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
 				//GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuResumeObject")
@@ -60,8 +59,7 @@ namespace LB
 			if (GO->GetName() == "PauseMenuHowToPlayTextureObject")
 			{
 				HowToPlayTexture = GO;
-				//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
-				GO->GetComponent<CPRender>()->z_val = 0.f;
+				Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
 				//GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuHowToPlayPreviousMenuButton")
@@ -74,8 +72,8 @@ namespace LB
 			if (GO->GetName() == "PauseMenuQuitConfirmTexture")
 			{
 				QuitTexture = GO;
-				//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
-				GO->GetComponent<CPRender>()->z_val = 0.f;
+				Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
+				//GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuQuitConfirmYesObject")
 			{
@@ -90,7 +88,6 @@ namespace LB
 			if (GO->GetName() == "UnderlineObject")
 			{
 				Underline = GO;
-				GO->GetComponent<CPRender>()->z_val = -1.f;
 			}
 		}
 	}
