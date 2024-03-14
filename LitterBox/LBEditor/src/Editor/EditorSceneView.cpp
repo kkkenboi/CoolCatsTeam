@@ -259,8 +259,6 @@ namespace LB
 				finalScale -= scale;
 				finalScale += InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>()->GetLocalScale();
 
-				//DebuggerLogFormat("Rotation before %f after %f final %f", rot, decompRot.z, finalRot);
-
 				// Set the new values to translate, rotate and scale 
 				if (fabs(decompTrans.x - trans.x) > EPSILON_F || fabs(decompTrans.y - trans.y) > EPSILON_F)
 				{
