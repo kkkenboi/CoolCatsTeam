@@ -9,8 +9,8 @@ constexpr float delayTime{ 1.f };
 
 void LB::CPPSTutorialSubs::Start()
 {
-	titles[0] = "Well I cannot stop you from joining the tournament...";
-	titles[1] = "But I can teach you how to win it!";
+	titles[0] = "Well I cant stop you from joining the tournament...";
+	titles[1] = "But I can teach you how to win it.";
 
 	mSubtitles = GOMANAGER->FindGameObjectWithName("Subtitles");
 	mCurtain = GOMANAGER->FindGameObjectWithName("Transition Curtain");

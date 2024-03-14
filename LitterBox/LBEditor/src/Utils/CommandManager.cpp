@@ -41,7 +41,7 @@ namespace LB
 
 		// Input event for undo/redo
 		INPUT->SubscribeToKey(CheckUndo, KeyCode::KEY_Z, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
-		INPUT->SubscribeToKey(CheckRedo, KeyCode::KEY_Y, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
+		INPUT->SubscribeToKey(CheckRedo, KeyCode::KEY_R, KeyEvent::TRIGGERED, KeyTriggerType::NONPAUSABLE);
 
 		// Scene events
 		SCENEMANAGER->onSceneSaved.Subscribe(LB::UpdateCommandsSaved);

@@ -19,22 +19,15 @@ namespace LB
 {
 	/*!************************************************************************
 	 * \brief Command types that are available
+	 * 
 	**************************************************************************/
 	enum CommandType
 	{
-		// GameObject Commands
-		SPAWNGO,
-		DELETEGO,
-		// Transform Commands
 		MOVE,
 		SCALE,
 		ROTATE,
-		// Render Commands
-		RENDERPOS,
-		RENDERIMAGE,
-		RENDERSSHEET,
-		RENDERSSHEETLAYER
-		// Collider Commands
+		SPAWNGO,
+		DELETEGO
 	};
 
 	/*!************************************************************************
@@ -44,31 +37,14 @@ namespace LB
 	class ICommand
 	{
 	public:
-		/*!************************************************************************
-		 * \brief Generic execute command, does the intended action
-		**************************************************************************/
 		virtual void Execute() = 0;
 
-		/*!************************************************************************
-		 * \brief Generic undo command, cancels the intended action
-		**************************************************************************/
 		virtual void Undo() = 0;
 
-		/*!************************************************************************
-		 * \brief Tries to merge commands, if merge successful, returns true.
-		 * If unable to merge, returns false.
-		**************************************************************************/
 		virtual bool Merge(std::shared_ptr<ICommand> incomingCommand) = 0;
 
-		/*!************************************************************************
-		 * \brief Returns the command type, useful for merging commands
-		**************************************************************************/
 		virtual CommandType GetType() = 0;
 
-		/*!************************************************************************
-		 * \brief If the command needs to do something when this command is
-		 * removed from history, add it to this function.
-		**************************************************************************/
 		virtual void OnRemove() = 0;
 	};
 }

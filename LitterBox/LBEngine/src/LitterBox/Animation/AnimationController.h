@@ -25,10 +25,6 @@ namespace LB
 	class AnimationController
 	{
 	public:
-		/*!***********************************************************************
-		 \brief
-		 Animation controller constructors, overloads for setting a name
-		*************************************************************************/
 		AnimationController() {}
 		AnimationController(std::string const& name) : m_name{ name } {}
 

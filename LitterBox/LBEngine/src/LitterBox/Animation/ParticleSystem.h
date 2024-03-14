@@ -31,10 +31,7 @@
 #pragma once
 
 namespace LB {
-	/*!***********************************************************************
-	\brief
-	This is a container that stores all the information needed for a particle
-	*************************************************************************/
+
 	class Particle {
 	public:
 		Vec2<float> mPosition;

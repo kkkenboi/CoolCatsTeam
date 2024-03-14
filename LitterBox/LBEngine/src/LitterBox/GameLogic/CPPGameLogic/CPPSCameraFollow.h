@@ -11,14 +11,9 @@ namespace LB
 	public:
 		/*!***********************************************************************
 		\brief
-		Finds the player to follow
+		Inherited Functions from CPPBehaviour that the user must implement
 		*************************************************************************/
 		void Start() override;
-
-		/*!***********************************************************************
-		\brief
-		Updates the camera to follow the player
-		*************************************************************************/
 		void Update() override;
 		void Destroy() override;
 

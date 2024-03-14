@@ -2,19 +2,10 @@
 #include "LitterBox/Renderer/Renderer.h"
 namespace LB
 {
-	/*!***********************************************************************
-	\brief
-	Finds the player to follow
-	*************************************************************************/
 	void CPPSCameraFollow::Start()
 	{
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 	}
-
-	/*!***********************************************************************
-	\brief
-	Updates the camera to follow the player
-	*************************************************************************/
 	void CPPSCameraFollow::Update()
 	{
 		//First we just store our current position so that it's easier to use

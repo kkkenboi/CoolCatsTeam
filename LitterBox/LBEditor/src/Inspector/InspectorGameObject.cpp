@@ -21,11 +21,8 @@
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/GameLogic/CPPGameLogic/CPPGameLogic.h"
 #include "Utils/CommandManager.h"
-
-// All the commands
-#include "Commands/GameObjectCommands.h"
 #include "Commands/TransformCommands.h"
-#include "Commands/RenderCommands.h"
+#include "Commands/GameObjectCommands.h"
 
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Physics/ColliderManager.h"
@@ -439,14 +436,17 @@ namespace LB
 
 				if (widthChanged || heightChanged || zChanged)
 				{
-					std::shared_ptr<RenderPosCommand> renderPosCommand = std::make_shared<RenderPosCommand>(m_inspectedGO->GetComponent<CPRender>(), Vec3<float>{width, height, z});
-					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(renderPosCommand));
-					//m_inspectedGO->GetComponent<CPRender>()->w = width;
-					//m_inspectedGO->GetComponent<CPRender>()->h = height;
-					//m_inspectedGO->GetComponent<CPRender>()->z_val = z;
+					m_inspectedGO->GetComponent<CPRender>()->w = width;
+					m_inspectedGO->GetComponent<CPRender>()->h = height;
+					m_inspectedGO->GetComponent<CPRender>()->z_val = z;
 				}
 
-				// Interface Buttons
+				/*	if (widthChanged || heightChanged)
+					{
+						std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(m_inspectedGO->GetComponent<CPTransform>(), pos);
+						COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
+					}*/
+					// Interface Buttons
 				ImGui::Text("%-19s", "Image");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(dropdownWidth);
@@ -467,10 +467,8 @@ namespace LB
 						std::filesystem::path tempPath{ str };
 						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 						{
-							std::shared_ptr<RenderImageCommand> renderImgCommand = std::make_shared<RenderImageCommand>(m_inspectedGO->GetComponent<CPRender>(), tex.second);
-							COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(renderImgCommand));
-							/*if (str == "none") m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(-1, static_cast<int>(width), static_cast<int>(height));
-							else m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, static_cast<int>(width), static_cast<int>(height));*/
+							if (str == "none") m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(-1, static_cast<int>(width), static_cast<int>(height));
+							else m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(tex.second, static_cast<int>(width), static_cast<int>(height));
 						}
 					}
 					ImGui::EndCombo();
@@ -508,9 +506,7 @@ namespace LB
 						std::filesystem::path tempPath{ sheet.GetName() };
 						if (ImGui::Selectable(tempPath.filename().stem().string().c_str()))
 						{
-							std::shared_ptr<RenderSpriteSheetCommand> renderSSheetCommand = std::make_shared<RenderSpriteSheetCommand>(m_inspectedGO->GetComponent<CPRender>(), str);
-							COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(renderSSheetCommand));
-							//ssheetName = str;
+							ssheetName = str;
 						}
 					}
 					ImGui::EndCombo();
@@ -530,10 +526,14 @@ namespace LB
 						{
 							if (ImGui::Selectable(std::to_string(tile.m_index).c_str()))
 							{
-								std::shared_ptr<RenderSpriteSheetLayerCommand> renderSSheetCommand = std::make_shared<RenderSpriteSheetLayerCommand>(m_inspectedGO->GetComponent<CPRender>(), tile.m_index);
-								COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(renderSSheetCommand));
-								/*m_inspectedGO->GetComponent<CPRender>()->spriteIndex = tile.m_index;
-								m_inspectedGO->GetComponent<CPRender>()->SetSpriteTexture(ssheetName, tile.m_index);*/
+								m_inspectedGO->GetComponent<CPRender>()->spriteIndex = tile.m_index;
+								m_inspectedGO->GetComponent<CPRender>()->SetSpriteTexture(ssheetName, tile.m_index);
+						/*		m_inspectedGO->GetComponent<CPRender>()->ssheet = selectedsheet;
+								m_inspectedGO->GetComponent<CPRender>()->spriteIndex = tile.m_index;
+								m_inspectedGO->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->GetTextureUnit(selectedsheet.GetPNGRef()),
+																						ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->width / selectedsheet.Sprites().size(),
+																						ASSETMANAGER->Textures[ASSETMANAGER->assetMap[selectedsheet.GetPNGRef()]].first->height / selectedsheet.Sprites().size(),
+																						tile.m_min, tile.m_max);*/
 							}
 						}
 						ImGui::EndCombo();
@@ -1155,10 +1155,6 @@ namespace LB
 				ImGui::Text("%-17s", "Play on Awake");
 				ImGui::SameLine();
 				if (ImGui::Checkbox("##PlayOnAwake", &m_inspectedGO->GetComponent<CPAnimator>()->m_playOnAwake))
-				{ }
-				ImGui::Text("%-17s", "Awake Delay");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##AwakeDelay", &m_inspectedGO->GetComponent<CPAnimator>()->m_awakeDelay))
 				{ }
 				ImGui::Text("%-17s", "Repeating");
 				ImGui::SameLine();

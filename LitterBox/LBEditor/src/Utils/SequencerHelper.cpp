@@ -24,10 +24,6 @@
 
 namespace ImGui
 {
-    /*!***********************************************************************
-      \brief
-      Gets the current zoom level of the timeline editor.
-    *************************************************************************/
     float& NeoGetZoom()
     {
         IM_ASSERT(inSequencer && "Not in active sequencer!");
@@ -36,10 +32,6 @@ namespace ImGui
         return context.Zoom;
     }
 
-    /*!***********************************************************************
-      \brief
-      From which frame to which frame is currently viewed in the timeline editor?
-    *************************************************************************/
     ImVec2 NeoGetViewRange()
     {
 		IM_ASSERT(inSequencer && "Not in active sequencer!");

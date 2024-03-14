@@ -26,23 +26,17 @@ namespace LB
 		Start function where variables will be initialised
 		*************************************************************************/
 		void Start() override;
-
 		/*!***********************************************************************
 		\brief
-		Update function where the bush's scale is being changed
+		Update function where the mushroom's scale is being changed
 		*************************************************************************/
 		void Update() override;
-
 		/*!***********************************************************************
 		\brief
 		Overriden destroy function because of inheritance
 		*************************************************************************/
 		void Destroy() override;
 
-		/*!***********************************************************************
-		\brief
-		Overriden OnCollisionEnter to prevent velocity changing
-		*************************************************************************/
 		void OnCollisionEnter(CollisionData colData);
 	};
 

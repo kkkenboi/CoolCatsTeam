@@ -44,10 +44,7 @@ namespace LB
 		// If set to play on awake and a default state is set, play the default state
 		if (m_playOnAwake)
 		{
-			if (m_awakeDelay == 0.0f)
-			{
-				m_repeating ? PlayRepeat(m_defaultState) : Play(m_defaultState);
-			}
+			m_repeating ? PlayRepeat(m_defaultState) : Play(m_defaultState);
 		}
 	}
 
@@ -57,15 +54,6 @@ namespace LB
 	**************************************************************************/
 	void CPAnimator::Update()
 	{
-		if (m_playOnAwake && m_elapsedAwakeTime < m_awakeDelay)
-		{
-			m_elapsedAwakeTime += static_cast<float>(TIME->GetDeltaTime());
-			if (m_elapsedAwakeTime >= m_awakeDelay)
-			{
-				m_repeating ? PlayRepeat(m_defaultState) : Play(m_defaultState);
-			}
-		}
-
 		// If no state is playing, just return
 		if (!m_playing || m_paused) return;
 
@@ -152,7 +140,7 @@ namespace LB
 		// TODO : REFACTOR THIS LOGIC, MAY CAUSE BUGS IN THE FUTURE
 		if (m_playing)
 		{
-			(m_resetAfterPlay || m_repeating) ? StopAndReset() : Stop();
+			m_resetAfterPlay ? StopAndReset() : Stop();
 			// If a queue is still present, add to queue instead
 			if (m_playing)
 			{
@@ -307,8 +295,6 @@ namespace LB
 		data.AddMember("Default State", defaultStateValue, alloc);
 
 		data.AddMember("Play On Awake", m_playOnAwake, alloc);
-		data.AddMember("Awake Delay", m_awakeDelay, alloc);
-
 		data.AddMember("Repeating", m_repeating, alloc);
 
 		Value controllerValue(m_controller.m_name.c_str(), alloc);
@@ -325,7 +311,6 @@ namespace LB
 	{
 		bool HasDefaultState = data.HasMember("Default State");
 		bool HasPlayOnAwake = data.HasMember("Play On Awake");
-		bool HasAwakeDelay = data.HasMember("Awake Delay");
 		bool HasRepeating = data.HasMember("Repeating");
 		bool HasController = data.HasMember("Controller");
 
@@ -339,10 +324,6 @@ namespace LB
 			if (HasPlayOnAwake)
 			{
 				m_playOnAwake = data["Play On Awake"].GetBool();
-			}
-			if (HasAwakeDelay)
-			{
-				m_awakeDelay = data["Awake Delay"].GetFloat();
 			}
 			if (HasRepeating)
 			{

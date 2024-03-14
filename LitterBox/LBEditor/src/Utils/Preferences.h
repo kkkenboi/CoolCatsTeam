@@ -5,8 +5,8 @@
  \par Course:       CSD2401A
  \date				22/11/2023
  \brief
- This file contains the preferences class for the editor, which stores
- any data to be saved by the editor, for example the last scene loaded.
+
+
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -23,18 +23,9 @@
 
 namespace LB
 {
-	/*!***********************************************************************
-	  \brief
-	  This class stores any data to be saved by the editor, for example
-	  the last scene loaded (seperate from game) and whether it is fullscreen.
-	*************************************************************************/
 	class Preferences : public Singleton<Preferences>
 	{
 	public:
-		/*!***********************************************************************
-		  \brief
-		  Loads the preferences file and updates the editor based on the preferences
-		*************************************************************************/
 		void LoadPreferences()
 		{
 			// Create the preferences file if it doesn't exist
@@ -47,19 +38,11 @@ namespace LB
 			JSONSerializer::DeserializeFromFile(prefLocation.string(), *this);
 		}
 
-		/*!***********************************************************************
-		  \brief
-		  Saves the editor preferences to a file
-		*************************************************************************/
 		void SavePreferences()
 		{
 			JSONSerializer::SerializeToFile((ASSETMANAGER->_appData / ASSETMANAGER->folderName / std::filesystem::path("Preferences.json")).string(), *this);
 		}
 
-		/*!***********************************************************************
-		  \brief
-		  Serializes the preferences data
-		*************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc)
 		{
 			data.SetObject();
@@ -72,10 +55,6 @@ namespace LB
 			return true;
 		}
 
-		/*!***********************************************************************
-		  \brief
-		  Deserializes the preferences data
-		*************************************************************************/
 		bool Deserialize(const Value& data)
 		{
 			bool HasFullscreen = data.HasMember("Fullscreen");

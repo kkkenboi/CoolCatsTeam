@@ -58,10 +58,6 @@ namespace LB
 			{
 				mEventTransform = GOMANAGER->FindGameObjectWithName("Charger_Shield")->GetComponent<CPTransform>();
 			}
-			if (GOMANAGER->FindGameObjectWithName("Dummy"))
-			{
-				mEventTransform = GOMANAGER->FindGameObjectWithName("Dummy")->GetComponent<CPTransform>();
-			}
 
 			// Get the direction to event, as well as how far it is away from the screen since it is a relative length now
 			DirToEvent = mEventTransform->GetPosition() - mTransform->GetPosition();

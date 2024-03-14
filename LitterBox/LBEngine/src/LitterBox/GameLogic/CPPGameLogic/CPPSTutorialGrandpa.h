@@ -15,18 +15,12 @@ namespace LB
 
 		float timerRemaining{ 45.f };
 
-		GameObject* PlayerObj;
-
 		GameObject* BubbleWASD;
 		GameObject* BubbleMouse;
 		GameObject* BubbleEnemies;
 		GameObject* BubbleItems;
 		GameObject* BubbleScore;
 		GameObject* BubblePortal;
-
-		GameObject* Tutorial1;
-		GameObject* Tutorial2;
-		GameObject* Tutorial3;
 	};
 	REGISTER_SCRIPT(CPPSTutorialGrandpa)
 }

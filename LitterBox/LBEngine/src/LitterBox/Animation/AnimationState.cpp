@@ -23,12 +23,6 @@
 namespace LB
 {
 	//----------------------------------------------Key Frame Group----------------------------------------------
-
-	/*!***********************************************************************
-	\brief
-	Increments the current frame to the next frame in the vector if the frame
-	given is bigger than the current frame
-	*************************************************************************/
 	template <typename T>
 	void LBKeyFrameGroup<T>::Update(int frame)
 	{
@@ -51,11 +45,6 @@ namespace LB
 		}
 	}
 
-	/*!***********************************************************************
-	 \brief
-	 Finds the exact frame to set based on the frame given, more costly than
-	 Update() but useful for skipping or rewinding frames
-	*************************************************************************/
 	template <typename T>
 	void LBKeyFrameGroup<T>::UpdateExact(int frame)
 	{
@@ -79,30 +68,17 @@ namespace LB
 	}
 
 	//----------------------------------------------Animation State----------------------------------------------
-
-	/*!***********************************************************************
-		\brief
-		Starts the animation from the start frame
-	*************************************************************************/
 	void LBAnimationState::Start()
 	{
 		Start(m_startFrame);
 	}
-	/*!***********************************************************************
-	  \brief
-	  Starts the animation from the given frame
-	*************************************************************************/
+
 	void LBAnimationState::Start(int frame)
 	{
 		m_currentFrame = frame - 1;
 		UpdateExact();
 	}
 
-	/*!***********************************************************************
-	  \brief
-	  Checks current frame and increments key frames if needed (more efficient
-	  than UpdateExact)
-	*************************************************************************/
 	void LBAnimationState::Update()
 	{
 		++m_currentFrame;
@@ -113,11 +89,7 @@ namespace LB
 
 		UpdateGroups();
 	}
-	/*!***********************************************************************
-	  \brief
-	  Checks current frames and finds the exact key frame to use (less efficient,
-	  useful for jump between frames or moving backwards)
-	*************************************************************************/
+
 	void LBAnimationState::UpdateExact()
 	{
 		++m_currentFrame;
@@ -129,11 +101,6 @@ namespace LB
 		UpdateGroupsExact();
 	}
 
-	/*!***********************************************************************
-	  \brief
-	  Update the end frame based on the largest frame in all animations / given
-	  value
-	*************************************************************************/
 	void LBAnimationState::UpdateLastFrame()
 	{
 		int largestFrame = std::max(m_active.GetLargestFrame(), m_pos.GetLargestFrame());
@@ -146,6 +113,7 @@ namespace LB
 			m_endFrame = largestFrame;
 		}
 	}
+
 	void LBAnimationState::UpdateLastFrame(int newFrame)
 	{
 		// Only if end frame is smaller
@@ -155,11 +123,6 @@ namespace LB
 		}
 	}
 
-	/*!***********************************************************************
-	  \brief
-	  Internal update call used by Update() and UpdateExact(), does the actual
-	  updating of every Key Frame Group.
-	*************************************************************************/
 	void LBAnimationState::UpdateGroups()
 	{
 		m_active.Update(m_currentFrame);
@@ -168,6 +131,7 @@ namespace LB
 		m_rot.Update(m_currentFrame);
 		m_sprite.Update(m_currentFrame);
 	}
+
 	void LBAnimationState::UpdateGroupsExact()
 	{
 		m_active.UpdateExact(m_currentFrame);
@@ -177,10 +141,6 @@ namespace LB
 		m_sprite.UpdateExact(m_currentFrame);
 	}
 
-	/*!***********************************************************************
-	 \brief
-	 Serializes the Animation State data
-	*************************************************************************/
 	bool LBAnimationState::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
@@ -223,10 +183,6 @@ namespace LB
 		return true;
 	}
 
-	/*!***********************************************************************
-	 \brief
-	 Deserializes the Animation State data
-	*************************************************************************/
 	bool LBAnimationState::Deserialize(const Value& data)
 	{
 		m_active.Clear();

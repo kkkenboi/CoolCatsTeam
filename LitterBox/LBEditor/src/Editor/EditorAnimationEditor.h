@@ -6,7 +6,7 @@
  \date				25-11-2023
  \brief
  This file contains the EditorAnimationEditor class and all its functionalities
- for the animation view layer of the Editor.
+ for the aniamtion view layer of the Editor.
 
  Editor.
   Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
@@ -53,16 +53,8 @@ namespace LB
 		*************************************************************************/
 		void UpdateLayer() override;
 
-		/*!***********************************************************************
-		  \brief
-		  Updates the loaded animation state.
-		*************************************************************************/
 		void UpdateLoadedState();
 
-		/*!***********************************************************************
-		  \brief
-		  Updates the loaded animation controller.
-		*************************************************************************/
 		void UpdateLoadedController();
 
 		/*!***********************************************************************
@@ -89,10 +81,6 @@ namespace LB
 		*************************************************************************/
 		void Destroy() {}
 
-		/*!***********************************************************************
-		  \brief
-		  Handles the deleting of animation keyframes.
-		*************************************************************************/
 		template <typename T>
 		void CheckDeleteKeyFrame(LBKeyFrameGroup<T>& group)
 		{
