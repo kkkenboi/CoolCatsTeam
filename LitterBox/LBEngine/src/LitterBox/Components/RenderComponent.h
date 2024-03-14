@@ -98,6 +98,11 @@ namespace LB
 		void Initialise() override
 		{
 			transform = gameObj->GetComponent<CPTransform>();
+			if (renderer_id == Renderer::Renderer_Types::RT_MENU)
+			{
+				std::cout << gameObj->GetName() << std::endl;
+				
+			}
 			initialized = true;
 		}
 
@@ -250,6 +255,16 @@ namespace LB
 		 Function that pulls data from the transform component of the game object
 		*************************************************************************/
 		inline void get_transform_data() {
+			if (renderer_id == Renderer::Renderer_Types::RT_OBJECT)
+			{
+				auto test = transform->GetParent();
+				if (test == nullptr)
+				{
+					std::cout << "something wrong" << std::endl;
+				}
+				return;
+			}
+
 			position = initialized ? transform->GetPosition() : position;
 			rotation = initialized ? transform->GetRotation() * deg_to_rads : rotation;
 			scal = initialized ? transform->GetScale() : scal;

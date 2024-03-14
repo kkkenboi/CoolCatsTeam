@@ -680,7 +680,7 @@
                                 "Active": true,
                                 "Width": 300.0,
                                 "Height": 300.0,
-                                "ZLayer": 5.099999,
+                                "ZLayer": 5.099997,
                                 "Layer": 0,
                                 "Texture": "UpgradePopUp_Spritesheet",
                                 "SpriteName": "UpgradesSheet",
@@ -693,7 +693,7 @@
                     "Active": true,
                     "Width": 300.0,
                     "Height": 300.0,
-                    "ZLayer": 5.199999,
+                    "ZLayer": 5.199995,
                     "Layer": 0,
                     "Texture": "UpgradePopUp_Spritesheet",
                     "SpriteName": "UpgradesSheet",
@@ -927,6 +927,162 @@
                     "ZLayer": 5.0,
                     "Layer": 1,
                     "Texture": "MapTutorial",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "MapBG_1",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -1958.078491,
+                        "y": 425.220001
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 2432.0,
+                    "Height": 2560.0,
+                    "ZLayer": 6.0,
+                    "Layer": 0,
+                    "Texture": "MapBG",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "MapBG_2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 3774.101562,
+                        "y": 475.028167
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 2432.0,
+                    "Height": 2560.0,
+                    "ZLayer": 6.0,
+                    "Layer": 0,
+                    "Texture": "MapBG",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "MapBG_3",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 472.644927,
+                        "y": 2515.925292
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 2432.0,
+                    "Height": 2560.0,
+                    "ZLayer": 6.0,
+                    "Layer": 0,
+                    "Texture": "MapBG",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "MapBG_4",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2904.251464,
+                        "y": 2520.860595
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 2432.0,
+                    "Height": 2560.0,
+                    "ZLayer": 6.0,
+                    "Layer": 0,
+                    "Texture": "MapBG",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "MapBG_5",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 473.240173,
+                        "y": -1443.628295
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 2432.0,
+                    "Height": 2560.0,
+                    "ZLayer": 6.0,
+                    "Layer": 0,
+                    "Texture": "MapBG",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "MapBG_6",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1342.886352,
+                        "y": -1443.711547
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 2432.0,
+                    "Height": 2560.0,
+                    "ZLayer": 6.0,
+                    "Layer": 0,
+                    "Texture": "MapBG",
                     "SpriteName": "None",
                     "SpriteIndex": -1
                 }

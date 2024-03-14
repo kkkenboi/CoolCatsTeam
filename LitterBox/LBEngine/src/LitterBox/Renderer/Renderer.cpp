@@ -1272,14 +1272,14 @@ void Renderer::RenderSystem::Update()
 	text_renderer.update_text();
 	//print all messages here
 	//menu layer
-	if (menu_renderer.getActive())
-	{
-		glUseProgram(shader_program);
-		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
-		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
-		glBindVertexArray(menu_renderer.get_vao());
-		glDrawElements(GL_TRIANGLES, (GLsizei)(menu_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
-	}
+	//if (menu_renderer.getActive())
+	//{
+	//	glUseProgram(shader_program);
+	//	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
+	//	glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
+	//	glBindVertexArray(menu_renderer.get_vao());
+	//	glDrawElements(GL_TRIANGLES, (GLsizei)(menu_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
+	//}
 
 	if (editor_mode) {
 		glUseProgram(shader_program);
