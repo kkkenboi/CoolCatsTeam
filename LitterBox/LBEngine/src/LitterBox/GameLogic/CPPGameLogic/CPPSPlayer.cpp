@@ -82,7 +82,10 @@ namespace LB
 		m_particleEmitRate = particle->mEmitterRate;
 
 		// So that balls don't spawn on top each other
-		rb->addForce(Vec2<float>{10.0f, 0.0f} * TIME->GetDeltaTime());
+		//rb->addForce(Vec2<float>{10.0f, 0.0f} * TIME->GetDeltaTime());
+
+		//Play some spawn sounds like "it's meow or never" [removed because doesn't fit]
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerPositiveSounds, 0.3f);
 
 		onTakingDamage.Subscribe(DecreaseHealth);
 		onPlacingBall.Subscribe(IncreaseBalls);
@@ -212,7 +215,11 @@ namespace LB
 		if (isMoving && m_stepSoundCurrent > m_stepSoundInterval)
 		{
 			m_stepSoundCurrent = 0.0f;
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.2f);
+			if(isOnSand)
+				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSandStepSounds, 0.3f);
+			else
+				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds, 0.2f);
+			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.2f);
 		}
 		m_stepSoundCurrent += static_cast<float>(TIME->GetDeltaTime()) * anim->m_playSpeed;
 		
@@ -361,7 +368,7 @@ namespace LB
 				Renderer::GRAPHICS->shake_camera(20.f, .1f);
 				if (colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
 				{
-					AUDIOMANAGER->ChanceToPlayGroupSound(AUDIOMANAGER->ChaserAttackSounds);
+					AUDIOMANAGER->ChanceToPlayGroupSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
 				}
 				if (!mIsStunned) {
 					//rb->mVelocity *= 10.f;
@@ -382,8 +389,8 @@ namespace LB
 			mGotAttackedCooldown = mGotAttacked;
 
 			anim->PlayAndReset("Felix_Hurt");
-
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.4f);
+			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth > 1)
+				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.3f);
 			// Update the HUD as well
 			onTakingDamage.Invoke();
 			//if the player is dead
@@ -420,6 +427,7 @@ namespace LB
 		{
 			m_moveAnim->m_playSpeed = 0.6f;
 			particle->mEmitterRate = m_particleEmitRate * 0.6f;
+			//isOnSand = true;
 		}
 	}
 
@@ -429,6 +437,7 @@ namespace LB
 		{
 			m_moveAnim->m_playSpeed = 1.0f;
 			particle->mEmitterRate = m_particleEmitRate;
+			//isOnSand = false;
 		}
 	}
 }

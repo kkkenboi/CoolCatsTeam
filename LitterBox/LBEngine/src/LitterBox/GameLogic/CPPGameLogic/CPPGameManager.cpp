@@ -183,6 +183,7 @@ namespace LB
 				timer = 0;
 			}
 		}
+
 		//Update the GAME OVER UI 
 		if (gameOverTexture->IsActive())
 		{
@@ -200,13 +201,13 @@ namespace LB
 					if (col->gameObj->GetName() == "RestartGameButton")
 					{
 						gameOverTexture->SetActive(false);
-						std::cout << "Restart Game!\n";
+						//std::cout << "Restart Game!\n";
 						SCENEMANAGER->ReloadScene();
 						break;
 					}
 					if (col->gameObj->GetName() == "MainMenuButton")
 					{
-						std::cout << "GotoMainMenu!\n";
+						//std::cout << "GotoMainMenu!\n";
 						gameOverTexture->SetActive(false);
 						SCENEMANAGER->LoadScene("SceneMainMenu");
 						break;
@@ -218,7 +219,6 @@ namespace LB
 				//more sinful code :pensive:
 				GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->UpdateAudio("GameOverBGM");
 				GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeIn(2.f,0.4f);
-				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerDeathSounds, 0.2f);
 				isSoundSwapped = true;
 			}
 		}
@@ -246,9 +246,10 @@ namespace LB
 		{
 			//then we deduct the cost and spawn the enemy
 			SpawnCredits -= EnemyList[enemyIndex].second;
-			//EnemyList[enemyIndex].first; //should call the function
+			//should call the function
+			//god damn this syntax is so cursed
 			(this->*EnemyList[enemyIndex].first)();
-			//Most important god damn line of code
+			//Most important god damn line of code [edit: no longer the most important line of code]
 			currentEnemyCount++;
 		}
 		
@@ -331,11 +332,11 @@ namespace LB
 			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = false;
 		}
 
-		if (currentEnemyCount < 0)
-		{
-			//By right we should never have this
-			DebuggerLogWarning("Enemy Count Error! Please check enemy count logic");
-		}
+		//if (currentEnemyCount < 0)
+		//{
+		//	//By right we should never have this
+		//	DebuggerLogWarning("Enemy Count Error! Please check enemy count logic");
+		//}
 	}
 	void CPPSGameManager::RemoveSpawnedEnemy(GameObject* enemyToRemove)
 	{
@@ -359,26 +360,29 @@ namespace LB
 		//0 = chaser , 1 = mage, 2 = charger, 3 = bramble
 		if (enemyObj.GetName() == "EnemyChaser1")
 		{
-			std::cout << "Killed by chaser\n";
+			//std::cout << "Killed by chaser\n";
 			//Default is chaser so we don't do anything
 		}
 		else if (enemyObj.GetName() == "Projectile")
 		{
-			std::cout << "Killed by a mage\n";
+			//std::cout << "Killed by a mage\n";
 			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName,1);
 		}
 		else if (enemyObj.GetName() == "Charger")
 		{
-			std::cout << "Killed by charger\n";
+			//std::cout << "Killed by charger\n";
 			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 2);
 
 		}
 		else if (enemyObj.GetName() == "Bramble")
 		{
-			std::cout << "Killed by carelessness\n";
+			//std::cout << "Killed by carelessness\n";
 			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 3);
 		}
-		else std::cout << "Killed by " << enemyObj.GetName() << '\n';
+		else 
+		{
+			//std::cout << "Killed by " << enemyObj.GetName() << '\n';
+		} 
 
 		gameOverTexture->SetActive(true);
 	}
@@ -474,6 +478,8 @@ namespace LB
 	{
 		//enemy obj is the one that killed the player
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ShowGameOver(enemyObj);
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerDeathSounds, 0.25f);
+
 	}
 
 }
