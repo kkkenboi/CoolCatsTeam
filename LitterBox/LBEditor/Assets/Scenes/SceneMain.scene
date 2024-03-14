@@ -1177,7 +1177,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "Pause Menu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -1284,7 +1284,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "HowToPlay",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -1337,7 +1337,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "QuitMenu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -1525,6 +1525,32 @@
                     "Rotation": 0.0,
                     "Children": [
                         {
+                            "Name": "ActualTexture",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 1920.0,
+                                "Height": 1080.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Game_Over_Menu_Everything",
+                                "SpriteName": "None",
+                                "SpriteIndex": -1
+                            }
+                        },
+                        {
                             "Name": "RestartGameButtonUI",
                             "Active": false,
                             "Transform": {
@@ -1543,7 +1569,7 @@
                                 "Active": true,
                                 "Width": 500.0,
                                 "Height": 500.0,
-                                "ZLayer": 1.0,
+                                "ZLayer": 0.0,
                                 "Layer": 3,
                                 "Texture": "Multi_Spritesheet",
                                 "SpriteName": "MultiSheet",
@@ -1569,7 +1595,7 @@
                                 "Active": true,
                                 "Width": 400.0,
                                 "Height": 400.0,
-                                "ZLayer": 1.0,
+                                "ZLayer": 0.0,
                                 "Layer": 3,
                                 "Texture": "Multi_Spritesheet",
                                 "SpriteName": "MultiSheet",
@@ -1761,16 +1787,6 @@
                             }
                         }
                     ]
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 1920.0,
-                    "Height": 1080.0,
-                    "ZLayer": 1.0,
-                    "Layer": 3,
-                    "Texture": "Game_Over_Menu_Everything",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
                 }
             },
             {
