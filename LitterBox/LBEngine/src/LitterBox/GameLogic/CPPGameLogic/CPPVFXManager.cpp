@@ -17,12 +17,12 @@ namespace LB
 	{
 	}
 	//Spawn functions that spawn the GO then removes them after 2 seconds
-	void CPPSVFXManager::SpawnExplosion(Vec2<float> pos)
+	void CPPSVFXManager::SpawnExplosion(Vec2<float> pos, float scale)
 	{
 		GameObject* explosionClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("VFX Object", *explosionClone);
 		explosionClone->GetComponent<CPTransform>()->SetPosition(pos);
-		explosionClone->GetComponent<CPTransform>()->SetScale(Vec2<float>(5,5));
+		explosionClone->GetComponent<CPTransform>()->SetScale(Vec2<float>{5.f, 5.f} * scale);
 		explosionClone->GetComponent<CPAnimator>()->Play("VFX_Explosion");
 		GOMANAGER->RemoveGameObject(explosionClone, 2.f);
 	}

@@ -20,6 +20,7 @@
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "LitterBox/Audio/AudioManager.h"
 #include "LitterBox/Engine/Time.h"
+#include "CPPVFXManager.h"
 
 #include "math.h"	//Only using it for atan2
 
@@ -73,7 +74,14 @@ namespace LB
 		CPTransform* trans = GameObj->GetComponent<CPTransform>();
 		Vec2<float> shootDir = mRigidBody->mVelocity;
 		trans->SetRotation(RadToDeg(atan2f(shootDir.y, shootDir.x)));
-		if (canDestroy) Destroy();
+		if (canDestroy)
+		{
+			int Channel = AUDIOMANAGER->PlaySound("EXPLOSION");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
+
+			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnExplosion(GetComponent<CPTransform>()->GetPosition(), 0.3f);
+			Destroy();
+		}
 	}
 
 	/*!***********************************************************************
@@ -90,8 +98,6 @@ namespace LB
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "MainChar")
 		{
-			int Channel = AUDIOMANAGER->PlaySound("Smoke Poof by sushiman2000 Id - 643876");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
 			canDestroy = true;
 		}
 		
@@ -101,7 +107,10 @@ namespace LB
 	\brief
 	Destroy
 	*************************************************************************/
-	void CPPSProjectileBall::Destroy() { GOMANAGER->RemoveGameObject(this->GameObj); }
+	void CPPSProjectileBall::Destroy() 
+	{ 
+		GOMANAGER->RemoveGameObject(this->GameObj); 
+	}
 
 	//Getter functions
 	/*!***********************************************************************
