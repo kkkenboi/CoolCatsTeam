@@ -229,38 +229,12 @@ namespace LB
 			auto scale = InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>()->GetScale();
 			
 			glm::mat4 transform{ 1.0f };
-
 			transform = glm::translate(glm::mat4{ 1.0f }, glm::vec3(trans.x, trans.y, 0.0f))
 						* glm::rotate(glm::mat4{ 1.0f }, glm::radians(rot), glm::vec3{ 0.0f, 0.0f, 1.0f })
 						* glm::scale(glm::mat4{ 1.0f }, glm::vec3{ scale.x, scale.y, 1.0f });
 
 			ImGuizmo::SetRect(vpMinMax[0].x, vpMinMax[0].y, vpMinMax[1].x - vpMinMax[0].x, vpMinMax[1].y - vpMinMax[0].y);
 			ImGuizmo::SetDrawlist();
-
-			// At all times, when a GizmosOperation is set, it means that there will be snapping applied onto the object
-			// If the GizmosOperation is set to Universal, there will be no snapping.
-			// Object can still be moved/edited freely through the EditorInspector interface.
-			//switch (InspectorGameObject::Instance()->GetGizmosOperation())
-			//{
-			//case ImGuizmo::TRANSLATE:
-			//	ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
-			//		InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
-			//		&InspectorGameObject::Instance()->GetSnapTranslate());
-			//	break;
-			//case ImGuizmo::ROTATE:
-			//	ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
-			//		InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
-			//		&InspectorGameObject::Instance()->GetSnapRotate());
-			//	break;
-			//case ImGuizmo::SCALE:
-			//	ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
-			//		InspectorGameObject::Instance()->GetGizmosOperation(), InspectorGameObject::Instance()->GetGizmosMode(), glm::value_ptr(transform), NULL,
-			//		&InspectorGameObject::Instance()->GetSnapScale());
-			//	break;
-			//case ImGuizmo::UNIVERSAL: // No snapping is applied
-			//	
-			//	break;
-			//}
 
 			ImGuizmo::Manipulate(glm::value_ptr(Renderer::GRAPHICS->get_cam()->get_free_cam()), glm::value_ptr(Renderer::GRAPHICS->get_cam()->editor_ortho),
 				ImGuizmo::TRANSLATE | ImGuizmo::SCALE | ImGuizmo::ROTATE_Z, ImGuizmo::LOCAL, glm::value_ptr(transform), NULL, NULL);
@@ -274,20 +248,29 @@ namespace LB
 													  glm::value_ptr(decompTrans), glm::value_ptr(decompRot), glm::value_ptr(decompScale));
 
 				Vec2<float> finalTrans = { decompTrans.x, decompTrans.y };
+				finalTrans -= trans;
+				finalTrans += InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>()->GetLocalPosition();
+
 				float finalRot = { decompRot.z };
+				finalRot -= rot;
+				finalRot += InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>()->GetLocalRotation();
+
 				Vec2<float> finalScale = { decompScale.x, decompScale.y };
+				finalScale -= scale;
+				finalScale += InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>()->GetLocalScale();
+
 				// Set the new values to translate, rotate and scale 
-				if (!(finalTrans == trans))
+				if (fabs(decompTrans.x - trans.x) > EPSILON_F || fabs(decompTrans.y - trans.y) > EPSILON_F)
 				{
 					std::shared_ptr<MoveCommand> moveCommand = std::make_shared<MoveCommand>(InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>(), finalTrans);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(moveCommand));
 				}
-				if (fabs(finalScale.x - scale.x) > EPSILON_F || fabs(finalScale.y - scale.y) > EPSILON_F)
+				if (fabs(decompScale.x - scale.x) > EPSILON_F || fabs(decompScale.y - scale.y) > EPSILON_F)
 				{
 					std::shared_ptr<ScaleCommand> scaleCommand = std::make_shared<ScaleCommand>(InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>(), finalScale);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(scaleCommand));
 				}
-				if (fabs(finalRot - rot) > EPSILON_F)
+				if (fabs(decompRot.z - rot) > EPSILON_F)
 				{
 					std::shared_ptr<RotateCommand> rotateCommand = std::make_shared<RotateCommand>(InspectorGameObject::Instance()->GetInspectedGO()->GetComponent<CPTransform>(), finalRot);
 					COMMAND->AddCommand(std::dynamic_pointer_cast<ICommand>(rotateCommand));

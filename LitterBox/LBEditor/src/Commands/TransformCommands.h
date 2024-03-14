@@ -32,7 +32,7 @@ namespace LB
 		 * \param transform Transform to manipulate (Position)
 		 * \param newPos New position to set the transform to
 		**************************************************************************/
-		MoveCommand(CPTransform* transform, Vec2<float> newPos) : m_transform{ transform }, m_oldPos{ transform->GetPosition() }, m_newPos { newPos } { }
+		MoveCommand(CPTransform* transform, Vec2<float> newPos) : m_transform{ transform }, m_oldPos{ transform->GetLocalPosition() }, m_newPos { newPos } { }
 
 		/*!************************************************************************
 		 * \brief Executes the move postion command
@@ -52,12 +52,12 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Merges the move position commands in the command history together
-		 * \param incomingCommand Incomming command to check against
+		 * \param incomingCommand Incoming command to check against
 		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
 			std::shared_ptr<MoveCommand> incomingMoveCommand = std::dynamic_pointer_cast<MoveCommand>(incomingCommand);
-			if (incomingMoveCommand->m_transform == m_transform && incomingMoveCommand->m_oldPos == m_newPos)
+			if (incomingMoveCommand->m_transform == m_transform)
 			{
 				m_newPos = incomingMoveCommand->m_newPos;
 				return true;
@@ -91,7 +91,7 @@ namespace LB
 		 * \param transform Transform scale to manipulate
 		 * \param newScale New scale to set to
 		**************************************************************************/
-		ScaleCommand(CPTransform* transform, Vec2<float> newScale) : m_transform{ transform }, m_oldScale{ transform->GetScale() }, m_newScale{ newScale } { }
+		ScaleCommand(CPTransform* transform, Vec2<float> newScale) : m_transform{ transform }, m_oldScale{ transform->GetLocalScale() }, m_newScale{ newScale } { }
 
 		/*!************************************************************************
 		 * \brief Executes the scale command
@@ -151,7 +151,7 @@ namespace LB
 		 * \param transform Transform rotate to manipulate
 		 * \param newRotation New rotation to set to
 		**************************************************************************/
-		RotateCommand(CPTransform* transform, float newRotation) : m_transform{ transform }, m_oldRotation{ transform->GetRotation() }, m_newRotation{ newRotation } { }
+		RotateCommand(CPTransform* transform, float newRotation) : m_transform{ transform }, m_oldRotation{ transform->GetLocalRotation() }, m_newRotation{ newRotation } { }
 
 		/*!************************************************************************
 		 * \brief Executes the rotate command

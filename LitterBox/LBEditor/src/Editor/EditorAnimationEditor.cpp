@@ -59,6 +59,10 @@ namespace LB
 		ImGui::End();
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the loaded animation state.
+	*************************************************************************/
 	void EditorAnimationEditor::UpdateLoadedState()
 	{
 		if (ImGui::Button("Save"))
@@ -311,6 +315,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Updates the loaded animation controller.
+	*************************************************************************/
 	void EditorAnimationEditor::UpdateLoadedController()
 	{
 		if (ImGui::Button("Save"))

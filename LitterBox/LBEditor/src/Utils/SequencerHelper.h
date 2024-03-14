@@ -23,10 +23,23 @@
 
 namespace ImGui
 {
+	/*!***********************************************************************
+	  \brief
+	  Gets the current zoom level of the timeline editor.
+	*************************************************************************/
 	float& NeoGetZoom();
 
+	/*!***********************************************************************
+	  \brief
+	  From which frame to which frame is currently viewed in the timeline editor?
+	*************************************************************************/
 	ImVec2 NeoGetViewRange();
 
+	/*!***********************************************************************
+	  \brief
+	  Overloaded BeginTimeline that takes in LBKeyFrameGroup type instead of
+	  a vector.
+	*************************************************************************/
 	template <typename T>
 	bool BeginTimeline(const char* label, LB::LBKeyFrameGroup<T>& keyframes, bool* open = nullptr, ImGuiNeoTimelineFlags flags = ImGuiNeoTimelineFlags_None)
 	{
