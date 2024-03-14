@@ -65,8 +65,7 @@ namespace LB
 
 		scene_to_transition = next_scene;
 		load_video_file(video_file_name);
-		int channel = AUDIOMANAGER->PlaySound(video_file_name);
-		AUDIOMANAGER->SetChannelVolume(channel, 0.3f);
+		AUDIOMANAGER->PlaySound(video_file_name);
 		playCutscene = true;
 	}
 

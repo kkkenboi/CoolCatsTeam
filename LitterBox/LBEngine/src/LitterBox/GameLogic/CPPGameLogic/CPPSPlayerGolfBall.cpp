@@ -163,8 +163,8 @@ namespace LB
 			int Channel = AUDIOMANAGER->PlaySound("Thud");
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
 		}
-		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit" 
-			&& colData.colliderOther->m_gameobj->GetName()!= "MouseWorld" && colData.colliderOther->m_gameobj->GetName() != "Bush")
+		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit" && 
+			colData.colliderOther->m_gameobj->GetName()!= "MouseWorld")
 		{
 			//play ball knocking sound
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BallCollisionSounds, 0.4f);

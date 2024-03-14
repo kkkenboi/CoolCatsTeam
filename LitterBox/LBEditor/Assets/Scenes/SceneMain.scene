@@ -880,7 +880,7 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 639.0,
+                    "Width": 637.0,
                     "Height": 191.0,
                     "Radius": 50.0
                 },
@@ -945,10 +945,6 @@
                     "Width": 121.0,
                     "Height": 126.0,
                     "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::CPPSSandpit"
                 }
             },
             {
