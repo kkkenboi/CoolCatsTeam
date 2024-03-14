@@ -75,7 +75,10 @@ namespace LB
 		**************************************************************************/
 		void ReduceEnemyCount();
 
+		void RemoveSpawnedEnemy(GameObject* enemyToRemove);
+
 		void ShowGameOver(GameObject enemyObj);
+		void ShowGameWin();
 		Vec2<float> GetRandomSpawnPoint();
 
 		void FillSpawnPoints(std::string name);
@@ -133,6 +136,7 @@ namespace LB
 		Vec2<float> mouse_pos{};
 		std::vector<Vec2<float>> SpawnPoints;
 		bool isSoundSwapped{ false };
+		std::vector<GameObject*> SpawnedeEnemiesList;
 	};
 	void ShowGameOver(GameObject enemyObj);
 	REGISTER_SCRIPT(CPPSGameManager)
