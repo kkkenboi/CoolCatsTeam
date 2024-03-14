@@ -39,8 +39,8 @@ namespace LB
 			if (GO->GetName() == "PauseMenuTextureObject")
 			{
 				MenuTexture = GO;
-				Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
-				//GO->GetComponent<CPRender>()->z_val = 0.f;
+				//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
+				GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuResumeObject")
 			{
@@ -59,8 +59,8 @@ namespace LB
 			if (GO->GetName() == "PauseMenuHowToPlayTextureObject")
 			{
 				HowToPlayTexture = GO;
-				Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
-				//GO->GetComponent<CPRender>()->z_val = 0.f;
+				//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
+				GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuHowToPlayPreviousMenuButton")
 			{
@@ -72,8 +72,8 @@ namespace LB
 			if (GO->GetName() == "PauseMenuQuitConfirmTexture")
 			{
 				QuitTexture = GO;
-				Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
-				//GO->GetComponent<CPRender>()->z_val = 0.f;
+				//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
+				GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuQuitConfirmYesObject")
 			{
@@ -88,6 +88,7 @@ namespace LB
 			if (GO->GetName() == "UnderlineObject")
 			{
 				Underline = GO;
+				GO->GetComponent<CPRender>()->z_val = -1.f;
 			}
 		}
 	}
@@ -159,7 +160,7 @@ namespace LB
 		mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 		std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
 
-			// Loop through the colliders found on mouse click
+		// Loop through the colliders found on mouse click
 		for (size_t i = 0; i < vec_colliders.size(); ++i)
 		{
 			// ResumeButton
@@ -264,7 +265,7 @@ namespace LB
 					{
 						OnPauseMenu = false;
 						Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
-						
+
 
 						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
@@ -321,7 +322,7 @@ namespace LB
 				}
 			}
 		}
-		
+
 
 	}
 

@@ -36,6 +36,17 @@ namespace LB {
 		m_UpgradeManager = GOMANAGER->FindGameObjectWithName("Upgrade Manager");
 		m_Mouse = GOMANAGER->FindGameObjectWithName("MouseCursor");
 
+		// - Backboards
+		GameObject* heartBackboard = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("HeartBackboard", *heartBackboard);
+		heartBackboard->GetComponent<CPRender>()->z_val = 2.f;
+		GameObject* ballBackboard = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("BallBackboard", *ballBackboard);
+		ballBackboard->GetComponent<CPRender>()->z_val = 2.f;
+		GameObject* upgradeBackboard = FACTORY->SpawnGameObject();
+		JSONSerializer::DeserializeFromFile("UpgradeBackboard", *upgradeBackboard);
+		upgradeBackboard->GetComponent<CPRender>()->z_val = 2.f;
+
 		// Create horizontal and vertical upgrade popups
 		// - The game object now only contains CPRender
 		// - Only difference is that the sprite image is set with different scales
@@ -179,12 +190,12 @@ namespace LB {
 		}
 
 		// - Backboards
-		GameObject* heartBackboard = FACTORY->SpawnGameObject();
+		/*GameObject* heartBackboard = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("HeartBackboard", *heartBackboard);
 		GameObject* ballBackboard = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("BallBackboard", *ballBackboard);
 		GameObject* upgradeBackboard = FACTORY->SpawnGameObject();
-		JSONSerializer::DeserializeFromFile("UpgradeBackboard", *upgradeBackboard);
+		JSONSerializer::DeserializeFromFile("UpgradeBackboard", *upgradeBackboard);*/
 
 
 		// New Upgrade Event: To know when new upgrades are obtained

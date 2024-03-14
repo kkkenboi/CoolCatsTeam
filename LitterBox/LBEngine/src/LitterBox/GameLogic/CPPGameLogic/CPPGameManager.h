@@ -75,8 +75,13 @@ namespace LB
 		**************************************************************************/
 		void ReduceEnemyCount();
 
+		void RemoveSpawnedEnemy(GameObject* enemyToRemove);
+
 		void ShowGameOver(GameObject enemyObj);
+		void ShowGameWin();
 		Vec2<float> GetRandomSpawnPoint();
+
+		void FillSpawnPoints(std::string name);
 
 		int GetCurrentWave();
 
@@ -125,10 +130,13 @@ namespace LB
 		GameObject* crowdTexture{ nullptr };
 		GameObject* gameOverTexture{ nullptr };
 		GameObject* killerTexture{ nullptr }; //texture of the player killer for gameover
-		Vec2<float> cachedCrowdPos{};
+		Vec2<float> cachedCrowdPos{}, cachedRestartPos{}, cachedQuitPos{};
+		bool restartHovered{ false }, quitHovered{ false };
+
 		Vec2<float> mouse_pos{};
 		std::vector<Vec2<float>> SpawnPoints;
 		bool isSoundSwapped{ false };
+		std::vector<GameObject*> SpawnedeEnemiesList;
 	};
 	void ShowGameOver(GameObject enemyObj);
 	REGISTER_SCRIPT(CPPSGameManager)

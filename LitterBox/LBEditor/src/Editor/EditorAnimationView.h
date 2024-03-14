@@ -30,10 +30,22 @@ namespace LB
 		*************************************************************************/
 		EditorAnimationView(std::string layerName);
 
+		/*!***********************************************************************
+		  \brief
+		  Caches the editor sprite sheet for default rendering of animations
+		*************************************************************************/
 		void Initialize() override;
 
+		/*!***********************************************************************
+		  \brief
+		  Renders the animation view layer.
+		*************************************************************************/
 		void UpdateLayer() override;
 
+		/*!***********************************************************************
+		  \brief
+		  Destroys the animation editor layer.
+		*************************************************************************/
 		void Destroy() override;
 
 	private:

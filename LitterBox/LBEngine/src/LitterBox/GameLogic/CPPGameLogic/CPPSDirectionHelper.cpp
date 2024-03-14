@@ -58,6 +58,10 @@ namespace LB
 			{
 				mEventTransform = GOMANAGER->FindGameObjectWithName("Charger_Shield")->GetComponent<CPTransform>();
 			}
+			if (GOMANAGER->FindGameObjectWithName("Dummy"))
+			{
+				mEventTransform = GOMANAGER->FindGameObjectWithName("Dummy")->GetComponent<CPTransform>();
+			}
 
 			DirToEvent = mEventTransform->GetPosition() - mPlayerTransform->GetPosition();
 
