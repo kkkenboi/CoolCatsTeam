@@ -190,7 +190,7 @@ namespace LB
 	void CPPSBaseEnemy::Die()
 	{
 		//If the enemy dies, regardless we MUST reduce the enemy count
-		mGameManager->GetComponent<CPPSGameManager>()->ReduceEnemyCount();
+		mGameManager->GetComponent<CPPSGameManager>()->RemoveSpawnedEnemy(this->GameObj);
 		//Forgive me lord for I have sinned
 		//GameObj->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.0f, 10000.0f});
 		GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition(),2);

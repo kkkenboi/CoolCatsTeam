@@ -1,5 +1,6 @@
 #include "CPPSSandpit.h"
 #include "LitterBox/Animation/ParticleSystem.h"
+#include "CPPSPlayer.h"
 
 namespace LB
 {
@@ -53,6 +54,7 @@ namespace LB
 				{
 					colData.colliderOther->rigidbody->mVelocity.x *= 0.8f;
 					colData.colliderOther->rigidbody->mVelocity.y *= 0.8f;
+					colData.colliderOther->gameObj->GetComponent<CPPSPlayer>()->isOnSand = true;
 				}
 				else
 				{
@@ -65,5 +67,10 @@ namespace LB
 
 	void CPPSSandpit::OnCollisionExit(CollisionData colData)
 	{
+		if (colData.colliderOther->gameObj->GetName() == "MainChar")
+		{
+			colData.colliderOther->gameObj->GetComponent<CPPSPlayer>()->isOnSand = false;
+		}
+
 	}
 }
