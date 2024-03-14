@@ -1518,6 +1518,58 @@
                     "Rotation": 0.0,
                     "Children": [
                         {
+                            "Name": "RestartGameButtonUI",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 755.0,
+                                    "y": -485.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 500.0,
+                                "Height": 500.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 71
+                            }
+                        },
+                        {
+                            "Name": "MainMenuButtonUI",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -741.0,
+                                    "y": -480.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 400.0,
+                                "Height": 400.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 70
+                            }
+                        },
+                        {
                             "Name": "RestartGameButton",
                             "Active": false,
                             "Transform": {
