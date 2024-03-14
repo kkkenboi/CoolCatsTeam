@@ -23,11 +23,19 @@ namespace LB
 	**************************************************************************/
 	enum CommandType
 	{
+		// GameObject Commands
+		SPAWNGO,
+		DELETEGO,
+		// Transform Commands
 		MOVE,
 		SCALE,
 		ROTATE,
-		SPAWNGO,
-		DELETEGO
+		// Render Commands
+		RENDERPOS,
+		RENDERIMAGE,
+		RENDERSSHEET,
+		RENDERSSHEETLAYER
+		// Collider Commands
 	};
 
 	/*!************************************************************************

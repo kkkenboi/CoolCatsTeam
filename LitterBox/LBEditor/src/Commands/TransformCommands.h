@@ -52,7 +52,7 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Merges the move position commands in the command history together
-		 * \param incomingCommand Incomming command to check against
+		 * \param incomingCommand Incoming command to check against
 		**************************************************************************/
 		bool Merge(std::shared_ptr<ICommand> incomingCommand) override
 		{
