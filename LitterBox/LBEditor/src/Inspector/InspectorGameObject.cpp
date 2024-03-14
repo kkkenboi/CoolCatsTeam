@@ -1150,6 +1150,10 @@ namespace LB
 				ImGui::SameLine();
 				if (ImGui::Checkbox("##PlayOnAwake", &m_inspectedGO->GetComponent<CPAnimator>()->m_playOnAwake))
 				{ }
+				ImGui::Text("%-17s", "Awake Delay");
+				ImGui::SameLine();
+				if (ImGui::DragFloat("##AwakeDelay", &m_inspectedGO->GetComponent<CPAnimator>()->m_awakeDelay))
+				{ }
 				ImGui::Text("%-17s", "Repeating");
 				ImGui::SameLine();
 				if (ImGui::Checkbox("##Repeating", &m_inspectedGO->GetComponent<CPAnimator>()->m_repeating))

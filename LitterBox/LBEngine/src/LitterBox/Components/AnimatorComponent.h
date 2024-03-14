@@ -163,7 +163,7 @@ namespace LB
 		//int GetInt(std::string const& triggerName);
 
 		// Modifiers
-		float m_playSpeed{ 1.0f };
+		float m_playSpeed{ 1.0f }, m_awakeDelay{ 0.0f };
 
 		// For animating without scripts
 		std::string m_defaultState{ "None" };
@@ -177,6 +177,7 @@ namespace LB
 		std::string m_oldSSName;
 
 		// Internal timer
+		float m_elapsedAwakeTime{ 0.0f };
 		float m_elapsedTime{ 0.0f }, m_targetTime{ 1.0f / 60.0f };
 		std::vector<std::string> m_queue;
 
