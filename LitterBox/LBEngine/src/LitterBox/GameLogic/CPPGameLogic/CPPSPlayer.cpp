@@ -362,6 +362,10 @@ namespace LB
 			colData.colliderOther->m_gameobj->GetName() == "Shield" ||
 			colData.colliderOther->m_gameobj->GetName() == "Bramble" )
 		{
+			//GODMODE!! 
+			if (isGod) return;
+
+
 			if (mGotAttackedCooldown > 0) return;
 			//shake the cam
 			if (mGotAttackedCooldown <= 0.0f) {

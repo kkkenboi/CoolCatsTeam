@@ -70,6 +70,7 @@ namespace LB
 		Event<> onPlacingBall;
 		Event<GameObject> onPlayerDeathEvent;
 		bool isOnSand{ false };
+		bool isGod{ false };
 	private:
 		//direction of where the player is facing
 		LB::Vec2<float> right_face;

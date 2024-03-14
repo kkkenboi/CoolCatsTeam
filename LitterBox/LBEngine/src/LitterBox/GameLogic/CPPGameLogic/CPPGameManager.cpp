@@ -22,6 +22,7 @@
 #include "CPPSProjectileBall.h"
 #include "Litterbox/Components/RenderVideoComponent.h"
 #include "CPPSDirectionHelper.h"
+#include "CPPSPlayer.h"
 
 namespace LB
 {
@@ -115,8 +116,10 @@ namespace LB
 		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_G))
 		{
-			GenerateWave();
-			GameStart = true;
+			mPlayer->GetComponent<CPPSPlayer>()->isGod = !mPlayer->GetComponent<CPPSPlayer>()->isGod;
+			GOMANAGER->FindGameObjectWithName("GodModeIndicator")->SetActive(mPlayer->GetComponent<CPPSPlayer>()->isGod);
+			//GenerateWave();
+			//GameStart = true;
 		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{

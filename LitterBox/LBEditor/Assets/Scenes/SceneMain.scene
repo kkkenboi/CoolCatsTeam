@@ -356,6 +356,39 @@
                                 "SpriteName": "MultiSheet",
                                 "SpriteIndex": 55
                             }
+                        },
+                        {
+                            "Name": "GodModeIndicator",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 300.0,
+                                "Height": 300.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "VFXCompile_SpriteSheet",
+                                "SpriteName": "VFXSheet",
+                                "SpriteIndex": 23
+                            },
+                            "Animator": {
+                                "Default State": "VFX_Shiny1",
+                                "Play On Awake": true,
+                                "Awake Delay": 0.0,
+                                "Repeating": true,
+                                "Controller": "VFXController"
+                            }
                         }
                     ]
                 },
