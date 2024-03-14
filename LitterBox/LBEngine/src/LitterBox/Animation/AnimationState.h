@@ -27,10 +27,12 @@ namespace LB
 	template<typename T>
 	struct LBKeyFrame
 	{
+		/*!***********************************************************************
+		 \brief
+		 KeyFrame constructors, overloads for frame and data
+		*************************************************************************/
 		LBKeyFrame() {}
-
 		LBKeyFrame(int frame) : m_frame(frame) {}
-
 		LBKeyFrame(int frame, T const& data) : m_frame(frame), m_data(data) {}
 
 		/*!***********************************************************************
@@ -42,6 +44,10 @@ namespace LB
 			return m_frame < rhs.m_frame;
 		}
 
+		/*!***********************************************************************
+		 \brief
+		 Compares the if the keyframe is for the same frame
+		*************************************************************************/
 		bool operator==(const LBKeyFrame& rhs) const
 		{
 			return m_frame == rhs.m_frame;
@@ -112,13 +118,31 @@ namespace LB
 	class LBKeyFrameGroup
 	{
 	public:
+		/*!***********************************************************************
+		 \brief
+		 KeyFrame Group constructors, overload for setting a keyframe's default value
+		*************************************************************************/
 		LBKeyFrameGroup() {}
 		LBKeyFrameGroup(T const defaultValue ) : m_defaultValue(defaultValue) {}
 
+		/*!***********************************************************************
+		 \brief
+		 Increments the current frame to the next frame in the vector if the frame 
+		 given is bigger than the current frame
+		*************************************************************************/
 		void Update(int frame);
 
+		/*!***********************************************************************
+		 \brief
+		 Finds the exact frame to set based on the frame given, more costly than
+		 Update() but useful for skipping or rewinding frames
+		*************************************************************************/
 		void UpdateExact(int frame);
 
+		/*!***********************************************************************
+		 \brief
+		 Gets the current frame's data
+		*************************************************************************/
 		T GetCurrent() const
 		{
 			if (m_currentIndex >= m_keyFrames.Size()) return m_defaultValue;
@@ -126,6 +150,11 @@ namespace LB
 			return m_keyFrames[m_currentIndex].m_data;
 		}
 
+		/*!***********************************************************************
+		 \brief
+		 Gets the given frame's data, more verbose than GetCurrent and checks
+		 for edge cases like before first or after last
+		*************************************************************************/
 		T GetCurrentExact(int exactFrame) const
 		{
 			// If no keyframe or current is before first keyframe, use default
@@ -137,6 +166,11 @@ namespace LB
 			return m_keyFrames[m_currentIndex].m_data;
 		}
 
+		/*!***********************************************************************
+		 \brief
+		 Inserts a new keyframe into the group, if the keyframe already exists,
+		 updates the keyframe value instead.
+		*************************************************************************/
 		void Insert(LBKeyFrame<T> const& keyFrame)
 		{
 			LBKeyFrame<T>* existingFrame = m_keyFrames.Find(keyFrame);
@@ -150,14 +184,34 @@ namespace LB
 			}
 		}
 
+		/*!***********************************************************************
+		 \brief
+		 Removes a keyframe from the group.
+		*************************************************************************/
 		inline void Remove(LBKeyFrame<T> const& value) { m_keyFrames.Remove(value); }
 
+		/*!***********************************************************************
+		 \brief
+		 Removes all keyframes from the group.
+		*************************************************************************/
 		inline void Clear() { m_keyFrames.Clear(); }
 
+		/*!***********************************************************************
+		 \brief
+		 Returns the actual container of keyframes.
+		*************************************************************************/
 		inline SortedVector<LBKeyFrame<T>>& GetData() { return m_keyFrames; }
 
+		/*!***********************************************************************
+		 \brief
+		 Returns the largest keyframe frame in this group.
+		*************************************************************************/
 		inline int GetLargestFrame() { return m_keyFrames.Size() > 0 ? m_keyFrames[m_keyFrames.Size() - 1].m_frame : 0; }
 
+		/*!***********************************************************************
+		 \brief
+		 Returns true if there are no keyframes in this group.
+		*************************************************************************/
 		inline bool Empty() { return !m_keyFrames.Size(); }
 
 		/*!***********************************************************************
@@ -246,7 +300,11 @@ namespace LB
 		T m_defaultValue{};
 		SortedVector<LBKeyFrame<T>> m_keyFrames;
 	};
-	// If type is a vector 2, don't fully replace insert and interpolate valyes
+	/*!***********************************************************************
+	 \brief
+	 Specialization, if type is a vector 2, don't fully replace insert 
+	 and interpolate valyes
+	*************************************************************************/
 	template<>
 	inline void LBKeyFrameGroup<Vec2<float>>::Insert(LBKeyFrame<Vec2<float>> const& keyFrame)
 	{
@@ -269,6 +327,11 @@ namespace LB
 			m_keyFrames.Insert({keyFrame.m_frame, timing });
 		}
 	}
+	/*!***********************************************************************
+	 \brief
+	 Specialization, gets the given frame's data, if between two keyframes,
+	 interpolates the data.
+	*************************************************************************/
 	template<>
 	inline Vec2<float> LBKeyFrameGroup<Vec2<float>>::GetCurrentExact(int exactFrame) const
 	{
@@ -284,6 +347,11 @@ namespace LB
 
 		return interpo;
 	}
+	/*!***********************************************************************
+	 \brief
+	 Specialization, gets the given frame's data, if between two keyframes,
+	 interpolates the data.
+	*************************************************************************/
 	template<>
 	inline float LBKeyFrameGroup<float>::GetCurrentExact(int exactFrame) const
 	{

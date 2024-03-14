@@ -418,7 +418,7 @@
                     "Active": true,
                     "Position": {
                         "x": 2043.035278,
-                        "y": 784.481201
+                        "y": 1291.144165
                     },
                     "Scale": {
                         "x": 1.0,
@@ -510,8 +510,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": -427.065399,
-                        "y": 540.0
+                        "x": -63.054801,
+                        "y": 1274.716796
                     },
                     "Scale": {
                         "x": 1.0,
@@ -530,8 +530,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 702.846313,
-                        "y": 578.296264
+                        "x": -213.94281,
+                        "y": -53.708106
                     },
                     "Scale": {
                         "x": 1.0,
@@ -546,8 +546,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 882.401733,
-                        "y": 379.04071
+                        "x": 947.333312,
+                        "y": 1311.387084
                     },
                     "Scale": {
                         "x": 1.0,
@@ -562,8 +562,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1249.538085,
-                        "y": 729.758239
+                        "x": 2292.37915,
+                        "y": -316.516082
                     },
                     "Scale": {
                         "x": 1.0,
@@ -578,8 +578,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1302.051025,
-                        "y": 298.779998
+                        "x": 1767.417602,
+                        "y": -6.212921
                     },
                     "Scale": {
                         "x": 1.0,
@@ -594,8 +594,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1654.123168,
-                        "y": 510.821868
+                        "x": 2349.065917,
+                        "y": 736.377868
                     },
                     "Scale": {
                         "x": 1.0,
@@ -610,8 +610,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": -424.488739,
-                        "y": 525.979431
+                        "x": -60.478027,
+                        "y": 1286.272094
                     },
                     "Scale": {
                         "x": 1.0,
@@ -626,8 +626,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 2278.106445,
-                        "y": 240.475463
+                        "x": 2346.973388,
+                        "y": 749.66217
                     },
                     "Scale": {
                         "x": 1.0,
@@ -938,8 +938,8 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 3456.0,
-                    "Height": 1408.0,
+                    "Width": 3968.0,
+                    "Height": 2816.0,
                     "ZLayer": 5.0,
                     "Layer": 1,
                     "Texture": "MapTutorial",
@@ -1005,8 +1005,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 472.644927,
-                        "y": 2515.925292
+                        "x": -219.283966,
+                        "y": 2848.443359
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1031,8 +1031,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 2904.251464,
-                        "y": 2520.860595
+                        "x": 2072.830322,
+                        "y": 2983.141357
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1057,8 +1057,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 473.240173,
-                        "y": -1443.628295
+                        "x": -116.900634,
+                        "y": -1969.671997
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1083,8 +1083,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 1342.886352,
-                        "y": -1443.711547
+                        "x": 2287.120605,
+                        "y": -1817.040039
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1133,7 +1133,7 @@
                     },
                     "Shape": 1,
                     "Width": 151.0,
-                    "Height": 1252.0,
+                    "Height": 2035.0,
                     "Radius": 50.0
                 }
             },
@@ -1144,7 +1144,7 @@
                     "Active": true,
                     "Position": {
                         "x": 962.452026,
-                        "y": -66.885589
+                        "y": -514.717712
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1178,7 +1178,7 @@
                     "Active": true,
                     "Position": {
                         "x": 965.616577,
-                        "y": 1136.339721
+                        "y": 1588.357299
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1235,7 +1235,7 @@
                     },
                     "Shape": 1,
                     "Width": 172.0,
-                    "Height": 1388.0,
+                    "Height": 2256.0,
                     "Radius": 50.0
                 }
             },
@@ -1245,8 +1245,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": -623.950317,
-                        "y": 1063.51538
+                        "x": -616.866455,
+                        "y": 1519.718383
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1279,8 +1279,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": -603.210144,
-                        "y": -19.927436
+                        "x": -546.539123,
+                        "y": -375.681915
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1313,8 +1313,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 2513.098388,
-                        "y": 1060.254028
+                        "x": 2544.975585,
+                        "y": 1482.974121
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1347,8 +1347,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 2514.993652,
-                        "y": 9.007781
+                        "x": 2511.45166,
+                        "y": -447.194946
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1376,13 +1376,604 @@
                 }
             },
             {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 509.044219,
+                        "y": 1496.994873
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 213.0,
+                    "Height": 384.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 771.799682,
+                        "y": 1499.897583
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 406.0,
+                    "Height": 208.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 637.682373,
+                        "y": 996.201538
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 375.0,
+                    "Height": 1096.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2026.123168,
+                        "y": 460.478637
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1109.0,
+                    "Height": 278.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2529.07788,
+                        "y": 565.11206
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 323.0,
+                    "Height": 194.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2139.467529,
+                        "y": 272.14038
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 953.0,
+                    "Height": 169.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1655.516235,
+                        "y": 357.423706
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 227.0,
+                    "Height": 255.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2522.134277,
+                        "y": 201.655822
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 153.0,
+                    "Height": 280.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1730.502929,
+                        "y": -325.284179
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 388.0,
+                    "Height": 315.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1484.671142,
+                        "y": -406.413696
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 418.0,
+                    "Height": 263.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Wall",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2002.449096,
+                        "y": -419.016021
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 239.0,
+                    "Height": 471.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 606.051391,
+                        "y": 56.694869
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 451.0,
+                    "Height": 1086.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 845.947021,
+                        "y": -71.101821
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 223.0,
+                    "Height": 719.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 511.039611,
+                        "y": 27.116012
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 987.0,
+                    "Height": 286.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 374.018493,
+                        "y": 38.106315
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 1008.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 297.330108,
+                        "y": -33.924636
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 437.0,
+                    "Height": 220.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 116.42337,
+                        "y": -166.368835
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 128.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 392.253997,
+                        "y": 533.924072
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
                 "Name": "MainChar",
                 "Active": true,
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": -425.647338,
-                        "y": 496.308929
+                        "x": -59.669143,
+                        "y": 1282.177001
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1787,6 +2378,615 @@
                     "Play On Awake": true,
                     "Repeating": true,
                     "Controller": "GrandpaTalkingController"
+                }
+            },
+            {
+                "Name": "DirectionHelper",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1229.09082,
+                        "y": 475.841613
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 3,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 54
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSDirectionHelper"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1217.256347,
+                        "y": 1116.034179
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 815.0,
+                    "Height": 262.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 922.955444,
+                        "y": 921.20697
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 187.0,
+                    "Height": 384.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1406.218872,
+                        "y": 1382.978149
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 387.0,
+                    "Height": 159.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1215.944213,
+                        "y": 932.996765
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 139.0,
+                    "Height": 140.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1419.689575,
+                        "y": 1123.600463
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 144.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Sand",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1331.009643,
+                        "y": 998.680541
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 278.0,
+                    "Height": 119.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSandpit"
+                }
+            },
+            {
+                "Name": "Mushroom",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 2401.742187,
+                        "y": 97.797744
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Body",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 1.0,
+                                                "y": -36.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 122.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 230.0,
+                                "Height": 230.0,
+                                "ZLayer": 1.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 40
+                            }
+                        }
+                    ]
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 45.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSBlueMushroom"
+                },
+                "Animator": {
+                    "Default State": "Action_Squish",
+                    "Play On Awake": true,
+                    "Repeating": true,
+                    "Controller": "ActionController"
+                }
+            },
+            {
+                "Name": "Mushroom",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 958.476928,
+                        "y": 928.012329
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Body",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 1.0,
+                                                "y": -36.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 122.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 230.0,
+                                "Height": 230.0,
+                                "ZLayer": 1.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 40
+                            }
+                        }
+                    ]
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 45.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSBlueMushroom"
+                },
+                "Animator": {
+                    "Default State": "Action_Squish",
+                    "Play On Awake": true,
+                    "Repeating": true,
+                    "Controller": "ActionController"
+                }
+            },
+            {
+                "Name": "Mushroom",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1410.547363,
+                        "y": 1360.125244
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Body",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 1.0,
+                                                "y": -36.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 122.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 230.0,
+                                "Height": 230.0,
+                                "ZLayer": 1.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 40
+                            }
+                        }
+                    ]
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": true
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 45.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSBlueMushroom"
+                },
+                "Animator": {
+                    "Default State": "Action_Squish",
+                    "Play On Awake": true,
+                    "Repeating": true,
+                    "Controller": "ActionController"
+                }
+            },
+            {
+                "Name": "Tutorial1",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -62.465751,
+                        "y": 593.343322
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1043.0,
+                    "Height": 239.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSTutorial1"
+                }
+            },
+            {
+                "Name": "Tutorial2",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 155.081375,
+                        "y": -99.018714
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 45.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1240.0,
+                    "Height": 358.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSTutorial2"
+                }
+            },
+            {
+                "Name": "Tutorial3",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1158.903442,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 671.0,
+                    "Height": 192.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSTutorial3"
                 }
             }
         ]

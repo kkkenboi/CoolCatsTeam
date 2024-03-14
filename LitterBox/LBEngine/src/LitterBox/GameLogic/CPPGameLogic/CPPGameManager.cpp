@@ -44,6 +44,9 @@ namespace LB
 		killerTexture = GOMANAGER->FindGameObjectWithName("Killer");
 		//we also wanna cache the position of the UI so we can set it back later
 		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
+		cachedRestartPos = GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->GetComponent<CPTransform>()->GetLocalPosition();
+		cachedQuitPos = GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->GetComponent<CPTransform>()->GetLocalPosition();
+
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
 
 		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
@@ -74,9 +77,7 @@ namespace LB
 		// For the tutorial stage
 		if (currentWave == 0) 
 		{
-			SpawnDummyEnemy();
-			SpawnDummyEnemy();
-			SpawnDummyEnemy();
+			FillSpawnPoints("Dummy");
 			GameStart = true;
 		}
 	}
@@ -195,7 +196,42 @@ namespace LB
 			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
 			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 			//Then we get all the colliders near the mouse
+			bool _restartHovered{ false }, _quitHovered{ false };
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
+			for (const auto& col : vec_colliders) //then we loop through all the cols to find our buttons
+			{
+				if (col->gameObj->GetName() == "RestartGameButton")
+				{
+					if (!restartHovered)
+					{
+						GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->GetComponent<CPTransform>()->SetPosition(cachedRestartPos + Vec2<float>(0, 40));
+						restartHovered = true;
+					}
+					_restartHovered = true;
+					break;
+				}
+				if (col->gameObj->GetName() == "MainMenuButton")
+				{
+					if (!quitHovered)
+					{
+						GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->GetComponent<CPTransform>()->SetPosition(cachedQuitPos + Vec2<float>(0, 40));
+						quitHovered = true;
+					}
+					_quitHovered = true;
+					break;
+				}
+			}
+			if (restartHovered && !_restartHovered)
+			{
+				GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->GetComponent<CPTransform>()->SetPosition(cachedRestartPos);
+				restartHovered = false;
+			}
+			if (quitHovered && !_quitHovered)
+			{
+				GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->GetComponent<CPTransform>()->SetPosition(cachedQuitPos);
+				quitHovered = false;
+			}
+
 			if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1)) //if we click we see what we clicked on
 			{
 				for (const auto& col : vec_colliders) //then we loop through all the cols to find our buttons
@@ -386,7 +422,10 @@ namespace LB
 			//std::cout << "Killed by " << enemyObj.GetName() << '\n';
 		} 
 
+		// Show UI
 		gameOverTexture->SetActive(true);
+		GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->SetActive(true);
+		GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->SetActive(true);
 	}
 	void CPPSGameManager::ShowGameWin()
 	{
@@ -405,6 +444,18 @@ namespace LB
 		}
 		DebuggerLogWarning("Somehow unable to find a valid spawnpoint for enemy!");
 		return Vec2<float>();
+	}
+
+	void CPPSGameManager::FillSpawnPoints(std::string name) 
+	{
+		for (Vec2<float> pos : SpawnPoints) 
+		{
+			GameObject* dummyClone = FACTORY->SpawnGameObject();
+			JSONSerializer::DeserializeFromFile(name, *dummyClone);
+			dummyClone->GetComponent<CPTransform>()->SetPosition(pos);
+			// Need to increment it here as we are not adding it to the list of enemies
+			currentEnemyCount++;
+		}
 	}
 
 	int CPPSGameManager::GetCurrentWave()

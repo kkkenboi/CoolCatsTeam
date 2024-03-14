@@ -247,6 +247,7 @@
                                                                 "Animator": {
                                                                     "Default State": "None",
                                                                     "Play On Awake": false,
+                                                                    "Awake Delay": 0.0,
                                                                     "Repeating": false,
                                                                     "Controller": "FelixController"
                                                                 }
@@ -269,6 +270,7 @@
                                         "Animator": {
                                             "Default State": "None",
                                             "Play On Awake": false,
+                                            "Awake Delay": 0.0,
                                             "Repeating": false,
                                             "Controller": "FelixController"
                                         }
@@ -278,6 +280,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -1522,6 +1525,58 @@
                     "Rotation": 0.0,
                     "Children": [
                         {
+                            "Name": "RestartGameButtonUI",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 755.0,
+                                    "y": -485.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 500.0,
+                                "Height": 500.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 71
+                            }
+                        },
+                        {
+                            "Name": "MainMenuButtonUI",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -741.0,
+                                    "y": -480.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 400.0,
+                                "Height": 400.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 70
+                            }
+                        },
+                        {
                             "Name": "RestartGameButton",
                             "Active": false,
                             "Transform": {
@@ -2027,6 +2082,7 @@
                 "Animator": {
                     "Default State": "Action_Squish",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "ActionController"
                 }
@@ -2127,6 +2183,7 @@
                 "Animator": {
                     "Default State": "Action_Squish",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "ActionController"
                 }
@@ -2227,6 +2284,7 @@
                 "Animator": {
                     "Default State": "Action_Squish",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "ActionController"
                 }
@@ -2292,6 +2350,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -2386,6 +2445,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -2480,6 +2540,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -2788,6 +2849,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -2882,6 +2944,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -2976,6 +3039,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -3124,6 +3188,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -3380,6 +3445,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -3474,6 +3540,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -3568,6 +3635,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -3662,6 +3730,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -3756,6 +3825,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -3904,6 +3974,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -4087,6 +4158,7 @@
                 "Animator": {
                     "Default State": "Action_Squish",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "ActionController"
                 }
@@ -4180,6 +4252,7 @@
                 "Animator": {
                     "Default State": "Action_Squish",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "ActionController"
                 }
@@ -4273,6 +4346,7 @@
                 "Animator": {
                     "Default State": "Action_Squish",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "ActionController"
                 }
@@ -4366,6 +4440,7 @@
                 "Animator": {
                     "Default State": "Action_Squish",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "ActionController"
                 }
