@@ -60,33 +60,36 @@ namespace LB
 			}
 
 			// Get the direction to event, as well as how far it is away from the screen since it is a relative length now
+			// Event Position - Player Position = Distance from player to event
 			DirToEvent = mEventTransform->GetPosition() - mTransform->GetPosition();
+
+			Vec2<Vec2<float>> CurrentEdgePosition = mTransform->GetPosition() + 
 			
 			// To REDO: If using UI layer, the screen space is actually from 0 to 1960 for x and 0 to 540 for y
 			// If the length is lesser or greater than the screen size, show the direction helper
-			if (DirToEvent.x > 960.0f || DirToEvent.y > 540.f || DirToEvent.x < -960.0f || DirToEvent.y < -540.f)
+			if (DirToEvent.x > 1920.f || DirToEvent.y > 1080.f || DirToEvent.x < 0.f || DirToEvent.y < 0.f)
 			{
 
 				// Find where the direction helper should be placed before the border
 				Vec2<float> borderPos{};
 
 				// - Setting one/two of the max values
-				if (DirToEvent.x > 960.0f) {
-					borderPos.x = 940.0f;
-					borderPos.y = DirToEvent.y;
+				if (DirToEvent.x > 1920.f) {
+					borderPos.x = 1900.f;
+					borderPos.y = 1080.f - DirToEvent.y;
 				}
-				else if (DirToEvent.x < -960.0f) {
-					borderPos.x = -940.0f;
-					borderPos.y = DirToEvent.y;
+				else if (DirToEvent.x < 0.f) {
+					borderPos.x = 20.f;
+					borderPos.y = 1080.f - DirToEvent.y;
 				}
 
-				if (DirToEvent.y > 540.f) {
+				else if (DirToEvent.y > 1080.f) {
 					borderPos.x = DirToEvent.x;
-					borderPos.y = 520.f;
+					borderPos.y = 1060.f;
 				}
-				else if (DirToEvent.y < -540.f) {
+				else if (DirToEvent.y < 0.f) {
 					borderPos.x = DirToEvent.x;
-					borderPos.y = -520.f;
+					borderPos.y = 20.f;
 				}
 
 				// Normalise to just get the general direction
