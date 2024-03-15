@@ -48,7 +48,7 @@ namespace ImGui
         const auto viewStart = context.StartFrame + context.OffsetFrame;
         const auto viewEnd = viewStart + context.EndFrame;
 
-		return ImVec2(viewStart, viewStart + context.EndFrame);
+		return ImVec2(static_cast<float>(viewStart), static_cast<float>(viewEnd));
 	}
 
     /*template <>

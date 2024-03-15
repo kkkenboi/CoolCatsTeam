@@ -360,11 +360,12 @@ namespace LB
 
 	void AudioManager::FadeOutChannels(float duration)
 	{
-
+		UNREFERENCED_PARAMETER(duration);
 	}
 
 	void AudioManager::FadeinChannels(float duration)
 	{
+		UNREFERENCED_PARAMETER(duration);
 	}
 
 

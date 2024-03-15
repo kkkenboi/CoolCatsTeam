@@ -37,6 +37,9 @@ namespace LB
 		GameObject* GetCharger();
 		Vec2<float> GetChargerPos();
 
+		Vec2<float> cachedPosition{};	//store the last shield pos 
+		float cachedRot{};				//store the last rotation (rad)
+
 		//Player GameObject, getter and position
 		GameObject* mPlayer;
 		GameObject* GetPlayer();
@@ -55,9 +58,9 @@ namespace LB
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
 
-		GameObject* mBall;
+		//GameObject* mBall;
 
-		void OnCollisionEnter(CollisionData colData);
+		void OnCollisionEnter(CollisionData colData) override;
 
 		//void SetShouldFace(bool state);
 

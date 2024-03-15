@@ -1,3 +1,20 @@
+/*!************************************************************************
+ \file				RenderVideoComponent.cpp
+ \author(s)			Ryan Tan Jian Hao
+ \par DP email(s):	ryanjianhao.tan\@digipen.edu
+ \par Course:       CSD2401A
+ \date				09/03/2024
+ \brief
+ This file contains member functions definitions 
+ of the VideoPlayerSystem class.
+ 
+ NOTE: despite the file name, this class is actually an engine
+ system and not a class.
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "RenderVideoComponent.h"
 #include "LitterBox/Serialization/FileSystemManager.h"
 #include <stdlib.h>
@@ -10,8 +27,11 @@
 
 namespace LB
 {
-	//For the extern
-	//VideoPlayerSystem* VIDEOPLAYER = { nullptr };
+	/*!***********************************************************************
+	\brief
+	Initialises a texture for the cutscene system to use. This texture is
+	reserved throughout the lifetime of the engine.
+	*************************************************************************/
 	void VideoPlayerSystem::Initialize()
 	{
 		//openGL stuff, shoddy attempt at trying to throw something to the screen. Can delete, not crucial
@@ -27,6 +47,13 @@ namespace LB
 		ASSETMANAGER->AddReservedTexture(tex_handle);
 	}
 
+	/*!***********************************************************************
+	\brief
+	Fixed update runs the video playback at a fixed interval
+
+	NOTE: for now the interval is not actually synced to the videos specific
+	FPS
+	*************************************************************************/
 	void VideoPlayerSystem::FixedUpdate()
 	{
 		if (playCutscene && !load_video_frame())
@@ -38,6 +65,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Destroy frees all data used by the system
+	*************************************************************************/
 	void VideoPlayerSystem::Destroy()
 	{
 		ASSETMANAGER->RemoveReservedTexture();
@@ -47,6 +78,13 @@ namespace LB
 			free_video_state();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Helper function to account for depercated pixel format of video frames.
+
+	\param
+	The pixel format of the video frame
+	*************************************************************************/
 	static AVPixelFormat correct_for_deprecated_pixel_format(AVPixelFormat pix_fmt) {
 		// Fix swscaler deprecated pixel format warning
 		// (YUVJ has been deprecated, change pixel format to regular YUV)
@@ -59,16 +97,36 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Wrapper function for other files to easily play a video whenever they wish.
+
+	\param
+	video_file_name is the file name of the video without extension
+
+	\param
+	next_scene is file name (w/o extension) of the next scene you want to load 
+	after the video finishes. 
+	*************************************************************************/
 	void VideoPlayerSystem::PlayCutscene(const char* video_file_name, const char* next_scene)
 	{
 		SCENEMANAGER->LoadScene("SceneCutscene");
 
 		scene_to_transition = next_scene;
 		load_video_file(video_file_name);
-		AUDIOMANAGER->PlaySound(video_file_name);
+		int channel = AUDIOMANAGER->PlaySound(video_file_name);
+		AUDIOMANAGER->SetChannelVolume(channel, 0.3f);
 		playCutscene = true;
 	}
 
+	/*!***********************************************************************
+	\brief
+	load video file allocates memory for the appropriate contexts required
+	by the library to open and stream data from a video file.
+
+	\param
+	video_file_name is the file name of the video without extension
+	*************************************************************************/
 	void VideoPlayerSystem::load_video_file(const char* video_file_name)
 	{
 		AVCodecParameters*& av_codec_params = vrs.av_codec_params;
@@ -88,7 +146,7 @@ namespace LB
 			return;
 		}
 
-		if (avformat_open_input(&av_format_ctx, FILESYSTEM->GetFilePath(video_file_name).string().c_str(), NULL, NULL) != 0)
+		if (ASSETMANAGER->LoadVideo(&av_format_ctx, FILESYSTEM->GetFilePath(video_file_name).string().c_str()) != 0)//avformat_open_input(&av_format_ctx, FILESYSTEM->GetFilePath(video_file_name).string().c_str(), NULL, NULL) != 0)
 		{
 			DebuggerLogError("Could not Open video file");
 			return;
@@ -96,9 +154,9 @@ namespace LB
 
 		//2. find the video stream that we want in the file
 		video_stream_index = -1;
-		for (int i{ 0 }; i < av_format_ctx->nb_streams; ++i)
+		for (unsigned int i{ 0 }; i < av_format_ctx->nb_streams; ++i)
 		{
-			auto stream = av_format_ctx->streams[i];
+			//auto stream = av_format_ctx->streams[i];
 			av_codec_params = av_format_ctx->streams[i]->codecpar;
 			const AVCodec* av_codec_inside = avcodec_find_decoder(av_codec_params->codec_id);
 
@@ -154,31 +212,44 @@ namespace LB
 			return;
 		}
 
+		//create a buffer to store the video frame data
+		//the data is stored in YUVJ format which is 4 bytes per pixel
 		data = new unsigned char[av_codec_params->width * av_codec_params->height * 4];
 	}
 
+	/*!***********************************************************************
+	\brief
+	load video frame will stream the next frame in the video file, already
+	loaded through load_video_file function.
+
+	To get the next frame the user simply needs to call the function iteratively
+	until they get to a particular frame they want or the eof.
+	*************************************************************************/
 	bool VideoPlayerSystem::load_video_frame()
 	{
-		AVCodecParameters*& av_codec_params		= vrs.av_codec_params;
 		AVFormatContext*&	av_format_ctx		= vrs.av_format_ctx;
 		AVCodecContext*&	av_codec_ctx		= vrs.av_codec_ctx;
 		unsigned char*&		data				= vrs.fbuffer;
 		SwsContext*&		sws_scalar_ctx		= vrs.sws_scaler_ctx;
 		AVPacket*&			av_packet			= vrs.av_packet;
-		AVCodec*&			av_codec			= vrs.av_codec;
 		AVFrame*&			av_frame			= vrs.av_frame;
 		int&				video_stream_index	= vrs.video_stream_index;
 
 		//1. decode one frame
-		int response{ 0 }, test{ -1 };
-		while (test = av_read_frame(av_format_ctx, av_packet) >= 0)
+		int response{ 0 }, test{ av_read_frame(av_format_ctx, av_packet) >= 0 };
+		//read the next frame
+		while (test)
 		{
+			//if the packet does not contain video data we read the next packet
 			if (av_packet->stream_index != video_stream_index)
 			{
 				av_packet_unref(av_packet);
+				test = av_read_frame(av_format_ctx, av_packet) >= 0;
 				continue;
 			}
 
+			//if the packet does contain video data then we send it
+			//to the decoder to get broken down into an image
 			response = avcodec_send_packet(av_codec_ctx, av_packet);
 			if (response < 0)
 			{
@@ -186,9 +257,12 @@ namespace LB
 				return false;
 			}
 
+			//we load the image from the packet into the frame data struct
+			//via the decoder 
 			response = avcodec_receive_frame(av_codec_ctx, av_frame);
 			if (response == AVERROR(EAGAIN) || response == AVERROR_EOF)
 			{
+				test = av_read_frame(av_format_ctx, av_packet) >= 0;
 				continue;
 			}
 			else if (response < 0)
@@ -201,6 +275,7 @@ namespace LB
 			break;
 		}
 
+		//we create a sws context incase we don't have on already
 		if (!sws_scalar_ctx)
 		{
 			auto source_pix_fmt = correct_for_deprecated_pixel_format(av_codec_ctx->pix_fmt);
@@ -220,34 +295,29 @@ namespace LB
 			DebuggerLogError("Could not initialize sw scalar");
 			return false;
 		}
+		//we need to convert the video data from YUVJ to RGBA which is done through sws_scale
 		uint8_t* dest[4] = { data, NULL, NULL, NULL };
 		int dest_linesize[4] = { av_frame->width * 4, 0, 0, 0 };
 		sws_scale(sws_scalar_ctx, av_frame->data, av_frame->linesize, 0, av_frame->height, dest, dest_linesize);
 		
-
+		//load the data onto the texture that is reserved by the system
 		glBindTexture(GL_TEXTURE_2D, tex_handle);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, av_frame->width, av_frame->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		
-
-		/*printf(
-			"Frame %c (%d) pts %ld dts %ld key_frame %d [coded_picture_number %d, display_picture_number %d]\n",
-			av_get_picture_type_char(av_frame->pict_type),
-			av_codec_ctx->frame_number,
-			av_frame->pts,
-			av_frame->pkt_dts,
-			av_frame->key_frame,
-			av_frame->coded_picture_number,
-			av_frame->display_picture_number
-		);*/
 		if (!test)
 			return false;
 
 		return true;
 	}
 
+	/*!***********************************************************************
+	\brief
+	free_video_state deallocates all memory that was used when load_video_file
+	was called. This is because each video file is unique and may require
+	different decoder contexts.
+	*************************************************************************/
 	void VideoPlayerSystem::free_video_state()
 	{
 		AVFormatContext*& av_format_ctx = vrs.av_format_ctx;
@@ -258,7 +328,8 @@ namespace LB
 		AVFrame*& av_frame = vrs.av_frame;
 
 		sws_freeContext(sws_scalar_ctx);
-		avformat_close_input(&av_format_ctx);
+		//avformat_close_input(&av_format_ctx);
+		ASSETMANAGER->FreeVideo(&av_format_ctx);
 		avformat_free_context(av_format_ctx);
 		av_frame_free(&av_frame);
 		av_packet_free(&av_packet);

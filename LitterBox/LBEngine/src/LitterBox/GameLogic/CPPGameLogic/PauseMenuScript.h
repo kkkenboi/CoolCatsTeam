@@ -37,6 +37,7 @@ namespace LB
 		void Destroy() override;
 	private:
 		bool OnPauseMenu;
+		bool BackButtonHovered{ false };
 
 		// Pause Menu
 		GameObject* MenuTexture{ nullptr };

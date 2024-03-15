@@ -27,6 +27,7 @@
 #include "CPPSBaseEnemy.h"
 #include "CPPSMage.h"
 #include "CPPSChaser.h"
+#include "CPPSCharger.h"
 #include "CPPGameManager.h"
 #include "CPPVFXManager.h"
 #include "LitterBox/Physics/RigidBodyManager.h"
@@ -142,7 +143,8 @@ namespace LB
 		if ((currentBallUpgrades & BOMB) && colData.colliderOther->gameObj->GetName() != "ball") {
 			if (colData.colliderOther->gameObj->GetName() == "Mage" ||
 				colData.colliderOther->gameObj->GetName() == "EnemyChaser1" ||
-				colData.colliderOther->gameObj->GetName() == "Charger_Shield")
+				colData.colliderOther->gameObj->GetName() == "Charger_Shield" ||
+				colData.colliderOther->gameObj->GetName() == "Shield")
 			{
 				//Renderer::GRAPHICS->shaker_camera();
 				Explode();
@@ -156,25 +158,26 @@ namespace LB
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "Mage" ||
 			colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1" ||
-			colData.colliderOther->m_gameobj->GetName() == "Charger" ||
+			colData.colliderOther->m_gameobj->GetName() == "Charger_Shield" ||
+			colData.colliderOther->m_gameobj->GetName() == "Shield" ||
 			colData.colliderOther->m_gameobj->GetName() == "Bramble" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mushroom")
 		{
 			int Channel = AUDIOMANAGER->PlaySound("Thud");
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
 		}
-		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit" && 
-			colData.colliderOther->m_gameobj->GetName()!= "MouseWorld")
+		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit" 
+			&& colData.colliderOther->m_gameobj->GetName()!= "MouseWorld" && colData.colliderOther->m_gameobj->GetName() != "Bush")
 		{
 			//play ball knocking sound
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BallCollisionSounds, 0.4f);
 			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(GetComponent<CPTransform>()->GetPosition());
 		}
 
-		if (colData.colliderOther->m_gameobj->GetName() == "Shield")
+		/*if (colData.colliderOther->m_gameobj->GetName() == "Shield")
 		{
 			mRigidBody->addImpulse(Vec2<float>(5.0f, 5.0f));
-		}
+		}*/
 	}
 
 	//Function to set the current upgrade for the ball
@@ -242,6 +245,10 @@ namespace LB
 					if (col->gameObj->GetName() == "EnemyChaser1") {
 						//std::cout << "chaser hurt by explosion\n";
 						col->gameObj->GetComponent<CPPSChaser>()->Hurt();
+					}
+					if (col->gameObj->GetName() == "Charger_Shield") {
+						//std::cout << "chaser hurt by explosion\n";
+						col->gameObj->GetComponent<CPPSCharger>()->Hurt();
 					}
 				}
 		}

@@ -22,6 +22,8 @@
 #include "CPPSProjectileBall.h"
 #include "Litterbox/Components/RenderVideoComponent.h"
 #include "CPPSDirectionHelper.h"
+#include "CPPSPlayer.h"
+#include "CPPSMouseUI.h"
 
 namespace LB
 {
@@ -40,14 +42,16 @@ namespace LB
 		//By default, the render is set active false
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 		crowdTexture = GOMANAGER->FindGameObjectWithName("CrowdTextureObject");
-		gameOverTexture = GOMANAGER->FindGameObjectWithName("GameOverTextureObject");
+		gameOverTexture = GOMANAGER->FindGameObjectWithName("ActualTexture");
 		killerTexture = GOMANAGER->FindGameObjectWithName("Killer");
 		//we also wanna cache the position of the UI so we can set it back later
 		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
-		cachedRestartPos = GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->GetComponent<CPTransform>()->GetLocalPosition();
-		cachedQuitPos = GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->GetComponent<CPTransform>()->GetLocalPosition();
-
+	
+		//Set the player's spawn point
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
+
+	
+
 
 		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
 		//into a list
@@ -69,6 +73,15 @@ namespace LB
 		//For the first level we just make it such that it's always 2 melee enemies
 		if (currentWave == 1) 
 		{
+			//Extremely bad way of doing this
+			ItemLost1 = GOMANAGER->FindGameObjectWithName("ItemLost1")->GetComponent<CPRender>();
+			ItemLost2 = GOMANAGER->FindGameObjectWithName("ItemLost2")->GetComponent<CPRender>();
+			ItemLost3 = GOMANAGER->FindGameObjectWithName("ItemLost3")->GetComponent<CPRender>();
+			ItemLost4 = GOMANAGER->FindGameObjectWithName("ItemLost4")->GetComponent<CPRender>();
+
+			cachedRestartPos = GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->GetComponent<CPTransform>()->GetLocalPosition();
+			cachedQuitPos = GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->GetComponent<CPTransform>()->GetLocalPosition();
+
 			SpawnCredits = 4;
 			GenerateWave();
 			GameStart = true;
@@ -104,13 +117,16 @@ namespace LB
 		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_G))
 		{
-			GenerateWave();
-			GameStart = true;
+			mPlayer->GetComponent<CPPSPlayer>()->isGod = !mPlayer->GetComponent<CPPSPlayer>()->isGod;
+			GOMANAGER->FindGameObjectWithName("GodModeIndicator")->SetActive(mPlayer->GetComponent<CPPSPlayer>()->isGod);
+			//GenerateWave();
+			//GameStart = true;
 		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{
 			//GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeOut(5.f);
-			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
+			//VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
+			ShowGameWin();
 		}
 		/*if (INPUT->IsKeyTriggered(KeyCode::KEY_I))
 		{
@@ -142,10 +158,20 @@ namespace LB
 		//	GenerateWave();
 		//	UpgradePicked = false;
 		//}
-		if (currentEnemyCount == 0 && GameStart && !UpgradeSpawned)
+		
+		//If game's started, upgrade hasn't spawned and no enemies and not tutorial
+		if (SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned && currentWave)
 		{
 			UpgradeSpawned = true;
-			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
+			if (currentWave % 2)
+			{
+				GOMANAGER->FindGameObjectWithName("Portal")->SetActive(true);
+			}
+			else
+			{
+				GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
+
+			}
 			SpawnCrowdAnim();
 			//We want to remove all the balls when the upgrade spawns
 			std::vector<GameObject*> Balls = GOMANAGER->FindGameObjectsWithName("ball");
@@ -162,7 +188,7 @@ namespace LB
 		//Timer for the crowd, if the crowd texture is active then we want to do stuff
 		if (crowdTexture->IsActive())
 		{
-			timer += TIME->GetDeltaTime();
+			timer += static_cast<float>(TIME->GetDeltaTime());
 			Vec2<float> crowdPos{ cachedCrowdPos };
 			//temporary thing until we get the anim in
 			//This basically just lerps the thing down in 7 seconds
@@ -178,14 +204,12 @@ namespace LB
 				timer = 0;
 			}
 		}
+
 		//Update the GAME OVER UI 
 		if (gameOverTexture->IsActive())
 		{
 			//We get the mouse position
-			Vec2<float> mouse_pos = INPUT->GetMousePos();
-			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			mouse_pos = GOMANAGER->FindGameObjectWithName("MouseUI")->GetComponent<CPPSMouseUI>()->GetComponent<CPTransform>()->GetPosition();
 			//Then we get all the colliders near the mouse
 			bool _restartHovered{ false }, _quitHovered{ false };
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
@@ -230,13 +254,13 @@ namespace LB
 					if (col->gameObj->GetName() == "RestartGameButton")
 					{
 						gameOverTexture->SetActive(false);
-						std::cout << "Restart Game!\n";
+						//std::cout << "Restart Game!\n";
 						SCENEMANAGER->ReloadScene();
 						break;
 					}
 					if (col->gameObj->GetName() == "MainMenuButton")
 					{
-						std::cout << "GotoMainMenu!\n";
+						//std::cout << "GotoMainMenu!\n";
 						gameOverTexture->SetActive(false);
 						SCENEMANAGER->LoadScene("SceneMainMenu");
 						break;
@@ -275,9 +299,10 @@ namespace LB
 		{
 			//then we deduct the cost and spawn the enemy
 			SpawnCredits -= EnemyList[enemyIndex].second;
-			//EnemyList[enemyIndex].first; //should call the function
+			//should call the function
+			//god damn this syntax is so cursed
 			(this->*EnemyList[enemyIndex].first)();
-			//Most important god damn line of code
+			//Most important god damn line of code [edit: no longer the most important line of code]
 			currentEnemyCount++;
 		}
 		
@@ -291,6 +316,7 @@ namespace LB
 		GameObject* mageClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Mage", *mageClone);
 		mageClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+		SpawnedeEnemiesList.push_back(mageClone);
 	}
 
 	/*!************************************************************************
@@ -302,6 +328,7 @@ namespace LB
 		GameObject* chaserClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("EnemyChaser1", *chaserClone);
 		chaserClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+		SpawnedeEnemiesList.push_back(chaserClone);
 	}
 
 	/*!************************************************************************
@@ -314,6 +341,7 @@ namespace LB
 		JSONSerializer::DeserializeFromFile("Charger_Shield", *chargerClone);
 		//JSONSerializer::DeserializeFromFile("Charger", *chargerClone);
 		chargerClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+		SpawnedeEnemiesList.push_back(chargerClone);
 	}
 
 	void CPPSGameManager::SpawnCrowdAnim()
@@ -334,6 +362,7 @@ namespace LB
 		GameObject* dummyClone = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Dummy", *dummyClone);
 		dummyClone->GetComponent<CPTransform>()->SetPosition(GetRandomSpawnPoint());
+		SpawnedeEnemiesList.push_back(dummyClone);
 		// Need to increment it here as we are not adding it to the list of enemies
 		currentEnemyCount++;
 	}
@@ -348,19 +377,28 @@ namespace LB
 		--currentEnemyCount;
 		onEnemyKill.Invoke();
 
-		if (currentEnemyCount == 1)
-		{
-			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = true;
-		}
-		else if (currentEnemyCount == 0)
-		{
-			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = false;
-		}
+		//if (currentEnemyCount == 1)
+		//{
+		//	GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = true;
+		//}
+		//else if (currentEnemyCount == 0)
+		//{
+		//	GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = false;
+		//}
 
-		if (currentEnemyCount < 0)
+		//if (currentEnemyCount < 0)
+		//{
+		//	//By right we should never have this
+		//	DebuggerLogWarning("Enemy Count Error! Please check enemy count logic");
+		//}
+	}
+	void CPPSGameManager::RemoveSpawnedEnemy(GameObject* enemyToRemove)
+	{
+		DebuggerLogFormat("Spawned Enemy Count : %d", SpawnedeEnemiesList.size());
+		auto itr = std::find(SpawnedeEnemiesList.begin(), SpawnedeEnemiesList.end(), enemyToRemove);
+		if (itr != SpawnedeEnemiesList.end())
 		{
-			//By right we should never have this
-			DebuggerLogWarning("Enemy Count Error! Please check enemy count logic");
+			SpawnedeEnemiesList.erase(itr);
 		}
 	}
 	void CPPSGameManager::ShowGameOver(GameObject enemyObj)
@@ -376,31 +414,58 @@ namespace LB
 		//0 = chaser , 1 = mage, 2 = charger, 3 = bramble
 		if (enemyObj.GetName() == "EnemyChaser1")
 		{
-			std::cout << "Killed by chaser\n";
+			//std::cout << "Killed by chaser\n";
 			//Default is chaser so we don't do anything
 		}
-		else if (enemyObj.GetName() == "Projectile")
+		else if (enemyObj.GetName() == "Projectile" || enemyObj.GetName() == "Mage")
 		{
-			std::cout << "Killed by a mage\n";
-			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName,1);
+			//std::cout << "Killed by a mage\n";
+			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 1);
 		}
-		else if (enemyObj.GetName() == "Charger")
+		else if (enemyObj.GetName() == "Charger_Shield")
 		{
-			std::cout << "Killed by charger\n";
+			//std::cout << "Killed by charger\n";
 			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 2);
 
 		}
 		else if (enemyObj.GetName() == "Bramble")
 		{
-			std::cout << "Killed by carelessness\n";
+			//std::cout << "Killed by carelessness\n";
 			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 3);
 		}
-		else std::cout << "Killed by " << enemyObj.GetName() << '\n';
-
+		else 
+		{
+			//std::cout << "Killed by " << enemyObj.GetName() << '\n';
+		} 
+		switch (GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->upgradeCount)
+		{
+		case 1:
+			ItemLost1->gameObj->SetActive(true);
+			break;
+		case 2:
+			ItemLost1->gameObj->SetActive(true);
+			ItemLost2->gameObj->SetActive(true);
+			break; 
+		case 3:
+			ItemLost1->gameObj->SetActive(true);
+			ItemLost2->gameObj->SetActive(true);
+			ItemLost3->gameObj->SetActive(true);
+			break;
+		case 4:
+			ItemLost1->gameObj->SetActive(true);
+			ItemLost2->gameObj->SetActive(true);
+			ItemLost3->gameObj->SetActive(true);
+			ItemLost4->gameObj->SetActive(true);
+			break;
+		}
 		// Show UI
 		gameOverTexture->SetActive(true);
 		GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->SetActive(true);
 		GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->SetActive(true);
+	}
+	void CPPSGameManager::ShowGameWin()
+	{
+		VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
 	}
 	Vec2<float> CPPSGameManager::GetRandomSpawnPoint()
 	{
@@ -441,6 +506,15 @@ namespace LB
 	int CPPSGameManager::GetCurrentEnemyCount() const
 	{
 		return currentEnemyCount;
+	}
+
+	/*!************************************************************************
+	 * \brief Gets the SpawnedeEnemiesList member variable
+	 *
+	**************************************************************************/
+	std::vector<GameObject*>& CPPSGameManager::GetSpawnedEnemyList()
+	{
+		return SpawnedeEnemiesList;
 	}
 
 	/*!************************************************************************
@@ -490,6 +564,8 @@ namespace LB
 	{
 		//enemy obj is the one that killed the player
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ShowGameOver(enemyObj);
+		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerDeathSounds, 0.25f);
+
 	}
 
 }

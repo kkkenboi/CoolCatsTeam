@@ -82,10 +82,24 @@ namespace LB
 		//	//UpgradesList.pop_back();
 		//}
 
-		// Should put flag anim here
+		// Plays the flag animation for the upgrades when they spawn
 		if (isSpawned)
 		{
+			timerSpawn += TIME->GetDeltaTime();
 			//DebuggerLog("Upgrades are spawned, playing VFX...");
+			if (timerSpawn > 1.0 && switchAnim)
+			{
+				GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
+				GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
+				GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
+				switchAnim = false;
+			}
+		}
+		// Reset the next time the player encounters another upgrade
+		else
+		{
+			timerSpawn = 0.0;
+			switchAnim = true;
 		}
 	}
 
@@ -234,6 +248,7 @@ namespace LB
 		//We just use it as ints for now to set ball upgrades
 		//std::cout << "upgrade type set " << upgradeType << '\n';
 		currentBallUpgrades |= (1 << upgradeType);
+		upgradeCount++;
 		//Then we loop through and remove the upgrade that we got from the list
 		/*for (std::vector<UpgradeType>::iterator it = UpgradesList.end(); it != UpgradesList.begin();)
 		{
@@ -262,6 +277,16 @@ namespace LB
 	void CPPSUpgradeManager::SetSpawned(bool spawned)
 	{
 		isSpawned = spawned;
+	}
+
+	bool CPPSUpgradeManager::GetSpawned() const
+	{
+		return isSpawned;
+	}
+
+	bool CPPSUpgradeManager::HasUpgrade(int upgradeType)
+	{
+		return (currentBallUpgrades & (1 << upgradeType));
 	}
 
 	

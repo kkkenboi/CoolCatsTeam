@@ -121,7 +121,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "Pause Menu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -228,7 +228,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "HowToPlay",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -281,7 +281,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 0,
+                    "Layer": 3,
                     "Texture": "QuitMenu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -384,8 +384,8 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "ZLayer": 1.0,
-                    "Layer": 0,
+                    "ZLayer": 0.0,
+                    "Layer": 3,
                     "Texture": "Underline",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -839,7 +839,7 @@
                     "Rotation": 0.0,
                     "Children": [
                         {
-                            "Name": "RestartGameButton",
+                            "Name": "RestartGameButtonUI",
                             "Active": false,
                             "Transform": {
                                 "Active": true,
@@ -866,7 +866,7 @@
                             }
                         },
                         {
-                            "Name": "MainMenuButton",
+                            "Name": "MainMenuButtonUI",
                             "Active": true,
                             "Transform": {
                                 "Active": true,
@@ -891,18 +891,34 @@
                                 "Height": 222.0,
                                 "Radius": 50.0
                             }
+                        },
+                        {
+                            "Name": "ActualTexture",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 1920.0,
+                                "Height": 1080.0,
+                                "ZLayer": 1.0,
+                                "Layer": 3,
+                                "Texture": "Game_Over_Menu_Everything",
+                                "SpriteName": "None",
+                                "SpriteIndex": -1
+                            }
                         }
                     ]
-                },
-                "Render": {
-                    "Active": false,
-                    "Width": 1920.0,
-                    "Height": 1080.0,
-                    "ZLayer": 1.0,
-                    "Layer": 3,
-                    "Texture": "Game_Over_Menu_Everything",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
                 }
             },
             {
@@ -2038,6 +2054,7 @@
                                                                 "Animator": {
                                                                     "Default State": "None",
                                                                     "Play On Awake": false,
+                                                                    "Awake Delay": 0.0,
                                                                     "Repeating": false,
                                                                     "Controller": "FelixController"
                                                                 }
@@ -2060,6 +2077,7 @@
                                         "Animator": {
                                             "Default State": "None",
                                             "Play On Awake": false,
+                                            "Awake Delay": 0.0,
                                             "Repeating": false,
                                             "Controller": "FelixController"
                                         }
@@ -2069,6 +2087,7 @@
                             "Animator": {
                                 "Default State": "Action_Squish",
                                 "Play On Awake": true,
+                                "Awake Delay": 0.0,
                                 "Repeating": true,
                                 "Controller": "ActionController"
                             }
@@ -2360,6 +2379,7 @@
                 "Animator": {
                     "Default State": "GrandpaTalking",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "GrandpaTalkingController"
                 }
@@ -2392,6 +2412,32 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSDirectionHelper"
+                }
+            },
+            {
+                "Name": "IconObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 890.542541,
+                        "y": 551.220764
+                    },
+                    "Scale": {
+                        "x": 0.3,
+                        "y": 0.3
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": false,
+                    "Width": 440.0,
+                    "Height": 440.0,
+                    "ZLayer": 1.0,
+                    "Layer": 3,
+                    "Texture": "FlagPole_Spritesheet",
+                    "SpriteName": "FlagSheet",
+                    "SpriteIndex": 26
                 }
             },
             {
@@ -2676,6 +2722,7 @@
                 "Animator": {
                     "Default State": "Action_Squish",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "ActionController"
                 }
@@ -2776,6 +2823,7 @@
                 "Animator": {
                     "Default State": "Action_Squish",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "ActionController"
                 }
@@ -2876,6 +2924,7 @@
                 "Animator": {
                     "Default State": "Action_Squish",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "ActionController"
                 }

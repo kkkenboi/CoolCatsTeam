@@ -24,13 +24,13 @@ namespace LB
 	public:
 		/*!************************************************************************
 		* \brief Start function for the Direction Helper
-		* It gets the the needed pointers to different components and Game Objects
-		* for easy access
+		*		 It gets the the needed pointers to different components and Game 
+		*		 Objects for easy access
 		**************************************************************************/
 		void Start() override;
 		/*!************************************************************************
 		* \brief Update function for Direction Helper to update when there is only
-		* one enemy left or if the upgrade is not taken yet
+		*		 one enemy left or if the upgrade is not taken yet
 		**************************************************************************/
 		void Update() override;
 		/*!************************************************************************
@@ -39,21 +39,20 @@ namespace LB
 		**************************************************************************/
 		void Destroy() override;
 		//Caching the Direction Helper's own transform for easy access
-		CPTransform* mTransform;
-		CPTransform* mPlayerTransform;
-		CPTransform* mEventTransform;
+		CPTransform* mTransform{ nullptr };
+		CPTransform* mPlayerTransform{ nullptr };
+		CPTransform* mEventTransform{ nullptr };
 
-		//Caching the CameraFollow GO for easy access
-		GameObject* mCameraFollow;
-		//Caching the Game Manager GO for easy access
-		GameObject* mGameManager;
-		//Mouse position for caching
-		Vec2<float> MousePos;
-		//Vector for calculating the direction to an event, be it last enemy or upgrades
-		Vec2<float> DirToEvent;
+		GameObject* mCameraFollow{ nullptr };
+		GameObject* mGameManager{ nullptr };
+		GameObject* mIconObject{nullptr};
+
+		Vec2<float> DirToEvent{};
 
 		bool mLastEnemy{ false };
-		bool mUpgradeSpawned{ false };
+
+		float distance{};
+		float iconDistance{};
 	};
 	REGISTER_SCRIPT(CPPSDirectionHelper)
 

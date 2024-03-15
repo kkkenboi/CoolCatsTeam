@@ -164,7 +164,7 @@ namespace LB
 				GOMANAGER->FindGameObjectWithName("MenuMusic")->GetComponent<CPAudioSource>()->FadeOut(0.8f);
 				pos.x = 2880.f - 1920.f * bezier(time);
 				curtain->GetComponent<CPTransform>()->SetPosition(pos);
-				time += TIME->GetDeltaTime();
+				time += static_cast<float>(TIME->GetDeltaTime());
 			}
 			else
 			{

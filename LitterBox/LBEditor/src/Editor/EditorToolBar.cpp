@@ -49,7 +49,7 @@ namespace LB
 
 		ImGui::PushID("PlayButton");
 		ImGui::PushStyleColor(ImGuiCol_Button, CORE->IsPlaying() ? m_buttonOnColor : m_buttonOffColor);
-		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()), m_buttonSize
+		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<intptr_t>(ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()))), m_buttonSize
 			, ImVec2{ spriteSheet[0].m_min.x, spriteSheet[0].m_max.y }
 			, ImVec2{ spriteSheet[0].m_max.x, spriteSheet[0].m_min.y }))
 		{
@@ -63,7 +63,7 @@ namespace LB
 
 		ImGui::PushID("PauseButton");
 		ImGui::PushStyleColor(ImGuiCol_Button, TIME->IsPaused() ? m_buttonOnColor : m_buttonOffColor);
-		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()), m_buttonSize
+		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<intptr_t>(ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()))), m_buttonSize
 			, ImVec2{ spriteSheet[1].m_min.x, spriteSheet[1].m_max.y }
 			, ImVec2{ spriteSheet[1].m_max.x, spriteSheet[1].m_min.y }))
 		{
@@ -76,7 +76,7 @@ namespace LB
 
 		ImGui::PushID("StepButton");
 		ImGui::PushStyleColor(ImGuiCol_Button, m_buttonOffColor);
-		if (ImGui::ImageButton((ImTextureID)ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()), m_buttonSize
+		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<intptr_t>(ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()))), m_buttonSize
 			, ImVec2{ spriteSheet[2].m_min.x, spriteSheet[2].m_max.y }
 			, ImVec2{ spriteSheet[2].m_max.x, spriteSheet[2].m_min.y }))
 		{

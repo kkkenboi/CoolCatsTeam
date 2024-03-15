@@ -4,12 +4,12 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 106.953727,
-            "y": 83.180648
+            "x": -7.65747,
+            "y": 192.161636
         },
         "Scale": {
-            "x": 0.4,
-            "y": 0.4
+            "x": 0.699998,
+            "y": 0.699998
         },
         "Rotation": 0.0
     },
@@ -21,6 +21,13 @@
         "Layer": 0,
         "Texture": "FlagPole_Spritesheet",
         "SpriteName": "FlagSheet",
-        "SpriteIndex": 26
+        "SpriteIndex": 25
+    },
+    "Animator": {
+        "Default State": "Flag_Appear",
+        "Play On Awake": true,
+        "Awake Delay": 0.0,
+        "Repeating": false,
+        "Controller": "VFXController"
     }
 }

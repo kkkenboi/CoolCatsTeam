@@ -72,7 +72,7 @@ namespace LB
 			if (fadeOut)
 			{
 				fadeTimer += static_cast<float>(TIME->GetDeltaTime());
-				SetVolume(volume * (1.0 - fadeTimer/fadeTime));
+				SetVolume(volume * (1.f - fadeTimer/fadeTime));
 				if (fadeTimer >= fadeTime)
 				{
 					fadeOut = false;

@@ -31,7 +31,7 @@ namespace LB
 		void OnCollisionStay(CollisionData colData);
 		void OnCollisionExit(CollisionData colData);
 	private:
-		GameObject* mPlayer;
+		GameObject* mPlayer{ nullptr };
 	};
 
 	REGISTER_SCRIPT(CPPSSandpit)

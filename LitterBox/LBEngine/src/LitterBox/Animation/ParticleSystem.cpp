@@ -348,7 +348,7 @@ namespace LB
 			else 
 			{
 				// Particle lifetime delay still active so reduce it
-				particle.mLifetimeDelay -= TIME->GetDeltaTime();
+				particle.mLifetimeDelay -= static_cast<float>(TIME->GetDeltaTime());
 			}
 		}
 	}
@@ -414,7 +414,7 @@ namespace LB
 		particle.mGameObj->GetComponent<CPTransform>()->SetPosition(pos);
 		particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 		particle.mGameObj->GetComponent<CPRender>()->Initialise();
-		particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, 100.f, 100.f);
+		particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, 100, 100);
 
 		/*
 			particle.mIsActive = true;
@@ -461,6 +461,7 @@ namespace LB
 
 	void ClearPool(Scene* newScene)
 	{
+		UNREFERENCED_PARAMETER(newScene);
 		ParticleManager::Instance()->Destroy();
 	}
 

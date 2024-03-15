@@ -20,6 +20,7 @@
 #include "LitterBox/Physics/ColliderManager.h"
 #include "LitterBox/Scene/SceneManager.h"
 #include "LitterBox/Renderer/Renderer.h"
+#include "CPPSMouse.h"
 
 namespace LB
 {
@@ -39,8 +40,8 @@ namespace LB
 			if (GO->GetName() == "PauseMenuTextureObject")
 			{
 				MenuTexture = GO;
-				Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
-				//GO->GetComponent<CPRender>()->z_val = 0.f;
+				//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
+				GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuResumeObject")
 			{
@@ -59,8 +60,8 @@ namespace LB
 			if (GO->GetName() == "PauseMenuHowToPlayTextureObject")
 			{
 				HowToPlayTexture = GO;
-				Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
-				//GO->GetComponent<CPRender>()->z_val = 0.f;
+				//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
+				GO->GetComponent<CPRender>()->z_val = 0.1f;
 			}
 			if (GO->GetName() == "PauseMenuHowToPlayPreviousMenuButton")
 			{
@@ -72,8 +73,8 @@ namespace LB
 			if (GO->GetName() == "PauseMenuQuitConfirmTexture")
 			{
 				QuitTexture = GO;
-				Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
-				//GO->GetComponent<CPRender>()->z_val = 0.f;
+				//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, GO->GetComponent<CPRender>());
+				GO->GetComponent<CPRender>()->z_val = 0.f;
 			}
 			if (GO->GetName() == "PauseMenuQuitConfirmYesObject")
 			{
@@ -88,6 +89,7 @@ namespace LB
 			if (GO->GetName() == "UnderlineObject")
 			{
 				Underline = GO;
+				GO->GetComponent<CPRender>()->z_val = -1.f;
 			}
 		}
 	}
@@ -121,6 +123,10 @@ namespace LB
 					QuitButton->GetComponent<CPCollider>()->SetWidthHeightRadius(317.f, 77.f, 50.f);
 
 				}
+				else
+				{
+					HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+				}
 			}
 		}
 
@@ -141,25 +147,32 @@ namespace LB
 					HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 					//HowToPlayButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
 
+					HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
 					QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 					//QuitButtonObject->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+
+					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
 				}
 			}
 		}
 
-
-		Vec2<float> mouse_pos = INPUT->GetMousePos();
+		Vec2<float> mouse_pos{};
+		if (GOMANAGER->FindGameObjectWithName("MouseCursor"))
+		{
+			mouse_pos = GOMANAGER->FindGameObjectWithName("MouseCursor")->GetComponent<CPPSMouse>()->GetMouseUI()->GetComponent<CPTransform>()->GetPosition();
+		}
 
 		//Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
 
-		mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+		//mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 
-		mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-		mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+		//mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+		//mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 		std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
 
-			// Loop through the colliders found on mouse click
+		// Loop through the colliders found on mouse click
 		for (size_t i = 0; i < vec_colliders.size(); ++i)
 		{
 			// ResumeButton
@@ -220,8 +233,16 @@ namespace LB
 			// HowToPlay Back Button
 			if (HowToPlayBackButton)
 			{
+				bool _BackButtonHovered = false;
 				if (vec_colliders[i] == HowToPlayBackButton->GetComponent<CPCollider>())
 				{
+					if (!BackButtonHovered)
+					{
+						HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{161.75f, 72.12f} + Vec2<float>(0, 40));
+						BackButtonHovered = true;
+					}
+					_BackButtonHovered = true;
+
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
 						OnPauseMenu = true;
@@ -251,6 +272,12 @@ namespace LB
 							SCENEMANAGER->LoadScene("SceneMainMenu");
 						}
 					}
+					break;
+				}
+				if (BackButtonHovered && !_BackButtonHovered)
+				{
+					HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{161.75f, 72.12f});
+					BackButtonHovered = false;
 				}
 			}
 
@@ -264,7 +291,7 @@ namespace LB
 					{
 						OnPauseMenu = false;
 						Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
-						
+
 
 						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
@@ -321,8 +348,6 @@ namespace LB
 				}
 			}
 		}
-		
-
 	}
 
 	/*!***********************************************************************

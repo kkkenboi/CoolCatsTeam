@@ -45,6 +45,9 @@ namespace LB
 		//------------------MOVE STATE------------------
 		float mDistToWindUp{};
 
+		//------------------HURT STATE------------------
+		float mTimerDurationHurt{};
+
 		//------------------WINDUP STATE------------------
 		float mTimerToCharge{};
 
@@ -62,29 +65,30 @@ namespace LB
 
 		CPParticle* FootstepsParticle{ nullptr };
 
-		CPAnimator* mDizzyAnim, *mAngerAnim, *mPuffAnim, *mMoveAnim, *mAngerTwoAnim;
+		CPAnimator* mDizzyAnim{ nullptr }, * mAngerAnim{ nullptr }, * mPuffAnim{ nullptr }, * mMoveAnim{ nullptr }, * mAngerTwoAnim{ nullptr };
 
-		float m_FootstepsParticleEmitRate;
+		float m_FootstepsParticleEmitRate{};
 
 
-		CPTransform* mTransform;
+		CPTransform* mTransform{ nullptr };
 
 		//Charger's Dizzy Effects
-		GameObject* mDizzyObj; //will be spawnned when got stunned
-		CPTransform* mDizzyObjTrans;
-		CPRender* mDizzyRender;
+		GameObject* mDizzyObj{ nullptr }; //will be spawnned when got stunned
+		CPTransform* mDizzyObjTrans{ nullptr };
+		CPRender* mDizzyRender{ nullptr };
 
 		//Charger's Anger Effects
-		GameObject* mAngerObj; //will be spawnned when got stunned
-		CPTransform* mAngerObjTrans;
-		CPRender* mAngerRender;
+		GameObject* mAngerObj{ nullptr }; //will be spawnned when got stunned
+		CPTransform* mAngerObjTrans{ nullptr };
+		CPRender* mAngerRender{ nullptr };
 
-		GameObject* mAngerTwoObj; //will be spawnned when got stunned
-		CPTransform* mAngerObjTwoTrans;
-		CPRender* mAngerTwoRender;
+		GameObject* mAngerTwoObj{ nullptr }; //will be spawnned when got stunned
+		CPTransform* mAngerObjTwoTrans{ nullptr };
+		CPRender* mAngerTwoRender{nullptr};
 
 
-		bool isCharging{ false }, m_isStunned{ false };
+		bool m_isCharging{  }, m_isStunned{  }, m_isHurt{  }, m_isLocked{  };
+		void ChangeToStunned();
 
 	private:
 		FiniteStateMachine mFSM{};

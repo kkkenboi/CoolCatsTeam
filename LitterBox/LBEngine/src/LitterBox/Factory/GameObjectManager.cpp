@@ -570,7 +570,7 @@ namespace LB
 		auto timeObject = m_TimedDeletionGameObjects.begin();
 		while (timeObject != m_TimedDeletionGameObjects.end())
 		{
-			timeObject->second -= TIME->GetDeltaTime();
+			timeObject->second -= static_cast<float>(TIME->GetDeltaTime());
 			if (timeObject->second < 0.0f) //then it's due for deletion
 			{
 					onGameObjectDestroy.Invoke(timeObject->first);

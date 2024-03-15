@@ -11,7 +11,7 @@ namespace LB
 		void Update() override;
 		void Destroy() override;
 
-		void SpawnExplosion(Vec2<float> pos);
+		void SpawnExplosion(Vec2<float> pos, float scale = 1.0f);
 		void SpawnHitAnim(Vec2<float> pos);
 		void SpawnPoofAnim(Vec2<float> pos, float scaleMult);
 	private:
