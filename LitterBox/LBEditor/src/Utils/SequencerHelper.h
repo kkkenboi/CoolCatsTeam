@@ -49,7 +49,7 @@ namespace ImGui
 			c_keyframes[i] = &keyframes.GetData()[i].m_frame;
 		}
 
-		return BeginNeoTimeline(label, c_keyframes.data(), c_keyframes.size(), open, flags);
+		return BeginNeoTimeline(label, c_keyframes.data(), static_cast<uint32_t>(c_keyframes.size()), open, flags);
 	}
 	
 	/*template <>

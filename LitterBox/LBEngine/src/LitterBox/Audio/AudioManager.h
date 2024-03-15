@@ -306,7 +306,7 @@ namespace LB
 		std::map<int, FMOD::Channel*> Channels;
 		float fadeOutTimer{};
 		float fadeInTimer{};
-		bool fadeOut, fadeIn;
+		bool fadeOut{}, fadeIn{};
 	};
 
 

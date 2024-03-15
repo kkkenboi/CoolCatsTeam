@@ -35,7 +35,7 @@ namespace LB
 		std::string title{};
 		float timer{ 0.f }, startingDelay{ 0.f };
 		int currletter{ 0 };
-		const char* titles[2];
+		const char* titles[2]{};
 	};
 
 	REGISTER_SCRIPT(CPPSTutorialSubs)

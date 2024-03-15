@@ -146,7 +146,7 @@ namespace LB
 			return;
 		}
 
-		if (avformat_open_input(&av_format_ctx, FILESYSTEM->GetFilePath(video_file_name).string().c_str(), NULL, NULL) != 0)
+		if (ASSETMANAGER->LoadVideo(&av_format_ctx, FILESYSTEM->GetFilePath(video_file_name).string().c_str()) != 0)//avformat_open_input(&av_format_ctx, FILESYSTEM->GetFilePath(video_file_name).string().c_str(), NULL, NULL) != 0)
 		{
 			DebuggerLogError("Could not Open video file");
 			return;
@@ -154,9 +154,9 @@ namespace LB
 
 		//2. find the video stream that we want in the file
 		video_stream_index = -1;
-		for (int i{ 0 }; i < av_format_ctx->nb_streams; ++i)
+		for (unsigned int i{ 0 }; i < av_format_ctx->nb_streams; ++i)
 		{
-			auto stream = av_format_ctx->streams[i];
+			//auto stream = av_format_ctx->streams[i];
 			av_codec_params = av_format_ctx->streams[i]->codecpar;
 			const AVCodec* av_codec_inside = avcodec_find_decoder(av_codec_params->codec_id);
 
@@ -227,25 +227,24 @@ namespace LB
 	*************************************************************************/
 	bool VideoPlayerSystem::load_video_frame()
 	{
-		AVCodecParameters*& av_codec_params		= vrs.av_codec_params;
 		AVFormatContext*&	av_format_ctx		= vrs.av_format_ctx;
 		AVCodecContext*&	av_codec_ctx		= vrs.av_codec_ctx;
 		unsigned char*&		data				= vrs.fbuffer;
 		SwsContext*&		sws_scalar_ctx		= vrs.sws_scaler_ctx;
 		AVPacket*&			av_packet			= vrs.av_packet;
-		AVCodec*&			av_codec			= vrs.av_codec;
 		AVFrame*&			av_frame			= vrs.av_frame;
 		int&				video_stream_index	= vrs.video_stream_index;
 
 		//1. decode one frame
-		int response{ 0 }, test{ -1 };
+		int response{ 0 }, test{ av_read_frame(av_format_ctx, av_packet) >= 0 };
 		//read the next frame
-		while (test = av_read_frame(av_format_ctx, av_packet) >= 0)
+		while (test)
 		{
 			//if the packet does not contain video data we read the next packet
 			if (av_packet->stream_index != video_stream_index)
 			{
 				av_packet_unref(av_packet);
+				test = av_read_frame(av_format_ctx, av_packet) >= 0;
 				continue;
 			}
 
@@ -263,6 +262,7 @@ namespace LB
 			response = avcodec_receive_frame(av_codec_ctx, av_frame);
 			if (response == AVERROR(EAGAIN) || response == AVERROR_EOF)
 			{
+				test = av_read_frame(av_format_ctx, av_packet) >= 0;
 				continue;
 			}
 			else if (response < 0)
@@ -328,7 +328,8 @@ namespace LB
 		AVFrame*& av_frame = vrs.av_frame;
 
 		sws_freeContext(sws_scalar_ctx);
-		avformat_close_input(&av_format_ctx);
+		//avformat_close_input(&av_format_ctx);
+		ASSETMANAGER->FreeVideo(&av_format_ctx);
 		avformat_free_context(av_format_ctx);
 		av_frame_free(&av_frame);
 		av_packet_free(&av_packet);

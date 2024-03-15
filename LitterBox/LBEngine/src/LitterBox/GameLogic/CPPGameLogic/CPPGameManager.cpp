@@ -187,7 +187,7 @@ namespace LB
 		//Timer for the crowd, if the crowd texture is active then we want to do stuff
 		if (crowdTexture->IsActive())
 		{
-			timer += TIME->GetDeltaTime();
+			timer += static_cast<float>(TIME->GetDeltaTime());
 			Vec2<float> crowdPos{ cachedCrowdPos };
 			//temporary thing until we get the anim in
 			//This basically just lerps the thing down in 7 seconds
@@ -208,13 +208,13 @@ namespace LB
 		if (gameOverTexture->IsActive())
 		{
 			//We get the mouse position
-			Vec2<float> mouse_pos = INPUT->GetMousePos();
-			mouse_pos.y = mouse_pos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			Vec2<float> mouse_pos_in = INPUT->GetMousePos();
+			mouse_pos_in.y = mouse_pos_in.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos_in.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse_pos_in.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 			//Then we get all the colliders near the mouse
 			bool _restartHovered{ false }, _quitHovered{ false };
-			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
+			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos_in, 1.0f);
 			for (const auto& col : vec_colliders) //then we loop through all the cols to find our buttons
 			{
 				if (col->gameObj->GetName() == "RestartGameButton")

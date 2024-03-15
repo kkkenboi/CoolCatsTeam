@@ -52,29 +52,29 @@ namespace LB
 		GameObject* m_CameraFollow{ nullptr };
 		GameObject* m_MouseWorld{ nullptr };
 
-		float m_stepSoundInterval, m_stepSoundCurrent; //walking Speed, max speed cap for walking, playing sound duration 
+		float m_stepSoundInterval{}, m_stepSoundCurrent{}; //walking Speed, max speed cap for walking, playing sound duration 
 
-		float mGotAttacked, mGotAttackedCooldown; //attacking and cooling down of the attack
+		float mGotAttacked{}, mGotAttackedCooldown{}; //attacking and cooling down of the attack
 
-		bool mIsStunned;
-		float mStunRemaining, mStunTimer; // when getting attack get stunned
+		bool mIsStunned{};
+		float mStunRemaining{}, mStunTimer{}; // when getting attack get stunned
 
-		float m_shootForce, m_shootRadius; //shooting of the golf ball force and the radius to shoot
-		float m_handOffset;
+		float m_shootForce{}, m_shootRadius{}; //shooting of the golf ball force and the radius to shoot
+		float m_handOffset{};
 
-		bool m_isFacingLeft; //facing which direction
+		bool m_isFacingLeft{}; //facing which direction
 
-		float m_particleEmitRate;
+		float m_particleEmitRate{};
 
-		Event<> onTakingDamage;
-		Event<> onPlacingBall;
-		Event<GameObject> onPlayerDeathEvent;
+		Event<> onTakingDamage{};
+		Event<> onPlacingBall{};
+		Event<GameObject> onPlayerDeathEvent{};
 		bool isOnSand{ false };
 		bool isGod{ false };
 	private:
 		//direction of where the player is facing
-		LB::Vec2<float> right_face;
-		LB::Vec2<float> left_face;
+		LB::Vec2<float> right_face{};
+		LB::Vec2<float> left_face{};
 		bool hasPlayedHitSound{ false };
 	};
 	REGISTER_SCRIPT(CPPSPlayer)

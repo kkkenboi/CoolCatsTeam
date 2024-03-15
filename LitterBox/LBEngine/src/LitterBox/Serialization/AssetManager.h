@@ -28,6 +28,14 @@
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Renderer/Renderer.h"
 
+//avlib for video play back
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
+#include <inttypes.h>
+}
+
 #include <memory>
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Animation/SpriteSheet.h"
@@ -270,9 +278,55 @@ namespace LB
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //std::map<std::string, std::map<char, CharData>> font_glyphs;
 
+        /*!***********************************************************************
+         * \brief
+         * Loads all the font shaders in the assets folder
+         * 
+         * \param textR
+         * Pointer to the text renderer object
+         **************************************************************************/
         void LoadFonts(void* textR);
 
+        /*!***********************************************************************
+         * \brief
+         * Loads a shader file in the assets folder
+         *
+         * \param shader_file_name
+         * The name of the shader file to load
+         * 
+         * \param shader_handle [out]
+         * The ID of the shader program compiled by openGL
+         **************************************************************************/
         void LoadShader(const std::string& shader_file_name, unsigned int& shader_handle);
+
+        
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                      VIDEO STUFF
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /*!***********************************************************************
+         * \brief
+         * Loads a video file using avlib
+         *
+         * \param av_format_ctx
+         * The context data structure whichs holds all metadata of the video file
+         *
+         * \param vid_path
+         * The path of the video
+         * 
+         * \return
+         * 0 if successfull, otherwise loading failed.
+         **************************************************************************/
+        int LoadVideo(AVFormatContext** av_format_ctx, const char* vid_path);
+
+        /*!***********************************************************************
+         * \brief
+         * Frees the memory allocated to store a video's meta data
+         *
+         * \param av_format_ctx
+         * The context data structure whichs holds all metadata of the video file
+         **************************************************************************/
+        void FreeVideo(AVFormatContext** av_format_ctx);
 
 
         //This is the folder name where the meta file will be stored

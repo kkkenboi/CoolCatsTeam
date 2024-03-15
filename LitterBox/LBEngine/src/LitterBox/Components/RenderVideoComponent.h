@@ -16,6 +16,7 @@
 #pragma once
 #include "LitterBox/Core/System.h" // For ISystem
 #include "LitterBox/Scene/SceneManager.h" //For SCENEMANAGER
+#include "LitterBox/Serialization/AssetManager.h" //For ASSETMANAGER
 #include <string>
 
 extern "C" {

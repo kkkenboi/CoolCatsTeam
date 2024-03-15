@@ -832,7 +832,13 @@ namespace LB
         JSONSerializer::SaveToJSON(FILESYSTEM->GetFilePath("KeyCodeTable").string(), _jsonFile);
     }
 
-
+    /*!***********************************************************************
+    * \brief
+    * Loads all the font shaders in the assets folder
+    * 
+    * \param textR
+    * Pointer to the text renderer object
+    **************************************************************************/
     void AssetManager::LoadFonts(void* textR)
     {
         //Get fonts
@@ -894,8 +900,8 @@ namespace LB
                 };
                 Characters.emplace(std::pair<char, Renderer::Character>(c, sc));
 
-                maxAscent = maxAscent < font->glyph->bitmap_top ? font->glyph->bitmap_top : maxAscent;
-                maxDescent = maxDescent < font->glyph->metrics.height - font->glyph->bitmap_top ?
+                maxAscent = maxAscent < static_cast<unsigned int>(font->glyph->bitmap_top) ? font->glyph->bitmap_top : maxAscent;
+                maxDescent = maxDescent < static_cast<unsigned int>(font->glyph->metrics.height - font->glyph->bitmap_top) ?
                     font->glyph->metrics.height - font->glyph->bitmap_top : maxDescent;
             }
             //insert the height
@@ -947,8 +953,8 @@ namespace LB
                 };
                 Characters.emplace(std::pair<char, Renderer::Character>(c, sc));
 
-                maxAscent = maxAscent < font->glyph->bitmap_top ? font->glyph->bitmap_top : maxAscent;
-                maxDescent = maxDescent < font->glyph->metrics.height - font->glyph->bitmap_top ?
+                maxAscent = maxAscent < static_cast<unsigned int>(font->glyph->bitmap_top) ? font->glyph->bitmap_top : maxAscent;
+                maxDescent = maxDescent < static_cast<unsigned int>(font->glyph->metrics.height - font->glyph->bitmap_top) ?
                     font->glyph->metrics.height - font->glyph->bitmap_top : maxDescent;
             }
             //insert the height
@@ -980,9 +986,49 @@ namespace LB
         LoadShader("Assets/Shaders/text.shader", textRender->get_shader());
     }
 
+    /*!***********************************************************************
+     * \brief
+     * Loads a shader file in the assets folder
+     *
+     * \param shader_file_name
+     * The name of the shader file to load
+     *
+     * \param shader_handle [out]
+     * The ID of the shader program compiled by openGL
+     **************************************************************************/
     void AssetManager::LoadShader(const std::string& shader_file_name, unsigned int& shader_handle)
     {
         shader_source shd_pgm{ shader_parser(shader_file_name.c_str()) };
         shader_handle = create_shader(shd_pgm.vtx_shd.c_str(), shd_pgm.frg_shd.c_str());
+    }
+    
+    /*!***********************************************************************
+    * \brief
+    * Loads a video file using avlib
+    *
+    * \param av_format_ctx
+    * The context data structure whichs holds all metadata of the video file
+    *
+    * \param vid_path
+    * The path of the video
+    *
+    * \return
+    * 0 if successfull, otherwise loading failed.
+    **************************************************************************/
+    int AssetManager::LoadVideo(AVFormatContext** av_format_ctx, const char* vid_path)
+    {
+        return avformat_open_input(av_format_ctx, vid_path, NULL, NULL);
+    }
+
+    /*!***********************************************************************
+     * \brief
+     * Frees the memory allocated to store a video's meta data
+     *
+     * \param av_format_ctx
+     * The context data structure whichs holds all metadata of the video file
+     **************************************************************************/
+    void AssetManager::FreeVideo(AVFormatContext** av_format_ctx)
+    {
+        avformat_close_input(av_format_ctx);
     }
 }

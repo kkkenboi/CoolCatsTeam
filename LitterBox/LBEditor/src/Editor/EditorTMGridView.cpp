@@ -82,7 +82,7 @@ namespace LB
 			ImGui::EndCombo();
 		}
 
-		int index{ 0 };
+		//int index{ 0 };
 		ImGui::Text("Tiles");
 		if (ImGui::ImageButton(0, ImVec2{ normalWidth, normalWidth }))
 		{
@@ -217,9 +217,9 @@ namespace LB
 						{
 							if (!isDrawn)
 							{
-								int index{ m_tiles[layer][Index2D] };
-								min = ImVec2{ m_tiles.m_spriteSheet[index].m_min.x, m_tiles.m_spriteSheet[index].m_max.y };
-								max = ImVec2{ m_tiles.m_spriteSheet[index].m_max.x, m_tiles.m_spriteSheet[index].m_min.y };
+								int index_other{ m_tiles[layer][Index2D] };
+								min = ImVec2{ m_tiles.m_spriteSheet[index_other].m_min.x, m_tiles.m_spriteSheet[index_other].m_max.y };
+								max = ImVec2{ m_tiles.m_spriteSheet[index_other].m_max.x, m_tiles.m_spriteSheet[index_other].m_min.y };
 								textureID = (ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_tiles.m_spriteSheet.GetPNGRef());
 								ImGui::Image(textureID, buttonSize, min, max);
 
@@ -227,9 +227,9 @@ namespace LB
 							}
 							else
 							{
-								int index{ m_tiles[layer][Index2D] };
-								min = ImVec2{ m_tiles.m_spriteSheet[index].m_min.x, m_tiles.m_spriteSheet[index].m_min.y };
-								max = ImVec2{ m_tiles.m_spriteSheet[index].m_max.x, m_tiles.m_spriteSheet[index].m_max.y };
+								int index_other{ m_tiles[layer][Index2D] };
+								min = ImVec2{ m_tiles.m_spriteSheet[index_other].m_min.x, m_tiles.m_spriteSheet[index_other].m_min.y };
+								max = ImVec2{ m_tiles.m_spriteSheet[index_other].m_max.x, m_tiles.m_spriteSheet[index_other].m_max.y };
 								ImGui::GetWindowDrawList()->AddImage(textureID, ImGui::GetCursorScreenPos(), ImVec2(ImGui::GetCursorScreenPos().x + buttonSize.x, ImGui::GetCursorScreenPos().y - buttonSize.y * 1.1f), min, max);
 							}
 						}

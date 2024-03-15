@@ -334,7 +334,7 @@ namespace LB
 
 		// Update the Stunned timer
 		if (mIsStunned) {
-			mStunRemaining -= TIME->GetDeltaTime();
+			mStunRemaining -= static_cast<float>(TIME->GetDeltaTime());
 			if (mStunRemaining <= 0.f) {
 				mIsStunned = false;
 				mStunRemaining = mStunTimer;

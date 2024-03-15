@@ -139,7 +139,7 @@ namespace LB
 		  \return
 		  The number of tiles in the tile map.
 		*************************************************************************/
-		inline int Size() const { return m_grid.size(); }
+		inline int Size() const { return static_cast<int>(m_grid.size()); }
 
 		/*!***********************************************************************
 		  \brief
@@ -277,7 +277,7 @@ namespace LB
 		  \return
 		  The number of layers in the tile map group.
 		*************************************************************************/
-		inline int Size() const { return m_tileMaps.size(); }
+		inline int Size() const { return static_cast<int>(m_tileMaps.size()); }
 
 		inline std::vector<TileMap>& GetTileMaps() { return m_tileMaps; }
 

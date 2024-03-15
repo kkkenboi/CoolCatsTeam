@@ -67,7 +67,7 @@ void LB::CPPSTutorialSubs::Update()
 	//initial delays to prevent scene transition whiplash
 	if (startingDelay < delayTime)
 	{
-		startingDelay += TIME->GetDeltaTime();
+		startingDelay += static_cast<float>(TIME->GetDeltaTime());
 		return;
 	}
 
@@ -83,7 +83,7 @@ void LB::CPPSTutorialSubs::Update()
 		return;
 	}
 	//increment timer
-	timer += TIME->GetDeltaTime();
+	timer += static_cast<float>(TIME->GetDeltaTime());
 
 	//go on to next subtitle after appropriate amount of time
 	if (timer > readingTime && currletter == title.size() && title != titles[1])
@@ -104,7 +104,7 @@ void LB::CPPSTutorialSubs::Update()
 		//we use quadratic to interpolate the black box up
 		mCurtain->GetComponent<CPTransform>()->SetPosition(LB::Vec2<float>(960.f, 540.f + 1080.f * time * time));
 
-		time += TIME->GetDeltaTime();
+		time += static_cast<float>(TIME->GetDeltaTime());
 	}
 
 	//we turn off the game object when we pass a certain threshold

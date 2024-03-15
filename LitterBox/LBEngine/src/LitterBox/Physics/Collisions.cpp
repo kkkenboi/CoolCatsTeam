@@ -588,6 +588,7 @@ namespace LB
 	
 	void CPCollider::ToggleActive(bool isActive) 
 	{
+		UNREFERENCED_PARAMETER(isActive);
 		//m_active = isActive;
 	}
 

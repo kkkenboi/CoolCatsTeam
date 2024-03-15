@@ -35,9 +35,9 @@ namespace LB
 		//I'm using this black circle to do the transition effect!!!
 		GameObject* mPortalCenter{ nullptr };
 		Vec2<float> mCachedPlayerPos{};
-		bool isTransitioning;
-		bool finishTransition;
-		bool temp; //this is a temp bool for a temp fix
+		bool isTransitioning{};
+		bool finishTransition{};
+		bool temp{}; //this is a temp bool for a temp fix
 		bool expandOut{ true };	//this bool is to toggle the circle expanding out or in
 		bool playPortalSound{ false };
 		//roughly how long it'll take for the player to fly to centre of black hole
