@@ -55,8 +55,8 @@ namespace LB
 		{
 			BubbleWASD->GetComponent<CPRender>()->ToggleActiveFlag(false);
 			BubbleMouse->GetComponent<CPRender>()->ToggleActiveFlag(false);
-			BubbleEnemies->GetComponent<CPRender>()->ToggleActiveFlag(true);
-			BubbleItems->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleEnemies->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleItems->GetComponent<CPRender>()->ToggleActiveFlag(true);
 			BubbleScore->GetComponent<CPRender>()->ToggleActiveFlag(false);
 			BubblePortal->GetComponent<CPRender>()->ToggleActiveFlag(false);
 		}
