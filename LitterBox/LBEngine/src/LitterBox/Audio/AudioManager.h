@@ -170,7 +170,18 @@ namespace LB
 		**************************************************************************/
 		void SetChannelVolume(int ChannelID, float _vol);
 
+		/*!************************************************************************
+		 * \brief Function to fade out a specific channel
+		 * 
+		 * \param duration duration of the fade out
+		**************************************************************************/
 		void FadeOutChannels(float duration);
+
+		/*!************************************************************************
+		 * \brief Function to fade in a specific channel
+		 * 
+		 * \param duration duration of the fade in
+		**************************************************************************/
 		void FadeinChannels(float duration);
 
 		//bool IsPlaying(std::string soundName);
@@ -310,7 +321,6 @@ namespace LB
 	};
 
 
-	void RemoveAllAudioSources(bool isPlaying);
 
 
 	/*!************************************************************************
@@ -321,6 +331,7 @@ namespace LB
 	void UnPause();	//Wrapper for UnPauseAllChannels
 	void FadeOut();	//Wrapper to fadeout all channels
 	void FadeIn();	//Wrapper to fadein all channels
+	void RemoveAllAudioSources(bool isPlaying);
 	/*!***********************************************************************
 	 * \brief Global Pointer for the AudioManager
 	 * 
