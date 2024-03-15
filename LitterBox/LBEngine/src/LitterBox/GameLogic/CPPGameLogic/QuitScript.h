@@ -53,16 +53,16 @@ namespace LB
 		GameObject* hand{ nullptr };
 		GameObject* line{ nullptr };
 		GameObject* curtain{ nullptr };
-		float time;
+		float time{};
 		bool animFlag{ false };
 		//-------------Rotation matrix values to get the left of the button---------------
 
 		//------------------------For Quit Confirmation---------------------------
-		CPCollider* mCollider;
+		CPCollider* mCollider{ nullptr };
 
-		GameObject* ConfirmMenuTexture;
-		GameObject* ConfirmMenuYesButton;
-		GameObject* ConfirmMenuNoButton;
+		GameObject* ConfirmMenuTexture{nullptr};
+		GameObject* ConfirmMenuYesButton{ nullptr };
+		GameObject* ConfirmMenuNoButton{ nullptr };
 		//------------------------For Quit Confirmation---------------------------
 	};
 	REGISTER_SCRIPT(QuitScript)

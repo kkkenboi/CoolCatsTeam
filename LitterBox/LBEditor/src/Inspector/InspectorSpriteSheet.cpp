@@ -175,7 +175,7 @@ namespace LB
 			return;
 		}
 
-		float x_inc{ 1.f / static_cast<float>(cols) }, y_inc{ 1.f / static_cast<float>(rows) };
+		//float x_inc{ 1.f / static_cast<float>(cols) }, y_inc{ 1.f / static_cast<float>(rows) };
 
 		//tiles.clear();
 		m_inspectedSheet.Sprites().clear();

@@ -101,7 +101,7 @@ namespace LB
 				ImGui::FrameIndexType* keyFramesToRemove = new ImGui::FrameIndexType[ImGui::GetNeoKeyframeSelectionSize()];
 				ImGui::GetNeoKeyframeSelection(keyFramesToRemove);
 
-				for (int index{ 0 }; index < ImGui::GetNeoKeyframeSelectionSize(); ++index)
+				for (uint32_t index{ 0 }; index < ImGui::GetNeoKeyframeSelectionSize(); ++index)
 				{
 					group.Remove(LBKeyFrame<T>{keyFramesToRemove[index]});
 				}

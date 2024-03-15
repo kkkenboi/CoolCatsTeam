@@ -15,7 +15,7 @@ void LB::CPPSPortal::Update()
 	//we have to check this because CPPBehaviour runs things even though in active (for now)
 	if (GameObj->IsActive())
 	{
-		rotAngle += TIME->GetDeltaTime() * 100.f;
+		rotAngle += static_cast<float>(TIME->GetDeltaTime()) * 100.f;
 		GetComponent<CPTransform>()->SetRotation(rotAngle);
 		GetComponent<CPTransform>()->GetChild(0)->gameObj->SetActive(true);
 		GetComponent<CPTransform>()->GetChild(1)->gameObj->SetActive(true);

@@ -43,8 +43,8 @@ namespace ImGui
 	template <typename T>
 	bool BeginTimeline(const char* label, LB::LBKeyFrameGroup<T>& keyframes, bool* open = nullptr, ImGuiNeoTimelineFlags flags = ImGuiNeoTimelineFlags_None)
 	{
-		std::vector<int32_t*> c_keyframes{keyframes.GetData().Size()};
-		for (uint32_t i = 0; i < c_keyframes.size(); ++i)
+		std::vector<int32_t*> c_keyframes{keyframes.GetData().Size(), nullptr};
+		for (size_t i = 0; i < c_keyframes.size(); ++i)
 		{
 			c_keyframes[i] = &keyframes.GetData()[i].m_frame;
 		}

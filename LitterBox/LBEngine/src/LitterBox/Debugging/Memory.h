@@ -164,7 +164,10 @@ namespace LB
             // We use _aligned_malloc to ensure that the page itself is aligned by the
             // page size to reduce the number of operations done
             char* newPage = reinterpret_cast<char*>(_aligned_malloc(PAGE_SIZE, PAGE_SIZE));
-            memset(newPage, 0, PAGE_SIZE);
+            if (newPage != nullptr) 
+            {
+                memset(newPage, 0, PAGE_SIZE);
+            }
 
             // Update the Memory Pages
             m_memPages[typeid(T)].push_back(newPage);
