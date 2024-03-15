@@ -17,6 +17,7 @@
 #pragma once
 
 #include "CPPBehaviour.h"
+#include "CPPSAudience.h"
 #include "LitterBox/Factory/Components.h"
 
 namespace LB
@@ -33,11 +34,14 @@ namespace LB
 		void Destroy() override;
 
 		void Cheer();
+		void RefreshAudience();
 
 	private:
-		std::vector<GameObject*> m_audience;
+		bool m_init{ false };
+		std::vector<CPPSAudience*> m_audience;
 	};
 	REGISTER_SCRIPT(CPPSAudienceManager);
 
 	void AudienceCheer();
+	void RefreshAudience();
 }

@@ -74,7 +74,8 @@ namespace LB
 		 * 
 		**************************************************************************/
 		void ReduceEnemyCount();
-		Event<> onEnemyKill{};
+		Event<> onEnemyKill;
+		Event<> onNextLevel;
 
 		void RemoveSpawnedEnemy(GameObject* enemyToRemove);
 

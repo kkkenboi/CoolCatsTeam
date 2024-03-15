@@ -12,3 +12,73 @@
  disclosure of this file or its contents without the prior written consent
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
+
+#include "CPPSAudience.h"
+
+namespace LB
+{
+	void CPPSAudience::Start()
+	{
+		m_randomDelayMin = 0.05f;
+		m_randomDelayMax = 0.5f;
+		m_randomDelayElapsed = m_randomDelayMin + static_cast<float>(std::rand()) / (RAND_MAX / (m_randomDelayMax - m_randomDelayMin));
+
+		m_cheerDelayMin = 0.05f;
+		m_cheerDelayMax = 0.2f;
+
+		// Play anim and randomize sprite
+		m_animator = GetComponent<CPAnimator>();
+		Refresh();
+	}
+
+	void CPPSAudience::Update()
+	{
+		if (m_cheerDelayElapsed > 0.f)
+		{
+			m_cheerDelayElapsed -= TIME->GetDeltaTime();
+			if (m_cheerDelayElapsed <= 0.f)
+			{
+				m_animator->PlayAndReset("Action_Cheer");
+				m_cheerElapsed = m_cheerTime;
+			}
+			return;
+		}
+
+		if (m_cheerElapsed > 0.f)
+		{
+			m_cheerElapsed -= TIME->GetDeltaTime();
+			if (m_cheerElapsed <= 0.f)
+			{
+				m_randomDelayElapsed = m_randomDelayMin + static_cast<float>(std::rand()) / (RAND_MAX / (m_randomDelayMax - m_randomDelayMin));
+			}
+
+			return;
+		}
+
+		if (m_randomDelayElapsed > 0.f)
+		{
+			m_randomDelayElapsed -= TIME->GetDeltaTime();
+			if (m_randomDelayElapsed <= 0.f)
+			{
+				m_animator->PlayRepeat("Action_Hype");
+			}
+		}
+	}
+
+	void CPPSAudience::Destroy()
+	{
+
+	}
+
+	void CPPSAudience::Cheer()
+	{
+		m_cheerDelayElapsed = m_cheerDelayMin + static_cast<float>(std::rand()) / (RAND_MAX / (m_cheerDelayMax - m_cheerDelayMin));
+	}
+
+	void CPPSAudience::Refresh()
+	{
+		int sprite = 25 + rand() % 5;
+		GetComponent<CPRender>()->spriteIndex = sprite;
+		GetComponent<CPRender>()->SetSpriteTexture(GetComponent<CPRender>()->spriteSheetName, sprite);
+	}
+}

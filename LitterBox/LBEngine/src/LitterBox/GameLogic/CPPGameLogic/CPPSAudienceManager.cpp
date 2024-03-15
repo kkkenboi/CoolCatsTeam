@@ -24,15 +24,24 @@ namespace LB
 {
 	void CPPSAudienceManager::Start()
 	{
-		m_audience = GOMANAGER->FindGameObjectsWithName("AudienceMember");
-
 		// Subscribe important events
-		GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->onTakingDamage.Subscribe(AudienceCheer);
-		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->onEnemyKill.Subscribe(AudienceCheer);
+		GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->onTakingDamage.Subscribe(LB::AudienceCheer);
+		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->onEnemyKill.Subscribe(LB::AudienceCheer);
+
+		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->onNextLevel.Subscribe(LB::RefreshAudience);
 	}
 
 	void CPPSAudienceManager::Update()
 	{
+		if (!m_init)
+		{
+			std::vector<GameObject*> audience = GOMANAGER->FindGameObjectsWithName("AudienceMember");
+			for (auto* audienceMember : audience)
+			{
+				m_audience.push_back(audienceMember->GetComponent<CPPSAudience>());
+			}
+			m_init = true;
+		}
 	}
 
 	void CPPSAudienceManager::Destroy()
@@ -43,12 +52,25 @@ namespace LB
 	{
 		for (auto* audience : m_audience)
 		{
-			audience->GetComponent<CPAnimator>()->PlayAndReset("Action_Cheer");
+			audience->Cheer();
+		}
+	}
+
+	void CPPSAudienceManager::RefreshAudience()
+	{
+		for (auto* audience : m_audience)
+		{
+			audience->Refresh();
 		}
 	}
 
 	void AudienceCheer()
 	{
 		GOMANAGER->FindGameObjectWithName("AudienceManager")->GetComponent<CPPSAudienceManager>()->Cheer();
+	}
+
+	void RefreshAudience()
+	{
+		GOMANAGER->FindGameObjectWithName("AudienceManager")->GetComponent<CPPSAudienceManager>()->RefreshAudience();
 	}
 }

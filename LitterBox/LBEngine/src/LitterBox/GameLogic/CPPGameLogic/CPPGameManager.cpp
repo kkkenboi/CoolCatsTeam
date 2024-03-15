@@ -375,7 +375,6 @@ namespace LB
 	{
 		DebuggerLogFormat("Enemy count : %d", currentEnemyCount);
 		--currentEnemyCount;
-		onEnemyKill.Invoke();
 
 		//if (currentEnemyCount == 1)
 		//{
@@ -395,6 +394,8 @@ namespace LB
 	void CPPSGameManager::RemoveSpawnedEnemy(GameObject* enemyToRemove)
 	{
 		DebuggerLogFormat("Spawned Enemy Count : %d", SpawnedeEnemiesList.size());
+		onEnemyKill.Invoke();
+
 		auto itr = std::find(SpawnedeEnemiesList.begin(), SpawnedeEnemiesList.end(), enemyToRemove);
 		if (itr != SpawnedeEnemiesList.end())
 		{
