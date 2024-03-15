@@ -2415,6 +2415,32 @@
                 }
             },
             {
+                "Name": "IconObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 890.542541,
+                        "y": 551.220764
+                    },
+                    "Scale": {
+                        "x": 0.3,
+                        "y": 0.3
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": false,
+                    "Width": 440.0,
+                    "Height": 440.0,
+                    "ZLayer": 1.0,
+                    "Layer": 3,
+                    "Texture": "FlagPole_Spritesheet",
+                    "SpriteName": "FlagSheet",
+                    "SpriteIndex": 26
+                }
+            },
+            {
                 "Name": "Sand",
                 "Active": true,
                 "Transform": {
