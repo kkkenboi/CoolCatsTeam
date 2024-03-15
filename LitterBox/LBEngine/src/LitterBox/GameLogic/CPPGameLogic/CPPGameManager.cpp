@@ -212,7 +212,7 @@ namespace LB
 			mouse_pos = GOMANAGER->FindGameObjectWithName("MouseUI")->GetComponent<CPPSMouseUI>()->GetComponent<CPTransform>()->GetPosition();
 			//Then we get all the colliders near the mouse
 			bool _restartHovered{ false }, _quitHovered{ false };
-			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos_in, 1.0f);
+			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);
 			for (const auto& col : vec_colliders) //then we loop through all the cols to find our buttons
 			{
 				if (col->gameObj->GetName() == "RestartGameButton")
