@@ -180,7 +180,10 @@ namespace LB
         }
         return nullptr;
     }
-
+    /*!***********************************************************************
+        \brief
+        Gets the MaxVelocity of the RigidBodyManager
+    *************************************************************************/
     Vec2<float> RigidBodyManager::GetMaxVelocity() 
     {
         return m_maxVelocity;

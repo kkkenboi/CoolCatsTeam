@@ -50,6 +50,12 @@ namespace LB
 		return currentPath/filePath;
 	}
 
+	/*!************************************************************************
+	 * \brief Function that gets the relative path of the file
+	 * 
+	 * \param fileName filename to get
+	 * \return std::filesystem::path path of the filepath for the file
+	**************************************************************************/
 	std::filesystem::path FileSystemManager::GetRelativeAssetPath(const std::string& fileName)
 	{
 		//We get the assets directory, then we save it to the correct filepath

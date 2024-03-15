@@ -1,3 +1,18 @@
+/*!************************************************************************
+ * \file				CPPSBaseEnemy.h
+ * \author(s)			Amadeus Chia 
+ * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
+ * \par Course:       	CSD2450A
+ * \date				09/02/2024
+ * \brief 				This source file contains the function declarations
+ * 						for the BaseEnemy class. All enemies can and SHOULD
+ * 						inherit from this class to implement the base 
+ * 						functions like hurt etc.
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #pragma once
 #include "CPPBehaviour.h"
 #include "LitterBox/Factory/Components.h"
@@ -78,8 +93,18 @@ namespace LB
 		**************************************************************************/
 		float& GetSpeedMag();
 
+		/*!************************************************************************
+		* \brief Accessor for the Distance of from the enemy to the player
+		*
+		* \return float dist to the player
+		**************************************************************************/
 		float GetDistToPlayer();
 
+		/*!************************************************************************
+		* \brief Function to face the player when facing left or right
+		*
+		* \return void
+		**************************************************************************/
 		void FacePlayer();
 
 		CPRender* mRender{nullptr};
@@ -108,10 +133,10 @@ namespace LB
 		GameObject* mPlayer{ nullptr }; //Caching the player obj
 		GameObject* mGameManager{ nullptr }; //Caching the game manager
 		//The values below are all for handling the facing of the enemy
-		Vec2<float> leftFace;
-		Vec2<float> rightFace;
+		Vec2<float> leftFace; //returns vector x y of where its facing, left
+		Vec2<float> rightFace; //returns vector x y of where its facing, right
 
-		bool facingLeft;
+		bool facingLeft; //bool check if its facing left
 
 		Vec2<float> DirToPlayer;
 		Vec2<float> TransformRight{ 1,0 };

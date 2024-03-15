@@ -17,18 +17,17 @@
 
 namespace LB
 {
+	/*!************************************************************************
+	 * \brief Start function of the Shield
+	 * Gets the transform, collide and initialise values and calculates first position
+	**************************************************************************/
 	void CPPShield::Start()
 	{
-		//mRender = GameObj->GetComponent<CPRender>();
-		//mRigidBody = GameObj->GetComponent<CPRigidBody>();
-
 		mTransform = GameObj->GetComponent<CPTransform>();
 		mCollider = mTransform->gameObj->GetComponent<CPCollider>();
 
-
 		//mChargerScript = mCharger->GetComponent<CPPSCharger>(); // <<!!!the script is getting loaded before the object is done constructing
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
-		//mCharger = GOMANAGER->FindGameObjectWithName("Charger_Shield");
 
 		Vec2<float> Direction = (GetPlayerPos() - mTransform->GetParent()->GetPosition()).Normalise();
 		Direction *= offset;
@@ -38,23 +37,25 @@ namespace LB
 		cachedRot = RadToDeg(atan2f(Direction.y, Direction.x));
 	}
 
+	/*!************************************************************************
+	 * \brief Update function for the Shield, Check if it need to rotate or not
+	 * 
+	**************************************************************************/
 	void CPPShield::Update()
 	{
 		//set the pos of the shield onto the charger
 		//setting the pos of the shield to be on the charger
 
 		// Rotation : Face the player
-		//mCollider->m_pos.x = 0.f;
-		//mCollider->m_pos.y = 0.f;
 		
-		if (!m_ScriptSet)
+		if (!m_ScriptSet) //if theres no script, find it
 		{
-			mCharger = mTransform->GetParent()->gameObj;
-			mChargerScript = mCharger->GetComponent<CPPSCharger>();
-			m_ScriptSet = true;
+			mCharger = mTransform->GetParent()->gameObj; //get the parent of the shield
+			mChargerScript = mCharger->GetComponent<CPPSCharger>(); //get the component from the charger
+			m_ScriptSet = true; //it has a script
 		}
 
-		if (mChargerScript->m_isLocked)
+		if (mChargerScript->m_isLocked) //if its locked rotation
 		{
 			//std::cout << "LOCKED\n";
 			mTransform->SetPosition(cachedPosition);
@@ -82,8 +83,16 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	 * \brief Destroy
+	 *
+	**************************************************************************/
 	void CPPShield::Destroy() { }
 
+	/*!************************************************************************
+	 * \brief Check on collision enter
+	 *
+	**************************************************************************/
 	void CPPShield::OnCollisionEnter(CollisionData colData)
 	{
 		//std::string str(colData.colliderOther->m_gameobj->GetName());
@@ -91,36 +100,56 @@ namespace LB
 		//size_t ShieldStr = str.find("Shield");
 		if (colData.colliderOther->m_gameobj->GetName() == "Shield")
 		{
-			std::cout << "Collided with: " << colData.colliderOther->m_gameobj->GetName() << "\n";
+			//std::cout << "Collided with: " << colData.colliderOther->m_gameobj->GetName() << "\n";
 			mChargerScript->ChangeToStunned();
 		}
-		else if (colData.colliderOther->m_gameobj->GetName() == "ball")
-		{
-			std::cout << "GOT HIT BALL\n";
-		}
+		//else if (colData.colliderOther->m_gameobj->GetName() == "ball")
+		//{
+		//	std::cout << "GOT HIT BALL\n";
+		//}
 
 ;	}
 
+	/*!************************************************************************
+	 * \brief Getter for charger
+	 *
+	**************************************************************************/
 	GameObject* CPPShield::GetCharger()
 	{
 		return mCharger;
 	}
 	
+	/*!************************************************************************
+	 * \brief Getter for Charger Position
+	 *
+	**************************************************************************/
 	Vec2<float> CPPShield::GetChargerPos()
 	{
 		return GetCharger()->GetComponent<CPRigidBody>()->getPos();
 	}
 
+	/*!************************************************************************
+	 * \brief Getter for Player
+	 *
+	**************************************************************************/
 	GameObject* CPPShield::GetPlayer()
 	{
 		return mPlayer;
 	}
 
+	/*!************************************************************************
+	 * \brief Getter for Player Position
+	 *
+	**************************************************************************/
 	Vec2<float> CPPShield::GetPlayerPos()
 	{
 		return GetPlayer()->GetComponent<CPRigidBody>()->getPos();
 	}
 
+	/*!************************************************************************
+	 * \brief Getter for Colliders
+	 *
+	**************************************************************************/
 	CPCollider* CPPShield::GetCollider()
 	{
 		return mCollider;

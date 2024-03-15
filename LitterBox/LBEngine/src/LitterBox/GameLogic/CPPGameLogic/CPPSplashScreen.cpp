@@ -5,7 +5,7 @@
  * \par Course:       	CSD2450A
  * \date				10/03/2024
  * \brief 				This file contains the file declarations for the
- *						SplashScreen
+ *						SplashScreen (WIP)
  *
  *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
  *  disclosure of this file or its contents without the prior written consent
@@ -19,6 +19,10 @@
 
 namespace LB
 {
+	/*!************************************************************************
+	 * \brief Start function of the splash screen
+	 * 
+	**************************************************************************/
 	void SplashScreen::Start()
 	{
 		//DigiPenTexture->GetAllComponents();
@@ -31,6 +35,10 @@ namespace LB
 		mSecondDuration = 3.0f;
 	}
 
+	/*!************************************************************************
+	 * \brief Update function of the splash screen
+	 * 
+	**************************************************************************/
 	void SplashScreen::Update()
 	{
 		mDuration -= static_cast<float>(TIME->GetDeltaTime());
@@ -49,6 +57,10 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	 * \brief Destroy function of the splash screen
+	 *
+	**************************************************************************/
 	void SplashScreen::Destroy()
 	{
 

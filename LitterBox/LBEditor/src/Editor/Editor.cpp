@@ -222,6 +222,9 @@ namespace LB
 		ImGuiID collisionLayerID{};
 		ImGuiID renderLayerID{};
 		ImGuiID collisionGridID{};
+		ImGuiID tileMapID{};
+		ImGuiID animViewID{};
+		ImGuiID animEditorID{};
 
 		// Docking Section
 		ImGuiID maindockspaceID = ImGui::GetID("MainDockspace");
@@ -253,12 +256,19 @@ namespace LB
 			profilerID = consoleID;
 			// Set scene view at the same location as console
 			sceneviewID = consoleID;
+			// Set the tile map at the same location as the console
+			tileMapID = consoleID;
 			// Set the animation at the same location as game view
 			animationID = gameviewID;
+			// Set the animation editor at the same location as the game view
+			animEditorID = gameviewID;
 			// Set the collision layer at the same location as the assets
 			collisionLayerID = assetsID;
-
+			// Set the collision grid at the same location as the assets
 			collisionGridID = assetsID;
+			// Set the animation view at the same location as the prefab
+			animViewID = prefabID;
+
 
 			ImGui::DockBuilderDockWindow("ToolBar", toolbarID);
 			ImGui::DockBuilderDockWindow("Console", consoleID);
@@ -273,6 +283,9 @@ namespace LB
 			ImGui::DockBuilderDockWindow("Collision Layers", collisionLayerID);
 			ImGui::DockBuilderDockWindow("Render Layers", renderLayerID);
 			ImGui::DockBuilderDockWindow("Collision Grid", collisionGridID);
+			ImGui::DockBuilderDockWindow("TileMap Editor", collisionGridID);
+			ImGui::DockBuilderDockWindow("Animation View", collisionGridID);
+			ImGui::DockBuilderDockWindow("Animation Editor", collisionGridID);
 
 
 			ImGui::DockBuilderFinish(maindockspaceID);

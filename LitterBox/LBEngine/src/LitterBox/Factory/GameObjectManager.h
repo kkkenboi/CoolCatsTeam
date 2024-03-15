@@ -248,8 +248,19 @@ namespace LB
 		*************************************************************************/
 		std::vector<GameObject*> const& GetGameObjects() const;
 
+		/*!************************************************************************
+		 * \brief Function to find a game object with a specific name
+		 * 
+		 * \return GameObject* Game Object to find
+		**************************************************************************/
 		GameObject* FindGameObjectWithName(std::string);
 
+		/*!************************************************************************
+		 * \brief Function to find all game objects with a specific name
+		 * 
+		 * \param name name of gameobjects to find
+		 * \return std::vector<GameObject*> vector of gameobjects with the same name
+		**************************************************************************/
 		std::vector<GameObject*> FindGameObjectsWithName(std::string name);
 
 		/*!***********************************************************************
@@ -258,6 +269,10 @@ namespace LB
 		*************************************************************************/
 		void AddGameObject(GameObject* gameObject);
 
+		/*!************************************************************************
+		 * \brief Function to clean up game objects
+		 * 
+		**************************************************************************/
 		void CleanUpGOs();
 
 		/*!***********************************************************************
@@ -266,6 +281,13 @@ namespace LB
 		 and deletes it
 		*************************************************************************/
 		void RemoveGameObject(GameObject* gameObject);
+
+		/*!************************************************************************
+		 * \brief Removes a Gameobject from the current pool of Gameobjects after a set time
+		 * 
+		 * \param gameObject Gameobject to remove
+		 * \param timer time before removal
+		**************************************************************************/
 		void RemoveGameObject(GameObject* gameObject, float timer);
 
 		/*!***********************************************************************
