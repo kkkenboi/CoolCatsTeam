@@ -1,0 +1,81 @@
+{
+    "Name": "AudienceBase",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": -953.508422,
+            "y": 649.595703
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "AudienceMember",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 150.0,
+                    "Height": 150.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 24
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSAudience"
+                },
+                "Animator": {
+                    "Default State": "None",
+                    "Play On Awake": false,
+                    "Awake Delay": 0.0,
+                    "Repeating": false,
+                    "Controller": "AudienceController"
+                }
+            },
+            {
+                "Name": "Shadow",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": -46.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 125.0,
+                    "Height": 30.0,
+                    "ZLayer": 3.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 55
+                }
+            }
+        ]
+    }
+}
