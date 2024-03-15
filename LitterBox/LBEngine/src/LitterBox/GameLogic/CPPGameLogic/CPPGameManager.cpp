@@ -464,7 +464,7 @@ namespace LB
 	}
 	void CPPSGameManager::ShowGameWin()
 	{
-		VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
+		VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMainMenu");
 	}
 	Vec2<float> CPPSGameManager::GetRandomSpawnPoint()
 	{
