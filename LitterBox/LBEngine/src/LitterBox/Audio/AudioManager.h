@@ -271,6 +271,7 @@ namespace LB
 												 	 "Mage Death_4",
 													 "Mage Death_5" };
 
+		//CHARGER SOUND
 		std::vector<std::string> ChargerAttackSounds = { "Rhyno_Attack_1",
 														 "Rhyno_Attack_2",
 														 "Rhyno_Attack_3",
@@ -295,6 +296,7 @@ namespace LB
 
 		std::vector<std::string> ChargerChargingSounds = { "Trains_Horn_Train_Whistle_Old_SND59554" };
 
+		//BUSHES SOUNDS
 		std::vector<std::string> BushSounds = { "Passing Through Shrug_SFX_1",
 												"Passing Through Shrug_SFX_2",
 												"Passing Through Shrug_SFX_3",

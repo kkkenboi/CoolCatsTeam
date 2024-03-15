@@ -1,12 +1,12 @@
 /*!************************************************************************
  \file				CPPSCharger.cpp
- \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao
- \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin
+ \par DP email(s):	vanessasiewjin@digipen.edu
  \par Course:		CSD2401A
  \date				27-02-2024
  \brief
  This file contains the CPPSCharger class and all its functionalities,
-it handles the logic for the Mage enemy
+it handles the logic for the Charger enemy
 
   Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
   disclosure of this file or its contents without the prior written consent
@@ -20,6 +20,10 @@ it handles the logic for the Mage enemy
 
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	Starting behaviour for Charger where variables are initialized
+	*************************************************************************/
 	void CPPSCharger::Start()
 	{
 		CPPSBaseEnemy::Start();
@@ -122,6 +126,10 @@ namespace LB
 		m_isLocked = false;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update behaviour for Charger, runs every check every frame
+	*************************************************************************/
 	void CPPSCharger::Update()
 	{
 		CPPSBaseEnemy::Update();
@@ -167,18 +175,13 @@ namespace LB
 			m_isLocked = false;
 		}
 
-		//if (m_isStunned)
-		//{
-		//	mFSM.ChangeState("Stunned");
-		//}
-		//else if (m_isHurt)
-		//{
-		//	mFSM.ChangeState("Hurt");
-		//}
-
 		mFSM.Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Destroy function for Charger, clear the states
+	*************************************************************************/
 	void CPPSCharger::Destroy()
 	{
 		delete mFSM.GetState("Idle");
@@ -189,6 +192,10 @@ namespace LB
 		delete mFSM.GetState("Stunned");
 	}
 
+	/*!***********************************************************************
+	\brief
+	On collision to check who it is colliding with and what will happen
+	*************************************************************************/
 	void CPPSCharger::OnCollisionEnter(CollisionData colData)
 	{
 		CPPSBaseEnemy::OnCollisionEnter(colData);
@@ -198,25 +205,29 @@ namespace LB
 		size_t MushroomStr = str.find("Mushroom");
 		size_t chargerStr = str.find("Charger_Shield");
 
-		if (colData.colliderOther->m_gameobj->GetName() == "ball") 
+		if (colData.colliderOther->m_gameobj->GetName() == "ball") //if ball
 		{
 			//m_isHurt = true;
-			mFSM.ChangeState("Hurt");
+			mFSM.ChangeState("Hurt");//change state
 		}
-		else if ((chargerStr!= std::string::npos|| wallStr != std::string::npos || MushroomStr != std::string::npos) && m_isCharging )
+		else if ((chargerStr!= std::string::npos|| wallStr != std::string::npos || MushroomStr != std::string::npos) && m_isCharging ) //if colliding and is charging
 		{	
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHitSounds, 0.2f);
 			//m_isStunned = true;
-			mFSM.ChangeState("Stunned");
+			mFSM.ChangeState("Stunned"); //change state
 		}
-		else if (brambleStr != std::string::npos)
+		else if (brambleStr != std::string::npos) //if colliding 
 		{
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHitSounds, 0.2f);
 			//m_isHurt = true;
-			mFSM.ChangeState("Hurt");
+			mFSM.ChangeState("Hurt"); //change state
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Hurt function for Charger, Call base enemy hurt function, aggro to true
+	*************************************************************************/
 	void CPPSCharger::Hurt()
 	{
 		isAggro = true;
@@ -231,6 +242,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Die function call for Charger
+	*************************************************************************/
 	void CPPSCharger::Die()
 	{
 		isChargerDead = true;
@@ -238,32 +253,50 @@ namespace LB
 		//Code to play death anim goes here
 	}
 
+	/*!***********************************************************************
+	\brief
+	Check face side
+	*************************************************************************/
 	void CPPSCharger::SetShouldFace(bool state)
 	{
 		mShouldFace = state;
 	}
 
-
+	/*!***********************************************************************
+	\brief
+	Getter for player pos
+	*************************************************************************/
 	Vec2<float> CPPSCharger::GetPlayerPos() //get curr player pos
 	{
 		return GetHero()->GetComponent<CPRigidBody>()->getPos();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Getter for Charger pos
+	*************************************************************************/
 	Vec2<float> CPPSCharger::GetChargerPos()
 	{
 		return GetRigidBody()->getPos();
 	}
 
+	/*!***********************************************************************
+	\brief
+	calculate direction
+	*************************************************************************/
 	Vec2<float> CPPSCharger::DirBToA(Vec2<float> a, Vec2<float> b)
 	{
 		return (a - b).Normalise();
 	}
 
+	/*!***********************************************************************
+	\brief
+	function to change state for the shield
+	*************************************************************************/
 	void CPPSCharger::ChangeToStunned()
 	{
 		mFSM.ChangeState("Stunned");
 	}
-
 
 	//STATES : IDLE, MOVE, HURT, WINDUP, CHARGE, STUNNED
 	/*!***********************************************************************
@@ -276,6 +309,11 @@ namespace LB
 		mEnemy = enemy_ptr;
 	}
 
+
+	/*!***********************************************************************
+	\brief
+	Enter the state of Idle where it will initialise the values
+	*************************************************************************/
 	void ChargerIdleState::Enter()
 	{
 		DebuggerLogWarning("CHARGER IDLE STATE");
@@ -284,6 +322,10 @@ namespace LB
 		this->Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update the state of Idle 
+	*************************************************************************/
 	void ChargerIdleState::Update()
 	{
 		//DebuggerLogWarning("CHARGER IDLE STATE");
@@ -294,7 +336,12 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void ChargerIdleState::Exit(){ }
+
 
 	/*!***********************************************************************
 	\brief
@@ -306,6 +353,10 @@ namespace LB
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Enter the state of Move where it will initialise the values
+	*************************************************************************/
 	void ChargerMoveState::Enter()
 	{
 		DebuggerLogWarning("CHARGER MOVE STATE");
@@ -314,6 +365,10 @@ namespace LB
 		this->Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update the state of Move 
+	*************************************************************************/
 	void ChargerMoveState::Update()
 	{
 		//charger will walk slowly towards the player
@@ -336,6 +391,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void ChargerMoveState::Exit() 
 	{ 
 		mEnemy->mMoveAnim->StopAndReset();
@@ -351,6 +410,10 @@ namespace LB
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Enter the state of Hurt where it will initialise the values
+	*************************************************************************/
 	void ChargerHurtState::Enter()
 	{
 		DebuggerLogWarning("CHARGER HURT STATE");
@@ -362,6 +425,10 @@ namespace LB
 		this->Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update the state of Hurt
+	*************************************************************************/
 	void ChargerHurtState::Update()
 	{
 		//DebuggerLogWarning("CHARGER HURT STATE");
@@ -372,6 +439,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void ChargerHurtState::Exit()
 	{
 		mEnemy->m_isHurt = false;
@@ -388,6 +459,10 @@ namespace LB
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+	\brief
+	Enter the state of WindUp where it will initialise the values
+	*************************************************************************/
 	void ChargerWindUpState::Enter()
 	{
 		DebuggerLogWarning("CHARGER WINDUP STATE");
@@ -403,6 +478,10 @@ namespace LB
 		this->Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update the state of WindUp
+	*************************************************************************/
 	void ChargerWindUpState::Update()
 	{
 		//DebuggerLogWarning("CHARGER WINDUP STATE");
@@ -413,6 +492,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void ChargerWindUpState::Exit() 
 	{
 		mEnemy->mAnimator->StopAndReset();
@@ -432,6 +515,10 @@ namespace LB
 		
 	}
 
+	/*!***********************************************************************
+	\brief
+	Enter the state of Charge where it will initialise the values
+	*************************************************************************/
 	void ChargerChargeState::Enter()
 	{
 		DebuggerLogWarning("CHARGER CHARGE STATE");
@@ -447,6 +534,10 @@ namespace LB
 		this->Update();
 	}
 
+	/*!***********************************************************************
+   \brief
+   Update the state of Charge
+   *************************************************************************/
 	void ChargerChargeState::Update()
 	{
 		mEnemy->GetRigidBody()->mVelocity += mEnemy->mChargeNormalForce  * static_cast<float>(TIME->GetDeltaTime());
@@ -456,6 +547,10 @@ namespace LB
 		
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void ChargerChargeState::Exit()
 	{
 		mEnemy->m_isCharging = false;
@@ -473,6 +568,10 @@ namespace LB
 		mEnemy = enemy_ptr;
 	}
 
+	/*!***********************************************************************
+   \brief
+   Enter the state of Stunned where it will initialise the values
+   *************************************************************************/
 	void ChargerStunnedState::Enter()
 	{
 		DebuggerLogWarning("CHARGER STUNNED STATE");
@@ -489,6 +588,10 @@ namespace LB
 		this->Update();
 	}
 
+	/*!***********************************************************************
+	\brief
+	Update the state of Stunned
+	*************************************************************************/
 	void ChargerStunnedState::Update()
 	{
 		//DebuggerLogWarning("CHARGER STUNNED STATE");
@@ -510,6 +613,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Exit the state
+	*************************************************************************/
 	void ChargerStunnedState::Exit()
 	{
 		mEnemy->m_isStunned = false;

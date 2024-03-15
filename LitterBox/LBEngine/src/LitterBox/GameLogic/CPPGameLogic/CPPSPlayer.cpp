@@ -425,6 +425,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	When on collision stay with when colliding with sandpit
+	*************************************************************************/
 	void CPPSPlayer::OnCollisionStay(CollisionData colData)
 	{
 		if (colData.colliderOther->gameObj->GetName() == "Sandpit")
@@ -435,6 +439,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	When on collision exit, exits from stay
+	*************************************************************************/
 	void CPPSPlayer::OnCollisionExit(CollisionData colData)
 	{
 		if (colData.colliderOther->gameObj->GetName() == "Sandpit")

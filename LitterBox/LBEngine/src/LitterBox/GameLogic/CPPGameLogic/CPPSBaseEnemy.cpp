@@ -55,17 +55,6 @@ namespace LB
 	{
 		//We want to constantly update the distance between enemy and player
 		mDistanceToPlayer =  Distance(GetComponent<CPTransform>()->GetPosition(), mPlayer->GetComponent<CPTransform>()->GetPosition());
-		//if (mGameManager->GetComponent<CPPSGameManager>()->isGameOver) 
-		//{
-		//	//mSpeedMagnitude = 0;
-		//	return;
-		//} 
-		//All enemies must always face player (?) Might not work for charger who knows
-		/*DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
-		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
-		{
-			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
-		}*/
 
 		if (mShouldFace)
 		{
@@ -178,6 +167,11 @@ namespace LB
 		return mSpeedMagnitude;
 	}
 
+	/*!************************************************************************
+	* \brief Accessor for the Distance of from the enemy to the player
+	*
+	* \return float dist to the player
+	**************************************************************************/
 	float CPPSBaseEnemy::GetDistToPlayer()
 	{
 		return mDistanceToPlayer;
@@ -213,6 +207,11 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	* \brief Function to face the player when facing left or right
+	*
+	* \return void
+	**************************************************************************/
 	void CPPSBaseEnemy::FacePlayer()
 	{
 		DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
