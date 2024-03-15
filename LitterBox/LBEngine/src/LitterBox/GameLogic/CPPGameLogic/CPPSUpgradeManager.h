@@ -92,6 +92,14 @@ namespace LB
 		**************************************************************************/
 		void SetSpawned(bool spawned);
 
+		/*!************************************************************************
+		* \brief Function to know whether upgrades are spawned
+		*
+		* \return Whether spawned or not
+		**************************************************************************/
+		bool GetSpawned() const;
+
+
 		bool HasUpgrade(int upgradeType);
 
 		//Really scuffed way of making upgrades
@@ -118,6 +126,8 @@ namespace LB
 		GameObject* middleUpgrade{ nullptr };
 		GameObject* rightUpgrade{ nullptr };
 		bool isSpawned{ false };
+		bool switchAnim{ true };
+		double timerSpawn{};
 	};
 	REGISTER_SCRIPT(CPPSUpgradeManager)
 

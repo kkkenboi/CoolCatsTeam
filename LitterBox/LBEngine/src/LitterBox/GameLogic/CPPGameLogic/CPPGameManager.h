@@ -91,6 +91,12 @@ namespace LB
 		**************************************************************************/
 		int GetCurrentEnemyCount() const;
 
+		/*!************************************************************************
+		 * \brief Gets the SpawnedeEnemiesList member variable
+		 *
+		**************************************************************************/
+		std::vector<GameObject*>& GetSpawnedEnemyList();
+
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy
 		//Each wave also has a certain value

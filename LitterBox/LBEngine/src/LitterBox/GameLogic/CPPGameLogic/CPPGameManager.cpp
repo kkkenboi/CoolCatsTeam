@@ -169,6 +169,7 @@ namespace LB
 			else
 			{
 				GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
+
 			}
 			SpawnCrowdAnim();
 			//We want to remove all the balls when the upgrade spawns
@@ -377,14 +378,14 @@ namespace LB
 		DebuggerLogFormat("Enemy count : %d", currentEnemyCount);
 		currentEnemyCount--;
 
-		if (currentEnemyCount == 1)
-		{
-			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = true;
-		}
-		else if (currentEnemyCount == 0)
-		{
-			GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = false;
-		}
+		//if (currentEnemyCount == 1)
+		//{
+		//	GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = true;
+		//}
+		//else if (currentEnemyCount == 0)
+		//{
+		//	GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mLastEnemy = false;
+		//}
 
 		//if (currentEnemyCount < 0)
 		//{
@@ -417,12 +418,12 @@ namespace LB
 			//std::cout << "Killed by chaser\n";
 			//Default is chaser so we don't do anything
 		}
-		else if (enemyObj.GetName() == "Projectile")
+		else if (enemyObj.GetName() == "Projectile" || enemyObj.GetName() == "Mage")
 		{
 			//std::cout << "Killed by a mage\n";
-			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName,1);
+			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 1);
 		}
-		else if (enemyObj.GetName() == "Charger")
+		else if (enemyObj.GetName() == "Charger_Shield")
 		{
 			//std::cout << "Killed by charger\n";
 			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 2);
@@ -506,6 +507,15 @@ namespace LB
 	int CPPSGameManager::GetCurrentEnemyCount() const
 	{
 		return currentEnemyCount;
+	}
+
+	/*!************************************************************************
+	 * \brief Gets the SpawnedeEnemiesList member variable
+	 *
+	**************************************************************************/
+	std::vector<GameObject*>& CPPSGameManager::GetSpawnedEnemyList()
+	{
+		return SpawnedeEnemiesList;
 	}
 
 	/*!************************************************************************

@@ -14,13 +14,15 @@
 #include "CPPSDirectionHelper.h"
 #include "CPPSCameraFollow.h"
 #include "CPPGameManager.h"
+#include "CPPSUpgradeManager.h"
 #include <algorithm>
 
 namespace LB
 {
 	/*!************************************************************************
-	 * \brief Start function of the AIM UI
-	 * It gets the player GO and its own transform and caches it
+	* \brief Start function for the Direction Helper
+	*		 It gets the the needed pointers to different components and Game
+	*		 Objects for easy access
 	**************************************************************************/
 	void CPPSDirectionHelper::Start()
 	{
@@ -28,156 +30,113 @@ namespace LB
 		mPlayerTransform = GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPTransform>();
 		mCameraFollow = GOMANAGER->FindGameObjectWithName("CameraFollow");
 		mGameManager = GOMANAGER->FindGameObjectWithName("GameManager");
+		mIconObject = GOMANAGER->FindGameObjectWithName("IconObject");
 
 		mTransform = GameObj->GetComponent<CPTransform>();
 
 
 		// Set how far direction helper should be from the player
 		distance = 400.0f;
+		iconDistance = 340.0f;
 	}
 
 	/*!************************************************************************
-	 * \brief Uudate function for the Aim UI, basically just points the
-	 * image towards the player's cursor
+	* \brief Update function for Direction Helper to update when there is only
+	*		 one enemy left or if the upgrade is not taken yet
 	**************************************************************************/
 	void CPPSDirectionHelper::Update()
 	{
+		bool EventNotWithinScreen{};
 		// If left 1 enemy, show position of last enemy
-		if (mLastEnemy)
+		if (mGameManager->GetComponent<CPPSGameManager>()->GetSpawnedEnemyList().size() == 1)
 		{
-
-			if (GOMANAGER->FindGameObjectWithName("EnemyChaser1"))
-			{
-				mEventTransform = GOMANAGER->FindGameObjectWithName("EnemyChaser1")->GetComponent<CPTransform>();
-			}
-			if (GOMANAGER->FindGameObjectWithName("Mage"))
-			{
-				mEventTransform = GOMANAGER->FindGameObjectWithName("Mage")->GetComponent<CPTransform>();
-			}
-			if (GOMANAGER->FindGameObjectWithName("Charger_Shield"))
-			{
-				mEventTransform = GOMANAGER->FindGameObjectWithName("Charger_Shield")->GetComponent<CPTransform>();
-			}
-			if (GOMANAGER->FindGameObjectWithName("Dummy"))
-			{
-				mEventTransform = GOMANAGER->FindGameObjectWithName("Dummy")->GetComponent<CPTransform>();
-			}
+			mEventTransform = mGameManager->GetComponent<CPPSGameManager>()->GetSpawnedEnemyList()[0]->GetComponent<CPTransform>();
 
 			DirToEvent = mEventTransform->GetPosition() - mPlayerTransform->GetPosition();
 
-			Vec2<Vec2<float>> CurrentScreenBorder = { (mPlayerTransform->GetPosition() + Vec2<float>{800.f, 450.f}), (mPlayerTransform->GetPosition() - Vec2<float>{800.f, 450.f}) };
+			Vec2<Vec2<float>> CurrentScreenBorder = { (mPlayerTransform->GetPosition() + Vec2<float>{900.f, 600.f}), (mPlayerTransform->GetPosition() - Vec2<float>{900.f, 600.f}) };
 
-			bool EnemyNotWithinScreen = !(mEventTransform->GetPosition().x < CurrentScreenBorder.x.x && mEventTransform->GetPosition().x > CurrentScreenBorder.y.x && mEventTransform->GetPosition().y < CurrentScreenBorder.x.y && mEventTransform->GetPosition().y > CurrentScreenBorder.y.y);
-			if (EnemyNotWithinScreen)
+			EventNotWithinScreen = !(mEventTransform->GetPosition().x < CurrentScreenBorder.x.x && mEventTransform->GetPosition().x > CurrentScreenBorder.y.x && mEventTransform->GetPosition().y < CurrentScreenBorder.x.y && mEventTransform->GetPosition().y > CurrentScreenBorder.y.y);
+			if (EventNotWithinScreen)
 			{
-				// Turn the direction helper on
-				GameObj->GetComponent<CPRender>()->ToggleActive(true);
-
-				DirToEvent.Normalise();
-
 				// Set position and direction of the direction helper
 				mTransform->SetPosition(Vec2<float>{960.f, 540.f} + DirToEvent.Normalise() * distance);
 				mTransform->SetRotation(RadToDeg(atan2f(DirToEvent.y, DirToEvent.x)));
 
-				// Indicate which enemy is left
+				// Set position of iconObject and texture
+				mIconObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f} + DirToEvent.Normalise() * iconDistance);
+				auto& EnemyName = mGameManager->GetComponent<CPPSGameManager>()->GetSpawnedEnemyList()[0]->GetName();
+				//DebuggerLogFormat("Last Enemy : %s", EnemyName);
+				if (EnemyName == "EnemyChaser1")
+				{
+					//DebuggerLog("Entering");
+					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", 4);
+				}
+				else if (EnemyName == "Mage")
+				{
+					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", 0);
+				}
+				else if (EnemyName == "Charger_Shield")
+				{
+					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", 26);
+				}
+
+				// Render both direction helper and iconObject
+				GameObj->GetComponent<CPRender>()->ToggleActive(true);
+				mIconObject->GetComponent<CPRender>()->ToggleActive(true);
 
 			}
 			else
 			{
 				// Turn the direction helper off
 				GameObj->GetComponent<CPRender>()->ToggleActive(false);
+				mIconObject->GetComponent<CPRender>()->ToggleActive(false);
 			}
 
-			// Find where the direction helper should be placed 
-			//Vec2<float> {};
-
-			//// If top right portion of the screen
-			//if (DirToEvent.x > 0.f && DirToEvent.y > 0.f)
-			//{
-			//	cosTheta = DotProduct(DirToEvent, Vec2<float>(1.f, 0.f));
-
-			//	// If right-top border of the screen
-			//	if (acos(cosTheta) <= 0.785f)
-			//	{
-			//		borderPos.x = mPlayerTransform->GetPosition().x + 960.f;
-			//		borderPos.y = mPlayerTransform->GetPosition().y + (960.f / cosTheta);
-			//	}
-			//	// If top-right border of the screen
-			//	else if (acos(cosTheta) > 0.785f)
-			//	{
-			//		cosTheta = DotProduct(DirToEvent, Vec2<float>(0.f, 1.f));
-			//		borderPos.x = mPlayerTransform->GetPosition().x + (540.f / cosTheta);
-			//		borderPos.y = mPlayerTransform->GetPosition().y + 540.f;
-			//	}
-
-			//}
-			//else if (DirToEvent.x < 0.f && DirToEvent.y < 0.f)
-			//{
-
-			//}
-			//else if (DirToEvent.x < 0.f && DirToEvent.y > 0.f)
-			//{
-
-			//}
-			//else if (DirToEvent.x > 0.f && DirToEvent.y < 0.f)
-			//{
-
-			//}
-
-			//float angle = atan2f(DirToEvent.y, DirToEvent.x);
-			//float cosTheta = cos(angle);
-			//float sinTheta = sin(angle);
-
-			//// Calculate the distance to the borders based on the angle
-			//float distanceToRightBorder = 960.0f / cosTheta;
-			//float distanceToLeftBorder = -960.0f / cosTheta;
-			//float distanceToTopBorder = 540.0f / sinTheta;
-			//float distanceToBottomBorder = -540.0f / sinTheta;
-
-			//// Calculate the final position of the direction helper based on the angle and border distances
-			//if (cosTheta >= 0 && sinTheta >= 0) // Top-right
-			//{
-			//	borderPos.x = mPlayerTransform->GetPosition().x + distanceToRightBorder * cosTheta;
-			//	borderPos.y = mPlayerTransform->GetPosition().y + distanceToTopBorder * sinTheta;
-			//}
-			//else if (cosTheta >= 0 && sinTheta < 0) // Bottom-right
-			//{
-			//	borderPos.x = mPlayerTransform->GetPosition().x + distanceToRightBorder * cosTheta;
-			//	borderPos.y = mPlayerTransform->GetPosition().y + distanceToBottomBorder * sinTheta;
-			//}
-			//else if (cosTheta < 0 && sinTheta >= 0) // Top-left
-			//{
-			//	borderPos.x = mPlayerTransform->GetPosition().x + distanceToLeftBorder * cosTheta;
-			//	borderPos.y = mPlayerTransform->GetPosition().y + distanceToTopBorder * sinTheta;
-			//}
-			//else if (cosTheta < 0 && sinTheta < 0) // Bottom-left
-			//{
-			//	borderPos.x = mPlayerTransform->GetPosition().x + distanceToLeftBorder * cosTheta;
-			//	borderPos.y = mPlayerTransform->GetPosition().y + distanceToBottomBorder * sinTheta;
-			//}
-			//// Normalise to just get the general direction
-			//DirToEvent.Normalise();
-
-			//// Get the position before the border of the screen, update the position and rotation
-			//mTransform->SetPosition(borderPos);
-			//mTransform->SetRotation(RadToDeg(atan2f(DirToEvent.y, DirToEvent.x)));
 		}
-		else if (mUpgradeSpawned)
+		else if (GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetSpawned() && GOMANAGER->FindGameObjectWithName("middleUpgrade"))
 		{
-			// Turn the directionhelper on
-			GameObj->GetComponent<CPRender>()->ToggleActive(true);
+			mEventTransform = GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPTransform>();
+			//DebuggerLogFormat("Last Enemy : %s", mGameManager->GetComponent<CPPSGameManager>()->GetSpawnedEnemyList()[0]->GetName().c_str());
+
+			DirToEvent = mEventTransform->GetPosition() - mPlayerTransform->GetPosition();
+
+			Vec2<Vec2<float>> CurrentScreenBorder = { (mPlayerTransform->GetPosition() + Vec2<float>{900.f, 600.f}), (mPlayerTransform->GetPosition() - Vec2<float>{900.f, 600.f}) };
+
+			EventNotWithinScreen = !(mEventTransform->GetPosition().x < CurrentScreenBorder.x.x&& mEventTransform->GetPosition().x > CurrentScreenBorder.y.x && mEventTransform->GetPosition().y < CurrentScreenBorder.x.y&& mEventTransform->GetPosition().y > CurrentScreenBorder.y.y);
+			if (EventNotWithinScreen)
+			{
+				// Set position and direction of the direction helper
+				mTransform->SetPosition(Vec2<float>{960.f, 540.f} + DirToEvent.Normalise() * distance);
+				mTransform->SetRotation(RadToDeg(atan2f(DirToEvent.y, DirToEvent.x)));
+
+				// Set position of iconObject and texture
+				mIconObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f} + DirToEvent.Normalise() * iconDistance);
+				mIconObject->GetComponent<CPRender>()->SetSpriteTexture("FlagSheet", 26);
+
+				// Render both direction helper and iconObject
+				GameObj->GetComponent<CPRender>()->ToggleActive(true);
+				mIconObject->GetComponent<CPRender>()->ToggleActive(true);
+			}
+			else
+			{
+				// Stop rendering both direction helper and iconObject 
+				GameObj->GetComponent<CPRender>()->ToggleActive(false);
+				mIconObject->GetComponent<CPRender>()->ToggleActive(false);
+			}
 		}
 		else
 		{
-			// Turn the directionhelper off
+			// Turn the direction helper off
 			GameObj->GetComponent<CPRender>()->ToggleActive(false);
+			mIconObject->GetComponent<CPRender>()->ToggleActive(false);
 		}
 
 	}
 
 	/*!************************************************************************
-	 * \brief Handles the destruction of the Aim UI. Should be empty for now
-	 *
+	* \brief Destroy function for the Direction Helper.
+	*
 	**************************************************************************/
 	void CPPSDirectionHelper::Destroy()
 	{

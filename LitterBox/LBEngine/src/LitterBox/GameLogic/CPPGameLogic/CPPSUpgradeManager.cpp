@@ -82,10 +82,24 @@ namespace LB
 		//	//UpgradesList.pop_back();
 		//}
 
-		// Should put flag anim here
+		// Plays the flag animation for the upgrades when they spawn
 		if (isSpawned)
 		{
+			timerSpawn += TIME->GetDeltaTime();
 			//DebuggerLog("Upgrades are spawned, playing VFX...");
+			if (timerSpawn > 1.0 && switchAnim)
+			{
+				GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
+				GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
+				GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
+				switchAnim = false;
+			}
+		}
+		// Reset the next time the player encounters another upgrade
+		else
+		{
+			timerSpawn = 0.0;
+			switchAnim = true;
 		}
 	}
 
@@ -263,6 +277,11 @@ namespace LB
 	void CPPSUpgradeManager::SetSpawned(bool spawned)
 	{
 		isSpawned = spawned;
+	}
+
+	bool CPPSUpgradeManager::GetSpawned() const
+	{
+		return isSpawned;
 	}
 
 	bool CPPSUpgradeManager::HasUpgrade(int upgradeType)
