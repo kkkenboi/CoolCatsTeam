@@ -1,3 +1,19 @@
+/*!************************************************************************
+ \file				ColliderManager.h
+ \author(s)			Justine Carlo Villa Ilao
+ \par DP email(s):	justine.c@digipen.edu
+ \par Course:		CSD2401A
+ \date				15-03-2023
+ \brief
+ This file contains the ColliderManager class and all its functionalities,
+ this class handles all the Colliders and keeps them in a pool, handling
+ all the updates
+
+  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+  disclosure of this file or its contents without the prior written consent
+  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #pragma once
 #include "Collisions.h"
 #include "LitterBox/Core/System.h"
@@ -83,8 +99,17 @@ namespace LB
 		*************************************************************************/
 		std::string GetShapeNames(SHAPETYPE type);
 
+		/*!***********************************************************************
+		\brief
+			This function allows the user to get the Collider Layering system
+			from the ColliderManager
+		*************************************************************************/
 		ColliderLayerSystem& GetLayerSystem();
-
+		/*!***********************************************************************
+		\brief
+			This function allows the user to get the CollisionGrid system from
+			the ColliderManager
+		*************************************************************************/
 		ColliderImplicitGridSystem& GetGridSystem();
 
 		// ================

@@ -1,5 +1,5 @@
 /*!************************************************************************
- \file				ColliderComponent.cpp
+ \file				ColliderComponent.h
  \author(s)			Justine Carlo Villa Ilao
  \par DP email(s):	justine.c@digipen.edu
  \par Course:		CSD2401A
@@ -216,11 +216,23 @@ namespace LB {
 		*************************************************************************/
 		GameObject* GetGameObject();
 
-
+		/*!***********************************************************************
+		  \brief
+			Gets the GridFrames of an a CPCollider component, allowing it to know 
+			what place of the implicit grid its in for Broad Phase collision detection
+		*************************************************************************/
 		std::vector<int> GetGridFrames();
 
+		/*!***********************************************************************
+		  \brief
+			Changes the current GridFrames of a CPCollider component
+		*************************************************************************/
 		void ChangeGridFrame(std::vector<int> frame);
 
+		/*!***********************************************************************
+		  \brief
+			Updates the current grid frames of the current CPCollider component
+		*************************************************************************/
 		void UpdateGridFrame();
 
 		/*!***********************************************************************
@@ -267,7 +279,11 @@ namespace LB {
 			return C_CPCollider;
 		}
 
-
+		/*!***********************************************************************
+		  \brief
+			Toggles the component to be active or inactive depending on the parameter
+			given
+		*************************************************************************/
 		void ToggleActive(bool isActive) override;
 
 	};

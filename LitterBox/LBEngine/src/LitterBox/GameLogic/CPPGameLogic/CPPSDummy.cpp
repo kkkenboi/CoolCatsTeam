@@ -1,16 +1,16 @@
 /*!************************************************************************
- \file				CPPSChaser.cpp
- \author(s)			Justine Carlo Villa Ilao, Vanessa Chua Siew Jin
- \par DP email(s):	justine.c@digipen.edu, vanessasiewjin@digipen.edu
- \par Course:		CSD2401A
- \date				03-11-2023
+ \file                CPPSDummy.cpp
+ \author(s)           Justine Carlo Villa Ilao
+ \par DP email(s):    justine.c@digipen.edu
+ \par Course:         CSD2401A
+ \date                15-03-2024
  \brief
- This file contains the CPPSChaser class and all its functionalities,
-it handles the logic for the chaser enemy
 
-  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
-  disclosure of this file or its contents without the prior written consent
-  of DigiPen Institute of Technology is prohibited.
+	This file contains the dummy enemy
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
 #include "CPPSDummy.h"

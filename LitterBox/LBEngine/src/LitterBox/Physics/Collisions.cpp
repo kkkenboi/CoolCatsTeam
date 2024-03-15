@@ -469,17 +469,28 @@ namespace LB
 		return gameObj;
 	}
 
-
+	/*!***********************************************************************
+	  \brief
+		Gets the GridFrames of an a CPCollider component, allowing it to know
+		what place of the implicit grid its in for Broad Phase collision detection
+	*************************************************************************/
 	std::vector<int> CPCollider::GetGridFrames()
 	{
 		return m_grid_frames;
 	}
-
+	/*!***********************************************************************
+	  \brief
+		Changes the current GridFrames of a CPCollider component
+	*************************************************************************/
 	void CPCollider::ChangeGridFrame(std::vector<int> frames) 
 	{
 		m_grid_frames = frames;
 	}
 
+	/*!***********************************************************************
+	  \brief
+		Updates the current grid frames of the current CPCollider component
+	*************************************************************************/
 	void CPCollider::UpdateGridFrame()
 	{
 		COLLIDERS->GetGridSystem().UpdateGridFrame(this);
@@ -586,6 +597,11 @@ namespace LB
 		COLLIDERS->RemoveColliderFromPool(this);
 	}
 	
+
+	/*!***********************************************************************
+	  \brief
+		Toggles for the IComponent to be active
+	*************************************************************************/
 	void CPCollider::ToggleActive(bool isActive) 
 	{
 		UNREFERENCED_PARAMETER(isActive);
