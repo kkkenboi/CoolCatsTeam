@@ -1,0 +1,54 @@
+{
+    "Name": "BG_Tree",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 956.309997,
+            "y": 281.854064
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "Shadow",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": -115.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 264.0,
+                    "Height": 50.0,
+                    "ZLayer": 3.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 55
+                }
+            }
+        ]
+    },
+    "Render": {
+        "Active": true,
+        "Width": 250.0,
+        "Height": 250.0,
+        "ZLayer": 1.0,
+        "Layer": 0,
+        "Texture": "Felix_SpriteSheet",
+        "SpriteName": "FelixSheet",
+        "SpriteIndex": 45
+    }
+}

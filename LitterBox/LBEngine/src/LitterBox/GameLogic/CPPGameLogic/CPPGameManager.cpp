@@ -158,6 +158,19 @@ namespace LB
 		//	GenerateWave();
 		//	UpgradePicked = false;
 		//}
+
+		// For tutorial upgrade creation
+		if (currentWave == 0 && SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned)
+		{
+			UpgradeSpawned = true;
+			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
+		
+			std::vector<GameObject*> Balls = GOMANAGER->FindGameObjectsWithName("ball");
+			for (GameObject* ball : Balls)
+			{
+				ball->GetComponent<CPPSPlayerGolfBall>()->DestroyBall();
+			}
+		}
 		
 		//If game's started, upgrade hasn't spawned and no enemies and not tutorial
 		if (SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned && currentWave)
@@ -344,6 +357,10 @@ namespace LB
 		SpawnedeEnemiesList.push_back(chargerClone);
 	}
 
+	/*!************************************************************************
+	 * \brief Spawns the crowd anim
+	 * 
+	**************************************************************************/
 	void CPPSGameManager::SpawnCrowdAnim()
 	{
 		//First we play the sound
@@ -357,6 +374,10 @@ namespace LB
 
 	}
 	
+	/*!************************************************************************
+	 * \brief Spawns a dummy enemy (used in tutorial)
+	 * 
+	**************************************************************************/
 	void CPPSGameManager::SpawnDummyEnemy()
 	{
 		GameObject* dummyClone = FACTORY->SpawnGameObject();
@@ -369,12 +390,12 @@ namespace LB
 	
 	/*!************************************************************************
 	* \brief Function to reduce the enemy count (should be called by base enemy's hurt)
-	* 
+	* (DEPRACTD DO NOT USE)
 	**************************************************************************/
 	void CPPSGameManager::ReduceEnemyCount()
 	{
 		DebuggerLogFormat("Enemy count : %d", currentEnemyCount);
-		currentEnemyCount--;
+		--currentEnemyCount;
 
 		//if (currentEnemyCount == 1)
 		//{
@@ -391,15 +412,28 @@ namespace LB
 		//	DebuggerLogWarning("Enemy Count Error! Please check enemy count logic");
 		//}
 	}
+
+	/*!************************************************************************
+	 * \brief Removes enemy from the list of enemies
+	 * 
+	 * \param enemyToRemove Enemy to remove
+	**************************************************************************/
 	void CPPSGameManager::RemoveSpawnedEnemy(GameObject* enemyToRemove)
 	{
 		DebuggerLogFormat("Spawned Enemy Count : %d", SpawnedeEnemiesList.size());
+		onEnemyKill.Invoke();
+
 		auto itr = std::find(SpawnedeEnemiesList.begin(), SpawnedeEnemiesList.end(), enemyToRemove);
 		if (itr != SpawnedeEnemiesList.end())
 		{
 			SpawnedeEnemiesList.erase(itr);
 		}
 	}
+	/*!************************************************************************
+	 * \brief Function to show gameover screen
+	 * 
+	 * \param enemyObj Enemy that killed the player
+	**************************************************************************/
 	void CPPSGameManager::ShowGameOver(GameObject enemyObj)
 	{
 		//first we fade out the music	
@@ -462,10 +496,21 @@ namespace LB
 		GOMANAGER->FindGameObjectWithName("RestartGameButtonUI")->SetActive(true);
 		GOMANAGER->FindGameObjectWithName("MainMenuButtonUI")->SetActive(true);
 	}
+
+	/*!************************************************************************
+	 * \brief Function to send player to the winning cutscene
+	 * 
+	**************************************************************************/
 	void CPPSGameManager::ShowGameWin()
 	{
 		VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
 	}
+
+	/*!************************************************************************
+	 * \brief Function to get a random spawn point for the enemies
+	 * 
+	 * \return Vec2<float> random spawn point 
+	**************************************************************************/
 	Vec2<float> CPPSGameManager::GetRandomSpawnPoint()
 	{
 		//First we get a random number generator
@@ -489,10 +534,15 @@ namespace LB
 			JSONSerializer::DeserializeFromFile(name, *dummyClone);
 			dummyClone->GetComponent<CPTransform>()->SetPosition(pos);
 			// Need to increment it here as we are not adding it to the list of enemies
-			currentEnemyCount++;
+			SpawnedeEnemiesList.push_back(dummyClone);
 		}
 	}
-
+	
+	/*!************************************************************************
+	 * \brief Gets the current wave
+	 * 
+	 * \return int current wave
+	**************************************************************************/
 	int CPPSGameManager::GetCurrentWave()
 	{
 		return currentWave;
@@ -559,6 +609,11 @@ namespace LB
 		//By right should set the camera to player too
 	}
 	
+	/*!************************************************************************
+	 * \brief Global function for events to show lose game screen
+	 * 
+	 * \param enemyObj Enemy that killed the player 
+	**************************************************************************/
 	void ShowGameOver(GameObject enemyObj)
 	{
 		//enemy obj is the one that killed the player

@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1889.159423,
-            "y": 60.509704
+            "x": 1455.297241,
+            "y": 336.623382
         },
         "Scale": {
             "x": 1.0,
@@ -41,6 +41,7 @@
                 "Animator": {
                     "Default State": "VFX_Shiny1",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
                     "Controller": "VFXController"
                 }
@@ -64,7 +65,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "ZLayer": 3.01,
+                    "ZLayer": 3.009999,
                     "Layer": 0,
                     "Texture": "VFXCompile_SpriteSheet",
                     "SpriteName": "VFXSheet",
@@ -73,7 +74,41 @@
                 "Animator": {
                     "Default State": "VFX_Shiny2",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Controller": "VFXController"
+                }
+            },
+            {
+                "Name": "Flag",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": -7.65747,
+                        "y": 115
+                    },
+                    "Scale": {
+                        "x": 0.699998,
+                        "y": 0.699998
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 250.0,
+                    "Height": 250.0,
+                    "ZLayer": 4.0,
+                    "Layer": 1,
+                    "Texture": "FlagPole_Spritesheet",
+                    "SpriteName": "FlagSheet",
+                    "SpriteIndex": 25
+                },
+                "Animator": {
+                    "Default State": "Flag_Appear",
+                    "Play On Awake": true,
+                    "Awake Delay": 0.0,
+                    "Repeating": false,
                     "Controller": "VFXController"
                 }
             }

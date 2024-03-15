@@ -86,7 +86,7 @@
                     "Active": true,
                     "Position": {
                         "x": -7.65747,
-                        "y": 192.161636
+                        "y": 115
                     },
                     "Scale": {
                         "x": 0.699998,
@@ -96,8 +96,8 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 440.0,
-                    "Height": 440.0,
+                    "Width": 250.0,
+                    "Height": 250.0,
                     "ZLayer": 4.0,
                     "Layer": 1,
                     "Texture": "FlagPole_Spritesheet",

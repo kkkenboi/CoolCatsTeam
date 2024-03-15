@@ -36,6 +36,12 @@ namespace LB
 		**************************************************************************/
 		std::filesystem::path GetFilePath(const std::string& fileName);
 
+		/*!************************************************************************
+		 * \brief Get the Relative Asset Path object	
+		 * 
+		 * \param fileName Filename to get
+		 * \return std::filesystem::path path of the filepath for the file
+		**************************************************************************/
 		std::filesystem::path GetRelativeAssetPath(const std::string& fileName);
 
 		/*!************************************************************************
