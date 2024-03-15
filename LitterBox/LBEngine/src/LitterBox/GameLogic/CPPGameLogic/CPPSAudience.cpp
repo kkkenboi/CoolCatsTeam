@@ -38,7 +38,7 @@ namespace LB
 	{
 		if (m_cheerDelayElapsed > 0.f)
 		{
-			m_cheerDelayElapsed -= TIME->GetDeltaTime();
+			m_cheerDelayElapsed -= static_cast<float>(TIME->GetDeltaTime());
 			if (m_cheerDelayElapsed <= 0.f)
 			{
 				m_animator->PlayAndReset("Action_Cheer");
@@ -49,7 +49,7 @@ namespace LB
 
 		if (m_cheerElapsed > 0.f)
 		{
-			m_cheerElapsed -= TIME->GetDeltaTime();
+			m_cheerElapsed -= static_cast<float>(TIME->GetDeltaTime());
 			if (m_cheerElapsed <= 0.f)
 			{
 				m_randomDelayElapsed = m_randomDelayMin + static_cast<float>(std::rand()) / (RAND_MAX / (m_randomDelayMax - m_randomDelayMin));
@@ -60,7 +60,7 @@ namespace LB
 
 		if (m_randomDelayElapsed > 0.f)
 		{
-			m_randomDelayElapsed -= TIME->GetDeltaTime();
+			m_randomDelayElapsed -= static_cast<float>(TIME->GetDeltaTime());
 			if (m_randomDelayElapsed <= 0.f)
 			{
 				m_animator->PlayRepeat("Action_Hype");
