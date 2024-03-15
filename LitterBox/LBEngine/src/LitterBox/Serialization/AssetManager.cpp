@@ -900,8 +900,8 @@ namespace LB
                 };
                 Characters.emplace(std::pair<char, Renderer::Character>(c, sc));
 
-                maxAscent = maxAscent < static_cast<unsigned int>(font->glyph->bitmap_top) ? font->glyph->bitmap_top : maxAscent;
-                maxDescent = maxDescent < static_cast<unsigned int>(font->glyph->metrics.height - font->glyph->bitmap_top) ?
+                maxAscent = static_cast<int>(maxAscent) < font->glyph->bitmap_top ? font->glyph->bitmap_top : maxAscent;
+                maxDescent = static_cast<int>(maxDescent) < font->glyph->metrics.height - font->glyph->bitmap_top ?
                     font->glyph->metrics.height - font->glyph->bitmap_top : maxDescent;
             }
             //insert the height
@@ -953,8 +953,8 @@ namespace LB
                 };
                 Characters.emplace(std::pair<char, Renderer::Character>(c, sc));
 
-                maxAscent = maxAscent < static_cast<unsigned int>(font->glyph->bitmap_top) ? font->glyph->bitmap_top : maxAscent;
-                maxDescent = maxDescent < static_cast<unsigned int>(font->glyph->metrics.height - font->glyph->bitmap_top) ?
+                maxAscent = static_cast<int>(maxAscent) < font->glyph->bitmap_top ? font->glyph->bitmap_top : maxAscent;
+                maxDescent = static_cast<int>(maxDescent) < font->glyph->metrics.height - font->glyph->bitmap_top ?
                     font->glyph->metrics.height - font->glyph->bitmap_top : maxDescent;
             }
             //insert the height

@@ -51,6 +51,7 @@ namespace LB
 	{
 		if (CORE->IsEditorMode())
 		{
+			// Mouse will be following the camera and adjusting to the native resolution if in full screen mode
 			Vec2<float> mousePos = INPUT->GetMousePos();
 			mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
 			mousePos.y -= m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
@@ -65,6 +66,7 @@ namespace LB
 		}
 		else
 		{
+			// Mouse will be following the camera and adjusting to the native resolution if in full screen mode
 			Vec2<float> mousePos = INPUT->GetMousePos();
 			mousePos.x *= WINDOWSSYSTEM->getViewPortConversion().x;
 			mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
@@ -72,7 +74,6 @@ namespace LB
 			mousePos.y = ((float)WINDOWSSYSTEM->GetHeight() - mousePos.y - WINDOWSSYSTEM->getBorderHeight()) * WINDOWSSYSTEM->getViewPortConversion().y;
 			mousePos.y += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
 			m_MouseWorld->GetComponent<CPTransform>()->SetPosition(mousePos);
-			//std::cout << m_MouseWorld->GetComponent<CPTransform>()->GetPosition().x << " " << m_MouseWorld->GetComponent<CPTransform>()->GetPosition().y << std::endl;
 
 			mousePos = INPUT->GetMousePos();
 			mousePos.x *= WINDOWSSYSTEM->getViewPortConversion().x;

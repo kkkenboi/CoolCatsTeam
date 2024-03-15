@@ -46,9 +46,9 @@ namespace ImGui
 		auto& context = sequencerData[currentSequencer];
 
         const auto viewStart = context.StartFrame + context.OffsetFrame;
-        //const auto viewEnd = viewStart + context.EndFrame;
+        const auto viewEnd = viewStart + context.EndFrame;
 
-		return ImVec2(static_cast<float>(viewStart), static_cast<float>(viewStart + context.EndFrame));
+		return ImVec2(static_cast<float>(viewStart), static_cast<float>(viewEnd));
 	}
 
     /*template <>

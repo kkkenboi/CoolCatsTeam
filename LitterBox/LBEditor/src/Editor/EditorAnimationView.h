@@ -49,6 +49,6 @@ namespace LB
 		void Destroy() override;
 
 	private:
-		SpriteSheet* m_editorSSheet{ nullptr };
+		SpriteSheet* m_editorSSheet{nullptr};
 	};
 }

@@ -60,7 +60,7 @@ namespace LB
 		//------------------------For Quit Confirmation---------------------------
 		CPCollider* mCollider{ nullptr };
 
-		GameObject* ConfirmMenuTexture{ nullptr };
+		GameObject* ConfirmMenuTexture{nullptr};
 		GameObject* ConfirmMenuYesButton{ nullptr };
 		GameObject* ConfirmMenuNoButton{ nullptr };
 		//------------------------For Quit Confirmation---------------------------

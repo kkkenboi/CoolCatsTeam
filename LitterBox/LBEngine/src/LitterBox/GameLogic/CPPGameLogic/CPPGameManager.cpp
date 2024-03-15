@@ -23,6 +23,7 @@
 #include "Litterbox/Components/RenderVideoComponent.h"
 #include "CPPSDirectionHelper.h"
 #include "CPPSPlayer.h"
+#include "CPPSMouseUI.h"
 
 namespace LB
 {
@@ -208,10 +209,7 @@ namespace LB
 		if (gameOverTexture->IsActive())
 		{
 			//We get the mouse position
-			Vec2<float> mouse_pos_in = INPUT->GetMousePos();
-			mouse_pos_in.y = mouse_pos_in.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos_in.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-			mouse_pos_in.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			mouse_pos = GOMANAGER->FindGameObjectWithName("MouseUI")->GetComponent<CPPSMouseUI>()->GetComponent<CPTransform>()->GetPosition();
 			//Then we get all the colliders near the mouse
 			bool _restartHovered{ false }, _quitHovered{ false };
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos_in, 1.0f);

@@ -1338,6 +1338,16 @@
                     },
                     "Rotation": -8.8
                 },
+                "Render": {
+                    "Active": true,
+                    "Width": 440.0,
+                    "Height": 440.0,
+                    "ZLayer": 0.09,
+                    "Layer": 3,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 69
+                },
                 "Collider": {
                     "Active": true,
                     "ColliderLayer": {

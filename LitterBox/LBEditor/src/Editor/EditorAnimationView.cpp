@@ -86,7 +86,7 @@ namespace LB
 			}
 			else
 			{
-				ImGui::Image((ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_editorSSheet->GetPNGRef()), ImVec2{ smallWidth * scale.x , smallWidth * scale.y }
+				ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<intptr_t>(ASSETMANAGER->GetTextureIndex(m_editorSSheet->GetPNGRef()))), ImVec2{ smallWidth * scale.x , smallWidth * scale.y }
 					, ImVec2{ (*m_editorSSheet)[5].m_min.x, (*m_editorSSheet)[5].m_max.y }
 					, ImVec2{ (*m_editorSSheet)[5].m_max.x, (*m_editorSSheet)[5].m_min.y });
 			}

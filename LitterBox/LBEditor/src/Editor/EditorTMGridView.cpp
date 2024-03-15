@@ -82,7 +82,6 @@ namespace LB
 			ImGui::EndCombo();
 		}
 
-		//int index{ 0 };
 		ImGui::Text("Tiles");
 		if (ImGui::ImageButton(0, ImVec2{ normalWidth, normalWidth }))
 		{

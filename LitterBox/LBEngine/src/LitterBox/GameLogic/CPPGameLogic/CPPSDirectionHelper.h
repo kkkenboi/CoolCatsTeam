@@ -45,7 +45,7 @@ namespace LB
 
 		GameObject* mCameraFollow{ nullptr };
 		GameObject* mGameManager{ nullptr };
-		GameObject* mIconObject{ nullptr };
+		GameObject* mIconObject{nullptr};
 
 		Vec2<float> DirToEvent{};
 

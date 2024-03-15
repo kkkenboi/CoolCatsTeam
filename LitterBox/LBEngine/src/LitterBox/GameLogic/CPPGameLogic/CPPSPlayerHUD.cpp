@@ -189,15 +189,6 @@ namespace LB {
 			m_totalUpgradeDisplay.push_back(upgradeObject);
 		}
 
-		// - Backboards
-		/*GameObject* heartBackboard = FACTORY->SpawnGameObject();
-		JSONSerializer::DeserializeFromFile("HeartBackboard", *heartBackboard);
-		GameObject* ballBackboard = FACTORY->SpawnGameObject();
-		JSONSerializer::DeserializeFromFile("BallBackboard", *ballBackboard);
-		GameObject* upgradeBackboard = FACTORY->SpawnGameObject();
-		JSONSerializer::DeserializeFromFile("UpgradeBackboard", *upgradeBackboard);*/
-
-
 		// New Upgrade Event: To know when new upgrades are obtained
 		m_UpgradeManager->GetComponent<CPPSUpgradeManager>()->onNewUpgrade.Subscribe(LB::AddNewUpgrade);
 	}

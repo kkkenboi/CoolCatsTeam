@@ -154,11 +154,11 @@ namespace LB
 
 				if (directory.path().extension().string() == ".png")
 				{
-					ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()))), {64, 64}, {0,1}, {1,0});
+					ImGui::ImageButton(reinterpret_cast<ImTextureID*>(static_cast<uint64_t>(ASSETMANAGER->GetTextureIndex(directory.path().filename().stem().string()))), {64, 64}, {0,1}, {1,0});
 				}
 				else if (directory.path().extension().string() == ".wav")
 				{
-					ImGui::ImageButton((ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()), { 64,64 }
+					ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<intptr_t>(ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()))), {64,64}
 						, ImVec2{ spriteSheet[4].m_min.x, spriteSheet[4].m_max.y }
 						, ImVec2{ spriteSheet[4].m_max.x, spriteSheet[4].m_min.y });
 
@@ -166,7 +166,7 @@ namespace LB
 				}
 				else
 				{
-					ImGui::ImageButton((ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()), { 64,64 }
+					ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<intptr_t>(ASSETMANAGER->GetTextureIndex(spriteSheet.GetPNGRef()))), { 64,64 }
 						, ImVec2{ spriteSheet[3].m_min.x, spriteSheet[3].m_max.y }
 						, ImVec2{ spriteSheet[3].m_max.x, spriteSheet[3].m_min.y });
 

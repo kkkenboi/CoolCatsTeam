@@ -70,15 +70,15 @@ namespace LB
 				if (EnemyName == "EnemyChaser1")
 				{
 					//DebuggerLog("Entering");
-					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", 4);
+					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("FelixSheet", 54);
 				}
 				else if (EnemyName == "Mage")
 				{
-					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", 0);
+					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("FelixSheet", 55);
 				}
 				else if (EnemyName == "Charger_Shield")
 				{
-					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("MultiSheet", 26);
+					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("FelixSheet", 56);
 				}
 
 				// Render both direction helper and iconObject
