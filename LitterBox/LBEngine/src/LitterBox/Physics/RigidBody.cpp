@@ -232,6 +232,10 @@ namespace LB
         this->UpdateRigidBodyPos(time);
     }
 
+    /*!***********************************************************************
+        \brief
+        Destroys the RigidBody and removes it from the RigidBody pool
+    *************************************************************************/
     void CPRigidBody::Destroy()
     {
         if (PHYSICS == nullptr)

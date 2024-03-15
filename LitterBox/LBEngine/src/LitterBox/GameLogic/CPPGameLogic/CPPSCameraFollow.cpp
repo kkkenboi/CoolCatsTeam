@@ -1,3 +1,14 @@
+/*!************************************************************************
+ * \file				CPPSCameraFollow.cpp
+ * \author(s)			Amadeus Chia 
+ * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
+ * \par Course:       	CSD
+ * \date				15/03/2024
+ * \brief 				Source file for camera follow logic
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "CPPSCameraFollow.h"
 #include "LitterBox/Renderer/Renderer.h"
 namespace LB

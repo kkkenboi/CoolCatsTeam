@@ -1,3 +1,18 @@
+/*!************************************************************************
+ \file                CPPSSandpit.cpp
+ \author(s)           Justine Carlo Villa Ilao
+ \par DP email(s):    justine.c@digipen.edu
+ \par Course:         CSD2401A
+ \date                15-03-2024
+ \brief
+
+	This file contains the logic for the sandpit obstacle in game
+
+ Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #include "CPPSSandpit.h"
 #include "LitterBox/Animation/ParticleSystem.h"
 #include "CPPSPlayer.h"
@@ -35,12 +50,15 @@ namespace LB
 	\brief
 	Every time the mushroom collides with anything it's scale changes
 	*************************************************************************/
-
 	void CPPSSandpit::OnCollisionEnter(CollisionData colData)
 	{
 		UNREFERENCED_PARAMETER(colData);
 	}
 
+	/*!***********************************************************************
+	\brief
+	Happens every time its currently colliding with another object
+	*************************************************************************/
 	void CPPSSandpit::OnCollisionStay(CollisionData colData)
 	{
 		if (colData.colliderOther->rigidbody != nullptr)
@@ -66,6 +84,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Happens every time an object stops colliding with the sandpit
+	*************************************************************************/
 	void CPPSSandpit::OnCollisionExit(CollisionData colData)
 	{
 		if (colData.colliderOther->gameObj->GetName() == "MainChar")

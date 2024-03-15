@@ -219,12 +219,22 @@ namespace LB
 		}
 	}
 
-	
+			
+
+	/*!***********************************************************************
+	\brief
+		This function allows the user to get the Collider Layering system
+		from the ColliderManager
+	*************************************************************************/
 	ColliderLayerSystem& ColliderManager::GetLayerSystem()
 	{
 		return m_layerSystem;
 	}
-
+	/*!***********************************************************************
+	\brief
+		This function allows the user to get the CollisionGrid system from
+		the ColliderManager
+	*************************************************************************/
 	ColliderImplicitGridSystem& ColliderManager::GetGridSystem()
 	{
 		return m_implicitgridSystem;
@@ -545,7 +555,6 @@ namespace LB
 							colData.colliderOther = colA;
 							if (colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
 							{
-
 								colB->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionStay(colData);
 							}
 						}
@@ -577,7 +586,6 @@ namespace LB
 						colData.colliderOther = m_colliderPool[second];
 						if (m_colliderPool[first]->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance() != nullptr)
 						{
-
 							m_colliderPool[first]->m_gameobj->GetComponent<CPScriptCPP>()->GetInstance()->OnCollisionExit(colData);
 						}
 					}
@@ -603,7 +611,6 @@ namespace LB
 		}
 		for (const auto& [firstCP, secondCP] : m_collidedPairs)
 		{
-			
 			if (m_colliderPool[firstCP] == nullptr || m_colliderPool[secondCP] == nullptr)
 			{
 				auto itr = std::find(m_collidedPairs.begin(), m_collidedPairs.end(), std::make_pair(firstCP, secondCP));
