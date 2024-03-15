@@ -169,6 +169,10 @@ namespace Renderer {
 		*************************************************************************/
 		float& get_cam_y() { return pos.y; }
 
+		/*!***********************************************************************
+		 \brief
+		 Function that updates the view transformation matrix
+		*************************************************************************/
 		void update_cam()
 		{
 			nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });

@@ -17,20 +17,51 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	  \brief
+	  Constructor class for a TileMapGroup object.
+	*************************************************************************/
 	TileMapGroup::TileMapGroup()
 	{
 		m_tileMaps.push_back(TileMap());
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Constructor class for a TileMapGroup object.
+
+	  \param layers
+	  The number of tile map layers we want to create
+	*************************************************************************/
 	TileMapGroup::TileMapGroup(int layers)
 	{
 		for (int index{ 0 }; index < layers; ++index)
 			m_tileMaps.push_back(TileMap());
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Single argument Constructor class for a TileMapGroup object.
+
+	  \param tilemaps
+	  The pre-existing tilemap already created.
+	*************************************************************************/
 	TileMapGroup::TileMapGroup(std::vector<TileMap> const& tilemaps) : m_tileMaps{ tilemaps }
 	{ }
 
+	/*!***********************************************************************
+	  \brief
+	  Saves the data of a group of tilemaps.
+
+	  \param data
+	  All the tile map data to save
+
+	  \param alloc
+	  The allocator for storing the data in the json file
+
+	  \return
+	  Whether the saving was successfull or not
+	*************************************************************************/
 	bool TileMapGroup::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
@@ -55,6 +86,19 @@ namespace LB
 		return true;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Loading a group of tilemap data.
+
+	  \param data
+	  All the tile map data to load
+
+	  \param alloc
+	  The allocator for loading the data from the json file
+
+	  \return
+	  Whether the loading was successfull or not
+	*************************************************************************/
 	bool TileMapGroup::Deserialize(const Value& data)
 	{
 		bool HasName = data.HasMember("Name");
@@ -95,16 +139,46 @@ namespace LB
 		return false;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Subscript operator to access specific tilemap at a layer.
+
+	  \param index
+	  The specific layer we want to access. Layer index start from 0
+
+	  \return
+	  Reference to the tilemap we want.
+	*************************************************************************/
 	TileMap& TileMapGroup::operator[](int index)
 	{
 		return m_tileMaps[index];
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Subscript operator to access specific tilemap at a layer.
+
+	  \param index
+	  The specific layer we want to access. Layer index start from 0
+
+	  \return
+	  Reference to the tilemap we want.
+	*************************************************************************/
 	TileMap const& TileMapGroup::operator[](int index) const
 	{
 		return m_tileMaps[index];
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Constructor class for a TileMap object where we dump data into the TileMap.
+
+	  \param row
+	  The number of rows of the tile map
+
+	  \param columns
+	  The number of columns in the tile map
+	*************************************************************************/
 	TileMap::TileMap() : m_rows{ 10 }, m_cols{ 10 }
 	{
 		m_grid.resize(m_rows * m_cols, -1);
@@ -119,24 +193,25 @@ namespace LB
 
 	  \param columns
 	  The number of columns in the tile map
-
-	  \param textureRows
-	  The number of times to split the texture horizontally
-
-	  \param textureColumns
-	  The number of times to split the texture vertically
-
-	  \param texture
-	  The file name of the texture we want to use (without file extension)
-
-	  \param gridvalues
-	  Initializer list of the values in our Tile map grid
 	*************************************************************************/
 	TileMap::TileMap(int row, int columns) : m_rows{row}, m_cols{columns}
 	{ 
 		m_grid.resize(m_rows * m_cols, -1);
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Constructor class for a TileMap object where we dump data into the TileMap.
+
+	  \param row
+	  The number of rows of the tile map
+
+	  \param columns
+	  The number of columns in the tile map
+
+	  \param gridVector
+	  Initializer list of the values in our Tile map grid
+	*************************************************************************/
 	TileMap::TileMap(int row, int columns, std::vector<int> const& gridVector) :
 		m_rows{ row }, m_cols{ columns }, m_grid { gridVector }
 	{ }
@@ -211,6 +286,16 @@ namespace LB
 		return minMax;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Function saves map data into a json file for the engine to utilize later.
+	  \param
+	  data The tile map data to save
+	  \param alloc
+	  The allocator for storing the data in the json file
+	  \return
+	  Whether the saving was successfull or not
+	*************************************************************************/
 	bool TileMap::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
 		data.SetObject();
@@ -229,6 +314,14 @@ namespace LB
 		return true;
 	}
 
+	/*!***********************************************************************
+	  \brief
+	  Function loads map data into the engine to utilize.
+	  \param
+	  data The tile map data to load
+	  \return
+	  Whether the loading was successfull or not
+	*************************************************************************/
 	bool TileMap::Deserialize(const Value& data)
 	{
 		bool HasRows = data.HasMember("Rows");

@@ -1,3 +1,15 @@
+/*!************************************************************************
+ * \file				CPPSTutorialSubs.cpp
+ * \author(s)			Ryan Tan Jian Hao
+ * \par DP email(s):  	ryanjianhao.tan@digipen.edu
+ * \par Course:       	CSD2450A
+ * \date				09/03/2024
+ * \brief 				This source file contains the class member function
+						definition for the subtitles in the tutorial page
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "CPPSTutorialSubs.h"
 
 //time to new letter
@@ -7,6 +19,12 @@ constexpr float readingTime{ 1.f };
 //simulated loading time
 constexpr float delayTime{ 1.f };
 
+
+/*!***********************************************************************
+\brief
+Start function to run when the script first starts. Will create all game objects
+needed if not found.
+*************************************************************************/
 void LB::CPPSTutorialSubs::Start()
 {
 	titles[0] = "Well I cannot stop you from joining the tournament...";
@@ -39,6 +57,11 @@ void LB::CPPSTutorialSubs::Start()
 	mSubtitles->GetComponent<CPText>()->update_msg_xbound(1920.f);
 }
 
+/*!***********************************************************************
+\brief
+Update function runs every frame and will advance the subtitles and remove
+the transition curtain after a certain time.
+*************************************************************************/
 void LB::CPPSTutorialSubs::Update()
 {
 	//initial delays to prevent scene transition whiplash
@@ -95,6 +118,13 @@ void LB::CPPSTutorialSubs::Update()
 	}
 }
 
+/*!***********************************************************************
+\brief
+Destroy function here to keep the compiler happy.
+
+NOTE: I know I could just remove it but I like things in threes so don't
+judge me too hard.
+*************************************************************************/
 void LB::CPPSTutorialSubs::Destroy()
 {
 }
