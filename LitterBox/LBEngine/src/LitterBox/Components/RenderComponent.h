@@ -243,6 +243,10 @@ namespace LB
 			}
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Sets the sprite of the render component based on the spritesheet and index
+		*************************************************************************/
 		void SetSpriteTexture(std::string SpriteSheetName, int index);
 
 		/*!***********************************************************************

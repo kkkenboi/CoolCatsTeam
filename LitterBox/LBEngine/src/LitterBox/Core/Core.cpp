@@ -187,11 +187,19 @@ namespace LB
 		onPlayingModeToggle.Invoke(m_isPlaying);
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Returns true if the engine is fully initialized
+	*************************************************************************/
 	bool LBEngine::IsInitialized() const
 	{
 		return m_initialized;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Sets the initalized state of the engine
+	*************************************************************************/
 	void LBEngine::SetInitialized(bool newState)
 	{
 		m_initialized = newState;
