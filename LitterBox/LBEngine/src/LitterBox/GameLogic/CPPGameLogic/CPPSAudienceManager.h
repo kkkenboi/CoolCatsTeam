@@ -27,13 +27,22 @@ namespace LB
 	public:
 		/*!***********************************************************************
 		\brief
-		Start function to find all audience
+		Inherited Functions from CPPBehaviour that the user must implement
 		*************************************************************************/
 		void Start() override;
 		void Update() override;
 		void Destroy() override;
 
+		/*!***********************************************************************
+		\brief
+		Calls every audience member to cheer
+		*************************************************************************/
 		void Cheer();
+
+		/*!***********************************************************************
+		\brief
+		Resets all audience members' sprite
+		*************************************************************************/
 		void RefreshAudience();
 
 	private:
@@ -42,6 +51,10 @@ namespace LB
 	};
 	REGISTER_SCRIPT(CPPSAudienceManager);
 
+	/*!***********************************************************************
+	\brief
+	For event subscribing, cheers or refreshes the audience
+	*************************************************************************/
 	void AudienceCheer();
 	void RefreshAudience();
 }

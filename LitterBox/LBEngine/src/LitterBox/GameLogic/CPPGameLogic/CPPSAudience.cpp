@@ -17,6 +17,10 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	Inherited Functions from CPPBehaviour that the user must implement
+	*************************************************************************/
 	void CPPSAudience::Start()
 	{
 		m_randomDelayMin = 0.05f;
@@ -30,7 +34,6 @@ namespace LB
 		m_animator = GetComponent<CPAnimator>();
 		Refresh();
 	}
-
 	void CPPSAudience::Update()
 	{
 		if (m_cheerDelayElapsed > 0.f)
@@ -64,17 +67,24 @@ namespace LB
 			}
 		}
 	}
-
 	void CPPSAudience::Destroy()
 	{
 
 	}
 
+	/*!***********************************************************************
+	\brief
+	Causes the audience to cheer like mad.WOOHOO!!
+	*************************************************************************/
 	void CPPSAudience::Cheer()
 	{
 		m_cheerDelayElapsed = m_cheerDelayMin + static_cast<float>(std::rand()) / (RAND_MAX / (m_cheerDelayMax - m_cheerDelayMin));
 	}
 
+	/*!***********************************************************************
+	\brief
+	Changes the audience sprite
+	*************************************************************************/
 	void CPPSAudience::Refresh()
 	{
 		int sprite = 25 + rand() % 5;

@@ -23,11 +23,24 @@ namespace LB
 	class CPPSAudience : public CPPBehaviour
 	{
 	public:
+		/*!***********************************************************************
+		\brief
+		Inherited Functions from CPPBehaviour that the user must implement
+		*************************************************************************/
 		void Start() override;
 		void Update() override;
 		void Destroy() override;
 
+		/*!***********************************************************************
+		\brief
+		Causes the audience to cheer like mad.WOOHOO!!
+		*************************************************************************/
 		void Cheer();
+
+		/*!***********************************************************************
+		\brief
+		Changes the audience sprite
+		*************************************************************************/
 		void Refresh();
 
 	private:

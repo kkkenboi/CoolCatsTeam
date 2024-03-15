@@ -22,6 +22,10 @@
 
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	Inherited Functions from CPPBehaviour that the user must implement
+	*************************************************************************/
 	void CPPSAudienceManager::Start()
 	{
 		// Subscribe important events
@@ -30,7 +34,6 @@ namespace LB
 
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->onNextLevel.Subscribe(LB::RefreshAudience);
 	}
-
 	void CPPSAudienceManager::Update()
 	{
 		if (!m_init)
@@ -43,11 +46,14 @@ namespace LB
 			m_init = true;
 		}
 	}
-
 	void CPPSAudienceManager::Destroy()
 	{
 	}
 
+	/*!***********************************************************************
+	\brief
+	Calls every audience member to cheer
+	*************************************************************************/
 	void CPPSAudienceManager::Cheer()
 	{
 		for (auto* audience : m_audience)
@@ -56,6 +62,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Resets all audience members' sprite
+	*************************************************************************/
 	void CPPSAudienceManager::RefreshAudience()
 	{
 		for (auto* audience : m_audience)
@@ -64,11 +74,14 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	For event subscribing, cheers or refreshes the audience
+	*************************************************************************/
 	void AudienceCheer()
 	{
 		GOMANAGER->FindGameObjectWithName("AudienceManager")->GetComponent<CPPSAudienceManager>()->Cheer();
 	}
-
 	void RefreshAudience()
 	{
 		GOMANAGER->FindGameObjectWithName("AudienceManager")->GetComponent<CPPSAudienceManager>()->RefreshAudience();
