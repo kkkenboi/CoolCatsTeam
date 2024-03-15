@@ -69,6 +69,8 @@ void LB::CPPSPortal::Update()
 					if (intermissionTimer >= intermissionDuration)
 					{
 						expandOut = false;
+						mGameManager->GetComponent<CPPSGameManager>()->onNextLevel.Invoke();
+
 						DebuggerLogFormat("LEVEL %d COMPLETE! Now loading LEVEL %d!", mGameManager->GetComponent<CPPSGameManager>()->GetCurrentWave(),
 							mGameManager->GetComponent<CPPSGameManager>()->GetCurrentWave() + 1);
 					}

@@ -65,24 +65,65 @@ namespace LB
 		**************************************************************************/
 		void SpawnChargerEnemy();
 
+		/*!************************************************************************
+		 * \brief Spawns the crowd anim
+		 * 
+		**************************************************************************/
 		void SpawnCrowdAnim();
-
+		
+		/*!************************************************************************
+		 * \brief Spawns a dummy
+		 * 
+		**************************************************************************/
 		void SpawnDummyEnemy();
 
 		/*!************************************************************************
 		 * \brief Function to reduce the enemy count (should be called by base enemy's hurt)
-		 * 
+		 * (DEPRECATED)
 		**************************************************************************/
 		void ReduceEnemyCount();
+		Event<> onEnemyKill;
+		Event<> onNextLevel;
 
+		/*!************************************************************************
+		 * \brief Function to remove a spawned enemy from the enemy list
+		 * 
+		 * \param enemyToRemove Enemy to remove from the list
+		**************************************************************************/
 		void RemoveSpawnedEnemy(GameObject* enemyToRemove);
 
+		/*!************************************************************************
+		 * \brief Function to show the gameover screen
+		 * 
+		 * \param enemyObj Enemy that killed the player
+		**************************************************************************/
 		void ShowGameOver(GameObject enemyObj);
+
+		/*!************************************************************************
+		 * \brief Function to show the game win (basically transitions to win cutscene)
+		 * 
+		**************************************************************************/
 		void ShowGameWin();
+
+		/*!************************************************************************
+		 * \brief Get the Random Spawn Point object
+		 * 
+		 * \return Vec2<float> Position of random spawn point object
+		**************************************************************************/
 		Vec2<float> GetRandomSpawnPoint();
 
+		/*!************************************************************************
+		 * \brief Get random spawn points (USED IN TUTORIAL)
+		 * 
+		 * \param name Name of the spawn point object
+		**************************************************************************/
 		void FillSpawnPoints(std::string name);
 
+		/*!************************************************************************
+		 * \brief Get the Current Wave object
+		 * 
+		 * \return int current wave
+		**************************************************************************/
 		int GetCurrentWave();
 
 		/*!************************************************************************
@@ -106,7 +147,8 @@ namespace LB
 		//std::vector<std::pair<GameObject*, float>> EnemyPrefabList;
 		std::vector < std::pair<void(CPPSGameManager::*)(), int>> EnemyList;
 		bool GameStart{ false };
-
+		
+		//Player stats
 		int m_PlayerMaxHealth{};
 		int m_PlayerCurrentHealth{};
 		int m_PlayerMaxBalls{};
@@ -116,6 +158,7 @@ namespace LB
 		float m_PlayerWalkSpeed{};
 		float m_PlayerMaxSpeed{};
 		float m_PlayerArbitraryFriction{};
+		//We cache the player spawnpoint
 		Vec2<float> playerSpawnPoint{};
 		//Cheering sound is 7 seconds
 		float crowdTimer{7.f};

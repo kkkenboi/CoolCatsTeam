@@ -1,7 +1,7 @@
 /*!************************************************************************
  \file				CPPSCharger.h
- \author(s)			Vanessa Chua Siew Jin, Ryan Tan Jian Hao, Amadeus Chia
- \par DP email(s):	vanessasiewjin@digipen.edu, ryanjianhao.tan@digipen.edu, amadeusjinhan.chia@digipen.edu
+ \author(s)			Vanessa Chua Siew Jin
+ \par DP email(s):	vanessasiewjin@digipen.edu
  \par Course:		CSD2401A
  \date				27-02-2024
  \brief
@@ -19,20 +19,23 @@ it handles the logic for the Charger enemy
 
 namespace LB
 {
-	class CPPSCharger : public CPPSBaseEnemy
+	class CPPSCharger : public CPPSBaseEnemy //inherit from base enemy
 	{
 	public:
+		//from base
 		void Start() override;
 		void Update() override;
 		void Destroy() override;
 
 		void OnCollisionEnter(CollisionData colData) override;
 		
+		//Hurt and Die from base, overide
 		void Hurt() override;
 		void Die() override;
 		
 		void SetShouldFace(bool state);
 		
+		//Getter and Helper
 		Vec2<float> GetPlayerPos();
 		Vec2<float> GetChargerPos();
 		Vec2<float> DirBToA(Vec2<float> a, Vec2<float> b);
@@ -57,20 +60,20 @@ namespace LB
 		Vec2<float> mChargeNormalForce{};
 
 		//------------------CHARGE STATE------------------
-		float mTimerWhenStunned{}, mStunTimerElapsed{}, mStunStopMovingElapsed{};
+		float mTimerWhenStunned{}, mStunTimerElapsed{}, mStunStopMovingElapsed{};//timer
 
 		//*********************************************************
 
-		bool isChargerDead{ false };
+		bool isChargerDead{ false }; //check if charger is dead
 
-		CPParticle* FootstepsParticle{ nullptr };
+		CPParticle* FootstepsParticle{ nullptr }; //Foot Particles
 
-		CPAnimator* mDizzyAnim{ nullptr }, * mAngerAnim{ nullptr }, * mPuffAnim{ nullptr }, * mMoveAnim{ nullptr }, * mAngerTwoAnim{ nullptr };
+		CPAnimator* mDizzyAnim{ nullptr }, * mAngerAnim{ nullptr }, * mPuffAnim{ nullptr }, * mMoveAnim{ nullptr }, * mAngerTwoAnim{ nullptr }; //Animation
 
 		float m_FootstepsParticleEmitRate{};
 
 
-		CPTransform* mTransform{ nullptr };
+		CPTransform* mTransform{ nullptr }; //trans of the GO
 
 		//Charger's Dizzy Effects
 		GameObject* mDizzyObj{ nullptr }; //will be spawnned when got stunned
@@ -86,8 +89,9 @@ namespace LB
 		CPTransform* mAngerObjTwoTrans{ nullptr };
 		CPRender* mAngerTwoRender{nullptr};
 
-
+		//bool check for shield
 		bool m_isCharging{  }, m_isStunned{  }, m_isHurt{  }, m_isLocked{  };
+		// A helper function to change state in the shield
 		void ChangeToStunned();
 
 	private:

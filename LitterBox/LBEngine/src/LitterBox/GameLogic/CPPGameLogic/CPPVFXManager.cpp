@@ -1,3 +1,15 @@
+/*!************************************************************************
+ * \file				CPPVFXManager.cpp
+ * \author(s)			Amadeus Chia 
+ * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
+ * \par Course:       	CSD
+ * \date				15/03/2024
+ * \brief 				Source file for the VFX manager that manages the spawning of vfx in
+ * 						in the game
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "CPPVFXManager.h"
 #include "LitterBox/Factory/Components.h"
 #include "LitterBox/Factory/GameObjectFactory.h"
@@ -5,6 +17,7 @@
 #include <random>
 namespace LB
 {
+	//Normal override methods that are not used
 	void CPPSVFXManager::Start()
 	{
 		
@@ -16,7 +29,13 @@ namespace LB
 	void CPPSVFXManager::Destroy()
 	{
 	}
-	//Spawn functions that spawn the GO then removes them after 2 seconds
+
+	/*!************************************************************************
+	 * \brief Function to spawn the explosion anim
+	 * 
+	 * \param pos position to spawn the vfx in
+	 * \param scale scale for the explosion vfx
+	**************************************************************************/
 	void CPPSVFXManager::SpawnExplosion(Vec2<float> pos, float scale)
 	{
 		GameObject* explosionClone = FACTORY->SpawnGameObject();
@@ -26,6 +45,12 @@ namespace LB
 		explosionClone->GetComponent<CPAnimator>()->Play("VFX_Explosion");
 		GOMANAGER->RemoveGameObject(explosionClone, 2.f);
 	}
+
+	/*!************************************************************************
+	 * \brief Function to spawn the hit anim
+	 * 
+	 * \param pos position to spawn it in
+	**************************************************************************/
 	void CPPSVFXManager::SpawnHitAnim(Vec2<float> pos)
 	{
 		GameObject* hitFXClone = FACTORY->SpawnGameObject();
@@ -44,6 +69,13 @@ namespace LB
 		hitFXClone->GetComponent<CPTransform>()->SetRotation(static_cast<float>(rotOffset));
 		GOMANAGER->RemoveGameObject(hitFXClone, 2.f);
 	}
+
+	/*!************************************************************************
+	 * \brief function to spawn the poof anim
+	 * 
+	 * \param pos position to spawn it in
+	 * \param scaleMult scale of the poof anim
+	**************************************************************************/
 	void CPPSVFXManager::SpawnPoofAnim(Vec2<float> pos, float scaleMult)
 	{
 		GameObject* poofClone = FACTORY->SpawnGameObject();

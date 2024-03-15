@@ -5,7 +5,7 @@
  * \par Course:       	CSD2450A
  * \date				10/03/2024
  * \brief 				This file contains the file declarations for the
- *						SplashScreen
+ *						SplashScreen (WIP)
  * 						
  *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
  *  disclosure of this file or its contents without the prior written consent
@@ -19,17 +19,17 @@
 
 namespace LB
 {
-	class SplashScreen : public CPPBehaviour
+	class SplashScreen : public CPPBehaviour //inherit from CPPBehaviour
 	{
 	public:
+		//from cppbehaviour
 		void Start() override;
 
 		void Update() override;
 
 		void Destroy() override;
 
-
-
+		//Game Object to get the texture
 		GameObject* DigiPenTexture{ nullptr };
 		GameObject* PurrfectPuttTexture{ nullptr };
 

@@ -170,7 +170,18 @@ namespace LB
 		**************************************************************************/
 		void SetChannelVolume(int ChannelID, float _vol);
 
+		/*!************************************************************************
+		 * \brief Function to fade out a specific channel
+		 * 
+		 * \param duration duration of the fade out
+		**************************************************************************/
 		void FadeOutChannels(float duration);
+
+		/*!************************************************************************
+		 * \brief Function to fade in a specific channel
+		 * 
+		 * \param duration duration of the fade in
+		**************************************************************************/
 		void FadeinChannels(float duration);
 
 		//bool IsPlaying(std::string soundName);
@@ -271,6 +282,7 @@ namespace LB
 												 	 "Mage Death_4",
 													 "Mage Death_5" };
 
+		//CHARGER SOUND
 		std::vector<std::string> ChargerAttackSounds = { "Rhyno_Attack_1",
 														 "Rhyno_Attack_2",
 														 "Rhyno_Attack_3",
@@ -295,6 +307,7 @@ namespace LB
 
 		std::vector<std::string> ChargerChargingSounds = { "Trains_Horn_Train_Whistle_Old_SND59554" };
 
+		//BUSHES SOUNDS
 		std::vector<std::string> BushSounds = { "Passing Through Shrug_SFX_1",
 												"Passing Through Shrug_SFX_2",
 												"Passing Through Shrug_SFX_3",
@@ -310,7 +323,6 @@ namespace LB
 	};
 
 
-	void RemoveAllAudioSources(bool isPlaying);
 
 
 	/*!************************************************************************
@@ -321,6 +333,7 @@ namespace LB
 	void UnPause();	//Wrapper for UnPauseAllChannels
 	void FadeOut();	//Wrapper to fadeout all channels
 	void FadeIn();	//Wrapper to fadein all channels
+	void RemoveAllAudioSources(bool isPlaying);
 	/*!***********************************************************************
 	 * \brief Global Pointer for the AudioManager
 	 * 

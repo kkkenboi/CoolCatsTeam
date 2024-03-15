@@ -274,16 +274,30 @@ namespace LB
 		return currentBallUpgrades;
 	}
 
+	/*!************************************************************************
+	 * \brief Function to set whether upgrades are spawned
+	 *
+	 * \param Whether spawned or not
+	**************************************************************************/
 	void CPPSUpgradeManager::SetSpawned(bool spawned)
 	{
 		isSpawned = spawned;
 	}
 
+	/*!************************************************************************
+	 * \brief Accessor for isSpawned
+	 * 
+	**************************************************************************/
 	bool CPPSUpgradeManager::GetSpawned() const
 	{
 		return isSpawned;
 	}
 
+	/*!************************************************************************
+	 * \brief Bool to check if the player has the upgrade
+	 * 
+	 * \param upgradeType Upgrade to check
+	**************************************************************************/
 	bool CPPSUpgradeManager::HasUpgrade(int upgradeType)
 	{
 		return (currentBallUpgrades & (1 << upgradeType));

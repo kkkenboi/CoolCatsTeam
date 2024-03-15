@@ -99,7 +99,11 @@ namespace LB
 		**************************************************************************/
 		bool GetSpawned() const;
 
-
+		/*!************************************************************************
+		 * \brief Function to check if the player has the upgrade or not
+		 * 
+		 * \param upgradeType Upgrade to check
+		**************************************************************************/
 		bool HasUpgrade(int upgradeType);
 
 		//Really scuffed way of making upgrades

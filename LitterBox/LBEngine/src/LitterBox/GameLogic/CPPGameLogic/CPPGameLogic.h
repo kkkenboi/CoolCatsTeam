@@ -30,6 +30,10 @@ namespace LB
 			} \
 		}; static scriptClass##Registrar scriptClass##Registration; \
 
+	/*!***********************************************************************
+	 \brief
+	 Generic script type constructor
+	*************************************************************************/
 	class ScriptFactoryBase {
 	public:
 		virtual CPPBehaviour* CreateInstance() = 0;
@@ -37,6 +41,10 @@ namespace LB
 		virtual ~ScriptFactoryBase() = default;
 	};
 
+	/*!***********************************************************************
+	 \brief
+	 Constructor for each script type
+	*************************************************************************/
 	template <typename T>
 	class ScriptFactory : public ScriptFactoryBase
 	{
@@ -47,6 +55,10 @@ namespace LB
 		}
 	};
 
+	/*!***********************************************************************
+	 \brief
+	 Unique identifier for each script type
+	*************************************************************************/
 	class ScriptTypeID
 	{
 	public:

@@ -127,7 +127,7 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	Desroy function fpr Mage, clear the states
+	Destroy function for Mage, clear the states
 	*************************************************************************/
 	void CPPSMage::Destroy()
 	{
@@ -140,6 +140,10 @@ namespace LB
 		//delete mFSM.GetState("Death");
 	}
 
+	/*!***********************************************************************
+	\brief
+	Hurt function for Mage, Call base enemy hurt function, aggro to true
+	*************************************************************************/
 	void CPPSMage::Hurt()
 	{
 		isAggro = true;
@@ -189,6 +193,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Die function call base enemy die
+	*************************************************************************/
 	void CPPSMage::Die()
 	{
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageDeathSounds,0.2f);

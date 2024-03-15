@@ -113,8 +113,16 @@ namespace LB
 		*************************************************************************/
 		void SetPlayingMode(bool newState);
 
+		/*!***********************************************************************
+		 \brief
+		 Returns true if the engine is fully initialized
+		*************************************************************************/
 		bool IsInitialized() const;
 
+		/*!***********************************************************************
+		 \brief
+		 Sets the initalized state of the engine
+		*************************************************************************/
 		void SetInitialized(bool newState);
 
 		// Event to let any subscribers know the editor mode has been toggled

@@ -48,7 +48,7 @@ namespace LB
 		float rotAngle{ 0 };
 		float circleTimer{};	//separate timer for the circle expansion
 		float intermissionTimer{};
-		float intermissionDuration{ 2.f };
+		float intermissionDuration{ 1.f };
 
 	};
 	REGISTER_SCRIPT(CPPSPortal)

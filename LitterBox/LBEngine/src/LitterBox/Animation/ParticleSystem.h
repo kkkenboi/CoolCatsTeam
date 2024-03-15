@@ -127,7 +127,10 @@ namespace LB {
 		mode
 		*************************************************************************/
 		void WhenCoreNotPlaying();
-
+		/*!***********************************************************************
+		\brief
+		This function allows to spawn a particle from given parameters
+		*************************************************************************/
 		void CreateParticle(Vec2<float> pos, float lifetime, 
 			float varXMin, float varXMax,
 			float varYMin, float varYMax,
@@ -146,6 +149,10 @@ namespace LB {
 		std::vector<std::pair<std::string, EmitterType>> mEmitterTypes{};
 	};
 
+	/*!***********************************************************************
+	\brief
+	This function clears the ParticlePool and EmitterPool
+	*************************************************************************/
 	void ClearPool(Scene* newScene);
 
 	/*!***********************************************************************

@@ -91,6 +91,10 @@ namespace LB
 			}
 		}
 
+		/*!***********************************************************************
+		 \brief
+		 GetComponent function within Component class for convenience
+		*************************************************************************/
 		template <typename T>
 		T* GetComponent()
 		{

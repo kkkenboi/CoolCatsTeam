@@ -527,6 +527,12 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	* \brief Removes a Gameobject from the current pool of Gameobjects after a set time
+	* 
+	* \param gameObject Gameobject to remove
+	* \param timer time before removal
+	**************************************************************************/
 	void GameObjectManager::RemoveGameObject(GameObject* gameObject, float timer)
 	{
 		const auto& it = std::find(m_GameObjects.begin(), m_GameObjects.end(), gameObject);
@@ -590,43 +596,43 @@ namespace LB
 			}
 		}
 
-		//Now we check for the ones due for timed deletion
-		for (const auto& [go,time] : m_TimedDeletionGameObjects)
-		{
-			//If the current time has exceeded our stored time
-			if (TIME->GetTime() >= time) //then it's due for deletion
-			{
-				//technically, I can just like... push it to the m_ToBeDeletedGO's and let it be 
-				//destroyed 1 frame later, like it literally doesn't make that much of a diff..
+		// //Now we check for the ones due for timed deletion
+		// for (const auto& [go,time] : m_TimedDeletionGameObjects)
+		// {
+		// 	//If the current time has exceeded our stored time
+		// 	if (TIME->GetTime() >= time) //then it's due for deletion
+		// 	{
+		// 		//technically, I can just like... push it to the m_ToBeDeletedGO's and let it be 
+		// 		//destroyed 1 frame later, like it literally doesn't make that much of a diff..
 
-				//But well... First we call the necessary destroy stuff
-			/*	onGameObjectDestroy.Invoke(go);
+		// 		//But well... First we call the necessary destroy stuff
+		// 	/*	onGameObjectDestroy.Invoke(go);
 
-				auto it2 = std::find_if(m_TimedDeletionGameObjects.begin(), m_TimedDeletionGameObjects.end(),
-					[&](const auto& pair) {return pair.first == go; });
-				m_TimedDeletionGameObjects.erase(it2);
+		// 		auto it2 = std::find_if(m_TimedDeletionGameObjects.begin(), m_TimedDeletionGameObjects.end(),
+		// 			[&](const auto& pair) {return pair.first == go; });
+		// 		m_TimedDeletionGameObjects.erase(it2);
 
-				auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), go);
-				if (it != m_GameObjects.end())
-				{
-					m_GameObjects.erase(it);
-					go->Destroy();
-				}*/
+		// 		auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), go);
+		// 		if (it != m_GameObjects.end())
+		// 		{
+		// 			m_GameObjects.erase(it);
+		// 			go->Destroy();
+		// 		}*/
 
-				//onGameObjectDestroy.Invoke(go);
-				//auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), go);
-				////now we need to remove it from our own timed deletion vector...
-				////     _=+`^*~ get ready for some lambda magic ~*^`+=_
-				////We capture by reference and search the vector list of pairs
-				////if we find something that matches our GO by pointer, then we gottem
-				//auto it2 = std::find_if(m_TimedDeletionGameObjects.begin(), m_TimedDeletionGameObjects.end(),
-				//	[&](const auto& pair) {return pair.first == go; });
-				//m_GameObjects.erase(it);	//remove it from the list of GO's
-				//go->Destroy();				//the order of destruction matters here!
-				////Once the GO is destroyed, then I can erase it from the vector
-				//m_TimedDeletionGameObjects.erase(it2);
-			}
-		}
+		// 		//onGameObjectDestroy.Invoke(go);
+		// 		//auto it = std::find(m_GameObjects.begin(), m_GameObjects.end(), go);
+		// 		////now we need to remove it from our own timed deletion vector...
+		// 		////     _=+`^*~ get ready for some lambda magic ~*^`+=_
+		// 		////We capture by reference and search the vector list of pairs
+		// 		////if we find something that matches our GO by pointer, then we gottem
+		// 		//auto it2 = std::find_if(m_TimedDeletionGameObjects.begin(), m_TimedDeletionGameObjects.end(),
+		// 		//	[&](const auto& pair) {return pair.first == go; });
+		// 		//m_GameObjects.erase(it);	//remove it from the list of GO's
+		// 		//go->Destroy();				//the order of destruction matters here!
+		// 		////Once the GO is destroyed, then I can erase it from the vector
+		// 		//m_TimedDeletionGameObjects.erase(it2);
+		// 	}
+		// }
 
 		//while (!m_ToBeDeletedGameObjects.empty())
 		//{

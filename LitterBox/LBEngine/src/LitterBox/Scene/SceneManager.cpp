@@ -288,6 +288,12 @@ namespace LB
 		return false;
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Returns true once the scene is fully loaded, last scene destroyed, new
+	 scene data deserialized, etc.
+	 Does not check if scripts are loaded.
+	*************************************************************************/
 	bool SceneManager::IsSceneFullyLoaded()
 	{
 		return m_fullyLoaded;

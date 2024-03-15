@@ -19,8 +19,9 @@
 
 namespace LB
 {
-	class CPPShield : public CPPBehaviour
+	class CPPShield : public CPPBehaviour //inherit from CPPBehaviour
 	{
+		//From Behaviour
 		void Start() override;
 
 		void Update() override;
@@ -45,26 +46,18 @@ namespace LB
 		GameObject* GetPlayer();
 		Vec2<float> GetPlayerPos();
 
-		//Vec2<float> DirOfThePlayer;
-
-		float offset{ 75.0f };
+		float offset{ 75.0f }; //offset distance from the charger
 
 		// TODO: REFACTOR, TEMP HACK UNTIL CHILD STARTING IS FIXED
 		bool m_ScriptSet{ false };
 
-		CPCollider* GetCollider();
+		CPCollider* GetCollider(); //getter for collider
 
 		CPRender* mRender{ nullptr };
 		CPRigidBody* mRigidBody{ nullptr };
 		CPCollider* mCollider{ nullptr };
 
-		//GameObject* mBall;
-
 		void OnCollisionEnter(CollisionData colData) override;
-
-		//void SetShouldFace(bool state);
-
-		//bool mShouldFace{ false };
 	
 	};
 	REGISTER_SCRIPT(CPPShield)

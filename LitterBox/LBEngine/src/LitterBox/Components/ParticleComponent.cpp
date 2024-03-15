@@ -207,11 +207,20 @@ namespace LB {
 		mEmitterLifetimeRemaining = mEmitterLifetime;
 	}
 
+
+	/*!***********************************************************************
+		\brief
+		Makes it so that the CPParticle emitter will try to delete itself later
+	*************************************************************************/
 	void CPParticle::SetDeletion(bool state)
 	{
 		mWillDelete = state;
 	}
 
+	/*!***********************************************************************
+		\brief
+		Sets the deletion time for the CPParticle emitter
+	*************************************************************************/
 	void CPParticle::SetDeletionTime(float time) 
 	{
 		mEmitterDeletionLifetime = time;
