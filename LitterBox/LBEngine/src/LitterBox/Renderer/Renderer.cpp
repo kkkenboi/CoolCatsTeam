@@ -836,7 +836,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 		size_t end_of_word{ msg.text.find_first_of(' ', stroffset) == std::string::npos ? msg.text.size() : msg.text.find_first_of(' ', stroffset) };
 		std::string word{ msg.text.substr(stroffset, end_of_word - stroffset + 1) };
 
-		bool newline{ false };
+		//bool newline{ false };
 
 		int adv{ 0 };
 		float prev_x = x;
@@ -1066,7 +1066,7 @@ void change_vp()
 	float diff{ (float)LB::WINDOWSSYSTEM->GetHeight() - height };
 	glViewport(0, (int)(diff * 0.5f), LB::WINDOWSSYSTEM->GetWidth(), (int)height);
 
-	LB::WINDOWSSYSTEM->updateScreenSize(LB::WINDOWSSYSTEM->GetWidth(), height, diff * 0.5f);
+	LB::WINDOWSSYSTEM->updateScreenSize(static_cast<float>(LB::WINDOWSSYSTEM->GetWidth()), height, diff * 0.5f);
 }
 
 glm::mat4 cameraMat{ glm::perspective(glm::radians(90.f), 1920.f/1080.f, 0.1f, 10.f) };

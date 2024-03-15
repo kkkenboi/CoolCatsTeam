@@ -15,7 +15,7 @@ void LB::CPPSPortal::Update()
 	//we have to check this because CPPBehaviour runs things even though in active (for now)
 	if (GameObj->IsActive())
 	{
-		rotAngle += TIME->GetDeltaTime() * 100;
+		rotAngle += TIME->GetDeltaTime() * 100.f;
 		GetComponent<CPTransform>()->SetRotation(rotAngle);
 		GetComponent<CPTransform>()->GetChild(0)->gameObj->SetActive(true);
 		GetComponent<CPTransform>()->GetChild(1)->gameObj->SetActive(true);
@@ -28,7 +28,7 @@ void LB::CPPSPortal::Update()
 	//If the transition is happening, we want to increment all our timers and do the transition
 	if (isTransitioning)
 	{
-		timer += TIME->GetDeltaTime();
+		timer += static_cast<float>(TIME->GetDeltaTime());
 		//Lerp the player to that pos
 		if ((timer/0.75f) <= 1.f) //I think the lerp is implemented a bit wrongly
 		{
@@ -40,7 +40,7 @@ void LB::CPPSPortal::Update()
 		if (timer >= 1.f) //this means player should be in centre now so we can spin and scale now
 		{
 			//By right I think we couldddd probably use an anim state for this but oh well
-			rotTimer += TIME->GetDeltaTime();
+			rotTimer += static_cast<float>(TIME->GetDeltaTime());
 			//First we rotate the player
 			mPlayer->GetComponent<CPTransform>()->SetRotation(rotTimer * rotAnglePerSec);
 			//Then we scale him down till he's tiny
@@ -58,14 +58,14 @@ void LB::CPPSPortal::Update()
 				mPortalCenter->SetActive(true);
 		
 				//At the start the expandout bool is true so the circle expands
-				if(expandOut) circleTimer += TIME->GetDeltaTime();
-				else circleTimer -= TIME->GetDeltaTime();
+				if(expandOut) circleTimer += static_cast<float>(TIME->GetDeltaTime());
+				else circleTimer -= static_cast<float>(TIME->GetDeltaTime());
 
 				if (circleTimer >= 1.f)
 				{	//Once the 1 second time has been reached, it should be max size
 					circleTimer = 1;
 					//THIS IS WHERE YOU PUT THE INTERMISSION STUFF!!!
-					intermissionTimer += TIME->GetDeltaTime();
+					intermissionTimer += static_cast<float>(TIME->GetDeltaTime());
 					if (intermissionTimer >= intermissionDuration)
 					{
 						expandOut = false;

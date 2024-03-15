@@ -33,7 +33,7 @@ namespace LB
 		hitFXClone->GetComponent<CPTransform>()->SetPosition(pos);
 		hitFXClone->GetComponent<CPAnimator>()->Play("VFX_Hit");
 		//Setting the scale UNIFORMLY
-		std::mt19937 generator(TIME->GetTime());
+		std::mt19937 generator(static_cast<unsigned int>(TIME->GetTime()));
 		std::uniform_real_distribution<float> uniform_distribution(-0.5f, 0.5f);
 		auto rngScaleOffset = std::bind(uniform_distribution, generator);
 		Vec2<float> randomScale(1+rngScaleOffset(),1+rngScaleOffset());
@@ -41,7 +41,7 @@ namespace LB
 		//Setting the rotation randomly
 		int rotOffset = (rand() % 360);
 		hitFXClone->GetComponent<CPTransform>()->SetScale(randomScale*2);
-		hitFXClone->GetComponent<CPTransform>()->SetRotation(rotOffset);
+		hitFXClone->GetComponent<CPTransform>()->SetRotation(static_cast<float>(rotOffset));
 		GOMANAGER->RemoveGameObject(hitFXClone, 2.f);
 	}
 	void CPPSVFXManager::SpawnPoofAnim(Vec2<float> pos, float scaleMult)

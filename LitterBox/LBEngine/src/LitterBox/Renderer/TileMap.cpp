@@ -243,7 +243,7 @@ namespace LB
 		//resize the vector for easier manipulation
 		minMax.resize(m_grid.size());
 		//we want to loop through to get the min max values of each tile in the grid
-		for(int y{0}; y < m_rows; ++y)
+		//for(int y{0}; y < m_rows; ++y)
 			//for (int x{ 0 }; x < cols; ++x)
 			//{
 			//	//NOTE GRID VALUES START FROM 1 SO WE SPLIT UP THE TEXTURE AS SUCH
@@ -393,7 +393,7 @@ namespace LB
 					newGO->GetComponent<CPRender>()->spriteIndex = tm[layer][x + y * tm[layer].getCols()];
 					newGO->GetComponent<CPRender>()->SetSpriteTexture(tm.m_spriteSheetName, tm[layer][x + y * tm[layer].getCols()]);
 
-					newGO->GetComponent<CPRender>()->z_val = tm.Size() - layer;
+					newGO->GetComponent<CPRender>()->z_val = static_cast<float>(tm.Size() - layer);
 
 					//edit the Width and Height of the CPRender
 					newGO->GetComponent<CPRender>()->w = w + 1.f;

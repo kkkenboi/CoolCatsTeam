@@ -61,7 +61,7 @@ namespace LB {
 			}
 			else 
 			{
-				mEmitterDeletionLifetimeRemaining -= TIME->GetDeltaTime();
+				mEmitterDeletionLifetimeRemaining -= static_cast<float>(TIME->GetDeltaTime());
 			}
 		}
 

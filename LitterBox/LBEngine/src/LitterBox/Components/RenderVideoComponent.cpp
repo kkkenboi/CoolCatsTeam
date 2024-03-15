@@ -154,7 +154,7 @@ namespace LB
 
 		//2. find the video stream that we want in the file
 		video_stream_index = -1;
-		for (int i{ 0 }; i < av_format_ctx->nb_streams; ++i)
+		for (int i{ 0 }; i < static_cast<int>(av_format_ctx->nb_streams); ++i)
 		{
 			auto stream = av_format_ctx->streams[i];
 			av_codec_params = av_format_ctx->streams[i]->codecpar;

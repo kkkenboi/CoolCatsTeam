@@ -39,20 +39,20 @@ namespace LB
 		**************************************************************************/
 		void Destroy() override;
 		//Caching the Direction Helper's own transform for easy access
-		CPTransform* mTransform;
-		CPTransform* mPlayerTransform;
-		CPTransform* mEventTransform;
+		CPTransform* mTransform{ nullptr };
+		CPTransform* mPlayerTransform{ nullptr };
+		CPTransform* mEventTransform{ nullptr };
 
-		GameObject* mCameraFollow;
-		GameObject* mGameManager;
-		GameObject* mIconObject;
+		GameObject* mCameraFollow{ nullptr };
+		GameObject* mGameManager{ nullptr };
+		GameObject* mIconObject{nullptr};
 
-		Vec2<float> DirToEvent;
+		Vec2<float> DirToEvent{};
 
 		bool mLastEnemy{ false };
 
-		float distance;
-		float iconDistance;
+		float distance{};
+		float iconDistance{};
 	};
 	REGISTER_SCRIPT(CPPSDirectionHelper)
 

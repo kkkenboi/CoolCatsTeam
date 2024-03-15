@@ -52,19 +52,19 @@ namespace LB
 		GameObject* m_CameraFollow{ nullptr };
 		GameObject* m_MouseWorld{ nullptr };
 
-		float m_stepSoundInterval, m_stepSoundCurrent; //walking Speed, max speed cap for walking, playing sound duration 
+		float m_stepSoundInterval{}, m_stepSoundCurrent{}; //walking Speed, max speed cap for walking, playing sound duration 
 
-		float mGotAttacked, mGotAttackedCooldown; //attacking and cooling down of the attack
+		float mGotAttacked{}, mGotAttackedCooldown{}; //attacking and cooling down of the attack
 
-		bool mIsStunned;
-		float mStunRemaining, mStunTimer; // when getting attack get stunned
+		bool mIsStunned{ false };
+		float mStunRemaining{}, mStunTimer{}; // when getting attack get stunned
 
-		float m_shootForce, m_shootRadius; //shooting of the golf ball force and the radius to shoot
-		float m_handOffset;
+		float m_shootForce{}, m_shootRadius{}; //shooting of the golf ball force and the radius to shoot
+		float m_handOffset{};
 
-		bool m_isFacingLeft; //facing which direction
+		bool m_isFacingLeft{}; //facing which direction
 
-		float m_particleEmitRate;
+		float m_particleEmitRate{};
 
 		Event<> onTakingDamage;
 		Event<> onPlacingBall;

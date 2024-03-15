@@ -188,7 +188,7 @@ namespace LB
 		//Timer for the crowd, if the crowd texture is active then we want to do stuff
 		if (crowdTexture->IsActive())
 		{
-			timer += TIME->GetDeltaTime();
+			timer += static_cast<float>(TIME->GetDeltaTime());
 			Vec2<float> crowdPos{ cachedCrowdPos };
 			//temporary thing until we get the anim in
 			//This basically just lerps the thing down in 7 seconds
@@ -209,7 +209,7 @@ namespace LB
 		if (gameOverTexture->IsActive())
 		{
 			//We get the mouse position
-			Vec2<float> mouse_pos = GOMANAGER->FindGameObjectWithName("MouseUI")->GetComponent<CPPSMouseUI>()->GetComponent<CPTransform>()->GetPosition();
+			mouse_pos = GOMANAGER->FindGameObjectWithName("MouseUI")->GetComponent<CPPSMouseUI>()->GetComponent<CPTransform>()->GetPosition();
 			//Then we get all the colliders near the mouse
 			bool _restartHovered{ false }, _quitHovered{ false };
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(mouse_pos, 1.0f);

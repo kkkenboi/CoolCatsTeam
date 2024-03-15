@@ -38,6 +38,7 @@ namespace LB
 
 	void CPPSSandpit::OnCollisionEnter(CollisionData colData)
 	{
+		UNREFERENCED_PARAMETER(colData);
 	}
 
 	void CPPSSandpit::OnCollisionStay(CollisionData colData)
