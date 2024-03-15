@@ -98,6 +98,7 @@ namespace LB
 
 			canDestroy = true;
 			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->HideUpgrades(assignedUpgradeType);
+			if (GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->GetCurrentWave() == 0) return;
 			switch (GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->upgradeCount)
 			{
 			case 1:

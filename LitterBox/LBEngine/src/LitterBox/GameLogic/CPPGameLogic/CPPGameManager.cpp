@@ -158,6 +158,19 @@ namespace LB
 		//	GenerateWave();
 		//	UpgradePicked = false;
 		//}
+
+		// For tutorial upgrade creation
+		if (currentWave == 0 && SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned)
+		{
+			UpgradeSpawned = true;
+			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
+		
+			std::vector<GameObject*> Balls = GOMANAGER->FindGameObjectsWithName("ball");
+			for (GameObject* ball : Balls)
+			{
+				ball->GetComponent<CPPSPlayerGolfBall>()->DestroyBall();
+			}
+		}
 		
 		//If game's started, upgrade hasn't spawned and no enemies and not tutorial
 		if (SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned && currentWave)
@@ -491,7 +504,7 @@ namespace LB
 			JSONSerializer::DeserializeFromFile(name, *dummyClone);
 			dummyClone->GetComponent<CPTransform>()->SetPosition(pos);
 			// Need to increment it here as we are not adding it to the list of enemies
-			currentEnemyCount++;
+			SpawnedeEnemiesList.push_back(dummyClone);
 		}
 	}
 
