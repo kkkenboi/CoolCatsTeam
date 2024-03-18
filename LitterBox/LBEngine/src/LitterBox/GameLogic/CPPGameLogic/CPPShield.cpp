@@ -103,10 +103,10 @@ namespace LB
 			//std::cout << "Collided with: " << colData.colliderOther->m_gameobj->GetName() << "\n";
 			mChargerScript->ChangeToStunned();
 		}
-		//else if (colData.colliderOther->m_gameobj->GetName() == "ball")
-		//{
-		//	std::cout << "GOT HIT BALL\n";
-		//}
+		else if (colData.colliderOther->m_gameobj->GetName() == "ball")
+		{
+			//std::cout << "GOT HIT BALL\n";
+		}
 
 ;	}
 
