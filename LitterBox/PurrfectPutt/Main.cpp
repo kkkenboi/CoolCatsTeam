@@ -27,9 +27,9 @@
 Creates the application in the project area, to be used by other projects
 eg. Sandbox
 *************************************************************************/
-LB::Application* LB::CreateApplication(bool editorMode, bool startPlaying)
+LB::Application* LB::CreateApplication(bool editorMode)
 {
-	return DBG_NEW Application(editorMode, startPlaying);
+	return DBG_NEW Application(editorMode);
 }
 
 /*!***********************************************************************
@@ -39,8 +39,9 @@ LB::Application* LB::CreateApplication(bool editorMode, bool startPlaying)
 int WINAPI WinMain(_In_ HINSTANCE instanceH, _In_opt_ HINSTANCE prevInstanceH, _In_ LPSTR command_line, _In_ int show)
 {
 	bool editorMode = false;
+	auto app = LB::CreateApplication(editorMode);
+	app->Initialise(true);
 
-	auto app = LB::CreateApplication(editorMode, true);
 	while (app->IsRunning()) 
 	{
 		LB::TIME->LBFrameStart();

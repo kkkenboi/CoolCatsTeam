@@ -61,6 +61,11 @@ namespace LB
 		CORE->ToggleEditorMode();
 	}
 
+	void UpdateInspectedScene(Scene* newScene)
+	{
+		Preferences::Instance()->m_inspectedScene = newScene->GetName();
+	}
+
 	/*!***********************************************************************
 	  \brief
 	  Constructor for the Editor class.
@@ -76,6 +81,10 @@ namespace LB
 		}
 		else
 			DebuggerLogError("Editor System already exists!");
+
+		// Load preferences
+		Preferences::Instance()->LoadPreferences();
+		SCENEMANAGER->m_firstScene = Preferences::Instance()->m_inspectedScene;
 
 		// Initialize command manager
 		commandManager = std::make_shared<CommandManager>();
@@ -101,7 +110,7 @@ namespace LB
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorRenderLayer>("Render Layers"));
 		m_ImGuiLayers.AddLayer(std::make_shared<EditorCollisionGrid>("Collision Grid"));
 
-		Initialize();
+		//Initialize();
 	}
 
 	/*!***********************************************************************
@@ -141,9 +150,6 @@ namespace LB
 		ImGui_ImplGlfw_InitForOpenGL(WINDOWSSYSTEM->GetWindow(), true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 
-		// Load preferences
-		Preferences::Instance()->LoadPreferences();
-
 		// Set Style
 		std::filesystem::path iniLocation(ASSETMANAGER->_appData / ASSETMANAGER->folderName / Preferences::Instance()->m_editoriniFile);
 		// For new users, if the ini does not exist, copy the default ini in Editor/Layouts
@@ -157,6 +163,8 @@ namespace LB
 		ImGui::GetIO().IniFilename = Preferences::Instance()->m_editoriniFilePath.c_str();
 
 		ImGui::StyleColorsDark();
+
+		SCENEMANAGER->onNewSceneLoad.Subscribe(&UpdateInspectedScene);
 
 		// Call Initialize for all layers in the layerstack
 		m_ImGuiLayers.InitializeLayers();

@@ -379,6 +379,8 @@ namespace LB
 
 					//add the object into the vector
 					newGO = FACTORY->SpawnGameObject();
+					//set the name of the game object
+					newGO->SetName("Tile" + std::to_string(x) + "_" + std::to_string(y));
 					//add render component to the newly created game object
 					newGO->AddComponent(ComponentTypeID::C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 					midx = w * x + w * 0.5f; //calculate the x value of the tile
