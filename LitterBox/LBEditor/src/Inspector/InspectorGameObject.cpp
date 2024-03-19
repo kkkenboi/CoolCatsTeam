@@ -204,6 +204,22 @@ namespace LB
 					ImGui::CloseCurrentPopup();
 				}
 			}
+			ImGui::Separator();
+			if (ImGui::MenuItem("Audio Listener"))
+			{
+				if (m_inspectedGO->HasComponent<CPAudioListener>())
+				{
+					DebuggerLogWarning("Audio Listener already exists.");
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					m_inspectedGO->AddComponent(C_CPAudioListener, FACTORY->GetCMs()[C_CPAudioListener]->Create());
+					//m_inspectedGO->GetComponent<CPAudioSource>()->Initialise();
+					DebuggerLog("Audio Listener component Added!");
+					ImGui::CloseCurrentPopup();
+				}
+			}
 
 			ImGui::Separator();
 			if (ImGui::MenuItem("Text Component"))
@@ -990,6 +1006,25 @@ namespace LB
 				if (ImGui::Button("Delete Audio Source Component"))
 				{
 					m_inspectedGO->RemoveComponent(C_CPAudioSource);
+				}
+			}
+		}
+		if (m_inspectedGO->HasComponent<CPAudioListener>())
+		{
+			if (ImGui::CollapsingHeader("Audio Listener", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				isActive = m_inspectedGO->GetComponent<CPAudioListener>()->m_active;
+				ImGui::PushID("AudioListenerActive");
+				ImGui::Checkbox("Active", &isActive);	
+				ImGui::PopID();
+				if (isActive != m_inspectedGO->GetComponent<CPAudioListener>()->m_active)
+				{
+					m_inspectedGO->GetComponent<CPAudioListener>()->ToggleActiveFlag(isActive);
+				}
+				// Delete Component
+				if (ImGui::Button("Delete Audio Listener Component"))
+				{
+					m_inspectedGO->RemoveComponent(C_CPAudioListener);
 				}
 			}
 		}
