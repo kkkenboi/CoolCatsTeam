@@ -45,6 +45,7 @@ namespace LB
 		CreateComponentMaker(CPScript,		C_CPScript);
 		CreateComponentMaker(CPScriptCPP,	C_CPScriptCPP);
 		CreateComponentMaker(CPAudioSource, C_CPAudioSource);
+		CreateComponentMaker(CPAudioListener, C_CPAudioListener);
 		CreateComponentMaker(CPText, 		C_CPText);
 		CreateComponentMaker(CPAnimator,	C_CPAnimator);
 		CreateComponentMaker(CPParticle,	C_CPParticle);
