@@ -179,7 +179,7 @@ namespace LB
 	  \param columns
 	  The number of columns in the tile map
 	*************************************************************************/
-	TileMap::TileMap() : m_rows{ 10 }, m_cols{ 10 }
+	TileMap::TileMap() : m_rows{ 30 }, m_cols{ 30 }
 	{
 		m_grid.resize(m_rows * m_cols, -1);
 	}
@@ -360,7 +360,7 @@ namespace LB
 	{
 		//hard coded width and height of tile
 		//CHANGE THE W and H VALUES TO CHANGE THE SIZE OF THE TILE
-		float w = 250.f, h = 250.f, midx, midy;
+		float w = 128.f, h = 128.f, midx, midy;
 
 		GameObject* parentGO = FACTORY->SpawnGameObject();
 		parentGO->SetName("Map");
@@ -396,11 +396,25 @@ namespace LB
 					newGO->GetComponent<CPRender>()->spriteIndex = tm[layer][x + y * tm[layer].getCols()];
 					newGO->GetComponent<CPRender>()->SetSpriteTexture(tm.m_spriteSheetName, tm[layer][x + y * tm[layer].getCols()]);
 
-					newGO->GetComponent<CPRender>()->z_val = static_cast<float>(tm.Size() - layer);
+					float z{ 0.0f };
+					switch (layer)
+					{
+					case 0:
+						z = 6.9f;
+						break;
+					case 1:
+						z = 3.9f;
+						break;
+					case 2:
+						z = 0.9f;
+						break;
+					}
+					newGO->GetComponent<CPRender>()->z_val = z;
+					//newGO->GetComponent<CPRender>()->z_val = static_cast<float>(tm.Size() - layer) - 0.1f;
 
 					//edit the Width and Height of the CPRender
-					newGO->GetComponent<CPRender>()->w = w + 1.f;
-					newGO->GetComponent<CPRender>()->h = h + 1.f;
+					newGO->GetComponent<CPRender>()->w = w;
+					newGO->GetComponent<CPRender>()->h = h;
 					//swap the object types
 					Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_BACKGROUND, newGO->GetComponent<CPRender>());
 

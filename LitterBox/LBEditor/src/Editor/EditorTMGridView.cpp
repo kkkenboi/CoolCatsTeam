@@ -56,6 +56,7 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
+		// Draw first column, spritesheet and tile selection
 		ImGui::Columns(2);
 		ImGui::SetColumnWidth(0, columnWidth);
 
@@ -101,6 +102,7 @@ namespace LB
 		}
 		ImGui::EndChild();
 
+		// Next column, the actual tile map grid
 		ImGui::NextColumn();
 
 		ImGui::BeginChild("TileMapGridView", ImVec2(-1, ImGui::GetContentRegionAvail().y * 0.92f));
@@ -122,7 +124,7 @@ namespace LB
 		static bool confirmation{ false };
 		//padding from tile selection
 		ImGui::SameLine();
-		ImGui::Text("%-10s", " ");
+		ImGui::Text("%-5s", " ");
 
 		// Set layer
 		ImGui::SameLine();
@@ -168,6 +170,8 @@ namespace LB
 			}
 		}
 
+		ImGui::Text("Zoom level: %.2f", m_zoom);
+
 		ImGui::Separator();
 
 		int rowNum{ m_tiles[m_layer].getRows() };
@@ -177,7 +181,7 @@ namespace LB
 		//each image button in the editormapview is a square
 		//which may be an issue with aspect ratios
 		ImVec2 buttonSize{ ImGui::GetContentRegionAvail() };
-		buttonSize.y /= (float)rowNum;
+		buttonSize.y /= (float)rowNum * m_zoom;
 		buttonSize.x = buttonSize.y;
 
 		//NOTE: for the table the flags that need to be enabled are
@@ -187,6 +191,26 @@ namespace LB
 												|	 ImGuiTableFlags_NoPadInnerX
 												))
 		{
+			// Handle scrolling input if hovered
+			if (ImGui::IsWindowHovered() && ImGui::GetIO().MouseWheel != 0.0f)
+			{
+				// If ctrl is held, zoom in/out
+				if (INPUT->IsKeyPressed(KeyCode::KEY_LEFTCONTROL))
+				{
+					m_zoom += ImGui::GetIO().MouseWheel > 0.0f ? -m_zoomStep * TIME->GetUnscaledDeltaTime() : m_zoomStep * TIME->GetUnscaledDeltaTime();
+				}
+				// If left shift is held, scroll horizontally
+				else if (INPUT->IsKeyPressed(KeyCode::KEY_LEFTSHIFT))
+				{
+					ImGui::SetScrollX(ImGui::GetScrollX() - ImGui::GetIO().MouseWheel * 100);
+				}
+				// Else, scroll vertically
+				else
+				{
+					ImGui::SetScrollY(ImGui::GetScrollY() - ImGui::GetIO().MouseWheel * 100);
+				}
+			}
+
 			//caching the min and max UVs so if the image button's
 			//value is 0 then we just print the same UV to make sure
 			//no part of the image is loaded
@@ -251,7 +275,6 @@ namespace LB
 			ImGui::PopStyleVar();
 			ImGui::EndTable();
 		}
-
 		ImGui::EndChild();
 
 		// Under the table

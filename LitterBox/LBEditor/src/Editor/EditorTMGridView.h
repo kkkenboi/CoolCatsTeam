@@ -31,6 +31,8 @@ namespace LB {
 
 		int m_tileSelected{ -1 };
 		int m_layer{ 0 };
+
+		float m_zoom{ 1.f }, m_zoomStep{ 1.5f };
 		
 		int m_tmpRow{ m_tiles[m_layer].getRows() }, m_tmpCol{ m_tiles[m_layer].getCols() };
 

@@ -82,84 +82,6 @@
                 }
             },
             {
-                "Name": "Map",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 960.0,
-                        "y": 540.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 3840.0,
-                    "Height": 2816.0,
-                    "ZLayer": 5.0,
-                    "Layer": 1,
-                    "Texture": "Map1",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
-                }
-            },
-            {
-                "Name": "MapFiller",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": -1081.0,
-                        "y": 412.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 2432.0,
-                    "Height": 2560.0,
-                    "ZLayer": 7.0,
-                    "Layer": 1,
-                    "Texture": "MapBG",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
-                }
-            },
-            {
-                "Name": "MapFiller2",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 3072.196289,
-                        "y": 413.682067
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 2432.0,
-                    "Height": 2560.0,
-                    "ZLayer": 7.0,
-                    "Layer": 1,
-                    "Texture": "MapBG",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
-                }
-            },
-            {
                 "Name": "MainChar",
                 "Active": true,
                 "Transform": {
@@ -5773,6 +5695,2068 @@
                                 "Texture": "Multi_Spritesheet2",
                                 "SpriteName": "MultiSheet2",
                                 "SpriteIndex": 15
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "Map Parent",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                }
+            },
+            {
+                "Name": "Map",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Tile1_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -768.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile2_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -640.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile3_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -512.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile4_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -384.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile5_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -256.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile6_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -128.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile7_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile8_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 128.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile9_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 256.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile10_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 384.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile11_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 512.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile12_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 640.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile13_3",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 768.0,
+                                    "y": 292.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile1_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -768.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile2_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -640.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile3_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -512.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile4_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -384.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile5_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -256.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile6_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -128.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile7_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile8_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 128.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile9_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 256.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile10_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 384.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile11_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 512.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile12_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 640.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile13_4",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 768.0,
+                                    "y": 164.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile1_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -768.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile2_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -640.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile3_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -512.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile4_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -384.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile5_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -256.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile6_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -128.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile7_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile8_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 128.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile9_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 256.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile10_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 384.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile11_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 512.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile12_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 640.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile13_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 768.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile14_5",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 896.0,
+                                    "y": 36.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile1_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -768.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile2_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -640.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile3_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -512.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile4_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -384.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile5_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -256.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile6_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -128.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile7_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile8_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 128.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile9_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 256.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile10_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 384.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile11_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 512.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile12_6",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 640.0,
+                                    "y": -92.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile1_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -768.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile2_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -640.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile3_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -512.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile4_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -384.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile5_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -256.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile6_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -128.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile7_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile8_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 128.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile9_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 256.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile10_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 384.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile11_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 512.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile12_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 640.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 0.0,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile13_7",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 768.0,
+                                    "y": -220.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 16
+                            }
+                        },
+                        {
+                            "Name": "Tile1_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -768.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile2_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -640.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile3_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -512.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile4_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -384.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile5_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -256.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile6_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -128.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile7_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile8_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 128.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile9_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 256.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile10_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 384.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile11_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 512.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile12_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 640.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
+                            }
+                        },
+                        {
+                            "Name": "Tile13_8",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 768.0,
+                                    "y": -348.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 128.0,
+                                "Height": 128.0,
+                                "ZLayer": 6.9,
+                                "Layer": 1,
+                                "Texture": "TilemapsTransparent_SpriteSheet",
+                                "SpriteName": "MapSheet",
+                                "SpriteIndex": 22
                             }
                         }
                     ]
