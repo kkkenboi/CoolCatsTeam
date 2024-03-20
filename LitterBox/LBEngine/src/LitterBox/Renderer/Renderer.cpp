@@ -845,13 +845,13 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 		for (auto const& cha : word)
 		{
 			Character ch = font_glyphs[msg.font_file_name_wo_ext][cha];
-			x += (ch.Advance >> 6) * msg.scale;
+			x += (ch.Advance >> 6) * msg.finalScale;
 			adv = ch.Advance;
 		}
 
-		if (x > msg.x + msg.xbound)
+		if (x > msg.x + msg.xbound * msg.transScale)
 		{
-			y -= (font_height_adv[msg.font_file_name_wo_ext] >> 6) * msg.scale;
+			y -= (font_height_adv[msg.font_file_name_wo_ext] >> 6) * msg.transScale;
 			x = msg.x;
 		}
 		else
@@ -862,11 +862,11 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 		for (auto const& cha : word) {
 			Character ch = font_glyphs[msg.font_file_name_wo_ext][cha];//Characters[cha];
 
-			float xpos = x + ch.Bearing.x * msg.scale;
-			float ypos = y - (ch.Size.y - ch.Bearing.y) * msg.scale;
+			float xpos = x + ch.Bearing.x * msg.finalScale;
+			float ypos = y - (ch.Size.y - ch.Bearing.y) * msg.finalScale;
 
-			float w = ch.Size.x * msg.scale;
-			float h = ch.Size.y * msg.scale;
+			float w = ch.Size.x * msg.finalScale;
+			float h = ch.Size.y * msg.finalScale;
 
 
 
@@ -888,7 +888,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 
 			//move to the left by the glyph advance value
-			x += (ch.Advance >> 6) * msg.scale;
+			x += (ch.Advance >> 6) * msg.finalScale;
 		}
 
 		stroffset = msg.text.find_first_of(' ', stroffset + 1);
@@ -1804,8 +1804,13 @@ void LB::CPText::Destroy()
 *************************************************************************/
 void LB::CPText::Update()
 {
-	LB::Vec2<float> pos = gameObj->GetComponent<CPTransform>()->GetPosition();
-	update_msg_pos(pos);
+	LB::Vec2<float> pos = GetComponent<CPTransform>()->GetPosition();
+	update_msg_pos(pos); // Because message pos is not a vector 2
+
+	msg.transScale = GetComponent<CPTransform>()->GetScale().x;
+
+	msg.finalScale = msg.scale * msg.transScale;
+
 }
 
 /*!***********************************************************************

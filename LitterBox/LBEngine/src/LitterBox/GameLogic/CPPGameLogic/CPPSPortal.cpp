@@ -8,6 +8,8 @@ void LB::CPPSPortal::Start()
 	mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 	mGameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 	mPortalCenter = GOMANAGER->FindGameObjectWithName("PortalCenter");
+	mLevelBoard = GOMANAGER->FindGameObjectWithName("LevelBoard");
+
 }
 
 void LB::CPPSPortal::Update()
@@ -66,10 +68,40 @@ void LB::CPPSPortal::Update()
 					circleTimer = 1;
 					//THIS IS WHERE YOU PUT THE INTERMISSION STUFF!!!
 					intermissionTimer += static_cast<float>(TIME->GetDeltaTime());
+
+					mLevelBoard->SetActive(true);
+
+					// Plays the starting animation for the level transition
+					if (playStartAnim)
+					{
+						mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPAnimator>()->Play("VFX_ExpandH");
+
+						// Concatenate with the hole number
+						std::stringstream holeNumber;
+						char finalBuffer[256]{};
+						holeNumber << mGameManager->GetComponent<CPPSGameManager>()->GetCurrentWave();
+						std::string buffer = "Hole " + holeNumber.str();
+						strcpy_s(finalBuffer, sizeof(finalBuffer), buffer.c_str());
+
+						mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->set_msg(finalBuffer);
+						mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->Play("Flag_Appear");
+						mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayNext("Flag_Swaying");
+						playStartAnim = false;
+					}
+
 					if (intermissionTimer >= intermissionDuration)
 					{
 						expandOut = false;
 						mGameManager->GetComponent<CPPSGameManager>()->onNextLevel.Invoke();
+
+						// Plays the ending animation for the level transition
+						if (playEndAnim)
+						{
+							DebuggerLog("Playing end animation!");
+							mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPAnimator>()->Play("VFX_ExpandHReverse");
+							mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->Play("Flag_Disappear");
+							playEndAnim = false;
+						}
 
 						DebuggerLogFormat("LEVEL %d COMPLETE! Now loading LEVEL %d!", mGameManager->GetComponent<CPPSGameManager>()->GetCurrentWave(),
 							mGameManager->GetComponent<CPPSGameManager>()->GetCurrentWave() + 1);
@@ -101,6 +133,9 @@ void LB::CPPSPortal::Update()
 				//We lerp the scale, it follows the timer so it either shrinks or expands
 				Vec2<float> portalScale = Lerp(Vec2<float>(1, 1), Vec2<float>(100, 100), circleTimer);
 				mPortalCenter->GetComponent<CPTransform>()->SetScale(portalScale);
+
+				// Set text size to backboard's increasing/decreasing scale
+				mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->update_msg_size(mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPTransform>()->GetScale().x);
 			}
 		}		
 	}
@@ -112,6 +147,8 @@ void LB::CPPSPortal::Update()
 		intermissionTimer = 0;
 		expandOut = true;
 		playPortalSound = false;
+		playStartAnim = true;
+		playEndAnim = true;
 	}
 
 	//This handles what happens when the animations are all done, the circle has expanded and shrunk.

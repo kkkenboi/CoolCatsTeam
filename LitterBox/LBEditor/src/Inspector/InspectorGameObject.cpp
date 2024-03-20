@@ -1035,7 +1035,7 @@ namespace LB
 					m_inspectedGO->GetComponent<CPText>()->use_world_coords(isActive);
 				}
 
-				ImGui::Text("%-17s", "Scale");
+				ImGui::Text("%-17s", "Size");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##TextSize", &textSize, 0.01f, 0.0f, 0.0f, "%.2f");

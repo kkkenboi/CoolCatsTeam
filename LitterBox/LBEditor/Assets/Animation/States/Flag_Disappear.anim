@@ -1,0 +1,103 @@
+{
+    "Name": "Flag_Disappear",
+    "SpriteSheet Name": "FlagSheet",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": []
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": {
+                    "x": 0.3,
+                    "y": 0.3
+                }
+            },
+            {
+                "Frame": 30,
+                "Data": {
+                    "x": 0.3,
+                    "y": 0.3
+                }
+            },
+            {
+                "Frame": 31,
+                "Data": {
+                    "x": 9.999999974752427e-7,
+                    "y": 0.0
+                }
+            }
+        ]
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": []
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 26
+            },
+            {
+                "Frame": 3,
+                "Data": 12
+            },
+            {
+                "Frame": 6,
+                "Data": 11
+            },
+            {
+                "Frame": 9,
+                "Data": 10
+            },
+            {
+                "Frame": 12,
+                "Data": 9
+            },
+            {
+                "Frame": 15,
+                "Data": 8
+            },
+            {
+                "Frame": 18,
+                "Data": 7
+            },
+            {
+                "Frame": 21,
+                "Data": 6
+            },
+            {
+                "Frame": 24,
+                "Data": 5
+            },
+            {
+                "Frame": 27,
+                "Data": 4
+            },
+            {
+                "Frame": 30,
+                "Data": 3
+            },
+            {
+                "Frame": 31,
+                "Data": 0
+            }
+        ]
+    },
+    "Start": 0,
+    "End": 32
+}
