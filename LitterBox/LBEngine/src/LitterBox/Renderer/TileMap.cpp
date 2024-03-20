@@ -400,23 +400,25 @@ namespace LB
 					switch (layer)
 					{
 					case 0:
-						z = 6.9f;
+						z = 7.9f;
 						break;
 					case 1:
-						z = 3.9f;
+						z = 7.8f;
 						break;
 					case 2:
-						z = 0.9f;
+						z = 6.9f;
+						break;
+					case 3:
+						z = 6.8f;
 						break;
 					}
 					newGO->GetComponent<CPRender>()->z_val = z;
 					//newGO->GetComponent<CPRender>()->z_val = static_cast<float>(tm.Size() - layer) - 0.1f;
+					//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_OBJECT, newGO->GetComponent<CPRender>());
 
 					//edit the Width and Height of the CPRender
-					newGO->GetComponent<CPRender>()->w = w;
-					newGO->GetComponent<CPRender>()->h = h;
-					//swap the object types
-					Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_BACKGROUND, newGO->GetComponent<CPRender>());
+					newGO->GetComponent<CPRender>()->w = w + 0.1f;
+					newGO->GetComponent<CPRender>()->h = h + 0.1f;
 
 					newGO->GetComponent<CPTransform>()->SetParent(parentGO->GetComponent<CPTransform>());
 				}

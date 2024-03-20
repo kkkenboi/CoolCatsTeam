@@ -27,7 +27,8 @@ namespace LB {
 	{
 		char m_textBuffer[256]{};
 
-		TileMapGroup m_tiles{3};
+		TileMapGroup m_tiles{4};
+		std::vector<bool> m_tilesVisibility;
 
 		int m_tileSelected{ -1 };
 		int m_layer{ 0 };
