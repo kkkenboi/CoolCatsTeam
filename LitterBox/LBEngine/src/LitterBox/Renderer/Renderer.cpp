@@ -418,7 +418,7 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 		quad_buff_size = 3000;
 		break;
 	case Renderer_Types::RT_BACKGROUND:
-		quad_buff_size = 100;
+		quad_buff_size = 1000;
 		break;
 	case Renderer_Types::RT_DEBUG:
 		quad_buff_size = 200;

@@ -25,6 +25,8 @@ namespace LB
 	static float columnWidth = 200.0f;
 	static float normalWidth = 75.0f;
 
+	ImVec4 hoverTint = ImVec4(0.8f, 0.8f, 0.8f, 0.2f); // Tint when hovered (light gray)
+
 	EditorTMGridView* EDITORTMGRIDVIEW = nullptr;
 	/*!***********************************************************************
 	  \brief
@@ -32,7 +34,7 @@ namespace LB
 	  \return
 	  Nothing.
 	*************************************************************************/
-	EditorTMGridView::EditorTMGridView(std::string layerName) : Layer(layerName)
+	EditorTMGridView::EditorTMGridView(std::string layerName) : Layer(layerName), m_tilesVisibility(4, true)
 	{
 		if (!EDITORTMGRIDVIEW)
 			EDITORTMGRIDVIEW = this;
@@ -56,6 +58,7 @@ namespace LB
 	{
 		ImGui::Begin(GetName().c_str());
 
+		// Draw first column, spritesheet and tile selection
 		ImGui::Columns(2);
 		ImGui::SetColumnWidth(0, columnWidth);
 
@@ -101,6 +104,7 @@ namespace LB
 		}
 		ImGui::EndChild();
 
+		// Next column, the actual tile map grid
 		ImGui::NextColumn();
 
 		ImGui::BeginChild("TileMapGridView", ImVec2(-1, ImGui::GetContentRegionAvail().y * 0.92f));
@@ -117,24 +121,11 @@ namespace LB
 		{
 			ImGui::Image(0, ImVec2{ 35.0f, 35.0f });
 		}
+		ImGui::SameLine();
+		ImGui::Text("%-3s", " ");
 
 		//bool to keep track of grid changes
 		static bool confirmation{ false };
-		//padding from tile selection
-		ImGui::SameLine();
-		ImGui::Text("%-10s", " ");
-
-		// Set layer
-		ImGui::SameLine();
-		ImGui::Text("Layer:");
-		ImGui::SameLine();
-		ImGui::SetNextItemWidth(75.f);
-		if (ImGui::InputInt("##layer", &m_layer))
-		{
-			m_layer = std::clamp(m_layer, 0, m_tiles.Size() - 1);
-			m_tmpRow = m_tiles[m_layer].getRows();
-			m_tmpCol = m_tiles[m_layer].getCols();
-		}
 
 		//Setting the rows
 		ImGui::SameLine();
@@ -168,6 +159,71 @@ namespace LB
 			}
 		}
 
+		ImGui::Text("Zoom level: %.2f", m_zoom);
+		ImGui::SameLine();
+		ImGui::Text("%-3s", " ");
+
+		// Set layer
+		ImGui::SameLine();
+		ImGui::Text("Current:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(75.f);
+		if (ImGui::InputInt("##layer", &m_layer))
+		{
+			m_layer = std::clamp(m_layer, 0, m_tiles.Size() - 1);
+			m_tmpRow = m_tiles[m_layer].getRows();
+			m_tmpCol = m_tiles[m_layer].getCols();
+		}
+		// Set layer name
+		ImGui::SameLine();
+		switch (m_layer)
+		{
+		case 0:
+			ImGui::Text("Grass");
+			break;
+		case 1:
+			ImGui::Text("Sand");
+			break;
+		case 2:
+			ImGui::Text("Wall (Back)");
+			break;
+		case 3:
+			ImGui::Text("Wall (Front)");
+			break;
+		default:
+			ImGui::Text("Unnamed ");
+			break;
+		}
+		ImGui::SameLine();
+		ImGui::Text("%-3s", " ");
+
+		// Toggle visibility of each layer
+		bool isActive{ m_tilesVisibility[0] };
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Grass", &isActive))
+		{
+			m_tilesVisibility[0] = isActive;
+		}
+		ImGui::SameLine();
+		isActive = m_tilesVisibility[1];
+		if (ImGui::Checkbox("Sand", &isActive))
+		{
+			m_tilesVisibility[1] = isActive;
+		}
+		ImGui::SameLine();
+		isActive = m_tilesVisibility[2];
+		if (ImGui::Checkbox("Wall (B)", &isActive))
+		{
+			m_tilesVisibility[2] = isActive;
+		}
+		ImGui::SameLine();
+		isActive = m_tilesVisibility[3];
+		if (ImGui::Checkbox("Wall (F)", &isActive))
+		{
+			m_tilesVisibility[3] = isActive;
+		}
+
 		ImGui::Separator();
 
 		int rowNum{ m_tiles[m_layer].getRows() };
@@ -177,7 +233,7 @@ namespace LB
 		//each image button in the editormapview is a square
 		//which may be an issue with aspect ratios
 		ImVec2 buttonSize{ ImGui::GetContentRegionAvail() };
-		buttonSize.y /= (float)rowNum;
+		buttonSize.y /= (float)rowNum * m_zoom;
 		buttonSize.x = buttonSize.y;
 
 		//NOTE: for the table the flags that need to be enabled are
@@ -187,6 +243,26 @@ namespace LB
 												|	 ImGuiTableFlags_NoPadInnerX
 												))
 		{
+			// Handle scrolling input if hovered
+			if (ImGui::IsWindowHovered() && ImGui::GetIO().MouseWheel != 0.0f)
+			{
+				// If ctrl is held, zoom in/out
+				if (INPUT->IsKeyPressed(KeyCode::KEY_LEFTCONTROL))
+				{
+					m_zoom += ImGui::GetIO().MouseWheel > 0.0f ? -m_zoomStep * TIME->GetUnscaledDeltaTime() : m_zoomStep * TIME->GetUnscaledDeltaTime();
+				}
+				// If left shift is held, scroll horizontally
+				else if (INPUT->IsKeyPressed(KeyCode::KEY_LEFTSHIFT))
+				{
+					ImGui::SetScrollX(ImGui::GetScrollX() - ImGui::GetIO().MouseWheel * 100);
+				}
+				// Else, scroll vertically
+				else
+				{
+					ImGui::SetScrollY(ImGui::GetScrollY() - ImGui::GetIO().MouseWheel * 100);
+				}
+			}
+
 			//caching the min and max UVs so if the image button's
 			//value is 0 then we just print the same UV to make sure
 			//no part of the image is loaded
@@ -210,8 +286,14 @@ namespace LB
 					bool isDrawn{ false };
 
 					ImGui::PushID(Index2D); //IMPORTANT: this needs to be done otherwise only first button works
-					while (layer <= m_layer)
+					while (layer < m_tiles.Size())
 					{
+						if (!m_tilesVisibility[layer])
+						{
+							++layer;
+							continue;
+						}
+
 						if (m_tiles[layer][Index2D] >= 0 && m_tiles[layer][Index2D] < m_tiles.m_spriteSheet.Size())
 						{
 							if (!isDrawn)
@@ -220,6 +302,7 @@ namespace LB
 								min = ImVec2{ m_tiles.m_spriteSheet[index_other].m_min.x, m_tiles.m_spriteSheet[index_other].m_max.y };
 								max = ImVec2{ m_tiles.m_spriteSheet[index_other].m_max.x, m_tiles.m_spriteSheet[index_other].m_min.y };
 								textureID = (ImTextureID)(uint64_t)ASSETMANAGER->GetTextureIndex(m_tiles.m_spriteSheet.GetPNGRef());
+
 								ImGui::Image(textureID, buttonSize, min, max);
 
 								isDrawn = true;
@@ -241,9 +324,23 @@ namespace LB
 						textureID = 0;
 						ImGui::Image(textureID, buttonSize, min, max);
 					}
-					if (ImGui::IsItemHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left)) 
+					if (ImGui::IsItemHovered()) 
 					{
-						m_tiles[m_layer].getGrid().at(Index2D) = m_tileSelected;
+						// Add a transulcent white tint when hovered
+						ImGui::GetWindowDrawList()->AddRectFilled(ImGui::GetCursorScreenPos(), ImVec2(ImGui::GetCursorScreenPos().x + buttonSize.x, ImGui::GetCursorScreenPos().y - buttonSize.y * 1.1f), ImGui::GetColorU32(hoverTint));
+
+						if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
+						{
+							m_tiles[m_layer].getGrid().at(Index2D) = m_tileSelected;
+						}
+						else if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
+						{
+							m_tiles[m_layer].getGrid().at(Index2D) = -1;
+						}
+						else if (ImGui::IsMouseDown(ImGuiMouseButton_Middle))
+						{
+							m_tileSelected = m_tiles[m_layer].getGrid().at(Index2D);
+						}
 					}
 					ImGui::PopID();//IMPORTANT: this needs to be done otherwise only first button works
 				}
@@ -251,7 +348,6 @@ namespace LB
 			ImGui::PopStyleVar();
 			ImGui::EndTable();
 		}
-
 		ImGui::EndChild();
 
 		// Under the table

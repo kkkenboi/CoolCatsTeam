@@ -16,6 +16,7 @@
 
 #include "LitterBox.h"
 #include "Editor/Editor.h"
+#include "Utils/Preferences.h"
 
 #include <stdlib.h>
 #include <crtdbg.h>
@@ -25,9 +26,9 @@
 Creates the application in the project area, to be used by other projects
 eg. Sandbox
 *************************************************************************/
-LB::Application* LB::CreateApplication(bool EditorMode, bool startPlaying)
+LB::Application* LB::CreateApplication(bool EditorMode)
 {
-	return DBG_NEW Application(EditorMode, startPlaying);
+	return DBG_NEW Application(EditorMode);
 }
 
 /*!***********************************************************************
@@ -54,8 +55,12 @@ int main(int argc, char** argv)
 
 	bool editorMode = true;
 
-	auto app = LB::CreateApplication(editorMode, false);
+	auto app = LB::CreateApplication(editorMode);
 	auto editor = LB::CreateEditor();
+
+	app->Initialise();
+	editor->Initialize();
+
 	while (app->IsRunning()) 
 	{
 		LB::TIME->LBFrameStart();

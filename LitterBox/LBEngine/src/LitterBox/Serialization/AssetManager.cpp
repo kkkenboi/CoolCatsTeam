@@ -42,6 +42,8 @@ namespace LB
 		else
 			std::cerr << "Asset Manager already exists" << std::endl;
 
+        // Setup appdata
+        _appData = getenv("APPDATA");
     }
 
     
@@ -316,7 +318,6 @@ namespace LB
         //generated when we import our assets. We should only ever call this function ONCE.
 
         //First we get the meta file data and put it into a vector
-        _appData = getenv("APPDATA");
         std::filesystem::path appData(_appData);
         if (!std::filesystem::exists(appData/folderName))
         {
