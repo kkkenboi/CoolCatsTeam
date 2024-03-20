@@ -222,7 +222,7 @@ LB::Vec2<float> LB::CPCamera::getCam()
 \param number_of_frames
  The number of UV coordinates quad stored in the array
 *************************************************************************/
-void Renderer::Animation_Manager::load_anim(const std::string& animation_name, const std::array<LB::Vec2<float>,4>* data, const float anim_time, const int number_of_frames) {
+void Renderer::Animation_Manager::load_anim(const std::string& animation_name, const std::array<LB::Vec2<float>, 4>* data, const float anim_time, const int number_of_frames) {
 	animations.emplace(std::make_pair(animation_name, Animation{ anim_time, number_of_frames, data }));
 }
 //---------------------------------------ANIMATIONS-------------------------------------
@@ -259,6 +259,8 @@ LB::CPRender::CPRender(
 
 	indices = Renderer::index{ std::array<unsigned short, 6>{idx, (unsigned short)(idx + 1), (unsigned short)(idx + 2),
 			(unsigned short)(idx + 2), (unsigned short)(idx + 3), idx} };
+
+	parent = nullptr;
 }
 //########################ANIMATION##############################
 
@@ -359,7 +361,7 @@ void LB::CPRender::animate()
 
 /*!***********************************************************************
 \brief
- set_active is an API that will toggle whether a render component will be 
+ set_active is an API that will toggle whether a render component will be
  rendered on the screen or not.
 *************************************************************************/
 void LB::CPRender::set_active()
@@ -406,7 +408,7 @@ LB::CPRender::~CPRender() {
 Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 	vao{}, vbo{}, ibo{},
 	quad_buff{ nullptr }, index_buff{},
-	quad_buff_size{}, active_objs{}, active{true}
+	quad_buff_size{}, active_objs{}, active{ true }
 {
 	//create vertex
 	//quad_buff_size = 3000;
@@ -507,7 +509,7 @@ unsigned int Renderer::Renderer::create_render_object(const LB::CPRender* obj)
 		//return quad_data full of garbage
 		return i;
 	}
-	
+
 	//set position of quad
 	quad_buff[i].data[0].pos = { -0.5f, -0.5f, 1.f };//bottom left
 	quad_buff[i].data[1].pos = { 0.5f, -0.5f, 1.f };//bottom right
@@ -573,11 +575,11 @@ void Renderer::Renderer::update_buff()
 	for (const LB::CPRender*& e : active_objs) {
 		if (!e->activated)
 			continue;
-		if (e->texture == 0) 
+		if (e->texture == 0)
 			continue;
 		unsigned int obj_index{ e->get_index() };
 		const_cast<LB::CPRender*>(e)->get_transform_data();
-		
+
 		//set position based off camera mat
 		//edit color and uv coordinates and texture
 		for (int i{ 0 }; i < 4; ++i) {
@@ -599,12 +601,12 @@ void Renderer::Renderer::update_buff()
 				quad_buff[obj_index].data[i].texIndex = (float)e->texture;
 			//update uv
 			//for (int j{ 0 }; j < 4; ++j) {
-				quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
-				quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+			quad_buff[obj_index].data[i].tex.x = e->uv[i].x; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
+			quad_buff[obj_index].data[i].tex.y = e->uv[i].y; // 0 = bot left, 1 = bot right, 2 = top right, 3 = top left
 			//}
 		}
 	}
-	
+
 	glNamedBufferSubData(vbo, 0, sizeof(quad) * quad_buff_size, quad_buff);
 	glNamedBufferSubData(ibo, 0, sizeof(index) * index_buff.size(), index_buff.data());
 	GLenum err = glGetError();
@@ -822,7 +824,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 	GLuint uni_loc = glGetUniformLocation(tShader, "projection");
 	if (uni_loc == -1)
 		DebuggerLogError("Unable to find uniform location");
-	if(msg.use_world_space)
+	if (msg.use_world_space)
 		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &GRAPHICS->get_game_cam_mat()[0][0]);
 	else
 		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &GRAPHICS->get_ui_cam_mat()[0][0]);
@@ -840,7 +842,7 @@ void Renderer::TextRenderer::RenderText(message& msg) {
 
 		int adv{ 0 };
 		float prev_x = x;
-		for (auto const& cha : word) 
+		for (auto const& cha : word)
 		{
 			Character ch = font_glyphs[msg.font_file_name_wo_ext][cha];
 			x += (ch.Advance >> 6) * msg.scale;
@@ -972,11 +974,11 @@ Renderer::RenderSystem* Renderer::GRAPHICS = nullptr;
 \brief
  RenderSystem constructor sets up a shader program and initalizes a background
 *************************************************************************/
-Renderer::RenderSystem::RenderSystem() : shader_program{0},
-object_renderer{Renderer_Types::RT_OBJECT},
-bg_renderer{Renderer_Types::RT_BACKGROUND},
-ui_renderer{Renderer_Types::RT_UI},
-menu_renderer{Renderer_Types::RT_MENU},
+Renderer::RenderSystem::RenderSystem() : shader_program{ 0 },
+object_renderer{ Renderer_Types::RT_OBJECT },
+bg_renderer{ Renderer_Types::RT_BACKGROUND },
+ui_renderer{ Renderer_Types::RT_UI },
+menu_renderer{ Renderer_Types::RT_MENU },
 text_renderer{},
 framebuffer{},
 svfb{},
@@ -984,7 +986,7 @@ svtcb{},
 textureColorbuffer{},
 rbo{}
 {
-	SetSystemName("Renderer System"); 
+	SetSystemName("Renderer System");
 	//singleton that shiet
 	if (!GRAPHICS)
 		GRAPHICS = this;
@@ -1059,7 +1061,7 @@ textbutt* button;
 \param
  float to store the height offset of the new viewport if any
 *************************************************************************/
-void change_vp() 
+void change_vp()
 {
 	float height{ 9.f / 16.f };
 	height *= (float)LB::WINDOWSSYSTEM->GetWidth();
@@ -1069,7 +1071,7 @@ void change_vp()
 	LB::WINDOWSSYSTEM->updateScreenSize(static_cast<float>(LB::WINDOWSSYSTEM->GetWidth()), height, diff * 0.5f);
 }
 
-glm::mat4 cameraMat{ glm::perspective(glm::radians(90.f), 1920.f/1080.f, 0.1f, 10.f) };
+glm::mat4 cameraMat{ glm::perspective(glm::radians(90.f), 1920.f / 1080.f, 0.1f, 10.f) };
 
 /*!***********************************************************************
 \brief
@@ -1087,7 +1089,7 @@ void Renderer::RenderSystem::Initialize()
 
 	glUseProgram(shader_program);
 	glBindVertexArray(object_renderer.get_vao());
-	
+
 	//-------------------------cam test---------------------------
 	GLint uni_loc = glGetUniformLocation(shader_program, "cam");
 	if (uni_loc == -1)
@@ -1101,9 +1103,9 @@ void Renderer::RenderSystem::Initialize()
 		test[i] = i;
 	}
 	glUniform1iv(uni_loc2, 32, test);
-	
+
 	//-################FOR BACKGROUND##########################
-	
+
 	//TODO: SERIALIZE THIS AMADEUS
 	/*LB::TileMap tm(4, 4, 7, 6, "TilemapsTransparent_SpriteSheet",
 		{ 1, 3, 3, 2,
@@ -1111,27 +1113,27 @@ void Renderer::RenderSystem::Initialize()
 		 9, 5, 4, 8,
 		 21, 8, 17, 18 });*/
 
-	//cache some values
-	/*float midx = 0.f;
-	float midy = 0.f;
-	float w = 4000.f;
-	float h = 4000.f;
+		 //cache some values
+		 /*float midx = 0.f;
+		 float midy = 0.f;
+		 float w = 4000.f;
+		 float h = 4000.f;
 
-	test2 = LB::Memory::Instance()->Allocate<LB::CPRender>(LB::Vec2<float>(midx, midy), w, h, LB::Vec2<float>(1.f, 1.f), LB::Vec3<float>(0.f, 0.f, 0.f), std::array<LB::Vec2<float>, 4>{}, -1, true, Renderer_Types::RT_BACKGROUND);
-	test2->z_val = 2.f;
+		 test2 = LB::Memory::Instance()->Allocate<LB::CPRender>(LB::Vec2<float>(midx, midy), w, h, LB::Vec2<float>(1.f, 1.f), LB::Vec3<float>(0.f, 0.f, 0.f), std::array<LB::Vec2<float>, 4>{}, -1, true, Renderer_Types::RT_BACKGROUND);
+		 test2->z_val = 2.f;
 
-	test2->texture = LB::ASSETMANAGER->GetTextureUnit("bg");
-	test2->uv[0].x = 0.25f;
-	test2->uv[0].y = 0.25f;
-	test2->uv[1].x = .75f;
-	test2->uv[1].y = 0.25f;
-	test2->uv[2].x = .75f;
-	test2->uv[2].y = .75f;
-	test2->uv[3].x = 0.25f;
-	test2->uv[3].y = .75f;*/
+		 test2->texture = LB::ASSETMANAGER->GetTextureUnit("bg");
+		 test2->uv[0].x = 0.25f;
+		 test2->uv[0].y = 0.25f;
+		 test2->uv[1].x = .75f;
+		 test2->uv[1].y = 0.25f;
+		 test2->uv[2].x = .75f;
+		 test2->uv[2].y = .75f;
+		 test2->uv[3].x = 0.25f;
+		 test2->uv[3].y = .75f;*/
 
-	//LB::LoadMap(tm);
-	//-################FOR BACKGROUND##########################
+		 //LB::LoadMap(tm);
+		 //-################FOR BACKGROUND##########################
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -1217,7 +1219,7 @@ void Renderer::RenderSystem::Update()
 {
 	//set the shader program before hand
 	glUseProgram(shader_program);
-	/*if (game_cam) 
+	/*if (game_cam)
 	{
 		cam.update_ortho_cam(game_cam->getCam());
 		GLint uni_loc = glGetUniformLocation(shader_program, "cam");
@@ -1232,7 +1234,7 @@ void Renderer::RenderSystem::Update()
 	//glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cameraMat[0][0]);
 	glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
 
-	if(editor_mode)
+	if (editor_mode)
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
@@ -1275,7 +1277,7 @@ void Renderer::RenderSystem::Update()
 	if (menu_renderer.getActive())
 	{
 		glUseProgram(shader_program);
-		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.world_NDC[0][0]);
+		glUniformMatrix4fv(uni_loc, 1, GL_FALSE, &cam.ui_NDC[0][0]);
 		glClear(GL_DEPTH_BUFFER_BIT); //we clear the depth buffer bit after drawing each layer to ensure that everything in the next layer gets drawn
 		glBindVertexArray(menu_renderer.get_vao());
 		glDrawElements(GL_TRIANGLES, (GLsizei)(menu_renderer.get_furthest_index() * 6), GL_UNSIGNED_SHORT, NULL);
@@ -1431,7 +1433,7 @@ unsigned int Renderer::RenderSystem::create_object(Renderer_Types r_type, const 
 		return object_renderer.create_render_object(obj);
 	case Renderer_Types::RT_BACKGROUND:
 		return bg_renderer.create_render_object(obj);
-	//TODO for UI and DEBUG
+		//TODO for UI and DEBUG
 	case Renderer_Types::RT_UI:
 		return ui_renderer.create_render_object(obj);
 	case Renderer_Types::RT_MENU:
@@ -1462,6 +1464,9 @@ void Renderer::RenderSystem::remove_object(Renderer_Types r_type, const LB::CPRe
 		break;
 	case Renderer_Types::RT_UI:
 		ui_renderer.remove_render_object(obj);
+		break;
+	case Renderer_Types::RT_MENU:
+		menu_renderer.remove_render_object(obj);
 		break;
 	}
 }
@@ -1519,7 +1524,7 @@ void Renderer::RenderSystem::swap_object_type(Renderer_Types new_type, LB::CPRen
 
 	//finish
 	obj->set_index(newid);
-	
+
 	obj->update_indices();
 }
 
@@ -1592,7 +1597,7 @@ void Renderer::RenderSystem::fcam_zoom(float zoom)
 *************************************************************************/
 void Renderer::RenderSystem::Destroy()
 {
-	
+
 }
 
 /*!***********************************************************************
@@ -1649,7 +1654,7 @@ const bool& Renderer::RenderSystem::get_layer_active(Renderer_Types layer) const
  \brief
  Frees all resources allocated by Render system
 *************************************************************************/
-Renderer::RenderSystem::~RenderSystem() 
+Renderer::RenderSystem::~RenderSystem()
 {
 	if (test2)
 		LB::Memory::Instance()->Deallocate(test2);
@@ -1952,7 +1957,7 @@ void LB::CPText::use_world_coords(bool use_world)
  Getter method to figure out what type of coordinate system we want to use
 
 \return
- returns the boolean 
+ returns the boolean
 *************************************************************************/
 bool LB::CPText::get_coord_sys()
 {
