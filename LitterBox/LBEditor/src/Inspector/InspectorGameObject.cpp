@@ -972,6 +972,10 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::Checkbox("##Loop", &m_inspectedGO->GetComponent<CPAudioSource>()->loop);
 
+				ImGui::Text("%-19s", "3D Sound");
+				ImGui::SameLine();
+				ImGui::Checkbox("##3DSound", &m_inspectedGO->GetComponent<CPAudioSource>()->is3D);
+
 				float vol = m_inspectedGO->GetComponent<CPAudioSource>()->volume;
 				ImGui::Text("%-19s", "Volume");
 				ImGui::SameLine();

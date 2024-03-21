@@ -4,6 +4,7 @@ namespace LB
 {
 	void LB::CPAudioListener::Initialise()
 	{
+		AUDIOMANAGER->AudioListener = this;
 		transform = GetComponent<CPTransform>();
 	}
 	void CPAudioListener::Update()
