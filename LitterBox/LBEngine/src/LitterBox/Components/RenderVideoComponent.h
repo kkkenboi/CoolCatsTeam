@@ -18,6 +18,7 @@
 #include "LitterBox/Scene/SceneManager.h" //For SCENEMANAGER
 #include "LitterBox/Serialization/AssetManager.h" //For ASSETMANAGER
 #include <string>
+#include <queue>
 
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -45,20 +46,28 @@ extern "C" {
 
 namespace LB
 {
+	struct frame
+	{
+		int width, height;
+		int64_t ptss;
+		uint8_t* data;
+	};
+
 	class VideoPlayerSystem : public ISystem, public Singleton<VideoPlayerSystem>
 	{
 		struct VideoRenderState
 		{
-			int width{ 0 }, height{ 0 }, video_stream_index{ -1 };
+			int width{ 0 }, height{ 0 }, video_stream_index{ -1 }, audio_stream_index{ -1 };
 			unsigned char* fbuffer{ nullptr };
 
+			AVCodecParameters* av_codec_params{ nullptr };
 			AVFormatContext* av_format_ctx{ nullptr };
 			AVCodecContext* av_codec_ctx{ nullptr };
-			AVCodecParameters* av_codec_params{ nullptr };
 			AVCodec* av_codec{ nullptr };
 			AVFrame* av_frame{ nullptr };
 			AVPacket* av_packet{ nullptr };
 			SwsContext* sws_scaler_ctx{ nullptr };
+			AVRational time_base{};
 		};
 
 	public:
@@ -76,7 +85,7 @@ namespace LB
 		NOTE: for now the interval is not actually synced to the videos specific
 		FPS
 		*************************************************************************/
-		void FixedUpdate() override;
+		void Update() override;
 		/*!***********************************************************************
 		\brief
 		Destroy frees all data used by the system
@@ -136,9 +145,16 @@ namespace LB
 		*************************************************************************/
 		void free_video_state();
 
+		bool play_video_frame();
+
 		VideoRenderState vrs;
 		std::string scene_to_transition;
+		std::queue<frame> frame_queue;
+		bool last_frame_read{ false };
 		unsigned int tex_handle{ 0 };
 		bool playCutscene{ false };
+		double cutoff{ 0.0 };
+		double timer{ 0.0 };
+		int64_t pts{ 0 };
 	};
 }

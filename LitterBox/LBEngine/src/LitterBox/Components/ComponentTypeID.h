@@ -31,6 +31,7 @@ namespace LB
 		C_CPCollider,
 		C_CPCamera,
 		C_CPAudioSource,
+		C_CPAudioListener,
 		C_CPText,
 		C_CPAnimator,
 		C_CPParticle

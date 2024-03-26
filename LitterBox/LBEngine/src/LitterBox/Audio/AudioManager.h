@@ -20,6 +20,7 @@
 #pragma warning(pop)
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Components/AudioSourceComponent.h"
+#include "AudioListenerComponent.h"
 
 namespace LB
 {
@@ -66,6 +67,8 @@ namespace LB
 	 	* \param soundName Name of the sound e.g "Explosion" without file extension
 		**************************************************************************/
 		int PlaySound(std::string soundName);
+
+		int Play3DSound(std::string soundName, Vec2<float> pos);
 
 		/*!***********************************************************************
 		 * \brief Function to play sound using the vector of Sound File name
@@ -193,6 +196,7 @@ namespace LB
 		 **************************************************************************/
 		FMOD_RESULT result;
 		std::vector<CPAudioSource*> AudioSources;
+		CPAudioListener* AudioListener{nullptr};
 
 
 		std::vector<std::string> BallCollisionSounds = { "BallImpact_1","BallImpact_2" };
@@ -319,6 +323,8 @@ namespace LB
 
 	private:
 		int channelID{ 0 };
+		FMOD::ChannelGroup* channelGroup3D;
+		FMOD::ChannelGroup* channelGroup2D;
 		std::map<int, FMOD::Channel*> Channels;
 		float fadeOutTimer{};
 		float fadeInTimer{};

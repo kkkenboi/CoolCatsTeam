@@ -101,9 +101,9 @@ void LB::CPPSPortal::Update()
 				if(expandOut) circleTimer += static_cast<float>(TIME->GetDeltaTime());
 				else circleTimer -= static_cast<float>(TIME->GetDeltaTime());
 
-				if (circleTimer >= 1.f)
+				if (circleTimer >= 1.5f)
 				{	//Once the 1 second time has been reached, it should be max size
-					circleTimer = 1;
+					circleTimer = 1.5f;
 					//THIS IS WHERE YOU PUT THE INTERMISSION STUFF!!!
 					intermissionTimer += static_cast<float>(TIME->GetDeltaTime());
 
@@ -170,7 +170,7 @@ void LB::CPPSPortal::Update()
 				}
 
 				//We lerp the scale, it follows the timer so it either shrinks or expands
-				Vec2<float> portalScale = Lerp(Vec2<float>(1, 1), Vec2<float>(100, 100), circleTimer);
+				Vec2<float> portalScale = Lerp(Vec2<float>(1, 1), Vec2<float>(200, 200), circleTimer/1.5f);
 				mPortalCenter->GetComponent<CPTransform>()->SetScale(portalScale);
 
 				// Set text size to backboard's increasing/decreasing scale DO NOT CHANGE THESE VALUES PLEASE CONSULT ME

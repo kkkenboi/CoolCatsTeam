@@ -63,7 +63,7 @@ namespace LB
 	{
 		if (colData.colliderOther->rigidbody != nullptr)
 		{
-			if (colData.colliderOther->gameObj->GetName() != "Projectile")
+			if (colData.colliderOther->gameObj->GetName() != "Projectile" && colData.colliderOther->gameObj->GetName() != "Mage")
 			{
 				if (colData.colliderOther->gameObj->GetName() == "ball") {
 					colData.colliderOther->rigidbody->mVelocity.x *= 0.9f;

@@ -282,15 +282,16 @@ namespace LB
 		//------------------Spawn a golf ball----------------------
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
-			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
+			//GOMANAGER->FindGameObjectWithName("MouseCursor")->GetComponent<CPPSMou
+			//if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
 			
 			onPlacingBall.Invoke();
 			
 			//Spawn Game Object
 			GameObject* ballObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("ball", *ballObject);
-			int Channel = AUDIOMANAGER->PlaySound("Ball into hole");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
+	/*		int Channel = AUDIOMANAGER->PlaySound("Ball into hole");
+			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);*/
 			Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
 			playerPos.x += m_isFacingLeft ? -50.0f : 50.0f;
 
@@ -339,6 +340,12 @@ namespace LB
 				mIsStunned = false;
 				mStunRemaining = mStunTimer;
 			}
+		}
+
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
+		{
+			AUDIOMANAGER->Play3DSound("Ball into hole",mousePos);
+
 		}
 	} // End of Update
 
