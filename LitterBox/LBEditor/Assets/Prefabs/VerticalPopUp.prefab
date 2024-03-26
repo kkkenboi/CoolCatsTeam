@@ -8,8 +8,8 @@
             "y": 540.0
         },
         "Scale": {
-            "x": 0.449999,
-            "y": 0.449999
+            "x": 0.0,
+            "y": 0.0
         },
         "Rotation": 0.0
     },
@@ -26,6 +26,7 @@
     "Animator": {
         "Default State": "VFX_Expand",
         "Play On Awake": false,
+        "Awake Delay": 0.0,
         "Repeating": false,
         "Controller": "VFXController"
     }

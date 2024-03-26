@@ -1,0 +1,75 @@
+{
+    "Name": "VFX_ExpandHReverse",
+    "SpriteSheet Name": "None",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": []
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": {
+                    "x": 0.67,
+                    "y": 0.67
+                }
+            },
+            {
+                "Frame": 3,
+                "Data": {
+                    "x": 0.684,
+                    "y": 0.67
+                }
+            },
+            {
+                "Frame": 6,
+                "Data": {
+                    "x": 0.698,
+                    "y": 0.67
+                }
+            },
+            {
+                "Frame": 9,
+                "Data": {
+                    "x": 0.700999,
+                    "y": 0.67
+                }
+            },
+            {
+                "Frame": 12,
+                "Data": {
+                    "x": 0.708,
+                    "y": 0.67
+                }
+            },
+            {
+                "Frame": 36,
+                "Data": {
+                    "x": 0.000009,
+                    "y": 0.0
+                }
+            }
+        ]
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": []
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": []
+    },
+    "Start": 0,
+    "End": 37
+}
