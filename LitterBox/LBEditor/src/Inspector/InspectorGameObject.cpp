@@ -1184,7 +1184,8 @@ namespace LB
 					m_inspectedGO->GetComponent<CPParticle>()->ToggleActiveFlag(isActive);
 				}
 
-
+				// Type of particle emitter
+				std::string emitterType = m_inspectedGO->GetComponent<CPParticle>()->GetEmitterType();
 				ImGui::Text("%-17s", "Emitter Type");
 				ImGui::SameLine();
 				if (ImGui::BeginCombo("##ParticleType", m_inspectedGO->GetComponent<CPParticle>()->GetEmitterType().c_str()))
@@ -1200,6 +1201,13 @@ namespace LB
 					ImGui::EndCombo();
 				}
 				// Emitter Rate
+				ImGui::Separator();
+				ImGui::Text("EMITTER RATE");
+				ImGui::Separator();
+				ImGui::Text("%-17s", "Emitter Rate");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+
 				ImGui::Text("%-17s", "Emitter Rate");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
@@ -1207,50 +1215,130 @@ namespace LB
 				if (m_inspectedGO->GetComponent<CPParticle>()->mEmitterRate <= 0.f) {
 					m_inspectedGO->GetComponent<CPParticle>()->mEmitterRate = 0.f;
 				}
-				// Radial Num
-				ImGui::Text("%-17s", "Radial Num");
+
+				// Emitter Rate Randomness
+				bool& isEmitterRateRandom = m_inspectedGO->GetComponent<CPParticle>()->mEmitterRateRandomness;
+				ImGui::PushID("EmitterRateRandom");
+				ImGui::Checkbox("Emitter Rate Random", &isEmitterRateRandom);
+				ImGui::PopID();
+				if (isEmitterRateRandom != m_inspectedGO->GetComponent<CPParticle>()->mEmitterRateRandomness)
+				{
+					m_inspectedGO->GetComponent<CPParticle>()->mIsActive = isEmitterRateRandom;
+				}
+
+				// Emitter Rate Random Min and Max
+				ImGui::Text("%-17s", "Rate Random Min");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragInt("##RadialNum", &m_inspectedGO->GetComponent<CPParticle>()->mRadialParticles, 1, 0, 0, "%d");
+				ImGui::DragFloat("##EmitterRateMin", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterRateRandomnessMin, 1.0f, 0.0f, 0.0f, "%.2f");
+				if (m_inspectedGO->GetComponent<CPParticle>()->mEmitterRateRandomnessMin <= 0.f) {
+					m_inspectedGO->GetComponent<CPParticle>()->mEmitterRateRandomnessMin = 0.f;
+				}
+				ImGui::Text("%-17s", "Rate Random Max");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##EmitterRateMax", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterRateRandomnessMin, 1.0f, 0.0f, 0.0f, "%.2f");
+				if (m_inspectedGO->GetComponent<CPParticle>()->mEmitterRateRandomnessMax <= 0.f) {
+					m_inspectedGO->GetComponent<CPParticle>()->mEmitterRateRandomnessMax = 0.f;
+				}
+
+
+
+
+				// Emitter type stats =======================================
+				ImGui::Separator();
+				ImGui::Text(emitterType.c_str());
+				ImGui::Separator();
 				// Emitter Velocity
-				Vec2<float>& velocity = m_inspectedGO->GetComponent<CPParticle>()->mEmitterVelocity;
-				ImGui::Text("%-17s X", "Velocity");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##VelocityX", &velocity.x, 1.0f, 0.0f, 0.0f, "%.2f");
-				ImGui::SameLine();
-				ImGui::Text("Y");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##VelocityY", &velocity.y, 1.0f, 0.0f, 0.0f, "%.2f");
+				if (emitterType == "Trail")
+				{
+					Vec2<float>& velocity = m_inspectedGO->GetComponent<CPParticle>()->mEmitterVelocity;
+					ImGui::Text("%-17s X", "Velocity");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##VelocityX", &velocity.x, 1.0f, 0.0f, 0.0f, "%.2f");
+					ImGui::SameLine();
+					ImGui::Text("Y");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##VelocityY", &velocity.y, 1.0f, 0.0f, 0.0f, "%.2f");
+				}
 
 				// Emitter X Min and Max Variation
-				ImGui::Text("%-17s Min", "Vel Variation X");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##MinX", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMinX, 1.0f, 0.0f, 0.0f, "%.2f");
-				ImGui::SameLine();
-				ImGui::Text("Max");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##MaxX", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMaxX, 1.0f, 0.0f, 0.0f, "%.2f");
-				// Emitter Y Min and Max Variation
-				ImGui::Text("%-17s Min", "Vel Variation Y");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##MinY", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMinY, 1.0f, 0.0f, 0.0f, "%.2f");
-				ImGui::SameLine();
-				ImGui::Text("Max");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##MaxY", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMaxY, 1.0f, 0.0f, 0.0f, "%.2f");
-				
-				ImGui::Text("%-17s", "Radial Speed");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(normalWidth);
-				ImGui::DragFloat("##RadialSpeed", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterRadialSpeed, 1.0, 0.f, 0.f, "%.2f");
-				
+				if (emitterType == "Trail")
+				{
+					ImGui::Text("%-17s Min", "Vel Variation X");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##MinX", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMinX, 1.0f, 0.0f, 0.0f, "%.2f");
+					ImGui::SameLine();
+					ImGui::Text("Max");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##MaxX", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMaxX, 1.0f, 0.0f, 0.0f, "%.2f");
+					// Emitter Y Min and Max Variation
+					ImGui::Text("%-17s Min", "Vel Variation Y");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##MinY", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMinY, 1.0f, 0.0f, 0.0f, "%.2f");
+					ImGui::SameLine();
+					ImGui::Text("Max");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##MaxY", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterVariationMaxY, 1.0f, 0.0f, 0.0f, "%.2f");
+				}
+
+				// Radial Spawn In Circle
+				if (emitterType == "Radial" || emitterType == "InverseRadial")
+				{
+					bool& isRadialSpawnInCircle = m_inspectedGO->GetComponent<CPParticle>()->mEmitterRadialSpawnCircle;
+					ImGui::PushID("RadialSpawnInCircle");
+					ImGui::Checkbox("Spawn In Circle", &isRadialSpawnInCircle);
+					ImGui::PopID();
+					if (isRadialSpawnInCircle != m_inspectedGO->GetComponent<CPParticle>()->mEmitterRadialSpawnCircle)
+					{
+						m_inspectedGO->GetComponent<CPParticle>()->mIsActive = isRadialSpawnInCircle;
+					}
+				}
+
+				// Inv Radial Distance
+				if (emitterType == "InverseRadial")
+				{
+					ImGui::Text("%-17s", "InvRadial Distance Min");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##InvRadSpeedMin", &m_inspectedGO->GetComponent<CPParticle>()->mInvRadDistanceMin, 1.0, 0.f, 0.f, "%.2f");
+					ImGui::Text("%-17s", "InvRadial Distance Max");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##InvRadSpeedMax", &m_inspectedGO->GetComponent<CPParticle>()->mInvRadDistanceMax, 1.0, 0.f, 0.f, "%.2f");
+				}
+
+
+				// Radial Num
+				if (emitterType == "Radial" || emitterType == "InverseRadial")
+				{
+					ImGui::Text("%-17s", "Radial Num");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragInt("##RadialNum", &m_inspectedGO->GetComponent<CPParticle>()->mRadialParticles, 1, 0, 0, "%d");
+				}
+				// Radial Speed
+				if (emitterType == "Radial")
+				{
+					ImGui::Text("%-17s", "Radial Speed");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(normalWidth);
+					ImGui::DragFloat("##RadialSpeed", &m_inspectedGO->GetComponent<CPParticle>()->mEmitterRadialSpeed, 1.0, 0.f, 0.f, "%.2f");
+				}
+
+				// End of EmitterType stats ======================================================
+
+
 				// Emitter Rotation
+				ImGui::Separator();
+				ImGui::Text("ROTATION");
+				ImGui::Separator();
 				ImGui::Text("%-17s", "Rotation Speed");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
@@ -1267,6 +1355,9 @@ namespace LB
 
 				
 				// Emitter Size
+				ImGui::Separator();
+				ImGui::Text("SIZE");
+				ImGui::Separator();
 				ImGui::Text("%-17s Begin", "Emitter Size");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
@@ -1282,7 +1373,11 @@ namespace LB
 				if (m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeEnd <= 0.f) {
 					m_inspectedGO->GetComponent<CPParticle>()->mEmitterSizeEnd = 0.f;
 				}
+
 				// Emitter Lifetime
+				ImGui::Separator();
+				ImGui::Text("LIFETIME");
+				ImGui::Separator();
 				ImGui::Text("%-17s", "Emitter Lifetime");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
@@ -1294,6 +1389,26 @@ namespace LB
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(normalWidth);
 				ImGui::DragFloat("##ParticleLifeTime", &m_inspectedGO->GetComponent<CPParticle>()->mParticleLifetime, 0.5f, 0.0f, 0.0f, "%.2f");
+
+				bool& isParticleLifetimeRandom = m_inspectedGO->GetComponent<CPParticle>()->mParticleLifetimeRandomness;
+				ImGui::PushID("ParticleLifetimeRandom");
+				ImGui::Checkbox("Particle Lifetime Random", &isParticleLifetimeRandom);
+				ImGui::PopID();
+				if (isParticleLifetimeRandom != m_inspectedGO->GetComponent<CPParticle>()->mParticleLifetimeRandomness)
+				{
+					m_inspectedGO->GetComponent<CPParticle>()->mIsActive = isParticleLifetimeRandom;
+				}
+
+				ImGui::Text("%-17s", "Particle Lifetime Min");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##ParticleLifeTimeMin", &m_inspectedGO->GetComponent<CPParticle>()->mParticleLifetimeMin, 0.5f, 0.0f, 0.0f, "%.2f");
+
+				ImGui::Text("%-17s", "Particle Lifetime Max");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(normalWidth);
+				ImGui::DragFloat("##ParticleLifeTimeMax", &m_inspectedGO->GetComponent<CPParticle>()->mParticleLifetimeMax, 0.5f, 0.0f, 0.0f, "%.2f");
+
 				// Particle Lifetime Delay
 				ImGui::Text("%-17s Min", "Particle Lifetime Delay");
 				ImGui::SameLine();
