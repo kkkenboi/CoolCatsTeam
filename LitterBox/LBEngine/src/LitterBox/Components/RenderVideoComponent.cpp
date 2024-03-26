@@ -59,7 +59,7 @@ namespace LB
 		if (playCutscene && !load_video_frame())
 		{
 			playCutscene = false;
-			free_video_state();
+			//free_video_state();
 			SCENEMANAGER->LoadScene(scene_to_transition);
 			AUDIOMANAGER->StopAllChannels();
 		}

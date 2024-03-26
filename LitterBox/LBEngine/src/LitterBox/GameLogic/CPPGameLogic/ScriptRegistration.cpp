@@ -48,6 +48,7 @@
 #include "CPPSTutorial3.h"
 #include "CPPSAudienceManager.h"
 #include "CPPSAudience.h"
+#include "CPPSplashScreen.h"
 
 namespace LB 
 {

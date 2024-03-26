@@ -128,6 +128,10 @@ namespace LB
 			//VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
 			ShowGameWin();
 		}
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
+		{
+			ShowSplashScreen();
+		}
 		/*if (INPUT->IsKeyTriggered(KeyCode::KEY_I))
 		{
 			GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeIn(5.f,0.5f);
@@ -504,6 +508,15 @@ namespace LB
 	void CPPSGameManager::ShowGameWin()
 	{
 		VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMainMenu");
+	}
+
+	/*!************************************************************************
+	 * \brief Function to send player to the winning cutscene
+	 *
+	**************************************************************************/
+	void CPPSGameManager::ShowSplashScreen()
+	{
+		VideoPlayerSystem::Instance()->PlayCutscene("SplashScreen", "SceneMainMenu");
 	}
 
 	/*!************************************************************************
