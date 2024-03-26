@@ -49,9 +49,15 @@ namespace LB {
 	public:
 		/*!***********************************************************************
 		 \brief
-		 Initialises the LitterBox Engine with all the systems added
+		 Constructs the LitterBox Engine with all the systems added
 		*************************************************************************/
-		Application(bool editorMode, bool startPlaying = false);
+		Application(bool editorMode);
+
+		/*!***********************************************************************
+		 \brief
+		 Constructs the LitterBox Engine with all the systems added
+		*************************************************************************/
+		void Initialise(bool startPlaying = false);
 
 		/*!***********************************************************************
 		 \brief
@@ -86,8 +92,8 @@ namespace LB {
 	Creates the application in the project area, to be used by other projects
 	eg. Sandbox
 	*************************************************************************/
-	Application* CreateApplication(bool EditorMode = false, bool startPlaying = false);
+	Application* CreateApplication(bool EditorMode = false);
 
 }
 
-extern LB::Application* LB::CreateApplication(bool EditorMode, bool startPlaying);
+extern LB::Application* LB::CreateApplication(bool EditorMode);

@@ -36,7 +36,7 @@ namespace LB
 
 		SCENEMANAGER->onNewSceneLoad.Subscribe(ClearPool);
 
-		const EmitterType EmitterTypeVector[] = { TRAIL, RADIAL };
+		const EmitterType EmitterTypeVector[] = { TRAIL, RADIAL, INVERSERADIAL };
 		for (EmitterType emit : EmitterTypeVector)
 		{
 			mEmitterTypes.emplace_back(std::make_pair(ParticleManager::Instance()->GetEmitterType(emit), emit));
@@ -90,7 +90,7 @@ namespace LB
 			particle.mGameObj->GetComponent<CPRender>()->Initialise();
 
 			// Make the render be invisible if delay is 0>
-			if (particle.mLifetimeDelay >= 0.f)
+			if (particle.mLifetimeDelay > 0.f)
 			{
 				particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(false);
 			}
@@ -153,6 +153,17 @@ namespace LB
 				particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 				particle.mGameObj->GetComponent<CPRender>()->Initialise();
 
+				// Make the render be invisible if delay is 0>
+				if (particle.mLifetimeDelay > 0.f)
+				{
+					particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(false);
+				}
+				else
+				{
+					particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(true);
+				}
+				particle.mGameObj->GetComponent<CPRender>()->z_val = emitter->mRender->z_val;
+
 				//First we check if it's using a sprite from a sprite sheet. 
 				//Since -1 means we're using a texture and not a sprite sheet,
 				if (emitter->mRender->spriteIndex < 0)
@@ -172,7 +183,175 @@ namespace LB
 		}
 		else if (emitter->mEmitterType == INVERSERADIAL) 
 		{
+			// Check if emitter has radial all at once spawning of the circle or not
+			if (emitter->mEmitterRadialSpawnCircle)
+			{
+				// True means we spawn the whole circle at the outer rim and move towards the center
+				// and then we despawn the particles
+				for (int i = 0; i < emitter->mRadialParticles; ++i) 
+				{
+					// False means we spawn each particles randomly at the border of the circle
+				// and make it move towards the center and despawn it once it reaches the center
+					Particle& particle = mParticlePool[mParticlePoolIndex];
+					particle.mIsActive = true;
+					// Position is away from the center, distance is given using the variable mInvRadialDistance
+					// and using a random angle
+					float angle = RandomRange(0.f, 2.0f * PI);
+					float distance = RandomRange(emitter->mInvRadDistanceMin, emitter->mInvRadDistanceMax);
+					particle.mPosition.x = emitter->mEmitterPos.x + distance * cos(angle);
+					particle.mPosition.y = emitter->mEmitterPos.y + distance * sin(angle);
+					particle.mRotationSpeed = emitter->mRotationSpeed;
+					particle.mRotationSpeed += RandomRange(emitter->mRotationSpeedVariationMin, emitter->mRotationSpeedVariationMax);
+					particle.mLifetime = emitter->mParticleLifetime;
+
+					if (!emitter->mParticleLifetimeRandomness)
+					{
+						particle.mLifetime += RandomRange(emitter->mParticleLifetimeMin, emitter->mParticleLifetimeMax);
+						// Clamp the particle lifetime to 0, as we don't want negative numbers
+						if (particle.mLifetime < 0.f)
+						{
+							particle.mLifetime = 0.f;
+						}
+					}
+
+					particle.mLifetimeRemaining = particle.mLifetime;
+
+					// Using this distance we want to calculate the velocity of it
+					// from the lifetime that was given
+					particle.mVelocity.x = (emitter->mEmitterPos.x - particle.mPosition.x) / particle.mLifetime;
+					particle.mVelocity.y = (emitter->mEmitterPos.y - particle.mPosition.y) / particle.mLifetime;
+					/*
+					// Lifetime delay
+					particle.mLifetimeDelay = RandomRange(emitter->mEmitterLifetimeDelayMin, emitter->mEmitterLifetimeDelayMax);
+					*/
+					// Size
+					particle.mSizeBegin = emitter->mEmitterSizeBegin;
+					particle.mSize = particle.mSizeBegin;
+					particle.mSizeEnd = emitter->mEmitterSizeEnd;
+
+					// Update the index
+					mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
+
+					// Create a GameObject that follows the Particle's current stats
+					particle.mGameObj = FACTORY->SpawnGameObject();
+					particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+					particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+					particle.mGameObj->GetComponent<CPRender>()->Initialise();
+
+					// Make the render be invisible if delay is 0>
+					if (particle.mLifetimeDelay > 0.f)
+					{
+						particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(false);
+					}
+					else
+					{
+						particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(true);
+					}
+					particle.mGameObj->GetComponent<CPRender>()->z_val = emitter->mRender->z_val;
+
+					// Get the texture ID from the emitter
+
+					//First we check if it's using a sprite from a sprite sheet. 
+					//Since -1 means we're using a texture and not a sprite sheet,
+					if (emitter->mRender->spriteIndex < 0)
+					{	//We have to do the standard grabbing of texture from the asset manager stuff
+						int textureID = emitter->mRender->texture;
+						std::string textureName = ASSETMANAGER->GetTextureName(textureID);
+						particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter->mRender->w), static_cast<int>(emitter->mRender->h));
+					}
+					else
+					{	//if we do happen to have a sprite index, this means we're using the sprite sheet so
+						//we just use the CPRender function to set sprite texture
+						particle.mGameObj->GetComponent<CPRender>()->SetSpriteTexture(emitter->mRender->spriteSheetName, emitter->mRender->spriteIndex);
+					}
+				}
+			}
+			else
+			{
+				/*
 			
+
+				*/
+				// False means we spawn each particles randomly at the border of the circle
+				// and make it move towards the center and despawn it once it reaches the center
+				Particle& particle = mParticlePool[mParticlePoolIndex];
+				particle.mIsActive = true;
+				// Position is away from the center, distance is given using the variable mInvRadialDistance
+				// and using a random angle
+				float angle = RandomRange(0.f, 2.0f * PI);
+				float distance = RandomRange(emitter->mInvRadDistanceMin, emitter->mInvRadDistanceMax);
+				particle.mPosition.x = emitter->mEmitterPos.x + distance * cos(angle);
+				particle.mPosition.y = emitter->mEmitterPos.y + distance * sin(angle);
+				particle.mRotationSpeed = emitter->mRotationSpeed;
+				particle.mRotationSpeed += RandomRange(emitter->mRotationSpeedVariationMin, emitter->mRotationSpeedVariationMax);
+				particle.mLifetime = emitter->mParticleLifetime;
+
+				if (!emitter->mParticleLifetimeRandomness)
+				{
+					particle.mLifetime += RandomRange(emitter->mParticleLifetimeMin, emitter->mParticleLifetimeMax);
+					// Clamp the particle lifetime to 0, as we don't want negative numbers
+					if (particle.mLifetime < 0.f)
+					{
+						particle.mLifetime = 0.f;
+					}
+				}
+				
+				particle.mLifetimeRemaining = particle.mLifetime;
+
+				Vec2<float> dir_to_center = Normalise(emitter->mEmitterPos - particle.mPosition);
+				// Using this distance we want to calculate the velocity of it
+				// from the lifetime that was given
+				particle.mVelocity.x = dir_to_center.x * distance / particle.mLifetime;
+				particle.mVelocity.y = dir_to_center.y * distance / particle.mLifetime;
+
+				particle.mLifetimeDelay = 0.f;
+
+				/*
+				// Lifetime delay
+				particle.mLifetimeDelay = RandomRange(emitter->mEmitterLifetimeDelayMin, emitter->mEmitterLifetimeDelayMax);
+				*/
+				// Size
+				particle.mSizeBegin = emitter->mEmitterSizeBegin;
+				particle.mSize = particle.mSizeBegin;
+				particle.mSizeEnd = emitter->mEmitterSizeEnd;
+
+				// Update the index
+				mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
+
+				// Create a GameObject that follows the Particle's current stats
+				particle.mGameObj = FACTORY->SpawnGameObject();
+				particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+				particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+				particle.mGameObj->GetComponent<CPRender>()->Initialise();
+
+				// Make the render be invisible if delay is 0>
+				if (particle.mLifetimeDelay > 0.f)
+				{
+					particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(false);
+				}
+				else
+				{
+					particle.mGameObj->GetComponent<CPRender>()->ToggleActiveFlag(true);
+				}
+				particle.mGameObj->GetComponent<CPRender>()->z_val = emitter->mRender->z_val;
+
+				// Get the texture ID from the emitter
+
+				//First we check if it's using a sprite from a sprite sheet. 
+				//Since -1 means we're using a texture and not a sprite sheet,
+				if (emitter->mRender->spriteIndex < 0)
+				{	//We have to do the standard grabbing of texture from the asset manager stuff
+					int textureID = emitter->mRender->texture;
+					std::string textureName = ASSETMANAGER->GetTextureName(textureID);
+					particle.mGameObj->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(emitter->mRender->w), static_cast<int>(emitter->mRender->h));
+				}
+				else
+				{	//if we do happen to have a sprite index, this means we're using the sprite sheet so
+					//we just use the CPRender function to set sprite texture
+					particle.mGameObj->GetComponent<CPRender>()->SetSpriteTexture(emitter->mRender->spriteSheetName, emitter->mRender->spriteIndex);
+				}
+
+			}
 		}
 	}
 
@@ -282,7 +461,7 @@ namespace LB
 			{
 				continue;
 			}
-
+			//std::cout << particle.mLifetimeRemaining << std::endl;
 			// Check if particle needs to be destroyed
 			if (particle.mLifetimeRemaining <= 0.f)
 			{

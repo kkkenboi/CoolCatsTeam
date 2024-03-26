@@ -27,10 +27,13 @@ namespace LB {
 	{
 		char m_textBuffer[256]{};
 
-		TileMapGroup m_tiles{3};
+		TileMapGroup m_tiles{4};
+		std::vector<bool> m_tilesVisibility;
 
 		int m_tileSelected{ -1 };
 		int m_layer{ 0 };
+
+		float m_zoom{ 1.f }, m_zoomStep{ 1.5f };
 		
 		int m_tmpRow{ m_tiles[m_layer].getRows() }, m_tmpCol{ m_tiles[m_layer].getCols() };
 

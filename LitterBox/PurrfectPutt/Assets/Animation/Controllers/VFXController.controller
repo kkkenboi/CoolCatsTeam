@@ -8,6 +8,9 @@
         "VFX_Shiny2",
         "VFX_Expand",
         "Flag_Appear",
-        "Flag_Swaying"
+        "Flag_Swaying",
+        "VFX_ExpandH",
+        "VFX_ExpandHReverse",
+        "Flag_Disappear"
     ]
 }

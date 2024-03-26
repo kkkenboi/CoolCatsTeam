@@ -48,6 +48,10 @@ namespace LB
 			{
 				m_repeating ? PlayRepeat(m_defaultState) : Play(m_defaultState);
 			}
+			else
+			{
+				PlayDelay(m_defaultState, m_awakeDelay);
+			}
 		}
 	}
 
@@ -57,12 +61,12 @@ namespace LB
 	**************************************************************************/
 	void CPAnimator::Update()
 	{
-		if (m_playOnAwake && m_elapsedAwakeTime < m_awakeDelay)
+		if (m_elapsedAwakeTime < m_awakeDelay)
 		{
 			m_elapsedAwakeTime += static_cast<float>(TIME->GetDeltaTime());
 			if (m_elapsedAwakeTime >= m_awakeDelay)
 			{
-				m_repeating ? PlayRepeat(m_defaultState) : Play(m_defaultState);
+				m_repeating ? PlayRepeat(m_delayName) : Play(m_delayName);
 			}
 		}
 
@@ -223,6 +227,19 @@ namespace LB
 		{
 			m_queue.push_back(name);
 		}
+	}
+
+	void CPAnimator::PlayDelay(std::string const& name, float delay)
+	{
+		m_awakeDelay = delay;
+		m_elapsedAwakeTime = 0.0f;
+		m_delayName = name;
+	}
+
+	void CPAnimator::PlayRepeatDelay(std::string const& name, float delay)
+	{
+		m_repeating = true;
+		PlayDelay(name, delay);
 	}
 
 	/*!************************************************************************

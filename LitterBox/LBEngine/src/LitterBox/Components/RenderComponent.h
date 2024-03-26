@@ -56,12 +56,13 @@ namespace LB
 		Vec2<float>					position;
 		Vec3<float>					col;
 		std::array<Vec2<float>, 4>	uv; //bot left, bot right, top right, top left
-		std::string					spriteSheetName{"None"};
+		std::string					spriteSheetName{ "None" };
 		int							spriteIndex{ -1 };
 		bool						activated;
 
 
 		CPTransform* transform;
+		GameObject* parent;
 		/*!***********************************************************************
 		\brief
 		 Constructor for the component. Sets all the appropriate values and
@@ -102,21 +103,21 @@ namespace LB
 		}
 
 		/*!************************************************************************
-		 * \brief 
+		 * \brief
 		 * Saves the texture name to file
-		 * \return 
+		 * \return
 		 * Returns if the serialization succeeded
 		**************************************************************************/
 		bool Serialize(Value& data, Document::AllocatorType& alloc) override;
 
 		/*!************************************************************************
-		 * \brief 
+		 * \brief
 		 * Reads the texture name and sets the ID appropriately
-		 * \return 
-		 * If the Deserialization succeeded 
+		 * \return
+		 * If the Deserialization succeeded
 		**************************************************************************/
 		bool Deserialize(const Value& data) override;
-		
+
 		/*!***********************************************************************
 		 \brief
 		 Toggles the ACTUAL active state for this component
@@ -171,7 +172,7 @@ namespace LB
 		/*!***********************************************************************
 		\brief
 		 Updates which rendering layer the object is in.
-		 
+
 		 NOTE: This function does not change the rendering layer
 
 		\param
@@ -222,7 +223,7 @@ namespace LB
 		 NOTE: the texture slot may or may not be bound. The ounus is on the
 		 developer to ensure the _texture argument is a valid texture
 		*************************************************************************/
-		void UpdateTexture(int _texture, int width, int height, Vec2<float>min = {0.f, 0.f}, Vec2<float>max = {1.f, 1.f})
+		void UpdateTexture(int _texture, int width, int height, Vec2<float>min = { 0.f, 0.f }, Vec2<float>max = { 1.f, 1.f })
 		{
 			texture = _texture;
 			w = (float)width;

@@ -126,6 +126,8 @@ namespace LB
 		Event<Scene*> onNewSceneLoad;
 		Event<> onSceneSaved;
 
+		std::string m_firstScene{ "None" };
+
 	private:
 		std::vector<std::string> m_sceneOrder; // Names of all scenes loaded
 
