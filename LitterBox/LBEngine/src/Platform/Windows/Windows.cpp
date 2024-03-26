@@ -186,23 +186,23 @@ namespace LB
     *************************************************************************/
     void WindowsSystem::Initialize()
     {
-        // Set the window cursor
-        GLFWimage image{};
-        image.width = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->width;
-        image.height = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->height;
+        //// Set the window cursor
+        //GLFWimage image{};
+        //image.width = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->width;
+        //image.height = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->height;
 
-        // - Grabbing the actual values from the texture buffer itself
-        GLuint* pixels = new GLuint[image.width * image.height * STBI_rgb_alpha];
-        glBindTexture(GL_TEXTURE_2D, ASSETMANAGER->GetTextureIndex("Aim"));
-        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-        image.pixels = reinterpret_cast<unsigned char*>(pixels);
+        //// - Grabbing the actual values from the texture buffer itself
+        //GLuint* pixels = new GLuint[image.width * image.height * STBI_rgb_alpha];
+        //glBindTexture(GL_TEXTURE_2D, ASSETMANAGER->GetTextureIndex("Aim"));
+        //glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+        //image.pixels = reinterpret_cast<unsigned char*>(pixels);
 
-        // - Create an image for the cursor
-        m_Data.cursor = glfwCreateCursor(&image, image.width / 2, image.height / 2);
-        glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
+        //// - Create an image for the cursor
+        //m_Data.cursor = glfwCreateCursor(&image, image.width / 2, image.height / 2);
+        //glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
 
         // Free memory 
-        delete[] pixels;
+        //delete[] pixels;
     }
 
     /*!***********************************************************************
