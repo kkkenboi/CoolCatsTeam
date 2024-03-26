@@ -44,6 +44,7 @@ namespace LB
 		const GLFWvidmode* m_VideoMode{ nullptr };
 		GLFWmonitor* m_Monitor{ nullptr };
 		GLFWcursor* cursor{ nullptr };
+		unsigned char* imageData;
 
 		/*!***********************************************************************
 		 \brief
