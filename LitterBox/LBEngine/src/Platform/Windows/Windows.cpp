@@ -22,7 +22,9 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Time.h"
+#include "LitterBox/Serialization/AssetManager.h"
 
+#include "stb_image.h"
 
 #define UNREFERENCED_PARAMETER
 
@@ -169,10 +171,39 @@ namespace LB
     *************************************************************************/
     WindowsSystem::~WindowsSystem()
 	{
+        // If there are any resources allocated, delete before destructing WindowsSystem
+        glfwDestroyCursor(m_Data.cursor);
+
+        // Finally destroy the window context and terminate glfw
         glfwDestroyWindow(this->m_Data.m_PtrToWindow);
         glfwTerminate();
-        // If there are any resources allocated, delete before destructing WindowsSystem
 	}
+
+    /*!***********************************************************************
+     \brief
+     Initializes other GLFW functions, such as the mouse, that isn't possible
+     through the constructor.
+    *************************************************************************/
+    void WindowsSystem::Initialize()
+    {
+        //// Set the window cursor
+        //GLFWimage image{};
+        //image.width = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->width;
+        //image.height = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->height;
+
+        //// - Grabbing the actual values from the texture buffer itself
+        //GLuint* pixels = new GLuint[image.width * image.height * STBI_rgb_alpha];
+        //glBindTexture(GL_TEXTURE_2D, ASSETMANAGER->GetTextureIndex("Aim"));
+        //glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+        //image.pixels = reinterpret_cast<unsigned char*>(pixels);
+
+        //// - Create an image for the cursor
+        //m_Data.cursor = glfwCreateCursor(&image, image.width / 2, image.height / 2);
+        //glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
+
+        // Free memory 
+        //delete[] pixels;
+    }
 
     /*!***********************************************************************
      \brief
@@ -221,8 +252,8 @@ namespace LB
 
             // Set Window Title (Name + FPS)
             glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
+            glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
         }
-
         Draw(this->m_Data);   
     }
 

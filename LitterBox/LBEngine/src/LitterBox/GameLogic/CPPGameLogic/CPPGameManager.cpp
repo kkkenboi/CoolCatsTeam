@@ -125,8 +125,8 @@ namespace LB
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{
 			//GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeOut(5.f);
-			//VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
-			ShowGameWin();
+			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
+			//ShowGameWin();
 		}
 		/*if (INPUT->IsKeyTriggered(KeyCode::KEY_I))
 		{
@@ -134,7 +134,7 @@ namespace LB
 		}*/
 		//if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
 		//{
-		//	VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMainMenu");
+		//	VideoPlayerSystem::Instance()->PlayCutscene("SplashScreenDigiPen", "SceneMainMenu");
 		//}
 		//Test function to see if the remove gameobject code works
 		//You have to comment out the ball's canDestroy code in order for this

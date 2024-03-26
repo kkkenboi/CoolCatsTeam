@@ -98,6 +98,16 @@ namespace LB {
 					ParticleManager::Instance()->Emit(this);
 				}
 				mTimeSinceLastEmit = 0.f;
+				// Change the EmitterRate if there is randomness on
+				if (mEmitterRateRandomness)
+				{
+					mEmitterRate += RandomRange(mEmitterRateRandomnessMin, mEmitterRateRandomnessMax);
+					if (mEmitterRate < 0.f)
+					{
+						// Clamp the EmitterRate to 0 if it's a negative number
+						mEmitterRate = 0.f;
+					}
+				}
 			}
 		}
 	}

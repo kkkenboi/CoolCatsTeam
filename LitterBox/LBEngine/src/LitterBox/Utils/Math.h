@@ -248,6 +248,8 @@ namespace LB
 		*************************************************************************/
 		bool Deserialize(const rapidjson::Value&);
 
+		void Clamp(T min, T max);
+
 	};
 
 	// Vec2 Non-member operator overloads * / *= /=
@@ -1439,6 +1441,14 @@ namespace LB
 			}
 		}
 		return false;
+	}
+
+	template<typename T>
+	inline void Vec2<T>::Clamp(T min, T max)
+	{
+		// TODO: insert return statement here
+		x = x < min ? min : x > max ? max : x;
+		y = y < min ? min : y > max ? max : y;
 	}
 
 

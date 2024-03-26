@@ -122,9 +122,9 @@ namespace LB
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BushSounds, 0.15f);
 		}
 
-		if (colData.colliderOther->gameObj->GetName() == "ball")
-		{
+		//if (colData.colliderOther->gameObj->GetName() == "ball")
+		//{
 
-		}
+		//}
 	}
 }

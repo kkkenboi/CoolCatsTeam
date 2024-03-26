@@ -11,6 +11,8 @@
 **************************************************************************/
 #include "CPPSCameraFollow.h"
 #include "LitterBox/Renderer/Renderer.h"
+#include "CPPSMouse.h"
+
 namespace LB
 {
 	/*!***********************************************************************
@@ -20,6 +22,7 @@ namespace LB
 	void CPPSCameraFollow::Start()
 	{
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+		m_Mouse = GOMANAGER->FindGameObjectWithName("MouseCursor");
 	}
 
 	/*!***********************************************************************
@@ -30,15 +33,23 @@ namespace LB
 	{
 		//First we just store our current position so that it's easier to use
 		currentPos = GetComponent<CPTransform>()->GetPosition();
+
+		// Calculate movement of camera when exploring with the mouse
+		extraDist = m_Mouse->GetComponent<CPPSMouse>()->GetMouseWorld()->GetComponent<CPTransform>()->GetPosition() - mPlayer->GetComponent<CPTransform>()->GetPosition();
+		extraDist.Clamp(-200.f, 200.f);
+
 		//Forgive me father for I have sinned
 		//This sort of lerping is technically incorrect but it will do... 
-		currentPos = Lerp(currentPos, mPlayer->GetComponent<CPTransform>()->GetPosition(), static_cast<float>(TIME->GetDeltaTime()));
+		currentPos = Lerp(currentPos, mPlayer->GetComponent<CPTransform>()->GetPosition() + extraDist, static_cast<float>(TIME->GetDeltaTime() * 2.5f));
 		//std::cout << "player Pos : " << mPlayer->GetComponent<CPTransform>()->GetPosition().x << ", " << mPlayer->GetComponent<CPTransform>()->GetPosition().y;
 		//std::cout << ", current pos : " << currentPos.x << ", " << currentPos.y << '\n';
 		//Now we set this thing's position
 		GetComponent<CPTransform>()->SetPosition(currentPos);
 		//why won't you move!!! ;__;
 		//DebuggerLog("Renderer:\n");
+
+		//DebuggerLogFormat("ExtraDist X: %f, ExtraDist Y: %f", extraDist.x, extraDist.y);
+
 		Renderer::GRAPHICS->get_cam()->get_cam_x() = currentPos.x - 960.f;
 		Renderer::GRAPHICS->get_cam()->get_cam_y() = currentPos.y - 540.f;
 		Renderer::GRAPHICS->get_cam()->update_cam();

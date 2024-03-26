@@ -112,7 +112,7 @@ namespace LB
 
 				// Set position of iconObject and texture
 				mIconObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f} + DirToEvent.Normalise() * iconDistance);
-				mIconObject->GetComponent<CPRender>()->SetSpriteTexture("FlagSheet", 26);
+				mIconObject->GetComponent<CPRender>()->SetSpriteTexture("FelixSheet", 57);
 
 				// Render both direction helper and iconObject
 				GameObj->GetComponent<CPRender>()->ToggleActive(true);

@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1792.0,
-            "y": 84.0
+            "x": 1678.0,
+            "y": 83.0
         },
         "Scale": {
             "x": 0.6,
@@ -15,8 +15,9 @@
     },
     "Render": {
         "Active": true,
-        "Width": 1218.0,
+        "Width": 828.0,
         "Height": 250.0,
+        "ZLayer": 1.0,
         "Layer": 3,
         "Texture": "Backboard UI",
         "SpriteName": "BackboardSheet",

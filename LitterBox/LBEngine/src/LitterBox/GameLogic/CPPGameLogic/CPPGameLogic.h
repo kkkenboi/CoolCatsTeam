@@ -147,6 +147,8 @@ namespace LB
 		*************************************************************************/
 		void Update() override;
 
+		void FixedUpdate() override;
+
 		/*!***********************************************************************
 		 \brief
 		 Destroys the GameLogic system and clears all scripts attached
