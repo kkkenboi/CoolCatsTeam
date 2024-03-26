@@ -36,13 +36,14 @@ void LB::CPPSPortal::Start()
 
 	mPortalEmitter = GOMANAGER->FindGameObjectWithName("portalemitter");
 	mPortalEmitter->GetComponent<CPParticle>()->mEmitterType = INVERSERADIAL;
-	mPortalEmitter->GetComponent<CPParticle>()->mEmitterRate = 0.2f;
-	mPortalEmitter->GetComponent<CPParticle>()->mInvRadDistanceMin = 75.f;
-	mPortalEmitter->GetComponent<CPParticle>()->mInvRadDistanceMax = 150.f;
+	mPortalEmitter->GetComponent<CPParticle>()->mEmitterRate = 0.01f;
+	mPortalEmitter->GetComponent<CPParticle>()->mInvRadDistanceMin = 125.f;
+	mPortalEmitter->GetComponent<CPParticle>()->mInvRadDistanceMax = 600.f;
 	mPortalEmitter->GetComponent<CPParticle>()->mRotationSpeedVariationMin = -100.f;
 	mPortalEmitter->GetComponent<CPParticle>()->mRotationSpeedVariationMax = 100.f;
-	mPortalEmitter->GetComponent<CPParticle>()->mEmitterSizeBegin = 2.0f;
-	mPortalEmitter->GetComponent<CPParticle>()->mEmitterSizeEnd = 0.f;
+	mPortalEmitter->GetComponent<CPParticle>()->mEmitterSizeBegin = 0.5f;
+	mPortalEmitter->GetComponent<CPParticle>()->mEmitterSizeEnd = 0.0f;
+	mPortalEmitter->GetComponent<CPParticle>()->mParticleLifetime = 0.5f;
 	mPortalEmitter->GetComponent<CPParticle>()->mIsActive = false;
 	mPortalEmitter->GetComponent<CPParticle>()->mIsLooping = true;
 
