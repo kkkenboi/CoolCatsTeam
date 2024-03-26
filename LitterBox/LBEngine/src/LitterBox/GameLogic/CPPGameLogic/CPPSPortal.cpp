@@ -86,6 +86,7 @@ void LB::CPPSPortal::Update()
 						mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->set_msg(finalBuffer);
 						mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->Play("Flag_Appear");
 						mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayNext("Flag_Swaying");
+						mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayDelay("Flag_Disappear", 0.8f);
 						playStartAnim = false;
 					}
 
@@ -98,8 +99,8 @@ void LB::CPPSPortal::Update()
 						if (playEndAnim)
 						{
 							DebuggerLog("Playing end animation!");
+
 							mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPAnimator>()->Play("VFX_ExpandHReverse");
-							mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->Play("Flag_Disappear");
 							playEndAnim = false;
 						}
 
@@ -135,16 +136,25 @@ void LB::CPPSPortal::Update()
 				mPortalCenter->GetComponent<CPTransform>()->SetScale(portalScale);
 
 				// Set text size to backboard's increasing/decreasing scale
-				mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->update_msg_size(mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPTransform>()->GetScale().x);
+				endAnimDelay += static_cast<float>(TIME->GetDeltaTime());
+				if (endAnimDelay > 3.35f)
+				{
+					mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->update_msg_size(0.f);
+				}
+				else
+				{
+					mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->update_msg_size(mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPTransform>()->GetScale().x);
+				}
 			}
 		}		
 	}
 	else
 	{
-		timer = 0;
-		rotTimer = 0;
-		circleTimer = 0;
-		intermissionTimer = 0;
+		timer = 0.f;
+		endAnimDelay = 0.f;
+		rotTimer = 0.f;
+		circleTimer = 0.f;
+		intermissionTimer = 0.f;
 		expandOut = true;
 		playPortalSound = false;
 		playStartAnim = true;

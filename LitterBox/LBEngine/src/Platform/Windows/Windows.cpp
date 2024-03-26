@@ -22,6 +22,7 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Time.h"
+#include "LitterBox/Serialization/AssetManager.h"
 
 
 #define UNREFERENCED_PARAMETER
@@ -169,10 +170,31 @@ namespace LB
     *************************************************************************/
     WindowsSystem::~WindowsSystem()
 	{
+        // If there are any resources allocated, delete before destructing WindowsSystem
+        glfwDestroyCursor(m_Data.cursor);
+
+        // Finally destroy the window context and terminate glfw
         glfwDestroyWindow(this->m_Data.m_PtrToWindow);
         glfwTerminate();
-        // If there are any resources allocated, delete before destructing WindowsSystem
 	}
+
+    /*!***********************************************************************
+     \brief
+     Initializes other GLFW functions, such as the mouse, that isn't possible
+     through the constructor.
+    *************************************************************************/
+    void WindowsSystem::Initialize()
+    {
+        // Set the window cursor
+
+        //GLFWimage image{};
+        //image.width = 512;
+        //image.height = 300;
+        //image.pixels = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->stbBuffer;
+
+        //m_Data.cursor = glfwCreateCursor(&image, 0, 0);
+        //glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
+    }
 
     /*!***********************************************************************
      \brief
@@ -221,8 +243,8 @@ namespace LB
 
             // Set Window Title (Name + FPS)
             glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
+            glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
         }
-
         Draw(this->m_Data);   
     }
 

@@ -43,6 +43,7 @@ namespace LB
 		GLFWwindow* m_PtrToWindow{ nullptr };
 		const GLFWvidmode* m_VideoMode{ nullptr };
 		GLFWmonitor* m_Monitor{ nullptr };
+		GLFWcursor* cursor{ nullptr };
 
 		/*!***********************************************************************
 		 \brief
@@ -128,6 +129,13 @@ namespace LB
 		 Destroys the WindowsSystems with GLFW functions
 		*************************************************************************/
 		~WindowsSystem();
+
+		/*!***********************************************************************
+		 \brief
+		 Initializes other GLFW functions, such as the mouse, that isn't possible
+		 through the constructor.
+		*************************************************************************/
+		void Initialize() override;
 
 		/*!***********************************************************************
 		 \brief
