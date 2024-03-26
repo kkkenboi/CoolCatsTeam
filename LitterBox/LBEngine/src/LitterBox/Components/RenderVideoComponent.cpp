@@ -54,14 +54,45 @@ namespace LB
 	NOTE: for now the interval is not actually synced to the videos specific
 	FPS
 	*************************************************************************/
-	void VideoPlayerSystem::FixedUpdate()
+	void VideoPlayerSystem::Update()
 	{
-		if (playCutscene && !load_video_frame())
+		/*if (playCutscene && !load_video_frame())
 		{
 			playCutscene = false;
 			free_video_state();
 			SCENEMANAGER->LoadScene(scene_to_transition);
 			AUDIOMANAGER->StopAllChannels();
+		}
+		play_video_frame();*/
+
+		//if we are playing cutscene
+		if (playCutscene)
+		{
+			//load max 5 frames ahead
+			if (frame_queue.size() < 5 && !last_frame_read)
+			{
+				//we load data until the last frame
+				if (!last_frame_read && !load_video_frame())
+					last_frame_read = true; //flag to indicate we have read the last frame
+			}
+
+			//if we still have objects in the queue
+			if (!frame_queue.empty())
+			{
+				//we play video frame if it is supposed to be played
+				while (!frame_queue.empty() && frame_queue.front().ptss * cutoff < timer)
+					play_video_frame(); //pops the frame in the queue
+			}
+			//else if we have read and played the last frame
+			else if (frame_queue.empty() && last_frame_read)
+			{
+				playCutscene = false;
+				//free_video_state();
+				SCENEMANAGER->LoadScene(scene_to_transition);
+				AUDIOMANAGER->StopAllChannels();
+			}
+
+			timer += TIME->GetDeltaTime();
 		}
 	}
 
@@ -117,6 +148,8 @@ namespace LB
 		int channel = AUDIOMANAGER->PlaySound(video_file_name);
 		AUDIOMANAGER->SetChannelVolume(channel, 0.3f);
 		playCutscene = true;
+		last_frame_read = false;
+		timer = 0.0;
 	}
 
 	/*!***********************************************************************
@@ -167,6 +200,9 @@ namespace LB
 
 			if (av_codec_inside->type == AVMEDIA_TYPE_VIDEO)
 			{
+				//vrs.time_base = av_format_ctx->streams[i]->time_base;
+				cutoff = (double)av_format_ctx->streams[i]->time_base.num / 
+					(double)av_format_ctx->streams[i]->time_base.den;
 				av_codec = const_cast<AVCodec*>(av_codec_inside);
 				video_stream_index = i;
 				break;
@@ -227,6 +263,8 @@ namespace LB
 	*************************************************************************/
 	bool VideoPlayerSystem::load_video_frame()
 	{
+		static bool trying{ true };
+
 		AVFormatContext*&	av_format_ctx		= vrs.av_format_ctx;
 		AVCodecContext*&	av_codec_ctx		= vrs.av_codec_ctx;
 		unsigned char*&		data				= vrs.fbuffer;
@@ -234,12 +272,14 @@ namespace LB
 		AVPacket*&			av_packet			= vrs.av_packet;
 		AVFrame*&			av_frame			= vrs.av_frame;
 		int&				video_stream_index	= vrs.video_stream_index;
-
+		
 		//1. decode one frame
 		int response{ 0 }, test{ av_read_frame(av_format_ctx, av_packet) >= 0 };
 		//read the next frame
 		while (test)
 		{
+			
+
 			//if the packet does not contain video data we read the next packet
 			if (av_packet->stream_index != video_stream_index)
 			{
@@ -295,16 +335,26 @@ namespace LB
 			DebuggerLogError("Could not initialize sw scalar");
 			return false;
 		}
+
 		//we need to convert the video data from YUVJ to RGBA which is done through sws_scale
 		uint8_t* dest[4] = { data, NULL, NULL, NULL };
 		int dest_linesize[4] = { av_frame->width * 4, 0, 0, 0 };
 		sws_scale(sws_scalar_ctx, av_frame->data, av_frame->linesize, 0, av_frame->height, dest, dest_linesize);
-		
+
+		frame frame{};
+		frame.data = new uint8_t[av_frame->width * av_frame->height * 4];
+		memcpy(frame.data, data, av_frame->width * av_frame->height * 4);
+		frame.width = av_frame->width;
+		frame.height = av_frame->height;
+		frame.ptss = av_frame->pts;
+		frame_queue.push(frame);
+
 		//load the data onto the texture that is reserved by the system
-		glBindTexture(GL_TEXTURE_2D, tex_handle);
+		/*glBindTexture(GL_TEXTURE_2D, tex_handle);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, av_frame->width, av_frame->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);*/
+		
 
 		if (!test)
 			return false;
@@ -328,8 +378,8 @@ namespace LB
 		AVFrame*& av_frame = vrs.av_frame;
 
 		sws_freeContext(sws_scalar_ctx);
-		//avformat_close_input(&av_format_ctx);
 		ASSETMANAGER->FreeVideo(&av_format_ctx);
+		avformat_close_input(&av_format_ctx);
 		avformat_free_context(av_format_ctx);
 		av_frame_free(&av_frame);
 		av_packet_free(&av_packet);
@@ -338,5 +388,35 @@ namespace LB
 		delete[] data;
 		memset(&vrs, 0, sizeof(vrs));
 		vrs.video_stream_index = -1;
+
+		pts = 0;
+		timer = 0.0;
+		cutoff = 0.0;
+		playCutscene = false ;
+		last_frame_read = false;
+
+		while (!frame_queue.empty())
+		{
+			if(frame_queue.front().data)
+				delete[] frame_queue.front().data;
+			frame_queue.pop();
+		}
+	}
+
+	bool VideoPlayerSystem::play_video_frame()
+	{
+		if (!frame_queue.empty())
+		{
+			glBindTexture(GL_TEXTURE_2D, tex_handle);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, frame_queue.front().width, frame_queue.front().height, 0, GL_RGBA, GL_UNSIGNED_BYTE, frame_queue.front().data);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			
+			delete[] frame_queue.front().data;
+			frame_queue.pop();
+			
+			return true;
+		}
+		return false;
 	}
 }
