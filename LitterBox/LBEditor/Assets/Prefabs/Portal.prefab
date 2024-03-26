@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 1808.738281,
-            "y": -4.557034
+            "x": 2346.973388,
+            "y": 749.66217
         },
         "Scale": {
             "x": 1.0,
@@ -32,7 +32,7 @@
                     "Active": true,
                     "Width": 300.0,
                     "Height": 300.0,
-                    "ZLayer": 1.299998,
+                    "ZLayer": 5.3,
                     "Layer": 0,
                     "Texture": "UpgradePopUp_Spritesheet",
                     "SpriteName": "UpgradesSheet",
@@ -52,13 +52,61 @@
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "Rotation": 0.0
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "portalemitter",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 100.0,
+                                "Height": 100.0,
+                                "ZLayer": 1.0,
+                                "Layer": 0,
+                                "Texture": "VFXCompile_SpriteSheet",
+                                "SpriteName": "VFXSheet",
+                                "SpriteIndex": 0
+                            },
+                            "Particle": {
+                                "EmitterType": 0,
+                                "EmitterRate": 0.05,
+                                "RadialNum": 10,
+                                "EmitterVelocity": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "VelocityMinX": 0.0,
+                                "VelocityMaxX": 0.0,
+                                "VelocityMinY": 0.0,
+                                "VelocityMaxY": 0.0,
+                                "RadialSpeed": 100.0,
+                                "SizeBegin": 1.0,
+                                "SizeEnd": 1.0,
+                                "EmitterLifetime": 1.0,
+                                "ParticleLifetime": 1.0,
+                                "EmitterActive": true,
+                                "EmitterLooping": true
+                            }
+                        }
+                    ]
                 },
                 "Render": {
                     "Active": true,
                     "Width": 300.0,
                     "Height": 300.0,
-                    "ZLayer": 1.1,
+                    "ZLayer": 5.099997,
                     "Layer": 0,
                     "Texture": "UpgradePopUp_Spritesheet",
                     "SpriteName": "UpgradesSheet",
@@ -71,7 +119,7 @@
         "Active": true,
         "Width": 300.0,
         "Height": 300.0,
-        "ZLayer": 1.2,
+        "ZLayer": 5.199995,
         "Layer": 0,
         "Texture": "UpgradePopUp_Spritesheet",
         "SpriteName": "UpgradesSheet",
