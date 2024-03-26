@@ -35,6 +35,9 @@ namespace LB
 		//I'm using this black circle to do the transition effect!!!
 		GameObject* mPortalCenter{ nullptr };
 		GameObject* mLevelBoard{ nullptr };
+		// Particle Emitter
+		GameObject* mPortalEmitter{ nullptr };
+
 		Vec2<float> mCachedPlayerPos{};
 		bool isTransitioning{};
 		bool finishTransition{};
