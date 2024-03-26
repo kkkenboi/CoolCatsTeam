@@ -173,14 +173,18 @@ void LB::CPPSPortal::Update()
 				Vec2<float> portalScale = Lerp(Vec2<float>(1, 1), Vec2<float>(100, 100), circleTimer);
 				mPortalCenter->GetComponent<CPTransform>()->SetScale(portalScale);
 
-				// Set text size to backboard's increasing/decreasing scale
+				// Set text size to backboard's increasing/decreasing scale DO NOT CHANGE THESE VALUES PLEASE CONSULT ME
 				endAnimDelay += static_cast<float>(TIME->GetDeltaTime());
-				if (endAnimDelay > 3.35f)
+				if (endAnimDelay > 3.43f)
 				{
 					mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->update_msg_size(0.f);
 				}
 				else
 				{
+					float xPos = mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->get_msg().xbound / 2.0f;
+					Vec2<float> newPos{ xPos - xPos * mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPTransform>()->GetScale().x / 2.0f - 220.f, -20.f };
+
+					mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->SetPosition(newPos);
 					mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->update_msg_size(mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPTransform>()->GetScale().x);
 				}
 			}
