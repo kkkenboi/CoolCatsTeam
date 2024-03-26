@@ -187,44 +187,21 @@ namespace LB
     void WindowsSystem::Initialize()
     {
         // Set the window cursor
-       /* int imageWidth, imageHeight, imageChannels;
-        m_Data.imageData = stbi_load("C:\\repo\\CoolCatsTeam\\LitterBox\\LBEditor\\Assets\\Textures\\Aim.png", &imageWidth, &imageHeight, &imageChannels, STBI_rgb_alpha);
-        
-        std::vector<std::filesystem::path> paths = FILESYSTEM->GetFilesOfType(".png");
-        for (std::filesystem::path path : paths)
-        {
-            if (path == )
-        }
-        std::string result{ paths };
-        m_Data.imageData = stbi_load(result.c_str(), &imageWidth, &imageHeight, &imageChannels, STBI_rgb_alpha);*/
-
-        //GLFWimage image{};
-        //image.width = imageWidth;
-        //image.height = imageHeight;
-        //image.pixels = m_Data.imageData;
-
         GLFWimage image{};
-        //image.pixels = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->stbBuffer;
         image.width = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->width;
         image.height = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->height;
 
+        // - Grabbing the actual values from the texture buffer itself
         GLuint* pixels = new GLuint[image.width * image.height * STBI_rgb_alpha];
         glBindTexture(GL_TEXTURE_2D, ASSETMANAGER->GetTextureIndex("Aim"));
         glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
         image.pixels = reinterpret_cast<unsigned char*>(pixels);
 
-        //image.width = 512;
-        //image.height = 300;
-
-        //GLFWimage image{};
-        //image.pixels = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->stbBuffer;
-        //image.width = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->width;
-        //image.height = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->height;
-
+        // - Create an image for the cursor
         m_Data.cursor = glfwCreateCursor(&image, image.width / 2, image.height / 2);
         glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
 
+        // Free memory 
         delete[] pixels;
     }
 
