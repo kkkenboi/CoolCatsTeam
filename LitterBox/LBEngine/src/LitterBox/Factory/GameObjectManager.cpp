@@ -179,6 +179,12 @@ namespace LB
 			m_Components.find(C_CPAudioSource)->second->Serialize(AudioSourceComponent, alloc);
 			data.AddMember("AudioSource", AudioSourceComponent, alloc);
 		}
+		if(m_Components.find(C_CPAudioListener) != m_Components.end())
+		{
+			Value AudioListenerComponent;
+			m_Components.find(C_CPAudioListener)->second->Serialize(AudioListenerComponent, alloc);
+			data.AddMember("AudioListener", AudioListenerComponent, alloc);
+		}
 		if (m_Components.find(C_CPText) != m_Components.end())
 		{
 			Value TextComponent;
@@ -216,6 +222,7 @@ namespace LB
 		bool HasCollider = data.HasMember("Collider");
 		bool HasCPPScript = data.HasMember("CPPScript");
 		bool HasAudio = data.HasMember("AudioSource");
+		bool HasAudioListener = data.HasMember("AudioListener");
 		bool HasText = data.HasMember("Text");
 		bool HasAnimator = data.HasMember("Animator");
 		bool HasParticle = data.HasMember("Particle");
@@ -292,6 +299,16 @@ namespace LB
 				}
 				const Value& audioSourceValue = data["AudioSource"];
 				m_Components.find(C_CPAudioSource)->second->Deserialize(audioSourceValue);
+			}
+			if(HasAudioListener)
+			{
+				if (m_Components.find(C_CPAudioListener) == m_Components.end())
+				{
+					//DebuggerLog("Deserialize: GO doesn't have a Audio Listener :C so we make one");
+					AddComponent(C_CPAudioListener, FACTORY->GetCMs()[C_CPAudioListener]->Create());
+				}
+				const Value& audioListenerValue = data["AudioListener"];
+				m_Components.find(C_CPAudioListener)->second->Deserialize(audioListenerValue);
 			}
 			if (HasText)
 			{

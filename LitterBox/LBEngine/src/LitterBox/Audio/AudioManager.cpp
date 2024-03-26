@@ -54,6 +54,12 @@ namespace LB
 			//TODO USE OUR BEAUTIFUL DEBUGGER!
 			// Handle initialization error
 		}
+		audioSystem->set3DNumListeners(1);
+		audioSystem->set3DSettings(1, 500.f, 1.f);
+		//Set the channel groups for 2D and 3D
+		audioSystem->createChannelGroup("3D", &channelGroup3D);
+		audioSystem->createChannelGroup("2D", &channelGroup2D);
+		//Subscribe events
 		CORE->onPlayingModeToggle.Subscribe(RemoveAllAudioSources);
 		WINDOWSSYSTEM->OnApplicationFocus.Subscribe(UnPause);
 		WINDOWSSYSTEM->OnApplicationUnFocus.Subscribe(Pause);
@@ -125,6 +131,10 @@ namespace LB
 
 			}*/
 		}
+		if (AudioListener != nullptr)
+		{
+			AudioListener->Update();
+		}
 		//Now we remove all the channels we don't need
 		for (auto& channel : stoppedChannels)
 		{
@@ -175,6 +185,33 @@ namespace LB
 			result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], nullptr, false, &_channel);
 			if (_channel)
 			{
+				//FMOD_VECTOR pos = { AudioListener->transform->GetPosition().x,AudioListener->transform->GetPosition().y};
+				_channel->setMode(FMOD_3D_HEADRELATIVE);		//NOTE!! THIS MAKES THE SOUND 2D!!!
+
+				//_channel->set3DAttributes(&pos, nullptr);
+				Channels[_channelID] = _channel;
+			}
+			if (result != FMOD_OK) DebuggerLogWarning("SOUND NAME " + soundName + "IS NOT WORKING!");
+		}
+		return _channelID;
+	}
+
+	int AudioManager::Play3DSound(std::string soundName, Vec2<float> pos)
+	{
+		int _channelID = channelID++;
+		if (ASSETMANAGER->SoundMap.find(soundName) != ASSETMANAGER->SoundMap.end())
+		{
+			FMOD::Channel* _channel = nullptr;
+			result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], nullptr, false, &_channel);
+			if (_channel)
+			{
+				FMOD_VECTOR fmodpos = { pos.x, pos.y };
+				//Set the 3D attributes
+				_channel->set3DAttributes(&fmodpos, nullptr);
+				//_channel->setChannelGroup(channelGroup3D);
+				//_channel->setMode(FMOD_3D);
+				//_channel.set3Dsp
+				//_channel->setPaused(false);
 				Channels[_channelID] = _channel;
 			}
 			if (result != FMOD_OK) DebuggerLogWarning("SOUND NAME " + soundName + "IS NOT WORKING!");

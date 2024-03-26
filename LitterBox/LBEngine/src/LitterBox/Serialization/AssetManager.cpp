@@ -139,7 +139,7 @@ namespace LB
                 DebuggerLogFormat("FOUND NEW SOUND : %s, IMPORTING NOW!", soundFP.stem().string().c_str());
                 ASSETMANAGER->metaFileMap[soundFP.string()] = FILESYSTEM->GetFileTime(soundFP);
                 //I don't check for result here because well, the filepath 100% exists
-                AUDIOMANAGER->audioSystem->createSound(soundFP.string().c_str(), FMOD_DEFAULT, nullptr, &ASSETMANAGER->SoundMap[soundFP.stem().string()]);
+                AUDIOMANAGER->audioSystem->createSound(soundFP.string().c_str(), FMOD_3D, nullptr, &ASSETMANAGER->SoundMap[soundFP.stem().string()]);
                 //write to json
                 Value metaKey(Value(soundFP.string().c_str(), metaAlloc), metaAlloc);
                 _metaJson.AddMember(metaKey, FILESYSTEM->GetFileTime(soundFP), metaAlloc);
@@ -226,7 +226,7 @@ namespace LB
                 {
                     DebuggerLogFormat("WAV file name : %s", metaFP.string().c_str());
                     ASSETMANAGER->SoundMap[metaFP.filename().stem().string()]->release();
-                    AUDIOMANAGER->audioSystem->createSound(metaFP.string().c_str(), FMOD_DEFAULT, nullptr, &ASSETMANAGER->SoundMap[metaFP.filename().stem().string()]);
+                    AUDIOMANAGER->audioSystem->createSound(metaFP.string().c_str(), FMOD_3D, nullptr, &ASSETMANAGER->SoundMap[metaFP.filename().stem().string()]);
                 }
                 //then we update it's time
                 _metaJson[metaData.first.c_str()] = fileTime;
@@ -417,7 +417,7 @@ namespace LB
             //This also adds it into the sound map, all the way at the right side lol...
             //I would make it a shared pointer but I'm really not sure how to wrap it...
             //SoundMap => "BOOM" : FMOD::Sound*
-            AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound(s.string().c_str(), FMOD_DEFAULT, nullptr, &SoundMap[s.stem().string()]);
+            AUDIOMANAGER->result = AUDIOMANAGER->audioSystem->createSound(s.string().c_str(), FMOD_3D, nullptr, &SoundMap[s.stem().string()]);
             if (AUDIOMANAGER->result != FMOD_OK) DebuggerLogWarningFormat("UNABLE TO FIND %s SOUND!", s.string().c_str());
         }
         JSONSerializer::SaveToJSON((appData / folderName / std::filesystem::path("MetaFiles.json")).string(), _metaFile);
