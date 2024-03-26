@@ -145,7 +145,7 @@ namespace Renderer {
 	 text at specified locations on the screen with changeable color.
 	*************************************************************************/
 	struct message {
-		float x{}, y{}, scale{1.0f}, xbound{300.0f}, scaleSaved{};
+		float x{}, y{}, scale{ 1.0f }, transScale{}, finalScale{}, xbound{ 300.0f }, scaleSaved{};
 		LB::Vec3<float> color{};
 		std::string font_file_name_wo_ext{"ZillaSlab-Regular"};
 		std::string text{"Hello World"};
@@ -195,16 +195,19 @@ namespace Renderer {
 				const Value& textValue = data["text"];
 				text = textValue.GetString();
 			}
-			if (HasX && HasY && HasScale && HasColor)
+			if (HasX && HasY && HasColor)
 			{
 				const Value& xValue = data["x"];
 				const Value& yValue = data["y"];
-				const Value& scaleValue = data["scale"];
 				const Value& colorValue = data["Color"];
 				x = xValue.GetFloat(); y = yValue.GetFloat();
+				color.Deserialize(colorValue);
+			}
+			if (HasScale)
+			{
+				const Value& scaleValue = data["scale"];
 				scale = scaleValue.GetFloat();
 				scaleSaved = scale;
-				color.Deserialize(colorValue);
 			}
 			if (HasFontName)
 			{

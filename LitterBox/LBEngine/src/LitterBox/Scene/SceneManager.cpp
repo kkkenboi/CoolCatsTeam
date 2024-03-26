@@ -50,7 +50,7 @@ namespace LB
 		// TODO: Lookup table for scene names, arranged where 0 index is loaded first!
 		JSONSerializer::DeserializeFromFile("SceneOrder", *this);
 
-		LoadScene(0);
+		m_firstScene != "None" ? LoadScene(m_firstScene) : LoadScene(0);
 		CheckSceneToLoad(); // Force load the scene
 	}
 

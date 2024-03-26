@@ -455,7 +455,7 @@ namespace LB
 			//std::cout << "Killed by a mage\n";
 			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 1);
 		}
-		else if (enemyObj.GetName() == "Charger_Shield")
+		else if (enemyObj.GetName() == "Charger_Shield" || enemyObj.GetName() == "Shield")
 		{
 			//std::cout << "Killed by charger\n";
 			killerTexture->GetComponent<CPRender>()->SetSpriteTexture(killerTexture->GetComponent<CPRender>()->spriteSheetName, 2);
