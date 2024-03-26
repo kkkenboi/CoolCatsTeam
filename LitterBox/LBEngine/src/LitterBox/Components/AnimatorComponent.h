@@ -65,6 +65,9 @@ namespace LB
 		**************************************************************************/
 		void PlayNext(std::string const& name);
 
+		void PlayDelay(std::string const& name, float delay);
+		void PlayRepeatDelay(std::string const& name, float delay);
+
 		/*!************************************************************************
 		 \brief
 		 Pauses/unpauses the current animation
@@ -166,7 +169,7 @@ namespace LB
 		float m_playSpeed{ 1.0f }, m_awakeDelay{ 0.0f };
 
 		// For animating without scripts
-		std::string m_defaultState{ "None" };
+		std::string m_defaultState{ "None" }, m_delayName{};
 		bool m_playOnAwake{ false }, m_repeating{ false };
 
 	private:

@@ -121,7 +121,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 3,
+                    "Layer": 4,
                     "Texture": "Pause Menu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -228,7 +228,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 3,
+                    "Layer": 4,
                     "Texture": "HowToPlay",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -254,7 +254,7 @@
                     "Width": 440.0,
                     "Height": 440.0,
                     "ZLayer": 1.0,
-                    "Layer": 3,
+                    "Layer": 4,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
                     "SpriteIndex": 69
@@ -291,7 +291,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 3,
+                    "Layer": 4,
                     "Texture": "QuitMenu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -395,7 +395,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 0.0,
-                    "Layer": 3,
+                    "Layer": 4,
                     "Texture": "Underline",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -922,7 +922,7 @@
                                 "Width": 1920.0,
                                 "Height": 1080.0,
                                 "ZLayer": 1.0,
-                                "Layer": 3,
+                                "Layer": 4,
                                 "Texture": "Game_Over_Menu_Everything",
                                 "SpriteName": "None",
                                 "SpriteIndex": -1

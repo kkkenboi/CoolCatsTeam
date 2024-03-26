@@ -125,6 +125,7 @@ void LB::CPPSPortal::Update()
 						mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->set_msg(finalBuffer);
 						mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->Play("Flag_Appear");
 						mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayNext("Flag_Swaying");
+						mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayDelay("Flag_Disappear", 0.8f);
 						playStartAnim = false;
 					}
 
@@ -137,8 +138,8 @@ void LB::CPPSPortal::Update()
 						if (playEndAnim)
 						{
 							DebuggerLog("Playing end animation!");
+
 							mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPAnimator>()->Play("VFX_ExpandHReverse");
-							mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->Play("Flag_Disappear");
 							playEndAnim = false;
 						}
 
@@ -173,17 +174,30 @@ void LB::CPPSPortal::Update()
 				Vec2<float> portalScale = Lerp(Vec2<float>(1, 1), Vec2<float>(100, 100), circleTimer);
 				mPortalCenter->GetComponent<CPTransform>()->SetScale(portalScale);
 
-				// Set text size to backboard's increasing/decreasing scale
-				mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->update_msg_size(mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPTransform>()->GetScale().x);
+				// Set text size to backboard's increasing/decreasing scale DO NOT CHANGE THESE VALUES PLEASE CONSULT ME
+				endAnimDelay += static_cast<float>(TIME->GetDeltaTime());
+				if (endAnimDelay > 3.43f)
+				{
+					mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->update_msg_size(0.f);
+				}
+				else
+				{
+					float xPos = mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->get_msg().xbound / 2.0f;
+					Vec2<float> newPos{ xPos - xPos * mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPTransform>()->GetScale().x / 2.0f - 220.f, -20.f };
+
+					mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->SetPosition(newPos);
+					mLevelBoard->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPText>()->update_msg_size(mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPTransform>()->GetScale().x);
+				}
 			}
 		}		
 	}
 	else
 	{
-		timer = 0;
-		rotTimer = 0;
-		circleTimer = 0;
-		intermissionTimer = 0;
+		timer = 0.f;
+		endAnimDelay = 0.f;
+		rotTimer = 0.f;
+		circleTimer = 0.f;
+		intermissionTimer = 0.f;
 		expandOut = true;
 		playPortalSound = false;
 		playStartAnim = true;
