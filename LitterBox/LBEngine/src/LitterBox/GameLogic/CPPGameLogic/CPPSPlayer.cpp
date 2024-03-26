@@ -100,14 +100,8 @@ namespace LB
 	{
 		if (TIME->IsPaused()) return;
 		if (m_GameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
-		if (m_GameManager->GetComponent<CPPSGameManager>()->isMovementDisabled)
-		{
-			//We reset the velocity first just incase
-			rb->mVelocity = Vec2<float>(0, 0);
-			return;
-		}
-
-		
+		if (m_GameManager->GetComponent<CPPSGameManager>()->isMovementDisabled) return;
+	
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
@@ -143,15 +137,13 @@ namespace LB
 			isWalkingAnim = true;
 		}
 
-
 		/*!***********************************************************************
 		\brief
 		Movement of the player
 		*************************************************************************/
 		//------------------Movement WASD------------------
-		bool isMoving{ false };
-		Vec2<float> movement{ 0.f,0.f };
-		Vec2<float> externalForce = rb->mVelocity;
+		isMoving = false;
+		movement = Vec2<float>{ 0.f,0.f };
 		if (INPUT->IsKeyPressed(KeyCode::KEY_W) && !mIsStunned)
 		{
 			movement.y += 1.f;
@@ -179,8 +171,8 @@ namespace LB
 
 		if (!mIsStunned) {
 			//rb->mVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
-			Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
-			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());
+		/*	Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
+			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());*/
 
 			// If move anim is not playing when it should, e.g. after stun or damage
 			if (isMoving && !m_moveAnim->IsPlaying())
@@ -191,14 +183,14 @@ namespace LB
 			}
 		}
 
-		//clamping of the speed of the player movement
-		rb->mVelocity.x = Clamp<float>(rb->mVelocity.x, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed);
-		rb->mVelocity.y = Clamp<float>(rb->mVelocity.y, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed);
+		////clamping of the speed of the player movement
+		//rb->mVelocity.x = Clamp<float>(rb->mVelocity.x, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed);
+		//rb->mVelocity.y = Clamp<float>(rb->mVelocity.y, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed);
 
 		if (!isMoving)
 		{
 			//rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
-			rb->mVelocity *= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction;
+			//rb->mVelocity *= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction;
 			 if (isWalkingAnim)
 			 {
 				 //if (!mIsStunned) {
@@ -341,6 +333,31 @@ namespace LB
 			}
 		}
 	} // End of Update
+
+	void CPPSPlayer::FixedUpdate()
+	{
+		if (m_GameManager->GetComponent<CPPSGameManager>()->isMovementDisabled)
+		{
+			//We reset the velocity first just incase
+			rb->mVelocity = Vec2<float>(0, 0);
+			return;
+		}
+
+		if (!mIsStunned) {
+			Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
+			rb->mVelocity += (AddedVelocity - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());
+		}
+
+		//clamping of the speed of the player movement
+		rb->mVelocity.x = Clamp<float>(rb->mVelocity.x, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed);
+		rb->mVelocity.y = Clamp<float>(rb->mVelocity.y, -m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed, m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxSpeed);
+
+		if (!isMoving)
+		{
+			//rb->addForce(-rb->mVelocity * 5.0f * TIME->GetDeltaTime());
+			rb->mVelocity *= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerArbitraryFriction;
+		}
+	}
 
 	/*!***********************************************************************
 	\brief

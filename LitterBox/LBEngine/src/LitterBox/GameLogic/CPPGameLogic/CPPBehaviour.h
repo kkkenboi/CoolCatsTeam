@@ -44,6 +44,7 @@ namespace LB
 		 Called every frame when the game is running
 		*************************************************************************/
 		virtual void Update() = 0;
+		virtual void FixedUpdate() {};
 
 		/*!***********************************************************************
 		\brief

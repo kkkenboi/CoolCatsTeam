@@ -40,7 +40,7 @@ namespace LB
 
 		//Forgive me father for I have sinned
 		//This sort of lerping is technically incorrect but it will do... 
-		currentPos = Lerp(currentPos, mPlayer->GetComponent<CPTransform>()->GetPosition() + extraDist, static_cast<float>(TIME->GetDeltaTime() * 1.8f));
+		currentPos = Lerp(currentPos, mPlayer->GetComponent<CPTransform>()->GetPosition() + extraDist, static_cast<float>(TIME->GetDeltaTime() * 2.5f));
 		//std::cout << "player Pos : " << mPlayer->GetComponent<CPTransform>()->GetPosition().x << ", " << mPlayer->GetComponent<CPTransform>()->GetPosition().y;
 		//std::cout << ", current pos : " << currentPos.x << ", " << currentPos.y << '\n';
 		//Now we set this thing's position
