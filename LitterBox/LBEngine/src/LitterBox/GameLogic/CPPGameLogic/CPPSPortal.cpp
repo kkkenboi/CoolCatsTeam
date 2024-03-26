@@ -10,6 +10,42 @@ void LB::CPPSPortal::Start()
 	mPortalCenter = GOMANAGER->FindGameObjectWithName("PortalCenter");
 	mLevelBoard = GOMANAGER->FindGameObjectWithName("LevelBoard");
 
+	// Particle Emitter for the Portal
+	/*
+	mPortalEmitter = FACTORY->SpawnGameObject();
+	GameObject* portalblackcircle = GOMANAGER->FindGameObjectWithName("blackcircle");
+	mPortalEmitter->GetComponent<CPTransform>()->SetParent(portalblackcircle->GetComponent<CPTransform>());
+	mPortalEmitter->GetComponent<CPTransform>()->SetPosition(Vec2<float>{0.f,0.f});
+	mPortalEmitter->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+	mPortalEmitter->GetComponent<CPRender>()->Initialise();
+	
+	if (mPortalEmitter->GetComponent<CPRender>()->spriteIndex < 0)
+	{	//We have to do the standard grabbing of texture from the asset manager stuff
+		int textureID = mPortalEmitter->GetComponent<CPRender>()->texture;
+		std::string textureName = ASSETMANAGER->GetTextureName(textureID);
+		mPortalEmitter->GetComponent<CPRender>()->UpdateTexture(ASSETMANAGER->Textures[ASSETMANAGER->assetMap[textureName]].second, static_cast<int>(mPortalEmitter->GetComponent<CPRender>()->w), static_cast<int>(mPortalEmitter->GetComponent<CPRender>()->h));
+	}
+	else
+	{	//if we do happen to have a sprite index, this means we're using the sprite sheet so
+		//we just use the CPRender function to set sprite texture
+		mPortalEmitter->GetComponent<CPRender>()->SetSpriteTexture(mPortalEmitter->GetComponent<CPRender>()->spriteSheetName, mPortalEmitter->GetComponent<CPRender>()->spriteIndex);
+	}
+	
+	mPortalEmitter->GetComponent<CPRender>()->SetSpriteTexture("VFXSheet", 0);
+	*/
+
+	mPortalEmitter = GOMANAGER->FindGameObjectWithName("portalemitter");
+	mPortalEmitter->GetComponent<CPParticle>()->mEmitterType = INVERSERADIAL;
+	mPortalEmitter->GetComponent<CPParticle>()->mEmitterRate = 0.2f;
+	mPortalEmitter->GetComponent<CPParticle>()->mInvRadDistanceMin = 75.f;
+	mPortalEmitter->GetComponent<CPParticle>()->mInvRadDistanceMax = 150.f;
+	mPortalEmitter->GetComponent<CPParticle>()->mRotationSpeedVariationMin = -100.f;
+	mPortalEmitter->GetComponent<CPParticle>()->mRotationSpeedVariationMax = 100.f;
+	mPortalEmitter->GetComponent<CPParticle>()->mEmitterSizeBegin = 2.0f;
+	mPortalEmitter->GetComponent<CPParticle>()->mEmitterSizeEnd = 0.f;
+	mPortalEmitter->GetComponent<CPParticle>()->mIsActive = false;
+	mPortalEmitter->GetComponent<CPParticle>()->mIsLooping = true;
+
 }
 
 void LB::CPPSPortal::Update()
@@ -21,11 +57,13 @@ void LB::CPPSPortal::Update()
 		GetComponent<CPTransform>()->SetRotation(rotAngle);
 		GetComponent<CPTransform>()->GetChild(0)->gameObj->SetActive(true);
 		GetComponent<CPTransform>()->GetChild(1)->gameObj->SetActive(true);
+		mPortalEmitter->GetComponent<CPParticle>()->mIsActive = true;
 	}
 	else
 	{
 		GetComponent<CPTransform>()->GetChild(0)->gameObj->SetActive(false);
 		GetComponent<CPTransform>()->GetChild(1)->gameObj->SetActive(false);
+		mPortalEmitter->GetComponent<CPParticle>()->mIsActive = false;
 	}
 	//If the transition is happening, we want to increment all our timers and do the transition
 	if (isTransitioning)
