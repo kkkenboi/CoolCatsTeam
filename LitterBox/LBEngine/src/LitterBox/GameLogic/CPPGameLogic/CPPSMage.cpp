@@ -94,6 +94,27 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
+	FixedUpdate behaviour for Mage, doing the physics in when it calculates the player pos
+	*************************************************************************/
+	void CPPSMage::FixedUpdate()
+	{
+		// Update the hand position
+		Vec2<float> playerToMageDir = m_trans->GetPosition() - GetHero()->GetComponent<CPTransform>()->GetPosition();
+		playerToMageDir = playerToMageDir.Normalise();
+
+		float angle = atan2f(playerToMageDir.y, playerToMageDir.x);
+		m_handTrans->SetRotation(RadToDeg(angle) + 90.0f);
+
+		if (mShouldDestroy)
+		{
+			GOMANAGER->RemoveGameObject(this->GameObj);
+			return;
+		}
+		mFSM.FixedUpdate();
+	}
+
+	/*!***********************************************************************
+	\brief
 	Update behaviour for Mage, checks if everything has been initialised to start FSM
 	*************************************************************************/
 	void CPPSMage::Update()
@@ -106,18 +127,6 @@ namespace LB
 			return;
 		}
 
-		// Update the hand position
-		Vec2<float> playerToMouseDir = m_trans->GetPosition() - GetHero()->GetComponent<CPTransform>()->GetPosition();
-		playerToMouseDir = playerToMouseDir.Normalise();
-
-		float angle = atan2f(playerToMouseDir.y, playerToMouseDir.x);
-		m_handTrans->SetRotation(RadToDeg(angle) + 90.0f);
-		
-		if (mShouldDestroy)
-		{
-			GOMANAGER->RemoveGameObject(this->GameObj);
-			return;
-		}
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
@@ -179,7 +188,6 @@ namespace LB
 
 				
 				mFSM.ChangeState("Hurt");
-				//Hurt();
 			}
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "Bramble")
@@ -201,7 +209,6 @@ namespace LB
 	{
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageDeathSounds,0.2f);
 		CPPSBaseEnemy::Die(); //We call this because the base class will have some logic to reduce enemy count
-		//Code to play death anim goes here
 	}
 
 	/*!***********************************************************************
@@ -260,6 +267,12 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
+	FixedUpdate the state of Idle 
+	*************************************************************************/
+	void MageIdleState::FixedUpdate(){}
+
+	/*!***********************************************************************
+	\brief
 	Update the state of Idle where it changes the state to chasing when it reaches on idle state
 	(May change in future)
 	*************************************************************************/
@@ -301,27 +314,33 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
+	FixedUpdate the state of chasing where it caculates the distance and movement
+	*************************************************************************/
+	void MageChaseState::FixedUpdate()
+	{
+		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
+		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
+		mEnemy->mDistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos);
+
+		////Getting the direction of the player and the enemy
+		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
+		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
+
+		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime())); //add force to move
+	}
+
+	/*!***********************************************************************
+	\brief
 	Update the state of chasing where it will be chasing the enemy when its nearby,
 	changes states when it reaches a condition
 	*************************************************************************/
 	void MageChaseState::Update()
 	{
-		//Calculating the distance between the Enemy and the player
-		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
-		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
-		float DistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos);
-
-		////Getting the direction of the player and the enemy
-		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
-		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
-		
-		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime())); //add force to move
-
-		if (DistInBwn < mEnemy->mMinDistance) //checking the distance if its too close
+		if (mEnemy->mDistInBwn < mEnemy->mMinDistance) //checking the distance if its too close
 		{
 			GetFSM().ChangeState("BackOff");//it will change the state to back off
 		}
-		else if (DistInBwn >= mEnemy->mMinDistance && DistInBwn <= mEnemy->mMaxDistance) //if distance bwn not too close and its on the attack range
+		else if (mEnemy->mDistInBwn >= mEnemy->mMinDistance && mEnemy->mDistInBwn <= mEnemy->mMaxDistance) //if distance bwn not too close and its on the attack range
 		{
 			mEnemy->mAttackCooldownCurrent += static_cast<float>(TIME->GetDeltaTime());
 			if (mEnemy->mAttackCooldownCurrent > mEnemy->mAttackCooldown)
@@ -357,6 +376,24 @@ namespace LB
 		this->Update();
 	}
 
+
+	/*!***********************************************************************
+	\brief
+	FixedUpdate the state of Backing off where it caculates the distance and movement
+	*************************************************************************/
+	void MageBackOffState::FixedUpdate()
+	{
+		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
+		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
+		mEnemy->mDistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos); //Dist in between
+
+		//Getting the direction of the player and the enemy
+		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
+		Vec2<float> BackOffForce = (-Direction) * mEnemy->mBackOffSpeed; //opposite direction
+
+		mEnemy->GetRigidBody()->addForce(BackOffForce * static_cast<float>(TIME->GetDeltaTime())); //Adding force with back off force
+	}
+
 	/*!***********************************************************************
 	\brief
 	Update the state of Backing off where it will be Back off where the enemy when its too nearby,
@@ -364,22 +401,11 @@ namespace LB
 	*************************************************************************/
 	void MageBackOffState::Update()
 	{
-		//Calculating the distance between the Enemy and the player
-		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos(); //Getting the current Mage Position
-		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos(); //Getting the Player Position
-		float DistInBwn = Vec2<float>::Distance(CurEnemyPos, CurHeroPos); //Dist in between
-
-		//Getting the direction of the player and the enemy
-		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
-		Vec2<float> BackOffForce = (-Direction) * mEnemy->mBackOffSpeed; //opposite direction
-
-		mEnemy->GetRigidBody()->addForce(BackOffForce * static_cast<float>(TIME->GetDeltaTime())); //Adding force with back off force
-
-		if (DistInBwn >= mEnemy->mBackOffDistance) //if dist is far
+		if (mEnemy->mDistInBwn >= mEnemy->mBackOffDistance) //if dist is far
 		{
 			GetFSM().ChangeState("Chase"); //goes back to chasing state
 		}
-		else if (DistInBwn >= mEnemy->mMinDistance && DistInBwn <= mEnemy->mMaxDistance) //if its in between
+		else if (mEnemy->mDistInBwn >= mEnemy->mMinDistance && mEnemy->mDistInBwn <= mEnemy->mMaxDistance) //if its in between
 		{
 			mEnemy->mAttackCooldownCurrent += static_cast<float>(TIME->GetDeltaTime());
 			if (mEnemy->mAttackCooldownCurrent > mEnemy->mAttackCooldown)
@@ -421,6 +447,12 @@ namespace LB
 	\brief
 	Update the state of Hurt where it will change back the state to idle
 	*************************************************************************/
+	void MageHurtState::FixedUpdate() {}
+
+	/*!***********************************************************************
+	\brief
+	Update the state of Hurt where it will change back the state to idle
+	*************************************************************************/
 	void MageHurtState::Update()
 	{
 		GetFSM().ChangeState("Idle");
@@ -448,9 +480,6 @@ namespace LB
 	*************************************************************************/
 	void MageShootingState::Enter()
 	{
-		//mEnemy->mRender->stop_anim();
-		//mEnemy->mRender->play_repeat("mage_float");
-
 		mEnemy->GetAnimator()->PlayAndReset("Mage_Attack");
 
 		mEnemy->mNumOfProjectileCurrent = 0;
@@ -459,6 +488,12 @@ namespace LB
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageAttackSounds, .3f);
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	FixedUpdate the state of Shooting
+	*************************************************************************/
+	void MageShootingState::FixedUpdate() {}
 
 	/*!***********************************************************************
 	\brief

@@ -27,6 +27,7 @@ namespace LB
 		Inherited Functions from CPPBehaviour that the user must implement
 		*************************************************************************/
 		void Start() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Destroy() override;
 		void Hurt() override;
@@ -79,6 +80,7 @@ namespace LB
 	public:
 		IdleState(CPPSChaser* enemy_ptr ,FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -94,6 +96,7 @@ namespace LB
 	public:
 		ChaseState(CPPSChaser* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -109,6 +112,7 @@ namespace LB
 	public:
 		HurtState(CPPSChaser* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:

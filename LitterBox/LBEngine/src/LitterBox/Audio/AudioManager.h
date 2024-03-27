@@ -317,8 +317,8 @@ namespace LB
 												"Passing Through Shrug_SFX_3",
 												"Passing Through Shrug_SFX_4" };
 
-		std::vector<std::string> PurrfectPuttSounds = { "SplashScreen",
-												"SplashScreen_Group"};
+		//std::vector<std::string> PurrfectPuttSounds = { "SplashScreen",
+		//										"SplashScreen_Group"};
 
 
 	private:
