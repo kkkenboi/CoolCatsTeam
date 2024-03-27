@@ -146,6 +146,19 @@ namespace LB
 		}
 	}
 
+	void CPPGameLogic::FixedUpdate()
+	{
+		if (!CORE->IsPlaying()) return;
+
+		for (int index{ 0 }; index < m_sceneScripts.size(); ++index)
+		{
+			CPScriptCPP* script = m_sceneScripts[index];
+			// TODO: Refactor script deletion in loop
+			if (script)
+				script->FixedUpdate();
+		}
+	}
+
 	/*!***********************************************************************
 	 \brief
 	 Destroys the GameLogic system and clears all scripts attached

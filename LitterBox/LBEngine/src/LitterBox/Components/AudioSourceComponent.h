@@ -89,6 +89,7 @@ namespace LB
 		bool mute{false};				//Sets volume to 0 if true
 		bool playOnAwake{false};		//Determines if the audio source should play on awake
 		bool loop{false};				//Determines if the audio source should loop
+		bool is3D{false};				//Determines if the audio source is 3D
 		float volume{ 1.0f };			//Clamped at 0.0f - 1.0f
 		float volToSet{};				//Volume to set for fading
 		float pitch{ 1.0f };			//Clamped at 0.0f - 1.0f (idk if clamping this is normal)

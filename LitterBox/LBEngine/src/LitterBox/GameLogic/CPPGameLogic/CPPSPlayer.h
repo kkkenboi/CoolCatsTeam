@@ -26,6 +26,7 @@ namespace LB
 		*************************************************************************/
 		void Start() override;
 		void Update() override;
+		void FixedUpdate() override;
 		void Destroy() override;
 
 		/*!***********************************************************************
@@ -65,6 +66,10 @@ namespace LB
 		bool m_isFacingLeft{}; //facing which direction
 
 		float m_particleEmitRate{};
+
+		//--------------movement variables-------------
+		bool isMoving{};
+		Vec2<float> movement{};
 
 		Event<> onTakingDamage{};
 		Event<> onPlacingBall{};

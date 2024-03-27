@@ -106,6 +106,12 @@ namespace LB
 		void ShowGameWin();
 
 		/*!************************************************************************
+		 * \brief Function to show the splashscreen
+		 *
+		**************************************************************************/
+		void ShowSplashScreen();
+
+		/*!************************************************************************
 		 * \brief Get the Random Spawn Point object
 		 * 
 		 * \return Vec2<float> Position of random spawn point object

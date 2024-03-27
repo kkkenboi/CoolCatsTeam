@@ -163,14 +163,14 @@ namespace LB
 			colData.colliderOther->m_gameobj->GetName() == "Bramble" ||
 			colData.colliderOther->m_gameobj->GetName() == "Mushroom")
 		{
-			int Channel = AUDIOMANAGER->PlaySound("Thud");
+			int Channel = AUDIOMANAGER->Play3DSound("Thud",GetComponent<CPTransform>()->GetPosition());
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
 		}
 		else if (colData.colliderOther->m_gameobj->GetName() != "MainChar" && colData.colliderOther->m_gameobj->GetName()!= "Sandpit" 
 			&& colData.colliderOther->m_gameobj->GetName()!= "MouseWorld" && colData.colliderOther->m_gameobj->GetName() != "Bush")
 		{
 			//play ball knocking sound
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BallCollisionSounds, 0.4f);
+			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BallCollisionSounds, 0.4f);
 			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(GetComponent<CPTransform>()->GetPosition());
 		}
 
@@ -225,7 +225,7 @@ namespace LB
 	{
 		Renderer::GRAPHICS->shake_camera(80.f,0.3f);
 		//Play sound
-		int channel = AUDIOMANAGER->PlaySound("EXPLOSION");
+		int channel = AUDIOMANAGER->Play3DSound("EXPLOSION",GetComponent<CPTransform>()->GetPosition());
 		AUDIOMANAGER->SetChannelVolume(channel, 0.3f);
 		//Spawn explosion on pos
 		GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnExplosion(GetComponent<CPTransform>()->GetPosition());

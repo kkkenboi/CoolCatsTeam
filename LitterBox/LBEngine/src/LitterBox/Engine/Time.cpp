@@ -129,7 +129,7 @@ namespace LB {
 	bool Time::ShouldFixedUpdate() 
 	{
 		if (m_accumulatedTime > m_unscaledFixedDeltaTime) {
-			m_accumulatedTime = 0.0;
+			m_accumulatedTime -= m_unscaledFixedDeltaTime;
 			return true;
 		}
 		return false;

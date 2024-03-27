@@ -128,14 +128,18 @@ namespace LB
 			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
 			//ShowGameWin();
 		}
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
+		{
+			ShowSplashScreen();
+		}
 		/*if (INPUT->IsKeyTriggered(KeyCode::KEY_I))
 		{
 			GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeIn(5.f,0.5f);
 		}*/
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
-		{
-			VideoPlayerSystem::Instance()->PlayCutscene("SplashScreenDigiPen", "SceneMainMenu");
-		}
+		//if (INPUT->IsKeyTriggered(KeyCode::KEY_W))
+		//{
+		//	VideoPlayerSystem::Instance()->PlayCutscene("SplashScreenDigiPen", "SceneMainMenu");
+		//}
 		//Test function to see if the remove gameobject code works
 		//You have to comment out the ball's canDestroy code in order for this
 		//to not crash the game
@@ -504,6 +508,15 @@ namespace LB
 	void CPPSGameManager::ShowGameWin()
 	{
 		VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMainMenu");
+	}
+
+	/*!************************************************************************
+	 * \brief Function to send player to the winning cutscene
+	 *
+	**************************************************************************/
+	void CPPSGameManager::ShowSplashScreen()
+	{
+		VideoPlayerSystem::Instance()->PlayCutscene("SplashScreen", "SceneMainMenu");
 	}
 
 	/*!************************************************************************

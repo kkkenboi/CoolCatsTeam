@@ -92,6 +92,11 @@ namespace LB {
 		Vec2<float> mEmitterPos{};
 		
 		float mEmitterRate{ 0.05f };
+
+		bool mEmitterRateRandomness{ false };
+		float mEmitterRateRandomnessMin{ 0.05f };
+		float mEmitterRateRandomnessMax{ 0.15f };
+
 		float mTimeSinceLastEmit{0.f};
 
 		// Velocities
@@ -119,6 +124,9 @@ namespace LB {
 
 		// Particle
 		float mParticleLifetime{1.f};
+		bool mParticleLifetimeRandomness{ false };
+		float mParticleLifetimeMin{ 0.5f };
+		float mParticleLifetimeMax{ 1.5 };
 
 		// For Radial Emitters
 		int mRadialParticles{ 10 };
@@ -138,6 +146,8 @@ namespace LB {
 
 		// Inverse Radial Emitters
 		// Need how far away from the center
-		float mInvRadDistance{ 0.f };
+		bool mEmitterRadialSpawnCircle{ false };
+		float mInvRadDistanceMin{ 0.f };
+		float mInvRadDistanceMax{ 0.f };
 	};
 }

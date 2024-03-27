@@ -65,6 +65,12 @@ namespace LB
 				m_instance->Update();
 		}
 
+		void FixedUpdate()
+		{
+			if (m_instance)
+				m_instance->FixedUpdate();
+		}
+
 		/*!***********************************************************************
 		\brief
 		 Calls the script's destroy function and deletes the object instance
