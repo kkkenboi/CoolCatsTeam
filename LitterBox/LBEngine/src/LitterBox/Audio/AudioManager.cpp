@@ -186,7 +186,7 @@ namespace LB
 			if (_channel)
 			{
 				//FMOD_VECTOR pos = { AudioListener->transform->GetPosition().x,AudioListener->transform->GetPosition().y};
-				_channel->setMode(FMOD_3D_HEADRELATIVE);		//NOTE!! THIS MAKES THE SOUND 2D!!!
+				_channel->setMode(FMOD_2D);		//NOTE!! THIS MAKES THE SOUND 2D!!!
 
 				//_channel->set3DAttributes(&pos, nullptr);
 				Channels[_channelID] = _channel;

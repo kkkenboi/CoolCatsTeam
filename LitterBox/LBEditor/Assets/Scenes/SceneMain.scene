@@ -53,8 +53,9 @@
                 "AudioSource": {
                     "Active": true,
                     "AudioClipName": "",
-                    "Play On Awake": true,
+                    "Play On Awake": false,
                     "Loop": false,
+                    "is3D": false,
                     "Volume": 1.0,
                     "Pitch": 1.0
                 }
@@ -1491,6 +1492,7 @@
                     "AudioClipName": "BGM",
                     "Play On Awake": true,
                     "Loop": true,
+                    "is3D": false,
                     "Volume": 0.1,
                     "Pitch": 1.0
                 }

@@ -139,6 +139,7 @@ namespace LB
 		data.AddMember("AudioClipName", Value(AudioClipName.c_str(), alloc), alloc);
 		data.AddMember("Play On Awake", playOnAwake,alloc);
 		data.AddMember("Loop", loop, alloc);
+		data.AddMember("is3D", is3D, alloc);
 		data.AddMember("Volume", volume, alloc);
 		data.AddMember("Pitch", pitch, alloc);
 		return true;
@@ -155,11 +156,17 @@ namespace LB
 		bool HasClipName = data.HasMember("AudioClipName");
 		bool HasPlayOnAwake = data.HasMember("Play On Awake");
 		bool HasLoop = data.HasMember("Loop");
+		bool Has3D= data.HasMember("is3D");
 		bool HasVolume = data.HasMember("Volume");
 		bool HasPitch = data.HasMember("Pitch");
 		if (HasActive)
 		{
 			m_active = data["Active"].GetBool();
+		}
+		if (Has3D) 
+		{
+			const Value& _is3D = data["is3D"];
+			is3D = _is3D.GetBool();
 		}
 		if (HasClipName && HasPlayOnAwake && HasLoop && HasVolume && HasPitch)
 		{
@@ -182,13 +189,13 @@ namespace LB
 	* \brief Plays the audio component (will play the current audio clip attached)
 	* 
 	**************************************************************************/
-	void CPAudioSource::Play(Vec2<float> pos)
+	void CPAudioSource::Play()
 	{
 		if (AudioClipName != "") 
 		{
 			if (is3D)
 			{
-				channelID = AUDIOMANAGER->Play3DSound(AudioClipName, pos);
+				channelID = AUDIOMANAGER->Play3DSound(AudioClipName, GetComponent<CPTransform>()->GetPosition());
 			}
 			else
 			{
@@ -275,7 +282,6 @@ namespace LB
 		volume = _vol;
 		if (!CORE->IsPlaying()) return;
 		AUDIOMANAGER->SetChannelVolume(channelID, volume);
-		
 	}
 
 	void CPAudioSource::FadeOut(float time)
@@ -295,6 +301,7 @@ namespace LB
 		volToSet = volumeToSet;
 		fadeOut = false;
 	}
+
 
 	
 
