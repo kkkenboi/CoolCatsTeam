@@ -182,11 +182,18 @@ namespace LB
 	* \brief Plays the audio component (will play the current audio clip attached)
 	* 
 	**************************************************************************/
-	void CPAudioSource::Play()
+	void CPAudioSource::Play(Vec2<float> pos)
 	{
 		if (AudioClipName != "") 
 		{
-			channelID = AUDIOMANAGER->PlaySound(AudioClipName);
+			if (is3D)
+			{
+				channelID = AUDIOMANAGER->Play3DSound(AudioClipName, pos);
+			}
+			else
+			{
+				channelID = AUDIOMANAGER->PlaySound(AudioClipName);
+			}
 			SetPitch(pitch);
 			SetVolume(volume);
 		}
