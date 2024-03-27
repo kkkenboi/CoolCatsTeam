@@ -1680,6 +1680,7 @@ Renderer::RenderSystem::~RenderSystem()
 	object_renderer.Destroy_Renderer();
 	bg_renderer.Destroy_Renderer();
 	ui_renderer.Destroy_Renderer();
+	menu_renderer.Destroy_Renderer();
 	text_renderer.Destroy_TextRend();
 
 	glDeleteFramebuffers(1, &framebuffer);
