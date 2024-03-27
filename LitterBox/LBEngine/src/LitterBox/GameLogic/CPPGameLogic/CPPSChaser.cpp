@@ -24,7 +24,7 @@ it handles the logic for the chaser enemy
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "CPPGameManager.h"
 #include "CPPVFXManager.h"
-
+#include "CPPAudioManager.h"
 namespace LB 
 {
 	/*!***********************************************************************
@@ -38,7 +38,7 @@ namespace LB
 		mRender = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPRender>();
 		mAnimator = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPAnimator>();
 		m_moveAnimator = GetComponent<CPTransform>()->GetChild()->GetComponent<CPAnimator>();
-
+		m_AudioManager = GOMANAGER->FindGameObjectWithName("AudioManager");
 		//Then we init all the states
 		IdleState* IDLESTATE = DBG_NEW IdleState(this, mFSM, "Idle");
 		ChaseState* CHASESTATE = DBG_NEW ChaseState(this, mFSM, "Chase");
@@ -180,7 +180,8 @@ namespace LB
 	{
 		//We access the base class first
 		//GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition());
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserDeathSounds,0.2f);
+		m_AudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(AUDIOMANAGER->ChaserDeathSounds, GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserDeathSounds,0.2f);
 		CPPSBaseEnemy::Die(); //We call this because the base class will have some logic to reduce enemy count
 		//Code to play death anim goes here
 	}
@@ -234,7 +235,9 @@ namespace LB
 		if (mEnemy->isAggro)
 		{
 			GetFSM().ChangeState("Chase");
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
+			GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play3DSound(AUDIOMANAGER->ChaserAttackSounds, mEnemy->GameObj->GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
+
+			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
 		}
 	}
 
@@ -314,7 +317,9 @@ namespace LB
 	{
 		//DebuggerLog("Entered HurtState");
 		mEnemy->GetHurtTimer() = 1.5f;
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserHurtSounds,0.2f);
+		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play3DSound(AUDIOMANAGER->ChaserHurtSounds, mEnemy->GameObj->GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
+
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserHurtSounds,0.2f);
 		this->Update();
 	}
 

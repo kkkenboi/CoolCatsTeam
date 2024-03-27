@@ -21,7 +21,6 @@ namespace LB
 		audioSource->UpdateAudio(soundName);
 		audioSource->loop = loop;
 		audioSource->is3D = false;
-		std::cout << "Play sound 2D setting vol to " << vol << '\n';
 		audioSource->SetVolume(vol);
 		audioSource->SetPitch(pitch);
 		audioSource->Play();
@@ -31,7 +30,6 @@ namespace LB
 	void CPPSAudioManager::Play2DSound(const std::vector<std::string>& soundNames, bool loop, float vol, float pitch)
 	{
 		int randomIndex = rand() % soundNames.size();
-		std::cout << "Play soundSSS 2D setting vol to " << vol << '\n';
 		Play2DSound(soundNames[randomIndex], loop, vol, pitch);
 	}
 	void CPPSAudioManager::Play3DSound(const std::string& soundName, const Vec2<float>& position, bool loop, float vol, float pitch)

@@ -214,7 +214,7 @@ namespace LB
 				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerSandStepSounds,false, 0.2f);
 				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSandStepSounds, 0.3f);
 			else
-				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerFootStepsSounds,false, 0.2f);
+				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerFootStepsSounds,false, 0.15f);
 
 				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds, 0.2f);
 			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.2f);

@@ -51,7 +51,7 @@ namespace LB
 		float& GetHurtTimer();
 
 		CPAnimator* m_moveAnimator{ nullptr };
-
+		GameObject* m_AudioManager{ nullptr };
 	private:
 
 		// Holds the different state and the current state
