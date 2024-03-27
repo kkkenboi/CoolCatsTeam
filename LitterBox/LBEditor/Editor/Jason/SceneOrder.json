@@ -1,5 +1,6 @@
 {
     "SceneOrder": [
+        "SceneSplashScreen",
         "SceneMainMenu",
         "SceneMain",
         "SceneTutOverride",

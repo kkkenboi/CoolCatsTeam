@@ -15,11 +15,14 @@
 #pragma once
 
 #include "CPPBehaviour.h"
-#include "LitterBox/Audio/AudioManager.h"
+//#include "LitterBox/Audio/AudioManager.h"
+#include "LitterBox/Factory/Components.h"
+#include "LitterBox/Components/RenderVideoComponent.h"
+#include "LitterBox/Serialization/AssetManager.h"
 
 namespace LB
 {
-	class SplashScreen : public CPPBehaviour //inherit from CPPBehaviour
+	class CPPSplashScreen : public CPPBehaviour //inherit from CPPBehaviour
 	{
 	public:
 		//from cppbehaviour
@@ -30,11 +33,13 @@ namespace LB
 		void Destroy() override;
 
 		//Game Object to get the texture
-		GameObject* DigiPenTexture{ nullptr };
-		GameObject* PurrfectPuttTexture{ nullptr };
+		//GameObject* DigiPenTexture{ nullptr };
+		//GameObject* PurrfectPuttTexture{ nullptr };
 
 
 	private:
 		float mDuration{}, mSecondDuration{};
 	};
+
+	REGISTER_SCRIPT(CPPSplashScreen)
 }
