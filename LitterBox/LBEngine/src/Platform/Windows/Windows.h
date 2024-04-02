@@ -43,7 +43,7 @@ namespace LB
 		GLFWwindow* m_PtrToWindow{ nullptr };
 		const GLFWvidmode* m_VideoMode{ nullptr };
 		GLFWmonitor* m_Monitor{ nullptr };
-		GLFWcursor* cursor{ nullptr };
+		GLFWcursor* m_Cursor{ nullptr };
 		unsigned char* imageData;
 
 		/*!***********************************************************************

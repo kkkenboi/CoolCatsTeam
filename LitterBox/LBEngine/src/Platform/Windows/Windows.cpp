@@ -172,7 +172,7 @@ namespace LB
     WindowsSystem::~WindowsSystem()
 	{
         // If there are any resources allocated, delete before destructing WindowsSystem
-        glfwDestroyCursor(m_Data.cursor);
+        glfwDestroyCursor(m_Data.m_Cursor);
 
         // Finally destroy the window context and terminate glfw
         glfwDestroyWindow(this->m_Data.m_PtrToWindow);
@@ -198,10 +198,9 @@ namespace LB
         //image.pixels = reinterpret_cast<unsigned char*>(pixels);
 
         //// - Create an image for the cursor
-        //m_Data.cursor = glfwCreateCursor(&image, image.width / 2, image.height / 2);
-        //glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
+        //m_Data.m_Cursor = glfwCreateCursor(&image, image.width / 2, image.height / 2);
 
-        // Free memory 
+        //// Free memory
         //delete[] pixels;
     }
 
@@ -252,7 +251,7 @@ namespace LB
 
             // Set Window Title (Name + FPS)
             glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
-            glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
+            glfwSetCursor(m_Data.m_PtrToWindow, m_Data.m_Cursor);
         }
         Draw(this->m_Data);   
     }
