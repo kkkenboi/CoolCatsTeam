@@ -58,7 +58,7 @@ namespace LB
 		mFSM.SetCurrentState("Idle");
 
 		//set stats on charger
-		GetHealth() = 3;
+		GetHealth() = 8;
 		GetSpeedMag() = 50000.f; //speed of movement
 
 		isChargerDead = false;
@@ -134,16 +134,16 @@ namespace LB
 	{
 		CPPSBaseEnemy::Update();
 
-		if (!facingLeft)
-		{
-			mAngerObjTwoTrans->SetPosition(Vec2<float>(58.0f, 7.0f));
-			mAngerObjTwoTrans->SetRotation(5.10f);
-		}
-		else if (facingLeft)
-		{
-			mAngerObjTwoTrans->SetPosition(Vec2<float>(-58.0f, 7.0f));
-			mAngerObjTwoTrans->SetRotation(-5.10f);
-		}
+		//if (!facingLeft)
+		//{
+		//	mAngerObjTwoTrans->SetPosition(Vec2<float>(58.0f, 7.0f));
+		//	mAngerObjTwoTrans->SetRotation(5.10f);
+		//}
+		//else if (facingLeft)
+		//{
+		//	mAngerObjTwoTrans->SetPosition(Vec2<float>(-58.0f, 7.0f));
+		//	mAngerObjTwoTrans->SetRotation(-5.10f);
+		//}
 
 		if (mInitialised == false)
 		{
@@ -163,9 +163,6 @@ namespace LB
 			FootstepsParticle->mIsActive = false;
 		}
 
-		//std::cout << "is stunned : " << m_isStunned << "\n";
-		//std::cout << "is charging : " << m_isCharging << "\n";
-
 		if (m_isCharging || m_isStunned || m_isHurt)
 		{
 			m_isLocked = true;
@@ -176,6 +173,21 @@ namespace LB
 		}
 
 		mFSM.Update();
+	}
+
+	void CPPSCharger::FixedUpdate()
+	{
+		if (!facingLeft)
+		{
+			mAngerObjTwoTrans->SetPosition(Vec2<float>(58.0f, 7.0f));
+			mAngerObjTwoTrans->SetRotation(5.10f);
+		}
+		else if (facingLeft)
+		{
+			mAngerObjTwoTrans->SetPosition(Vec2<float>(-58.0f, 7.0f));
+			mAngerObjTwoTrans->SetRotation(-5.10f);
+		}
+		mFSM.FixedUpdate();
 	}
 
 	/*!***********************************************************************
@@ -324,6 +336,12 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
+	FixedUpdate the state of Idle 
+	*************************************************************************/
+	void ChargerIdleState::FixedUpdate(){}
+
+	/*!***********************************************************************
+	\brief
 	Update the state of Idle 
 	*************************************************************************/
 	void ChargerIdleState::Update()
@@ -367,9 +385,9 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
-	Update the state of Move 
+	FixedUpdate the state of Move
 	*************************************************************************/
-	void ChargerMoveState::Update()
+	void ChargerMoveState::FixedUpdate()
 	{
 		//charger will walk slowly towards the player
 		//when charger is near the player, state will change to windup
@@ -389,6 +407,33 @@ namespace LB
 
 			mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime()));
 		}
+	}
+
+	/*!***********************************************************************
+	\brief
+	Update the state of Move 
+	*************************************************************************/
+	void ChargerMoveState::Update()
+	{
+		//charger will walk slowly towards the player
+		//when charger is near the player, state will change to windup
+
+		//DebuggerLogWarning("CHARGER MOVE STATE");
+		/*
+		float DistInBwn = Vec2<float>::Distance(mEnemy->GetChargerPos(), mEnemy->GetPlayerPos());
+
+		if (DistInBwn <= mEnemy->mDistToWindUp)
+		{
+			GetFSM().ChangeState("WindUp");
+		}
+		else
+		{
+			Vec2<float> Direction = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
+			Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
+
+			mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime()));
+		}
+		*/
 	}
 
 	/*!***********************************************************************
@@ -424,6 +469,12 @@ namespace LB
 		mEnemy->Hurt();
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	FixedUpdate the state of Hurt
+	*************************************************************************/
+	void ChargerHurtState::FixedUpdate(){}
 
 	/*!***********************************************************************
 	\brief
@@ -477,6 +528,12 @@ namespace LB
 		mEnemy->mTimerToCharge = 2.0f;
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	FixedUpdate the state of WindUp
+	*************************************************************************/
+	void ChargerWindUpState::FixedUpdate(){}
 
 	/*!***********************************************************************
 	\brief
@@ -536,15 +593,24 @@ namespace LB
 
 	/*!***********************************************************************
    \brief
+   FixedUpdate the state of Charge
+   *************************************************************************/
+	void ChargerChargeState::FixedUpdate()
+	{
+		mEnemy->GetRigidBody()->mVelocity += mEnemy->mChargeNormalForce * static_cast<float>(TIME->GetDeltaTime());
+		mEnemy->GetRigidBody()->mVelocity.x = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.x, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
+		mEnemy->GetRigidBody()->mVelocity.y = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.y, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
+	}
+
+	/*!***********************************************************************
+   \brief
    Update the state of Charge
    *************************************************************************/
 	void ChargerChargeState::Update()
 	{
-		mEnemy->GetRigidBody()->mVelocity += mEnemy->mChargeNormalForce  * static_cast<float>(TIME->GetDeltaTime());
-		mEnemy->GetRigidBody()->mVelocity.x = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.x, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
-		mEnemy->GetRigidBody()->mVelocity.y = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.y, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
-
-		
+		//mEnemy->GetRigidBody()->mVelocity += mEnemy->mChargeNormalForce  * static_cast<float>(TIME->GetDeltaTime());
+		//mEnemy->GetRigidBody()->mVelocity.x = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.x, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
+		//mEnemy->GetRigidBody()->mVelocity.y = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.y, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
 	}
 
 	/*!***********************************************************************
@@ -586,6 +652,15 @@ namespace LB
 		mEnemy->mDizzyRender->ToggleActiveFlag(true);
 
 		this->Update();
+	}
+
+	/*!***********************************************************************
+	\brief
+	Update the state of Stunned
+	*************************************************************************/
+	void ChargerStunnedState::FixedUpdate()
+	{
+
 	}
 
 	/*!***********************************************************************

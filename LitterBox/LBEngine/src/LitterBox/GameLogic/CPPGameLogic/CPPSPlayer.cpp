@@ -30,6 +30,7 @@
 #include "CPPSBramble.h"
 #include "CPPSMouseWorld.h"
 #include "LitterBox/Core/Core.h"
+#include "CPPAudioManager.h"
 
 namespace LB
 {
@@ -169,7 +170,8 @@ namespace LB
 			movement = Normalise(movement);
 		}
 
-		if (!mIsStunned) {
+		if (!mIsStunned) 
+		{
 			//rb->mVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
 		/*	Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
 			rb->mVelocity += (AddedVelocity  - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());*/
@@ -208,9 +210,12 @@ namespace LB
 		{
 			m_stepSoundCurrent = 0.0f;
 			if(isOnSand)
-				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSandStepSounds, 0.3f);
+				GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerSandStepSounds, 0.3f);
+				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSandStepSounds, 0.3f);
 			else
-				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds, 0.2f);
+				GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerFootStepsSounds, 0.3f);
+
+				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds, 0.2f);
 			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.2f);
 		}
 		m_stepSoundCurrent += static_cast<float>(TIME->GetDeltaTime()) * anim->m_playSpeed;
@@ -341,6 +346,10 @@ namespace LB
 		}
 	} // End of Update
 
+	/*!***********************************************************************
+	\brief
+	Fixed Update for the player for movement
+	*************************************************************************/
 	void CPPSPlayer::FixedUpdate()
 	{
 		if (m_GameManager->GetComponent<CPPSGameManager>()->isMovementDisabled)
@@ -352,7 +361,7 @@ namespace LB
 
 		if (!mIsStunned) {
 			Vec2<float> AddedVelocity = movement * m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed;
-			rb->mVelocity += (AddedVelocity - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetDeltaTime());
+			rb->mVelocity += (AddedVelocity - rb->mVelocity) * 10.f * static_cast<float>(TIME->GetFixedDeltaTime());
 		}
 
 		//clamping of the speed of the player movement

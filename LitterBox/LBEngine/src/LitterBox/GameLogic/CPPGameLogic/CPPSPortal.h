@@ -37,6 +37,8 @@ namespace LB
 		GameObject* mLevelBoard{ nullptr };
 		// Particle Emitter
 		GameObject* mPortalEmitter{ nullptr };
+		GameObject* mFireworksEmitter1{ nullptr };
+		GameObject* mFireworksEmitter2{ nullptr };
 
 		Vec2<float> mCachedPlayerPos{};
 		bool isTransitioning{};

@@ -118,3 +118,16 @@ void FiniteStateMachine::Update()
 		mCurrentState->Update();
 	}
 }
+
+/*!***********************************************************************
+\brief
+This function is the FixedUpdate function that runs through the mCurrentState
+of the FiniteStateMachine
+*************************************************************************/
+void FiniteStateMachine::FixedUpdate()
+{
+	if (mCurrentState != nullptr)
+	{
+		mCurrentState->FixedUpdate();
+	}
+}

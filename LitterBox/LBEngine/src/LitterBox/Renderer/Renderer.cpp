@@ -424,7 +424,7 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 		quad_buff_size = 200;
 		break;
 	case Renderer_Types::RT_UI:
-		quad_buff_size = 50;
+		quad_buff_size = 100;
 		break;
 	case Renderer_Types::RT_MENU:
 		quad_buff_size = 50;
@@ -1680,6 +1680,7 @@ Renderer::RenderSystem::~RenderSystem()
 	object_renderer.Destroy_Renderer();
 	bg_renderer.Destroy_Renderer();
 	ui_renderer.Destroy_Renderer();
+	menu_renderer.Destroy_Renderer();
 	text_renderer.Destroy_TextRend();
 
 	glDeleteFramebuffers(1, &framebuffer);

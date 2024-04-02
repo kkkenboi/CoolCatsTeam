@@ -2,6 +2,8 @@
 #include "CPPGameManager.h"
 #include "CPPSPlayer.h"
 #include "LitterBox/Scene/SceneManager.h"
+#include "LitterBox/Renderer/Renderer.h"
+#include "LitterBox/Renderer/ForwardDeclerators.h"
 
 void LB::CPPSPortal::Start()
 {
@@ -36,16 +38,38 @@ void LB::CPPSPortal::Start()
 
 	mPortalEmitter = GOMANAGER->FindGameObjectWithName("portalemitter");
 	mPortalEmitter->GetComponent<CPParticle>()->mEmitterType = INVERSERADIAL;
-	mPortalEmitter->GetComponent<CPParticle>()->mEmitterRate = 0.2f;
-	mPortalEmitter->GetComponent<CPParticle>()->mInvRadDistanceMin = 75.f;
-	mPortalEmitter->GetComponent<CPParticle>()->mInvRadDistanceMax = 150.f;
+	mPortalEmitter->GetComponent<CPParticle>()->mEmitterRate = 0.03f;
+
+	mPortalEmitter->GetComponent<CPParticle>()->mInvRadDistanceMin = 125.f;
+	mPortalEmitter->GetComponent<CPParticle>()->mInvRadDistanceMax = 350.f;
+
 	mPortalEmitter->GetComponent<CPParticle>()->mRotationSpeedVariationMin = -100.f;
 	mPortalEmitter->GetComponent<CPParticle>()->mRotationSpeedVariationMax = 100.f;
-	mPortalEmitter->GetComponent<CPParticle>()->mEmitterSizeBegin = 2.0f;
-	mPortalEmitter->GetComponent<CPParticle>()->mEmitterSizeEnd = 0.f;
+
+	mPortalEmitter->GetComponent<CPParticle>()->mEmitterSizeBegin = 1.25f;
+	mPortalEmitter->GetComponent<CPParticle>()->mEmitterSizeEnd = 0.0f;
+
+	mPortalEmitter->GetComponent<CPParticle>()->mParticleLifetime = 0.5f;
+	mPortalEmitter->GetComponent<CPParticle>()->mParticleLifetimeRandomness = true;
+	mPortalEmitter->GetComponent<CPParticle>()->mParticleLifetimeMin = 0.0f;
+	mPortalEmitter->GetComponent<CPParticle>()->mParticleLifetimeMax = 1.5;
+
+
 	mPortalEmitter->GetComponent<CPParticle>()->mIsActive = false;
 	mPortalEmitter->GetComponent<CPParticle>()->mIsLooping = true;
 
+	/*
+	// Spawn fireworks
+	mFireworksEmitter1 = FACTORY->SpawnGameObject();
+	mFireworksEmitter1->GetComponent<CPTransform>()->SetPosition(Vec2<float>{500.f, 900.f});
+	mFireworksEmitter1->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
+	mFireworksEmitter1->GetComponent<CPRender>()->Initialise();
+	Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_UI, mFireworksEmitter1->GetComponent<CPRender>());
+	mFireworksEmitter1->SetName("JOEBIDEN");
+
+	// Hard-coded texture index in sprite
+	mFireworksEmitter1->GetComponent<CPRender>()->SetSpriteTexture("VFXSheet", 49);
+	*/
 }
 
 void LB::CPPSPortal::Update()

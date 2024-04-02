@@ -71,6 +71,15 @@ namespace LB
 
 			// Lifetime
 			particle.mLifetime = emitter->mParticleLifetime;
+			if (emitter->mParticleLifetimeRandomness)
+			{
+				particle.mLifetime += RandomRange(emitter->mParticleLifetimeMin, emitter->mParticleLifetimeMax);
+				// Clamp the particle lifetime to 0, as we don't want negative numbers
+				if (particle.mLifetime < 0.f)
+				{
+					particle.mLifetime = 0.f;
+				}
+			}
 			particle.mLifetimeRemaining = emitter->mParticleLifetime;
 
 			// Particle's lifetime delay to show visible
@@ -81,11 +90,11 @@ namespace LB
 			particle.mSize = particle.mSizeBegin;
 			particle.mSizeEnd = emitter->mEmitterSizeEnd;
 
-			mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
 
 			// Create a GameObject that follows the Particle's current stats
 			particle.mGameObj = FACTORY->SpawnGameObject();
 			particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+			particle.mGameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{particle.mSizeBegin, particle.mSizeBegin});
 			particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 			particle.mGameObj->GetComponent<CPRender>()->Initialise();
 
@@ -115,6 +124,7 @@ namespace LB
 				//we just use the CPRender function to set sprite texture
 				particle.mGameObj->GetComponent<CPRender>()->SetSpriteTexture(emitter->mRender->spriteSheetName, emitter->mRender->spriteIndex);
 			}
+			mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
 		}
 		else if (emitter->mEmitterType == RADIAL)
 		{
@@ -136,6 +146,15 @@ namespace LB
 
 				// Lifetime
 				particle.mLifetime = emitter->mParticleLifetime;
+				if (emitter->mParticleLifetimeRandomness)
+				{
+					particle.mLifetime += RandomRange(emitter->mParticleLifetimeMin, emitter->mParticleLifetimeMax);
+					// Clamp the particle lifetime to 0, as we don't want negative numbers
+					if (particle.mLifetime < 0.f)
+					{
+						particle.mLifetime = 0.f;
+					}
+				}
 				particle.mLifetimeRemaining = emitter->mParticleLifetime;
 
 				// Particle's lifetime delay to show visible
@@ -150,6 +169,7 @@ namespace LB
 				// Create a GameObject
 				particle.mGameObj = FACTORY->SpawnGameObject();
 				particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+				particle.mGameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{particle.mSizeBegin, particle.mSizeBegin});
 				particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 				particle.mGameObj->GetComponent<CPRender>()->Initialise();
 
@@ -204,7 +224,7 @@ namespace LB
 					particle.mRotationSpeed += RandomRange(emitter->mRotationSpeedVariationMin, emitter->mRotationSpeedVariationMax);
 					particle.mLifetime = emitter->mParticleLifetime;
 
-					if (!emitter->mParticleLifetimeRandomness)
+					if (emitter->mParticleLifetimeRandomness)
 					{
 						particle.mLifetime += RandomRange(emitter->mParticleLifetimeMin, emitter->mParticleLifetimeMax);
 						// Clamp the particle lifetime to 0, as we don't want negative numbers
@@ -229,12 +249,11 @@ namespace LB
 					particle.mSize = particle.mSizeBegin;
 					particle.mSizeEnd = emitter->mEmitterSizeEnd;
 
-					// Update the index
-					mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
 
 					// Create a GameObject that follows the Particle's current stats
 					particle.mGameObj = FACTORY->SpawnGameObject();
 					particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+					particle.mGameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{particle.mSizeBegin, particle.mSizeBegin});
 					particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 					particle.mGameObj->GetComponent<CPRender>()->Initialise();
 
@@ -264,14 +283,12 @@ namespace LB
 						//we just use the CPRender function to set sprite texture
 						particle.mGameObj->GetComponent<CPRender>()->SetSpriteTexture(emitter->mRender->spriteSheetName, emitter->mRender->spriteIndex);
 					}
+					// Update the index
+					mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
 				}
 			}
 			else
 			{
-				/*
-			
-
-				*/
 				// False means we spawn each particles randomly at the border of the circle
 				// and make it move towards the center and despawn it once it reaches the center
 				Particle& particle = mParticlePool[mParticlePoolIndex];
@@ -286,7 +303,7 @@ namespace LB
 				particle.mRotationSpeed += RandomRange(emitter->mRotationSpeedVariationMin, emitter->mRotationSpeedVariationMax);
 				particle.mLifetime = emitter->mParticleLifetime;
 
-				if (!emitter->mParticleLifetimeRandomness)
+				if (emitter->mParticleLifetimeRandomness)
 				{
 					particle.mLifetime += RandomRange(emitter->mParticleLifetimeMin, emitter->mParticleLifetimeMax);
 					// Clamp the particle lifetime to 0, as we don't want negative numbers
@@ -306,21 +323,15 @@ namespace LB
 
 				particle.mLifetimeDelay = 0.f;
 
-				/*
-				// Lifetime delay
-				particle.mLifetimeDelay = RandomRange(emitter->mEmitterLifetimeDelayMin, emitter->mEmitterLifetimeDelayMax);
-				*/
 				// Size
 				particle.mSizeBegin = emitter->mEmitterSizeBegin;
 				particle.mSize = particle.mSizeBegin;
 				particle.mSizeEnd = emitter->mEmitterSizeEnd;
 
-				// Update the index
-				mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
-
 				// Create a GameObject that follows the Particle's current stats
 				particle.mGameObj = FACTORY->SpawnGameObject();
 				particle.mGameObj->GetComponent<CPTransform>()->SetPosition(particle.mPosition);
+				particle.mGameObj->GetComponent<CPTransform>()->SetScale(Vec2<float>{particle.mSizeBegin, particle.mSizeBegin});
 				particle.mGameObj->AddComponent(C_CPRender, FACTORY->GetCMs()[C_CPRender]->Create());
 				particle.mGameObj->GetComponent<CPRender>()->Initialise();
 
@@ -350,6 +361,9 @@ namespace LB
 					//we just use the CPRender function to set sprite texture
 					particle.mGameObj->GetComponent<CPRender>()->SetSpriteTexture(emitter->mRender->spriteSheetName, emitter->mRender->spriteIndex);
 				}
+
+				// Update the index
+				mParticlePoolIndex = (mParticlePoolIndex - 1 + static_cast<int>(mParticlePool.size())) % static_cast<int>(mParticlePool.size());
 
 			}
 		}
@@ -489,7 +503,6 @@ namespace LB
 				particle.mLifetimeRemaining -= static_cast<float>(TIME->GetDeltaTime());
 				particle.mPosition += particle.mVelocity * static_cast<float>(TIME->GetDeltaTime());
 				particle.mRotation += particle.mRotationSpeed * static_cast<float>(TIME->GetDeltaTime());
-
 
 				// Check if size is enlarging or getting smaller
 				// Getting smaller

@@ -27,7 +27,6 @@ it handles the logic for the chaser enemy
 
 namespace LB 
 {
-	static int count{};
 	/*!***********************************************************************
 	\brief
 	Start function (Basically initializes everything)
@@ -51,9 +50,6 @@ namespace LB
 
 		mFSM.SetCurrentState("Idle");
 
-		//mGotAttacked = 0.5f;
-		//mGotAttackedCooldown = 0.0f;
-
 		GetHealth() = 3;
 		GetSpeedMag() = 60000.f;
 		//since this value is the equivalent of the pixels, 
@@ -64,18 +60,23 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
+	FixedUpdate function (Fixedupdates the FSM) run physics
+	*************************************************************************/
+	void CPPSChaser::FixedUpdate()
+	{
+		mFSM.FixedUpdate();
+	}
+
+	/*!***********************************************************************
+	\brief
 	Update function (updates the FSM)
 	*************************************************************************/
 	void CPPSChaser::Update()
 	{
 		if (mGameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
 		CPPSBaseEnemy::Update();
-		//DebuggerLog("In ChaserUpdate\n");
 		//Kill command moved to base enemy
-	/*	if (INPUT->IsKeyPressed(KeyCode::KEY_0))
-		{
-			mShouldDestroy = true;
-		}*/
+
 		if (mShouldDestroy)
 		{
 			GOMANAGER->RemoveGameObject(this->GameObj);
@@ -84,12 +85,7 @@ namespace LB
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
-	/*	Vec2<float> DirToPlayer = mPlayer->GetComponent<CPTransform>()->GetPosition() - GameObj->GetComponent<CPTransform>()->GetPosition();
-		Vec2<float> TransformRight{ 1,0 };
-		if (DotProduct(DirToPlayer.Normalise(), TransformRight) < 0.0f)
-		{
-			GameObj->GetComponent<CPTransform>()->SetScale(leftFace);
-		} else GameObj->GetComponent<CPTransform>()->SetScale(rightFace);*/
+
 		mFSM.Update();
 	}
 	/*!***********************************************************************
@@ -103,6 +99,10 @@ namespace LB
 		delete mFSM.GetState("Hurt");
 	}
 
+	/*!***********************************************************************
+	\brief
+	Override Hurt function, play animation
+	*************************************************************************/
 	void CPPSChaser::Hurt()
 	{
 		isAggro = true;
@@ -129,12 +129,8 @@ namespace LB
 					return;
 				}
 				DebuggerLogWarning("CHASER HIT ACTUAL!");
-
-				//int Channel = AUDIOMANAGER->PlaySound("Enemy hurt");
-				//AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);
 				
 				mGotAttackedCooldown = mGotAttacked;
-
 				
 				mFSM.ChangeState("Hurt");
 				Hurt();	//This is here to play the anim
@@ -176,6 +172,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Override Die function from base enemy, play sound
+	*************************************************************************/
 	void CPPSChaser::Die()
 	{
 		//We access the base class first
@@ -219,6 +219,12 @@ namespace LB
 
 	/*!***********************************************************************
 	\brief
+	FixedUpdate of idle state
+	*************************************************************************/
+	void IdleState::FixedUpdate(){}
+
+	/*!***********************************************************************
+	\brief
 	Update of idle state
 	*************************************************************************/
 	void IdleState::Update()
@@ -227,8 +233,8 @@ namespace LB
 		if (mEnemy->GetDistToPlayer() <= mEnemy->mDetectionRange) mEnemy->isAggro = true;
 		if (mEnemy->isAggro)
 		{
-		GetFSM().ChangeState("Chase");
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
+			GetFSM().ChangeState("Chase");
+			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
 		}
 	}
 
@@ -236,9 +242,7 @@ namespace LB
 	\brief
 	Exit of the Idle State
 	*************************************************************************/
-	void IdleState::Exit()
-	{
-	}
+	void IdleState::Exit(){}
 
 	// CHASE STATE FUNCTIONS !!!
 	/*!***********************************************************************
@@ -258,9 +262,24 @@ namespace LB
 	void ChaseState::Enter()
 	{
 		//DebuggerLog("Entered ChaseState");
-		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds);
 		mEnemy->m_moveAnimator->PlayRepeat("Action_Move");
 		this->Update();
+	}
+
+	/*!***********************************************************************
+	\brief
+	FixedUpdate of chase state
+	*************************************************************************/
+	void ChaseState::FixedUpdate()
+	{
+		// Calculate direction of force from enemy to player
+		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos();
+		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos();
+
+		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
+		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
+
+		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime()));
 	}
 
 	/*!***********************************************************************
@@ -268,29 +287,13 @@ namespace LB
 	Update of chase state where it gets the position of itself and the player so that
 	the chaser will go towards the player
 	*************************************************************************/
-	void ChaseState::Update()
-	{
-		// Calculate direction of force from enemy to player
-		Vec2<float> CurEnemyPos = mEnemy->GetRigidBody()->getPos();
-		Vec2<float> CurHeroPos = mEnemy->GetHero()->GetComponent<CPRigidBody>()->getPos();
-
-		Vec2<float> Direction = CurHeroPos - CurEnemyPos;
-		Direction = Normalise(Direction);
-
-		Direction = Direction * mEnemy->GetSpeedMag();
-		//DebuggerLogFormat("%f, %f", Direction.x, Direction.y);
-		mEnemy->GetRigidBody()->addForce(Direction * TIME->GetDeltaTime());
-	}
+	void ChaseState::Update(){}
 
 	/*!***********************************************************************
 	\brief
 	Exiting of exit state
 	*************************************************************************/
-	void ChaseState::Exit()
-	{
-	}
-
-
+	void ChaseState::Exit(){}
 
 	// HURT STATE FUNCTIONS !!!
 	/*!***********************************************************************
@@ -309,11 +312,17 @@ namespace LB
 	*************************************************************************/
 	void HurtState::Enter()
 	{
-		//std::cout << "Health: " << mEnemy->GetHealth();
+		//DebuggerLog("Entered HurtState");
 		mEnemy->GetHurtTimer() = 1.5f;
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserHurtSounds,0.2f);
 		this->Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	FixedUpdate of hurt state
+	*************************************************************************/
+	void HurtState::FixedUpdate(){}
 
 	/*!***********************************************************************
 	\brief

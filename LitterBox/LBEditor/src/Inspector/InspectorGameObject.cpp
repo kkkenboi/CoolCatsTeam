@@ -95,7 +95,7 @@ namespace LB
 					DebuggerLog("Creating Prefab!");
 					std::filesystem::path prefab("Prefabs");
 					std::filesystem::path assetFileName(GetInspectedGO()->GetName());
-					JSONSerializer::SerializeToFile((EDITORASSETS->defaultDirectory / prefab / assetFileName).string(), *GetInspectedGO());
+					JSONSerializer::SerializeToFile((EDITORASSETS->defaultDirectory / prefab / assetFileName).string() + ".prefab", *GetInspectedGO());
 				}
 			}
 		}
