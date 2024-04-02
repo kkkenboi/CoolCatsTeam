@@ -27,6 +27,27 @@ namespace LB
 		void Update() override;
 		void Destroy() override;
 		
+		//SOUND GROUPS
+		//CHASER SOUND
+		std::vector<std::string> ChaserAttackSounds = { "Wolf Attack_1",
+														"Wolf Attack_2",
+														"Wolf Attack_3",
+														"Wolf Attack_4",
+														"Wolf Attack_5" };
+
+		std::vector<std::string> ChaserHurtSounds = { "Wolf Hurt_1",
+													  "Wolf Hurt_2",
+													  "Wolf Hurt_3",
+													  "Wolf Hurt_4",
+													  "Wolf Hurt_5" };
+
+		std::vector<std::string> ChaserDeathSounds = { "Wolf Death_1",
+													   "Wolf Death_2",
+													   "Wolf Death_3",
+													   "Wolf Death_4" };
+
+
+
 		//Plays 2D sound
 		void Play2DSound(const std::string& soundName, bool loop = false, float vol = 1.0f, float pitch = 1.0f);
 		//Overloaded function to play multiple 2D sounds
@@ -40,7 +61,6 @@ namespace LB
 	private:
 		//By right the audiomanager should be DDOL, and this BGM Source should persist throughout scenes...
 		GameObject* BGM_Source;	    //THERE CAN ONLY BE ONE BGM SOURCE
-		//GameObject* audioSource;	//This will be the audio source that we will clone to play the sound
 		std::vector<GameObject*> audioSources;	//Pool of audio sources
 		void RemoveUnusedAudioSources();
 	};

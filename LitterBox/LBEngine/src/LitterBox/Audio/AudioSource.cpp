@@ -28,10 +28,12 @@ namespace LB
 		//We check if the component even has a valid clip name
 		if (AudioClipName == "")
 		{
-			DebuggerLogWarning("NO AUDIO CLIP ATTACHED!");
+			//We don't really want to log warn this anymore because sometimes we can have NO AUDIO set yet
+			//DebuggerLogWarning("NO AUDIO CLIP ATTACHED!");
 			return;
 		}
-		DebuggerLogWarning("Audio Component Initialised!");
+		//Commented out this because it's kinda annoying to see in console
+		//DebuggerLogWarning("Audio Component Initialised!");
 		AUDIOMANAGER->AudioSources.push_back(this); 
 	}
 

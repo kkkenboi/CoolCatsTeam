@@ -52,6 +52,7 @@ namespace LB
 
 		CPAnimator* m_moveAnimator{ nullptr };
 		GameObject* m_AudioManager{ nullptr };
+		CPAudioSource* m_AudioSource{ nullptr };
 	private:
 
 		// Holds the different state and the current state
