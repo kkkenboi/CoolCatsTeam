@@ -66,6 +66,13 @@ public:
 
 	/*!***********************************************************************
 	\brief
+	The FixedUpdate() state is a pure virtual function that must be overridden
+	by the child class inheriting the base
+	*************************************************************************/
+	virtual void FixedUpdate() = 0;
+
+	/*!***********************************************************************
+	\brief
 	The Exit() state is a pure virtual function that must be overridden
 	by the child class inheriting the base
 	*************************************************************************/
@@ -128,6 +135,13 @@ public:
 	of the FiniteStateMachine
 	*************************************************************************/
 	void Update();
+
+	/*!***********************************************************************
+	\brief
+	This function is the FixedUpdate function that runs through the mCurrentState
+	of the FiniteStateMachine
+	*************************************************************************/
+	void FixedUpdate();
 
 private:
 	// Map that contains all the states within this given FiniteStateMachine

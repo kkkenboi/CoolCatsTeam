@@ -26,6 +26,7 @@ namespace LB
 		void Start() override;
 		void Update() override;
 		void Destroy() override;
+		void FixedUpdate() override;
 
 		void OnCollisionEnter(CollisionData colData) override;
 		
@@ -113,6 +114,7 @@ namespace LB
 	public:
 		ChargerIdleState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -127,6 +129,7 @@ namespace LB
 	public:
 		ChargerMoveState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -141,6 +144,7 @@ namespace LB
 	public:
 		ChargerHurtState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -155,6 +159,7 @@ namespace LB
 	public:
 		ChargerWindUpState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -169,6 +174,7 @@ namespace LB
 	public:
 		ChargerChargeState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -183,6 +189,7 @@ namespace LB
 	public:
 		ChargerStunnedState(CPPSCharger* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:

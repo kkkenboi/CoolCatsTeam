@@ -29,6 +29,7 @@ namespace LB
 		Inherited Functions from CPPBehaviour that the user must implement
 		*************************************************************************/
 		void Start() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Destroy() override;
 		void Hurt() override;
@@ -54,6 +55,7 @@ namespace LB
 		//------------------CHASE STATE------------------
 		float mAttackCooldown{2.0f}, mAttackCooldownCurrent{0.0f};
 		float mTooClose{};
+		float mDistInBwn{};
 
 		//------------------SHOOTING STATE------------------
 		float mAttackRange{};
@@ -96,6 +98,7 @@ namespace LB
 	public:
 		MageIdleState(CPPSMage* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -111,6 +114,7 @@ namespace LB
 	public:
 		MageChaseState(CPPSMage* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -126,6 +130,7 @@ namespace LB
 	public:
 		MageBackOffState(CPPSMage* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -141,6 +146,7 @@ namespace LB
 	public:
 		MageHurtState(CPPSMage* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:
@@ -156,6 +162,7 @@ namespace LB
 	public:
 		MageShootingState(CPPSMage* enemy_ptr, FiniteStateMachine& fsm, std::string name);
 		void Enter() override;
+		void FixedUpdate() override;
 		void Update() override;
 		void Exit() override;
 	private:

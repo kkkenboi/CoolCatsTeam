@@ -25,7 +25,7 @@ namespace LB
 		 * \brief Plays the audio component (will play the current audio clip attached)
 		 * 
 		**************************************************************************/
-		void Play();
+		void Play(Vec2<float> pos = Vec2<float>{0,0});
 
 		/*!************************************************************************
 		 * \brief Plays the audioclip attached after X seconds of delay

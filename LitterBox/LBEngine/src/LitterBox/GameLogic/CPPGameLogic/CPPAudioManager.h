@@ -26,11 +26,23 @@ namespace LB
 		void Start() override;
 		void Update() override;
 		void Destroy() override;
-
 		
+		//Plays 2D sound
+		void Play2DSound(const std::string& soundName, bool loop = false, float vol = 1.0f, float pitch = 1.0f);
+		//Overloaded function to play multiple 2D sounds
+		void Play2DSound(const std::vector<std::string>& soundNames, bool loop = false, float vol = 1.0f, float pitch = 1.0f);
+		//Plays 3D sound
+		void Play3D(const std::string& soundName, const Vec2<float>& position, bool loop = false, float vol = 1.0f, float pitch = 1.0f);
+		//Overloaded function to play multiple 3D sounds
+		void Play3D(const std::vector<std::string>& soundNames, const Vec2<float>& position, bool loop = false, float vol = 1.0f, float pitch = 1.0f);
+		//Function to cross fade from one BGM to another
+		void CrossFadeBGM(const std::string& targetSong, float fadeDuration = 1.0f);
 	private:
 		//By right the audiomanager should be DDOL, and this BGM Source should persist throughout scenes...
-		GameObject* BGM_Source;
+		GameObject* BGM_Source;	    //THERE CAN ONLY BE ONE BGM SOURCE
+		//GameObject* audioSource;	//This will be the audio source that we will clone to play the sound
+		//std::vector<GameObject*> audioSources;	//Pool of audio sources
+
 	};
 	REGISTER_SCRIPT(CPPSAudioManager)
 }
