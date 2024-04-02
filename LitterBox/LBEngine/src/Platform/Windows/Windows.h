@@ -278,6 +278,12 @@ namespace LB
 		*************************************************************************/
 		Vec2<float>			getViewPortConversion() { return Vec2{xVPConversion, yVPConversion}; }
 
+		/*!***********************************************************************
+		 \brief
+		 Update how the cursor looks based on the given texture name
+		*************************************************************************/
+		void				UpdateCursor(std::string name);
+
 
 		Event<> OnApplicationFocus;
 		Event<> OnApplicationUnFocus;
