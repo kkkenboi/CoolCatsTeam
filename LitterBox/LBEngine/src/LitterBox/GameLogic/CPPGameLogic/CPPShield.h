@@ -24,6 +24,8 @@ namespace LB
 		//From Behaviour
 		void Start() override;
 
+		void FixedUpdate() override;
+
 		void Update() override;
 
 		void Destroy() override;
@@ -50,6 +52,9 @@ namespace LB
 
 		// TODO: REFACTOR, TEMP HACK UNTIL CHILD STARTING IS FIXED
 		bool m_ScriptSet{ false };
+
+		CPParticle* WallImpactParticle{ nullptr }; //Foot Particles
+		float m_WallImpactParticleEmitRate{};
 
 		CPCollider* GetCollider(); //getter for collider
 

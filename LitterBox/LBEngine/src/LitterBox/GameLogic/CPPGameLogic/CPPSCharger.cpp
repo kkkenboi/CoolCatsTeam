@@ -123,6 +123,12 @@ namespace LB
 		m_FootstepsParticleEmitRate = FootstepsParticle->mEmitterRate;
 		FootstepsParticle->mIsActive = false;
 
+		//Wall Impact Particle
+		//WallImpactParticle = mTransform->GetChild(7)->GetComponent<CPParticle>();
+		//m_WallImpactParticleEmitRate = WallImpactParticle->mEmitterRate;
+		//WallImpactParticle->mIsActive = false;
+		//WallImpactParticle.p
+
 		m_isLocked = false;
 	}
 
@@ -225,6 +231,7 @@ namespace LB
 		else if ((chargerStr!= std::string::npos|| wallStr != std::string::npos || MushroomStr != std::string::npos) && m_isCharging ) //if colliding and is charging
 		{	
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHitSounds, 0.2f);
+			//WallImpactParticle->mIsActive = true;
 			//m_isStunned = true;
 			mFSM.ChangeState("Stunned"); //change state
 		}
@@ -645,6 +652,8 @@ namespace LB
 		mEnemy->mDizzyAnim->PlayRepeat("Charger_StunVFX");
 		mEnemy->mAnimator->PlayRepeat("Charger_Stunny");
 
+
+
 		mEnemy->m_isStunned = true;
 		mEnemy->mStunStopMovingElapsed = 0.0f;
 
@@ -695,6 +704,7 @@ namespace LB
 	void ChargerStunnedState::Exit()
 	{
 		mEnemy->m_isStunned = false;
+		//mEnemy->WallImpactParticle->mIsActive = false;
 		mEnemy->mDizzyRender->ToggleActiveFlag(false);
 		mEnemy->mDizzyAnim->StopAndReset();
 		mEnemy->mAnimator->StopAndReset();

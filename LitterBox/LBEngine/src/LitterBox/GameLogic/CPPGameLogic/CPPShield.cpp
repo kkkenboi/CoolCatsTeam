@@ -35,19 +35,22 @@ namespace LB
 		mTransform->SetRotation(RadToDeg(atan2f(Direction.y, Direction.x)));
 		cachedPosition = Direction;
 		cachedRot = RadToDeg(atan2f(Direction.y, Direction.x));
+
+		WallImpactParticle = mTransform->GetChild(0)->GetComponent<CPParticle>();
+		m_WallImpactParticleEmitRate = WallImpactParticle->mEmitterRate;
+		WallImpactParticle->mIsActive = false;
 	}
 
 	/*!************************************************************************
 	 * \brief Update function for the Shield, Check if it need to rotate or not
-	 * 
+	 *
 	**************************************************************************/
-	void CPPShield::Update()
+	void CPPShield::FixedUpdate()
 	{
 		//set the pos of the shield onto the charger
 		//setting the pos of the shield to be on the charger
 
 		// Rotation : Face the player
-		
 		if (!m_ScriptSet) //if theres no script, find it
 		{
 			mCharger = mTransform->GetParent()->gameObj; //get the parent of the shield
@@ -70,17 +73,30 @@ namespace LB
 			mTransform->SetRotation(RadToDeg(atan2f(Direction.y, Direction.x)));
 			cachedPosition = Direction;
 			cachedRot = RadToDeg(atan2f(Direction.y, Direction.x));
-	
 		}
 		// Scale : If facing left, set scale x = -1
 		if ((mTransform->GetParent()->GetScale().x < 0 && mTransform->GetLocalScale().x > 0) ||
-				mTransform->GetParent()->GetScale().x > 0 && mTransform->GetLocalScale().x < 0)
+			mTransform->GetParent()->GetScale().x > 0 && mTransform->GetLocalScale().x < 0)
 		{
 			Vec2<float> newScale{ mTransform->GetLocalScale() };
 			newScale.x = -newScale.x;
 
 			mTransform->SetScale(newScale);
 		}
+
+		//if (mChargerScript->m_isStunned)
+		//{
+		//	WallImpactParticle->mIsActive = true;
+		//}
+	}
+
+	/*!************************************************************************
+	 * \brief Update function for the Shield, Check if it need to rotate or not
+	 * 
+	**************************************************************************/
+	void CPPShield::Update()
+	{
+		
 	}
 
 	/*!************************************************************************
@@ -107,6 +123,8 @@ namespace LB
 		{
 			//std::cout << "GOT HIT BALL\n";
 		}
+
+
 
 ;	}
 
