@@ -172,7 +172,7 @@ namespace LB
     WindowsSystem::~WindowsSystem()
 	{
         // If there are any resources allocated, delete before destructing WindowsSystem
-        glfwDestroyCursor(m_Data.cursor);
+        glfwDestroyCursor(m_Data.m_Cursor);
 
         // Finally destroy the window context and terminate glfw
         glfwDestroyWindow(this->m_Data.m_PtrToWindow);
@@ -186,23 +186,23 @@ namespace LB
     *************************************************************************/
     void WindowsSystem::Initialize()
     {
-        //// Set the window cursor
-        //GLFWimage image{};
-        //image.width = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->width;
-        //image.height = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Aim"]].first->height;
+        // Set the window cursor       
+        GLFWimage image{};
+        image.width = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Finger"]].first->width;
+        image.height = ASSETMANAGER->Textures[ASSETMANAGER->assetMap["Finger"]].first->height;
 
-        //// - Grabbing the actual values from the texture buffer itself
-        //GLuint* pixels = new GLuint[image.width * image.height * STBI_rgb_alpha];
-        //glBindTexture(GL_TEXTURE_2D, ASSETMANAGER->GetTextureIndex("Aim"));
-        //glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-        //image.pixels = reinterpret_cast<unsigned char*>(pixels);
+        // - Grabbing the actual values from the texture buffer itself
+        GLuint* pixels = new GLuint[image.width * image.height * STBI_rgb_alpha];
+        glBindTexture(GL_TEXTURE_2D, ASSETMANAGER->GetTextureIndex("Finger"));
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
-        //// - Create an image for the cursor
-        //m_Data.cursor = glfwCreateCursor(&image, image.width / 2, image.height / 2);
-        //glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
+        image.pixels = reinterpret_cast<unsigned char*>(pixels);
 
-        // Free memory 
-        //delete[] pixels;
+        // - Create an image for the cursor
+        m_Data.m_Cursor = glfwCreateCursor(&image, 0, 0);
+
+        // Free memory
+        delete[] pixels;
     }
 
     /*!***********************************************************************
@@ -238,6 +238,7 @@ namespace LB
 
             // Set Window Title (Name + FPS)
             glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
+            glfwSetCursor(m_Data.m_PtrToWindow, m_Data.m_Cursor);
 
             if (INPUT->IsKeyTriggered(KeyCode::KEY_L))
             {
@@ -252,7 +253,6 @@ namespace LB
 
             // Set Window Title (Name + FPS)
             glfwSetWindowTitle(this->m_Data.m_PtrToWindow, title.c_str());
-            glfwSetCursor(m_Data.m_PtrToWindow, m_Data.cursor);
         }
         Draw(this->m_Data);   
     }
@@ -484,5 +484,39 @@ namespace LB
         xVPConversion = 1920.f / xVP;
         yVPConversion = 1080.f / yVP;
         heightBorderOffset = hBO;
+    }
+
+    void WindowsSystem::UpdateCursor(std::string name)
+    {
+        // Destroy the current cursor first
+        if (m_Data.m_Cursor)
+        {
+            glfwDestroyCursor(m_Data.m_Cursor);
+        }
+
+        // Set the window cursor       
+        GLFWimage image{};
+        image.width = ASSETMANAGER->Textures[ASSETMANAGER->assetMap[name]].first->width;
+        image.height = ASSETMANAGER->Textures[ASSETMANAGER->assetMap[name]].first->height;
+
+        // - Grabbing the actual values from the texture buffer itself
+        GLuint* pixels = new GLuint[image.width * image.height * STBI_rgb_alpha];
+        glBindTexture(GL_TEXTURE_2D, ASSETMANAGER->GetTextureIndex(name));
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+
+        image.pixels = reinterpret_cast<unsigned char*>(pixels);
+
+        // - Create an image for the cursor
+        if (name == "Target")
+        {
+            m_Data.m_Cursor = glfwCreateCursor(&image, image.width / 2, image.height / 2);
+        }
+        else
+        {
+            m_Data.m_Cursor = glfwCreateCursor(&image, 0, 0);
+        }
+
+        // Free memory
+        delete[] pixels;
     }
 }

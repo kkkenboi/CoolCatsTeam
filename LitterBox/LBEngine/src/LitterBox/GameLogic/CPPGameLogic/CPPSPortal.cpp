@@ -141,7 +141,7 @@ void LB::CPPSPortal::Update()
 						// Concatenate with the hole number
 						std::stringstream holeNumber;
 						char finalBuffer[256]{};
-						holeNumber << mGameManager->GetComponent<CPPSGameManager>()->GetCurrentWave();
+						holeNumber << mGameManager->GetComponent<CPPSGameManager>()->GetCurrentWave() + 1;
 						std::string buffer = "Hole " + holeNumber.str();
 						strcpy_s(finalBuffer, sizeof(finalBuffer), buffer.c_str());
 
