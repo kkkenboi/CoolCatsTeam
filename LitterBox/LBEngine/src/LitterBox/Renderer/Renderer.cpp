@@ -424,7 +424,7 @@ Renderer::Renderer::Renderer(const Renderer_Types& renderer) :
 		quad_buff_size = 200;
 		break;
 	case Renderer_Types::RT_UI:
-		quad_buff_size = 50;
+		quad_buff_size = 100;
 		break;
 	case Renderer_Types::RT_MENU:
 		quad_buff_size = 50;

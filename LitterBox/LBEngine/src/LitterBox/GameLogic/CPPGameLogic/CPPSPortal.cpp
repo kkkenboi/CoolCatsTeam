@@ -58,7 +58,7 @@ void LB::CPPSPortal::Start()
 	mPortalEmitter->GetComponent<CPParticle>()->mIsActive = false;
 	mPortalEmitter->GetComponent<CPParticle>()->mIsLooping = true;
 
-
+	/*
 	// Spawn fireworks
 	mFireworksEmitter1 = FACTORY->SpawnGameObject();
 	mFireworksEmitter1->GetComponent<CPTransform>()->SetPosition(Vec2<float>{500.f, 900.f});
@@ -69,6 +69,7 @@ void LB::CPPSPortal::Start()
 
 	// Hard-coded texture index in sprite
 	mFireworksEmitter1->GetComponent<CPRender>()->SetSpriteTexture("VFXSheet", 49);
+	*/
 }
 
 void LB::CPPSPortal::Update()
