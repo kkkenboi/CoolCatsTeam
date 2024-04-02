@@ -2,6 +2,8 @@
     "Name": "AudienceController",
     "States": [
         "Action_Cheer",
-        "Action_Hype"
+        "Action_Hype",
+        "Action_UpDown",
+        "Action_UpDownSmall"
     ]
 }
