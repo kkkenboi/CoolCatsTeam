@@ -2109,7 +2109,7 @@
                                             "Layer": 0,
                                             "Texture": "VFXCompile_SpriteSheet",
                                             "SpriteName": "VFXSheet",
-                                            "SpriteIndex": 0
+                                            "SpriteIndex": 49
                                         },
                                         "Particle": {
                                             "EmitterType": 0,

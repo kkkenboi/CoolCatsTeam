@@ -71,7 +71,7 @@ namespace LB
 
 			// Lifetime
 			particle.mLifetime = emitter->mParticleLifetime;
-			if (!emitter->mParticleLifetimeRandomness)
+			if (emitter->mParticleLifetimeRandomness)
 			{
 				particle.mLifetime += RandomRange(emitter->mParticleLifetimeMin, emitter->mParticleLifetimeMax);
 				// Clamp the particle lifetime to 0, as we don't want negative numbers
@@ -146,7 +146,7 @@ namespace LB
 
 				// Lifetime
 				particle.mLifetime = emitter->mParticleLifetime;
-				if (!emitter->mParticleLifetimeRandomness)
+				if (emitter->mParticleLifetimeRandomness)
 				{
 					particle.mLifetime += RandomRange(emitter->mParticleLifetimeMin, emitter->mParticleLifetimeMax);
 					// Clamp the particle lifetime to 0, as we don't want negative numbers
@@ -224,7 +224,7 @@ namespace LB
 					particle.mRotationSpeed += RandomRange(emitter->mRotationSpeedVariationMin, emitter->mRotationSpeedVariationMax);
 					particle.mLifetime = emitter->mParticleLifetime;
 
-					if (!emitter->mParticleLifetimeRandomness)
+					if (emitter->mParticleLifetimeRandomness)
 					{
 						particle.mLifetime += RandomRange(emitter->mParticleLifetimeMin, emitter->mParticleLifetimeMax);
 						// Clamp the particle lifetime to 0, as we don't want negative numbers
