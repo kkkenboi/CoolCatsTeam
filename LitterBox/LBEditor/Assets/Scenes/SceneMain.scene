@@ -5975,7 +5975,7 @@
             },
             {
                 "Name": "EndCrowdCheer",
-                "Active": true,
+                "Active": false,
                 "Transform": {
                     "Active": true,
                     "Position": {
@@ -5990,12 +5990,12 @@
                     "Children": [
                         {
                             "Name": "CrowdBack",
-                            "Active": true,
+                            "Active": false,
                             "Transform": {
                                 "Active": true,
                                 "Position": {
                                     "x": 0.0,
-                                    "y": 0.0
+                                    "y": -400.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -6005,7 +6005,7 @@
                                 "Children": [
                                     {
                                         "Name": "Crowd1Base",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6020,7 +6020,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "Crowd1",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6056,7 +6056,7 @@
                                     },
                                     {
                                         "Name": "Crowd2Base",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6071,7 +6071,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "Crowd2",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6107,7 +6107,7 @@
                                     },
                                     {
                                         "Name": "Crowd3Base",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6122,7 +6122,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "Crowd3",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6158,7 +6158,7 @@
                                     },
                                     {
                                         "Name": "Crowd4Base",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6173,7 +6173,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "Crowd4",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6209,7 +6209,7 @@
                                     },
                                     {
                                         "Name": "Crowd5Base",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6224,11 +6224,11 @@
                                             "Children": [
                                                 {
                                                     "Name": "Crowd5",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
-                                                            "x": 0.003778,
+                                                            "x": 0.003776,
                                                             "y": 0.0
                                                         },
                                                         "Scale": {
@@ -6260,7 +6260,7 @@
                                     },
                                     {
                                         "Name": "Crowd6Base",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6275,7 +6275,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "Crowd6",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6310,16 +6310,23 @@
                                         }
                                     }
                                 ]
+                            },
+                            "Animator": {
+                                "Default State": "None",
+                                "Play On Awake": false,
+                                "Awake Delay": 0.0,
+                                "Repeating": false,
+                                "Controller": "AudienceController"
                             }
                         },
                         {
                             "Name": "CrowdFront",
-                            "Active": true,
+                            "Active": false,
                             "Transform": {
                                 "Active": true,
                                 "Position": {
                                     "x": 0.0,
-                                    "y": 0.0
+                                    "y": -400.0
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -6329,7 +6336,7 @@
                                 "Children": [
                                     {
                                         "Name": "RabbitBase",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6344,7 +6351,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "Rabbit",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6380,7 +6387,7 @@
                                     },
                                     {
                                         "Name": "RacoonBase",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6395,7 +6402,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "Racoon",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6431,7 +6438,7 @@
                                     },
                                     {
                                         "Name": "TigerBase",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6446,7 +6453,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "Tiger",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6482,7 +6489,7 @@
                                     },
                                     {
                                         "Name": "CatYellowBase",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6497,7 +6504,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "CatYellow",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6533,7 +6540,7 @@
                                     },
                                     {
                                         "Name": "GrandpaBase",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6548,7 +6555,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "Grandpa",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6584,7 +6591,7 @@
                                     },
                                     {
                                         "Name": "CatGreyBase",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6599,7 +6606,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "CatGrey",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6635,7 +6642,7 @@
                                     },
                                     {
                                         "Name": "BestDogBase",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6650,7 +6657,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "BestDog",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6686,7 +6693,7 @@
                                     },
                                     {
                                         "Name": "MouseBase",
-                                        "Active": true,
+                                        "Active": false,
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
@@ -6701,7 +6708,7 @@
                                             "Children": [
                                                 {
                                                     "Name": "Mouse",
-                                                    "Active": true,
+                                                    "Active": false,
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
@@ -6736,6 +6743,13 @@
                                         }
                                     }
                                 ]
+                            },
+                            "Animator": {
+                                "Default State": "None",
+                                "Play On Awake": false,
+                                "Awake Delay": 0.0,
+                                "Repeating": false,
+                                "Controller": "AudienceController"
                             }
                         }
                     ]

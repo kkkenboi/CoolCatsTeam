@@ -4,6 +4,7 @@
         "Action_Cheer",
         "Action_Hype",
         "Action_UpDown",
-        "Action_UpDownSmall"
+        "Action_UpDownSmall",
+        "Action_UpDownCrowd"
     ]
 }
