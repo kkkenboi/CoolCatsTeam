@@ -1203,6 +1203,10 @@ namespace LB
 				ImGui::SameLine();
 				if (ImGui::Checkbox("##Repeating", &m_inspectedGO->GetComponent<CPAnimator>()->m_repeating))
 				{ }
+				ImGui::Text("%-17s", "Should Cull");
+				ImGui::SameLine();
+				if (ImGui::Checkbox("##ShouldCull", &m_inspectedGO->GetComponent<CPAnimator>()->m_shouldCull))
+				{ }
 
 				if (ImGui::Button("Delete Animator Component"))
 				{

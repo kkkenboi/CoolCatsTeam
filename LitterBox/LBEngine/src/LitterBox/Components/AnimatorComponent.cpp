@@ -93,40 +93,43 @@ namespace LB
 		{
 			m_elapsedTime -= m_targetTime;
 
-			LBAnimationState& currentState = m_controller.GetCurrentState();
-
-			// Update active
-			if (!currentState.m_active.Empty())
+			// If culled don't animate
+			if (!m_isCulled) 
 			{
-				bool shouldBeActive = currentState.m_active.GetCurrentExact(currentState.m_currentFrame);
-				if (gameObj->IsActive() != shouldBeActive)
+				LBAnimationState& currentState = m_controller.GetCurrentState();
+				// Update active
+				if (!currentState.m_active.Empty())
 				{
-					gameObj->SetActive(shouldBeActive);
+					bool shouldBeActive = currentState.m_active.GetCurrentExact(currentState.m_currentFrame);
+					if (gameObj->IsActive() != shouldBeActive)
+					{
+						gameObj->SetActive(shouldBeActive);
+					}
 				}
-			}
-			// Update pos
-			if (!currentState.m_pos.Empty())
-			{
-				Vec2<float> animPos = currentState.m_pos.GetCurrentExact(currentState.m_currentFrame);
-				GetComponent<CPTransform>()->SetPosition(animPos);
-			}
-			// Update scale
-			if (!currentState.m_scale.Empty())
-			{
-				Vec2<float> animScale = currentState.m_scale.GetCurrentExact(currentState.m_currentFrame);
-				GetComponent<CPTransform>()->SetScale(animScale);
-			}
-			// Update rotation
-			if (!currentState.m_rot.Empty())
-			{
-				float animRot = currentState.m_rot.GetCurrentExact(currentState.m_currentFrame);
-				GetComponent<CPTransform>()->SetRotation(animRot);
-			}
-			// Update image
-			if (!currentState.m_sprite.Empty())
-			{
-				int spriteIndex = currentState.m_sprite.GetCurrentExact(currentState.m_currentFrame);
-				m_render->SetSpriteTexture(currentState.m_spriteSheetName, spriteIndex);
+				// Update pos
+				if (!currentState.m_pos.Empty())
+				{
+					Vec2<float> animPos = currentState.m_pos.GetCurrentExact(currentState.m_currentFrame);
+					GetComponent<CPTransform>()->SetPosition(animPos);
+				}
+				// Update scale
+				if (!currentState.m_scale.Empty())
+				{
+					Vec2<float> animScale = currentState.m_scale.GetCurrentExact(currentState.m_currentFrame);
+					GetComponent<CPTransform>()->SetScale(animScale);
+				}
+				// Update rotation
+				if (!currentState.m_rot.Empty())
+				{
+					float animRot = currentState.m_rot.GetCurrentExact(currentState.m_currentFrame);
+					GetComponent<CPTransform>()->SetRotation(animRot);
+				}
+				// Update image
+				if (!currentState.m_sprite.Empty())
+				{
+					int spriteIndex = currentState.m_sprite.GetCurrentExact(currentState.m_currentFrame);
+					m_render->SetSpriteTexture(currentState.m_spriteSheetName, spriteIndex);
+				}
 			}
 
 			m_controller.Update();
@@ -327,6 +330,7 @@ namespace LB
 		data.AddMember("Awake Delay", m_awakeDelay, alloc);
 
 		data.AddMember("Repeating", m_repeating, alloc);
+		data.AddMember("Should Cull", m_shouldCull, alloc);
 
 		Value controllerValue(m_controller.m_name.c_str(), alloc);
 		data.AddMember("Controller", controllerValue, alloc);
@@ -344,6 +348,7 @@ namespace LB
 		bool HasPlayOnAwake = data.HasMember("Play On Awake");
 		bool HasAwakeDelay = data.HasMember("Awake Delay");
 		bool HasRepeating = data.HasMember("Repeating");
+		bool HasShouldCull = data.HasMember("Should Cull");
 		bool HasController = data.HasMember("Controller");
 
 		if (data.IsObject())
@@ -364,6 +369,10 @@ namespace LB
 			if (HasRepeating)
 			{
 				m_repeating = data["Repeating"].GetBool();
+			}
+			if (HasShouldCull)
+			{
+				m_shouldCull = data["Should Cull"].GetBool();
 			}
 			if (HasController)
 			{

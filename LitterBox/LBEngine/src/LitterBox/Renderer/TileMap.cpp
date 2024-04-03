@@ -417,8 +417,8 @@ namespace LB
 					//newGO->GetComponent<CPRender>()->z_val = static_cast<float>(tm.Size() - layer) - 0.1f;
 
 					//edit the Width and Height of the CPRender
-					newGO->GetComponent<CPRender>()->w = w + 0.1f;
-					newGO->GetComponent<CPRender>()->h = h + 0.1f;
+					newGO->GetComponent<CPRender>()->w = w + 1.5f;
+					newGO->GetComponent<CPRender>()->h = h + 1.5f;
 
 					newGO->GetComponent<CPTransform>()->SetParent(parentGO->GetComponent<CPTransform>());
 				}

@@ -24,11 +24,11 @@ namespace LB
 	void CPPSAudience::Start()
 	{
 		m_randomDelayMin = 0.05f;
-		m_randomDelayMax = 0.5f;
+		m_randomDelayMax = 1.5f;
 		m_randomDelayElapsed = m_randomDelayMin + static_cast<float>(std::rand()) / (RAND_MAX / (m_randomDelayMax - m_randomDelayMin));
 
 		m_cheerDelayMin = 0.05f;
-		m_cheerDelayMax = 0.2f;
+		m_cheerDelayMax = 1.0f;
 
 		// Play anim and randomize sprite
 		m_animator = GetComponent<CPAnimator>();
@@ -41,7 +41,7 @@ namespace LB
 			m_cheerDelayElapsed -= static_cast<float>(TIME->GetDeltaTime());
 			if (m_cheerDelayElapsed <= 0.f)
 			{
-				m_animator->PlayAndReset("Action_Cheer");
+				m_animator->PlayRepeat("Action_Cheer");
 				m_cheerElapsed = m_cheerTime;
 			}
 			return;
