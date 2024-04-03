@@ -38,8 +38,8 @@
         "RadialSpeed": 100.0,
         "SizeBegin": 1.0,
         "SizeEnd": 2.0,
-        "EmitterLifetime": 0.5,
-        "ParticleLifetime": 0.009998,
+        "EmitterLifetime": 1.0,
+        "ParticleLifetime": 1.0,
         "EmitterActive": true,
         "EmitterLooping": false
     }

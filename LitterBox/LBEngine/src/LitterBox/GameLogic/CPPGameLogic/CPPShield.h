@@ -53,8 +53,7 @@ namespace LB
 		// TODO: REFACTOR, TEMP HACK UNTIL CHILD STARTING IS FIXED
 		bool m_ScriptSet{ false };
 
-		CPParticle* WallImpactParticle{ nullptr }; //Foot Particles
-		float m_WallImpactParticleEmitRate{};
+		bool hasPlayedVFX{ false };
 
 		CPCollider* GetCollider(); //getter for collider
 

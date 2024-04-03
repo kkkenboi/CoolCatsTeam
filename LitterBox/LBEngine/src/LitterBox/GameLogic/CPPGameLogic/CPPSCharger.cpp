@@ -123,12 +123,6 @@ namespace LB
 		m_FootstepsParticleEmitRate = FootstepsParticle->mEmitterRate;
 		FootstepsParticle->mIsActive = false;
 
-		//Wall Impact Particle
-		//WallImpactParticle = mTransform->GetChild(7)->GetComponent<CPParticle>();
-		//m_WallImpactParticleEmitRate = WallImpactParticle->mEmitterRate;
-		//WallImpactParticle->mIsActive = false;
-		//WallImpactParticle.p
-
 		m_isLocked = false;
 	}
 
@@ -139,17 +133,6 @@ namespace LB
 	void CPPSCharger::Update()
 	{
 		CPPSBaseEnemy::Update();
-
-		//if (!facingLeft)
-		//{
-		//	mAngerObjTwoTrans->SetPosition(Vec2<float>(58.0f, 7.0f));
-		//	mAngerObjTwoTrans->SetRotation(5.10f);
-		//}
-		//else if (facingLeft)
-		//{
-		//	mAngerObjTwoTrans->SetPosition(Vec2<float>(-58.0f, 7.0f));
-		//	mAngerObjTwoTrans->SetRotation(-5.10f);
-		//}
 
 		if (mInitialised == false)
 		{
@@ -180,6 +163,11 @@ namespace LB
 
 		mFSM.Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	FixedUpdate Behaviour for Charger for any physics calculations
+	*************************************************************************/
 
 	void CPPSCharger::FixedUpdate()
 	{
@@ -651,7 +639,6 @@ namespace LB
 
 		mEnemy->mDizzyAnim->PlayRepeat("Charger_StunVFX");
 		mEnemy->mAnimator->PlayRepeat("Charger_Stunny");
-
 
 
 		mEnemy->m_isStunned = true;
