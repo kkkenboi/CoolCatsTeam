@@ -44,14 +44,9 @@ namespace LB
 		crowdTexture = GOMANAGER->FindGameObjectWithName("EndCrowdCheer");
 		gameOverTexture = GOMANAGER->FindGameObjectWithName("ActualTexture");
 		killerTexture = GOMANAGER->FindGameObjectWithName("Killer");
-		//we also wanna cache the position of the UI so we can set it back later
-		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
 	
 		//Set the player's spawn point
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
-
-	
-
 
 		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
 		//into a list

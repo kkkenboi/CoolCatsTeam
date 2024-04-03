@@ -499,6 +499,7 @@
                                 "Play On Awake": false,
                                 "Awake Delay": 0.0,
                                 "Repeating": false,
+                                "Should Cull": false,
                                 "Controller": "VFXController"
                             }
                         }
@@ -519,6 +520,7 @@
                     "Play On Awake": false,
                     "Awake Delay": 0.0,
                     "Repeating": false,
+                    "Should Cull": false,
                     "Controller": "VFXController"
                 }
             },
