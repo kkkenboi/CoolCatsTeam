@@ -93,40 +93,43 @@ namespace LB
 		{
 			m_elapsedTime -= m_targetTime;
 
-			LBAnimationState& currentState = m_controller.GetCurrentState();
-
-			// Update active
-			if (!currentState.m_active.Empty())
+			// If culled don't animate
+			if (!m_isCulled) 
 			{
-				bool shouldBeActive = currentState.m_active.GetCurrentExact(currentState.m_currentFrame);
-				if (gameObj->IsActive() != shouldBeActive)
+				LBAnimationState& currentState = m_controller.GetCurrentState();
+				// Update active
+				if (!currentState.m_active.Empty())
 				{
-					gameObj->SetActive(shouldBeActive);
+					bool shouldBeActive = currentState.m_active.GetCurrentExact(currentState.m_currentFrame);
+					if (gameObj->IsActive() != shouldBeActive)
+					{
+						gameObj->SetActive(shouldBeActive);
+					}
 				}
-			}
-			// Update pos
-			if (!currentState.m_pos.Empty())
-			{
-				Vec2<float> animPos = currentState.m_pos.GetCurrentExact(currentState.m_currentFrame);
-				GetComponent<CPTransform>()->SetPosition(animPos);
-			}
-			// Update scale
-			if (!currentState.m_scale.Empty())
-			{
-				Vec2<float> animScale = currentState.m_scale.GetCurrentExact(currentState.m_currentFrame);
-				GetComponent<CPTransform>()->SetScale(animScale);
-			}
-			// Update rotation
-			if (!currentState.m_rot.Empty())
-			{
-				float animRot = currentState.m_rot.GetCurrentExact(currentState.m_currentFrame);
-				GetComponent<CPTransform>()->SetRotation(animRot);
-			}
-			// Update image
-			if (!currentState.m_sprite.Empty())
-			{
-				int spriteIndex = currentState.m_sprite.GetCurrentExact(currentState.m_currentFrame);
-				m_render->SetSpriteTexture(currentState.m_spriteSheetName, spriteIndex);
+				// Update pos
+				if (!currentState.m_pos.Empty())
+				{
+					Vec2<float> animPos = currentState.m_pos.GetCurrentExact(currentState.m_currentFrame);
+					GetComponent<CPTransform>()->SetPosition(animPos);
+				}
+				// Update scale
+				if (!currentState.m_scale.Empty())
+				{
+					Vec2<float> animScale = currentState.m_scale.GetCurrentExact(currentState.m_currentFrame);
+					GetComponent<CPTransform>()->SetScale(animScale);
+				}
+				// Update rotation
+				if (!currentState.m_rot.Empty())
+				{
+					float animRot = currentState.m_rot.GetCurrentExact(currentState.m_currentFrame);
+					GetComponent<CPTransform>()->SetRotation(animRot);
+				}
+				// Update image
+				if (!currentState.m_sprite.Empty())
+				{
+					int spriteIndex = currentState.m_sprite.GetCurrentExact(currentState.m_currentFrame);
+					m_render->SetSpriteTexture(currentState.m_spriteSheetName, spriteIndex);
+				}
 			}
 
 			m_controller.Update();

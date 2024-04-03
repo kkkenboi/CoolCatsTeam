@@ -26,6 +26,7 @@ namespace LB
 	void AnimationManager::Initialize()
 	{
 		CORE->onPlayingModeToggle.Subscribe(StartAnimators);
+		SCENEMANAGER->onNewSceneLoad.Subscribe(NewSceneAnimators);
 	}
 
 	/*!***********************************************************************
@@ -51,10 +52,11 @@ namespace LB
 
 		for (auto& anim : m_animators)
 		{
-			if (!anim->m_shouldCull || m_cam->IsVisible(anim->GetComponent<CPTransform>()))
+			if (anim->m_shouldCull)
 			{
-				anim->Update();
+				anim->m_isCulled = !m_cam->IsVisible(anim->GetComponent<CPTransform>());
 			}
+			anim->Update();
 		}
 	}
 
@@ -103,6 +105,11 @@ namespace LB
 		m_animators.clear();
 	}
 
+	void AnimationManager::ClearCameraFollow()
+	{
+		m_cam = nullptr;
+	}
+
 	/*!***********************************************************************
 	 \brief
 	 Global event function that starts the animators when the game is playing.
@@ -117,5 +124,11 @@ namespace LB
 		{
 			AnimationManager::Instance()->ClearAnimators();
 		}
+	}
+
+	void NewSceneAnimators(Scene* newScene)
+	{
+		UNREFERENCED_PARAMETER(newScene);
+		AnimationManager::Instance()->ClearCameraFollow();
 	}
 }
