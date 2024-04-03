@@ -18,6 +18,7 @@
 
 #include "LitterBox/Core/System.h"
 #include "LitterBox/Components/AnimatorComponent.h"
+#include "LitterBox/GameLogic/CPPGameLogic/CPPSCameraFollow.h"
 
 namespace LB
 {
@@ -73,6 +74,7 @@ namespace LB
 		void ClearAnimators();
 
 	private:
+		CPPSCameraFollow* m_cam{ nullptr };
 		std::vector<CPAnimator*> m_animators;
 	};
 

@@ -327,6 +327,7 @@ namespace LB
 		data.AddMember("Awake Delay", m_awakeDelay, alloc);
 
 		data.AddMember("Repeating", m_repeating, alloc);
+		data.AddMember("Should Cull", m_shouldCull, alloc);
 
 		Value controllerValue(m_controller.m_name.c_str(), alloc);
 		data.AddMember("Controller", controllerValue, alloc);
@@ -344,6 +345,7 @@ namespace LB
 		bool HasPlayOnAwake = data.HasMember("Play On Awake");
 		bool HasAwakeDelay = data.HasMember("Awake Delay");
 		bool HasRepeating = data.HasMember("Repeating");
+		bool HasShouldCull = data.HasMember("Should Cull");
 		bool HasController = data.HasMember("Controller");
 
 		if (data.IsObject())
@@ -364,6 +366,10 @@ namespace LB
 			if (HasRepeating)
 			{
 				m_repeating = data["Repeating"].GetBool();
+			}
+			if (HasShouldCull)
+			{
+				m_shouldCull = data["Should Cull"].GetBool();
 			}
 			if (HasController)
 			{

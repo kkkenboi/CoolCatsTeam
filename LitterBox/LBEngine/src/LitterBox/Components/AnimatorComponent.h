@@ -170,7 +170,7 @@ namespace LB
 
 		// For animating without scripts
 		std::string m_defaultState{ "None" }, m_delayName{};
-		bool m_playOnAwake{ false }, m_repeating{ false };
+		bool m_playOnAwake{ false }, m_repeating{ false }, m_shouldCull{ false };
 
 	private:
 		// Save render data prior to anim for resetting

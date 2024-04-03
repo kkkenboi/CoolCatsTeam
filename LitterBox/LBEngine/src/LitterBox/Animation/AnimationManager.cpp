@@ -47,10 +47,14 @@ namespace LB
 	void AnimationManager::Update()
 	{
 		if (!CORE->IsPlaying()) return;
+		if (!m_cam) m_cam = GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPPSCameraFollow>();
 
 		for (auto& anim : m_animators)
 		{
-			anim->Update();
+			if (!anim->m_shouldCull || m_cam->IsVisible(anim->GetComponent<CPTransform>()))
+			{
+				anim->Update();
+			}
 		}
 	}
 

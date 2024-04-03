@@ -33,6 +33,12 @@ namespace LB
 		void Update() override;
 		void Destroy() override;
 
+		/*!***********************************************************************
+		\brief
+		 Returns true if the object is visible to the camera
+		*************************************************************************/
+		bool IsVisible(CPTransform const* obj) const;
+		
 		Vec2<float> cameraPos{};
 	private:
 		GameObject* mPlayer{ nullptr };
