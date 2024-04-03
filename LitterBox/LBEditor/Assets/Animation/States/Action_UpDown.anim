@@ -1,0 +1,76 @@
+{
+    "Name": "Action_UpDown",
+    "SpriteSheet Name": "None",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            {
+                "Frame": 10,
+                "Data": {
+                    "x": 0.0,
+                    "y": 50.0
+                }
+            },
+            {
+                "Frame": 20,
+                "Data": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            }
+        ]
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 10,
+                "Data": {
+                    "x": 0.97,
+                    "y": 1.029999
+                }
+            },
+            {
+                "Frame": 20,
+                "Data": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
+            }
+        ]
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": []
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": []
+    },
+    "Start": 0,
+    "End": 20
+}

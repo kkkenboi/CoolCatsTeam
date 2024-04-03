@@ -32,6 +32,34 @@
                 }
             },
             {
+                "Name": "AudioManager",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSAudioManager"
+                },
+                "AudioSource": {
+                    "Active": true,
+                    "AudioClipName": "",
+                    "Play On Awake": true,
+                    "Loop": false,
+                    "Volume": 1.0,
+                    "Pitch": 1.0
+                }
+            },
+            {
                 "Name": "MouseCursor",
                 "Active": true,
                 "Transform": {
@@ -2081,7 +2109,7 @@
                                             "Layer": 0,
                                             "Texture": "VFXCompile_SpriteSheet",
                                             "SpriteName": "VFXSheet",
-                                            "SpriteIndex": 0
+                                            "SpriteIndex": 49
                                         },
                                         "Particle": {
                                             "EmitterType": 0,

@@ -112,6 +112,9 @@ namespace LB {
 		// Up : 0, Y
 		// Down : 0, -Y
 
+		// Gravity
+		bool mIsGravityOn{ false };
+
 		// Sizes
 		float mEmitterSizeBegin{ 1.f };
 		float mEmitterSizeEnd{ 1.f };

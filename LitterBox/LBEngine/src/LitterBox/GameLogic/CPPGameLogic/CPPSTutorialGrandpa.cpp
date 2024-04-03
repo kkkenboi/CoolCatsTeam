@@ -17,6 +17,8 @@
 #include "CPPSTutorial1.h"
 #include "CPPSTutorial2.h"
 #include "CPPSTutorial3.h"
+#include "CPPSTutorial4.h"
+#include "CPPSTutorial5.h"
 
 namespace LB 
 {
@@ -36,6 +38,8 @@ namespace LB
 		BubbleItems = GOMANAGER->FindGameObjectWithName("BubbleItems");
 		BubbleScore = GOMANAGER->FindGameObjectWithName("BubbleScore");
 		BubblePortal = GOMANAGER->FindGameObjectWithName("BubblePortal");
+		BubbleSandpit = GOMANAGER->FindGameObjectWithName("BubbleSandpit");
+		BubbleObstacles = GOMANAGER->FindGameObjectWithName("BubbleObstacles");
 
 		BubbleWASD->GetComponent<CPRender>()->ToggleActiveFlag(true);
 		BubbleMouse->GetComponent<CPRender>()->ToggleActiveFlag(false);
@@ -43,10 +47,14 @@ namespace LB
 		BubbleItems->GetComponent<CPRender>()->ToggleActiveFlag(false);
 		BubbleScore->GetComponent<CPRender>()->ToggleActiveFlag(false);
 		BubblePortal->GetComponent<CPRender>()->ToggleActiveFlag(false);
+		BubbleSandpit->GetComponent<CPRender>()->ToggleActiveFlag(false);
+		BubbleObstacles->GetComponent<CPRender>()->ToggleActiveFlag(false);
 
 		Tutorial1 = GOMANAGER->FindGameObjectWithName("Tutorial1");
 		Tutorial2 = GOMANAGER->FindGameObjectWithName("Tutorial2");
 		Tutorial3 = GOMANAGER->FindGameObjectWithName("Tutorial3");
+		Tutorial4 = GOMANAGER->FindGameObjectWithName("Tutorial4");
+		Tutorial5 = GOMANAGER->FindGameObjectWithName("Tutorial5");
 	}
 
 	/*!***********************************************************************
@@ -64,6 +72,8 @@ namespace LB
 			BubbleItems->GetComponent<CPRender>()->ToggleActiveFlag(false);
 			BubbleScore->GetComponent<CPRender>()->ToggleActiveFlag(false);
 			BubblePortal->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleSandpit->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleObstacles->GetComponent<CPRender>()->ToggleActiveFlag(false);
 		}
 		if (Tutorial2->GetComponent<CPPSTutorial2>()->collided == true)
 		{
@@ -73,8 +83,32 @@ namespace LB
 			BubbleItems->GetComponent<CPRender>()->ToggleActiveFlag(false);
 			BubbleScore->GetComponent<CPRender>()->ToggleActiveFlag(false);
 			BubblePortal->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleSandpit->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleObstacles->GetComponent<CPRender>()->ToggleActiveFlag(false);
 		}
 		if (Tutorial3->GetComponent<CPPSTutorial3>()->collided == true)
+		{
+			BubbleWASD->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleMouse->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleEnemies->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleItems->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleScore->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubblePortal->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleSandpit->GetComponent<CPRender>()->ToggleActiveFlag(true);
+			BubbleObstacles->GetComponent<CPRender>()->ToggleActiveFlag(false);
+		}
+		if (Tutorial4->GetComponent<CPPSTutorial4>()->collided == true)
+		{
+			BubbleWASD->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleMouse->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleEnemies->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleItems->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleScore->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubblePortal->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleSandpit->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleObstacles->GetComponent<CPRender>()->ToggleActiveFlag(true);
+		}
+		if (Tutorial5->GetComponent<CPPSTutorial5>()->collided == true)
 		{
 			BubbleWASD->GetComponent<CPRender>()->ToggleActiveFlag(false);
 			BubbleMouse->GetComponent<CPRender>()->ToggleActiveFlag(false);
@@ -82,8 +116,9 @@ namespace LB
 			BubbleItems->GetComponent<CPRender>()->ToggleActiveFlag(true);
 			BubbleScore->GetComponent<CPRender>()->ToggleActiveFlag(false);
 			BubblePortal->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleSandpit->GetComponent<CPRender>()->ToggleActiveFlag(false);
+			BubbleObstacles->GetComponent<CPRender>()->ToggleActiveFlag(false);
 		}
-		
 	}
 	/*!***********************************************************************
 	\brief

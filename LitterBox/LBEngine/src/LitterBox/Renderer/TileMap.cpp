@@ -413,8 +413,8 @@ namespace LB
 						break;
 					}
 					newGO->GetComponent<CPRender>()->z_val = z;
+					Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_BACKGROUND, newGO->GetComponent<CPRender>());
 					//newGO->GetComponent<CPRender>()->z_val = static_cast<float>(tm.Size() - layer) - 0.1f;
-					//Renderer::GRAPHICS->swap_object_type(Renderer::Renderer_Types::RT_OBJECT, newGO->GetComponent<CPRender>());
 
 					//edit the Width and Height of the CPRender
 					newGO->GetComponent<CPRender>()->w = w + 0.1f;
