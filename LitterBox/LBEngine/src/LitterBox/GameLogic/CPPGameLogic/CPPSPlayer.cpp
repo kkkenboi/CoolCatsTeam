@@ -31,6 +31,7 @@
 #include "CPPSMouseWorld.h"
 #include "LitterBox/Core/Core.h"
 #include "CPPAudioManager.h"
+#include "CPPVFXManager.h"
 
 namespace LB
 {
@@ -455,6 +456,11 @@ namespace LB
 				mStunTimer = 0.15f;
 				mIsStunned = true;
 			}
+		}
+
+		if (colData.colliderOther->m_gameobj->GetName() == "ChaserClub")
+		{
+			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(trans->GetPosition());
 		}
 	}
 

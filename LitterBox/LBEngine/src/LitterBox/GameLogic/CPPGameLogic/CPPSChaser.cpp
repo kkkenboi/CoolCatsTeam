@@ -38,6 +38,7 @@ namespace LB
 		mRender = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPRender>();
 		mAnimator = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPAnimator>();
 		m_moveAnimator = GetComponent<CPTransform>()->GetChild()->GetComponent<CPAnimator>();
+		m_club = GetComponent<CPTransform>()->GetChild()->GetChild()->GetChild()->GetChild()->gameObj;
 
 		//Then we init all the states
 		IdleState* IDLESTATE = DBG_NEW IdleState(this, mFSM, "Idle");
@@ -56,6 +57,8 @@ namespace LB
 		//screen is 1920x1080. 800 should be just nice
 		mDetectionRange = 800.f;
 		mInitialised = true;
+
+		//chaserClubCol = GetComponent<CPTransform>()->GetChild()->GetChild()->GetChild()->gameObj;
 	}
 
 	/*!***********************************************************************
@@ -85,6 +88,22 @@ namespace LB
 		if (mGotAttackedCooldown > 0.0f) {
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
+
+		if (facingLeft != clubFacingLeft)
+		{
+			if (facingLeft)
+			{
+				m_club->GetComponent<CPTransform>()->SetPosition({ -20.f, 0.f });
+				m_club->GetComponent<CPTransform>()->SetRotation(-120.f);
+			}
+			else
+			{
+				m_club->GetComponent<CPTransform>()->SetPosition({ 20.f, 0.f });
+				m_club->GetComponent<CPTransform>()->SetRotation(120.f);
+			}
+			clubFacingLeft = facingLeft;
+		}
+		//if(chaserClubCol->GetComponent<CPCollider>()->m_collided)
 
 		mFSM.Update();
 	}
@@ -148,8 +167,17 @@ namespace LB
 			mFSM.ChangeState("Hurt");
 			Hurt();	//This is here to play the anim
 		}
-		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") { 
-			GetAnimator()->PlayAndReset("Melee_Attack");
+		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") 
+		{ 
+			//GetAnimator()->PlayAndReset("Melee_Attack");
+			//if (facingLeft)
+			//{
+			//	m_clubAnim->PlayAndReset("Melee_Swing_Left");
+			//}
+			//else
+			//{
+			//	m_clubAnim->PlayAndReset("Melee_Swing_Right");
+			//}
 			m_moveAnimator->StopAndReset();
 			mFSM.ChangeState("Hurt"); 
 		}
