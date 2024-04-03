@@ -50,6 +50,8 @@
 #include "CPPSAudience.h"
 #include "CPPSplashScreen.h"
 #include "CPPAudioManager.h"
+#include "CPPSSettings.h"
+
 namespace LB 
 {
 	// I genuinely can't figure out why the struct method of registering is not working even though it 100% should.

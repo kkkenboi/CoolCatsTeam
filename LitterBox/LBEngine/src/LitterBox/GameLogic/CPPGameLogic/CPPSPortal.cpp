@@ -11,6 +11,7 @@ void LB::CPPSPortal::Start()
 	mGameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 	mPortalCenter = GOMANAGER->FindGameObjectWithName("PortalCenter");
 	mLevelBoard = GOMANAGER->FindGameObjectWithName("LevelBoard");
+	mLevelBoard->SetActive(false);
 
 	// Particle Emitter for the Portal
 	/*
@@ -136,6 +137,7 @@ void LB::CPPSPortal::Update()
 					// Plays the starting animation for the level transition
 					if (playStartAnim)
 					{
+						mLevelBoard->SetActive(true);
 						mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPAnimator>()->Play("VFX_ExpandH");
 
 						// Concatenate with the hole number
@@ -221,6 +223,7 @@ void LB::CPPSPortal::Update()
 		rotTimer = 0.f;
 		circleTimer = 0.f;
 		intermissionTimer = 0.f;
+		mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->m_awakeDelay = 0.f;
 		expandOut = true;
 		playPortalSound = false;
 		playStartAnim = true;

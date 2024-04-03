@@ -34,8 +34,8 @@ namespace LB
 		m_PlayerCurrentHealth = 3;
 		m_PlayerMaxBalls = 3;
 		m_PlayerCurrentBalls = 0;
-		m_PlayerWalkSpeed = 950.0f;
-		m_PlayerMaxSpeed = 1750.0f;
+		m_PlayerWalkSpeed = 600.0f;
+		m_PlayerMaxSpeed = 800.0f;
 		m_PlayerArbitraryFriction = 0.95f;
 
 		//We also need to grab the crowdTexture
@@ -45,14 +45,9 @@ namespace LB
 		crowdTexture = GOMANAGER->FindGameObjectWithName("EndCrowdCheer");
 		gameOverTexture = GOMANAGER->FindGameObjectWithName("ActualTexture");
 		killerTexture = GOMANAGER->FindGameObjectWithName("Killer");
-		//we also wanna cache the position of the UI so we can set it back later
-		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
 	
 		//Set the player's spawn point
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
-
-	
-
 
 		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
 		//into a list

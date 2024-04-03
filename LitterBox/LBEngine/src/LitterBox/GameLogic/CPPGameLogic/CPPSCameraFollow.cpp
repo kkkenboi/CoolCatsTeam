@@ -65,4 +65,16 @@ namespace LB
 	void CPPSCameraFollow::Destroy()
 	{
 	}
+
+	bool CPPSCameraFollow::IsVisible(CPTransform const* obj) const
+	{
+		Vec2<float> objPos = obj->GetPosition();
+		if (objPos.x < currentPos.x - 1035.f || objPos.x > currentPos.x + 1035.f
+		 || objPos.y < currentPos.y - 615.f || objPos.y > currentPos.y + 615.f)
+		{
+			return false;
+		}
+		return true;
+	}
+
 }	

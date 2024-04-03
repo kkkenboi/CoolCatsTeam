@@ -45,6 +45,9 @@ namespace LB
 		GameObject* HowToPlayButton{ nullptr };
 		GameObject* QuitButton{ nullptr };
 
+		GameObject* Settings{ nullptr };
+		GameObject* MainMenu{ nullptr };
+
 		// How to play
 		GameObject* HowToPlayTexture{ nullptr };
 		GameObject* HowToPlayBackButton{ nullptr };
@@ -53,6 +56,20 @@ namespace LB
 		GameObject* QuitTexture{ nullptr };
 		GameObject* QuitYesButton{ nullptr };
 		GameObject* QuitNoButton{ nullptr };
+
+		// Settings
+		GameObject* SettingsMenuTexture{ nullptr };
+		GameObject* SettingsMenuBack{ nullptr };
+		GameObject* SettingsMenuFullscreen{ nullptr };
+
+		GameObject* SettingsMenuMV{ nullptr };
+		GameObject* SettingsMenuMVCollider{ nullptr };
+
+		GameObject* SettingsMenuSFX{ nullptr };
+		GameObject* SettinesMenuSFXCollider{ nullptr };
+
+		GameObject* SettingsMenuMusic{ nullptr };
+		GameObject* SettingsMenuMusicCollider{ nullptr };
 
 		// Underline
 		GameObject* Underline{nullptr};

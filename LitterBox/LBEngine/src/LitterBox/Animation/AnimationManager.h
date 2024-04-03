@@ -18,6 +18,8 @@
 
 #include "LitterBox/Core/System.h"
 #include "LitterBox/Components/AnimatorComponent.h"
+#include "LitterBox/GameLogic/CPPGameLogic/CPPSCameraFollow.h"
+#include "LitterBox/Scene/SceneManager.h"
 
 namespace LB
 {
@@ -71,8 +73,11 @@ namespace LB
 		 Removes all the animators from the game.
 		*************************************************************************/
 		void ClearAnimators();
+		void ClearCameraFollow(std::string const& name);
 
 	private:
+		bool m_shouldCheckCulling{ false };
+		CPPSCameraFollow* m_cam{ nullptr };
 		std::vector<CPAnimator*> m_animators;
 	};
 
@@ -81,4 +86,5 @@ namespace LB
 	 Global event function that starts the animators when the game is playing.
 	*************************************************************************/
 	void StartAnimators(bool isPlaying);
+	void NewSceneAnimators(Scene* newScene);
 }
