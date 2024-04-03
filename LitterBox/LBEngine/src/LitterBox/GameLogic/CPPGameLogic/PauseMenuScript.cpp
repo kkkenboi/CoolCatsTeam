@@ -346,6 +346,7 @@ namespace LB
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 395.f - 20.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
+						TIME->Pause(false);
 						SCENEMANAGER->LoadScene("SceneMainMenu");
 					}
 				}
