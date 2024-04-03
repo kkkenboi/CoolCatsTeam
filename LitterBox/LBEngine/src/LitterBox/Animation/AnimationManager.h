@@ -73,9 +73,10 @@ namespace LB
 		 Removes all the animators from the game.
 		*************************************************************************/
 		void ClearAnimators();
-		void ClearCameraFollow();
+		void ClearCameraFollow(std::string const& name);
 
 	private:
+		bool m_shouldCheckCulling{ false };
 		CPPSCameraFollow* m_cam{ nullptr };
 		std::vector<CPAnimator*> m_animators;
 	};
