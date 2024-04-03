@@ -45,7 +45,7 @@ namespace LB
 
 	private:
 		float m_randomDelayMin{}, m_randomDelayMax{}, m_randomDelayElapsed{ 0.0f };
-		float m_cheerTime{ 3.0f }, m_cheerElapsed{ 0.0f };
+		float m_cheerTime{ 3.75f }, m_cheerElapsed{ 0.0f };
 		float m_cheerDelayMin{}, m_cheerDelayMax{}, m_cheerDelayElapsed{0.0f};
 		CPAnimator* m_animator{ nullptr };
 	};
