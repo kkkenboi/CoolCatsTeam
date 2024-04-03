@@ -115,11 +115,17 @@ namespace LB
 	**************************************************************************/
 	void CPPShield::OnCollisionEnter(CollisionData colData)
 	{
+		std::string str(colData.colliderOther->m_gameobj->GetName());
+		//size_t brambleStr = str.find("Bramble");
 		if (colData.colliderOther->m_gameobj->GetName() == "Shield") //Shield collide with another Shield
 		{
 			//std::cout << "Collided with: " << colData.colliderOther->m_gameobj->GetName() << "\n";
 			mChargerScript->ChangeToStunned();
 		}
+		//else if (brambleStr != std::string::npos)
+		//{
+		//	mChargerScript->ChangeToHurt();
+		//}
 ;	}
 
 	/*!************************************************************************

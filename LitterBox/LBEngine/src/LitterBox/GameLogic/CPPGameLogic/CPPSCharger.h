@@ -94,6 +94,8 @@ namespace LB
 		bool m_isCharging{  }, m_isStunned{  }, m_isHurt{  }, m_isLocked{  };
 		// A helper function to change state in the shield
 		void ChangeToStunned();
+		void ChangeToHurt();
+
 
 	private:
 		FiniteStateMachine mFSM{};
