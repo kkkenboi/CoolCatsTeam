@@ -184,7 +184,8 @@ namespace LB
     {
         this->mAcceleration = this->mForce / this->mMass;
         this->mVelocity += this->mAcceleration * time;
-        this->mVelocity = this->mVelocity * this->mFriction;
+        
+        this->mVelocity = this->mVelocity * (1.0f - ((1.0f - this->mFriction) * TIME->GetTimeScale()));
 
         float threshold = 0.01f;
         if (PHY_MATH::Absolute(mVelocity.x) < threshold) {

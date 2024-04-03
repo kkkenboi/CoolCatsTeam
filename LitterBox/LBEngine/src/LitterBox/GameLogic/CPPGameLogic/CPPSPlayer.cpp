@@ -66,7 +66,7 @@ namespace LB
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
-		m_shootForce = 4500.0f;
+		m_shootForce = 3500.0f;
 		m_shootRadius = 120.0f;
 
 		// 1 seconds of invincibility

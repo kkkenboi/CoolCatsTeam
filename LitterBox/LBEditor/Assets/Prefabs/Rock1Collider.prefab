@@ -1,0 +1,72 @@
+{
+    "Name": "Rock1Collider",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 630.769165,
+            "y": -626.884033
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "Shadow",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": -32.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 155.0,
+                    "Height": 50.0,
+                    "ZLayer": 3.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 55
+                }
+            }
+        ]
+    },
+    "RigidBody": {
+        "Active": true,
+        "Width": 100.0,
+        "Height": 100.0,
+        "Density": 10.0,
+        "IsStatic": true
+    },
+    "Render": {
+        "Active": true,
+        "Width": 150.0,
+        "Height": 150.0,
+        "ZLayer": 1.0,
+        "Layer": 0,
+        "Texture": "Multi_Spritesheet2",
+        "SpriteName": "MultiSheet2",
+        "SpriteIndex": 17
+    },
+    "Collider": {
+        "Active": true,
+        "ColliderLayer": {
+            "Layer Name": "Default",
+            "Layer ID": 0
+        },
+        "Shape": 0,
+        "Width": 150.0,
+        "Height": 150.0,
+        "Radius": 50.0
+    }
+}
