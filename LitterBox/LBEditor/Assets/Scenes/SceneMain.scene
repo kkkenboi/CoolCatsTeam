@@ -6254,16 +6254,16 @@
                         },
                         {
                             "Name": "Flag",
-                            "Active": true,
+                            "Active": false,
                             "Transform": {
                                 "Active": true,
                                 "Position": {
                                     "x": 109.574279,
-                                    "y": 5.882324
+                                    "y": 65.879997
                                 },
                                 "Scale": {
-                                    "x": 0.0,
-                                    "y": 0.0
+                                    "x": 0.699998,
+                                    "y": 0.699998
                                 },
                                 "Rotation": 0.0
                             },
