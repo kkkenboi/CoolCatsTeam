@@ -94,8 +94,9 @@ namespace LB
 			}
 
 		}
-		else if (GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetSpawned() && GOMANAGER->FindGameObjectWithName("middleUpgrade"))
+		else if (GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetSpawned() && !mUpgradeTaken)
 		{
+			
 			mEventTransform = GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPTransform>();
 			//DebuggerLogFormat("Last Enemy : %s", mGameManager->GetComponent<CPPSGameManager>()->GetSpawnedEnemyList()[0]->GetName().c_str());
 

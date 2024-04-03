@@ -100,6 +100,11 @@ namespace LB {
 					verticalPopUp->SetName("BagOfGolfingVPopUp"), horizontalPopUp->SetName("BagOfGolfingHPopUp");
 					break;
 				}
+				case GOLFSWING:
+				{
+					verticalPopUp->SetName("GolfClubVPopUp"), horizontalPopUp->SetName("GolfClubHPopUp");
+					break;
+				}
 				default:
 					continue;
 			}
