@@ -180,7 +180,7 @@ namespace LB
 	{
 		//We access the base class first
 		//GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition());
-		m_AudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(AUDIOMANAGER->ChaserDeathSounds, GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
+		m_AudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->ChaserDeathSounds, GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
 		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserDeathSounds,0.2f);
 		CPPSBaseEnemy::Die(); //We call this because the base class will have some logic to reduce enemy count
 		//Code to play death anim goes here
@@ -235,7 +235,7 @@ namespace LB
 		if (mEnemy->isAggro)
 		{
 			GetFSM().ChangeState("Chase");
-			GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play3DSound(AUDIOMANAGER->ChaserAttackSounds, mEnemy->GameObj->GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
+			GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play3DSound(GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->ChaserAttackSounds, mEnemy->GameObj->GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
 
 			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
 		}
@@ -282,7 +282,7 @@ namespace LB
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
 
-		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime()));
+		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetFixedDeltaTime()));
 	}
 
 	/*!***********************************************************************
@@ -317,7 +317,7 @@ namespace LB
 	{
 		//DebuggerLog("Entered HurtState");
 		mEnemy->GetHurtTimer() = 1.5f;
-		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play3DSound(AUDIOMANAGER->ChaserHurtSounds, mEnemy->GameObj->GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
+		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play3DSound(GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->ChaserHurtSounds, mEnemy->GameObj->GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
 
 		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserHurtSounds,0.2f);
 		this->Update();

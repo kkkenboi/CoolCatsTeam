@@ -211,10 +211,10 @@ namespace LB
 		{
 			m_stepSoundCurrent = 0.0f;
 			if(isOnSand)
-				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerSandStepSounds,false, 0.2f);
+				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerSandStepSounds,false, 0.2f);
 				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSandStepSounds, 0.3f);
 			else
-				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerFootStepsSounds,false, 0.15f);
+				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerFootStepsSounds,false, 0.15f);
 
 				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds, 0.2f);
 			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.2f);
@@ -231,7 +231,7 @@ namespace LB
 			hasPlayedHitSound = false;
 			// Play hit sound
 			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSlashSounds,0.3f);
-			m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerSlashSounds,false, 0.3f);
+			m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerSlashSounds, false, 0.3f);
 			
 			// Pushes the ball
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
@@ -270,7 +270,7 @@ namespace LB
 							if (!hasPlayedHitSound)
 							{
 								//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHitBallSounds, 0.5f);
-								m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerHitBallSounds, false, 0.5f);
+								m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerHitBallSounds, false, 0.5f);
 								hasPlayedHitSound = true;
 							}
 						}
@@ -410,7 +410,7 @@ namespace LB
 				if (colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
 				{
 					//AUDIOMANAGER->ChanceToPlayGroupSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
-					m_AudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(AUDIOMANAGER->ChaserAttackSounds,
+					m_AudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->ChaserAttackSounds,
 						colData.colliderOther->transform->GetPosition(),false, 0.2f);
 				}
 				if (!mIsStunned) {
@@ -433,7 +433,7 @@ namespace LB
 
 			anim->PlayAndReset("Felix_Hurt");
 			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth > 1)
-				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerHurtSounds,false, 0.3f);
+				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerHurtSounds,false, 0.3f);
 				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.3f);
 			// Update the HUD as well
 			onTakingDamage.Invoke();

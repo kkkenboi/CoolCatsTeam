@@ -46,12 +46,18 @@ namespace LB
 		//We only want to play sounds when the game is running
 		if (CORE->IsPlaying())
 		{
+			////If it's looping and it has been played 
+			//if (loop && !isPlaying() && hasPlayed)
+			//{
+			//	std::cout << "Loop sound!, chnl ID : " << channelID << "\n";
+			//	Play();
+			//}
 			//DebuggerLog("Audio Source update!");
 			//If the audio source is playonawake and hasn't played yet
 			if (playOnAwake && !hasPlayed) {
 				//We play the sound
 				Play();	//hasPlayed = true;
-				DebuggerLog("Play On Awake!");
+				//DebuggerLog("Play On Awake!");
 			}
 			//Timer stuff for delayed playing
 			if (timer > 0) timer -= static_cast<float>(TIME->GetDeltaTime());
@@ -82,11 +88,7 @@ namespace LB
 					SetVolume(0);
 				}
 			}
-			//If it's looping and it has been played 
-			if (loop && !isPlaying() && hasPlayed)
-			{
-				Play();
-			}
+			
 		}
 		else
 		{
@@ -116,7 +118,7 @@ namespace LB
 	**************************************************************************/
 	void CPAudioSource::Destroy()
 	{
-		DebuggerLogWarning("Destroyed!");
+		//DebuggerLogWarning("Destroyed!");
 		if(isPlaying())Stop();
 		AUDIOMANAGER->AudioSources.clear();
 	/*	std::vector<CPAudioSource*>::iterator chosenOne;
@@ -135,7 +137,7 @@ namespace LB
 	**************************************************************************/
 	bool CPAudioSource::Serialize(Value& data, Document::AllocatorType& alloc)
 	{
-		DebuggerLog("Serializing Audio Source");
+		//DebuggerLog("Serializing Audio Source");
 		data.SetObject();
 		data.AddMember("Active", m_active, alloc);
 		data.AddMember("AudioClipName", Value(AudioClipName.c_str(), alloc), alloc);
@@ -153,7 +155,7 @@ namespace LB
 	**************************************************************************/
 	bool CPAudioSource::Deserialize(const Value& data)
 	{
-		DebuggerLog("Deserializing Audio Source");
+		//DebuggerLog("Deserializing Audio Source");
 		bool HasActive = data.HasMember("Active");
 		bool HasClipName = data.HasMember("AudioClipName");
 		bool HasPlayOnAwake = data.HasMember("Play On Awake");
@@ -206,6 +208,7 @@ namespace LB
 			SetPitch(pitch);
 			SetVolume(volume);
 		}
+		AUDIOMANAGER->SetLoopChannel(channelID, loop);
 		//else DebuggerLogWarningFormat("Unable to find %s !", AudioClipName);
 		hasPlayed = true;
 	}

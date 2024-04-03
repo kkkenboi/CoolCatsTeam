@@ -390,10 +390,11 @@
                             },
                             "AudioSource": {
                                 "Active": true,
-                                "AudioClipName": "",
+                                "AudioClipName": "BGM",
                                 "Play On Awake": true,
-                                "Loop": false,
-                                "Volume": 1.0,
+                                "Loop": true,
+                                "is3D": false,
+                                "Volume": 0.1,
                                 "Pitch": 1.0
                             }
                         },
@@ -2121,10 +2122,11 @@
                     "Rotation": 0.0
                 },
                 "AudioSource": {
-                    "Active": true,
-                    "AudioClipName": "BGM",
+                    "Active": false,
+                    "AudioClipName": "Cheering_2",
                     "Play On Awake": true,
                     "Loop": true,
+                    "is3D": false,
                     "Volume": 0.1,
                     "Pitch": 1.0
                 }

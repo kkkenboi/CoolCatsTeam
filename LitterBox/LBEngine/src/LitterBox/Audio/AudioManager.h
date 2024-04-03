@@ -187,6 +187,7 @@ namespace LB
 		**************************************************************************/
 		void FadeinChannels(float duration);
 
+		void SetLoopChannel(int ChannelID, bool loop);
 		//bool IsPlaying(std::string soundName);
 		//void StopAllSounds();
 
@@ -198,6 +199,15 @@ namespace LB
 		std::vector<CPAudioSource*> AudioSources;
 		CPAudioListener* AudioListener{nullptr};
 
+		enum SoundType
+		{
+			BGM,
+			SFX
+		};
+
+		float BGMVolume = 1.0f;
+		float SFXVolume = 1.0f;
+		float MasterVolume = 1.0f;
 
 		std::vector<std::string> BallCollisionSounds = { "BallImpact_1","BallImpact_2" };
 		std::vector<std::string> PlayerHitBallSounds = { "GolfBallHit","GolfSwingHit" };
@@ -323,8 +333,6 @@ namespace LB
 
 	private:
 		int channelID{ 0 };
-		FMOD::ChannelGroup* channelGroup3D;
-		FMOD::ChannelGroup* channelGroup2D;
 		std::map<int, FMOD::Channel*> Channels;
 		float fadeOutTimer{};
 		float fadeInTimer{};
