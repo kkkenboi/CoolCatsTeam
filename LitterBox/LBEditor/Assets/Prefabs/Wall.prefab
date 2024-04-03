@@ -1,0 +1,34 @@
+{
+    "Name": "Wall",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0
+    },
+    "RigidBody": {
+        "Active": true,
+        "Width": 100.0,
+        "Height": 100.0,
+        "Density": 10.0,
+        "IsStatic": true
+    },
+    "Collider": {
+        "Active": true,
+        "ColliderLayer": {
+            "Layer Name": "Default",
+            "Layer ID": 0
+        },
+        "Shape": 1,
+        "Width": 100.0,
+        "Height": 100.0,
+        "Radius": 50.0
+    }
+}
