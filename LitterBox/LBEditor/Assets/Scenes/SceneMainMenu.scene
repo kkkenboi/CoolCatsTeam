@@ -521,6 +521,267 @@
                     "Repeating": false,
                     "Controller": "VFXController"
                 }
+            },
+            {
+                "Name": "SettingsMenuTexture",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 19.2,
+                        "y": 10.8
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 3.0,
+                    "Layer": 4,
+                    "Texture": "Settings Menu",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "SettingsMenuBack",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 224.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSettings"
+                }
+            },
+            {
+                "Name": "SettingsMenuFullScreen",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 2.5,
+                        "y": 2.5
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 4,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 36
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 20.0,
+                    "Height": 20.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSettings"
+                }
+            },
+            {
+                "Name": "SettingsMenuMV",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 3.0,
+                        "y": 3.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 4,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 37
+                }
+            },
+            {
+                "Name": "SettingsMenuMVCollider",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 320.0,
+                    "Height": 55.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSettings"
+                }
+            },
+            {
+                "Name": "SettingsMenuSFX",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 3.0,
+                        "y": 3.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 4,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 37
+                }
+            },
+            {
+                "Name": "SettinesMenuSFXCollider",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 320.0,
+                    "Height": 55.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "SettingsMenuMusic",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 3.0,
+                        "y": 3.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 4,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 37
+                }
+            },
+            {
+                "Name": "SettingsMenuMusicCollider",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 320.0,
+                    "Height": 55.0,
+                    "Radius": 50.0
+                }
             }
         ]
     }
