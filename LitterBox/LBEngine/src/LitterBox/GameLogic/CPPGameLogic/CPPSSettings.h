@@ -1,13 +1,13 @@
 /*!************************************************************************
- \file                QuitScript.h
+ \file                CPPSSettings.h
  \author(s)           Ryan Tan Jian Hao
  \par DP email(s):    ryanjianhao.tan\@digipen.edu
  \par Course:         CSD2401A
- \date                20-11-2023
+ \date                2-4-2024
  \brief
 
- Header file that contains the definition for the Quit Menu script to be used
- in game for the GUI
+ Header file that contains the definition for the Settings menu to be
+ used for the game.
 
  Copyright (C) 2023 DigiPen Institute of Technology. Reproduction or
  disclosure of this file or its contents without the prior written consent
@@ -17,12 +17,12 @@
 
 #include "CPPBehaviour.h"
 #include "LitterBox/Factory/Components.h"
+#include "LitterBox/Audio/AudioManager.h"
 
 namespace LB
 {
-	class QuitScript : public CPPBehaviour
+	class CPPSSettings : public CPPBehaviour
 	{
-		CPCollider* coll{ nullptr };
 		/*!***********************************************************************
 		\brief
 		 Start function gets the collider component of the game object
@@ -43,44 +43,33 @@ namespace LB
 		\brief
 		 Empty Destroy function. No purpose
 		*************************************************************************/
-		void Destroy() override;
+		void Destroy() override {};
 
-		//-------------Rotation matrix values to get the left of the button---------------
-		Vec2<float> rot_row1{};
-		Vec2<float> rot_row2{};
-		Vec2<float> right_side{};
-
-		GameObject* hand{ nullptr };
-		GameObject* line{ nullptr };
-		GameObject* curtain{ nullptr };
-		float time{};
-		bool animFlag{ false };
-		//-------------Rotation matrix values to get the left of the button---------------
-
-		//------------------------For Quit Confirmation---------------------------
-		CPCollider* mCollider{ nullptr };
-
-		GameObject* ConfirmMenuTexture{nullptr};
-		GameObject* ConfirmMenuYesButton{ nullptr };
-		GameObject* ConfirmMenuNoButton{ nullptr };
-
+		//pointer to the game objects in the scene
 		GameObject* SettingsMenuTexture{ nullptr };
 		GameObject* SettingsMenuBack{ nullptr };
 		GameObject* SettingsMenuFullscreen{ nullptr };
 
+		//pointer to the game objects in the scene
 		GameObject* SettingsMenuMV{ nullptr };
 		GameObject* SettingsMenuMVCollider{ nullptr };
 
+		//pointer to the game objects in the scene
 		GameObject* SettingsMenuSFX{ nullptr };
 		GameObject* SettinesMenuSFXCollider{ nullptr };
 
+		//pointer to the game objects in the scene
 		GameObject* SettingsMenuMusic{ nullptr };
 		GameObject* SettingsMenuMusicCollider{ nullptr };
-		//------------------------For Quit Confirmation---------------------------
 
-		//----------Flag to turn off menu-----------
-		static bool menuFlag; //if true then we can interact with main menu
-								//if false that means we have quit or settings open
+		//for collision checking
+		CPCollider* coll{ nullptr };
+
+	public:
+		static float MVSliverPos;
+		static float SFXSliderPos;
+		static float MusicSliderPos;
 	};
-	REGISTER_SCRIPT(QuitScript)
+
+	REGISTER_SCRIPT(CPPSSettings)
 }

@@ -19,12 +19,15 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Scene/SceneManager.h"
+#include "LitterBox/GameLogic/CPPGameLogic/CPPSSettings.h"
 //#include "LitterBox/Components/AudioSourceComponent.h"
 extern const float deg_to_rads;
+
 
 namespace LB 
 {
 
+	bool QuitScript::menuFlag{ true };
 	/*!***********************************************************************
 	\brief
 	 Start function gets collider of object and gets the position that is left
@@ -119,6 +122,50 @@ namespace LB
 			{
 				ConfirmMenuNoButton = GO;
 			}
+			//settings menu main portion
+			if (GO->GetName() == "SettingsMenuTexture")
+			{
+				SettingsMenuTexture = GO;
+			}
+			if (GO->GetName() == "SettingsMenuBack")
+			{
+				SettingsMenuBack = GO;
+			}
+
+			//fullscreen tick box
+			if (GO->GetName() == "SettingsMenuFullScreen")
+			{
+				SettingsMenuFullscreen = GO;
+			}
+
+			//sliders
+			if (GO->GetName() == "SettingsMenuMV")
+			{
+				SettingsMenuMV = GO;
+			}
+			if (GO->GetName() == "SettingsMenuMVCollider")
+			{
+				SettingsMenuMVCollider = GO;
+			}
+
+			if (GO->GetName() == "SettingsMenuSFX")
+			{
+				SettingsMenuSFX = GO;
+			}
+			if (GO->GetName() == "SettinesMenuSFXCollider")
+			{
+				SettinesMenuSFXCollider = GO;
+			}
+
+			if (GO->GetName() == "SettingsMenuMusic")
+			{
+				SettingsMenuMusic = GO;
+				
+			}
+			if (GO->GetName() == "SettingsMenuMusicCollider")
+			{
+				SettingsMenuMusicCollider = GO;
+			}
 		}
 		time = 0.f;
 	}
@@ -189,6 +236,9 @@ namespace LB
 					continue;
 				}
 
+				if (!menuFlag)
+					break;
+
 				DebuggerLogFormat("BUTTON CLICK");
 				if (GameObj->GetName() == "Quit") {
 					//------------------------------------------Move over the quit confirmation game objects----------------------------
@@ -197,6 +247,8 @@ namespace LB
 						ConfirmMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f});
 						ConfirmMenuYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{715.f, 420.f});
 						ConfirmMenuNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{1200.f, 420.f});
+
+						menuFlag = false;
 					}
 					//------------------------------------------Move over the quit confirmation game objects----------------------------
 				}
@@ -205,7 +257,25 @@ namespace LB
 					//SCENEMANAGER->LoadScene("SceneMain");
 				}
 				else if (GameObj->GetName() == "Settings") {
-					WINDOWSSYSTEM->toggleFullScreen();
+					//------------------------------------------Move over the quit confirmation game objects----------------------------
+					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
+					{
+						SettingsMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f});
+						SettingsMenuBack->GetComponent<CPTransform>()->SetPosition(Vec2<float>{955.f, 160.f});
+						SettingsMenuFullscreen->GetComponent<CPTransform>()->SetPosition(Vec2<float>{1088.f, 303.f});
+
+						SettingsMenuMV->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::MVSliverPos, 640.f});
+						SettingsMenuMVCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 640.f});
+
+						SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::SFXSliderPos, 510.f});
+						SettinesMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 510.f});
+
+						SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::MusicSliderPos, 390.f});
+						SettingsMenuMusicCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 390.f});
+
+						menuFlag = false;
+					}
+					//------------------------------------------Move over the quit confirmation game objects----------------------------
 				}
 				else if (GameObj->GetName() == "Controls") {
 					SCENEMANAGER->LoadScene("SceneTutOverride");
@@ -226,6 +296,9 @@ namespace LB
 		auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
 
 		for (const auto& collider : test) {
+			if (!menuFlag)
+				break;
+
 			if (coll == collider) {
 
 				hand->GetComponent<CPTransform>()->SetPosition(right_side);
@@ -234,6 +307,12 @@ namespace LB
 
 			}
 		}
+
+		if (!menuFlag &&
+			SettingsMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f &&
+			ConfirmMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f)
+			menuFlag = true;
+
 	}
 	/*!***********************************************************************
 	\brief
