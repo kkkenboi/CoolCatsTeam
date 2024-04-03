@@ -34,8 +34,8 @@ namespace LB
 		m_PlayerCurrentHealth = 3;
 		m_PlayerMaxBalls = 3;
 		m_PlayerCurrentBalls = 0;
-		m_PlayerWalkSpeed = 950.0f;
-		m_PlayerMaxSpeed = 1750.0f;
+		m_PlayerWalkSpeed = 600.0f;
+		m_PlayerMaxSpeed = 800.0f;
 		m_PlayerArbitraryFriction = 0.95f;
 
 		//We also need to grab the crowdTexture
