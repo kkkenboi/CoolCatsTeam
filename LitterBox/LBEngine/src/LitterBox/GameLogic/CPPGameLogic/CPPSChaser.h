@@ -49,6 +49,7 @@ namespace LB
 		//int& GetHealth();
 		//float& GetSpeedMag();	//Getter function for the speed of the chaser
 		float& GetHurtTimer();
+		//GameObject* chaserClubCol{};
 
 		CPAnimator* m_moveAnimator{ nullptr };
 		GameObject* m_AudioManager{ nullptr };
@@ -60,13 +61,14 @@ namespace LB
 		FiniteStateMachine mFSM{};
 
 		//int mHealth{}; //health of the chaser
+		GameObject *m_club{ nullptr };
 		//float mSpeedMagnitude{}; //speed
 		float mHurtTimer{}; //hurt timer
 
 		//for the ball collision
 		float mGotAttacked{0.5f}, mGotAttackedCooldown{0.0f};
 
-		bool mInitialised{ false };
+		bool mInitialised{ false }, clubFacingLeft{ false };
 	};
 	REGISTER_SCRIPT(CPPSChaser)
 

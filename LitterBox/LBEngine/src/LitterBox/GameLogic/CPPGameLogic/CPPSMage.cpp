@@ -128,7 +128,7 @@ namespace LB
 		}
 
 		if (mGotAttackedCooldown > 0.0f) {
-			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
+			mGotAttackedCooldown -= static_cast<float>(TIME->GetFixedDeltaTime());
 		}
 
 		mFSM.Update();
@@ -326,7 +326,7 @@ namespace LB
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
 
-		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime())); //add force to move
+		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetFixedDeltaTime())); //add force to move
 	}
 
 	/*!***********************************************************************
@@ -342,7 +342,7 @@ namespace LB
 		}
 		else if (mEnemy->mDistInBwn >= mEnemy->mMinDistance && mEnemy->mDistInBwn <= mEnemy->mMaxDistance) //if distance bwn not too close and its on the attack range
 		{
-			mEnemy->mAttackCooldownCurrent += static_cast<float>(TIME->GetDeltaTime());
+			mEnemy->mAttackCooldownCurrent += static_cast<float>(TIME->GetFixedDeltaTime());
 			if (mEnemy->mAttackCooldownCurrent > mEnemy->mAttackCooldown)
 			{
 				mEnemy->mAttackCooldownCurrent = 0.0f;
@@ -391,7 +391,7 @@ namespace LB
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> BackOffForce = (-Direction) * mEnemy->mBackOffSpeed; //opposite direction
 
-		mEnemy->GetRigidBody()->addForce(BackOffForce * static_cast<float>(TIME->GetDeltaTime())); //Adding force with back off force
+		mEnemy->GetRigidBody()->addForce(BackOffForce * static_cast<float>(TIME->GetFixedDeltaTime())); //Adding force with back off force
 	}
 
 	/*!***********************************************************************
@@ -407,7 +407,7 @@ namespace LB
 		}
 		else if (mEnemy->mDistInBwn >= mEnemy->mMinDistance && mEnemy->mDistInBwn <= mEnemy->mMaxDistance) //if its in between
 		{
-			mEnemy->mAttackCooldownCurrent += static_cast<float>(TIME->GetDeltaTime());
+			mEnemy->mAttackCooldownCurrent += static_cast<float>(TIME->GetFixedDeltaTime());
 			if (mEnemy->mAttackCooldownCurrent > mEnemy->mAttackCooldown)
 			{
 				mEnemy->mAttackCooldownCurrent = 0.0f;
@@ -501,7 +501,7 @@ namespace LB
 	*************************************************************************/
 	void MageShootingState::Update()
 	{
-		mEnemy->mProjCooldownCurrent += static_cast<float>(TIME->GetDeltaTime());
+		mEnemy->mProjCooldownCurrent += static_cast<float>(TIME->GetFixedDeltaTime());
 		if (mEnemy->mProjCooldownCurrent > mEnemy->mProjCooldown)
 		{
 			mEnemy->mProjCooldownCurrent = 0.0f;
