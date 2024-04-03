@@ -41,7 +41,7 @@ namespace LB
 		//We also need to grab the crowdTexture
 		//By default, the render is set active false
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
-		crowdTexture = GOMANAGER->FindGameObjectWithName("CrowdTextureObject");
+		crowdTexture = GOMANAGER->FindGameObjectWithName("EndCrowdCheer");
 		gameOverTexture = GOMANAGER->FindGameObjectWithName("ActualTexture");
 		killerTexture = GOMANAGER->FindGameObjectWithName("Killer");
 		//we also wanna cache the position of the UI so we can set it back later
@@ -206,6 +206,8 @@ namespace LB
 		if (crowdTexture->IsActive())
 		{
 			timer += static_cast<float>(TIME->GetDeltaTime());
+
+			/*
 			Vec2<float> crowdPos{ cachedCrowdPos };
 			//temporary thing until we get the anim in
 			//This basically just lerps the thing down in 7 seconds
@@ -213,11 +215,13 @@ namespace LB
 			//thank you Prof Ronald and Desmos 
 			smoothTime = smoothTime * smoothTime * (3.f - 2.f * smoothTime);
 			crowdTexture->GetComponent<CPTransform>()->SetPosition(Lerp(crowdPos, Vec2<float>(cachedCrowdPos.x, 0), smoothTime));
+			*/
+
 			//This one below needs to stay though
 			if (timer >= crowdTimer)	//once the sound finishes playing we hide it all and reset pos
 			{
 				crowdTexture->SetActive(false);
-				crowdTexture->GetComponent<CPTransform>()->SetPosition(cachedCrowdPos);
+				//crowdTexture->GetComponent<CPTransform>()->SetPosition(cachedCrowdPos);
 				timer = 0;
 			}
 		}
@@ -372,6 +376,8 @@ namespace LB
 		AUDIOMANAGER->SetChannelVolume(chnl, 0.3f);
 		//then we show the crowd texture
 		crowdTexture->SetActive(true);
+		crowdTexture->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPAnimator>()->Play("Action_UpDownCrowd");
+		crowdTexture->GetComponent<CPTransform>()->GetChild(1)->GetComponent<CPAnimator>()->Play("Action_UpDownCrowd");
 		//for now the animation will be hard coded
 		//but in the future it should be an anim with the same duration as the sound
 		

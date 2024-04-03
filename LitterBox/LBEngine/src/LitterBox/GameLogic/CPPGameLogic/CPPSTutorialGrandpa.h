@@ -49,10 +49,14 @@ namespace LB
 		GameObject* BubbleItems;
 		GameObject* BubbleScore;
 		GameObject* BubblePortal;
+		GameObject* BubbleSandpit;
+		GameObject* BubbleObstacles;
 
 		GameObject* Tutorial1;
 		GameObject* Tutorial2;
 		GameObject* Tutorial3;
+		GameObject* Tutorial4;
+		GameObject* Tutorial5;
 	};
 	REGISTER_SCRIPT(CPPSTutorialGrandpa)
 }

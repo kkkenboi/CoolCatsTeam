@@ -433,6 +433,12 @@ namespace LB
 				component.second->ToggleActive(false);
 			}
 		}
+
+		// Also set the children to the same state
+		for (int index{ GetComponent<CPTransform>()->GetChildCount() - 1 }; index >= 0; --index)
+		{
+			GetComponent<CPTransform>()->GetChild(index)->gameObj->SetActive(active);
+		}
 	}
 
 	/***************************************************************************************************

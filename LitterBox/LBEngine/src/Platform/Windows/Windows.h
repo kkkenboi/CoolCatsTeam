@@ -43,7 +43,7 @@ namespace LB
 		GLFWwindow* m_PtrToWindow{ nullptr };
 		const GLFWvidmode* m_VideoMode{ nullptr };
 		GLFWmonitor* m_Monitor{ nullptr };
-		GLFWcursor* cursor{ nullptr };
+		GLFWcursor* m_Cursor{ nullptr };
 		unsigned char* imageData;
 
 		/*!***********************************************************************
@@ -277,6 +277,12 @@ namespace LB
 		 Returns the fractions required for viewport to camera space transformation
 		*************************************************************************/
 		Vec2<float>			getViewPortConversion() { return Vec2{xVPConversion, yVPConversion}; }
+
+		/*!***********************************************************************
+		 \brief
+		 Update how the cursor looks based on the given texture name
+		*************************************************************************/
+		void				UpdateCursor(std::string name);
 
 
 		Event<> OnApplicationFocus;

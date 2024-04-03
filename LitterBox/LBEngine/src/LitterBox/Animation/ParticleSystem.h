@@ -39,6 +39,7 @@ namespace LB {
 	public:
 		Vec2<float> mPosition;
 		Vec2<float> mVelocity;
+		Vec2<float> mGravityAcceleration;
 		float mRotation;
 		float mRotationSpeed;
 
@@ -55,6 +56,7 @@ namespace LB {
 		GameObject* mGameObj;
 
 		bool mIsActive;
+		bool mIsGravityOn;
 	};
 
 	class ParticleManager : public ISystem, public Singleton<ParticleManager>
