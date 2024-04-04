@@ -706,7 +706,7 @@
                 }
             },
             {
-                "Name": "SettinesMenuSFXCollider",
+                "Name": "SettingsMenuSFXCollider",
                 "Active": true,
                 "Transform": {
                     "Active": true,

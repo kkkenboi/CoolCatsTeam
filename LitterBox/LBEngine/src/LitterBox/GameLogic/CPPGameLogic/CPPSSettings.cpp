@@ -59,9 +59,9 @@ void LB::CPPSSettings::Start()
 		{
 			SettingsMenuSFX = GO;
 		}
-		if (GO->GetName() == "SettinesMenuSFXCollider")
+		if (GO->GetName() == "SettingsMenuSFXCollider")
 		{
-			SettinesMenuSFXCollider = GO;
+			SettingsMenuSFXCollider = GO;
 		}
 
 		if (GO->GetName() == "SettingsMenuMusic")
@@ -110,7 +110,7 @@ void LB::CPPSSettings::Update()
 					SettingsMenuMVCollider->GetComponent<CPTransform>()->SetPosition(hidevec);
 
 					SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(hidevec);
-					SettinesMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(hidevec);
+					SettingsMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(hidevec);
 
 					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(hidevec);
 					SettingsMenuMusicCollider->GetComponent<CPTransform>()->SetPosition(hidevec);
@@ -158,7 +158,7 @@ void LB::CPPSSettings::Update()
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
-			if (GameObj->GetName() == "SettinesMenuSFXCollider") {
+			if (GameObj->GetName() == "SettingsMenuSFXCollider") {
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 				if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
 				{

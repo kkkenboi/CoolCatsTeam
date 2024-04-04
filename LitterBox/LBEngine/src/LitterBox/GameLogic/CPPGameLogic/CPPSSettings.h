@@ -56,7 +56,7 @@ namespace LB
 
 		//pointer to the game objects in the scene
 		GameObject* SettingsMenuSFX{ nullptr };
-		GameObject* SettinesMenuSFXCollider{ nullptr };
+		GameObject* SettingsMenuSFXCollider{ nullptr };
 
 		//pointer to the game objects in the scene
 		GameObject* SettingsMenuMusic{ nullptr };
