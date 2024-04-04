@@ -16,9 +16,18 @@
 #include "CPPSBaseBouncy.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Audio/AudioManager.h"
-
+#include "CPPAudioManager.h"
 namespace LB
 {
+	/*!***********************************************************************
+	\brief
+	Start function where variables will be initialised
+	*************************************************************************/
+	void CPPSBaseBouncy::Start()
+	{
+		mAudioManager = GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>();
+	}
+
 	/*!***********************************************************************
 	\brief
 	Every time the bouncy collides with anything its scale changes
@@ -53,18 +62,23 @@ namespace LB
 			}
 			if (GameObj->GetName() == "Bramble")
 			{
-				int Channel = AUDIOMANAGER->PlaySound("Bramble");
-				AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
+				
+			/*	int Channel = AUDIOMANAGER->PlaySound("Bramble");
+				AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);*/
+				mAudioManager->Play3DSound("Bramble", mTransform->GetPosition(),false, 0.2f);
 			}
 			else
 			{
-				int chnl = AUDIOMANAGER->PlaySound("Shroom Bounce");
-				AUDIOMANAGER->SetChannelVolume(chnl, 0.2f);
+		/*		int chnl = AUDIOMANAGER->PlaySound("Shroom Bounce");
+				AUDIOMANAGER->SetChannelVolume(chnl, 0.2f);*/
+				mAudioManager->Play3DSound("Shroom Bounce", mTransform->GetPosition(), false, 0.2f);
 
 			}
-			int Channel = AUDIOMANAGER->PlaySound("Thud");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
-				
+			mAudioManager->Play3DSound("Thud", mTransform->GetPosition(), false, 0.2f);
+
+			//int Channel = AUDIOMANAGER->PlaySound("Thud");
+			//AUDIOMANAGER->SetChannelVolume(Channel, 0.2f);
+			//	
 
 			// Start scaling down in the next update loop
 			mScaleTimer = mToMaxTimer;
@@ -72,6 +86,7 @@ namespace LB
 			mScaledUp = true;
 		}
 	}
+
 
 	/*!***********************************************************************
 	\brief

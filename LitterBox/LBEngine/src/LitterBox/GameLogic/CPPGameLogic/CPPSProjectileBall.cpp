@@ -37,14 +37,7 @@ namespace LB
 		mCollider = GameObj->GetComponent<CPCollider>();
 		//Getting the player GO reference
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
-		/*std::vector<GameObject*> const& GOs = GOMANAGER->GetGameObjects();
-		for (GameObject* GO : GOs) {
-			if (GO->GetName() == "MainChar") 
-			{
-				mPlayer = GO;
-				break;
-			}
-		}*/
+		mAudioManager = GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>();
 
 		// Set direction (rotation)
 		//CPTransform* trans = GameObj->GetComponent<CPTransform>();
@@ -76,9 +69,7 @@ namespace LB
 		trans->SetRotation(RadToDeg(atan2f(shootDir.y, shootDir.x)));
 		if (canDestroy)
 		{
-			int Channel = AUDIOMANAGER->PlaySound("EXPLOSION");
-			AUDIOMANAGER->SetChannelVolume(Channel, 0.5f);
-
+			mAudioManager->Play3DSound("EXPLOSION", GetComponent<CPTransform>()->GetPosition(),false, 0.5f);
 			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnExplosion(GetComponent<CPTransform>()->GetPosition(), 0.3f);
 			Destroy();
 		}

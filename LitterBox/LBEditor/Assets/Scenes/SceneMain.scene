@@ -2107,31 +2107,6 @@
                 }
             },
             {
-                "Name": "GameMusic",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "AudioSource": {
-                    "Active": false,
-                    "AudioClipName": "Cheering_2",
-                    "Play On Awake": true,
-                    "Loop": true,
-                    "is3D": false,
-                    "Volume": 0.1,
-                    "Pitch": 1.0
-                }
-            },
-            {
                 "Name": "Portal",
                 "Active": false,
                 "Transform": {
@@ -23463,6 +23438,7 @@
                                                                     "Play On Awake": false,
                                                                     "Awake Delay": 0.0,
                                                                     "Repeating": false,
+                                                                    "Should Cull": false,
                                                                     "Controller": "MeleeController"
                                                                 }
                                                             }
@@ -23486,6 +23462,7 @@
                                             "Play On Awake": false,
                                             "Awake Delay": 0.0,
                                             "Repeating": false,
+                                            "Should Cull": false,
                                             "Controller": "MeleeController"
                                         }
                                     }
@@ -23496,6 +23473,7 @@
                                 "Play On Awake": false,
                                 "Awake Delay": 0.0,
                                 "Repeating": false,
+                                "Should Cull": false,
                                 "Controller": "ActionController"
                             }
                         },

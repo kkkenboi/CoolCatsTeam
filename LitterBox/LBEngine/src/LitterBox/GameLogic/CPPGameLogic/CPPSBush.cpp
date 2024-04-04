@@ -23,6 +23,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSBush::Start()
 	{
+		CPPSBaseBouncy::Start();
 		mTransform = GameObj->GetComponent<CPTransform>()->GetChild();
 		mRender = mTransform->GetComponent<CPRender>();
 		mCollider = GameObj->GetComponent<CPCollider>();
@@ -118,8 +119,9 @@ namespace LB
 			mScaleTimer = mToMaxTimer;
 			mScaleTimerRemaining = mScaleTimer;
 			mScaledUp = true;
-
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BushSounds, 0.15f);
+			mAudioManager->Play3DSound(mAudioManager->BushSounds, mTransform->GetPosition(), false, 0.15f);
+			//mAudioManager->Play2DSound(mAudioManager->BushSounds, false, 0.15f);
+			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->BushSounds, 0.15f);
 		}
 
 		//if (colData.colliderOther->gameObj->GetName() == "ball")

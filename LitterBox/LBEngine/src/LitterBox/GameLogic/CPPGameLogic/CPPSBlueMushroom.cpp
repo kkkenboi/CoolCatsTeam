@@ -25,6 +25,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSBlueMushroom::Start()
 	{
+		CPPSBaseBouncy::Start();
 		mTransform = GameObj->GetComponent<CPTransform>()->GetChild();
 		mRender = mTransform->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
