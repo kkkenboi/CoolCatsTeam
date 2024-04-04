@@ -110,196 +110,6 @@
                 }
             },
             {
-                "Name": "PauseMenuHolderObject",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 10000.0,
-                        "y": 10000.0
-                    },
-                    "Scale": {
-                        "x": 16.37,
-                        "y": 10.8
-                    },
-                    "Rotation": 0.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::PauseMenuScript"
-                }
-            },
-            {
-                "Name": "PauseMenuTextureObject",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 10000.0,
-                        "y": 10000.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "ZLayer": 1.0,
-                    "Layer": 3,
-                    "Texture": "Pause Menu",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
-                }
-            },
-            {
-                "Name": "PauseMenuResumeObject",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 10000.0,
-                        "y": 10000.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 1.0,
-                    "Height": 1.0,
-                    "Radius": 1.0
-                }
-            },
-            {
-                "Name": "PauseMenuHowToPlayObject",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 10000.0,
-                        "y": 10000.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 1.0,
-                    "Height": 1.0,
-                    "Radius": 1.0
-                }
-            },
-            {
-                "Name": "PauseMenuQuitObject",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 10000.0,
-                        "y": 10000.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 1.0,
-                    "Height": 1.0,
-                    "Radius": 1.0
-                }
-            },
-            {
-                "Name": "PauseMenuHowToPlayTextureObject",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 10000.0,
-                        "y": 10000.0
-                    },
-                    "Scale": {
-                        "x": 16.1,
-                        "y": 9.18
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "ZLayer": 1.0,
-                    "Layer": 3,
-                    "Texture": "HowToPlay",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
-                }
-            },
-            {
-                "Name": "PauseMenuHowToPlayPreviousMenuButton",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 10000.0,
-                        "y": 10000.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": -8.8
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 440.0,
-                    "Height": 440.0,
-                    "ZLayer": 1.0,
-                    "Layer": 3,
-                    "Texture": "Multi_Spritesheet",
-                    "SpriteName": "MultiSheet",
-                    "SpriteIndex": 69
-                },
-                "Collider": {
-                    "Active": true,
-                    "ColliderLayer": {
-                        "Layer Name": "Default",
-                        "Layer ID": 0
-                    },
-                    "Shape": 1,
-                    "Width": 218.0,
-                    "Height": 165.0,
-                    "Radius": 50.0
-                }
-            },
-            {
                 "Name": "PauseMenuQuitConfirmTexture",
                 "Active": true,
                 "Transform": {
@@ -309,8 +119,8 @@
                         "y": 10000.0
                     },
                     "Scale": {
-                        "x": 16.2,
-                        "y": 9.1
+                        "x": 19.2,
+                        "y": 10.8
                     },
                     "Rotation": 0.0
                 },
@@ -319,7 +129,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 1.0,
-                    "Layer": 3,
+                    "Layer": 4,
                     "Texture": "QuitMenu",
                     "SpriteName": "None",
                     "SpriteIndex": -1
@@ -347,9 +157,13 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 212.0,
-                    "Height": 84.0,
+                    "Width": 220.0,
+                    "Height": 90.0,
                     "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::Butt"
                 }
             },
             {
@@ -374,9 +188,302 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 206.0,
+                    "Width": 220.0,
                     "Height": 91.0,
                     "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::Butt"
+                }
+            },
+            {
+                "Name": "PauseMenuHolderObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::PauseMenuScript"
+                }
+            },
+            {
+                "Name": "SettingsMenuTexture",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 19.2,
+                        "y": 10.8
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 3.0,
+                    "Layer": 4,
+                    "Texture": "Settings Menu",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "SettingsMenuBack",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 224.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSettings"
+                }
+            },
+            {
+                "Name": "SettingsMenuFullScreen",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 2.5,
+                        "y": 2.5
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 4,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 36
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 20.0,
+                    "Height": 20.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSettings"
+                }
+            },
+            {
+                "Name": "SettingsMenuMV",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 3.0,
+                        "y": 3.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 4,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 37
+                }
+            },
+            {
+                "Name": "SettingsMenuMVCollider",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 320.0,
+                    "Height": 55.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSettings"
+                }
+            },
+            {
+                "Name": "SettingsMenuSFX",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 3.0,
+                        "y": 3.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 4,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 37
+                }
+            },
+            {
+                "Name": "SettingsMenuSFXCollider",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 320.0,
+                    "Height": 55.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSettings"
+                }
+            },
+            {
+                "Name": "SettingsMenuMusic",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 3.0,
+                        "y": 3.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 4,
+                    "Texture": "Multi_Spritesheet2",
+                    "SpriteName": "MultiSheet2",
+                    "SpriteIndex": 37
+                }
+            },
+            {
+                "Name": "SettingsMenuMusicCollider",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 320.0,
+                    "Height": 55.0,
+                    "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSettings"
                 }
             },
             {
@@ -463,32 +570,6 @@
                         "y": 1.0
                     },
                     "Rotation": 0.0
-                }
-            },
-            {
-                "Name": "CrowdTextureObject",
-                "Active": false,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 960.0,
-                        "y": 540.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 1920.0,
-                    "Height": 1080.0,
-                    "ZLayer": 1.0,
-                    "Layer": 3,
-                    "Texture": "Audience",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
                 }
             },
             {
@@ -2550,6 +2631,7 @@
                     "Play On Awake": true,
                     "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Should Cull": false,
                     "Controller": "GrandpaTalkingController"
                 }
             },
@@ -2707,6 +2789,7 @@
                     "Play On Awake": true,
                     "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Should Cull": false,
                     "Controller": "ActionController"
                 }
             },
@@ -2808,6 +2891,7 @@
                     "Play On Awake": true,
                     "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Should Cull": false,
                     "Controller": "ActionController"
                 }
             },
@@ -2909,6 +2993,7 @@
                     "Play On Awake": true,
                     "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Should Cull": false,
                     "Controller": "ActionController"
                 }
             },
@@ -3010,6 +3095,7 @@
                     "Play On Awake": true,
                     "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Should Cull": false,
                     "Controller": "ActionController"
                 }
             },
@@ -3113,7 +3199,7 @@
                     "Active": true,
                     "Position": {
                         "x": 1552.978393,
-                        "y": 15.70465
+                        "y": 15.704648
                     },
                     "Scale": {
                         "x": 1.0,
@@ -3258,6 +3344,7 @@
                                                                     "Play On Awake": false,
                                                                     "Awake Delay": 0.0,
                                                                     "Repeating": false,
+                                                                    "Should Cull": false,
                                                                     "Controller": "FelixController"
                                                                 }
                                                             }
@@ -3281,6 +3368,7 @@
                                             "Play On Awake": false,
                                             "Awake Delay": 0.0,
                                             "Repeating": false,
+                                            "Should Cull": false,
                                             "Controller": "FelixController"
                                         }
                                     }
@@ -3291,6 +3379,7 @@
                                 "Play On Awake": true,
                                 "Awake Delay": 0.0,
                                 "Repeating": true,
+                                "Should Cull": false,
                                 "Controller": "ActionController"
                             }
                         },
@@ -3396,6 +3485,7 @@
                                 "Play On Awake": true,
                                 "Awake Delay": 0.0,
                                 "Repeating": true,
+                                "Should Cull": false,
                                 "Controller": "VFXController"
                             }
                         }
@@ -3472,6 +3562,7 @@
                                 "Play On Awake": false,
                                 "Awake Delay": 0.0,
                                 "Repeating": false,
+                                "Should Cull": false,
                                 "Controller": "VFXController"
                             }
                         },
@@ -3537,7 +3628,806 @@
                                 "Play On Awake": false,
                                 "Awake Delay": 0.0,
                                 "Repeating": false,
+                                "Should Cull": false,
                                 "Controller": "VFXController"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "EndCrowdCheer",
+                "Active": false,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "CrowdBack",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -500.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Crowd1Base",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": -790.0,
+                                                "y": -342.339996
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Crowd1",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 400.0,
+                                                        "Height": 400.0,
+                                                        "ZLayer": 0.899999,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 65
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDownSmall",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.3,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "Crowd3Base",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": -153.25,
+                                                "y": -378.799987
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Crowd3",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 400.0,
+                                                        "Height": 400.0,
+                                                        "ZLayer": 0.899999,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 67
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDownSmall",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.3,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "Crowd5Base",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 599.869995,
+                                                "y": -366.100006
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Crowd5",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.003776,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 400.0,
+                                                        "Height": 400.0,
+                                                        "ZLayer": 0.899999,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 65
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDownSmall",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.3,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "Crowd2Base",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": -436.200012,
+                                                "y": -363.869995
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Crowd2",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 400.0,
+                                                        "Height": 400.0,
+                                                        "ZLayer": 0.8,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 66
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDownSmall",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.349999,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "Crowd4Base",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 220.889999,
+                                                "y": -359.48999
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Crowd4",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 400.0,
+                                                        "Height": 400.0,
+                                                        "ZLayer": 0.8,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 68
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDownSmall",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.349999,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "Crowd6Base",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 935.97998,
+                                                "y": -339.179992
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Crowd6",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 400.0,
+                                                        "Height": 400.0,
+                                                        "ZLayer": 0.8,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 68
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDownSmall",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.349999,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "None",
+                                "Play On Awake": false,
+                                "Awake Delay": 0.0,
+                                "Repeating": false,
+                                "Should Cull": false,
+                                "Controller": "AudienceController"
+                            }
+                        },
+                        {
+                            "Name": "CrowdFront",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -500.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "RabbitBase",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": -865.0,
+                                                "y": -355.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Rabbit",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 440.0,
+                                                        "Height": 440.0,
+                                                        "ZLayer": 0.699998,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 57
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDown",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.27,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "RacoonBase",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": -619.0,
+                                                "y": -406.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Racoon",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 440.0,
+                                                        "Height": 440.0,
+                                                        "ZLayer": 0.699998,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 58
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDown",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.239996,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "TigerBase",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": -343.0,
+                                                "y": -434.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Tiger",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 440.0,
+                                                        "Height": 440.0,
+                                                        "ZLayer": 0.699998,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 59
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDown",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.219999,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "CatYellowBase",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": -121.0,
+                                                "y": -455.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "CatYellow",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 440.0,
+                                                        "Height": 440.0,
+                                                        "ZLayer": 0.699998,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 60
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDown",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.159997,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "GrandpaBase",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 159.0,
+                                                "y": -470.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Grandpa",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 440.0,
+                                                        "Height": 440.0,
+                                                        "ZLayer": 0.699998,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 61
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDown",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.0,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "CatGreyBase",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 400.429992,
+                                                "y": -417.399993
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "CatGrey",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 440.0,
+                                                        "Height": 440.0,
+                                                        "ZLayer": 0.75,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 62
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDown",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.18,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "BestDogBase",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 659.150024,
+                                                "y": -390.100006
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "BestDog",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 440.0,
+                                                        "Height": 440.0,
+                                                        "ZLayer": 0.8,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 63
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDown",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.239996,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "Name": "MouseBase",
+                                        "Active": false,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 864.700012,
+                                                "y": -350.410003
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Mouse",
+                                                    "Active": false,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 440.0,
+                                                        "Height": 440.0,
+                                                        "ZLayer": 0.699998,
+                                                        "Layer": 3,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 64
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_UpDown",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.27,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "AudienceController"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "None",
+                                "Play On Awake": false,
+                                "Awake Delay": 0.0,
+                                "Repeating": false,
+                                "Should Cull": false,
+                                "Controller": "AudienceController"
                             }
                         }
                     ]
