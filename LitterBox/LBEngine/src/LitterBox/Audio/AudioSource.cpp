@@ -307,13 +307,10 @@ namespace LB
 
 	void CPAudioSource::FadeOut(float time)
 	{
-		std::cout << "Fading out! \n";
 		fadeTime = time;
 		fadeTimer = 0;
 		fadeOut = true;
 		fadeIn = false;
-		std::cout << "fade time :" << fadeTime << '\n';
-		std::cout << "Bool check :" << fadeOut << '\n';
 	}
 
 	void CPAudioSource::FadeIn(float time, float volumeToSet)
