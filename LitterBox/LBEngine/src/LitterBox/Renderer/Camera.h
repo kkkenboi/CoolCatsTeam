@@ -55,6 +55,9 @@ namespace Renderer {
 		glm::vec3 basis_vec_k{};
 		//-------------Required to move a free cam-------------
 
+		//for free cam
+		glm::vec2 bufferPos{ 0.f, 0.f };
+
 	public:
 
 		double mouse_x{}, mouse_y{}, x_disp{1.f}, y_disp{};
@@ -85,8 +88,12 @@ namespace Renderer {
 		 very fun to have so I kept it in, please don't be mad.
 		*************************************************************************/
 		void move_cam(float intensity) {
-			pos.x = -intensity * 0.25f + static_cast<float>(rand()) * intensity / static_cast<float>(RAND_MAX);
-			pos.y = -intensity * 0.25f + static_cast<float>(rand()) * intensity / static_cast<float>(RAND_MAX);
+			float shakex{ oldX + -intensity * 0.25f + static_cast<float>(rand()) * intensity / static_cast<float>(RAND_MAX) },
+				shakey{ oldY + -intensity * 0.25f + static_cast<float>(rand()) * intensity / static_cast<float>(RAND_MAX) };
+			
+			pos.x = shakex;
+			pos.y = shakey;
+
 			nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });
 			world_NDC = ortho * nel;
 		}
@@ -110,13 +117,15 @@ namespace Renderer {
 		 Is a vector that contains the new x and y positions in world space
 		*************************************************************************/
 		void update_ortho_cam(LB::Vec2<float> new_pos) {
-			pos.x = new_pos.x;
-			pos.y = new_pos.y;
+			float movex{ new_pos.x - oldX }, movey{ new_pos.y - oldY };
+
+			pos.x += movex;
+			pos.y += movey;
 			nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });
 			world_NDC = ortho * nel;
 
-			oldX = pos.x;
-			oldY = pos.y;
+			oldX = new_pos.x;
+			oldY = new_pos.y;
 		}
 		/*!***********************************************************************
 		\brief
