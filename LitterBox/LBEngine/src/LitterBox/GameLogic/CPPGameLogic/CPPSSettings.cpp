@@ -43,6 +43,7 @@ void LB::CPPSSettings::Start()
 		if (GO->GetName() == "SettingsMenuFullScreen")
 		{
 			SettingsMenuFullscreen = GO;
+			SettingsMenuFullscreen->GetComponent<CPRender>()->ToggleActive(WINDOWSSYSTEM->IsFullScreen());
 		}
 
 		//sliders
@@ -124,7 +125,7 @@ void LB::CPPSSettings::Update()
 				{
 					WINDOWSSYSTEM->toggleFullScreen();
 
-					SettingsMenuFullscreen->GetComponent<CPRender>()->set_active();
+					SettingsMenuFullscreen->GetComponent<CPRender>()->ToggleActive(WINDOWSSYSTEM->IsFullScreen());
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
