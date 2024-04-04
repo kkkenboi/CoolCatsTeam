@@ -87,6 +87,7 @@ namespace LB
 			if (e->GetName() == "Transition Curtain")
 			{
 				curtain = e;
+				curtain->GetComponent<CPRender>()->ToggleActive(false);
 				continue;
 			}
 		}
@@ -152,9 +153,9 @@ namespace LB
 			{
 				SettingsMenuSFX = GO;
 			}
-			if (GO->GetName() == "SettinesMenuSFXCollider")
+			if (GO->GetName() == "SettingsMenuSFXCollider")
 			{
-				SettinesMenuSFXCollider = GO;
+				SettingsMenuSFXCollider = GO;
 			}
 
 			if (GO->GetName() == "SettingsMenuMusic")
@@ -209,12 +210,16 @@ namespace LB
 			if (time <= 1.1f)
 			{	//This is where the sound should fade
 				GOMANAGER->FindGameObjectWithName("MenuMusic")->GetComponent<CPAudioSource>()->FadeOut(0.8f);
-				pos.x = 2880.f - 1920.f * bezier(time);
-				curtain->GetComponent<CPTransform>()->SetPosition(pos);
+
+				//We lerp the scale, it follows the timer so it either shrinks or expands
+				Vec2<float> portalScale = Lerp(Vec2<float>(1, 1), Vec2<float>(200, 200), time / 1.5f);
+				curtain->GetComponent<CPTransform>()->SetScale(portalScale);
+
 				time += static_cast<float>(TIME->GetDeltaTime());
 			}
 			else
 			{
+				menuFlag = true;
 				SCENEMANAGER->LoadScene("SceneMain");
 			}
 			return;
@@ -254,6 +259,8 @@ namespace LB
 				}
 				else if (GameObj->GetName() == "StartGame") {
 					animFlag = true;
+					menuFlag = false;
+					curtain->GetComponent<CPRender>()->ToggleActive(true);
 					//SCENEMANAGER->LoadScene("SceneMain");
 				}
 				else if (GameObj->GetName() == "Settings") {
@@ -268,7 +275,7 @@ namespace LB
 						SettingsMenuMVCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 640.f});
 
 						SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::SFXSliderPos, 510.f});
-						SettinesMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 510.f});
+						SettingsMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 510.f});
 
 						SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::MusicSliderPos, 390.f});
 						SettingsMenuMusicCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 390.f});
@@ -310,7 +317,7 @@ namespace LB
 
 		if (!menuFlag &&
 			SettingsMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f &&
-			ConfirmMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f)
+			ConfirmMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f && !animFlag)
 			menuFlag = true;
 
 	}

@@ -132,9 +132,9 @@ namespace LB
 			{
 				SettingsMenuSFX = GO;
 			}
-			if (GO->GetName() == "SettinesMenuSFXCollider")
+			if (GO->GetName() == "SettingsMenuSFXCollider")
 			{
-				SettinesMenuSFXCollider = GO;
+				SettingsMenuSFXCollider = GO;
 			}
 
 			if (GO->GetName() == "SettingsMenuMusic")
@@ -330,7 +330,7 @@ namespace LB
 						SettingsMenuMVCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 640.f});
 
 						SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::SFXSliderPos, 510.f});
-						SettinesMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 510.f});
+						SettingsMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 510.f});
 
 						SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::MusicSliderPos, 390.f});
 						SettingsMenuMusicCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 390.f});
@@ -388,6 +388,9 @@ namespace LB
 				{
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
+						if (!MenuTexture)
+							continue;
+
 						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
 						MenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.67f, 11.50f});
 

@@ -43,6 +43,7 @@ void LB::CPPSSettings::Start()
 		if (GO->GetName() == "SettingsMenuFullScreen")
 		{
 			SettingsMenuFullscreen = GO;
+			SettingsMenuFullscreen->GetComponent<CPRender>()->ToggleActive(WINDOWSSYSTEM->IsFullScreen());
 		}
 
 		//sliders
@@ -59,9 +60,9 @@ void LB::CPPSSettings::Start()
 		{
 			SettingsMenuSFX = GO;
 		}
-		if (GO->GetName() == "SettinesMenuSFXCollider")
+		if (GO->GetName() == "SettingsMenuSFXCollider")
 		{
-			SettinesMenuSFXCollider = GO;
+			SettingsMenuSFXCollider = GO;
 		}
 
 		if (GO->GetName() == "SettingsMenuMusic")
@@ -110,7 +111,7 @@ void LB::CPPSSettings::Update()
 					SettingsMenuMVCollider->GetComponent<CPTransform>()->SetPosition(hidevec);
 
 					SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(hidevec);
-					SettinesMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(hidevec);
+					SettingsMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(hidevec);
 
 					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(hidevec);
 					SettingsMenuMusicCollider->GetComponent<CPTransform>()->SetPosition(hidevec);
@@ -124,7 +125,7 @@ void LB::CPPSSettings::Update()
 				{
 					WINDOWSSYSTEM->toggleFullScreen();
 
-					SettingsMenuFullscreen->GetComponent<CPRender>()->set_active();
+					SettingsMenuFullscreen->GetComponent<CPRender>()->ToggleActive(WINDOWSSYSTEM->IsFullScreen());
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -153,17 +154,17 @@ void LB::CPPSSettings::Update()
 				if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
 				{
 					float y{ SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().y };
-					SettingsMenuMV->GetComponent<CPTransform>()->SetPosition(Vec2<float>(INPUT->GetMousePos().x, y));
+					SettingsMenuMV->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MVSliverPos = SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().x;
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
-			if (GameObj->GetName() == "SettinesMenuSFXCollider") {
+			if (GameObj->GetName() == "SettingsMenuSFXCollider") {
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 				if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
 				{
 					float y{ SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().y };
-					SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>(INPUT->GetMousePos().x, y));
+					SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					SFXSliderPos = SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().x;
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
@@ -173,7 +174,7 @@ void LB::CPPSSettings::Update()
 				if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
 				{
 					float y{ SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().y };
-					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>(INPUT->GetMousePos().x, y));
+					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MusicSliderPos = SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().x;
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------

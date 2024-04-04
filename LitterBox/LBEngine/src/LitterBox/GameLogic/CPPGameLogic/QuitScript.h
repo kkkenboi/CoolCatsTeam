@@ -72,7 +72,7 @@ namespace LB
 		GameObject* SettingsMenuMVCollider{ nullptr };
 
 		GameObject* SettingsMenuSFX{ nullptr };
-		GameObject* SettinesMenuSFXCollider{ nullptr };
+		GameObject* SettingsMenuSFXCollider{ nullptr };
 
 		GameObject* SettingsMenuMusic{ nullptr };
 		GameObject* SettingsMenuMusicCollider{ nullptr };

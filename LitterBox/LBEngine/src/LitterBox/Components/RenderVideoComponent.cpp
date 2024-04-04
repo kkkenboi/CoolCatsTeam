@@ -21,6 +21,7 @@
 #include "LitterBox/Components/RenderComponent.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Audio/AudioManager.h"
+#include "LitterBox/Engine/Input.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -87,12 +88,20 @@ namespace LB
 			else if (frame_queue.empty() && last_frame_read)
 			{
 				playCutscene = false;
-				//free_video_state();
+				free_video_state();
 				SCENEMANAGER->LoadScene(scene_to_transition);
 				AUDIOMANAGER->StopAllChannels();
 			}
 
 			timer += TIME->GetDeltaTime();
+		}
+
+		if (INPUT->IsKeyPressed(KeyCode::KEY_ESCAPE))
+		{
+			while (!frame_queue.empty())
+				frame_queue.pop();
+
+			last_frame_read = true;
 		}
 	}
 
