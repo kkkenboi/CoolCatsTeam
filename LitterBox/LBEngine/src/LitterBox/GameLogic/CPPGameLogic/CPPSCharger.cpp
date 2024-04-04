@@ -134,17 +134,6 @@ namespace LB
 	{
 		CPPSBaseEnemy::Update();
 
-		//if (!facingLeft)
-		//{
-		//	mAngerObjTwoTrans->SetPosition(Vec2<float>(58.0f, 7.0f));
-		//	mAngerObjTwoTrans->SetRotation(5.10f);
-		//}
-		//else if (facingLeft)
-		//{
-		//	mAngerObjTwoTrans->SetPosition(Vec2<float>(-58.0f, 7.0f));
-		//	mAngerObjTwoTrans->SetRotation(-5.10f);
-		//}
-
 		if (mInitialised == false)
 		{
 			return;
@@ -171,9 +160,13 @@ namespace LB
 		{
 			m_isLocked = false;
 		}
-
 		mFSM.Update();
 	}
+
+	/*!***********************************************************************
+	\brief
+	FixedUpdate Behaviour for Charger for any physics calculations
+	*************************************************************************/
 
 	void CPPSCharger::FixedUpdate()
 	{
@@ -222,9 +215,10 @@ namespace LB
 			//m_isHurt = true;
 			mFSM.ChangeState("Hurt");//change state
 		}
-		else if ((chargerStr!= std::string::npos|| wallStr != std::string::npos || MushroomStr != std::string::npos) && m_isCharging ) //if colliding and is charging
+		else if ((chargerStr!= std::string::npos|| wallStr != std::string::npos || MushroomStr != std::string::npos /*|| brambleStr != std::string::npos*/) && m_isCharging ) //if colliding and is charging
 		{	
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHitSounds, 0.2f);
+			//WallImpactParticle->mIsActive = true;
 			//m_isStunned = true;
 			mFSM.ChangeState("Stunned"); //change state
 		}
@@ -242,15 +236,17 @@ namespace LB
 	*************************************************************************/
 	void CPPSCharger::Hurt()
 	{
-		isAggro = true;
-		if (GetHealth() <= 0)
+		//isAggro = true;
+		//CPPSBaseEnemy::Hurt();
+		if (GetHealth() <= 0) //if health below 0, die
 		{
 			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerDeathSounds, 0.2f);
 			Die();
 		}
 		else
 		{
-			CPPSBaseEnemy::Hurt();
+			isAggro = true; //get hurt, got angry
+			CPPSBaseEnemy::Hurt(); //just get hurt
 		}
 	}
 
@@ -310,6 +306,15 @@ namespace LB
 		mFSM.ChangeState("Stunned");
 	}
 
+	/*!***********************************************************************
+	\brief
+	function to change state for the shield
+	*************************************************************************/
+	void CPPSCharger::ChangeToHurt()
+	{
+		mFSM.ChangeState("Hurt");
+	}
+
 	//STATES : IDLE, MOVE, HURT, WINDUP, CHARGE, STUNNED
 	/*!***********************************************************************
 	\brief
@@ -338,7 +343,9 @@ namespace LB
 	\brief
 	FixedUpdate the state of Idle 
 	*************************************************************************/
-	void ChargerIdleState::FixedUpdate(){}
+	void ChargerIdleState::FixedUpdate()
+	{
+	}
 
 	/*!***********************************************************************
 	\brief
@@ -405,7 +412,7 @@ namespace LB
 			Vec2<float> Direction = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
 			Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
 
-			mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime()));
+			mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetFixedDeltaTime()));
 		}
 	}
 
@@ -415,25 +422,6 @@ namespace LB
 	*************************************************************************/
 	void ChargerMoveState::Update()
 	{
-		//charger will walk slowly towards the player
-		//when charger is near the player, state will change to windup
-
-		//DebuggerLogWarning("CHARGER MOVE STATE");
-		/*
-		float DistInBwn = Vec2<float>::Distance(mEnemy->GetChargerPos(), mEnemy->GetPlayerPos());
-
-		if (DistInBwn <= mEnemy->mDistToWindUp)
-		{
-			GetFSM().ChangeState("WindUp");
-		}
-		else
-		{
-			Vec2<float> Direction = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
-			Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
-
-			mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime()));
-		}
-		*/
 	}
 
 	/*!***********************************************************************
@@ -465,8 +453,8 @@ namespace LB
 		mEnemy->mAnimator->PlayAndReset("Charger_Hurt");
 		
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHurtSounds, 0.2f);
-		mEnemy->m_isHurt = true;
-		mEnemy->Hurt();
+		mEnemy->m_isHurt = true; //to lock the shield
+		mEnemy->Hurt(); //to check health and die if <= 0
 		this->Update();
 	}
 
@@ -474,7 +462,9 @@ namespace LB
 	\brief
 	FixedUpdate the state of Hurt
 	*************************************************************************/
-	void ChargerHurtState::FixedUpdate(){}
+	void ChargerHurtState::FixedUpdate()
+	{
+	}
 
 	/*!***********************************************************************
 	\brief
@@ -484,8 +474,10 @@ namespace LB
 	{
 		//DebuggerLogWarning("CHARGER HURT STATE");
 		mEnemy->mTimerDurationHurt -= static_cast<float>(TIME->GetDeltaTime());
+		//std::cout << "Time to Idle: " << mEnemy->mTimerDurationHurt << "\n";
 		if (mEnemy->mTimerDurationHurt <= 0.0f)
 		{
+			//std::cout << "CHANGING TO IDLE\n";
 			GetFSM().ChangeState("Idle");
 		}
 	}
@@ -497,6 +489,7 @@ namespace LB
 	void ChargerHurtState::Exit()
 	{
 		mEnemy->m_isHurt = false;
+		mEnemy->mTimerDurationHurt = 2.0f;
 		mEnemy->mAnimator->StopAndReset();
 	}
 
@@ -526,6 +519,8 @@ namespace LB
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerChargingSounds, 0.2f);
 
 		mEnemy->mTimerToCharge = 2.0f;
+
+		//mEnemy->isAggro = false;
 		this->Update();
 	}
 
@@ -533,7 +528,9 @@ namespace LB
 	\brief
 	FixedUpdate the state of WindUp
 	*************************************************************************/
-	void ChargerWindUpState::FixedUpdate(){}
+	void ChargerWindUpState::FixedUpdate()
+	{
+	}
 
 	/*!***********************************************************************
 	\brief
@@ -597,7 +594,7 @@ namespace LB
    *************************************************************************/
 	void ChargerChargeState::FixedUpdate()
 	{
-		mEnemy->GetRigidBody()->mVelocity += mEnemy->mChargeNormalForce * static_cast<float>(TIME->GetDeltaTime());
+		mEnemy->GetRigidBody()->mVelocity += mEnemy->mChargeNormalForce * static_cast<float>(TIME->GetFixedDeltaTime());
 		mEnemy->GetRigidBody()->mVelocity.x = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.x, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
 		mEnemy->GetRigidBody()->mVelocity.y = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.y, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
 	}
@@ -608,9 +605,6 @@ namespace LB
    *************************************************************************/
 	void ChargerChargeState::Update()
 	{
-		//mEnemy->GetRigidBody()->mVelocity += mEnemy->mChargeNormalForce  * static_cast<float>(TIME->GetDeltaTime());
-		//mEnemy->GetRigidBody()->mVelocity.x = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.x, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
-		//mEnemy->GetRigidBody()->mVelocity.y = Clamp<float>(mEnemy->GetRigidBody()->mVelocity.y, -(mEnemy->mChargingSpeed), mEnemy->mChargingSpeed);
 	}
 
 	/*!***********************************************************************
@@ -645,6 +639,7 @@ namespace LB
 		mEnemy->mDizzyAnim->PlayRepeat("Charger_StunVFX");
 		mEnemy->mAnimator->PlayRepeat("Charger_Stunny");
 
+
 		mEnemy->m_isStunned = true;
 		mEnemy->mStunStopMovingElapsed = 0.0f;
 
@@ -660,7 +655,22 @@ namespace LB
 	*************************************************************************/
 	void ChargerStunnedState::FixedUpdate()
 	{
+		if (mEnemy->mStunStopMovingElapsed < 0.15f)
+		{
+			mEnemy->mStunStopMovingElapsed += static_cast<float>(TIME->GetFixedDeltaTime());
+			if (mEnemy->mStunStopMovingElapsed >= 0.15f)
+			{
+				mEnemy->GetRigidBody()->mVelocity.x = 0.0f;
+				mEnemy->GetRigidBody()->mVelocity.y = 0.0f;
+			}
+		}
 
+		//mEnemy->mStunTimerElapsed -= static_cast<float>(TIME->GetFixedDeltaTime());
+
+		//if (mEnemy->mStunTimerElapsed <= 0.0f)
+		//{
+		//	GetFSM().ChangeState("Idle");
+		//}
 	}
 
 	/*!***********************************************************************
@@ -670,15 +680,15 @@ namespace LB
 	void ChargerStunnedState::Update()
 	{
 		//DebuggerLogWarning("CHARGER STUNNED STATE");
-		if (mEnemy->mStunStopMovingElapsed < 0.15f)
-		{
-			mEnemy->mStunStopMovingElapsed += static_cast<float>(TIME->GetDeltaTime());
-			if (mEnemy->mStunStopMovingElapsed >= 0.15f)
-			{
-				mEnemy->GetRigidBody()->mVelocity.x = 0.0f;
-				mEnemy->GetRigidBody()->mVelocity.y = 0.0f;
-			}
-		}
+		//if (mEnemy->mStunStopMovingElapsed < 0.15f)
+		//{
+		//	mEnemy->mStunStopMovingElapsed += static_cast<float>(TIME->GetDeltaTime());
+		//	if (mEnemy->mStunStopMovingElapsed >= 0.15f)
+		//	{
+		//		mEnemy->GetRigidBody()->mVelocity.x = 0.0f;
+		//		mEnemy->GetRigidBody()->mVelocity.y = 0.0f;
+		//	}
+		//}
 
 		mEnemy->mStunTimerElapsed -= static_cast<float>(TIME->GetDeltaTime());
 
@@ -695,6 +705,7 @@ namespace LB
 	void ChargerStunnedState::Exit()
 	{
 		mEnemy->m_isStunned = false;
+		//mEnemy->WallImpactParticle->mIsActive = false;
 		mEnemy->mDizzyRender->ToggleActiveFlag(false);
 		mEnemy->mDizzyAnim->StopAndReset();
 		mEnemy->mAnimator->StopAndReset();

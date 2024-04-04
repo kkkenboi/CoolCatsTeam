@@ -13,6 +13,7 @@
 **************************************************************************/
 
 #include "CPPShield.h"
+#include "CPPVFXManager.h"
 #include "LitterBox/Utils/Matrix3x3.h"
 
 namespace LB
@@ -39,15 +40,14 @@ namespace LB
 
 	/*!************************************************************************
 	 * \brief Update function for the Shield, Check if it need to rotate or not
-	 * 
+	 *
 	**************************************************************************/
-	void CPPShield::Update()
+	void CPPShield::FixedUpdate()
 	{
 		//set the pos of the shield onto the charger
 		//setting the pos of the shield to be on the charger
 
 		// Rotation : Face the player
-		
 		if (!m_ScriptSet) //if theres no script, find it
 		{
 			mCharger = mTransform->GetParent()->gameObj; //get the parent of the shield
@@ -57,7 +57,6 @@ namespace LB
 
 		if (mChargerScript->m_isLocked) //if its locked rotation
 		{
-			//std::cout << "LOCKED\n";
 			mTransform->SetPosition(cachedPosition);
 			mTransform->SetRotation(cachedRot);
 
@@ -70,18 +69,39 @@ namespace LB
 			mTransform->SetRotation(RadToDeg(atan2f(Direction.y, Direction.x)));
 			cachedPosition = Direction;
 			cachedRot = RadToDeg(atan2f(Direction.y, Direction.x));
-	
 		}
+
 		// Scale : If facing left, set scale x = -1
 		if ((mTransform->GetParent()->GetScale().x < 0 && mTransform->GetLocalScale().x > 0) ||
-				mTransform->GetParent()->GetScale().x > 0 && mTransform->GetLocalScale().x < 0)
+			mTransform->GetParent()->GetScale().x > 0 && mTransform->GetLocalScale().x < 0)
 		{
 			Vec2<float> newScale{ mTransform->GetLocalScale() };
 			newScale.x = -newScale.x;
 
 			mTransform->SetScale(newScale);
 		}
+
+		//if charger is stunned, VFX will be played
+		if (mChargerScript->m_isStunned)
+		{
+			if (hasPlayedVFX == false) {
+				GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(mTransform->GetPosition());
+				hasPlayedVFX = true;
+			}
+		}
+
+		//For VFX when it impacted the wall, set back false
+		if (mChargerScript->m_isStunned == false) 
+		{
+			hasPlayedVFX = false;
+		}
 	}
+
+	/*!************************************************************************
+	 * \brief Update function for the Shield, Check if it need to rotate or not
+	 * 
+	**************************************************************************/
+	void CPPShield::Update() { }
 
 	/*!************************************************************************
 	 * \brief Destroy
@@ -95,19 +115,17 @@ namespace LB
 	**************************************************************************/
 	void CPPShield::OnCollisionEnter(CollisionData colData)
 	{
-		//std::string str(colData.colliderOther->m_gameobj->GetName());
-		//std::cout << "Collided with: " << colData.colliderOther->m_gameobj->GetName() << "\n";
-		//size_t ShieldStr = str.find("Shield");
-		if (colData.colliderOther->m_gameobj->GetName() == "Shield")
+		std::string str(colData.colliderOther->m_gameobj->GetName());
+		//size_t brambleStr = str.find("Bramble");
+		if (colData.colliderOther->m_gameobj->GetName() == "Shield") //Shield collide with another Shield
 		{
 			//std::cout << "Collided with: " << colData.colliderOther->m_gameobj->GetName() << "\n";
 			mChargerScript->ChangeToStunned();
 		}
-		else if (colData.colliderOther->m_gameobj->GetName() == "ball")
-		{
-			//std::cout << "GOT HIT BALL\n";
-		}
-
+		//else if (brambleStr != std::string::npos)
+		//{
+		//	mChargerScript->ChangeToHurt();
+		//}
 ;	}
 
 	/*!************************************************************************

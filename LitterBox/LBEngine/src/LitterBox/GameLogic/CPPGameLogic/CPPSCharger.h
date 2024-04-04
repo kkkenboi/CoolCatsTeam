@@ -67,11 +67,11 @@ namespace LB
 
 		bool isChargerDead{ false }; //check if charger is dead
 
-		CPParticle* FootstepsParticle{ nullptr }; //Foot Particles
+		CPParticle* FootstepsParticle{ nullptr }; //*WallImpactParticle{ nullptr }; //Foot Particles
 
 		CPAnimator* mDizzyAnim{ nullptr }, * mAngerAnim{ nullptr }, * mPuffAnim{ nullptr }, * mMoveAnim{ nullptr }, * mAngerTwoAnim{ nullptr }; //Animation
 
-		float m_FootstepsParticleEmitRate{};
+		float m_FootstepsParticleEmitRate{}, m_WallImpactParticleEmitRate{};
 
 
 		CPTransform* mTransform{ nullptr }; //trans of the GO
@@ -94,6 +94,8 @@ namespace LB
 		bool m_isCharging{  }, m_isStunned{  }, m_isHurt{  }, m_isLocked{  };
 		// A helper function to change state in the shield
 		void ChangeToStunned();
+		void ChangeToHurt();
+
 
 	private:
 		FiniteStateMachine mFSM{};

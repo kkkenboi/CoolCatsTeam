@@ -26,6 +26,7 @@ namespace LB
 	void AnimationManager::Initialize()
 	{
 		CORE->onPlayingModeToggle.Subscribe(StartAnimators);
+		SCENEMANAGER->onNewSceneLoad.Subscribe(NewSceneAnimators);
 	}
 
 	/*!***********************************************************************
@@ -48,9 +49,26 @@ namespace LB
 	{
 		if (!CORE->IsPlaying()) return;
 
-		for (auto& anim : m_animators)
+		// M6 hacks bois
+		if (m_shouldCheckCulling)
 		{
-			anim->Update();
+			if (!m_cam) m_cam = GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPPSCameraFollow>();
+
+			for (auto& anim : m_animators)
+			{
+				if (anim->m_shouldCull)
+				{
+					anim->m_isCulled = !m_cam->IsVisible(anim->GetComponent<CPTransform>());
+				}
+				anim->Update();
+			}
+		}
+		else
+		{
+			for (auto& anim : m_animators)
+			{
+				anim->Update();
+			}
 		}
 	}
 
@@ -99,6 +117,12 @@ namespace LB
 		m_animators.clear();
 	}
 
+	void AnimationManager::ClearCameraFollow(std::string const& name)
+	{
+		m_cam = nullptr;
+		m_shouldCheckCulling = name == "SceneMain";
+	}
+
 	/*!***********************************************************************
 	 \brief
 	 Global event function that starts the animators when the game is playing.
@@ -113,5 +137,10 @@ namespace LB
 		{
 			AnimationManager::Instance()->ClearAnimators();
 		}
+	}
+
+	void NewSceneAnimators(Scene* newScene)
+	{
+		AnimationManager::Instance()->ClearCameraFollow(newScene->GetName());
 	}
 }

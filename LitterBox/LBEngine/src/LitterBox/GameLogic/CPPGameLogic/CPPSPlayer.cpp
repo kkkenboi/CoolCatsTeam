@@ -31,6 +31,7 @@
 #include "CPPSMouseWorld.h"
 #include "LitterBox/Core/Core.h"
 #include "CPPAudioManager.h"
+#include "CPPVFXManager.h"
 
 namespace LB
 {
@@ -65,7 +66,7 @@ namespace LB
 		m_stepSoundInterval = 0.2f;
 		m_stepSoundCurrent = 0.0f;
 
-		m_shootForce = 4500.0f;
+		m_shootForce = 3500.0f;
 		m_shootRadius = 120.0f;
 
 		// 1 seconds of invincibility
@@ -455,6 +456,11 @@ namespace LB
 				mStunTimer = 0.15f;
 				mIsStunned = true;
 			}
+		}
+
+		if (colData.colliderOther->m_gameobj->GetName() == "ChaserClub")
+		{
+			GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(trans->GetPosition());
 		}
 	}
 
