@@ -55,6 +55,7 @@
                     "AudioClipName": "",
                     "Play On Awake": true,
                     "Loop": false,
+                    "is3D": false,
                     "Volume": 1.0,
                     "Pitch": 1.0
                 }
@@ -309,7 +310,7 @@
                     "Active": true,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "ZLayer": 0.0,
+                    "ZLayer": 0.899999,
                     "Layer": 4,
                     "Texture": "HowToPlay",
                     "SpriteName": "None",
@@ -335,7 +336,7 @@
                     "Active": true,
                     "Width": 440.0,
                     "Height": 440.0,
-                    "ZLayer": 1.0,
+                    "ZLayer": 0.0,
                     "Layer": 4,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
@@ -722,6 +723,7 @@
                     "AudioClipName": "TutorialBGM",
                     "Play On Awake": true,
                     "Loop": true,
+                    "is3D": false,
                     "Volume": 0.5,
                     "Pitch": 1.0
                 }
@@ -746,7 +748,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 0.0,
-                    "Layer": 3,
+                    "Layer": 4,
                     "Texture": "Underline",
                     "SpriteName": "None",
                     "SpriteIndex": -1
