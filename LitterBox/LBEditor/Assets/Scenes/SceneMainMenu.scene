@@ -374,11 +374,11 @@
             },
             {
                 "Name": "Transition Curtain",
-                "Active": true,
+                "Active": false,
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 2880.0,
+                        "x": 960.0,
                         "y": 540.0
                     },
                     "Scale": {
@@ -389,13 +389,13 @@
                 },
                 "Render": {
                     "Active": true,
-                    "Width": 1920.0,
-                    "Height": 1080.0,
+                    "Width": 100.0,
+                    "Height": 100.0,
                     "ZLayer": 1.0,
                     "Layer": 3,
-                    "Texture": "",
-                    "SpriteName": "None",
-                    "SpriteIndex": -1
+                    "Texture": "UpgradePopUp_Spritesheet",
+                    "SpriteName": "UpgradesSheet",
+                    "SpriteIndex": 19
                 }
             },
             {

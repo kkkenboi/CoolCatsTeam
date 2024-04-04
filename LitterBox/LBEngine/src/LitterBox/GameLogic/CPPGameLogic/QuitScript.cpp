@@ -87,6 +87,7 @@ namespace LB
 			if (e->GetName() == "Transition Curtain")
 			{
 				curtain = e;
+				curtain->GetComponent<CPRender>()->ToggleActive(false);
 				continue;
 			}
 		}
@@ -209,8 +210,11 @@ namespace LB
 			if (time <= 1.1f)
 			{	//This is where the sound should fade
 				GOMANAGER->FindGameObjectWithName("MenuMusic")->GetComponent<CPAudioSource>()->FadeOut(0.8f);
-				pos.x = 2880.f - 1920.f * bezier(time);
-				curtain->GetComponent<CPTransform>()->SetPosition(pos);
+
+				//We lerp the scale, it follows the timer so it either shrinks or expands
+				Vec2<float> portalScale = Lerp(Vec2<float>(1, 1), Vec2<float>(200, 200), time / 1.5f);
+				curtain->GetComponent<CPTransform>()->SetScale(portalScale);
+
 				time += static_cast<float>(TIME->GetDeltaTime());
 			}
 			else
@@ -256,6 +260,7 @@ namespace LB
 				else if (GameObj->GetName() == "StartGame") {
 					animFlag = true;
 					menuFlag = false;
+					curtain->GetComponent<CPRender>()->ToggleActive(true);
 					//SCENEMANAGER->LoadScene("SceneMain");
 				}
 				else if (GameObj->GetName() == "Settings") {
