@@ -282,6 +282,15 @@
                     "SpriteName": "VFXSheet",
                     "SpriteIndex": 32
                 },
+                "AudioSource": {
+                    "Active": true,
+                    "AudioClipName": "",
+                    "Play On Awake": false,
+                    "Loop": false,
+                    "is3D": false,
+                    "Volume": 0.3,
+                    "Pitch": 1.0
+                },
                 "Animator": {
                     "Default State": "None",
                     "Play On Awake": false,

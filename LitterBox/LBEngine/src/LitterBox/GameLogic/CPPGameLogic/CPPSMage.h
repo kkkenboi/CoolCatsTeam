@@ -17,6 +17,8 @@ it handls the logic for the Mage enemy
 #include "CPPSBaseEnemy.h"
 #include "CPPSProjectileBall.h"
 #include "LitterBox/GameLogic/StateMachine.h"
+#include "CPPAudioManager.h"
+
 
 namespace LB
 {
@@ -74,6 +76,7 @@ namespace LB
 		//CPRender* mRender; //animation purpose
 		//CPRigidBody* mRigidBody; //Getting the RB of the enemy
 		//CPCollider* mCollider; //Getting the collider of the enemy
+		CPPSAudioManager* mAudioManager{ nullptr }; //Getting the audio manager
 
 	private:
 		GameObject* mProjectile{ nullptr }; //Getting the projectile GameObject

@@ -55,10 +55,8 @@ namespace LB
 			// Handle initialization error
 		}
 		audioSystem->set3DNumListeners(1);
-		audioSystem->set3DSettings(1, 500.f, 1.f);
-		//Set the channel groups for 2D and 3D
-		audioSystem->createChannelGroup("3D", &channelGroup3D);
-		audioSystem->createChannelGroup("2D", &channelGroup2D);
+		audioSystem->set3DSettings(1, 600.f, 1.f);
+
 		//Subscribe events
 		CORE->onPlayingModeToggle.Subscribe(RemoveAllAudioSources);
 		WINDOWSSYSTEM->OnApplicationFocus.Subscribe(UnPause);
@@ -186,8 +184,7 @@ namespace LB
 			if (_channel)
 			{
 				//FMOD_VECTOR pos = { AudioListener->transform->GetPosition().x,AudioListener->transform->GetPosition().y};
-				_channel->setMode(FMOD_3D_HEADRELATIVE);		//NOTE!! THIS MAKES THE SOUND 2D!!!
-
+				_channel->setMode(FMOD_2D);		//NOTE!! THIS MAKES THE SOUND 2D!!!
 				//_channel->set3DAttributes(&pos, nullptr);
 				Channels[_channelID] = _channel;
 			}
@@ -403,6 +400,14 @@ namespace LB
 	void AudioManager::FadeinChannels(float duration)
 	{
 		UNREFERENCED_PARAMETER(duration);
+	}
+
+	void AudioManager::SetLoopChannel(int ChannelID, bool loop)
+	{
+		if (Channels.find(ChannelID) != Channels.end())
+		{
+			Channels[ChannelID]->setMode(loop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF);
+		}// else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
 	}
 
 

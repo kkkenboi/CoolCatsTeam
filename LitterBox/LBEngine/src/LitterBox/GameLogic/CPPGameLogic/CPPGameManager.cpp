@@ -24,7 +24,7 @@
 #include "CPPSDirectionHelper.h"
 #include "CPPSPlayer.h"
 #include "CPPSMouseUI.h"
-
+#include "CPPAudioManager.h"
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -41,6 +41,7 @@ namespace LB
 		//We also need to grab the crowdTexture
 		//By default, the render is set active false
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
+		mAudioManager = GOMANAGER->FindGameObjectWithName("AudioManager");
 		crowdTexture = GOMANAGER->FindGameObjectWithName("EndCrowdCheer");
 		gameOverTexture = GOMANAGER->FindGameObjectWithName("ActualTexture");
 		killerTexture = GOMANAGER->FindGameObjectWithName("Killer");
@@ -283,11 +284,11 @@ namespace LB
 					}
 				}
 			}
-			if (!isSoundSwapped && !GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->volume)
+			if (!isSoundSwapped && !GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->volume)
 			{
 				//more sinful code :pensive:
-				GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->UpdateAudio("GameOverBGM");
-				GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeIn(2.f,0.4f);
+				GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->UpdateAudio("GameOverBGM");
+				GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->FadeIn(2.f,0.4f);
 				isSoundSwapped = true;
 			}
 		}
@@ -367,8 +368,7 @@ namespace LB
 	void CPPSGameManager::SpawnCrowdAnim()
 	{
 		//First we play the sound
-		int chnl = AUDIOMANAGER->PlaySound("Spliced_Cheering");
-		AUDIOMANAGER->SetChannelVolume(chnl, 0.3f);
+		mAudioManager->GetComponent<CPPSAudioManager>()->Play2DSound("Spliced_Cheering",false , 0.3f);
 		//then we show the crowd texture
 		crowdTexture->SetActive(true);
 		crowdTexture->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPAnimator>()->Play("Action_UpDownCrowd");
@@ -442,8 +442,9 @@ namespace LB
 	void CPPSGameManager::ShowGameOver(GameObject enemyObj)
 	{
 		//first we fade out the music	
-		GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeOut(2.5f);
-
+		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->FadeOut(2.5f);
+		//Cross fade it out babeyyy still WIP though
+		//mAudioManager->GetComponent<CPPSAudioManager>()->CrossFadeBGM("GameOverBGM", 2.5f);
 		AUDIOMANAGER->PlaySound("GameOver");
 		//AUDIOMANAGER->PlaySound("GameOverBGM");
 		isGameOver = true;
@@ -632,7 +633,8 @@ namespace LB
 	{
 		//enemy obj is the one that killed the player
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ShowGameOver(enemyObj);
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerDeathSounds, 0.25f);
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerDeathSounds, 0.25f);
+		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play2DSound("PlayerDeath",false, 0.25f);
 
 	}
 

@@ -19,6 +19,7 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "CPPGameManager.h"
 #include "CPPSPlayerHUD.h"
+#include "CPPSDirectionHelper.h"
 /*!************************************************************************
  * \brief Small note: By right I think we should have just let the upgrade manager
  * keep track of what upgrades the ball is supposed to have, and the ball should
@@ -123,6 +124,9 @@ namespace LB
 
 		// Let anim knows that upgrades are spawned
 		isSpawned = true;
+		//Let direction helper know that upgrades have not been taken
+		GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mUpgradeTaken = false;
+
 
 		leftUpgrade = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("Upgrade", *leftUpgrade);
@@ -197,7 +201,7 @@ namespace LB
 		GameManagerObj->GetComponent<CPPSGameManager>()->NextWave();*/
 
 		GOMANAGER->FindGameObjectWithName("Portal")->SetActive(true);
-		
+		GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mUpgradeTaken = true;
 		auto gameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 		if (gameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentUpgrades < gameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxUpgrades)
 		{

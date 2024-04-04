@@ -27,6 +27,7 @@ namespace LB
 	*************************************************************************/
 	void CPPSBramble::Start()
 	{
+		CPPSBaseBouncy::Start();
 		mTransform = GameObj->GetComponent<CPTransform>()->GetChild();
 		mRender = mTransform->GetComponent<CPRender>();
 		mRigidBody = GameObj->GetComponent<CPRigidBody>();
