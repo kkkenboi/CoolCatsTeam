@@ -388,6 +388,9 @@ namespace LB
 				{
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
+						if (!MenuTexture)
+							continue;
+
 						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
 						MenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.67f, 11.50f});
 

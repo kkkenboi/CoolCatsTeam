@@ -45,7 +45,7 @@ namespace LB
 		gameOverTexture = GOMANAGER->FindGameObjectWithName("ActualTexture");
 		killerTexture = GOMANAGER->FindGameObjectWithName("Killer");
 		//we also wanna cache the position of the UI so we can set it back later
-		cachedCrowdPos = crowdTexture->GetComponent<CPTransform>()->GetPosition();
+		cachedCrowdPos = crowdTexture ? crowdTexture->GetComponent<CPTransform>()->GetPosition() : cachedCrowdPos;
 	
 		//Set the player's spawn point
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
@@ -203,7 +203,7 @@ namespace LB
 			}
 		}
 		//Timer for the crowd, if the crowd texture is active then we want to do stuff
-		if (crowdTexture->IsActive())
+		if (crowdTexture && crowdTexture->IsActive())
 		{
 			timer += static_cast<float>(TIME->GetDeltaTime());
 

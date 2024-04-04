@@ -1280,8 +1280,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 960.0,
-                        "y": 540.0
+                        "x": 10000.0,
+                        "y": 10000.0
                     },
                     "Scale": {
                         "x": 1.0,
@@ -1334,8 +1334,8 @@
                 "Transform": {
                     "Active": true,
                     "Position": {
-                        "x": 960.0,
-                        "y": 540.0
+                        "x": 10000.0,
+                        "y": 10000.0
                     },
                     "Scale": {
                         "x": 1.0,

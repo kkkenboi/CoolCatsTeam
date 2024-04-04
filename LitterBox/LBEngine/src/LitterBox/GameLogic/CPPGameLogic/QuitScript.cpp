@@ -215,6 +215,7 @@ namespace LB
 			}
 			else
 			{
+				menuFlag = true;
 				SCENEMANAGER->LoadScene("SceneMain");
 			}
 			return;
@@ -254,6 +255,7 @@ namespace LB
 				}
 				else if (GameObj->GetName() == "StartGame") {
 					animFlag = true;
+					menuFlag = false;
 					//SCENEMANAGER->LoadScene("SceneMain");
 				}
 				else if (GameObj->GetName() == "Settings") {
