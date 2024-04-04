@@ -241,7 +241,7 @@ namespace LB {
 				m_totalUpgradePopUps[i].first->GetComponent<CPRender>()->ToggleActive(m_mouseHoverWorld);
 				if (m_playOnceWorld)
 				{
-					m_totalUpgradePopUps[i].first->GetComponent<CPAnimator>()->PlayAndReset("VFX_Expand");
+					m_totalUpgradePopUps[i].first->GetComponent<CPAnimator>()->Play("VFX_Expand");
 					m_playOnceWorld = false;
 				}
 				//DebuggerLogFormat("Number of m_totalUpgradePopUps: %d", m_totalUpgradePopUps.size());
@@ -256,7 +256,7 @@ namespace LB {
 				m_totalUpgradePopUps[i].second->GetComponent<CPRender>()->ToggleActive(m_mouseHoverUI);
 				if (m_playOnceUI)
 				{
-					m_totalUpgradePopUps[i].second->GetComponent<CPAnimator>()->PlayAndReset("VFX_Expand");
+					m_totalUpgradePopUps[i].second->GetComponent<CPAnimator>()->Play("VFX_Expand");
 					m_playOnceUI = false;
 				}
 			}
