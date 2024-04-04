@@ -41,7 +41,7 @@ namespace LB
 		mAnimator = m_trans->GetChild()->GetChild()->GetComponent<CPAnimator>();
 		m_handTrans = m_trans->GetChild()->GetChild()->GetChild()->GetComponent<CPTransform>();
 		m_wandTipTrans = m_trans->GetChild()->GetChild()->GetChild()->GetChild()->GetComponent<CPTransform>();
-		
+		mAudioManager = GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>();
 		//initialse the state of the mage
 		//STATES : IDLE, CHASING, BACKOFF, HURT, SHOOTING
 		MageIdleState* IDLESTATE = DBG_NEW MageIdleState(this, mFSM, "Idle");
@@ -182,8 +182,8 @@ namespace LB
 				if (mGotAttackedCooldown > 0.0f) {
 					return;
 				}
-
-				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageHurtSounds, 0.2f);
+				mAudioManager->Play3DSound(mAudioManager->MageHurtSounds, GetComponent<CPTransform>()->GetPosition(), 0.2);
+				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageHurtSounds, 0.2f);
 				mGotAttackedCooldown = mGotAttacked;
 
 				
@@ -207,7 +207,9 @@ namespace LB
 	*************************************************************************/
 	void CPPSMage::Die()
 	{
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageDeathSounds,0.2f);
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageDeathSounds,0.2f);
+		mAudioManager->Play3DSound(mAudioManager->MageDeathSounds, GetComponent<CPTransform>()->GetPosition(), 0.2);
+
 		CPPSBaseEnemy::Die(); //We call this because the base class will have some logic to reduce enemy count
 	}
 
@@ -227,8 +229,10 @@ namespace LB
 		CurEnemyPos += Direction * m_handOffset;
 
 		Vec2<float> PosToSpawn{ CurEnemyPos.x, CurEnemyPos.y};
-		int Channel = AUDIOMANAGER->PlaySound("Fire, Whoosh, Flame, Fireball, Fast x4 SND11948 1");
-		AUDIOMANAGER->SetChannelVolume(Channel, 0.3f);
+		/*int Channel = AUDIOMANAGER->PlaySound("Fire, Whoosh, Flame, Fireball, Fast x4 SND11948 1");
+		AUDIOMANAGER->SetChannelVolume(Channel, 0.3f);*/
+
+		mAudioManager->Play3DSound("Fire, Whoosh, Flame, Fireball, Fast x4 SND11948 1", PosToSpawn, false, 0.3f);
 
 		//Spawn Game Object
 		GameObject* mageProjectileObject = FACTORY->SpawnGameObject();
@@ -282,7 +286,9 @@ namespace LB
 		if (mEnemy->isAggro)
 		{
 		GetFSM().ChangeState("Chase");
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageAttackSounds, 0.2f);
+		mEnemy->mAudioManager->Play3DSound(mEnemy->mAudioManager->MageAttackSounds, mEnemy->GameObj->GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
+
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageAttackSounds, 0.2f);
 		}
 
 	}
@@ -484,8 +490,8 @@ namespace LB
 
 		mEnemy->mNumOfProjectileCurrent = 0;
 		mEnemy->mProjCooldownCurrent = 0.0f;
-
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageAttackSounds, .3f);
+		mEnemy->mAudioManager->Play3DSound(mEnemy->mAudioManager->MageAttackSounds, mEnemy->GameObj->GetComponent<CPTransform>()->GetPosition(), false, 0.3f);
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageAttackSounds, .3f);
 		this->Update();
 	}
 

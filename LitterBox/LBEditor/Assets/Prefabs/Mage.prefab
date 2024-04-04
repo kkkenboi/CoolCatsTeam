@@ -164,5 +164,14 @@
     "CPPScript": {
         "Active": true,
         "Script": "class LB::CPPSMage"
+    },
+    "AudioSource": {
+        "Active": true,
+        "AudioClipName": "",
+        "Play On Awake": false,
+        "Loop": false,
+        "is3D": false,
+        "Volume": 0.3,
+        "Pitch": 1.0
     }
 }

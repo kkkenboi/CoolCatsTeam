@@ -16,7 +16,7 @@
 #include "CPPSPlayerHUD.h"
 #include "CPPSPlayer.h"
 #include "CPPGameManager.h"
-
+#include "CPPVFXManager.h"
 namespace LB
 {
 	/*!************************************************************************
@@ -88,6 +88,11 @@ namespace LB
 					break;
 				case BIGBALL:
 					// std::cout << "Bigger Balls!\n";
+					break;
+				case GOLFSWING:
+					GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPTransform>()->GetPosition(),2.f);
+					GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->m_shootRadius *= 2;
+					GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->SetSpriteTexture(GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->spriteSheetName, 4);
 					break;
 				default:
 					//do nothing

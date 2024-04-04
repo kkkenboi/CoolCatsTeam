@@ -390,10 +390,11 @@
                             },
                             "AudioSource": {
                                 "Active": true,
-                                "AudioClipName": "",
+                                "AudioClipName": "BGM",
                                 "Play On Awake": true,
-                                "Loop": false,
-                                "Volume": 1.0,
+                                "Loop": true,
+                                "is3D": false,
+                                "Volume": 0.1,
                                 "Pitch": 1.0
                             }
                         },
@@ -2426,30 +2427,6 @@
                             }
                         }
                     ]
-                }
-            },
-            {
-                "Name": "GameMusic",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "AudioSource": {
-                    "Active": true,
-                    "AudioClipName": "BGM",
-                    "Play On Awake": true,
-                    "Loop": true,
-                    "Volume": 0.1,
-                    "Pitch": 1.0
                 }
             },
             {

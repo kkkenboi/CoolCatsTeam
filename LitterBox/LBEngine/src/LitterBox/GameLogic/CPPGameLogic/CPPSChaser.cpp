@@ -24,7 +24,7 @@ it handles the logic for the chaser enemy
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "CPPGameManager.h"
 //#include "CPPVFXManager.h"
-
+#include "CPPAudioManager.h"
 namespace LB 
 {
 	/*!***********************************************************************
@@ -38,6 +38,7 @@ namespace LB
 		mRender = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPRender>();
 		mAnimator = GetComponent<CPTransform>()->GetChild()->GetChild()->GetComponent<CPAnimator>();
 		m_moveAnimator = GetComponent<CPTransform>()->GetChild()->GetComponent<CPAnimator>();
+		m_AudioManager = GOMANAGER->FindGameObjectWithName("AudioManager");
 		m_club = GetComponent<CPTransform>()->GetChild()->GetChild()->GetChild()->GetChild()->gameObj;
 
 		//Then we init all the states
@@ -205,7 +206,8 @@ namespace LB
 	{
 		//We access the base class first
 		//GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GetComponent<CPTransform>()->GetPosition());
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserDeathSounds,0.2f);
+		m_AudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->ChaserDeathSounds, GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserDeathSounds,0.2f);
 		CPPSBaseEnemy::Die(); //We call this because the base class will have some logic to reduce enemy count
 		//Code to play death anim goes here
 	}
@@ -259,7 +261,9 @@ namespace LB
 		if (mEnemy->isAggro)
 		{
 			GetFSM().ChangeState("Chase");
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
+			GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play3DSound(GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->ChaserAttackSounds, mEnemy->GameObj->GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
+
+			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
 		}
 	}
 
@@ -304,7 +308,7 @@ namespace LB
 		Vec2<float> Direction = (CurHeroPos - CurEnemyPos).Normalise();
 		Vec2<float> NormalForce = Direction * mEnemy->GetSpeedMag();
 
-		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetDeltaTime()));
+		mEnemy->GetRigidBody()->addForce(NormalForce * static_cast<float>(TIME->GetFixedDeltaTime()));
 	}
 
 	/*!***********************************************************************
@@ -340,7 +344,9 @@ namespace LB
 		//DebuggerLog("Entered HurtState");
 		mEnemy->GetHurtTimer() = 1.5f;
 		mEnemy->mAnimator->PlayAndReset("Melee_Hurt");
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserHurtSounds,0.2f);
+		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play3DSound(GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->ChaserHurtSounds, mEnemy->GameObj->GetComponent<CPTransform>()->GetPosition(), false, 0.2f);
+
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserHurtSounds,0.2f);
 		this->Update();
 	}
 

@@ -50,6 +50,7 @@ namespace LB
 		Vec2<float> DirToEvent{};
 
 		bool mLastEnemy{ false };
+		bool mUpgradeTaken{ false };
 
 		float distance{};
 		float iconDistance{};

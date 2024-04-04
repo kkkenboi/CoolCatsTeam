@@ -17,7 +17,7 @@
 
 #include "CPPBehaviour.h"
 #include "Litterbox/Factory/Components.h"
-
+#include "CPPAudioManager.h"
 namespace LB
 {
 	class CPPSProjectileBall : public CPPBehaviour
@@ -39,7 +39,7 @@ namespace LB
 		CPRigidBody* GetRigidBody(); //for RigidBody for the projectile
 		CPCollider* GetCollider(); //for collider for the projectile
 		GameObject* GetHero();
-
+		CPPSAudioManager* mAudioManager{ nullptr };
 
 		/*!***********************************************************************
 		\brief
