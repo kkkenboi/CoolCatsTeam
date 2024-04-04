@@ -15,6 +15,7 @@
 
 #include "CPPBehaviour.h"
 #include "LitterBox/Factory/Components.h"
+#include "CPPAudioManager.h"
 
 namespace LB
 {
@@ -25,7 +26,7 @@ namespace LB
 		\brief
 		Start function where variables will be initialised
 		*************************************************************************/
-		virtual void Start() {};
+		virtual void Start();	//mAudioManager is initialized here in cpp
 		/*!***********************************************************************
 		\brief
 		Update function where the mushroom's scale is being changed
@@ -57,7 +58,7 @@ namespace LB
 		Every time the bouncy collides with anything its scale changes
 		*************************************************************************/
 		virtual void OnCollisionEnter(CollisionData colData);
-
+		CPPSAudioManager* mAudioManager{ nullptr };
 	protected:
 		CPTransform* mTransform{ nullptr };
 		CPRender* mRender{ nullptr };

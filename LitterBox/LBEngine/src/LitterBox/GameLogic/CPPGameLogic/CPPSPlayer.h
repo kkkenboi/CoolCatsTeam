@@ -50,6 +50,7 @@ namespace LB
 
 		//------------------variables------------------
 		GameObject* m_GameManager{ nullptr };
+		GameObject* m_AudioManager{ nullptr };
 		GameObject* m_CameraFollow{ nullptr };
 		GameObject* m_MouseWorld{ nullptr };
 

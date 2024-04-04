@@ -90,6 +90,7 @@ namespace LB
 		CPTransform* mAngerObjTwoTrans{ nullptr };
 		CPRender* mAngerTwoRender{nullptr};
 
+		GameObject* mAudioManager{ nullptr }; //Audio Manager
 		//bool check for shield
 		bool m_isCharging{  }, m_isStunned{  }, m_isHurt{  }, m_isLocked{  };
 		// A helper function to change state in the shield

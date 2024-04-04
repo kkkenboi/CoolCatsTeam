@@ -60,6 +60,7 @@ namespace LB
 
 		//--------------------------Variables initializaiton----------------------------
 		m_GameManager = GOMANAGER->FindGameObjectWithName("GameManager");
+		m_AudioManager = GOMANAGER->FindGameObjectWithName("AudioManager");
 		m_CameraFollow = GOMANAGER->FindGameObjectWithName("CameraFollow");
 		m_MouseWorld = GOMANAGER->FindGameObjectWithName("MouseWorld");
 
@@ -211,10 +212,10 @@ namespace LB
 		{
 			m_stepSoundCurrent = 0.0f;
 			if(isOnSand)
-				GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerSandStepSounds, 0.3f);
+				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerSandStepSounds,false, 0.2f);
 				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSandStepSounds, 0.3f);
 			else
-				GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play2DSound(AUDIOMANAGER->PlayerFootStepsSounds, 0.3f);
+				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerFootStepsSounds,false, 0.15f);
 
 				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds, 0.2f);
 			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerFootStepsSounds,0.2f);
@@ -230,8 +231,9 @@ namespace LB
 		{
 			hasPlayedHitSound = false;
 			// Play hit sound
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSlashSounds,0.3f);
-
+			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSlashSounds,0.3f);
+			m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerSlashSounds, false, 0.3f);
+			
 			// Pushes the ball
 			Vec2<float> current_pos = GameObj->GetComponent<CPTransform>()->GetPosition();
 
@@ -268,7 +270,8 @@ namespace LB
 							vec_colliders[i]->gameObj->GetComponent<CPPSPlayerGolfBall>()->Split(force_to_apply);
 							if (!hasPlayedHitSound)
 							{
-								AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHitBallSounds, 0.5f);
+								//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHitBallSounds, 0.5f);
+								m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerHitBallSounds, false, 0.5f);
 								hasPlayedHitSound = true;
 							}
 						}
@@ -281,13 +284,14 @@ namespace LB
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
 			//GOMANAGER->FindGameObjectWithName("MouseCursor")->GetComponent<CPPSMou
-			//if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
+			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
 			
 			onPlacingBall.Invoke();
 			
 			//Spawn Game Object
 			GameObject* ballObject = FACTORY->SpawnGameObject();
 			JSONSerializer::DeserializeFromFile("ball", *ballObject);
+			m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound("Ball into hole", false, 0.7f);
 	/*		int Channel = AUDIOMANAGER->PlaySound("Ball into hole");
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);*/
 			Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
@@ -340,11 +344,11 @@ namespace LB
 			}
 		}
 
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
+	/*	if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
 			AUDIOMANAGER->Play3DSound("Ball into hole",mousePos);
 
-		}
+		}*/
 	} // End of Update
 
 	/*!***********************************************************************
@@ -406,7 +410,9 @@ namespace LB
 				Renderer::GRAPHICS->shake_camera(20.f, .1f);
 				if (colData.colliderOther->m_gameobj->GetName() == "EnemyChaser1")
 				{
-					AUDIOMANAGER->ChanceToPlayGroupSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
+					//AUDIOMANAGER->ChanceToPlayGroupSound(AUDIOMANAGER->ChaserAttackSounds,0.2f);
+					m_AudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->ChaserAttackSounds,
+						colData.colliderOther->transform->GetPosition(),false, 0.2f);
 				}
 				if (!mIsStunned) {
 					//rb->mVelocity *= 10.f;
@@ -428,7 +434,8 @@ namespace LB
 
 			anim->PlayAndReset("Felix_Hurt");
 			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth > 1)
-				AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.3f);
+				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerHurtSounds,false, 0.3f);
+				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.3f);
 			// Update the HUD as well
 			onTakingDamage.Invoke();
 			//if the player is dead

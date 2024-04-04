@@ -17,6 +17,7 @@ it handles the logic for the Charger enemy
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Animation/AnimationController.h"
+#include "CPPAudioManager.h"
 
 namespace LB
 {
@@ -37,6 +38,7 @@ namespace LB
 		mDizzyAnim = mTransform->GetChild(2)->GetComponent<CPAnimator>();
 		mAngerAnim = mTransform->GetChild(3)->GetComponent<CPAnimator>();
 		mAngerTwoAnim = mTransform->GetChild(6)->GetComponent<CPAnimator>();
+		mAudioManager = GOMANAGER->FindGameObjectWithName("AudioManager");
 		//mPuffAnim
 
 		ChargerIdleState* IDLESTATE = DBG_NEW ChargerIdleState(this, mFSM, "Idle");
@@ -217,14 +219,16 @@ namespace LB
 		}
 		else if ((chargerStr!= std::string::npos|| wallStr != std::string::npos || MushroomStr != std::string::npos /*|| brambleStr != std::string::npos*/) && m_isCharging ) //if colliding and is charging
 		{	
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHitSounds, 0.2f);
-			//WallImpactParticle->mIsActive = true;
+			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHitSounds, 0.2f);
+			mAudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(mAudioManager->GetComponent<CPPSAudioManager>()->ChargerHitSound, mTransform->GetPosition(), false, 0.2f, 1.0f);
 			//m_isStunned = true;
 			mFSM.ChangeState("Stunned"); //change state
 		}
 		else if (brambleStr != std::string::npos) //if colliding 
 		{
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHitSounds, 0.2f);
+			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHitSounds, 0.2f);
+			mAudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(mAudioManager->GetComponent<CPPSAudioManager>()->ChargerHitSound, mTransform->GetPosition(), false, 0.2f, 1.0f);
+
 			//m_isHurt = true;
 			mFSM.ChangeState("Hurt"); //change state
 		}
@@ -240,7 +244,11 @@ namespace LB
 		//CPPSBaseEnemy::Hurt();
 		if (GetHealth() <= 0) //if health below 0, die
 		{
-			AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerDeathSounds, 0.2f);
+
+			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerDeathSounds, 0.2f);
+			mAudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(
+				mAudioManager->GetComponent<CPPSAudioManager>()->ChargerDeathSounds,
+				mTransform->GetPosition(), 0.2f);
 			Die();
 		}
 		else
@@ -452,9 +460,11 @@ namespace LB
 		DebuggerLogWarning("CHARGER HURT STATE");
 		mEnemy->mAnimator->PlayAndReset("Charger_Hurt");
 		
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHurtSounds, 0.2f);
-		mEnemy->m_isHurt = true; //to lock the shield
-		mEnemy->Hurt(); //to check health and die if <= 0
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHurtSounds, 0.2f);
+		mEnemy->mAudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(mEnemy->mAudioManager->GetComponent<CPPSAudioManager>()->ChargerHurtSounds, mEnemy->mTransform->GetPosition(), false, 0.2f, 1.0f);
+
+		mEnemy->m_isHurt = true;
+		mEnemy->Hurt();
 		this->Update();
 	}
 
@@ -516,7 +526,8 @@ namespace LB
 		mEnemy->mAngerAnim->PlayRepeat("Charger_PrepVFX");
 		mEnemy->mAngerTwoAnim->PlayRepeat("Charger_PrepVFX2");
 
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerChargingSounds, 0.2f);
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerChargingSounds, 0.2f);
+		mEnemy->mAudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(mEnemy->mAudioManager->GetComponent<CPPSAudioManager>()->ChargerChargeSound, mEnemy->mTransform->GetPosition(), false, 0.2f, 1.0f);
 
 		mEnemy->mTimerToCharge = 2.0f;
 
@@ -582,7 +593,9 @@ namespace LB
 		mEnemy->m_isCharging = true;
 		mEnemy->mChargeDirection = mEnemy->DirBToA(mEnemy->GetPlayerPos(), mEnemy->GetChargerPos());
 		mEnemy->mChargeNormalForce = mEnemy->mChargeDirection * mEnemy->mChargingSpeed;
-		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerAttackSounds, 0.2f);
+		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerAttackSounds, 0.2f);
+		mEnemy->mAudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(mEnemy->mAudioManager->GetComponent<CPPSAudioManager>()->ChargerAttackSounds, mEnemy->mTransform->GetPosition(), false, 0.2f, 1.0f);
+
 		mEnemy->SetShouldFace(false);
 		
 		this->Update();
