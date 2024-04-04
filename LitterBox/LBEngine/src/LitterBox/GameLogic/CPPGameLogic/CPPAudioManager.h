@@ -13,6 +13,8 @@
 #include "CPPBehaviour.h"
 #include "LitterBox/Factory/Components.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Audio/AudioType.h"
+
 #include <vector>
 namespace LB
 {
@@ -148,20 +150,24 @@ namespace LB
 
 
 		//Plays 2D sound
-		void Play2DSound(const std::string& soundName, bool loop = false, float vol = 1.0f, float pitch = 1.0f);
+		void Play2DSound(const std::string& soundName, bool loop = false, float vol = 1.0f, float pitch = 1.0f, SoundType type = SFX);
 		//Overloaded function to play multiple 2D sounds
-		void Play2DSound(const std::vector<std::string>& soundNames, bool loop = false, float vol = 1.0f, float pitch = 1.0f);
+		void Play2DSound(const std::vector<std::string>& soundNames, bool loop = false, float vol = 1.0f, float pitch = 1.0f, SoundType type = SFX);
 		//Plays 3D sound
-		void Play3DSound(const std::string& soundName, const Vec2<float>& position, bool loop = false, float vol = 1.0f, float pitch = 1.0f);
+		void Play3DSound(const std::string& soundName, const Vec2<float>& position, bool loop = false, float vol = 1.0f, float pitch = 1.0f, SoundType type = SFX);
 		//Overloaded function to play multiple 3D sounds
-		void Play3DSound(const std::vector<std::string>& soundNames, const Vec2<float>& position, bool loop = false, float vol = 1.0f, float pitch = 1.0f);
+		void Play3DSound(const std::vector<std::string>& soundNames, const Vec2<float>& position, bool loop = false, float vol = 1.0f, float pitch = 1.0f, SoundType type = SFX);
 		//Function to cross fade from one BGM to another
 		void CrossFadeBGM(const std::string& targetSong, float fadeDuration = 1.0f);
 	private:
 		//By right the audiomanager should be DDOL, and this BGM Source should persist throughout scenes...
-		GameObject* BGM_Source;	    //THERE CAN ONLY BE ONE BGM SOURCE
+		CPAudioSource* BGM_Source;	    //THERE CAN ONLY BE ONE BGM SOURCE
 		std::vector<GameObject*> audioSources;	//Pool of audio sources
 		void RemoveUnusedAudioSources();
+
+		bool isFading{ false };
+		std::string targetBGM;
+		float cachedFadeDuration{ 0.0f };
 	};
 	REGISTER_SCRIPT(CPPSAudioManager)
 }

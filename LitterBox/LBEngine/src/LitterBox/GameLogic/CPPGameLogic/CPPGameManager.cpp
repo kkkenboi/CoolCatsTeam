@@ -284,13 +284,13 @@ namespace LB
 					}
 				}
 			}
-			if (!isSoundSwapped && !GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->volume)
-			{
-				//more sinful code :pensive:
-				GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->UpdateAudio("GameOverBGM");
-				GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->FadeIn(2.f,0.4f);
-				isSoundSwapped = true;
-			}
+			//if (!isSoundSwapped && !GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->volume)
+			//{
+			//	//more sinful code :pensive:
+			//	GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->UpdateAudio("GameOverBGM");
+			//	GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->FadeIn(2.f,0.4f);
+			//	isSoundSwapped = true;
+			//}
 		}
 	}
 	void CPPSGameManager::Destroy()
@@ -442,10 +442,11 @@ namespace LB
 	void CPPSGameManager::ShowGameOver(GameObject enemyObj)
 	{
 		//first we fade out the music	
-		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->FadeOut(2.5f);
+		//GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->FadeOut(2.5f);
 		//Cross fade it out babeyyy still WIP though
-		//mAudioManager->GetComponent<CPPSAudioManager>()->CrossFadeBGM("GameOverBGM", 2.5f);
-		AUDIOMANAGER->PlaySound("GameOver");
+		mAudioManager->GetComponent<CPPSAudioManager>()->CrossFadeBGM("GameOverBGM", 2.5f);
+		mAudioManager->GetComponent<CPPSAudioManager>()->Play2DSound("GameOver", false, 0.5f);
+		//AUDIOMANAGER->PlaySound("GameOver");
 		//AUDIOMANAGER->PlaySound("GameOverBGM");
 		isGameOver = true;
 		killerTexture->SetActive(true);

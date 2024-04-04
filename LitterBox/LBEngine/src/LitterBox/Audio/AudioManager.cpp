@@ -25,6 +25,7 @@
 #include "LitterBox/Scene/SceneManager.h"
 namespace LB
 {
+
 	AudioManager* AUDIOMANAGER = nullptr;
 	/*!***********************************************************************
 	* \brief Construct a new Audio Manager object
@@ -57,6 +58,10 @@ namespace LB
 		audioSystem->set3DNumListeners(1);
 		audioSystem->set3DSettings(1, 600.f, 1.f);
 
+		audioSystem->createChannelGroup("SFX", &SFXChannelGroup);
+		audioSystem->createChannelGroup("BGM", &BGMChannelGroup);
+		//Not sure if this one works but we'll see
+		audioSystem->getMasterChannelGroup(&MasterChannelGroup);
 		//Subscribe events
 		CORE->onPlayingModeToggle.Subscribe(RemoveAllAudioSources);
 		WINDOWSSYSTEM->OnApplicationFocus.Subscribe(UnPause);
@@ -173,14 +178,21 @@ namespace LB
 	 * Returns the channel ID that the sound is playing in
 	 * \param soundName Name of the sound e.g "Explosion" without file extension
 	**************************************************************************/
-	int AudioManager::PlaySound(std::string soundName)
+	int AudioManager::PlaySound(std::string soundName, SoundType type)
 	{
 		int _channelID = channelID++;
 		//Check to see if the sound is loaded
 		if (ASSETMANAGER->SoundMap.find(soundName) != ASSETMANAGER->SoundMap.end())
 		{
 			FMOD::Channel* _channel = nullptr;
-			result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], nullptr, false, &_channel);
+			if (type == BGM)
+			{
+				result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], BGMChannelGroup, false, &_channel);
+			}
+			else
+			{
+				result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], SFXChannelGroup, false, &_channel);
+			}
 			if (_channel)
 			{
 				//FMOD_VECTOR pos = { AudioListener->transform->GetPosition().x,AudioListener->transform->GetPosition().y};
@@ -193,13 +205,20 @@ namespace LB
 		return _channelID;
 	}
 
-	int AudioManager::Play3DSound(std::string soundName, Vec2<float> pos)
+	int AudioManager::Play3DSound(std::string soundName, Vec2<float> pos, SoundType type)
 	{
 		int _channelID = channelID++;
 		if (ASSETMANAGER->SoundMap.find(soundName) != ASSETMANAGER->SoundMap.end())
 		{
 			FMOD::Channel* _channel = nullptr;
-			result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], nullptr, false, &_channel);
+			if (type == BGM)
+			{
+				result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], BGMChannelGroup, false, &_channel);
+			}
+			else
+			{
+				result = audioSystem->playSound(ASSETMANAGER->SoundMap[soundName], SFXChannelGroup, false, &_channel);
+			}
 			if (_channel)
 			{
 				FMOD_VECTOR fmodpos = { pos.x, pos.y };
@@ -221,11 +240,11 @@ namespace LB
 	 * Returns a void
 	 * \param the vector of soundName, Name of the sound e.g "Explosion" without file extension
 	**************************************************************************/
-	void AudioManager::PlayGroupSounds(std::vector<std::string> groupSoundNames)
-	{
-		int randomIndex{};
-		PlaySound(groupSoundNames[randomIndex]);
-	}
+	//void AudioManager::PlayGroupSounds(std::vector<std::string> groupSoundNames)
+	//{
+	//	int randomIndex{};
+	//	//PlaySound(groupSoundNames[randomIndex]);
+	//}
 
 	/*!***********************************************************************
 	* \brief Function to play sound using a vector of sound file names that randomise
@@ -235,21 +254,21 @@ namespace LB
 	*		 Volume of the sound, default to 1
 	*		 Pitch of the sound, default to 1
 	**************************************************************************/
-	void AudioManager::PlayRandomisedSound(std::vector<std::string> groupSoundNames, float volume, float pitch)
-	{
-		if (!groupSoundNames.empty()) //there there is smt, then play
-		{
-			int Channel{ 0 };
-			int randomIndex = std::rand() % groupSoundNames.size(); //randomise the sounds in the group
-			Channel = PlaySound(groupSoundNames[randomIndex]); //play it
-			SetChannelVolume(Channel, volume);
-			SetChannelPitch(Channel, pitch);
-		}
-		else
-		{
-			DebuggerLogError("No Sounds stored, therefore cannot be played");
-		}
-	}
+	//void AudioManager::PlayRandomisedSound(std::vector<std::string> groupSoundNames, float volume, float pitch)
+	//{
+	//	if (!groupSoundNames.empty()) //there there is smt, then play
+	//	{
+	//		int Channel{ 0 };
+	//		int randomIndex = std::rand() % groupSoundNames.size(); //randomise the sounds in the group
+	//		//Channel = PlaySound(groupSoundNames[randomIndex]); //play it
+	//		SetChannelVolume(Channel, volume);
+	//		SetChannelPitch(Channel, pitch);
+	//	}
+	//	else
+	//	{
+	//		DebuggerLogError("No Sounds stored, therefore cannot be played");
+	//	}
+	//}
 
 	/*!***********************************************************************
 	* \brief Function to play a sound in a vector by calculating the chances that if it will play or not
@@ -258,21 +277,21 @@ namespace LB
 	*		 Volume of the sound, default to 1
 	*		 Pitch of the sound, default to 1
 	**************************************************************************/
-	void AudioManager::ChanceToPlayGroupSound(std::vector<std::string> groupSoundNames, float volume, float pitch)
-	{
-		//calculate a percentage random
-		//if percentage is < 10%, play sound, else dont play sound
-		float randomPercentage = static_cast<float>(std::rand() % 101);
-		if (randomPercentage < 10.0f)
-		{
-			PlayRandomisedSound(groupSoundNames, volume, pitch); //playing a randomise sound
-		}
-		else
-		{
-			return;
-		}
-		
-	}
+	//void AudioManager::ChanceToPlayGroupSound(std::vector<std::string> groupSoundNames, float volume, float pitch)
+	//{
+	//	//calculate a percentage random
+	//	//if percentage is < 10%, play sound, else dont play sound
+	//	float randomPercentage = static_cast<float>(std::rand() % 101);
+	//	if (randomPercentage < 10.0f)
+	//	{
+	//		PlayRandomisedSound(groupSoundNames, volume, pitch); //playing a randomise sound
+	//	}
+	//	else
+	//	{
+	//		return;
+	//	}
+	//	
+	//}
 
 	/*!***********************************************************************
 	 * \brief Function to play sound. Stops currently playing sound if there's one
@@ -286,7 +305,7 @@ namespace LB
 			DebuggerLogWarning("Unable to preview sounds while editor is in playmode!");
 			return;
 		}
-		if (Channels.empty()) PlaySound(soundName);
+		if (Channels.empty()) PlaySound(soundName,SFX);
 		else
 		{
 			DebuggerLogFormat("%s is still playing! Stopping..", soundName.c_str());
@@ -390,6 +409,24 @@ namespace LB
 		{
 			Channels[ChannelID]->setVolume(_vol);
 		}// else DebuggerLogWarningFormat("Unable to find channel %d!", channelID);
+	}
+
+	void AudioManager::SetChannelGroupVolume(float _vol, SoundType type)
+	{
+		switch (type)
+		{
+		case LB::BGM:
+			BGMChannelGroup->setVolume(_vol);
+			break;
+		case LB::SFX:
+			SFXChannelGroup->setVolume(_vol);
+			break;
+		}
+	}
+
+	void AudioManager::SetMasterVolume(float _vol)
+	{
+		MasterChannelGroup->setVolume(_vol);
 	}
 
 	void AudioManager::FadeOutChannels(float duration)
