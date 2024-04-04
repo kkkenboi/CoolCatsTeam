@@ -312,7 +312,7 @@ namespace LB
 
 		if (!menuFlag &&
 			SettingsMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f &&
-			ConfirmMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f)
+			ConfirmMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f && !animFlag)
 			menuFlag = true;
 
 	}

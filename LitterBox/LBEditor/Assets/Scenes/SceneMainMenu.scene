@@ -730,6 +730,10 @@
                     "Width": 320.0,
                     "Height": 55.0,
                     "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSettings"
                 }
             },
             {
@@ -783,6 +787,10 @@
                     "Width": 320.0,
                     "Height": 55.0,
                     "Radius": 50.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSSettings"
                 }
             }
         ]
