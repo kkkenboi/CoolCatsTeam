@@ -23,7 +23,7 @@ it handles the logic for the chaser enemy
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Physics/PhysicsMath.h"
 #include "CPPGameManager.h"
-#include "CPPVFXManager.h"
+//#include "CPPVFXManager.h"
 
 namespace LB 
 {
@@ -58,7 +58,6 @@ namespace LB
 		mDetectionRange = 800.f;
 		mInitialised = true;
 
-		//chaserClubCol = GetComponent<CPTransform>()->GetChild()->GetChild()->GetChild()->gameObj;
 	}
 
 	/*!***********************************************************************
@@ -103,7 +102,6 @@ namespace LB
 			}
 			clubFacingLeft = facingLeft;
 		}
-		//if(chaserClubCol->GetComponent<CPCollider>()->m_collided)
 
 		mFSM.Update();
 	}
@@ -125,7 +123,6 @@ namespace LB
 	void CPPSChaser::Hurt()
 	{
 		isAggro = true;
-		GetAnimator()->PlayAndReset("Melee_Hurt");
 		m_moveAnimator->StopAndReset();
 		CPPSBaseEnemy::Hurt();
 	}
@@ -169,7 +166,7 @@ namespace LB
 		}
 		if (colData.colliderOther->m_gameobj->GetName() == "MainChar") 
 		{ 
-			//GetAnimator()->PlayAndReset("Melee_Attack");
+			GetAnimator()->PlayAndReset("Melee_Attack");
 			//if (facingLeft)
 			//{
 			//	m_clubAnim->PlayAndReset("Melee_Swing_Left");
@@ -179,7 +176,7 @@ namespace LB
 			//	m_clubAnim->PlayAndReset("Melee_Swing_Right");
 			//}
 			m_moveAnimator->StopAndReset();
-			mFSM.ChangeState("Hurt"); 
+			mFSM.ChangeState("Idle"); 
 		}
 
 	}
@@ -342,6 +339,7 @@ namespace LB
 	{
 		//DebuggerLog("Entered HurtState");
 		mEnemy->GetHurtTimer() = 1.5f;
+		mEnemy->mAnimator->PlayAndReset("Melee_Hurt");
 		AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChaserHurtSounds,0.2f);
 		this->Update();
 	}
