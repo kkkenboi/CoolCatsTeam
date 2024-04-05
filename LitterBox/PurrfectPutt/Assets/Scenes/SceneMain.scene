@@ -390,10 +390,11 @@
                             },
                             "AudioSource": {
                                 "Active": true,
-                                "AudioClipName": "",
+                                "AudioClipName": "BGM",
                                 "Play On Awake": true,
-                                "Loop": false,
-                                "Volume": 1.0,
+                                "Loop": true,
+                                "is3D": false,
+                                "Volume": 0.1,
                                 "Pitch": 1.0
                             }
                         },
@@ -1484,124 +1485,6 @@
                             }
                         },
                         {
-                            "Name": "LevelBoard",
-                            "Active": false,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 955.090026,
-                                    "y": 729.411804
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "Backboard",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 828.0,
-                                            "Height": 250.0,
-                                            "ZLayer": 0.2,
-                                            "Layer": 3,
-                                            "Texture": "Backboard UI",
-                                            "SpriteName": "BackboardSheet",
-                                            "SpriteIndex": 4
-                                        },
-                                        "Animator": {
-                                            "Default State": "VFX_ExpandH",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": false,
-                                            "Controller": "VFXController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Level Text",
-                                        "Active": false,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": -110.470001,
-                                                "y": -23.819999
-                                            },
-                                            "Scale": {
-                                                "x": 2.069998,
-                                                "y": 2.849997
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Text": {
-                                            "Active": true,
-                                            "Message": {
-                                                "text": "Hole 1",
-                                                "x": 844.619995,
-                                                "y": 705.591796,
-                                                "scale": 0.0,
-                                                "World Coords": false,
-                                                "Color": {
-                                                    "x": 0.362744,
-                                                    "y": 0.222008,
-                                                    "z": 0.154697
-                                                },
-                                                "Font name": "ZillaSlab-Regular"
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "Name": "Flag",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 109.574279,
-                                                "y": 5.882324
-                                            },
-                                            "Scale": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 440.0,
-                                            "Height": 440.0,
-                                            "ZLayer": 0.1,
-                                            "Layer": 3,
-                                            "Texture": "FlagPole_Spritesheet",
-                                            "SpriteName": "FlagSheet",
-                                            "SpriteIndex": 26
-                                        },
-                                        "Animator": {
-                                            "Default State": "Flag_Appear",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": false,
-                                            "Controller": "VFXController"
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
                             "Name": "EndCrowdCheer",
                             "Active": false,
                             "Transform": {
@@ -2429,30 +2312,6 @@
                 }
             },
             {
-                "Name": "GameMusic",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 800.0,
-                        "y": 450.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "AudioSource": {
-                    "Active": true,
-                    "AudioClipName": "BGM",
-                    "Play On Awake": true,
-                    "Loop": true,
-                    "Volume": 0.1,
-                    "Pitch": 1.0
-                }
-            },
-            {
                 "Name": "Portal",
                 "Active": false,
                 "Transform": {
@@ -2593,32 +2452,6 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSPortal"
-                }
-            },
-            {
-                "Name": "PortalCenter",
-                "Active": false,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 960.0,
-                        "y": 540.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "ZLayer": 1.0,
-                    "Layer": 3,
-                    "Texture": "UpgradePopUp_Spritesheet",
-                    "SpriteName": "UpgradesSheet",
-                    "SpriteIndex": 19
                 }
             },
             {
@@ -23678,6 +23511,150 @@
                                         }
                                     }
                                 ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "PortalCenter",
+                "Active": false,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 3,
+                    "Texture": "UpgradePopUp_Spritesheet",
+                    "SpriteName": "UpgradesSheet",
+                    "SpriteIndex": 19
+                }
+            },
+            {
+                "Name": "LevelBoard",
+                "Active": false,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 955.090026,
+                        "y": 729.411804
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Backboard",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 828.0,
+                                "Height": 250.0,
+                                "ZLayer": 0.2,
+                                "Layer": 3,
+                                "Texture": "Backboard UI",
+                                "SpriteName": "BackboardSheet",
+                                "SpriteIndex": 4
+                            },
+                            "Animator": {
+                                "Default State": "VFX_ExpandH",
+                                "Play On Awake": false,
+                                "Awake Delay": 0.0,
+                                "Repeating": false,
+                                "Should Cull": false,
+                                "Controller": "VFXController"
+                            }
+                        },
+                        {
+                            "Name": "Level Text",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -110.470001,
+                                    "y": -23.819999
+                                },
+                                "Scale": {
+                                    "x": 2.069998,
+                                    "y": 2.849997
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Text": {
+                                "Active": true,
+                                "Message": {
+                                    "text": "Hole 1",
+                                    "x": 844.619995,
+                                    "y": 705.591796,
+                                    "scale": 0.0,
+                                    "World Coords": false,
+                                    "Color": {
+                                        "x": 0.362744,
+                                        "y": 0.222008,
+                                        "z": 0.154697
+                                    },
+                                    "Font name": "ZillaSlab-Regular"
+                                }
+                            }
+                        },
+                        {
+                            "Name": "Flag",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 109.574279,
+                                    "y": 65.879997
+                                },
+                                "Scale": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 440.0,
+                                "Height": 440.0,
+                                "ZLayer": 0.1,
+                                "Layer": 3,
+                                "Texture": "FlagPole_Spritesheet",
+                                "SpriteName": "FlagSheet",
+                                "SpriteIndex": 26
+                            },
+                            "Animator": {
+                                "Default State": "Flag_Appear",
+                                "Play On Awake": false,
+                                "Awake Delay": 0.0,
+                                "Repeating": false,
+                                "Should Cull": false,
+                                "Controller": "VFXController"
                             }
                         }
                     ]

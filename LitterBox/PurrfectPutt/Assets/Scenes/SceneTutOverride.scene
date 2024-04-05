@@ -55,6 +55,7 @@
                     "AudioClipName": "",
                     "Play On Awake": true,
                     "Loop": false,
+                    "is3D": false,
                     "Volume": 1.0,
                     "Pitch": 1.0
                 }
@@ -110,6 +111,250 @@
                 }
             },
             {
+                "Name": "PauseMenuHolderObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.37,
+                        "y": 10.8
+                    },
+                    "Rotation": 0.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::PauseMenuScript"
+                }
+            },
+            {
+                "Name": "PauseMenuTextureObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 4,
+                    "Texture": "Pause Menu",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "PauseMenuResumeObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1.0,
+                    "Height": 1.0,
+                    "Radius": 1.0
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1.0,
+                    "Height": 1.0,
+                    "Radius": 1.0
+                }
+            },
+            {
+                "Name": "PauseMenuSettingsObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "PauseMenuMainMenu",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 50.0
+                }
+            },
+            {
+                "Name": "PauseMenuQuitObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 1.0,
+                    "Height": 1.0,
+                    "Radius": 1.0
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayTextureObject",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 16.1,
+                        "y": 9.18
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 0.899999,
+                    "Layer": 4,
+                    "Texture": "HowToPlay",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                }
+            },
+            {
+                "Name": "PauseMenuHowToPlayPreviousMenuButton",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 10000.0,
+                        "y": 10000.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": -8.8
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 440.0,
+                    "Height": 440.0,
+                    "ZLayer": 0.0,
+                    "Layer": 4,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 69
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "Default",
+                        "Layer ID": 0
+                    },
+                    "Shape": 1,
+                    "Width": 218.0,
+                    "Height": 165.0,
+                    "Radius": 50.0
+                }
+            },
+            {
                 "Name": "PauseMenuQuitConfirmTexture",
                 "Active": true,
                 "Transform": {
@@ -119,8 +364,8 @@
                         "y": 10000.0
                     },
                     "Scale": {
-                        "x": 19.2,
-                        "y": 10.8
+                        "x": 16.2,
+                        "y": 9.1
                     },
                     "Rotation": 0.0
                 },
@@ -157,13 +402,9 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 220.0,
-                    "Height": 90.0,
+                    "Width": 212.0,
+                    "Height": 84.0,
                     "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::Butt"
                 }
             },
             {
@@ -188,33 +429,9 @@
                         "Layer ID": 0
                     },
                     "Shape": 1,
-                    "Width": 220.0,
+                    "Width": 206.0,
                     "Height": 91.0,
                     "Radius": 50.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::Butt"
-                }
-            },
-            {
-                "Name": "PauseMenuHolderObject",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 960.0,
-                        "y": 540.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "CPPScript": {
-                    "Active": true,
-                    "Script": "class LB::PauseMenuScript"
                 }
             },
             {
@@ -506,6 +723,7 @@
                     "AudioClipName": "TutorialBGM",
                     "Play On Awake": true,
                     "Loop": true,
+                    "is3D": false,
                     "Volume": 0.5,
                     "Pitch": 1.0
                 }
@@ -530,7 +748,7 @@
                     "Width": 100.0,
                     "Height": 100.0,
                     "ZLayer": 0.0,
-                    "Layer": 3,
+                    "Layer": 4,
                     "Texture": "Underline",
                     "SpriteName": "None",
                     "SpriteIndex": -1
