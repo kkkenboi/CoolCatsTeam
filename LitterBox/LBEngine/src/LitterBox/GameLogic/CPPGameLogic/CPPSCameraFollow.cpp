@@ -48,11 +48,15 @@ namespace LB
 		//why won't you move!!! ;__;
 		//DebuggerLog("Renderer:\n");
 
-		//DebuggerLogFormat("ExtraDist X: %f, ExtraDist Y: %f", extraDist.x, extraDist.y);
 
-		Renderer::GRAPHICS->get_cam()->get_cam_x() = currentPos.x - 960.f;
-		Renderer::GRAPHICS->get_cam()->get_cam_y() = currentPos.y - 540.f;
-		Renderer::GRAPHICS->get_cam()->update_cam();
+
+		//DebuggerLogFormat("ExtraDist X: %f, ExtraDist Y: %f", extraDist.x, extraDist.y);
+		/*Renderer::GRAPHICS->get_cam()->get_cam_x() = currentPos.x = 960.f;
+		Renderer::GRAPHICS->get_cam()->get_cam_y() = currentPos.y = 540.f;*/
+		currentPos.x -= 960.f;
+		currentPos.y -= 540.f;
+		Renderer::GRAPHICS->get_cam()->update_ortho_cam(currentPos);
+		//Renderer::GRAPHICS->get_cam()->update_cam();
 		cameraPos.x = Renderer::GRAPHICS->get_cam()->get_cam_x();
 		cameraPos.y = Renderer::GRAPHICS->get_cam()->get_cam_y();
 		//DebuggerLogFormat("CameraFollow Position: %f, Camera Position: %f, Player Position: %f, Mouse Position: %f", currentPos.x, Renderer::GRAPHICS->get_cam()->get_cam_x(), mPlayer->GetComponent<CPTransform>()->GetPosition().x, INPUT->GetMousePos().x);
