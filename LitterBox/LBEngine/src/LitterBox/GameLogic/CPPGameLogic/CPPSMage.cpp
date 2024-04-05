@@ -182,7 +182,7 @@ namespace LB
 				if (mGotAttackedCooldown > 0.0f) {
 					return;
 				}
-				mAudioManager->Play3DSound(mAudioManager->MageHurtSounds, GetComponent<CPTransform>()->GetPosition(), 0.2);
+				mAudioManager->Play3DSound(mAudioManager->MageHurtSounds, GetComponent<CPTransform>()->GetPosition(),false, 0.2);
 				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageHurtSounds, 0.2f);
 				mGotAttackedCooldown = mGotAttacked;
 
@@ -208,7 +208,7 @@ namespace LB
 	void CPPSMage::Die()
 	{
 		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->MageDeathSounds,0.2f);
-		mAudioManager->Play3DSound(mAudioManager->MageDeathSounds, GetComponent<CPTransform>()->GetPosition(), 0.2);
+		mAudioManager->Play3DSound(mAudioManager->MageDeathSounds, GetComponent<CPTransform>()->GetPosition(), false, 0.2);
 
 		CPPSBaseEnemy::Die(); //We call this because the base class will have some logic to reduce enemy count
 	}

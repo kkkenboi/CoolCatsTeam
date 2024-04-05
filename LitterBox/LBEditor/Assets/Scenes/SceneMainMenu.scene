@@ -415,12 +415,13 @@
                 },
                 "AudioSource": {
                     "Active": true,
-                    "AudioClipName": "YellowLineBGM",
+                    "AudioClipName": "Cool Cat Party_Menu_Loop",
                     "Play On Awake": true,
                     "Loop": true,
                     "is3D": false,
                     "Volume": 0.3,
-                    "Pitch": 1.0
+                    "Pitch": 1.0,
+                    "SoundType": 1
                 }
             },
             {
@@ -864,30 +865,6 @@
                     "Texture": "UpgradePopUp_Spritesheet",
                     "SpriteName": "UpgradesSheet",
                     "SpriteIndex": 19
-                }
-            },
-            {
-                "Name": "MenuMusic",
-                "Active": true,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 960.0,
-                        "y": 540.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "AudioSource": {
-                    "Active": true,
-                    "AudioClipName": "YellowLineBGM",
-                    "Play On Awake": true,
-                    "Loop": true,
-                    "Volume": 0.3,
-                    "Pitch": 1.0
                 }
             },
             {

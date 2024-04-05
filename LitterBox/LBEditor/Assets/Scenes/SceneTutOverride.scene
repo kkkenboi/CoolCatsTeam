@@ -57,7 +57,8 @@
                     "Loop": false,
                     "is3D": false,
                     "Volume": 1.0,
-                    "Pitch": 1.0
+                    "Pitch": 1.0,
+                    "SoundType": 0
                 }
             },
             {
@@ -725,7 +726,8 @@
                     "Loop": true,
                     "is3D": false,
                     "Volume": 0.5,
-                    "Pitch": 1.0
+                    "Pitch": 1.0,
+                    "SoundType": 0
                 }
             },
             {
