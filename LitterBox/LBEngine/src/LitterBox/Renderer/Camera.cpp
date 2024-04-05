@@ -14,6 +14,7 @@
 **************************************************************************/
 #include "Camera.h"
 #include "Platform\Windows\Windows.h"
+#include "LitterBox/Engine/Time.h"
 
 namespace Renderer {
 	/*!***********************************************************************
@@ -60,6 +61,27 @@ namespace Renderer {
 		editor_world_NDC = editor_ortho * free_cam_coords;
 		world_NDC = ortho * nel;
 		ui_NDC = world_NDC;
+	}
+
+	/*!***********************************************************************
+	\brief
+	 Function to perform camera shake by randomising the camera x y position
+	 values. There is no way to return the camera position to its default so
+	 use wisely.
+
+	 NOTE: This is mainly for testing the matrix multiplications but it was
+	 very fun to have so I kept it in, please don't be mad.
+	*************************************************************************/
+	void Camera::move_cam(float intensity)
+	{
+		float shakex{ oldX + -intensity * 0.25f + static_cast<float>(rand()) * intensity / static_cast<float>(RAND_MAX) },
+			shakey{ oldY + -intensity * 0.25f + static_cast<float>(rand()) * intensity / static_cast<float>(RAND_MAX) };
+
+		pos.x = LB::TIME->IsPaused() ? pos.x : shakex;
+		pos.y = LB::TIME->IsPaused() ? pos.y : shakey;
+
+		nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });
+		world_NDC = ortho * nel;
 	}
 
 	/*!***********************************************************************

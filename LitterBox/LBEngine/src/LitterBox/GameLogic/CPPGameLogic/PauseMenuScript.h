@@ -35,6 +35,16 @@ namespace LB
 		 Override destroy function
 		*************************************************************************/
 		void Destroy() override;
+
+		/*!***********************************************************************
+		\brief
+		 Getter for the OnPauseMenu member variable
+
+		\return
+		 OnPauseMenu member variable
+		*************************************************************************/
+		bool& GetOnPauseMenu();
+
 	private:
 		bool OnPauseMenu;
 		bool BackButtonHovered{ false };

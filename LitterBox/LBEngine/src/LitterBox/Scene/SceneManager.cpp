@@ -226,6 +226,7 @@ namespace LB
 		m_currentScene = m_nextScene;
 
 		onNewSceneLoad.Invoke(m_currentScene);
+		onNewSceneLoadString.Invoke(m_currentScene->GetName());
 
 		m_currentScene->Init();
 
@@ -298,23 +299,4 @@ namespace LB
 	{
 		return m_fullyLoaded;
 	}
-
-	/*!***********************************************************************
-	 \brief
-	 To change the mouse image when the scene is a main menu
-	*************************************************************************/
-	void SceneIsMainMenu(std::string sceneName)
-	{
-		SCENEMANAGER->SceneIsMainMenu(sceneName);
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 For event subscription, change the mouse image when the scene is a main menu
-	*************************************************************************/
-	void SceneManager::SceneIsMainMenu(std::string sceneName)
-	{
-		WINDOWSSYSTEM->UpdateCursor(sceneName);
-	}
-
 }

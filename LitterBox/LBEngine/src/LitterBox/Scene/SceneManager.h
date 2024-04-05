@@ -122,14 +122,9 @@ namespace LB
 		*************************************************************************/
 		bool IsSceneFullyLoaded();
 
-		/*!***********************************************************************
-		 \brief
-		 Check if the scene is currently the main menu
-		*************************************************************************/
-		void SceneIsMainMenu(std::string sceneName);
-
 		// Lets any subscribers know when a new scene is loaded
 		Event<Scene*> onNewSceneLoad;
+		Event<std::string> onNewSceneLoadString;
 		Event<> onSceneSaved;
 
 		std::string m_firstScene{ "None" };
@@ -152,7 +147,6 @@ namespace LB
 	void SceneOnPlayToggle(bool isPlaying);
 	void CheckSceneToLoad();
 	void TrySaveScene();
-	void SceneIsMainMenu(std::string sceneName);
 
 	/*!***********************************************************************
 	 \brief
