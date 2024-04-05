@@ -25,6 +25,7 @@
 #include "CPPSPlayer.h"
 #include "CPPSMouseUI.h"
 #include "CPPAudioManager.h"
+#include "CPPSBaseEnemy.h"
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -48,6 +49,7 @@ namespace LB
 	
 		//Set the player's spawn point
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
+		m_portalHolder = GOMANAGER->FindGameObjectWithName("PortalPosition")->GetComponent<CPTransform>();
 
 		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
 		//into a list
@@ -81,6 +83,14 @@ namespace LB
 			SpawnCredits = 4;
 			GenerateWave();
 			GameStart = true;
+
+			// Load maps
+			m_mapHolder = GOMANAGER->FindGameObjectWithName("MapHolder")->GetComponent<CPTransform>();
+			m_mapList.emplace_back(Vec2<float>{ -670.f, 2566.f }, Vec2<float>{ -540.f, 1620.f }, "Map_TheClassic");
+			m_mapList.emplace_back(Vec2<float>{ -800.f, 2730.f }, Vec2<float>{ -1330.f, 2360.f }, "Map_PinBall");
+
+			// Classic map is first
+			m_currentMap = m_mapList[0];
 		}
 
 		// For the tutorial stage
@@ -173,7 +183,7 @@ namespace LB
 		}
 		
 		//If game's started, upgrade hasn't spawned and no enemies and not tutorial
-		if (SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned && currentWave)
+		if (SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned && currentWave &&!isGameOver)
 		{
 			UpgradeSpawned = true;
 			if (currentWave % 2)
@@ -284,18 +294,51 @@ namespace LB
 					}
 				}
 			}
-			if (!isSoundSwapped && !GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->volume)
-			{
-				//more sinful code :pensive:
-				GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->UpdateAudio("GameOverBGM");
-				GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->FadeIn(2.f,0.4f);
-				isSoundSwapped = true;
-			}
+			//if (!isSoundSwapped && !GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->volume)
+			//{
+			//	//more sinful code :pensive:
+			//	GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->UpdateAudio("GameOverBGM");
+			//	GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->FadeIn(2.f,0.4f);
+			//	isSoundSwapped = true;
+			//}
 		}
 	}
 	void CPPSGameManager::Destroy()
 	{
 		//Should be empty
+	}
+
+	void CPPSGameManager::DeleteOldMap()
+	{
+		// Clear the old map
+		GOMANAGER->RemoveGameObject(m_mapHolder->GetChild(0)->gameObj);
+		m_mapHolder->RemoveChild(0);
+	}
+
+	void CPPSGameManager::StartNewMap()
+	{
+		// Load the new map
+		GameObject* newMap = FACTORY->SpawnGameObject();
+		m_mapHolder->AddChild(newMap->GetComponent<CPTransform>());
+
+		m_currentMap = m_mapList[rand() % m_mapList.size()];
+		JSONSerializer::DeserializeFromFile(m_currentMap.m_name, *newMap);
+
+		// Setup spawnpoints
+		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
+
+		SpawnPoints.clear();
+		std::vector<GameObject*> temp = GOMANAGER->FindGameObjectsWithName("Spawnpoint");
+		for (const auto& go : temp)
+		{	//then we add their positions to the vector 
+			SpawnPoints.push_back(go->GetComponent<CPTransform>()->GetPosition());
+		}
+
+		// Move portal
+		m_portalHolder = GOMANAGER->FindGameObjectWithName("PortalPosition")->GetComponent<CPTransform>();
+		GOMANAGER->FindGameObjectWithName("Portal")->GetComponent<CPTransform>()->SetPosition(m_portalHolder->GetPosition());
+
+		GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->UpgradePos = GOMANAGER->FindGameObjectWithName("UpgradePosition")->GetComponent<CPTransform>()->GetPosition();
 	}
 
 	/*!************************************************************************
@@ -366,7 +409,8 @@ namespace LB
 	 * 
 	**************************************************************************/
 	void CPPSGameManager::SpawnCrowdAnim()
-	{
+	{	//If the player is dead, we kinda don't want to spawn the crowd
+		//if (isGameOver) return;
 		//First we play the sound
 		mAudioManager->GetComponent<CPPSAudioManager>()->Play2DSound("Spliced_Cheering",false , 0.3f);
 		//then we show the crowd texture
@@ -427,7 +471,11 @@ namespace LB
 	{
 		DebuggerLogFormat("Spawned Enemy Count : %d", SpawnedeEnemiesList.size());
 		onEnemyKill.Invoke();
-
+		//If the player kills an enemy (that is NOT the last enemy), we play a positive sound
+		if (SpawnedeEnemiesList.size() > 1)
+		{
+			mAudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(mAudioManager->GetComponent<CPPSAudioManager>()->CrowdPositiveSounds, false, 0.2f);
+		}
 		auto itr = std::find(SpawnedeEnemiesList.begin(), SpawnedeEnemiesList.end(), enemyToRemove);
 		if (itr != SpawnedeEnemiesList.end())
 		{
@@ -442,12 +490,19 @@ namespace LB
 	void CPPSGameManager::ShowGameOver(GameObject enemyObj)
 	{
 		//first we fade out the music	
-		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->FadeOut(2.5f);
+		//GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPAudioSource>()->FadeOut(2.5f);
 		//Cross fade it out babeyyy still WIP though
-		//mAudioManager->GetComponent<CPPSAudioManager>()->CrossFadeBGM("GameOverBGM", 2.5f);
-		AUDIOMANAGER->PlaySound("GameOver");
-		//AUDIOMANAGER->PlaySound("GameOverBGM");
+		mAudioManager->GetComponent<CPPSAudioManager>()->CrossFadeBGM("GameOverBGM", 2.5f);
+		mAudioManager->GetComponent<CPPSAudioManager>()->Play2DSound("GameOver", false, 0.5f);
+
 		isGameOver = true;
+		//We kill all enemies
+		for (GameObject* enemy : SpawnedeEnemiesList)
+		{
+			enemy->SetActive(false);
+		}
+		SpawnedeEnemiesList.clear();
+
 		killerTexture->SetActive(true);
 		//We see who the killer is 
 		//0 = chaser , 1 = mage, 2 = charger, 3 = bramble
@@ -635,6 +690,7 @@ namespace LB
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ShowGameOver(enemyObj);
 		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerDeathSounds, 0.25f);
 		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play2DSound("PlayerDeath",false, 0.25f);
+		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play2DSound("Crowd Gasp_Dead", false, 0.25f);
 
 	}
 

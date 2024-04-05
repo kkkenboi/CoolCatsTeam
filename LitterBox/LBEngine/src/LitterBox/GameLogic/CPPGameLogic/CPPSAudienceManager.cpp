@@ -33,16 +33,13 @@ namespace LB
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->onEnemyKill.Subscribe(LB::AudienceCheer);
 
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->onNextLevel.Subscribe(LB::RefreshAudience);
+		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->onNewMapStart.Subscribe(LB::CreateAudience);
 	}
 	void CPPSAudienceManager::Update()
 	{
 		if (!m_init)
 		{
-			std::vector<GameObject*> audience = GOMANAGER->FindGameObjectsWithName("AudienceMember");
-			for (auto* audienceMember : audience)
-			{
-				m_audience.push_back(audienceMember->GetComponent<CPPSAudience>());
-			}
+			CreateAudience();
 			m_init = true;
 		}
 	}
@@ -74,6 +71,17 @@ namespace LB
 		}
 	}
 
+	void CPPSAudienceManager::CreateAudience()
+	{
+		m_audience.clear();
+
+		std::vector<GameObject*> audience = GOMANAGER->FindGameObjectsWithName("AudienceMember");
+		for (auto* audienceMember : audience)
+		{
+			m_audience.push_back(audienceMember->GetComponent<CPPSAudience>());
+		}
+	}
+
 	/*!***********************************************************************
 	\brief
 	For event subscribing, cheers or refreshes the audience
@@ -85,5 +93,10 @@ namespace LB
 	void RefreshAudience()
 	{
 		GOMANAGER->FindGameObjectWithName("AudienceManager")->GetComponent<CPPSAudienceManager>()->RefreshAudience();
+	}
+
+	void CreateAudience()
+	{
+		GOMANAGER->FindGameObjectWithName("AudienceManager")->GetComponent<CPPSAudienceManager>()->CreateAudience();
 	}
 }

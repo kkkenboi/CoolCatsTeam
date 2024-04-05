@@ -434,7 +434,10 @@ namespace LB
 
 			anim->PlayAndReset("Felix_Hurt");
 			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth > 1)
+			{
 				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->PlayerHurtSounds,false, 0.3f);
+				m_AudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(m_AudioManager->GetComponent<CPPSAudioManager>()->CrowdNegativeSounds, false, 0.3f);
+			}
 				//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerHurtSounds, 0.3f);
 			// Update the HUD as well
 			onTakingDamage.Invoke();

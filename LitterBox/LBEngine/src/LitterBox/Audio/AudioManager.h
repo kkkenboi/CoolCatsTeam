@@ -21,9 +21,11 @@
 #include "LitterBox/Serialization/AssetManager.h"
 #include "LitterBox/Components/AudioSourceComponent.h"
 #include "AudioListenerComponent.h"
+#include "LitterBox/Audio/AudioType.h"
 
 namespace LB
 {
+
 	/*!***********************************************************************
      * \brief 
      * AudioManager handles anything sound related, playing sounds in different
@@ -32,6 +34,7 @@ namespace LB
 	class AudioManager : public ISystem
 	{
 	public:
+		
 		/*!***********************************************************************
 		 * \brief Construct a new Audio Manager object
 		 * (FMOD::System is initialised here)
@@ -66,16 +69,16 @@ namespace LB
 	 	* Returns the channel ID that the sound is playing in
 	 	* \param soundName Name of the sound e.g "Explosion" without file extension
 		**************************************************************************/
-		int PlaySound(std::string soundName);
+		int PlaySound(std::string soundName, SoundType type = SFX);
 
-		int Play3DSound(std::string soundName, Vec2<float> pos);
+		int Play3DSound(std::string soundName, Vec2<float> pos, SoundType type = SFX);
 
 		/*!***********************************************************************
 		 * \brief Function to play sound using the vector of Sound File name
 		 * Returns a void
 		 * \param the vector of soundName, Name of the sound e.g "Explosion" without file extension
 		**************************************************************************/
-		void PlayGroupSounds(std::vector<std::string> groupSoundNames);
+		//void PlayGroupSounds(std::vector<std::string> groupSoundNames);
 
 		/*!***********************************************************************
 		* \brief Function to play sound using a vector of sound file names that randomise
@@ -85,7 +88,7 @@ namespace LB
 		*		 Volume of the sound, default to 1
 		*		 Pitch of the sound, default to 1
 		**************************************************************************/
-		void PlayRandomisedSound(std::vector<std::string> groupSoundNames, float volume = 1.0f, float pitch = 1.0f);
+		//void PlayRandomisedSound(std::vector<std::string> groupSoundNames, float volume = 1.0f, float pitch = 1.0f);
 
 		/*!***********************************************************************
 		* \brief Function to play a sound in a vector by calculating the chances that if it will play or not
@@ -94,7 +97,7 @@ namespace LB
 		*		 Volume of the sound, default to 1
 		*		 Pitch of the sound, default to 1
 		**************************************************************************/
-		void ChanceToPlayGroupSound(std::vector<std::string> groupSoundNames, float volume = 1.0f, float pitch = 1.0f);
+		//void ChanceToPlayGroupSound(std::vector<std::string> groupSoundNames, float volume = 1.0f, float pitch = 1.0f);
 
 		/*!***********************************************************************
 		 * \brief Function to play sound. Stops currently playing sound if there's one
@@ -173,6 +176,9 @@ namespace LB
 		**************************************************************************/
 		void SetChannelVolume(int ChannelID, float _vol);
 
+		void SetChannelGroupVolume(float _vol,SoundType type);
+		void SetMasterVolume(float _vol);
+
 		/*!************************************************************************
 		 * \brief Function to fade out a specific channel
 		 * 
@@ -199,12 +205,10 @@ namespace LB
 		std::vector<CPAudioSource*> AudioSources;
 		CPAudioListener* AudioListener{nullptr};
 
-		enum SoundType
-		{
-			BGM,
-			SFX
-		};
-
+	
+		FMOD::ChannelGroup* BGMChannelGroup{nullptr};
+		FMOD::ChannelGroup* SFXChannelGroup{nullptr};
+		FMOD::ChannelGroup* MasterChannelGroup{nullptr};
 		float BGMVolume = 1.0f;
 		float SFXVolume = 1.0f;
 		float MasterVolume = 1.0f;
