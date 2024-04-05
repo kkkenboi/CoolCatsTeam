@@ -56,14 +56,14 @@ namespace LB
 			//If the audio source is playonawake and hasn't played yet
 			if (playOnAwake && !hasPlayed) {
 				//We play the sound
-				Play();	//hasPlayed = true;
+				Play(soundType);	//hasPlayed = true;
 				//DebuggerLog("Play On Awake!");
 			}
 			//Timer stuff for delayed playing
 			if (timer > 0) timer -= static_cast<float>(TIME->GetDeltaTime());
 			if (timer <= 0 && playDelayed) //If play delayed is called
 			{
-				Play();//hasPlayed = true;
+				Play(soundType);//hasPlayed = true;
 				playDelayed = false;
 			}
 			if (fadeIn)
@@ -88,7 +88,8 @@ namespace LB
 					SetVolume(0);
 				}
 			}
-			
+		/*	std::cout << "In Update Fade time :" << fadeTime << '\n';
+			std::cout << "In Update Bool check :" << fadeOut << '\n';*/
 		}
 		else
 		{
@@ -120,7 +121,15 @@ namespace LB
 	{
 		//DebuggerLogWarning("Destroyed!");
 		if(isPlaying())Stop();
-		AUDIOMANAGER->AudioSources.clear();
+		//AUDIOMANAGER->AudioSources.clear();
+		for (auto iter = std::begin(AUDIOMANAGER->AudioSources); iter != std::end(AUDIOMANAGER->AudioSources); ++iter)
+		{
+			if (*iter == this)
+			{
+				AUDIOMANAGER->AudioSources.erase(iter);
+				break;
+			}
+		}
 	/*	std::vector<CPAudioSource*>::iterator chosenOne;
 		for (auto iter = std::begin(AUDIOMANAGER->AudioSources); iter != std::end(AUDIOMANAGER->AudioSources); ++iter)
 		{
@@ -146,6 +155,7 @@ namespace LB
 		data.AddMember("is3D", is3D, alloc);
 		data.AddMember("Volume", volume, alloc);
 		data.AddMember("Pitch", pitch, alloc);
+		data.AddMember("SoundType", (int)(soundType), alloc);
 		return true;
 	}
 
@@ -163,6 +173,7 @@ namespace LB
 		bool Has3D= data.HasMember("is3D");
 		bool HasVolume = data.HasMember("Volume");
 		bool HasPitch = data.HasMember("Pitch");
+		bool HasSoundType = data.HasMember("SoundType");
 		if (HasActive)
 		{
 			m_active = data["Active"].GetBool();
@@ -171,6 +182,11 @@ namespace LB
 		{
 			const Value& _is3D = data["is3D"];
 			is3D = _is3D.GetBool();
+		}
+		if (HasSoundType)
+		{
+			const Value& _soundType = data["SoundType"];
+			soundType = (SoundType)_soundType.GetInt();
 		}
 		if (HasClipName && HasPlayOnAwake && HasLoop && HasVolume && HasPitch)
 		{
@@ -193,17 +209,17 @@ namespace LB
 	* \brief Plays the audio component (will play the current audio clip attached)
 	* 
 	**************************************************************************/
-	void CPAudioSource::Play()
+	void CPAudioSource::Play(SoundType type)
 	{
 		if (AudioClipName != "") 
 		{
 			if (is3D)
 			{
-				channelID = AUDIOMANAGER->Play3DSound(AudioClipName, GetComponent<CPTransform>()->GetPosition());
+				channelID = AUDIOMANAGER->Play3DSound(AudioClipName, GetComponent<CPTransform>()->GetPosition(),type);
 			}
 			else
 			{
-				channelID = AUDIOMANAGER->PlaySound(AudioClipName);
+				channelID = AUDIOMANAGER->PlaySound(AudioClipName,type);
 			}
 			SetPitch(pitch);
 			SetVolume(volume);

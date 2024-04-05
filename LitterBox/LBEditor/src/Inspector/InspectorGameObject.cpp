@@ -964,6 +964,50 @@ namespace LB
 
 					}
 				}
+				//store the name of the layer enum
+				static std::string soundTypeName{};
+
+				//this is the layer selector
+				ImGui::Text("%-19s", "Sound Type");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(dropdownWidth);
+
+				//create the string based on the layer enum
+				switch (m_inspectedGO->GetComponent<CPAudioSource>()->soundType)
+				{
+				case SoundType::SFX:
+					soundTypeName = "SFX";
+					break;
+				case SoundType::BGM:
+					soundTypeName = "BGM";
+					break;
+				}
+
+				//TODO: Add ability to get c string based on render layer
+				if (ImGui::BeginCombo("##SoundType", soundTypeName.c_str()))
+				{
+					//loop through each enum
+					for (int i{ 0 }; i < SoundType::COUNT; ++i)
+					{
+						//get the string for the layer
+						switch (i)
+						{
+						case SoundType::SFX:
+							soundTypeName = "SFX";
+							break;
+						case SoundType::BGM:
+							soundTypeName = "BGM";
+							break;
+						}
+
+						if (ImGui::Selectable(soundTypeName.c_str()))
+						{
+							m_inspectedGO->GetComponent<CPAudioSource>()->soundType = static_cast<SoundType>(i);
+						}
+					}
+					ImGui::EndCombo();
+				}
+
 				ImGui::Text("%-19s", "Play On Awake");
 				ImGui::SameLine();
 				ImGui::Checkbox("##PlayOnAwake", &m_inspectedGO->GetComponent<CPAudioSource>()->playOnAwake);
