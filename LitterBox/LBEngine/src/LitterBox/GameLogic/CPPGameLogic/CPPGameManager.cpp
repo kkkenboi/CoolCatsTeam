@@ -86,7 +86,7 @@ namespace LB
 			// Load maps
 			m_mapHolder = GOMANAGER->FindGameObjectWithName("MapHolder")->GetComponent<CPTransform>();
 			m_mapList.emplace_back(Vec2<float>{ -670.f, 2566.f }, Vec2<float>{ -540.f, 1620.f }, "Map_TheClassic");
-			m_mapList.emplace_back(Vec2<float>{ -800.f, 2730.f }, Vec2<float>{ -1330.f, 2350.f }, "Map_PinBall");
+			m_mapList.emplace_back(Vec2<float>{ -800.f, 2730.f }, Vec2<float>{ -1330.f, 2360.f }, "Map_PinBall");
 
 			// Classic map is first
 			m_currentMap = m_mapList[0];
@@ -311,6 +311,7 @@ namespace LB
 	{
 		// Clear the old map
 		GOMANAGER->RemoveGameObject(m_mapHolder->GetChild(0)->gameObj);
+		m_mapHolder->RemoveChild(0);
 	}
 
 	void CPPSGameManager::StartNewMap()
