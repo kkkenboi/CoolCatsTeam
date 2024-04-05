@@ -33,6 +33,17 @@ namespace LB
 
 
 		//SOUND GROUPS (If we had RTTR and serialization, this would be so much cleaner..)
+		//CROWD SOUNDS
+		std::vector<std::string> CrowdPositiveSounds = {"Cheering_1",
+														"Cheering_2",
+														"Cheering_3",
+														"Cheering_4",};
+
+		std::vector<std::string> CrowdNegativeSounds = { "Crowd Gasp_1",
+														 "Crowd Gasp_2",
+														 "Crowd Gasp_3",
+														 "Crowd Gasp_4",
+														 "Crowd Gasp_5" };
 		//BALL SOUNDS
 		std::vector<std::string> BallCollisionSounds = { "BallImpact_1","BallImpact_2" };
 		std::vector<std::string> PlayerHitBallSounds = { "GolfBallHit","GolfSwingHit" };

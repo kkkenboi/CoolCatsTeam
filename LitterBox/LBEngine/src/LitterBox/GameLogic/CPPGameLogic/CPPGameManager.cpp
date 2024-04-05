@@ -25,6 +25,7 @@
 #include "CPPSPlayer.h"
 #include "CPPSMouseUI.h"
 #include "CPPAudioManager.h"
+#include "CPPSBaseEnemy.h"
 namespace LB
 {
 	void CPPSGameManager::Start()
@@ -173,7 +174,7 @@ namespace LB
 		}
 		
 		//If game's started, upgrade hasn't spawned and no enemies and not tutorial
-		if (SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned && currentWave)
+		if (SpawnedeEnemiesList.empty() && GameStart && !UpgradeSpawned && currentWave &&!isGameOver)
 		{
 			UpgradeSpawned = true;
 			if (currentWave % 2)
@@ -366,7 +367,8 @@ namespace LB
 	 * 
 	**************************************************************************/
 	void CPPSGameManager::SpawnCrowdAnim()
-	{
+	{	//If the player is dead, we kinda don't want to spawn the crowd
+		//if (isGameOver) return;
 		//First we play the sound
 		mAudioManager->GetComponent<CPPSAudioManager>()->Play2DSound("Spliced_Cheering",false , 0.3f);
 		//then we show the crowd texture
@@ -427,7 +429,11 @@ namespace LB
 	{
 		DebuggerLogFormat("Spawned Enemy Count : %d", SpawnedeEnemiesList.size());
 		onEnemyKill.Invoke();
-
+		//If the player kills an enemy (that is NOT the last enemy), we play a positive sound
+		if (SpawnedeEnemiesList.size() > 1)
+		{
+			mAudioManager->GetComponent<CPPSAudioManager>()->Play2DSound(mAudioManager->GetComponent<CPPSAudioManager>()->CrowdPositiveSounds, false, 0.2f);
+		}
 		auto itr = std::find(SpawnedeEnemiesList.begin(), SpawnedeEnemiesList.end(), enemyToRemove);
 		if (itr != SpawnedeEnemiesList.end())
 		{
@@ -446,9 +452,15 @@ namespace LB
 		//Cross fade it out babeyyy still WIP though
 		mAudioManager->GetComponent<CPPSAudioManager>()->CrossFadeBGM("GameOverBGM", 2.5f);
 		mAudioManager->GetComponent<CPPSAudioManager>()->Play2DSound("GameOver", false, 0.5f);
-		//AUDIOMANAGER->PlaySound("GameOver");
-		//AUDIOMANAGER->PlaySound("GameOverBGM");
+
 		isGameOver = true;
+		//We kill all enemies
+		for (GameObject* enemy : SpawnedeEnemiesList)
+		{
+			enemy->SetActive(false);
+		}
+		SpawnedeEnemiesList.clear();
+
 		killerTexture->SetActive(true);
 		//We see who the killer is 
 		//0 = chaser , 1 = mage, 2 = charger, 3 = bramble
@@ -636,6 +648,7 @@ namespace LB
 		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->ShowGameOver(enemyObj);
 		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerDeathSounds, 0.25f);
 		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play2DSound("PlayerDeath",false, 0.25f);
+		GOMANAGER->FindGameObjectWithName("AudioManager")->GetComponent<CPPSAudioManager>()->Play2DSound("Crowd Gasp_Dead", false, 0.25f);
 
 	}
 
