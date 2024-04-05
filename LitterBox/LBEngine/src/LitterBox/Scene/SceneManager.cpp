@@ -17,6 +17,7 @@
 #include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Renderer/Renderer.h"
 
 namespace LB
 {
@@ -227,6 +228,12 @@ namespace LB
 
 		onNewSceneLoad.Invoke(m_currentScene);
 		onNewSceneLoadString.Invoke(m_currentScene->GetName());
+
+		// Reset the camera back to origin to center the camera
+		if (m_currentScene->GetName() == "SceneMainMenu")
+		{
+			Renderer::GRAPHICS->get_cam()->update_ortho_cam({0.f,0.f});
+		}
 
 		m_currentScene->Init();
 

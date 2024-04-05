@@ -107,10 +107,13 @@ void LB::CPPSPortal::Update()
 			//By right I think we couldddd probably use an anim state for this but oh well
 			rotTimer += static_cast<float>(TIME->GetDeltaTime());
 			//First we rotate the player
-			mPlayer->GetComponent<CPTransform>()->SetRotation(rotTimer * rotAnglePerSec);
-			//Then we scale him down till he's tiny
-			Vec2<float> lerpedScale = Lerp(Vec2<float>(1, 1), Vec2<float>(0, 0), rotTimer / 2.f);
-			mPlayer->GetComponent<CPTransform>()->SetScale(lerpedScale);
+			if (expandOut && circleTimer < 1.5f)
+			{
+				mPlayer->GetComponent<CPTransform>()->SetRotation(rotTimer * rotAnglePerSec);
+				//Then we scale him down till he's tiny
+				Vec2<float> lerpedScale = Lerp(Vec2<float>(1, 1), Vec2<float>(0, 0), rotTimer / 2.f);
+				mPlayer->GetComponent<CPTransform>()->SetScale(lerpedScale);
+			}
 
 			if (!playPortalSound)
 			{
@@ -172,6 +175,11 @@ void LB::CPPSPortal::Update()
 							DebuggerLog("Playing end animation!");
 
 							mLevelBoard->GetComponent<CPTransform>()->GetChild(0)->GetComponent<CPAnimator>()->Play("VFX_ExpandHReverse");
+
+							// Reset the player scale and rotation
+							mPlayer->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1));
+							mPlayer->GetComponent<CPTransform>()->SetRotation(0);
+
 							playEndAnim = false;
 						}
 
@@ -238,7 +246,7 @@ void LB::CPPSPortal::Update()
 	}
 
 	//This handles what happens when the animations are all done, the circle has expanded and shrunk.
-	//The player and camera will be teleported, and only after that animation is done does the wave start.
+	//The camera will be teleported, and only after that animation is done does the wave start.
 	if (finishTransition)
 	{
 		if (!temp)//temp fix so that it's only called once
@@ -249,8 +257,6 @@ void LB::CPPSPortal::Update()
 				this->GameObj->SetActive(false);
 				//Next wave just handles starting the wave... 
 				mGameManager->GetComponent<CPPSGameManager>()->NextWave();
-				mPlayer->GetComponent<CPTransform>()->SetScale(Vec2<float>(1, 1));
-				mPlayer->GetComponent<CPTransform>()->SetRotation(0);
 		}
 		finishTransition = false;
 		//spawn the big black circle
