@@ -3690,6 +3690,762 @@
                                                         "SpriteName": "MultiSheet2",
                                                         "SpriteIndex": 15
                                                     }
+                                                },
+                                                {
+                                                    "Name": "BG_Tree",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": -392.148315,
+                                                            "y": 1384.942504
+                                                        },
+                                                        "Scale": {
+                                                            "x": -1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -115.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 264.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 250.0,
+                                                        "Height": 250.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Felix_SpriteSheet",
+                                                        "SpriteName": "FelixSheet",
+                                                        "SpriteIndex": 45
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "BG_Tree",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 2322.561035,
+                                                            "y": 1289.513916
+                                                        },
+                                                        "Scale": {
+                                                            "x": -1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -115.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 264.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 250.0,
+                                                        "Height": 250.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Felix_SpriteSheet",
+                                                        "SpriteName": "FelixSheet",
+                                                        "SpriteIndex": 45
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "Rock1",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 1016.255615,
+                                                            "y": 90.006805
+                                                        },
+                                                        "Scale": {
+                                                            "x": -1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -32.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 155.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 150.0,
+                                                        "Height": 150.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Multi_Spritesheet2",
+                                                        "SpriteName": "MultiSheet2",
+                                                        "SpriteIndex": 17
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "Rock1",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 2394.828369,
+                                                            "y": 1026.872802
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -32.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 155.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 150.0,
+                                                        "Height": 150.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Multi_Spritesheet2",
+                                                        "SpriteName": "MultiSheet2",
+                                                        "SpriteIndex": 17
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "BG_Rock",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 867.828002,
+                                                            "y": -300.88385
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -23.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 175.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 120.0,
+                                                        "Height": 120.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Multi_Spritesheet2",
+                                                        "SpriteName": "MultiSheet2",
+                                                        "SpriteIndex": 16
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "BG_Rock",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 2003.770019,
+                                                            "y": 1379.977416
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -23.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 175.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 120.0,
+                                                        "Height": 120.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Multi_Spritesheet2",
+                                                        "SpriteName": "MultiSheet2",
+                                                        "SpriteIndex": 16
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "BG_Tree",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 2138.030761,
+                                                            "y": 1431.397094
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -115.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 264.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 250.0,
+                                                        "Height": 250.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Felix_SpriteSheet",
+                                                        "SpriteName": "FelixSheet",
+                                                        "SpriteIndex": 45
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "BG_Tree",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": -124.055175,
+                                                            "y": 1516.6875
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -115.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 264.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 250.0,
+                                                        "Height": 250.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Felix_SpriteSheet",
+                                                        "SpriteName": "FelixSheet",
+                                                        "SpriteIndex": 45
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "BG_Tree",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 981.552734,
+                                                            "y": -136.466735
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -115.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 264.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 250.0,
+                                                        "Height": 250.0,
+                                                        "ZLayer": 0.5,
+                                                        "Layer": 0,
+                                                        "Texture": "Felix_SpriteSheet",
+                                                        "SpriteName": "FelixSheet",
+                                                        "SpriteIndex": 45
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "Rock1",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 2257.049804,
+                                                            "y": 1402.769897
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -32.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 155.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 5.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 150.0,
+                                                        "Height": 150.0,
+                                                        "ZLayer": 4.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Multi_Spritesheet2",
+                                                        "SpriteName": "MultiSheet2",
+                                                        "SpriteIndex": 17
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "Rock1",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": -560.164306,
+                                                            "y": 1266.422119
+                                                        },
+                                                        "Scale": {
+                                                            "x": -1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -32.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 155.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 150.0,
+                                                        "Height": 150.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Multi_Spritesheet2",
+                                                        "SpriteName": "MultiSheet2",
+                                                        "SpriteIndex": 17
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "Rock1",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 911.531555,
+                                                            "y": 1582.076171
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -32.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 155.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 150.0,
+                                                        "Height": 150.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Multi_Spritesheet2",
+                                                        "SpriteName": "MultiSheet2",
+                                                        "SpriteIndex": 17
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "Rock1",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": -590.929138,
+                                                            "y": -330.276245
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -32.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 155.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 150.0,
+                                                        "Height": 150.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Multi_Spritesheet2",
+                                                        "SpriteName": "MultiSheet2",
+                                                        "SpriteIndex": 17
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "BG_Tree",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 2422.624267,
+                                                            "y": -393.712615
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": -115.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 264.0,
+                                                                    "Height": 50.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 250.0,
+                                                        "Height": 250.0,
+                                                        "ZLayer": 0.5,
+                                                        "Layer": 0,
+                                                        "Texture": "Felix_SpriteSheet",
+                                                        "SpriteName": "FelixSheet",
+                                                        "SpriteIndex": 45
+                                                    }
                                                 }
                                             ]
                                         }
@@ -11498,6 +12254,416 @@
                                                             }
                                                         ]
                                                     }
+                                                },
+                                                {
+                                                    "Name": "AudienceBase",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 1312.410156,
+                                                            "y": 452.523681
+                                                        },
+                                                        "Scale": {
+                                                            "x": -1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "AudienceMember",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": 0.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 150.0,
+                                                                    "Height": 150.0,
+                                                                    "ZLayer": 1.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet2",
+                                                                    "SpriteName": "MultiSheet2",
+                                                                    "SpriteIndex": 25
+                                                                },
+                                                                "CPPScript": {
+                                                                    "Active": true,
+                                                                    "Script": "class LB::CPPSAudience"
+                                                                },
+                                                                "Animator": {
+                                                                    "Default State": "None",
+                                                                    "Play On Awake": false,
+                                                                    "Awake Delay": 0.0,
+                                                                    "Repeating": false,
+                                                                    "Should Cull": true,
+                                                                    "Controller": "AudienceController"
+                                                                }
+                                                            },
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 4.0,
+                                                                        "y": -48.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 95.0,
+                                                                    "Height": 25.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "AudienceBase",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 1232.981445,
+                                                            "y": 659.712646
+                                                        },
+                                                        "Scale": {
+                                                            "x": -1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "AudienceMember",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": 0.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 150.0,
+                                                                    "Height": 150.0,
+                                                                    "ZLayer": 1.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet2",
+                                                                    "SpriteName": "MultiSheet2",
+                                                                    "SpriteIndex": 25
+                                                                },
+                                                                "CPPScript": {
+                                                                    "Active": true,
+                                                                    "Script": "class LB::CPPSAudience"
+                                                                },
+                                                                "Animator": {
+                                                                    "Default State": "None",
+                                                                    "Play On Awake": false,
+                                                                    "Awake Delay": 0.0,
+                                                                    "Repeating": false,
+                                                                    "Should Cull": true,
+                                                                    "Controller": "AudienceController"
+                                                                }
+                                                            },
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 4.0,
+                                                                        "y": -48.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 95.0,
+                                                                    "Height": 25.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "AudienceBase",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": -1194.236938,
+                                                            "y": 904.889282
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "AudienceMember",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": 0.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 150.0,
+                                                                    "Height": 150.0,
+                                                                    "ZLayer": 1.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet2",
+                                                                    "SpriteName": "MultiSheet2",
+                                                                    "SpriteIndex": 25
+                                                                },
+                                                                "CPPScript": {
+                                                                    "Active": true,
+                                                                    "Script": "class LB::CPPSAudience"
+                                                                },
+                                                                "Animator": {
+                                                                    "Default State": "None",
+                                                                    "Play On Awake": false,
+                                                                    "Awake Delay": 0.0,
+                                                                    "Repeating": false,
+                                                                    "Should Cull": true,
+                                                                    "Controller": "AudienceController"
+                                                                }
+                                                            },
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 4.0,
+                                                                        "y": -48.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 95.0,
+                                                                    "Height": 25.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "AudienceBase",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": -1416.636352,
+                                                            "y": 622.759643
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "AudienceMember",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": 0.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 150.0,
+                                                                    "Height": 150.0,
+                                                                    "ZLayer": 1.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet2",
+                                                                    "SpriteName": "MultiSheet2",
+                                                                    "SpriteIndex": 25
+                                                                },
+                                                                "CPPScript": {
+                                                                    "Active": true,
+                                                                    "Script": "class LB::CPPSAudience"
+                                                                },
+                                                                "Animator": {
+                                                                    "Default State": "None",
+                                                                    "Play On Awake": false,
+                                                                    "Awake Delay": 0.0,
+                                                                    "Repeating": false,
+                                                                    "Should Cull": true,
+                                                                    "Controller": "AudienceController"
+                                                                }
+                                                            },
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 4.0,
+                                                                        "y": -48.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 95.0,
+                                                                    "Height": 25.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "AudienceBase",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": -105.92163,
+                                                            "y": -691.473754
+                                                        },
+                                                        "Scale": {
+                                                            "x": -1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "AudienceMember",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": 0.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 150.0,
+                                                                    "Height": 150.0,
+                                                                    "ZLayer": 1.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet2",
+                                                                    "SpriteName": "MultiSheet2",
+                                                                    "SpriteIndex": 25
+                                                                },
+                                                                "CPPScript": {
+                                                                    "Active": true,
+                                                                    "Script": "class LB::CPPSAudience"
+                                                                },
+                                                                "Animator": {
+                                                                    "Default State": "None",
+                                                                    "Play On Awake": false,
+                                                                    "Awake Delay": 0.0,
+                                                                    "Repeating": false,
+                                                                    "Should Cull": true,
+                                                                    "Controller": "AudienceController"
+                                                                }
+                                                            },
+                                                            {
+                                                                "Name": "Shadow",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 4.0,
+                                                                        "y": -48.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 95.0,
+                                                                    "Height": 25.0,
+                                                                    "ZLayer": 3.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 55
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
                                                 }
                                             ]
                                         }
@@ -12210,10 +13376,10 @@
                                                         "Active": true,
                                                         "Position": {
                                                             "x": 1360.57666,
-                                                            "y": 399.815795
+                                                            "y": 165.152191
                                                         },
                                                         "Scale": {
-                                                            "x": -1.0,
+                                                            "x": 1.0,
                                                             "y": 1.0
                                                         },
                                                         "Rotation": 0.0,
@@ -12390,6 +13556,108 @@
                                                     "CPPScript": {
                                                         "Active": true,
                                                         "Script": "class LB::CPPSBush"
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "Action_Squish",
+                                                        "Play On Awake": true,
+                                                        "Awake Delay": 0.0,
+                                                        "Repeating": true,
+                                                        "Should Cull": false,
+                                                        "Controller": "ActionController"
+                                                    }
+                                                },
+                                                {
+                                                    "Name": "Mushroom",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 1351.310913,
+                                                            "y": 416.895568
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "Body",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 0.0,
+                                                                        "y": 0.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 0.0,
+                                                                    "Children": [
+                                                                        {
+                                                                            "Name": "Shadow",
+                                                                            "Active": true,
+                                                                            "Transform": {
+                                                                                "Active": true,
+                                                                                "Position": {
+                                                                                    "x": 1.0,
+                                                                                    "y": -36.0
+                                                                                },
+                                                                                "Scale": {
+                                                                                    "x": 1.0,
+                                                                                    "y": 1.0
+                                                                                },
+                                                                                "Rotation": 0.0
+                                                                            },
+                                                                            "Render": {
+                                                                                "Active": true,
+                                                                                "Width": 122.0,
+                                                                                "Height": 25.0,
+                                                                                "ZLayer": 3.0,
+                                                                                "Layer": 0,
+                                                                                "Texture": "Multi_Spritesheet",
+                                                                                "SpriteName": "MultiSheet",
+                                                                                "SpriteIndex": 55
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 230.0,
+                                                                    "Height": 230.0,
+                                                                    "ZLayer": 1.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 40
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "RigidBody": {
+                                                        "Active": true,
+                                                        "Width": 100.0,
+                                                        "Height": 100.0,
+                                                        "Density": 10.0,
+                                                        "IsStatic": true
+                                                    },
+                                                    "Collider": {
+                                                        "Active": true,
+                                                        "ColliderLayer": {
+                                                            "Layer Name": "Default",
+                                                            "Layer ID": 0
+                                                        },
+                                                        "Shape": 0,
+                                                        "Width": 100.0,
+                                                        "Height": 100.0,
+                                                        "Radius": 45.0
+                                                    },
+                                                    "CPPScript": {
+                                                        "Active": true,
+                                                        "Script": "class LB::CPPSBlueMushroom"
                                                     },
                                                     "Animator": {
                                                         "Default State": "Action_Squish",
@@ -12713,7 +13981,7 @@
                                                         "Active": true,
                                                         "Position": {
                                                             "x": 130.817291,
-                                                            "y": -371.225128
+                                                            "y": -352.23001
                                                         },
                                                         "Scale": {
                                                             "x": 1.0,
@@ -12746,7 +14014,7 @@
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
-                                                            "x": -481.428466,
+                                                            "x": -484.429992,
                                                             "y": 125.809036
                                                         },
                                                         "Scale": {
@@ -12950,7 +14218,7 @@
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
-                                                            "x": 2396.651123,
+                                                            "x": 2392.649902,
                                                             "y": 139.543945
                                                         },
                                                         "Scale": {
@@ -12985,7 +14253,7 @@
                                                         "Active": true,
                                                         "Position": {
                                                             "x": 1778.682739,
-                                                            "y": -371.214019
+                                                            "y": -349.209991
                                                         },
                                                         "Scale": {
                                                             "x": 1.0,
@@ -13018,8 +14286,8 @@
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
-                                                            "x": 741.68457,
-                                                            "y": -39.970474
+                                                            "x": 731.679992,
+                                                            "y": -27.969999
                                                         },
                                                         "Scale": {
                                                             "x": 1.0,
@@ -13052,8 +14320,8 @@
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
-                                                            "x": 726.402587,
-                                                            "y": 385.801208
+                                                            "x": 722.400024,
+                                                            "y": 409.799987
                                                         },
                                                         "Scale": {
                                                             "x": 1.0,
@@ -13086,8 +14354,8 @@
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
-                                                            "x": 1187.047973,
-                                                            "y": -37.669357
+                                                            "x": 1189.050048,
+                                                            "y": -21.67
                                                         },
                                                         "Scale": {
                                                             "x": 1.0,
@@ -13120,8 +14388,8 @@
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
-                                                            "x": 953.450561,
-                                                            "y": 388.102874
+                                                            "x": 953.450012,
+                                                            "y": 422.100006
                                                         },
                                                         "Scale": {
                                                             "x": 1.0,
@@ -13143,7 +14411,7 @@
                                                             "Layer ID": 0
                                                         },
                                                         "Shape": 1,
-                                                        "Width": 491.0,
+                                                        "Width": 503.0,
                                                         "Height": 165.0,
                                                         "Radius": 50.0
                                                     }
@@ -13154,8 +14422,8 @@
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
-                                                            "x": 1189.230957,
-                                                            "y": 385.801422
+                                                            "x": 1183.22998,
+                                                            "y": 408.799987
                                                         },
                                                         "Scale": {
                                                             "x": 1.0,
@@ -13178,7 +14446,7 @@
                                                         },
                                                         "Shape": 1,
                                                         "Width": 154.0,
-                                                        "Height": 100.0,
+                                                        "Height": 117.0,
                                                         "Radius": 50.0
                                                     }
                                                 }

@@ -18,6 +18,17 @@
 #include <utility> //for std::pair
 namespace LB
 {
+	// Details of a map, to be refactored
+	struct MapDetails
+	{
+		MapDetails() {}
+		MapDetails(Vec2<float> xbounds, Vec2<float> ybounds, std::string const& name)
+			: m_xbounds(xbounds), m_ybounds(ybounds), m_name(name) { }
+		Vec2<float> m_xbounds;
+		Vec2<float> m_ybounds;
+		std::string m_name;
+	};
+
 	class CPPSGameManager : public CPPBehaviour
 	{
 	public:
@@ -183,6 +194,10 @@ namespace LB
 		CPRender* ItemLost2{ nullptr };
 		CPRender* ItemLost3{ nullptr };
 		CPRender* ItemLost4{ nullptr };
+
+		// Current map loaded
+		MapDetails m_currentMap;
+
 	private:
 		bool UpgradeSpawned{ false };
 		//Formula made in desmos, curve is a sexy sexy S curve.
@@ -203,7 +218,7 @@ namespace LB
 		// Map stuff
 		CPTransform* m_mapHolder{ nullptr };
 		CPTransform* m_portalHolder{ nullptr };
-		std::vector<std::string> m_mapList;
+		std::vector<MapDetails> m_mapList;
 
 		Vec2<float> mouse_pos{};
 		std::vector<Vec2<float>> SpawnPoints;

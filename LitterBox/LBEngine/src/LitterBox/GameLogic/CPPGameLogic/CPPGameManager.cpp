@@ -85,8 +85,11 @@ namespace LB
 
 			// Load maps
 			m_mapHolder = GOMANAGER->FindGameObjectWithName("MapHolder")->GetComponent<CPTransform>();
-			m_mapList.push_back("Map_TheClassic");
-			m_mapList.push_back("Map_Pinball");
+			m_mapList.emplace_back(Vec2<float>{ -670.f, 2566.f }, Vec2<float>{ -540.f, 1620.f }, "Map_TheClassic");
+			m_mapList.emplace_back(Vec2<float>{ -800.f, 2730.f }, Vec2<float>{ -1330.f, 2350.f }, "Map_PinBall");
+
+			// Classic map is first
+			m_currentMap = m_mapList[0];
 		}
 
 		// For the tutorial stage
@@ -314,10 +317,10 @@ namespace LB
 	{
 		// Load the new map
 		GameObject* newMap = FACTORY->SpawnGameObject();
-
-		std::string randomMap = m_mapList[rand() % m_mapList.size()];
-		JSONSerializer::DeserializeFromFile(randomMap, *newMap);
 		m_mapHolder->AddChild(newMap->GetComponent<CPTransform>());
+
+		m_currentMap = m_mapList[rand() % m_mapList.size()];
+		JSONSerializer::DeserializeFromFile(m_currentMap.m_name, *newMap);
 
 		// Setup spawnpoints
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();

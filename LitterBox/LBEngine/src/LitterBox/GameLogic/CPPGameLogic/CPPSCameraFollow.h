@@ -40,6 +40,8 @@ namespace LB
 		bool IsVisible(CPTransform const* obj) const;
 		
 		Vec2<float> cameraPos{};
+
+		Vec2<float> maxBoundsX, maxBoundsY;
 	private:
 		GameObject* mPlayer{ nullptr };
 		GameObject* m_Mouse{ nullptr };
@@ -48,5 +50,8 @@ namespace LB
 		Vec2<float> extraDist{};
 
 	};
+
+	void UpdateCamMaxBounds();
+
 	REGISTER_SCRIPT(CPPSCameraFollow)
 }
