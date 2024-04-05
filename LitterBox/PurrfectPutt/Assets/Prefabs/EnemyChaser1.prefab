@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 201.636993,
-            "y": 781.883178
+            "x": 284.711669,
+            "y": 483.439788
         },
         "Scale": {
             "x": 1.0,
@@ -49,24 +49,60 @@
                                         "Transform": {
                                             "Active": true,
                                             "Position": {
-                                                "x": 8.0,
-                                                "y": -50.0
+                                                "x": 0.0,
+                                                "y": -13.0
                                             },
                                             "Scale": {
                                                 "x": 1.0,
                                                 "y": 1.0
                                             },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 100.0,
-                                            "Height": 100.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 7
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "ChaserClub",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 20.0,
+                                                            "y": 0.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 120.0
+                                                    },
+                                                    "Render": {
+                                                        "Active": true,
+                                                        "Width": 100.0,
+                                                        "Height": 100.0,
+                                                        "ZLayer": 1.0,
+                                                        "Layer": 0,
+                                                        "Texture": "Multi_Spritesheet",
+                                                        "SpriteName": "MultiSheet",
+                                                        "SpriteIndex": 7
+                                                    },
+                                                    "Collider": {
+                                                        "Active": true,
+                                                        "ColliderLayer": {
+                                                            "Layer Name": "EnemyBall",
+                                                            "Layer ID": 5
+                                                        },
+                                                        "Shape": 1,
+                                                        "Width": 43.0,
+                                                        "Height": 100.0,
+                                                        "Radius": 50.0
+                                                    },
+                                                    "Animator": {
+                                                        "Default State": "None",
+                                                        "Play On Awake": false,
+                                                        "Awake Delay": 0.0,
+                                                        "Repeating": false,
+                                                        "Controller": "MeleeController"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     }
                                 ]
@@ -84,6 +120,7 @@
                             "Animator": {
                                 "Default State": "None",
                                 "Play On Awake": false,
+                                "Awake Delay": 0.0,
                                 "Repeating": false,
                                 "Controller": "MeleeController"
                             }
@@ -93,6 +130,7 @@
                 "Animator": {
                     "Default State": "Action_Move",
                     "Play On Awake": false,
+                    "Awake Delay": 0.0,
                     "Repeating": false,
                     "Controller": "ActionController"
                 }

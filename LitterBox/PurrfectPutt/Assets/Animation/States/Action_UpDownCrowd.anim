@@ -1,5 +1,5 @@
 {
-    "Name": "Action_Cheer",
+    "Name": "Action_UpDownCrowd",
     "SpriteSheet Name": "None",
     "Active": {
         "Default": true,
@@ -15,28 +15,63 @@
                 "Frame": 0,
                 "Data": {
                     "x": 0.0,
+                    "y": -500.0
+                }
+            },
+            {
+                "Frame": 40,
+                "Data": {
+                    "x": 0.0,
+                    "y": -500.0
+                }
+            },
+            {
+                "Frame": 80,
+                "Data": {
+                    "x": 0.0,
+                    "y": 10.0
+                }
+            },
+            {
+                "Frame": 90,
+                "Data": {
+                    "x": 0.0,
+                    "y": -10.0
+                }
+            },
+            {
+                "Frame": 100,
+                "Data": {
+                    "x": 0.0,
                     "y": 0.0
                 }
             },
             {
-                "Frame": 5,
-                "Data": {
-                    "x": 0.0,
-                    "y": 12.0
-                }
-            },
-            {
-                "Frame": 9,
-                "Data": {
-                    "x": 0.0,
-                    "y": 1.0
-                }
-            },
-            {
-                "Frame": 14,
+                "Frame": 280,
                 "Data": {
                     "x": 0.0,
                     "y": 0.0
+                }
+            },
+            {
+                "Frame": 290,
+                "Data": {
+                    "x": 0.0,
+                    "y": -5.0
+                }
+            },
+            {
+                "Frame": 300,
+                "Data": {
+                    "x": 0.0,
+                    "y": 5.0
+                }
+            },
+            {
+                "Frame": 420,
+                "Data": {
+                    "x": 0.0,
+                    "y": -500.0
                 }
             }
         ]
@@ -46,36 +81,7 @@
             "x": 1.0,
             "y": 1.0
         },
-        "Frame Group": [
-            {
-                "Frame": 0,
-                "Data": {
-                    "x": 1.0,
-                    "y": 1.0
-                }
-            },
-            {
-                "Frame": 5,
-                "Data": {
-                    "x": 0.949998,
-                    "y": 1.299999
-                }
-            },
-            {
-                "Frame": 9,
-                "Data": {
-                    "x": 1.1,
-                    "y": 0.949999
-                }
-            },
-            {
-                "Frame": 14,
-                "Data": {
-                    "x": 1.0,
-                    "y": 1.0
-                }
-            }
-        ]
+        "Frame Group": []
     },
     "Rotation": {
         "Default": 0.0,
@@ -86,5 +92,5 @@
         "Frame Group": []
     },
     "Start": 0,
-    "End": 14
+    "End": 420
 }
