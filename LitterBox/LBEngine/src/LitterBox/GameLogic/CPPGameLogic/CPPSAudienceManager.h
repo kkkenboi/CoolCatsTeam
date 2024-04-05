@@ -45,6 +45,8 @@ namespace LB
 		*************************************************************************/
 		void RefreshAudience();
 
+		void CreateAudience();
+
 	private:
 		bool m_init{ false };
 		std::vector<CPPSAudience*> m_audience;
@@ -57,4 +59,5 @@ namespace LB
 	*************************************************************************/
 	void AudienceCheer();
 	void RefreshAudience();
+	void CreateAudience();
 }

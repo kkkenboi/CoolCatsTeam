@@ -152,11 +152,18 @@ void LB::CPPSPortal::Update()
 						mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayNext("Flag_Swaying");
 						mLevelBoard->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayDelay("Flag_Disappear", 0.8f);
 						playStartAnim = false;
+
+						// Clear current map
+						mGameManager->GetComponent<CPPSGameManager>()->DeleteOldMap();
 					}
 
 					if (intermissionTimer >= intermissionDuration)
 					{
 						expandOut = false;
+						// Load the next level in the background
+						mGameManager->GetComponent<CPPSGameManager>()->StartNewMap();
+						mGameManager->GetComponent<CPPSGameManager>()->onNewMapStart.Invoke();
+
 						mGameManager->GetComponent<CPPSGameManager>()->onNextLevel.Invoke();
 
 						// Plays the ending animation for the level transition

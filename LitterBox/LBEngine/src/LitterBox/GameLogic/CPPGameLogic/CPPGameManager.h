@@ -144,6 +144,12 @@ namespace LB
 		**************************************************************************/
 		std::vector<GameObject*>& GetSpawnedEnemyList();
 
+		// Event for new map start
+		Event<> onNewMapStart;
+
+		void DeleteOldMap();
+		void StartNewMap();
+
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy
 		//Each wave also has a certain value
@@ -193,6 +199,11 @@ namespace LB
 		GameObject* killerTexture{ nullptr }; //texture of the player killer for gameover
 		Vec2<float> cachedCrowdPos{}, cachedRestartPos{}, cachedQuitPos{};
 		bool restartHovered{ false }, quitHovered{ false };
+
+		// Map stuff
+		CPTransform* m_mapHolder{ nullptr };
+		CPTransform* m_portalHolder{ nullptr };
+		std::vector<std::string> m_mapList;
 
 		Vec2<float> mouse_pos{};
 		std::vector<Vec2<float>> SpawnPoints;
