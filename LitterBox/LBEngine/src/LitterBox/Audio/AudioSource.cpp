@@ -200,6 +200,17 @@ namespace LB
 		return false;
 	}
 
+	void CPAudioSource::ToggleActive(bool isActive)
+	{
+		if (!isActive) 
+		{ 
+			Stop(); 
+			hasPlayed = false;
+			playDelayed = false;
+			timer = 0;
+		}
+	}
+
 
 	/*!************************************************************************
 	* \brief Plays the audio component (will play the current audio clip attached)
