@@ -66,6 +66,25 @@ namespace LB
 			}
 		}
 
+		// 1 .
+		// This should be done in joycallback ?
+		// glfwGetGamepadState(GLFW_JOYSTICK_1, &gamepadState) => set current state for both the button and axis and last
+
+		// 2.
+		// Need something to continously check for incoming connection => glfwJoystickPresent(GLFW_JOYSTICK_1); then set the first bool (probably done event style to start up the second bool which is to run the update loop)
+
+		// 3. 
+		// This is done here
+		// put a bool here to only run if there is a controller connected
+		// TO DO add portion for non-pausable button and axis 
+			// TO DO else if for controller ontrigger&onpressed
+			// TO DO else if for controller onpressed
+			// else if for controller onreleased
+		// this uses the curr and last to check to do the 3 options above or not
+
+		// 4. upon disconnection, turn bools off and stuff
+
+
 		// Trigger pausable key press events
 		if (TIME->IsPaused()) return;
 		for (auto key = inputKeysPausable.begin(); key != inputKeysPausable.end(); ++key)
