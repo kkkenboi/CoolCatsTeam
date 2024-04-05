@@ -23,6 +23,7 @@
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Time.h"
 #include "LitterBox/Serialization/AssetManager.h"
+#include "LitterBox/Scene/SceneManager.h"
 
 #include "stb_image.h"
 
@@ -203,6 +204,10 @@ namespace LB
 
         // Free memory
         delete[] pixels;
+
+        // Subscribe for mouse change
+        SCENEMANAGER->onNewSceneLoadString.Subscribe(LB::UpdateCursor);
+        TIME->onPauseEvent.Subscribe(LB::UpdateCursor);
     }
 
     /*!***********************************************************************
@@ -486,8 +491,22 @@ namespace LB
         heightBorderOffset = hBO;
     }
 
-    void WindowsSystem::UpdateCursor(std::string name)
+    /*!***********************************************************************
+    \brief
+    This function updates the cursor based on the scene's name
+    *************************************************************************/
+    void WindowsSystem::UpdateCursor(std::string sceneName)
     {
+        if (sceneName == "SceneMainMenu" || sceneName == "Paused")
+        {
+            m_CurrentSceneName = "Finger";
+            //DebuggerLogFormat("%s, This is the scene name :D", sceneName.c_str());
+        }
+        else // Means this is a level scene / playing
+        {
+            m_CurrentSceneName = "Target";
+        }
+
         // Destroy the current cursor first
         if (m_Data.m_Cursor)
         {
@@ -496,18 +515,18 @@ namespace LB
 
         // Set the window cursor       
         GLFWimage image{};
-        image.width = ASSETMANAGER->Textures[ASSETMANAGER->assetMap[name]].first->width;
-        image.height = ASSETMANAGER->Textures[ASSETMANAGER->assetMap[name]].first->height;
+        image.width = ASSETMANAGER->Textures[ASSETMANAGER->assetMap[m_CurrentSceneName]].first->width;
+        image.height = ASSETMANAGER->Textures[ASSETMANAGER->assetMap[m_CurrentSceneName]].first->height;
 
         // - Grabbing the actual values from the texture buffer itself
         GLuint* pixels = new GLuint[image.width * image.height * STBI_rgb_alpha];
-        glBindTexture(GL_TEXTURE_2D, ASSETMANAGER->GetTextureIndex(name));
+        glBindTexture(GL_TEXTURE_2D, ASSETMANAGER->GetTextureIndex(m_CurrentSceneName));
         glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
         image.pixels = reinterpret_cast<unsigned char*>(pixels);
 
         // - Create an image for the cursor
-        if (name == "Target")
+        if (sceneName == "Target")
         {
             m_Data.m_Cursor = glfwCreateCursor(&image, image.width / 2, image.height / 2);
         }
@@ -518,5 +537,19 @@ namespace LB
 
         // Free memory
         delete[] pixels;
+    }
+
+    std::string const& WindowsSystem::GetSceneName()
+    {
+        return m_CurrentSceneName;
+    }
+
+    /*!***********************************************************************
+    \brief
+    Event to update the cursor based on the scene name
+    *************************************************************************/
+    void UpdateCursor(std::string sceneName)
+    {
+        WINDOWSSYSTEM->UpdateCursor(sceneName);
     }
 }

@@ -87,16 +87,7 @@ namespace Renderer {
 		 NOTE: This is mainly for testing the matrix multiplications but it was
 		 very fun to have so I kept it in, please don't be mad.
 		*************************************************************************/
-		void move_cam(float intensity) {
-			float shakex{ oldX + -intensity * 0.25f + static_cast<float>(rand()) * intensity / static_cast<float>(RAND_MAX) },
-				shakey{ oldY + -intensity * 0.25f + static_cast<float>(rand()) * intensity / static_cast<float>(RAND_MAX) };
-			
-			pos.x = shakex;
-			pos.y = shakey;
-
-			nel = glm::inverse(glm::mat4{ o_right, o_up, o_w, pos });
-			world_NDC = ortho * nel;
-		}
+		void move_cam(float intensity);
 
 		/*!***********************************************************************
 		\brief

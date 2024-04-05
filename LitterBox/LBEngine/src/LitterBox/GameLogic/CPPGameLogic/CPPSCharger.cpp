@@ -248,7 +248,7 @@ namespace LB
 			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerDeathSounds, 0.2f);
 			mAudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(
 				mAudioManager->GetComponent<CPPSAudioManager>()->ChargerDeathSounds,
-				mTransform->GetPosition(), 0.2f);
+				mTransform->GetPosition(),false, 0.2f);
 			Die();
 		}
 		else

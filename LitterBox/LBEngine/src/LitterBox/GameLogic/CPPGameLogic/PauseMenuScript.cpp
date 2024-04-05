@@ -163,7 +163,11 @@ namespace LB
 				{
 
 					TIME->Pause(true);
+					OnPauseMenu = true;
 					// Move all the GOs to the Front of the Screen
+
+					// To change the mouse cursor
+					TIME->onPauseEvent.Invoke("Paused");
 
 					MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
 					MenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.67f, 11.50f});
@@ -197,6 +201,11 @@ namespace LB
 				if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
 				{
 					TIME->Pause(false);
+
+					OnPauseMenu = false;
+
+					// To change the mouse cursor
+					TIME->onPauseEvent.Invoke("Playing");
 
 					MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 					//MenuTextureObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
@@ -245,10 +254,15 @@ namespace LB
 			{
 				if (vec_colliders[i] == ResumeButton->GetComponent<CPCollider>())
 				{
+					if (OnPauseMenu)
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 650.f - 25.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
 						TIME->Pause(false);
+
+						// To change the mouse cursor
+						TIME->onPauseEvent.Invoke("Playing");
+
 						Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
 
@@ -278,6 +292,7 @@ namespace LB
 			{
 				if (vec_colliders[i] == HowToPlayButton->GetComponent<CPCollider>())
 				{
+					if (OnPauseMenu)
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 565.f - 20.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
@@ -308,6 +323,7 @@ namespace LB
 			{
 				if (vec_colliders[i] == Settings->GetComponent<CPCollider>())
 				{
+					if (OnPauseMenu)
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 480.f - 20.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
@@ -343,6 +359,7 @@ namespace LB
 			{
 				if (vec_colliders[i] == MainMenu->GetComponent<CPCollider>())
 				{
+					if (OnPauseMenu)
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 395.f - 20.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
@@ -357,6 +374,7 @@ namespace LB
 			{
 				if (vec_colliders[i] == QuitButton->GetComponent<CPCollider>())
 				{
+					if (OnPauseMenu)
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 250.f - 10.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
@@ -524,6 +542,18 @@ namespace LB
 	void PauseMenuScript::Destroy()
 	{
 
+	}
+
+	/*!***********************************************************************
+	\brief
+	 Getter for the OnPauseMenu member variable
+
+	\return
+	 OnPauseMenu member variable
+	*************************************************************************/
+	bool& PauseMenuScript::GetOnPauseMenu()
+	{
+		return OnPauseMenu;
 	}
 
 }

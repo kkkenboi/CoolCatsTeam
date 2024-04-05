@@ -18,6 +18,17 @@
 #include <utility> //for std::pair
 namespace LB
 {
+	// Details of a map, to be refactored
+	struct MapDetails
+	{
+		MapDetails() {}
+		MapDetails(Vec2<float> xbounds, Vec2<float> ybounds, std::string const& name)
+			: m_xbounds(xbounds), m_ybounds(ybounds), m_name(name) { }
+		Vec2<float> m_xbounds;
+		Vec2<float> m_ybounds;
+		std::string m_name;
+	};
+
 	class CPPSGameManager : public CPPBehaviour
 	{
 	public:
@@ -144,6 +155,12 @@ namespace LB
 		**************************************************************************/
 		std::vector<GameObject*>& GetSpawnedEnemyList();
 
+		// Event for new map start
+		Event<> onNewMapStart;
+
+		void DeleteOldMap();
+		void StartNewMap();
+
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy
 		//Each wave also has a certain value
@@ -177,6 +194,10 @@ namespace LB
 		CPRender* ItemLost2{ nullptr };
 		CPRender* ItemLost3{ nullptr };
 		CPRender* ItemLost4{ nullptr };
+
+		// Current map loaded
+		MapDetails m_currentMap;
+
 	private:
 		bool UpgradeSpawned{ false };
 		//Formula made in desmos, curve is a sexy sexy S curve.
@@ -193,6 +214,11 @@ namespace LB
 		GameObject* killerTexture{ nullptr }; //texture of the player killer for gameover
 		Vec2<float> cachedCrowdPos{}, cachedRestartPos{}, cachedQuitPos{};
 		bool restartHovered{ false }, quitHovered{ false };
+
+		// Map stuff
+		CPTransform* m_mapHolder{ nullptr };
+		CPTransform* m_portalHolder{ nullptr };
+		std::vector<MapDetails> m_mapList;
 
 		Vec2<float> mouse_pos{};
 		std::vector<Vec2<float>> SpawnPoints;

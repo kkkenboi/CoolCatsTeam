@@ -12,6 +12,8 @@
 **************************************************************************/
 #pragma once
 #include "TransformComponent.h"
+#include "LitterBox/Audio/AudioType.h"
+
 namespace LB
 {
 	class CPAudioSource : public IComponent
@@ -23,9 +25,9 @@ namespace LB
 
 		/*!************************************************************************
 		 * \brief Plays the audio component (will play the current audio clip attached)
-		 * 
+		 * (by default, it plays the SFX)
 		**************************************************************************/
-		void Play();
+		void Play(SoundType type = SFX);
 
 		/*!************************************************************************
 		 * \brief Plays the audioclip attached after X seconds of delay
@@ -97,6 +99,7 @@ namespace LB
 		float fadeTime{ 0.f };			//Time for fading in/out
 		bool fadeIn{ false };				//Determines if the audio source should fade in
 		bool fadeOut{ false };			//Determines if the audio source should fade out
+		SoundType soundType{ SFX };		//Determines if the audio source is SFX or BGM
 		std::string AudioClipName{};		//Name of the audioclip 
 
 		/*!***********************************************************************
