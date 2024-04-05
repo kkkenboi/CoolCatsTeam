@@ -2453,6 +2453,16 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSPortal"
+                },
+                "AudioSource": {
+                    "Active": true,
+                    "AudioClipName": "Portal Sound",
+                    "Play On Awake": true,
+                    "Loop": true,
+                    "is3D": true,
+                    "Volume": 0.2,
+                    "Pitch": 1.0,
+                    "SoundType": 0
                 }
             },
             {
