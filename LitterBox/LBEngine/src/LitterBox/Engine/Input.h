@@ -195,6 +195,12 @@ namespace LB {
 		Vec2<float> mousePos;
 
 		bool inputKeysLast[GLFW_KEY_LAST]{ false }, inputKeysCurr[GLFW_KEY_LAST]{ false }, mousePosOverwritten{ false };
+
+		// Gamepad
+		bool gamepadConnected;
+		std::unordered_map<int, bool> gamepads;
+		// std::unordered_map<int, std::unordered_map<Controller_Logi, int>> m_curr_controller_state;
+		// std::unordered_map<int, std::unordered_map<Controller_Logi, int>> m_prev_controller_state;
 	};
 
 	/*!***********************************************************************

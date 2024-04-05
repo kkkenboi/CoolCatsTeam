@@ -886,6 +886,7 @@
                     "AudioClipName": "YellowLineBGM",
                     "Play On Awake": true,
                     "Loop": true,
+                    "is3D": false,
                     "Volume": 0.3,
                     "Pitch": 1.0
                 }

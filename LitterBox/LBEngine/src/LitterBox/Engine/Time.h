@@ -171,6 +171,7 @@ namespace LB {
 		void StepFixedDeltaTime();
 
 		Event<> onFrameEnd;									// Used to broadcast that a frame has ended
+		Event<std::string> onPauseEvent;					// Used to tell when game is paused to change the mouse cursor
 		
 		private:
 		bool m_frameStarted { false };						// Whether the frame has started or not

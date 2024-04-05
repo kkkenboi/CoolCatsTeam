@@ -165,6 +165,9 @@ namespace LB
 					TIME->Pause(true);
 					// Move all the GOs to the Front of the Screen
 
+					// To change the mouse cursor
+					TIME->onPauseEvent.Invoke("Paused");
+
 					MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
 					MenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.67f, 11.50f});
 					
@@ -196,7 +199,11 @@ namespace LB
 			{
 				if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
 				{
+					std::cout << "Triggered\n";
 					TIME->Pause(false);
+
+					// To change the mouse cursor
+					TIME->onPauseEvent.Invoke("Playing");
 
 					MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 					//MenuTextureObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{1.f, 1.f});
@@ -249,6 +256,10 @@ namespace LB
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
 						TIME->Pause(false);
+
+						// To change the mouse cursor
+						TIME->onPauseEvent.Invoke("Playing");
+
 						Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
 

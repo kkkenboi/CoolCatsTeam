@@ -18,6 +18,7 @@
 #include "LitterBox/Factory/GameObjectFactory.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Core/Core.h"
+#include "Platform/Windows/Windows.h"
 
 
 namespace LB
@@ -55,6 +56,7 @@ namespace LB
 			Vec2<float> mousePos = INPUT->GetMousePos();
 			mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
 			mousePos.y -= m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
+			
 			mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 			mousePos.y = (mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight()) * 1080.f / (float)WINDOWSSYSTEM->GetHeight();
 			m_MouseWorld->GetComponent<CPTransform>()->SetPosition(mousePos);
@@ -73,11 +75,27 @@ namespace LB
 
 			mousePos.y = ((float)WINDOWSSYSTEM->GetHeight() - mousePos.y - WINDOWSSYSTEM->getBorderHeight()) * WINDOWSSYSTEM->getViewPortConversion().y;
 			mousePos.y += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
+
+			// Add offset if the scene is not mainmenu or in pause menu
+			if (WINDOWSSYSTEM->GetSceneName() != "SceneMainMenu")
+			{
+				mousePos.x += 24.f;
+				mousePos.y -= 24.f;
+			}
+
 			m_MouseWorld->GetComponent<CPTransform>()->SetPosition(mousePos);
 
 			mousePos = INPUT->GetMousePos();
 			mousePos.x *= WINDOWSSYSTEM->getViewPortConversion().x;
 			mousePos.y = ((float)WINDOWSSYSTEM->GetHeight() - mousePos.y - WINDOWSSYSTEM->getBorderHeight()) * WINDOWSSYSTEM->getViewPortConversion().y;
+
+			// Add offset if the scene is not mainmenu or in pause menu
+			if (WINDOWSSYSTEM->GetSceneName() != "SceneMainMenu")
+			{
+				mousePos.x += 24.f;
+				mousePos.y -= 24.f;
+			}
+
 			m_MouseUI->GetComponent<CPTransform>()->SetPosition(mousePos);
 
 
