@@ -1485,124 +1485,6 @@
                             }
                         },
                         {
-                            "Name": "LevelBoard",
-                            "Active": false,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 955.090026,
-                                    "y": 729.411804
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "Backboard",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 828.0,
-                                            "Height": 250.0,
-                                            "ZLayer": 0.2,
-                                            "Layer": 3,
-                                            "Texture": "Backboard UI",
-                                            "SpriteName": "BackboardSheet",
-                                            "SpriteIndex": 4
-                                        },
-                                        "Animator": {
-                                            "Default State": "VFX_ExpandH",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": false,
-                                            "Controller": "VFXController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Level Text",
-                                        "Active": false,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": -110.470001,
-                                                "y": -23.819999
-                                            },
-                                            "Scale": {
-                                                "x": 2.069998,
-                                                "y": 2.849997
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Text": {
-                                            "Active": true,
-                                            "Message": {
-                                                "text": "Hole 1",
-                                                "x": 844.619995,
-                                                "y": 705.591796,
-                                                "scale": 0.0,
-                                                "World Coords": false,
-                                                "Color": {
-                                                    "x": 0.362744,
-                                                    "y": 0.222008,
-                                                    "z": 0.154697
-                                                },
-                                                "Font name": "ZillaSlab-Regular"
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "Name": "Flag",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 109.574279,
-                                                "y": 5.882324
-                                            },
-                                            "Scale": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 440.0,
-                                            "Height": 440.0,
-                                            "ZLayer": 0.1,
-                                            "Layer": 3,
-                                            "Texture": "FlagPole_Spritesheet",
-                                            "SpriteName": "FlagSheet",
-                                            "SpriteIndex": 26
-                                        },
-                                        "Animator": {
-                                            "Default State": "Flag_Appear",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": false,
-                                            "Controller": "VFXController"
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
                             "Name": "EndCrowdCheer",
                             "Active": false,
                             "Transform": {
@@ -2570,32 +2452,6 @@
                 "CPPScript": {
                     "Active": true,
                     "Script": "class LB::CPPSPortal"
-                }
-            },
-            {
-                "Name": "PortalCenter",
-                "Active": false,
-                "Transform": {
-                    "Active": true,
-                    "Position": {
-                        "x": 960.0,
-                        "y": 540.0
-                    },
-                    "Scale": {
-                        "x": 1.0,
-                        "y": 1.0
-                    },
-                    "Rotation": 0.0
-                },
-                "Render": {
-                    "Active": true,
-                    "Width": 100.0,
-                    "Height": 100.0,
-                    "ZLayer": 1.0,
-                    "Layer": 3,
-                    "Texture": "UpgradePopUp_Spritesheet",
-                    "SpriteName": "UpgradesSheet",
-                    "SpriteIndex": 19
                 }
             },
             {
@@ -23658,6 +23514,387 @@
                             }
                         }
                     ]
+                }
+            },
+            {
+                "Name": "PortalCenter",
+                "Active": false,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 960.0,
+                        "y": 540.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "ZLayer": 1.0,
+                    "Layer": 3,
+                    "Texture": "UpgradePopUp_Spritesheet",
+                    "SpriteName": "UpgradesSheet",
+                    "SpriteIndex": 19
+                }
+            },
+            {
+                "Name": "LevelBoard",
+                "Active": false,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 955.090026,
+                        "y": 729.411804
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Backboard",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 828.0,
+                                "Height": 250.0,
+                                "ZLayer": 0.2,
+                                "Layer": 3,
+                                "Texture": "Backboard UI",
+                                "SpriteName": "BackboardSheet",
+                                "SpriteIndex": 4
+                            },
+                            "Animator": {
+                                "Default State": "VFX_ExpandH",
+                                "Play On Awake": false,
+                                "Awake Delay": 0.0,
+                                "Repeating": false,
+                                "Should Cull": false,
+                                "Controller": "VFXController"
+                            }
+                        },
+                        {
+                            "Name": "Level Text",
+                            "Active": false,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": -110.470001,
+                                    "y": -23.819999
+                                },
+                                "Scale": {
+                                    "x": 2.069998,
+                                    "y": 2.849997
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Text": {
+                                "Active": true,
+                                "Message": {
+                                    "text": "Hole 1",
+                                    "x": 844.619995,
+                                    "y": 705.591796,
+                                    "scale": 0.0,
+                                    "World Coords": false,
+                                    "Color": {
+                                        "x": 0.362744,
+                                        "y": 0.222008,
+                                        "z": 0.154697
+                                    },
+                                    "Font name": "ZillaSlab-Regular"
+                                }
+                            }
+                        },
+                        {
+                            "Name": "Flag",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 109.574279,
+                                    "y": 65.879997
+                                },
+                                "Scale": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 440.0,
+                                "Height": 440.0,
+                                "ZLayer": 0.1,
+                                "Layer": 3,
+                                "Texture": "FlagPole_Spritesheet",
+                                "SpriteName": "FlagSheet",
+                                "SpriteIndex": 26
+                            },
+                            "Animator": {
+                                "Default State": "Flag_Appear",
+                                "Play On Awake": false,
+                                "Awake Delay": 0.0,
+                                "Repeating": false,
+                                "Should Cull": false,
+                                "Controller": "VFXController"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "Name": "EnemyChaser1",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 284.711669,
+                        "y": 483.439788
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0,
+                    "Children": [
+                        {
+                            "Name": "Walk",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "Body",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0,
+                                            "Children": [
+                                                {
+                                                    "Name": "Hands",
+                                                    "Active": true,
+                                                    "Transform": {
+                                                        "Active": true,
+                                                        "Position": {
+                                                            "x": 0.0,
+                                                            "y": -13.0
+                                                        },
+                                                        "Scale": {
+                                                            "x": 1.0,
+                                                            "y": 1.0
+                                                        },
+                                                        "Rotation": 0.0,
+                                                        "Children": [
+                                                            {
+                                                                "Name": "ChaserClub",
+                                                                "Active": true,
+                                                                "Transform": {
+                                                                    "Active": true,
+                                                                    "Position": {
+                                                                        "x": 20.0,
+                                                                        "y": 0.0
+                                                                    },
+                                                                    "Scale": {
+                                                                        "x": 1.0,
+                                                                        "y": 1.0
+                                                                    },
+                                                                    "Rotation": 120.0
+                                                                },
+                                                                "Render": {
+                                                                    "Active": true,
+                                                                    "Width": 100.0,
+                                                                    "Height": 100.0,
+                                                                    "ZLayer": 1.0,
+                                                                    "Layer": 0,
+                                                                    "Texture": "Multi_Spritesheet",
+                                                                    "SpriteName": "MultiSheet",
+                                                                    "SpriteIndex": 7
+                                                                },
+                                                                "Collider": {
+                                                                    "Active": true,
+                                                                    "ColliderLayer": {
+                                                                        "Layer Name": "EnemyBall",
+                                                                        "Layer ID": 5
+                                                                    },
+                                                                    "Shape": 1,
+                                                                    "Width": 43.0,
+                                                                    "Height": 100.0,
+                                                                    "Radius": 50.0
+                                                                },
+                                                                "Animator": {
+                                                                    "Default State": "None",
+                                                                    "Play On Awake": false,
+                                                                    "Awake Delay": 0.0,
+                                                                    "Repeating": false,
+                                                                    "Should Cull": false,
+                                                                    "Controller": "MeleeController"
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 135.0,
+                                            "Height": 135.0,
+                                            "ZLayer": 2.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 4
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": false,
+                                            "Controller": "MeleeController"
+                                        }
+                                    }
+                                ]
+                            },
+                            "Animator": {
+                                "Default State": "Action_Move",
+                                "Play On Awake": false,
+                                "Awake Delay": 0.0,
+                                "Repeating": false,
+                                "Should Cull": false,
+                                "Controller": "ActionController"
+                            }
+                        },
+                        {
+                            "Name": "Shadow",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -55.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": true,
+                                "Width": 100.0,
+                                "Height": 25.0,
+                                "ZLayer": 5.0,
+                                "Layer": 0,
+                                "Texture": "Multi_Spritesheet",
+                                "SpriteName": "MultiSheet",
+                                "SpriteIndex": 55
+                            }
+                        },
+                        {
+                            "Name": "DeDust2",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 0.0,
+                                    "y": -30.0
+                                },
+                                "Scale": {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0
+                            },
+                            "Render": {
+                                "Active": false,
+                                "Width": 100.0,
+                                "Height": 100.0,
+                                "ZLayer": 3.0,
+                                "Layer": 0,
+                                "Texture": "VFXCompile_SpriteSheet",
+                                "SpriteName": "VFXSheet",
+                                "SpriteIndex": 0
+                            },
+                            "Particle": {
+                                "EmitterType": 0,
+                                "EmitterRate": 0.05,
+                                "RadialNum": 10,
+                                "EmitterVelocity": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "VelocityMinX": -15.0,
+                                "VelocityMaxX": 10.0,
+                                "VelocityMinY": -50.0,
+                                "VelocityMaxY": 40.0,
+                                "RadialSpeed": 100.0,
+                                "SizeBegin": 0.8,
+                                "SizeEnd": 0.3,
+                                "EmitterLifetime": 1.0,
+                                "ParticleLifetime": 0.15,
+                                "EmitterActive": true,
+                                "EmitterLooping": true
+                            }
+                        }
+                    ]
+                },
+                "RigidBody": {
+                    "Active": true,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Density": 10.0,
+                    "IsStatic": false
+                },
+                "Collider": {
+                    "Active": true,
+                    "ColliderLayer": {
+                        "Layer Name": "GameEntity",
+                        "Layer ID": 1
+                    },
+                    "Shape": 0,
+                    "Width": 100.0,
+                    "Height": 100.0,
+                    "Radius": 40.0
+                },
+                "CPPScript": {
+                    "Active": true,
+                    "Script": "class LB::CPPSChaser"
                 }
             }
         ]
