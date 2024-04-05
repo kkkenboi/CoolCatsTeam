@@ -62,6 +62,9 @@ namespace LB
 		GameObject* SettingsMenuMusic{ nullptr };
 		GameObject* SettingsMenuMusicCollider{ nullptr };
 
+		//pointer to the pause menu
+		GameObject* PauseMenu{ nullptr };
+
 		//for collision checking
 		CPCollider* coll{ nullptr };
 

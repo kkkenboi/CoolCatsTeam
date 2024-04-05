@@ -17,6 +17,7 @@
 #include "CPPSSettings.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Physics/ColliderManager.h"
+#include "PauseMenuScript.h"
 
 float LB::CPPSSettings::MVSliverPos{ 1110.f };
 float LB::CPPSSettings::SFXSliderPos{ 1110.f };
@@ -25,6 +26,7 @@ float LB::CPPSSettings::MusicSliderPos{ 1110.f };
 void LB::CPPSSettings::Start()
 {
 	coll = GameObj->GetComponent<CPCollider>();
+
 	//get all the quit confirmation stuff
 		// Grab All The GOs associated with the Pause Menu
 	for (GameObject* GO : GOMANAGER->GetGameObjects())
@@ -74,6 +76,9 @@ void LB::CPPSSettings::Start()
 			SettingsMenuMusicCollider = GO;
 		}
 	}
+
+	// Set pause menu pointer
+	PauseMenu = GOMANAGER->FindGameObjectWithName("PauseMenuHolderObject");
 }
 
 void LB::CPPSSettings::Update()
@@ -115,6 +120,10 @@ void LB::CPPSSettings::Update()
 
 					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(hidevec);
 					SettingsMenuMusicCollider->GetComponent<CPTransform>()->SetPosition(hidevec);
+
+					// Set back to pause menuz
+					PauseMenu->GetComponent<PauseMenuScript>()->GetOnPauseMenu() = true;
+
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}

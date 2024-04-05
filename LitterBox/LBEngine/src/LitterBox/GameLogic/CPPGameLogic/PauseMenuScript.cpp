@@ -163,6 +163,7 @@ namespace LB
 				{
 
 					TIME->Pause(true);
+					OnPauseMenu = true;
 					// Move all the GOs to the Front of the Screen
 
 					// To change the mouse cursor
@@ -199,8 +200,9 @@ namespace LB
 			{
 				if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
 				{
-					std::cout << "Triggered\n";
 					TIME->Pause(false);
+
+					OnPauseMenu = false;
 
 					// To change the mouse cursor
 					TIME->onPauseEvent.Invoke("Playing");
@@ -252,6 +254,7 @@ namespace LB
 			{
 				if (vec_colliders[i] == ResumeButton->GetComponent<CPCollider>())
 				{
+					if (OnPauseMenu)
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 650.f - 25.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
@@ -289,6 +292,7 @@ namespace LB
 			{
 				if (vec_colliders[i] == HowToPlayButton->GetComponent<CPCollider>())
 				{
+					if (OnPauseMenu)
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 565.f - 20.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
@@ -319,6 +323,7 @@ namespace LB
 			{
 				if (vec_colliders[i] == Settings->GetComponent<CPCollider>())
 				{
+					if (OnPauseMenu)
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 480.f - 20.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
@@ -354,6 +359,7 @@ namespace LB
 			{
 				if (vec_colliders[i] == MainMenu->GetComponent<CPCollider>())
 				{
+					if (OnPauseMenu)
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 395.f - 20.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
@@ -368,6 +374,7 @@ namespace LB
 			{
 				if (vec_colliders[i] == QuitButton->GetComponent<CPCollider>())
 				{
+					if (OnPauseMenu)
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 250.f - 10.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
@@ -535,6 +542,18 @@ namespace LB
 	void PauseMenuScript::Destroy()
 	{
 
+	}
+
+	/*!***********************************************************************
+	\brief
+	 Getter for the OnPauseMenu member variable
+
+	\return
+	 OnPauseMenu member variable
+	*************************************************************************/
+	bool& PauseMenuScript::GetOnPauseMenu()
+	{
+		return OnPauseMenu;
 	}
 
 }
