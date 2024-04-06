@@ -56,6 +56,9 @@ namespace LB
 		*************************************************************************/
 		inline GameObject* GetMouseWorld() const { return m_MouseWorld; }
 
+		// The origin point of the gamepad cursor
+		Vec2<float> m_GamePadRef{};
+
 	private:
 		GameObject* m_MouseUI { nullptr };
 		GameObject* m_MouseWorld { nullptr };

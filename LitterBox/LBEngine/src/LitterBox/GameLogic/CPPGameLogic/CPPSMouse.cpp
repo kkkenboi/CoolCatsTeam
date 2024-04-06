@@ -54,11 +54,22 @@ namespace LB
 		{
 			// Mouse will be following the camera and adjusting to the native resolution if in full screen mode
 			Vec2<float> mousePos = INPUT->GetMousePos();
-			mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
-			mousePos.y -= m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
+			// Gamepad cursor
+			Vec2<float> gamePadPos = INPUT->GetRightJoystickPos();
+			if (gamePadPos.x != 0.f || gamePadPos.y != 0.f)
+			{
+				mousePos = m_GamePadRef + gamePadPos * 300.f;
+			}
+			else
+			{
+				mousePos = INPUT->GetMousePos();
+
+				mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
+				mousePos.y -= m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
 			
-			mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
-			mousePos.y = (mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight()) * 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+				mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+				mousePos.y = (mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight()) * 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			}
 			m_MouseWorld->GetComponent<CPTransform>()->SetPosition(mousePos);
 
 			mousePos = INPUT->GetMousePos();
@@ -70,11 +81,22 @@ namespace LB
 		{
 			// Mouse will be following the camera and adjusting to the native resolution if in full screen mode
 			Vec2<float> mousePos = INPUT->GetMousePos();
-			mousePos.x *= WINDOWSSYSTEM->getViewPortConversion().x;
-			mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
+			// Gamepad cursor
+			Vec2<float> gamePadPos = INPUT->GetRightJoystickPos();
+			if (gamePadPos.x != 0.f || gamePadPos.y != 0.f)
+			{
+				mousePos = m_GamePadRef + gamePadPos * 300.f;
+			}
+			else
+			{
+				mousePos = INPUT->GetMousePos();
 
-			mousePos.y = ((float)WINDOWSSYSTEM->GetHeight() - mousePos.y - WINDOWSSYSTEM->getBorderHeight()) * WINDOWSSYSTEM->getViewPortConversion().y;
-			mousePos.y += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
+				mousePos.x *= WINDOWSSYSTEM->getViewPortConversion().x;
+				mousePos.x += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.x;
+
+				mousePos.y = ((float)WINDOWSSYSTEM->GetHeight() - mousePos.y - WINDOWSSYSTEM->getBorderHeight()) * WINDOWSSYSTEM->getViewPortConversion().y;
+				mousePos.y += m_CameraFollow->GetComponent<CPPSCameraFollow>()->cameraPos.y;
+			}
 
 			// Add offset if the scene is not mainmenu or in pause menu
 			if (WINDOWSSYSTEM->GetSceneName() != "SceneMainMenu")
@@ -97,8 +119,6 @@ namespace LB
 			}
 
 			m_MouseUI->GetComponent<CPTransform>()->SetPosition(mousePos);
-
-
 		}
 	}
 
