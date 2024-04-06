@@ -17,7 +17,6 @@
 #include "CPPBehaviour.h"
 #include "LitterBox/Components/CPPScriptComponent.h"
 
-
 namespace LB
 {
 	/*!***********************************************************************

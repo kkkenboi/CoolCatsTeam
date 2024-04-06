@@ -72,9 +72,27 @@ namespace LB
 			}
 			m_MouseWorld->GetComponent<CPTransform>()->SetPosition(mousePos);
 
-			mousePos = INPUT->GetMousePos();
-			mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
-			mousePos.y = (mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight()) * 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			if (gamePadPos.x != 0.f || gamePadPos.y != 0.f)
+			{
+				Vec2<float> camPos = m_CameraFollow->GetComponent<CPPSCameraFollow>()->currentPos - m_GamePadRef;
+				camPos.x += 960.f;
+				camPos.y += 540.f;
+
+				mousePos = gamePadPos * 300.f;
+				mousePos.x += WINDOWSSYSTEM->GetWidth() / 2.0f;
+				mousePos.y = WINDOWSSYSTEM->GetHeight() / 2.0f - mousePos.y;
+
+				mousePos.x -= camPos.x;
+				mousePos.y += camPos.y;
+
+				glfwSetCursorPos(WINDOWSSYSTEM->GetWindow(), mousePos.x, mousePos.y);
+			}
+			else
+			{
+				mousePos = INPUT->GetMousePos();
+				mousePos.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+				mousePos.y = (mousePos.y * -1.f + (float)WINDOWSSYSTEM->GetHeight()) * 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			}
 			m_MouseUI->GetComponent<CPTransform>()->SetPosition(mousePos);
 		}
 		else
@@ -107,9 +125,27 @@ namespace LB
 
 			m_MouseWorld->GetComponent<CPTransform>()->SetPosition(mousePos);
 
-			mousePos = INPUT->GetMousePos();
-			mousePos.x *= WINDOWSSYSTEM->getViewPortConversion().x;
-			mousePos.y = ((float)WINDOWSSYSTEM->GetHeight() - mousePos.y - WINDOWSSYSTEM->getBorderHeight()) * WINDOWSSYSTEM->getViewPortConversion().y;
+			if (gamePadPos.x != 0.f || gamePadPos.y != 0.f)
+			{
+				Vec2<float> camPos = m_CameraFollow->GetComponent<CPPSCameraFollow>()->currentPos - m_GamePadRef;
+				camPos.x += 960.f;
+				camPos.y += 540.f;
+
+				mousePos = gamePadPos * 300.f;
+				mousePos.x += WINDOWSSYSTEM->GetWidth() / 2.0f;
+				mousePos.y = WINDOWSSYSTEM->GetHeight() / 2.0f - mousePos.y;
+
+				mousePos.x -= camPos.x;
+				mousePos.y += camPos.y;
+
+				glfwSetCursorPos(WINDOWSSYSTEM->GetWindow(), mousePos.x, mousePos.y);
+			}
+			else
+			{
+				mousePos = INPUT->GetMousePos();
+				mousePos.x *= WINDOWSSYSTEM->getViewPortConversion().x;
+				mousePos.y = ((float)WINDOWSSYSTEM->GetHeight() - mousePos.y - WINDOWSSYSTEM->getBorderHeight()) * WINDOWSSYSTEM->getViewPortConversion().y;
+			}
 
 			// Add offset if the scene is not mainmenu or in pause menu
 			if (WINDOWSSYSTEM->GetSceneName() != "SceneMainMenu")
