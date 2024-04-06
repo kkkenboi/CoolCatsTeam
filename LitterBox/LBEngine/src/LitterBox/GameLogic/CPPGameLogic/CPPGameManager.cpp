@@ -136,7 +136,7 @@ namespace LB
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_U))
 		{
 			//GOMANAGER->FindGameObjectWithName("GameMusic")->GetComponent<CPAudioSource>()->FadeOut(5.f);
-			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
+			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMainMenu");
 			//ShowGameWin();
 		}
 		//Infinite Ammo

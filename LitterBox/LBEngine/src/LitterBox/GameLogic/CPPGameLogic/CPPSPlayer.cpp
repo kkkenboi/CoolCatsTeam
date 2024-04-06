@@ -117,6 +117,12 @@ namespace LB
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
 
+		//Anim is the body anim
+		if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth == 1 && !anim->IsPlaying())
+		{
+			anim->PlayRepeat("Felix_Low");
+		}
+
 		/*!***********************************************************************
 		\brief
 		Movement animation of the player
