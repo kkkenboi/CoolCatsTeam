@@ -21,6 +21,7 @@
 
 namespace LB {
 	#define KEY_EVENT_PRIORITY 100
+	#define JOYSTICK_DEADZONE 0.2f
 
 	/*!***********************************************************************
 	 \brief
@@ -34,6 +35,11 @@ namespace LB {
 		KEY_MOUSE_5,
 
 		KEY_SPACE = GLFW_KEY_SPACE,
+
+		KEY_GAMEPAD_A = GLFW_GAMEPAD_BUTTON_A + KEY_SPACE + 1,
+		KEY_GAMEPAD_B, KEY_GAMEPAD_X, KEY_GAMEPAD_Y,
+		KEY_GAMEPAD_LEFT_BUMPER, KEY_GAMEPAD_RIGHT_BUMPER,
+		KEY_GAMEPAD_BACK, KEY_GAMEPAD_START,
 
 		KEY_0 = GLFW_KEY_0,
 		KEY_1, KEY_2, KEY_3,
@@ -174,6 +180,15 @@ namespace LB {
 		*************************************************************************/
 		bool IsKeyReleased(KeyCode key);
 
+		/*!***********************************************************************
+		 \brief
+		 Gamepad input handling
+		*************************************************************************/
+		void GLFWPollGamepad();
+		Vec2<float> const& GetLeftJoystickPos();
+		Vec2<float> const& GetRightJoystickPos();
+		bool IsGamepadConnected();
+
 	private:
 		/*!***********************************************************************
 		 \brief
@@ -192,16 +207,17 @@ namespace LB {
 		*************************************************************************/
 		std::map<KeyCode, Key> inputKeys, inputKeysPausable;
 
-		Vec2<float> mousePos;
+		Vec2<float> mousePos, leftJoystickPos{}, rightJoytickPos{};
+		bool m_gamepadConnected{ false };
 
 		bool inputKeysLast[GLFW_KEY_LAST]{ false }, inputKeysCurr[GLFW_KEY_LAST]{ false }, mousePosOverwritten{ false };
 
-		// Gamepad
-		bool gamepadConnected; // probably need one to check connected and one to run the inputs because once the gamepad first connects, we need it to initialise everything to empty then set it to false, and set the second bool to allow for the update loop
-		GLFWgamepadstate gamepadState;
+		//// Gamepad
+		//bool gamepadConnected; // probably need one to check connected and one to run the inputs because once the gamepad first connects, we need it to initialise everything to empty then set it to false, and set the second bool to allow for the update loop
+		//GLFWgamepadstate gamepadState;
 
-		bool inputKeysLastGP[GLFW_GAMEPAD_BUTTON_LAST]{ false }, inputKeysCurrGP[GLFW_GAMEPAD_BUTTON_LAST]{ false };
-		bool axisKeysLastGP[GLFW_GAMEPAD_AXIS_LAST]{ false }, axisKeysCurrGP[GLFW_GAMEPAD_AXIS_LAST]{ false };
+		//bool inputKeysLastGP[GLFW_GAMEPAD_BUTTON_LAST]{ false }, inputKeysCurrGP[GLFW_GAMEPAD_BUTTON_LAST]{ false };
+		//bool axisKeysLastGP[GLFW_GAMEPAD_AXIS_LAST]{ false }, axisKeysCurrGP[GLFW_GAMEPAD_AXIS_LAST]{ false };
 	}; 
 
 	/*!***********************************************************************
