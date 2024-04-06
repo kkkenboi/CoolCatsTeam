@@ -1,0 +1,133 @@
+{
+    "Name": "Felix_Low",
+    "SpriteSheet Name": "FelixSheet",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": []
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": []
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": []
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 9
+            },
+            {
+                "Frame": 4,
+                "Data": 10
+            },
+            {
+                "Frame": 8,
+                "Data": 11
+            },
+            {
+                "Frame": 12,
+                "Data": 12
+            },
+            {
+                "Frame": 16,
+                "Data": 13
+            },
+            {
+                "Frame": 20,
+                "Data": 14
+            },
+            {
+                "Frame": 24,
+                "Data": 15
+            },
+            {
+                "Frame": 28,
+                "Data": 16
+            },
+            {
+                "Frame": 32,
+                "Data": 17
+            },
+            {
+                "Frame": 36,
+                "Data": 18
+            },
+            {
+                "Frame": 40,
+                "Data": 19
+            },
+            {
+                "Frame": 44,
+                "Data": 20
+            },
+            {
+                "Frame": 48,
+                "Data": 21
+            },
+            {
+                "Frame": 52,
+                "Data": 22
+            },
+            {
+                "Frame": 56,
+                "Data": 23
+            },
+            {
+                "Frame": 60,
+                "Data": 24
+            },
+            {
+                "Frame": 64,
+                "Data": 25
+            },
+            {
+                "Frame": 68,
+                "Data": 26
+            },
+            {
+                "Frame": 72,
+                "Data": 27
+            },
+            {
+                "Frame": 76,
+                "Data": 28
+            },
+            {
+                "Frame": 80,
+                "Data": 29
+            },
+            {
+                "Frame": 84,
+                "Data": 30
+            },
+            {
+                "Frame": 88,
+                "Data": 30
+            },
+            {
+                "Frame": 92,
+                "Data": 31
+            },
+            {
+                "Frame": 96,
+                "Data": 32
+            }
+        ]
+    },
+    "Start": 0,
+    "End": 96
+}
