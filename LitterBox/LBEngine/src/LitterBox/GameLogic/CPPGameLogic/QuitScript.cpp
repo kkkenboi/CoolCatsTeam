@@ -220,8 +220,9 @@ namespace LB
 			}
 			else
 			{
+				animFlag = false;
 				menuFlag = true;
-				SCENEMANAGER->LoadScene("SceneMain");
+				SCENEMANAGER->LoadScene((tutorial ? "SceneTutOverride" : "SceneMain"));
 			}
 			return;
 		}
@@ -286,7 +287,12 @@ namespace LB
 					//------------------------------------------Move over the quit confirmation game objects----------------------------
 				}
 				else if (GameObj->GetName() == "Controls") {
-					SCENEMANAGER->LoadScene("SceneTutOverride");
+
+					animFlag = true;
+					menuFlag = false;
+					tutorial = true; //additional flag to indicate that we want to go to tutorial
+					curtain->GetComponent<CPRender>()->ToggleActive(true);
+					//SCENEMANAGER->LoadScene("SceneTutOverride");
 				}
 				else if (GameObj->GetName() == "Credits")
 					VideoPlayerSystem::Instance()->PlayCutscene("Credits", "SceneMainMenu");
