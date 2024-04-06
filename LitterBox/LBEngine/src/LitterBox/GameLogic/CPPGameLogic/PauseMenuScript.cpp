@@ -154,7 +154,10 @@ namespace LB
 			}
 		}
 
-		Title->GetComponent<CPAnimator>()->PlayRepeat("VFX_Expand");
+		if (SCENEMANAGER->GetCurrentScene()->GetName() == "SceneMainMenu")
+		{
+			Title->GetComponent<CPAnimator>()->PlayRepeatDelay("VFX_TitleShake", 1.0f);
+		}
 	}
 
 	/*!***********************************************************************
