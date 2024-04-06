@@ -211,13 +211,14 @@ namespace LB
 		size_t brambleStr = str.find("Bramble");
 		size_t MushroomStr = str.find("Mushroom");
 		size_t chargerStr = str.find("Charger_Shield");
+		size_t rockStr = str.find("Rock");
 
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") //if ball
 		{
 			//m_isHurt = true;
 			mFSM.ChangeState("Hurt");//change state
 		}
-		else if ((chargerStr!= std::string::npos|| wallStr != std::string::npos || MushroomStr != std::string::npos /*|| brambleStr != std::string::npos*/) && m_isCharging ) //if colliding and is charging
+		else if ((chargerStr!= std::string::npos|| wallStr != std::string::npos || MushroomStr != std::string::npos || rockStr != std::string::npos /*|| brambleStr != std::string::npos*/ ) && m_isCharging ) //if colliding and is charging
 		{	
 			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->ChargerHitSounds, 0.2f);
 			mAudioManager->GetComponent<CPPSAudioManager>()->Play3DSound(mAudioManager->GetComponent<CPPSAudioManager>()->ChargerHitSound, mTransform->GetPosition(), false, 0.2f, 1.0f);
