@@ -39,7 +39,7 @@ namespace LB
 	}
 
 	/*!************************************************************************
-	 * \brief Update function for the Shield, Check if it need to rotate or not
+	 * \brief FixedUpdate function for the Shield, Check if it need to rotate or not
 	 *
 	**************************************************************************/
 	void CPPShield::FixedUpdate()
@@ -98,7 +98,7 @@ namespace LB
 	}
 
 	/*!************************************************************************
-	 * \brief Update function for the Shield, Check if it need to rotate or not
+	 * \brief Update function for the Shield
 	 * 
 	**************************************************************************/
 	void CPPShield::Update() { }
