@@ -98,6 +98,8 @@ namespace LB
 	*************************************************************************/
 	void CPPSMage::FixedUpdate()
 	{
+		if (TIME->IsPaused()) return;
+
 		// Update the hand position
 		Vec2<float> playerToMageDir = m_trans->GetPosition() - GetHero()->GetComponent<CPTransform>()->GetPosition();
 		playerToMageDir = playerToMageDir.Normalise();
@@ -120,7 +122,7 @@ namespace LB
 	void CPPSMage::Update()
 	{
 		if (mGameManager->GetComponent<CPPSGameManager>()->isGameOver) return;
-
+		if (TIME->IsPaused()) return;
 		CPPSBaseEnemy::Update();
 		if (mInitialised == false)
 		{
