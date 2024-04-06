@@ -349,6 +349,7 @@ namespace LB
 						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						Settings->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						MainMenu->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
