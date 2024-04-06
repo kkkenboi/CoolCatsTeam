@@ -40,6 +40,7 @@
 #include "CPPSPortal.h"
 #include "CPPSTutorialSubs.h"
 #include "CPPSCutscene.h"
+#include "CPPOpeningScene.h"
 #include "CPPSDummy.h"
 #include "CPPSTutorialGrandpa.h"
 #include "CPPSDirectionHelper.h"
