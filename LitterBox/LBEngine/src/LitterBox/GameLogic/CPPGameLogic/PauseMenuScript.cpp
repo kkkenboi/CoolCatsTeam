@@ -153,6 +153,11 @@ namespace LB
 			{
 				Title = GO;
 			}
+
+			if (GO->GetName() == "MouseCursor")
+			{
+				MouseCursor = GO;
+			}
 		}
 
 		if (SCENEMANAGER->GetCurrentScene()->GetName() == "SceneMainMenu")
@@ -247,9 +252,9 @@ namespace LB
 		}
 
 		Vec2<float> mouse_pos{ INPUT->GetMousePos() };
-		if (GOMANAGER->FindGameObjectWithName("MouseCursor"))
+		if (MouseCursor)
 		{
-			mouse_pos = GOMANAGER->FindGameObjectWithName("MouseCursor")->GetComponent<CPPSMouse>()->GetMouseUI()->GetComponent<CPTransform>()->GetPosition();
+			mouse_pos = MouseCursor->GetComponent<CPPSMouse>()->GetMouseUI()->GetComponent<CPTransform>()->GetPosition();
 		}
 		else
 		{
