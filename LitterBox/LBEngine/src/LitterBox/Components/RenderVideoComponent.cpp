@@ -386,6 +386,13 @@ namespace LB
 		AVPacket*& av_packet = vrs.av_packet;
 		AVFrame*& av_frame = vrs.av_frame;
 
+		//reset the texture
+		memset(data, 0, av_frame->width * av_frame->height * 4);
+		glBindTexture(GL_TEXTURE_2D, tex_handle);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, av_frame->width, av_frame->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
 		sws_freeContext(sws_scalar_ctx);
 		ASSETMANAGER->FreeVideo(&av_format_ctx);
 		avformat_close_input(&av_format_ctx);
