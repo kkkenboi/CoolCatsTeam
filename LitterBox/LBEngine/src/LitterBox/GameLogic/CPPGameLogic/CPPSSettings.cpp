@@ -174,7 +174,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuMV->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MVSliverPos = SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetMasterVolume(0);
+					AUDIOMANAGER->SetMasterVolume(Clamp((mouse.x - collider_left) / width, 0.f, 1.f));
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
