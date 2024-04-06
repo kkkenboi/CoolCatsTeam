@@ -172,12 +172,12 @@ namespace LB
 		void CrossFadeBGM(const std::string& targetSong, float fadeDuration = 1.0f);
 	private:
 		//By right the audiomanager should be DDOL, and this BGM Source should persist throughout scenes...
-		CPAudioSource* BGM_Source;	    //THERE CAN ONLY BE ONE BGM SOURCE
-		std::vector<GameObject*> audioSources;	//Pool of audio sources
+		CPAudioSource* BGM_Source{ nullptr };	    //THERE CAN ONLY BE ONE BGM SOURCE
+		std::vector<GameObject*> audioSources{};	//Pool of audio sources
 		void RemoveUnusedAudioSources();
 
 		bool isFading{ false };
-		std::string targetBGM;
+		std::string targetBGM{};
 		float cachedFadeDuration{ 0.0f };
 	};
 	REGISTER_SCRIPT(CPPSAudioManager)
