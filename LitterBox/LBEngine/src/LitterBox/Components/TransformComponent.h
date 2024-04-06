@@ -335,12 +335,14 @@ namespace LB
 			// Swap epending on whether the old index is before or after the new index using 2 while loops
 			while (oldIndex > newIndex)
 			{
-				std::swap(m_children[oldIndex], m_children[oldIndex - 1]);
+				int warning_preventer{ oldIndex - 1 };
+				std::swap(m_children[oldIndex], m_children[warning_preventer]);
 				--oldIndex;
 			}
 			while (oldIndex < newIndex - 1)
 			{
-				std::swap(m_children[oldIndex], m_children[oldIndex + 1]);
+				int warning_preventer{ oldIndex + 1 };
+				std::swap(m_children[oldIndex], m_children[warning_preventer]);
 				++oldIndex;
 			}
 		}

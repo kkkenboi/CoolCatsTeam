@@ -200,9 +200,9 @@ namespace LB
 		return false;
 	}
 
-	void CPAudioSource::ToggleActive(bool isActive)
+	void CPAudioSource::ToggleActive(bool func_isActive)
 	{
-		if (!isActive) 
+		if (!func_isActive)
 		{ 
 			Stop(); 
 			hasPlayed = false;
