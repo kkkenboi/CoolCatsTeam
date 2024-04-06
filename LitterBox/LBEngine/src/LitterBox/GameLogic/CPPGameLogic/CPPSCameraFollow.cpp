@@ -109,18 +109,18 @@ namespace LB
 	{
 		MapDetails currentMap = GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_currentMap;
 		CPPSCameraFollow* camFollow = GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPPSCameraFollow>();
-		camFollow->maxBoundsX.x = currentMap.m_xbounds.x + 960.f;
-		camFollow->maxBoundsX.y = currentMap.m_xbounds.y - 960.f;
-		camFollow->maxBoundsY.x = currentMap.m_ybounds.x + 540.f;
-		camFollow->maxBoundsY.y = currentMap.m_ybounds.y - 540.f;
+		camFollow->maxBoundsX.x = currentMap.m_xbounds.x + (float)WINDOWSSYSTEM->GetWidth() / 2.0f;
+		camFollow->maxBoundsX.y = currentMap.m_xbounds.y - (float)WINDOWSSYSTEM->GetWidth() / 2.0f;
+		camFollow->maxBoundsY.x = currentMap.m_ybounds.x + (float)WINDOWSSYSTEM->GetHeight() / 2.0f;
+		camFollow->maxBoundsY.y = currentMap.m_ybounds.y - (float)WINDOWSSYSTEM->GetHeight() / 2.0f;
 
 		// If not in a main map
 		if (GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->GetCurrentWave() == 0)
 		{
-			camFollow->maxBoundsX.x = -2000.f;
-			camFollow->maxBoundsX.y = 2000.f;
-			camFollow->maxBoundsY.x = -2000.f;
-			camFollow->maxBoundsY.y = 2000.f;
+			camFollow->maxBoundsX.x = -630.f + (float)WINDOWSSYSTEM->GetWidth() / 2.0f;
+			camFollow->maxBoundsX.y = 2560.f - (float)WINDOWSSYSTEM->GetWidth() / 2.0f;
+			camFollow->maxBoundsY.x = -465.f + (float)WINDOWSSYSTEM->GetHeight() / 2.0f;
+			camFollow->maxBoundsY.y = 1560.f - (float)WINDOWSSYSTEM->GetHeight() / 2.0f;
 		}
 	}
 }	
