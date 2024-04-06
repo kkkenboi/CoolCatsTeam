@@ -1,0 +1,89 @@
+{
+    "Name": "VFX_TitleShake",
+    "SpriteSheet Name": "None",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": []
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 22,
+                "Data": {
+                    "x": 1.08,
+                    "y": 1.08
+                }
+            },
+            {
+                "Frame": 44,
+                "Data": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 66,
+                "Data": {
+                    "x": 1.08,
+                    "y": 1.08
+                }
+            },
+            {
+                "Frame": 87,
+                "Data": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
+            }
+        ]
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": 0.0
+            },
+            {
+                "Frame": 22,
+                "Data": 1.149999
+            },
+            {
+                "Frame": 44,
+                "Data": 0.0
+            },
+            {
+                "Frame": 66,
+                "Data": -1.149999
+            },
+            {
+                "Frame": 87,
+                "Data": 0.0
+            }
+        ]
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": []
+    },
+    "Start": 0,
+    "End": 88
+}

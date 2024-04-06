@@ -146,6 +146,17 @@ namespace LB
 			{
 				SettingsMenuMusicCollider = GO;
 			}
+
+			// Title
+			if (GO->GetName() == "Title")
+			{
+				Title = GO;
+			}
+		}
+
+		if (SCENEMANAGER->GetCurrentScene()->GetName() == "SceneMainMenu")
+		{
+			Title->GetComponent<CPAnimator>()->PlayRepeatDelay("VFX_TitleShake", 1.0f);
 		}
 	}
 

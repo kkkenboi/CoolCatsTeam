@@ -1,0 +1,117 @@
+{
+    "Name": "VFX_ExpandHTitle",
+    "SpriteSheet Name": "None",
+    "Active": {
+        "Default": true,
+        "Frame Group": []
+    },
+    "Position": {
+        "Default": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "Frame Group": []
+    },
+    "Scale": {
+        "Default": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Frame Group": [
+            {
+                "Frame": 0,
+                "Data": {
+                    "x": 0.001,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 24,
+                "Data": {
+                    "x": 1.19999,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 27,
+                "Data": {
+                    "x": 1.013998,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 30,
+                "Data": {
+                    "x": 1.003999,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 33,
+                "Data": {
+                    "x": 0.99,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 36,
+                "Data": {
+                    "x": 0.995,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 39,
+                "Data": {
+                    "x": 1.004999,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 42,
+                "Data": {
+                    "x": 1.008,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 45,
+                "Data": {
+                    "x": 1.006,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 48,
+                "Data": {
+                    "x": 1.003,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 51,
+                "Data": {
+                    "x": 1.001999,
+                    "y": 1.0
+                }
+            },
+            {
+                "Frame": 54,
+                "Data": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
+            }
+        ]
+    },
+    "Rotation": {
+        "Default": 0.0,
+        "Frame Group": []
+    },
+    "Sprite": {
+        "Default": 0,
+        "Frame Group": []
+    },
+    "Start": 0,
+    "End": 60
+}

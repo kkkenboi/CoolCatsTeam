@@ -11,6 +11,8 @@
         "Flag_Swaying",
         "VFX_ExpandH",
         "VFX_ExpandHReverse",
-        "Flag_Disappear"
+        "Flag_Disappear",
+        "VFX_ExpandHTitle",
+        "VFX_TitleShake"
     ]
 }

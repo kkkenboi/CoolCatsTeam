@@ -52,7 +52,7 @@ namespace LB {
 
 		SetCollisionLayerAllTrue(DefaultLayer);
 		//JSONSerializer::DeserializeFromFile()
-		JSONSerializer::DeserializeFromFile("CollisionMatrix.json", COLLIDERS->GetLayerSystem());
+		JSONSerializer::DeserializeFromFile("CollisionMatrix", COLLIDERS->GetLayerSystem());
 
 	}
 

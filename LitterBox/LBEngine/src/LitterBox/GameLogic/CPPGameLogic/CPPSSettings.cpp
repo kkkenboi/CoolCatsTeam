@@ -107,7 +107,7 @@ void LB::CPPSSettings::Update()
 	if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 	{
 		//log the click
-		DebuggerLogWarning("Mouse 1 is pressed!");
+		//DebuggerLogWarning("Mouse 1 is pressed!");
 		//get the click position
 		LB::Vec2<float> mouse{ INPUT->GetMousePos() };
 		//map the mouse position to world position (Necessary because ImGUI position is different)
@@ -119,7 +119,7 @@ void LB::CPPSSettings::Update()
 		auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
 
 		//log the click position
-		DebuggerLogFormat("CLICK POS: %f, %f", mouse.x, mouse.y);
+		//DebuggerLogFormat("CLICK POS: %f, %f", mouse.x, mouse.y);
 
 		//loop through colliders
 		for (const auto& collider : test) {
@@ -182,7 +182,7 @@ void LB::CPPSSettings::Update()
 		auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
 
 		//log the click
-		DebuggerLogFormat("CLICK POS: %f, %f", mouse.x, mouse.y);
+		//DebuggerLogFormat("CLICK POS: %f, %f", mouse.x, mouse.y);
 
 		//loop through the objects that mouse is colliding with
 		for (const auto& collider : test)

@@ -58,6 +58,9 @@ namespace LB
 		GameObject* Settings{ nullptr };
 		GameObject* MainMenu{ nullptr };
 
+		// Title 
+		GameObject* Title{ nullptr };
+
 		// How to play
 		GameObject* HowToPlayTexture{ nullptr };
 		GameObject* HowToPlayBackButton{ nullptr };

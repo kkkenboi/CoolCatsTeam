@@ -117,6 +117,12 @@ namespace LB
 			mGotAttackedCooldown -= static_cast<float>(TIME->GetDeltaTime());
 		}
 
+		//Anim is the body anim
+		if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth == 1 && !anim->IsPlaying())
+		{
+			anim->PlayRepeat("Felix_Low");
+		}
+
 		/*!***********************************************************************
 		\brief
 		Movement animation of the player
@@ -316,8 +322,8 @@ namespace LB
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1) || INPUT->IsKeyTriggered(KeyCode::KEY_GAMEPAD_LEFT_BUMPER))
 		{
 			//GOMANAGER->FindGameObjectWithName("MouseCursor")->GetComponent<CPPSMou
-			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
-			
+			if (!m_GameManager->GetComponent<CPPSGameManager>()->isInfiniteAmmo && m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
+			if(!m_GameManager->GetComponent<CPPSGameManager>()->isInfiniteAmmo)
 			onPlacingBall.Invoke();
 			
 			//Spawn Game Object

@@ -968,6 +968,40 @@
                     "Should Cull": false,
                     "Controller": "VFXController"
                 }
+            },
+            {
+                "Name": "Title",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 1520.83728,
+                        "y": 834.324035
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 752.0,
+                    "Height": 407.0,
+                    "ZLayer": 1.0,
+                    "Layer": 0,
+                    "Texture": "Title Logo",
+                    "SpriteName": "None",
+                    "SpriteIndex": -1
+                },
+                "Animator": {
+                    "Default State": "VFX_ExpandHTitle",
+                    "Play On Awake": true,
+                    "Awake Delay": 0.0,
+                    "Repeating": false,
+                    "Should Cull": false,
+                    "Controller": "VFXController"
+                }
             }
         ]
     }

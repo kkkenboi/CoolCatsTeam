@@ -62,7 +62,7 @@ namespace LB
 			}
 		}
 
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_J))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_0))
 		{
 			m_ShowFPS = !m_ShowFPS;
 		}
