@@ -93,6 +93,9 @@ namespace LB
 					GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnPoofAnim(GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPTransform>()->GetPosition(),2.f);
 					GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->m_shootRadius *= 2;
 					GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->SetSpriteTexture(GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->spriteSheetName, 4);
+					GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->w = 125;
+					GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->h = 125;
+
 					break;
 				default:
 					//do nothing

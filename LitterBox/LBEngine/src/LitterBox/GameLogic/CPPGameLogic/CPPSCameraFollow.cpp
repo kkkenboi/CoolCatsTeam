@@ -9,9 +9,12 @@
  *  disclosure of this file or its contents without the prior written consent
  *  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
+
 #include "CPPSCameraFollow.h"
-#include "LitterBox/Renderer/Renderer.h"
 #include "CPPSMouse.h"
+#include "CPPGameManager.h"
+
+#include "LitterBox/Renderer/Renderer.h"
 
 namespace LB
 {
@@ -23,6 +26,7 @@ namespace LB
 	{
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 		m_Mouse = GOMANAGER->FindGameObjectWithName("MouseCursor");
+
 	}
 
 	/*!***********************************************************************
@@ -31,6 +35,16 @@ namespace LB
 	*************************************************************************/
 	void CPPSCameraFollow::Update()
 	{
+		// TO REFACTOR
+		static bool init{ false };
+		if (!init)
+		{
+			// Update the camera bounds on level change
+			GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->onNewMapStart.Subscribe(UpdateCamMaxBounds);
+			UpdateCamMaxBounds();
+			init = false;
+		}
+
 		//First we just store our current position so that it's easier to use
 		currentPos = GetComponent<CPTransform>()->GetPosition();
 
@@ -43,6 +57,11 @@ namespace LB
 		currentPos = Lerp(currentPos, mPlayer->GetComponent<CPTransform>()->GetPosition() + extraDist, static_cast<float>(TIME->GetDeltaTime() * 2.5f));
 		//std::cout << "player Pos : " << mPlayer->GetComponent<CPTransform>()->GetPosition().x << ", " << mPlayer->GetComponent<CPTransform>()->GetPosition().y;
 		//std::cout << ", current pos : " << currentPos.x << ", " << currentPos.y << '\n';
+
+		// Then we clamp the camera to the map bounds
+		currentPos.x = Clamp(currentPos.x, maxBoundsX.x, maxBoundsX.y);
+		currentPos.y = Clamp(currentPos.y, maxBoundsY.x, maxBoundsY.y);
+
 		//Now we set this thing's position
 		GetComponent<CPTransform>()->SetPosition(currentPos);
 		//why won't you move!!! ;__;
@@ -73,12 +92,26 @@ namespace LB
 	bool CPPSCameraFollow::IsVisible(CPTransform const* obj) const
 	{
 		Vec2<float> objPos = obj->GetPosition();
-		if (objPos.x < currentPos.x - 1035.f || objPos.x > currentPos.x + 1035.f
-		 || objPos.y < currentPos.y - 615.f || objPos.y > currentPos.y + 615.f)
+		//if (objPos.x < cameraPos.x - 1035.f || objPos.x > cameraPos.x + 1035.f
+		// || objPos.y < cameraPos.y - 615.f || objPos.y > cameraPos.y + 615.f)
+		//{
+		//	return false;
+		//}
+		if (objPos.x < cameraPos.x - 75.f || objPos.x > cameraPos.x + 1995.f
+			|| objPos.y < cameraPos.y - 75.f || objPos.y > cameraPos.y + 1155.f)
 		{
 			return false;
 		}
 		return true;
 	}
 
+	void UpdateCamMaxBounds()
+	{
+		MapDetails currentMap = GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_currentMap;
+		CPPSCameraFollow* camFollow = GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPPSCameraFollow>();
+		camFollow->maxBoundsX.x = currentMap.m_xbounds.x + 960.f;
+		camFollow->maxBoundsX.y = currentMap.m_xbounds.y - 960.f;
+		camFollow->maxBoundsY.x = currentMap.m_ybounds.x + 540.f;
+		camFollow->maxBoundsY.y = currentMap.m_ybounds.y - 540.f;
+	}
 }	

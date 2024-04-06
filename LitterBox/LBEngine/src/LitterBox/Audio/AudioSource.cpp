@@ -46,12 +46,7 @@ namespace LB
 		//We only want to play sounds when the game is running
 		if (CORE->IsPlaying())
 		{
-			////If it's looping and it has been played 
-			//if (loop && !isPlaying() && hasPlayed)
-			//{
-			//	std::cout << "Loop sound!, chnl ID : " << channelID << "\n";
-			//	Play();
-			//}
+			if (!gameObj->IsActive()) return;
 			//DebuggerLog("Audio Source update!");
 			//If the audio source is playonawake and hasn't played yet
 			if (playOnAwake && !hasPlayed) {
@@ -204,6 +199,18 @@ namespace LB
 		}
 		return false;
 	}
+
+	void CPAudioSource::ToggleActive(bool isActive)
+	{
+		if (!isActive) 
+		{ 
+			Stop(); 
+			hasPlayed = false;
+			playDelayed = false;
+			timer = 0;
+		}
+	}
+
 
 	/*!************************************************************************
 	* \brief Plays the audio component (will play the current audio clip attached)

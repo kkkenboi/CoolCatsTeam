@@ -195,7 +195,14 @@ namespace LB {
 		Vec2<float> mousePos;
 
 		bool inputKeysLast[GLFW_KEY_LAST]{ false }, inputKeysCurr[GLFW_KEY_LAST]{ false }, mousePosOverwritten{ false };
-	};
+
+		// Gamepad
+		bool gamepadConnected; // probably need one to check connected and one to run the inputs because once the gamepad first connects, we need it to initialise everything to empty then set it to false, and set the second bool to allow for the update loop
+		GLFWgamepadstate gamepadState;
+
+		bool inputKeysLastGP[GLFW_GAMEPAD_BUTTON_LAST]{ false }, inputKeysCurrGP[GLFW_GAMEPAD_BUTTON_LAST]{ false };
+		bool axisKeysLastGP[GLFW_GAMEPAD_AXIS_LAST]{ false }, axisKeysCurrGP[GLFW_GAMEPAD_AXIS_LAST]{ false };
+	}; 
 
 	/*!***********************************************************************
 	\brief

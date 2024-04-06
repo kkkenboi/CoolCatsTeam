@@ -142,6 +142,8 @@ namespace LB
 		**************************************************************************/
 		bool Deserialize(const Value& data) override;
 
+		void ToggleActive(bool isActive) override;
+
 		/*!************************************************************************
 		 * \brief Get the Type object
 		 * 

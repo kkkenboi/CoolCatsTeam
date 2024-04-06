@@ -64,11 +64,11 @@ namespace LB
 													  "The Cat Death_7",
 													  "The Cat Death_8" };
 
-		std::vector<std::string> PlayerPositiveSounds =
-													{ "The Cat Positive_1",
-													  "The Cat Positive_2",
-													  "The Cat Positive_3",
-													  "The Cat Positive_4" };
+		//std::vector<std::string> PlayerPositiveSounds =
+		//											{ "The Cat Positive_1",
+		//											  "The Cat Positive_2",
+		//											  "The Cat Positive_3",
+		//											  "The Cat Positive_4" };
 
 		std::vector<std::string> PlayerFootStepsSounds = { "Footsteps-Grass-Far-Small_1",
 													 "Footsteps-Grass-Far-Small_2",

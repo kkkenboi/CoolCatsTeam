@@ -282,8 +282,13 @@ namespace LB
 		 \brief
 		 Update how the cursor looks based on the given texture name
 		*************************************************************************/
-		void				UpdateCursor(std::string name);
+		void				UpdateCursor(std::string sceneName);
 
+		/*!***********************************************************************
+		 \brief
+		 Returns the currentSceneName;
+		*************************************************************************/
+		std::string const&	GetSceneName();
 
 		Event<> OnApplicationFocus;
 		Event<> OnApplicationUnFocus;
@@ -291,6 +296,7 @@ namespace LB
 
 	private:
 		WindowsData m_Data;
+		std::string m_CurrentSceneName;
 		unsigned int used_width;
 		unsigned int used_height;
 		int monitor_width;
@@ -298,6 +304,12 @@ namespace LB
 
 		float xVPConversion, yVPConversion, heightBorderOffset;
 	};
+
+	/*!***********************************************************************
+	\brief
+	Event to update the cursor based on the scene name
+	*************************************************************************/
+	void UpdateCursor(std::string sceneName);
 
 	/*!***********************************************************************
 	 \brief

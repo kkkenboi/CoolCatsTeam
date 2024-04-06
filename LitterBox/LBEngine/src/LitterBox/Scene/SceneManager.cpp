@@ -17,6 +17,7 @@
 #include "LitterBox/Serialization/Serializer.h"
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Engine/Input.h"
+#include "LitterBox/Renderer/Renderer.h"
 
 namespace LB
 {
@@ -226,6 +227,13 @@ namespace LB
 		m_currentScene = m_nextScene;
 
 		onNewSceneLoad.Invoke(m_currentScene);
+		onNewSceneLoadString.Invoke(m_currentScene->GetName());
+
+		// Reset the camera back to origin to center the camera
+		if (m_currentScene->GetName() == "SceneMainMenu")
+		{
+			Renderer::GRAPHICS->get_cam()->update_ortho_cam({0.f,0.f});
+		}
 
 		m_currentScene->Init();
 
@@ -298,23 +306,4 @@ namespace LB
 	{
 		return m_fullyLoaded;
 	}
-
-	/*!***********************************************************************
-	 \brief
-	 To change the mouse image when the scene is a main menu
-	*************************************************************************/
-	void SceneIsMainMenu(std::string sceneName)
-	{
-		SCENEMANAGER->SceneIsMainMenu(sceneName);
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 For event subscription, change the mouse image when the scene is a main menu
-	*************************************************************************/
-	void SceneManager::SceneIsMainMenu(std::string sceneName)
-	{
-		WINDOWSSYSTEM->UpdateCursor(sceneName);
-	}
-
 }
