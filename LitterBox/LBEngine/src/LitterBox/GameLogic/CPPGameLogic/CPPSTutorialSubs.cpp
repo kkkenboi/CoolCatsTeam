@@ -48,7 +48,7 @@ void LB::CPPSTutorialSubs::Start()
 		mCurtain = FACTORY->SpawnGameObject();
 	}
 
-	mSubtitles->GetComponent<CPTransform>()->SetPosition(Vec2<float>{300.f, 540.0f});
+	mSubtitles->GetComponent<CPTransform>()->SetPosition(Vec2<float>{390.f, 540.0f});
 	mCurtain->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f});
 	//we put in the first subtitle here for now
 	//maybe put it somewhere else in future???
@@ -74,6 +74,9 @@ void LB::CPPSTutorialSubs::Update()
 	//if time passes the threshold we print the next letter
 	if (timer > ttnl && currletter < title.size())
 	{
+		if(title == titles[1] && mSubtitles->GetComponent<CPTransform>()->GetPosition().x != 620.f)
+			mSubtitles->GetComponent<CPTransform>()->SetPosition(Vec2<float>{620.f, 540.0f});
+
 		//print out the next letter in the text
 		mSubtitles->GetComponent<CPText>()->update_msg_text(title.substr(
 			0, static_cast<size_t>(++currletter)));
