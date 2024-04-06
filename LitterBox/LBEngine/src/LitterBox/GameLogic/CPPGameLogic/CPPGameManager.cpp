@@ -340,8 +340,11 @@ namespace LB
 	void CPPSGameManager::DeleteOldMap()
 	{
 		// Clear the old map
-		GOMANAGER->RemoveGameObject(m_mapHolder->GetChild(0)->gameObj);
-		m_mapHolder->RemoveChild(0);
+		if (m_mapHolder)
+		{
+			GOMANAGER->RemoveGameObject(m_mapHolder->GetChild(0)->gameObj);
+			m_mapHolder->RemoveChild(0);
+		}
 	}
 
 	void CPPSGameManager::StartNewMap()
