@@ -126,6 +126,12 @@ namespace LB
 				mIconObject->GetComponent<CPRender>()->ToggleActive(false);
 			}
 		}
+		else if (mUpgradeTaken)
+		{
+			// Turn the direction helper off
+			GameObj->GetComponent<CPRender>()->ToggleActive(false);
+			mIconObject->GetComponent<CPRender>()->ToggleActive(false);
+		}
 		else
 		{
 			// Turn the direction helper off
