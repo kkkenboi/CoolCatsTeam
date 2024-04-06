@@ -12,6 +12,7 @@
         "VFX_ExpandH",
         "VFX_ExpandHReverse",
         "Flag_Disappear",
-        "VFX_ExpandHTitle"
+        "VFX_ExpandHTitle",
+        "VFX_TitleShake"
     ]
 }
