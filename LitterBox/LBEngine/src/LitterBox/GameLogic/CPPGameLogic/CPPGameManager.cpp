@@ -89,6 +89,8 @@ namespace LB
 			m_mapHolder = GOMANAGER->FindGameObjectWithName("MapHolder")->GetComponent<CPTransform>();
 			m_mapList.emplace_back(Vec2<float>{ -670.f, 2566.f }, Vec2<float>{ -540.f, 1620.f }, "Map_TheClassic");
 			m_mapList.emplace_back(Vec2<float>{ -1000.f, 2600.f }, Vec2<float>{ -1200.f, 2600.f }, "Map_PinBall");
+			m_mapList.emplace_back(Vec2<float>{ -860.f, 3200.f }, Vec2<float>{ -570.f, 1580.f }, "Map_Finals");
+
 
 			// Classic map is first
 			m_currentMap = m_mapList[0];
