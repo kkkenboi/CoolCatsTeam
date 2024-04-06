@@ -31,6 +31,7 @@ namespace LB
 		mCameraFollow = GOMANAGER->FindGameObjectWithName("CameraFollow");
 		mGameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 		mIconObject = GOMANAGER->FindGameObjectWithName("IconObject");
+		mPortal = GOMANAGER->FindGameObjectWithName("Portal");
 
 		mTransform = GameObj->GetComponent<CPTransform>();
 
@@ -126,11 +127,35 @@ namespace LB
 				mIconObject->GetComponent<CPRender>()->ToggleActive(false);
 			}
 		}
-		else if (mUpgradeTaken)
+		else if (mPortal->IsActive())
 		{
-			// Turn the direction helper off
-			GameObj->GetComponent<CPRender>()->ToggleActive(false);
-			mIconObject->GetComponent<CPRender>()->ToggleActive(false);
+			mEventTransform = mPortal->GetComponent<CPTransform>();
+
+			DirToEvent = mEventTransform->GetPosition() - mPlayerTransform->GetPosition();
+
+			Vec2<Vec2<float>> CurrentScreenBorder = { (mPlayerTransform->GetPosition() + Vec2<float>{900.f, 600.f}), (mPlayerTransform->GetPosition() - Vec2<float>{900.f, 600.f}) };
+
+			EventNotWithinScreen = !(mEventTransform->GetPosition().x < CurrentScreenBorder.x.x && mEventTransform->GetPosition().x > CurrentScreenBorder.y.x && mEventTransform->GetPosition().y < CurrentScreenBorder.x.y && mEventTransform->GetPosition().y > CurrentScreenBorder.y.y);
+			if (EventNotWithinScreen)
+			{
+				// Set position and direction of the direction helper
+				mTransform->SetPosition(Vec2<float>{960.f, 540.f} + DirToEvent.Normalise() * distance);
+				mTransform->SetRotation(RadToDeg(atan2f(DirToEvent.y, DirToEvent.x)));
+
+				// Set position of iconObject and texture
+				mIconObject->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f} + DirToEvent.Normalise() * iconDistance);
+				mIconObject->GetComponent<CPRender>()->SetSpriteTexture("FelixSheet", 58);
+
+				// Render both direction helper and iconObject
+				GameObj->GetComponent<CPRender>()->ToggleActive(true);
+				mIconObject->GetComponent<CPRender>()->ToggleActive(true);
+			}
+			else
+			{
+				// Stop rendering both direction helper and iconObject 
+				GameObj->GetComponent<CPRender>()->ToggleActive(false);
+				mIconObject->GetComponent<CPRender>()->ToggleActive(false);
+			}
 		}
 		else
 		{
