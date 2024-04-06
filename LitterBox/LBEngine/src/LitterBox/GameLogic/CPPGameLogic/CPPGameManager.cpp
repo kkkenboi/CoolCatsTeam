@@ -160,13 +160,13 @@ namespace LB
 			}
 		}
 		//Gain Health
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_8) && killerTexture)
 		{
 			if(m_PlayerCurrentHealth < m_PlayerMaxHealth)
 			m_PlayerCurrentHealth++;
 		}
 		//Lose Health
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_9) && killerTexture)
 		{
 			if (m_PlayerCurrentHealth > 1)
 			{
