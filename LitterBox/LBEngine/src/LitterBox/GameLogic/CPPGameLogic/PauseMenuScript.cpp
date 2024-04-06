@@ -22,6 +22,7 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include "CPPSMouse.h"
 #include "LitterBox/GameLogic/CPPGameLogic/CPPSSettings.h"
+#include "LitterBox/GameLogic/CPPGameLogic/CPPGameManager.h"
 
 namespace LB
 {
@@ -172,6 +173,9 @@ namespace LB
 			if (MenuTexture) {
 				if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE) || INPUT->IsKeyTriggered(KeyCode::KEY_GAMEPAD_START))
 				{
+					if (CPPSGameManager::getGameOverTexture() && CPPSGameManager::getGameOverTexture()->IsActive())
+						return;
+
 
 					TIME->Pause(true);
 					OnPauseMenu = true;

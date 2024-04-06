@@ -91,6 +91,11 @@ namespace LB
 		{
 			canDestroy = true;
 		}
+		foundName = str.find("Rock");
+		if (foundName != std::string::npos)
+		{
+			canDestroy = true;
+		}
 		
 	}
 

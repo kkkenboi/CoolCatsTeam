@@ -81,6 +81,8 @@ namespace LB
 		//----------Flag to turn off menu-----------
 		static bool menuFlag; //if true then we can interact with main menu
 								//if false that means we have quit or settings open
+
+		bool tutorial{ false }; //this flag is to indicate if the object, that the script is attached to, is tutorial collider then we turn it on to go to the tutorial page
 	};
 	REGISTER_SCRIPT(QuitScript)
 }
