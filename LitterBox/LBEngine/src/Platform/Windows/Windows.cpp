@@ -497,7 +497,7 @@ namespace LB
     *************************************************************************/
     void WindowsSystem::UpdateCursor(std::string sceneName)
     {
-        if (sceneName == "SceneMainMenu" || sceneName == "Paused")
+        if (sceneName == "SceneMainMenu" || sceneName == "SceneCutscene" || sceneName == "SceneSplashScreen" || sceneName == "Paused")
         {
             m_CurrentSceneName = "Finger";
             //DebuggerLogFormat("%s, This is the scene name :D", sceneName.c_str());
