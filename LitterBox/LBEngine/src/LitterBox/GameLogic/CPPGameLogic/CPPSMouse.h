@@ -17,7 +17,6 @@
 #include "CPPBehaviour.h"
 #include "LitterBox/Components/CPPScriptComponent.h"
 
-
 namespace LB
 {
 	/*!***********************************************************************
@@ -55,6 +54,9 @@ namespace LB
 		Getter function for m_MouseWorld
 		*************************************************************************/
 		inline GameObject* GetMouseWorld() const { return m_MouseWorld; }
+
+		// The origin point of the gamepad cursor
+		Vec2<float> m_GamePadRef{};
 
 	private:
 		GameObject* m_MouseUI { nullptr };

@@ -66,24 +66,8 @@ namespace LB
 			}
 		}
 
-		// 1 .
-		// This should be done in joycallback ?
-		// glfwGetGamepadState(GLFW_JOYSTICK_1, &gamepadState) => set current state for both the button and axis and last
-
-		// 2.
-		// Need something to continously check for incoming connection => glfwJoystickPresent(GLFW_JOYSTICK_1); then set the first bool (probably done event style to start up the second bool which is to run the update loop)
-
-		// 3. 
-		// This is done here
-		// put a bool here to only run if there is a controller connected
-		// TO DO add portion for non-pausable button and axis 
-			// TO DO else if for controller ontrigger&onpressed
-			// TO DO else if for controller onpressed
-			// else if for controller onreleased
-		// this uses the curr and last to check to do the 3 options above or not
-
-		// 4. upon disconnection, turn bools off and stuff
-
+		// Check for gamepad input
+		GLFWPollGamepad();
 
 		// Trigger pausable key press events
 		if (TIME->IsPaused()) return;
@@ -130,6 +114,77 @@ namespace LB
 	bool InputSystem::IsKeyReleased(KeyCode key)
 	{
 		return !inputKeysCurr[(int)key] && inputKeysLast[(int)key];
+	}
+
+	/*!***********************************************************************
+	 \brief
+	 Check if gamepad is connected and update the gamepad state
+	*************************************************************************/
+	void InputSystem::GLFWPollGamepad()
+	{
+		// 1 .
+		// This should be done in joycallback ?
+		// glfwGetGamepadState(GLFW_JOYSTICK_1, &gamepadState) => set current state for both the button and axis and last
+
+		// 2.
+		// Need something to continously check for incoming connection => glfwJoystickPresent(GLFW_JOYSTICK_1); then set the first bool (probably done event style to start up the second bool which is to run the update loop)
+
+		// 3. 
+		// This is done here
+		// put a bool here to only run if there is a controller connected
+		// TO DO add portion for non-pausable button and axis 
+			// TO DO else if for controller ontrigger&onpressed
+			// TO DO else if for controller onpressed
+			// else if for controller onreleased
+		// this uses the curr and last to check to do the 3 options above or not
+
+		// 4. upon disconnection, turn bools off and stuff
+		m_gamepadConnected = glfwJoystickPresent(GLFW_JOYSTICK_1);
+		if (m_gamepadConnected)
+		{
+			int axisCount;
+			const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axisCount);
+
+			// Check if joystick is moved beyond the deadzone
+			if (axisCount >= 4)
+			{
+				leftJoystickPos.x = (fabsf(axes[0]) > JOYSTICK_DEADZONE) ? axes[0] : 0.0f;
+				leftJoystickPos.y = (fabsf(axes[1]) > JOYSTICK_DEADZONE) ? -axes[1] : 0.0f;
+
+				rightJoytickPos.x = (fabsf(axes[2]) > JOYSTICK_DEADZONE) ? axes[2] : 0.0f;
+				rightJoytickPos.y = (fabsf(axes[3]) > JOYSTICK_DEADZONE) ? -axes[3] : 0.0f;
+			}
+
+			int buttonCount;
+			const unsigned char* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttonCount);
+			// Check if buttons are pressed
+			if (buttonCount >= 8)
+			{
+				for (int button{ 0 }; button < buttonCount; ++button)
+				{
+					if (buttons[button] == GLFW_RELEASE)
+					{
+						inputKeysCurr[(int)KeyCode::KEY_GAMEPAD_A + button] = false;
+					}
+					else
+					{
+						inputKeysCurr[(int)KeyCode::KEY_GAMEPAD_A + button] = true;
+					}
+				}
+			}
+		}
+	}
+	Vec2<float> const& InputSystem::GetLeftJoystickPos()
+	{
+		return leftJoystickPos;
+	}
+	Vec2<float> const& InputSystem::GetRightJoystickPos()
+	{
+		return rightJoytickPos;
+	}
+	bool InputSystem::IsGamepadConnected()
+	{
+		return m_gamepadConnected;
 	}
 
 	/*!***********************************************************************

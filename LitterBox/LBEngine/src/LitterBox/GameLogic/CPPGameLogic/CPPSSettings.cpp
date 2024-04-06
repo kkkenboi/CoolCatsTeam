@@ -23,6 +23,11 @@ float LB::CPPSSettings::MVSliverPos{ 1110.f };
 float LB::CPPSSettings::SFXSliderPos{ 1110.f };
 float LB::CPPSSettings::MusicSliderPos{ 1110.f };
 
+/*!***********************************************************************
+\brief
+ Update function will perform the mouse click check on the UI button and
+ perform the specified instructions.
+*************************************************************************/
 void LB::CPPSSettings::Start()
 {
 	coll = GameObj->GetComponent<CPCollider>();
@@ -56,6 +61,9 @@ void LB::CPPSSettings::Start()
 		if (GO->GetName() == "SettingsMenuMVCollider")
 		{
 			SettingsMenuMVCollider = GO;
+			width = coll->m_width;
+			half_width = width * 0.45f;
+			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f;
 		}
 
 		if (GO->GetName() == "SettingsMenuSFX")
@@ -65,6 +73,9 @@ void LB::CPPSSettings::Start()
 		if (GO->GetName() == "SettingsMenuSFXCollider")
 		{
 			SettingsMenuSFXCollider = GO;
+			width = coll->m_width;
+			half_width = width * 0.45f;
+			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f; //we use get width because every volume slider is horizontally centered.
 		}
 
 		if (GO->GetName() == "SettingsMenuMusic")
@@ -74,6 +85,9 @@ void LB::CPPSSettings::Start()
 		if (GO->GetName() == "SettingsMenuMusicCollider")
 		{
 			SettingsMenuMusicCollider = GO;
+			width = coll->m_width;
+			half_width = width * 0.45f;
+			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f;
 		}
 	}
 
@@ -81,26 +95,39 @@ void LB::CPPSSettings::Start()
 	PauseMenu = GOMANAGER->FindGameObjectWithName("PauseMenuHolderObject");
 }
 
+
+/*!***********************************************************************
+\brief
+ Update function will perform the mouse click check on the UI button and
+ perform the specified instructions.
+*************************************************************************/
 void LB::CPPSSettings::Update()
 {
+	//if player click in the frame
 	if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 	{
+		//log the click
 		DebuggerLogWarning("Mouse 1 is pressed!");
+		//get the click position
 		LB::Vec2<float> mouse{ INPUT->GetMousePos() };
+		//map the mouse position to world position (Necessary because ImGUI position is different)
 		mouse.y = mouse.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 
 		mouse.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
 		mouse.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+		//get set of colliders that collides with mouse
 		auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
 
+		//log the click position
 		DebuggerLogFormat("CLICK POS: %f, %f", mouse.x, mouse.y);
 
+		//loop through colliders
 		for (const auto& collider : test) {
 			if (coll != collider) {
 				continue;
 			}
-
-			DebuggerLogFormat("BUTTON CLICK");
+			
+			//if player clicks on back button move the settings menu off screen
 			if (GameObj->GetName() == "SettingsMenuBack") {
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 				if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
@@ -128,6 +155,8 @@ void LB::CPPSSettings::Update()
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
 
+			//if player clicks on full screen
+			//toggle the fullscreen
 			if (GameObj->GetName() == "SettingsMenuFullScreen") {
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 				if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
@@ -141,9 +170,10 @@ void LB::CPPSSettings::Update()
 		}
 	}
 
+	//if player is holding down the mouse button then we check the slider
 	if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
 	{
-		DebuggerLogWarning("Mouse 1 is pressed!");
+		//same as before we map the mouse position
 		LB::Vec2<float> mouse{ INPUT->GetMousePos() };
 		mouse.y = mouse.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 
@@ -151,13 +181,17 @@ void LB::CPPSSettings::Update()
 		mouse.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
 		auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
 
+		//log the click
 		DebuggerLogFormat("CLICK POS: %f, %f", mouse.x, mouse.y);
 
+		//loop through the objects that mouse is colliding with
 		for (const auto& collider : test)
 		{
 			if (coll != collider) {
 				continue;
 			}
+			//check which slider player is interacting with and map the location of the mouse,
+			//relative to the collider size, to 0.f and 1.f for volum control
 			if (GameObj->GetName() == "SettingsMenuMVCollider") {
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 				if (INPUT->IsKeyPressed(KeyCode::KEY_MOUSE_1))
@@ -165,7 +199,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuMV->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MVSliverPos = SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetMasterVolume(0);
+					AUDIOMANAGER->SetMasterVolume(Clamp((mouse.x - collider_left) / width, 0.f, 1.f));
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -176,7 +210,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					SFXSliderPos = SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetChannelGroupVolume(0, SFX);
+					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mouse.x - collider_left) / width, 0.f, 1.f), SFX);
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -187,7 +221,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MusicSliderPos = SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetChannelGroupVolume(0, BGM);
+					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mouse.x - collider_left) / width, 0.f, 1.f), BGM);
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}

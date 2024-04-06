@@ -20,6 +20,7 @@
 #include "LitterBox/Core/Core.h"
 #include "LitterBox/Scene/SceneManager.h"
 #include "LitterBox/GameLogic/CPPGameLogic/CPPSSettings.h"
+#include "LitterBox/Components/RenderVideoComponent.h"
 //#include "LitterBox/Components/AudioSourceComponent.h"
 extern const float deg_to_rads;
 
@@ -287,6 +288,8 @@ namespace LB
 				else if (GameObj->GetName() == "Controls") {
 					SCENEMANAGER->LoadScene("SceneTutOverride");
 				}
+				else if (GameObj->GetName() == "Credits")
+					VideoPlayerSystem::Instance()->PlayCutscene("Credits", "SceneMainMenu");
 			}
 		}
 		static bool trig{ false };

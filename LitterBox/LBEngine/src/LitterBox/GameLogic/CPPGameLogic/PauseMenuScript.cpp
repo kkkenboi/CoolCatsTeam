@@ -159,7 +159,7 @@ namespace LB
 		if (!TIME->IsPaused())
 		{
 			if (MenuTexture) {
-				if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
+				if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE) || INPUT->IsKeyTriggered(KeyCode::KEY_GAMEPAD_START))
 				{
 
 					TIME->Pause(true);
@@ -198,7 +198,7 @@ namespace LB
 		{
 			if (OnPauseMenu)
 			{
-				if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
+				if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE) || INPUT->IsKeyTriggered(KeyCode::KEY_GAMEPAD_START))
 				{
 					TIME->Pause(false);
 

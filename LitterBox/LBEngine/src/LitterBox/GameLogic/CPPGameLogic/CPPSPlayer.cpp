@@ -28,6 +28,7 @@
 #include "CPPGameManager.h"
 #include "CPPSCameraFollow.h"
 #include "CPPSBramble.h"
+#include "CPPSMouse.h"
 #include "CPPSMouseWorld.h"
 #include "LitterBox/Core/Core.h"
 #include "CPPAudioManager.h"
@@ -89,6 +90,13 @@ namespace LB
 
 		//Play some spawn sounds like "it's meow or never" [removed because doesn't fit]
 		//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerPositiveSounds, 0.3f);
+
+		// Gamepad anim bug fix
+		m_moveAnim->PlayAndReset("Action_BigMove");
+		m_moveAnim->StopAndReset();
+
+		// Gamepad ref point
+		m_Mouse = GOMANAGER->FindGameObjectWithName("MouseCursor");
 
 		onTakingDamage.Subscribe(DecreaseHealth);
 		onPlacingBall.Subscribe(IncreaseBalls);
@@ -168,6 +176,20 @@ namespace LB
 			isMoving = true;
 		}
 
+		m_Mouse->GetComponent<CPPSMouse>()->m_GamePadRef = trans->GetPosition();
+		// GAMEPAD MOVEMENT
+		if (INPUT->IsGamepadConnected() && !mIsStunned)
+		{
+			// Movement controls
+			Vec2<float> const& joystickPos = INPUT->GetLeftJoystickPos();
+			if (joystickPos.x != 0.f || joystickPos.y != 0.f) 
+			{
+				movement.x += joystickPos.x;
+				movement.y += joystickPos.y;
+				isMoving = true;
+			}
+		}
+
 		if (movement.x != 0.f || movement.y != 0.f) {
 			movement = Normalise(movement);
 		}
@@ -227,7 +249,7 @@ namespace LB
 		Shooting and spawnining of the golf balls
 		*************************************************************************/
 		//------------------Pushes balls away from the player in a circle------------------
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2) || INPUT->IsKeyTriggered(KeyCode::KEY_GAMEPAD_RIGHT_BUMPER))
 		{
 			hasPlayedHitSound = false;
 			// Play hit sound
@@ -250,7 +272,17 @@ namespace LB
 			DEBUG->DrawCircle(current_pos, m_shootRadius, Vec4<float>{0.f, 0.f, 0.5f, 1.0f});
 			std::vector<CPCollider*> vec_colliders = COLLIDERS->OverlapCircle(current_pos, m_shootRadius);
 
-			Vec2<float> mouse_pos = m_MouseWorld->GetComponent<CPPSMouseWorld>()->GetComponent<CPTransform>()->GetPosition();
+			Vec2<float> mouse_pos;
+			// GAMEPAD AIMING
+			Vec2<float> const& rightJoystickPos = INPUT->GetRightJoystickPos();
+			if (rightJoystickPos.x != 0.f || rightJoystickPos.y != 0.f)
+			{
+				mouse_pos = current_pos + rightJoystickPos * 1000.f;
+			}
+			else
+			{
+				mouse_pos = m_MouseWorld->GetComponent<CPPSMouseWorld>()->GetComponent<CPTransform>()->GetPosition();
+			}
 
 			for (size_t i = 0; i < vec_colliders.size(); ++i) {
 				Vec2<float> force_to_apply = mouse_pos - vec_colliders[i]->m_pos;
@@ -281,7 +313,7 @@ namespace LB
 		}
 
 		//------------------Spawn a golf ball----------------------
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1) || INPUT->IsKeyTriggered(KeyCode::KEY_GAMEPAD_LEFT_BUMPER))
 		{
 			//GOMANAGER->FindGameObjectWithName("MouseCursor")->GetComponent<CPPSMou
 			if (!m_GameManager->GetComponent<CPPSGameManager>()->isInfiniteAmmo && m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
