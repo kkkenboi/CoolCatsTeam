@@ -75,8 +75,8 @@ namespace LB
 			if (gamePadPos.x != 0.f || gamePadPos.y != 0.f)
 			{
 				Vec2<float> camPos = m_CameraFollow->GetComponent<CPPSCameraFollow>()->currentPos - m_GamePadRef;
-				camPos.x += 960.f;
-				camPos.y += 540.f;
+				camPos.x += WINDOWSSYSTEM->GetWidth() / 2.0f;
+				camPos.y += WINDOWSSYSTEM->GetHeight() / 2.0f;
 
 				mousePos = gamePadPos * 300.f;
 				mousePos.x += WINDOWSSYSTEM->GetWidth() / 2.0f;
