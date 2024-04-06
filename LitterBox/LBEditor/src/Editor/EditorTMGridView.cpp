@@ -249,7 +249,7 @@ namespace LB
 				// If ctrl is held, zoom in/out
 				if (INPUT->IsKeyPressed(KeyCode::KEY_LEFTCONTROL))
 				{
-					m_zoom += ImGui::GetIO().MouseWheel > 0.0f ? -m_zoomStep * TIME->GetUnscaledDeltaTime() : m_zoomStep * TIME->GetUnscaledDeltaTime();
+					m_zoom += ImGui::GetIO().MouseWheel > 0.0f ? -m_zoomStep * static_cast<float>(TIME->GetUnscaledDeltaTime()) : m_zoomStep * static_cast<float>(TIME->GetUnscaledDeltaTime());
 				}
 				// If left shift is held, scroll horizontally
 				else if (INPUT->IsKeyPressed(KeyCode::KEY_LEFTSHIFT))
