@@ -1571,7 +1571,7 @@
                                 "Active": true,
                                 "Position": {
                                     "x": 2040.382568,
-                                    "y": 12.912718
+                                    "y": 12.912717
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -4882,1238 +4882,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 1275.452148,
-                                    "y": -987.228881
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1331.66748,
-                                    "y": -837.856811
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1560.27832,
-                                    "y": -982.961303
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1710.186523,
-                                    "y": -850.660278
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1848.851562,
-                                    "y": -620.2005
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1845.104003,
-                                    "y": -458.025085
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1886.328613,
-                                    "y": 75.446289
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 2001.66333,
-                                    "y": -483.918334
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 2087.860595,
-                                    "y": 506.204956
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1439.506347,
-                                    "y": 817.752319
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
                                     "x": 1150.932861,
                                     "y": 1014.069946
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1551.937988,
-                                    "y": 971.392211
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1656.874023,
-                                    "y": 864.69812
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1398.281738,
-                                    "y": 1103.693237
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 2020.401855,
-                                    "y": 839.091186
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "AudienceMember",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 150.0,
-                                            "Height": 150.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet2",
-                                            "SpriteName": "MultiSheet2",
-                                            "SpriteIndex": 25
-                                        },
-                                        "CPPScript": {
-                                            "Active": true,
-                                            "Script": "class LB::CPPSAudience"
-                                        },
-                                        "Animator": {
-                                            "Default State": "None",
-                                            "Play On Awake": false,
-                                            "Awake Delay": 0.0,
-                                            "Repeating": false,
-                                            "Should Cull": true,
-                                            "Controller": "AudienceController"
-                                        }
-                                    },
-                                    {
-                                        "Name": "Shadow",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 4.0,
-                                                "y": -48.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 95.0,
-                                            "Height": 25.0,
-                                            "ZLayer": 3.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 55
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "Name": "AudienceBase",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1746.818847,
-                                    "y": 1009.802124
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -7590,6 +6360,1236 @@
                                 "Position": {
                                     "x": -1013.566467,
                                     "y": 1002.499511
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1344.273681,
+                                    "y": -832.676391
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1647.070068,
+                                    "y": -777.499633
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1606.066162,
+                                    "y": -939.784118
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1438.897216,
+                                    "y": -972.241027
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1889.937744,
+                                    "y": -602.232604
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1833.16333,
+                                    "y": -404.245727
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1867.870361,
+                                    "y": 90.304687
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2106.789306,
+                                    "y": -123.481689
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1968.285644,
+                                    "y": -465.539855
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 2023.687011,
+                                    "y": 539.256103
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1407.345458,
+                                    "y": 810.052246
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1611.638427,
+                                    "y": 806.489135
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1483.52246,
+                                    "y": 924.071533
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1673.965332,
+                                    "y": 966.828979
+                                },
+                                "Scale": {
+                                    "x": -1.0,
+                                    "y": 1.0
+                                },
+                                "Rotation": 0.0,
+                                "Children": [
+                                    {
+                                        "Name": "AudienceMember",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 150.0,
+                                            "Height": 150.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet2",
+                                            "SpriteName": "MultiSheet2",
+                                            "SpriteIndex": 25
+                                        },
+                                        "CPPScript": {
+                                            "Active": true,
+                                            "Script": "class LB::CPPSAudience"
+                                        },
+                                        "Animator": {
+                                            "Default State": "None",
+                                            "Play On Awake": false,
+                                            "Awake Delay": 0.0,
+                                            "Repeating": false,
+                                            "Should Cull": true,
+                                            "Controller": "AudienceController"
+                                        }
+                                    },
+                                    {
+                                        "Name": "Shadow",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 4.0,
+                                                "y": -48.0
+                                            },
+                                            "Scale": {
+                                                "x": 1.0,
+                                                "y": 1.0
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 95.0,
+                                            "Height": 25.0,
+                                            "ZLayer": 3.0,
+                                            "Layer": 0,
+                                            "Texture": "Multi_Spritesheet",
+                                            "SpriteName": "MultiSheet",
+                                            "SpriteIndex": 55
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "AudienceBase",
+                            "Active": true,
+                            "Transform": {
+                                "Active": true,
+                                "Position": {
+                                    "x": 1559.699707,
+                                    "y": 1052.343627
                                 },
                                 "Scale": {
                                     "x": -1.0,
