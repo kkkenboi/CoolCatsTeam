@@ -156,6 +156,8 @@ namespace LB
 		**************************************************************************/
 		std::vector<GameObject*>& GetSpawnedEnemyList();
 
+		static GameObject*& getGameOverTexture() { return gameOverTexture; }
+
 		// Event for new map start
 		Event<> onNewMapStart;
 
@@ -212,7 +214,7 @@ namespace LB
 		//GameObject* chaserEnemy{ nullptr };
 		//GameObject* chargerEnemy{ nullptr };
 		GameObject* crowdTexture{ nullptr };
-		GameObject* gameOverTexture{ nullptr };
+		static GameObject* gameOverTexture;
 		GameObject* killerTexture{ nullptr }; //texture of the player killer for gameover
 		Vec2<float> cachedCrowdPos{}, cachedRestartPos{}, cachedQuitPos{};
 		bool restartHovered{ false }, quitHovered{ false };

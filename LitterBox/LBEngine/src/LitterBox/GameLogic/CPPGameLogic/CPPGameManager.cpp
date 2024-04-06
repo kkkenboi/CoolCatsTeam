@@ -28,6 +28,8 @@
 #include "CPPSBaseEnemy.h"
 namespace LB
 {
+	GameObject* CPPSGameManager::gameOverTexture{ nullptr };
+
 	void CPPSGameManager::Start()
 	{
 		// Initialising player values
