@@ -149,6 +149,7 @@ namespace LB
 		**************************************************************************/
 		int GetCurrentEnemyCount() const;
 
+		void DestroyAllBalls();
 		/*!************************************************************************
 		 * \brief Gets the SpawnedeEnemiesList member variable
 		 *
@@ -197,6 +198,7 @@ namespace LB
 
 		// Current map loaded
 		MapDetails m_currentMap;
+		bool isInfiniteAmmo{ false };
 
 	private:
 		bool UpgradeSpawned{ false };
@@ -224,7 +226,7 @@ namespace LB
 		std::vector<Vec2<float>> SpawnPoints;
 		bool isSoundSwapped{ false };
 		std::vector<GameObject*> SpawnedeEnemiesList;
-
+		int cachedMaxBalls{3};
 	};
 	void ShowGameOver(GameObject enemyObj);
 	REGISTER_SCRIPT(CPPSGameManager)

@@ -34,6 +34,7 @@ namespace LB
 		m_PlayerMaxHealth = 3;
 		m_PlayerCurrentHealth = 3;
 		m_PlayerMaxBalls = 3;
+		cachedMaxBalls = m_PlayerMaxBalls;
 		m_PlayerCurrentBalls = 0;
 		m_PlayerWalkSpeed = 600.0f;
 		m_PlayerMaxSpeed = 800.0f;
@@ -115,11 +116,15 @@ namespace LB
 			SpawnChaserEnemy();
 			//SpawnRandomEnemy();
 		}
-
 		////Manually Spawn Mage Enemy
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_M))
 		{
 			SpawnMageEnemy();
+		}
+		////Manually Spawn Charger Enemy
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_P))
+		{
+			SpawnChargerEnemy();
 		}
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_G))
 		{
@@ -134,9 +139,40 @@ namespace LB
 			VideoPlayerSystem::Instance()->PlayCutscene("samplevideo", "SceneMain");
 			//ShowGameWin();
 		}
+		//Infinite Ammo
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_7))
+		{	//If we're infinite ammo
+			if (!isInfiniteAmmo)
+			{
+				cachedMaxBalls = m_PlayerMaxBalls;
+				isInfiniteAmmo = true;
+			}
+			else
+			{
+				//DestroyAllBalls();
+				m_PlayerMaxBalls = cachedMaxBalls;
+				m_PlayerCurrentBalls = 0;
+				isInfiniteAmmo = false;
+			}
+		}
+		//Gain Health
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_8))
+		{
+			if(m_PlayerCurrentHealth < m_PlayerMaxHealth)
+			m_PlayerCurrentHealth++;
+		}
+		//Lose Health
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_9))
 		{
-			ShowSplashScreen();
+			if (m_PlayerCurrentHealth > 1)
+			{
+				m_PlayerCurrentHealth--;
+			}
+			else
+			{
+				m_PlayerCurrentHealth--;
+				ShowGameOver(*GameObj);
+			}
 		}
 		/*if (INPUT->IsKeyTriggered(KeyCode::KEY_I))
 		{
@@ -156,10 +192,7 @@ namespace LB
 		//	GOMANAGER->RemoveGameObject(ballObject, 2.f);
 		//}
 
-		if (INPUT->IsKeyTriggered(KeyCode::KEY_P))
-		{
-			SpawnChargerEnemy();
-		}
+		
 		////Really really really scuffed way of doing this
 		//if (currentEnemyCount == 0 && GameStart && UpgradePicked)
 		//{
@@ -174,12 +207,8 @@ namespace LB
 		{
 			UpgradeSpawned = true;
 			GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->SpawnUpgrades();
-		
-			std::vector<GameObject*> Balls = GOMANAGER->FindGameObjectsWithName("ball");
-			for (GameObject* ball : Balls)
-			{
-				ball->GetComponent<CPPSPlayerGolfBall>()->DestroyBall();
-			}
+			DestroyAllBalls();
+			
 		}
 		
 		//If game's started, upgrade hasn't spawned and no enemies and not tutorial
@@ -625,6 +654,15 @@ namespace LB
 	int CPPSGameManager::GetCurrentEnemyCount() const
 	{
 		return currentEnemyCount;
+	}
+
+	void CPPSGameManager::DestroyAllBalls()
+	{
+		std::vector<GameObject*> Balls = GOMANAGER->FindGameObjectsWithName("ball");
+		for (GameObject* ball : Balls)
+		{
+			ball->GetComponent<CPPSPlayerGolfBall>()->DestroyBall();
+		}
 	}
 
 	/*!************************************************************************

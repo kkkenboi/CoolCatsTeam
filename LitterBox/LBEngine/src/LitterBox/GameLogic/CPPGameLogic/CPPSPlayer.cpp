@@ -284,8 +284,8 @@ namespace LB
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 		{
 			//GOMANAGER->FindGameObjectWithName("MouseCursor")->GetComponent<CPPSMou
-			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
-			
+			if (!m_GameManager->GetComponent<CPPSGameManager>()->isInfiniteAmmo && m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
+			if(!m_GameManager->GetComponent<CPPSGameManager>()->isInfiniteAmmo)
 			onPlacingBall.Invoke();
 			
 			//Spawn Game Object
