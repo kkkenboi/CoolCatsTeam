@@ -70,7 +70,7 @@ void LB::CPPSSettings::Start()
 			SettingsMenuSFXCollider = GO;
 			width = coll->m_width;
 			half_width = width * 0.45f;
-			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f;
+			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f; //we use get width because every volume slider is horizontally centered.
 		}
 
 		if (GO->GetName() == "SettingsMenuMusic")
