@@ -62,12 +62,11 @@ namespace LB
 		currentPos.x = Clamp(currentPos.x, maxBoundsX.x, maxBoundsX.y);
 		currentPos.y = Clamp(currentPos.y, maxBoundsY.x, maxBoundsY.y);
 
+
 		//Now we set this thing's position
 		GetComponent<CPTransform>()->SetPosition(currentPos);
 		//why won't you move!!! ;__;
 		//DebuggerLog("Renderer:\n");
-
-
 
 		//DebuggerLogFormat("ExtraDist X: %f, ExtraDist Y: %f", extraDist.x, extraDist.y);
 		/*Renderer::GRAPHICS->get_cam()->get_cam_x() = currentPos.x = 960.f;
@@ -109,18 +108,18 @@ namespace LB
 	{
 		MapDetails currentMap = GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_currentMap;
 		CPPSCameraFollow* camFollow = GOMANAGER->FindGameObjectWithName("CameraFollow")->GetComponent<CPPSCameraFollow>();
-		camFollow->maxBoundsX.x = currentMap.m_xbounds.x + (float)WINDOWSSYSTEM->GetWidth() / 2.0f;
-		camFollow->maxBoundsX.y = currentMap.m_xbounds.y - (float)WINDOWSSYSTEM->GetWidth() / 2.0f;
-		camFollow->maxBoundsY.x = currentMap.m_ybounds.x + (float)WINDOWSSYSTEM->GetHeight() / 2.0f;
-		camFollow->maxBoundsY.y = currentMap.m_ybounds.y - (float)WINDOWSSYSTEM->GetHeight() / 2.0f;
+		camFollow->maxBoundsX.x = currentMap.m_xbounds.x + 960.f;
+		camFollow->maxBoundsX.y = currentMap.m_xbounds.y - 960.f;
+		camFollow->maxBoundsY.x = currentMap.m_ybounds.x + 540.f;
+		camFollow->maxBoundsY.y = currentMap.m_ybounds.y - 540.f;
 
 		// If not in a main map
 		if (GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->GetCurrentWave() == 0)
 		{
-			camFollow->maxBoundsX.x = -630.f + (float)WINDOWSSYSTEM->GetWidth() / 2.0f;
-			camFollow->maxBoundsX.y = 2560.f - (float)WINDOWSSYSTEM->GetWidth() / 2.0f;
-			camFollow->maxBoundsY.x = -465.f + (float)WINDOWSSYSTEM->GetHeight() / 2.0f;
-			camFollow->maxBoundsY.y = 1560.f - (float)WINDOWSSYSTEM->GetHeight() / 2.0f;
+			camFollow->maxBoundsX.x = -630.f + 960.f;
+			camFollow->maxBoundsX.y = 2560.f - 960.f;
+			camFollow->maxBoundsY.x = -465.f + 540.f;
+			camFollow->maxBoundsY.y = 1560.f - 540.f;
 		}
 	}
 }	
