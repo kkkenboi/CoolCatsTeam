@@ -1,0 +1,54 @@
+{
+    "Name": "Do Not Litter",
+    "Active": true,
+    "Transform": {
+        "Active": true,
+        "Position": {
+            "x": -296.357666,
+            "y": 984.766174
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "Rotation": 0.0,
+        "Children": [
+            {
+                "Name": "Shadow",
+                "Active": true,
+                "Transform": {
+                    "Active": true,
+                    "Position": {
+                        "x": 0.0,
+                        "y": -22.0
+                    },
+                    "Scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "Rotation": 0.0
+                },
+                "Render": {
+                    "Active": true,
+                    "Width": 68.0,
+                    "Height": 20.0,
+                    "ZLayer": 3.0,
+                    "Layer": 0,
+                    "Texture": "Multi_Spritesheet",
+                    "SpriteName": "MultiSheet",
+                    "SpriteIndex": 55
+                }
+            }
+        ]
+    },
+    "Render": {
+        "Active": true,
+        "Width": 135.0,
+        "Height": 135.0,
+        "ZLayer": 1.0,
+        "Layer": 0,
+        "Texture": "Multi_Spritesheet2",
+        "SpriteName": "MultiSheet2",
+        "SpriteIndex": 19
+    }
+}
