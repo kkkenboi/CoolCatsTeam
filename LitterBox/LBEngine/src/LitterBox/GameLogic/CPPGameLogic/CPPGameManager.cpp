@@ -49,7 +49,6 @@ namespace LB
 	
 		//Set the player's spawn point
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
-		m_portalHolder = GOMANAGER->FindGameObjectWithName("PortalPosition")->GetComponent<CPTransform>();
 
 		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
 		//into a list
@@ -71,6 +70,7 @@ namespace LB
 		//For the first level we just make it such that it's always 2 melee enemies
 		if (currentWave == 1) 
 		{
+			m_portalHolder = GOMANAGER->FindGameObjectWithName("PortalPosition")->GetComponent<CPTransform>();
 			//Extremely bad way of doing this
 			ItemLost1 = GOMANAGER->FindGameObjectWithName("ItemLost1")->GetComponent<CPRender>();
 			ItemLost2 = GOMANAGER->FindGameObjectWithName("ItemLost2")->GetComponent<CPRender>();
