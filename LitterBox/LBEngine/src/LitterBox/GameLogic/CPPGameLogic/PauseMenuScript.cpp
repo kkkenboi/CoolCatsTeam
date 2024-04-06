@@ -146,7 +146,15 @@ namespace LB
 			{
 				SettingsMenuMusicCollider = GO;
 			}
+
+			// Title
+			if (GO->GetName() == "Title")
+			{
+				Title = GO;
+			}
 		}
+
+		Title->GetComponent<CPAnimator>()->PlayRepeat("VFX_Expand");
 	}
 
 	/*!***********************************************************************
