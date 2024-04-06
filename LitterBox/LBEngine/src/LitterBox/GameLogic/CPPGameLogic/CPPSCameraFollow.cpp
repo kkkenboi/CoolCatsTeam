@@ -113,5 +113,14 @@ namespace LB
 		camFollow->maxBoundsX.y = currentMap.m_xbounds.y - 960.f;
 		camFollow->maxBoundsY.x = currentMap.m_ybounds.x + 540.f;
 		camFollow->maxBoundsY.y = currentMap.m_ybounds.y - 540.f;
+
+		// If not in a main map
+		if (GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->GetCurrentWave() == 0)
+		{
+			camFollow->maxBoundsX.x = -2000.f;
+			camFollow->maxBoundsX.y = 2000.f;
+			camFollow->maxBoundsY.x = -2000.f;
+			camFollow->maxBoundsY.y = 2000.f;
+		}
 	}
 }	

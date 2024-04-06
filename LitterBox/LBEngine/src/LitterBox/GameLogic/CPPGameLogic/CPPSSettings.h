@@ -72,6 +72,7 @@ namespace LB
 		static float MVSliverPos;
 		static float SFXSliderPos;
 		static float MusicSliderPos;
+		float width, half_width, collider_left;
 	};
 
 	REGISTER_SCRIPT(CPPSSettings)

@@ -49,7 +49,6 @@ namespace LB
 	
 		//Set the player's spawn point
 		playerSpawnPoint = GOMANAGER->FindGameObjectWithName("Player Spawn")->GetComponent<CPTransform>()->GetPosition();
-		m_portalHolder = GOMANAGER->FindGameObjectWithName("PortalPosition")->GetComponent<CPTransform>();
 
 		//Damn scuffed way of doing this but we're adding the function ptr and cost to spawn
 		//into a list
@@ -71,6 +70,7 @@ namespace LB
 		//For the first level we just make it such that it's always 2 melee enemies
 		if (currentWave == 1) 
 		{
+			m_portalHolder = GOMANAGER->FindGameObjectWithName("PortalPosition")->GetComponent<CPTransform>();
 			//Extremely bad way of doing this
 			ItemLost1 = GOMANAGER->FindGameObjectWithName("ItemLost1")->GetComponent<CPRender>();
 			ItemLost2 = GOMANAGER->FindGameObjectWithName("ItemLost2")->GetComponent<CPRender>();
@@ -87,7 +87,7 @@ namespace LB
 			// Load maps
 			m_mapHolder = GOMANAGER->FindGameObjectWithName("MapHolder")->GetComponent<CPTransform>();
 			m_mapList.emplace_back(Vec2<float>{ -670.f, 2566.f }, Vec2<float>{ -540.f, 1620.f }, "Map_TheClassic");
-			m_mapList.emplace_back(Vec2<float>{ -800.f, 2730.f }, Vec2<float>{ -1330.f, 2360.f }, "Map_PinBall");
+			m_mapList.emplace_back(Vec2<float>{ -1000.f, 2600.f }, Vec2<float>{ -1200.f, 2600.f }, "Map_PinBall");
 
 			// Classic map is first
 			m_currentMap = m_mapList[0];
