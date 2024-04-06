@@ -56,6 +56,9 @@ void LB::CPPSSettings::Start()
 		if (GO->GetName() == "SettingsMenuMVCollider")
 		{
 			SettingsMenuMVCollider = GO;
+			width = coll->m_width;
+			half_width = width * 0.45f;
+			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f;
 		}
 
 		if (GO->GetName() == "SettingsMenuSFX")
@@ -65,6 +68,9 @@ void LB::CPPSSettings::Start()
 		if (GO->GetName() == "SettingsMenuSFXCollider")
 		{
 			SettingsMenuSFXCollider = GO;
+			width = coll->m_width;
+			half_width = width * 0.45f;
+			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f;
 		}
 
 		if (GO->GetName() == "SettingsMenuMusic")
@@ -74,6 +80,9 @@ void LB::CPPSSettings::Start()
 		if (GO->GetName() == "SettingsMenuMusicCollider")
 		{
 			SettingsMenuMusicCollider = GO;
+			width = coll->m_width;
+			half_width = width * 0.45f;
+			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f;
 		}
 	}
 
@@ -175,7 +184,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					SFXSliderPos = SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetChannelGroupVolume(0, SFX);
+					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mouse.x - collider_left) / width, 0.f, 1.f), SFX);
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -186,7 +195,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MusicSliderPos = SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetChannelGroupVolume(0, BGM);
+					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mouse.x - collider_left) / width, 0.f, 1.f), BGM);
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
