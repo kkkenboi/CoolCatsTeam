@@ -44,7 +44,7 @@ namespace LB
 		const GLFWvidmode* m_VideoMode{ nullptr };
 		GLFWmonitor* m_Monitor{ nullptr };
 		GLFWcursor* m_Cursor{ nullptr };
-		unsigned char* imageData;
+		unsigned char* imageData{ nullptr };
 
 		/*!***********************************************************************
 		 \brief
@@ -53,7 +53,8 @@ namespace LB
 		WindowsData(const std::string& title = "LitterBox Engine", const std::string& gameTitle = "Purrfect Putt",
 			unsigned int width = 900,
 			unsigned int height = 900)
-			: m_Title(title), m_GameTitle(gameTitle), m_Width(width), m_Height(height), m_PtrToWindow{ nullptr }
+			: m_Title(title), m_GameTitle(gameTitle), m_Width(width), m_Height(height), m_PtrToWindow{ nullptr },
+			imageData{nullptr}
 		{
 		}
 

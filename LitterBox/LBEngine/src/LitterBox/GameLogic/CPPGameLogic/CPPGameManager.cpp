@@ -171,6 +171,7 @@ namespace LB
 		//Gain Health
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_8) && killerTexture)
 		{
+			mPlayer->GetComponent<CPPSPlayer>()->anim->PlayAndReset("Felix_Walk");
 			if(m_PlayerCurrentHealth < m_PlayerMaxHealth)
 			m_PlayerCurrentHealth++;
 		}

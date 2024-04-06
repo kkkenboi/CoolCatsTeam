@@ -1,3 +1,16 @@
+/*!************************************************************************
+ * \file				CPPPortal.cpp
+ * \author(s)			Amadeus Chia
+ * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
+ * \par Course:       	CSD2451A
+ * \date				09/02/2024
+ * \brief 				This header file contains the definitions for the
+ * 						portal
+ of the game
+ *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ *  disclosure of this file or its contents without the prior written consent
+ *  of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 #include "CPPSPortal.h"
 #include "CPPGameManager.h"
 #include "CPPSPlayer.h"
@@ -5,6 +18,10 @@
 #include "LitterBox/Renderer/Renderer.h"
 #include "LitterBox/Renderer/ForwardDeclerators.h"
 
+/*!************************************************************************
+* \brief
+* Start function for the portal script
+**************************************************************************/
 void LB::CPPSPortal::Start()
 {
 	mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
@@ -73,6 +90,10 @@ void LB::CPPSPortal::Start()
 	*/
 }
 
+/*!************************************************************************
+* \brief
+* Update function for the portal script
+**************************************************************************/
 void LB::CPPSPortal::Update()
 {
 	//we have to check this because CPPBehaviour runs things even though in active (for now)
@@ -264,10 +285,17 @@ void LB::CPPSPortal::Update()
 	if (!finishTransition) temp = false;
 }
 
+/*!************************************************************************
+* \brief
+* Destroy function for the portal script
+**************************************************************************/
 void LB::CPPSPortal::Destroy()
 {
 }
-
+/*!************************************************************************
+* \brief
+* OnCollisioEnter function for the portal script
+**************************************************************************/
 void LB::CPPSPortal::OnCollisionEnter(CollisionData colData)
 {	//Once the player touches the portal, we want to start the transition
 	if (colData.colliderOther->gameObj->GetName() == "MainChar" && !isTransitioning)

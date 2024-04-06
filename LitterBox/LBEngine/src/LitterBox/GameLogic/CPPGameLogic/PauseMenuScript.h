@@ -61,6 +61,9 @@ namespace LB
 		// Title 
 		GameObject* Title{ nullptr };
 
+		// Mouse
+		GameObject* MouseCursor{ nullptr };
+
 		// How to play
 		GameObject* HowToPlayTexture{ nullptr };
 		GameObject* HowToPlayBackButton{ nullptr };

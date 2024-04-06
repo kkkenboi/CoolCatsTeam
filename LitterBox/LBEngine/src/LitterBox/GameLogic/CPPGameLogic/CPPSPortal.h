@@ -1,11 +1,12 @@
 /*!************************************************************************
- * \file				CPPGameManager.h
+ * \file				CPPPortal.h
  * \author(s)			Amadeus Chia
  * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
  * \par Course:       	CSD2451A
  * \date				09/02/2024
  * \brief 				This header file contains the declarations for the
- * 						game manager that handles the AI director of the game
+ * 						the portal
+ of the game
  *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
  *  disclosure of this file or its contents without the prior written consent
  *  of DigiPen Institute of Technology is prohibited.

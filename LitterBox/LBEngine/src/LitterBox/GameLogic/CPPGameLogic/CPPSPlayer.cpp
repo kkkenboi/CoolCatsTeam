@@ -122,7 +122,7 @@ namespace LB
 		{
 			anim->PlayRepeat("Felix_Low");
 		}
-
+		
 		/*!***********************************************************************
 		\brief
 		Movement animation of the player

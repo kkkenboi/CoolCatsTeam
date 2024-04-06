@@ -539,10 +539,10 @@ namespace LB
 	void Matrix3x3<T>::SetRadRotate(double angle) //in rad
 	{
 		Identity();
-		a = cos(angle);
-		b = -sin(angle);
-		d = sin(angle);
-		e = cos(angle);
+		a = static_cast<T>(cos(angle));
+		b = static_cast<T>(-sin(angle));
+		d = static_cast<T>(sin(angle));
+		e = static_cast<T>(cos(angle));
 	}
 
 	/*!***********************************************************************

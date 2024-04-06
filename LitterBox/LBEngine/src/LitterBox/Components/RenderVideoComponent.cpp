@@ -96,7 +96,7 @@ namespace LB
 			timer += TIME->GetDeltaTime();
 		}
 
-		if (INPUT->IsKeyPressed(KeyCode::KEY_ESCAPE))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
 		{
 			while (!frame_queue.empty())
 				frame_queue.pop();
