@@ -30,6 +30,11 @@ namespace LB
 {
 	GameObject* CPPSGameManager::gameOverTexture{ nullptr };
 
+	/*!************************************************************************
+	* \brief
+	* Start function for the Game Manager, initialises the player values and
+	* waves and maps
+	**************************************************************************/
 	void CPPSGameManager::Start()
 	{
 		// Initialising player values
@@ -106,6 +111,10 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	* \brief
+	* Update function for the Game Manager, checks for input and updates the game
+	**************************************************************************/
 	void CPPSGameManager::Update()
 	{
 		//Mouse input stuff
@@ -341,6 +350,9 @@ namespace LB
 		//Should be empty
 	}
 
+	/*!************************************************************************
+	 * \brief Clears the gameobject containing the old map
+	**************************************************************************/
 	void CPPSGameManager::DeleteOldMap()
 	{
 		// Clear the old map
@@ -351,6 +363,9 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	 * \brief Creates a gameobject containing the new map
+	**************************************************************************/
 	void CPPSGameManager::StartNewMap()
 	{
 		// Load the new map

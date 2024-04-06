@@ -185,8 +185,20 @@ namespace LB {
 		 Gamepad input handling
 		*************************************************************************/
 		void GLFWPollGamepad();
+		/*!***********************************************************************
+		 \brief
+		 Returns the current left joystick position (between -1 and 1)
+		*************************************************************************/
 		Vec2<float> const& GetLeftJoystickPos();
+		/*!***********************************************************************
+		 \brief
+		 Returns the current right joystick position (between -1 and 1)
+		*************************************************************************/
 		Vec2<float> const& GetRightJoystickPos();
+		/*!***********************************************************************
+		 \brief
+		 Retuns true if a gamepad is connected
+		*************************************************************************/
 		bool IsGamepadConnected();
 
 	private:

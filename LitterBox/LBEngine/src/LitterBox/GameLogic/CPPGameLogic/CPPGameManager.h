@@ -33,10 +33,15 @@ namespace LB
 	{
 	public:
 		/*!************************************************************************
-		* \brief 
-		* Component functions for the Game Manager
+		* \brief
+		* Start function for the Game Manager, initialises the player values and
+		* waves and maps
 		**************************************************************************/
 		void Start() override;
+		/*!************************************************************************
+		* \brief
+		* Update function for the Game Manager, checks for input and updates the game
+		**************************************************************************/
 		void Update() override;
 		void Destroy() override;
 
@@ -152,7 +157,6 @@ namespace LB
 		void DestroyAllBalls();
 		/*!************************************************************************
 		 * \brief Gets the SpawnedeEnemiesList member variable
-		 *
 		**************************************************************************/
 		std::vector<GameObject*>& GetSpawnedEnemyList();
 
@@ -161,9 +165,15 @@ namespace LB
 		// Event for new map start
 		Event<> onNewMapStart;
 
+		/*!************************************************************************
+		 * \brief Clears the gameobject containing the old map
+		**************************************************************************/
 		void DeleteOldMap();
+		/*!************************************************************************
+		 * \brief Creates a gameobject containing the new map
+		**************************************************************************/
 		void StartNewMap();
-		int lastMapIndex{ -1 };
+		int m_lastMapIndex{ -1 }; // The last map index loaded
 
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy

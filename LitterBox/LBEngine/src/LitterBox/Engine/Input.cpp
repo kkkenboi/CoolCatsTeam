@@ -174,14 +174,26 @@ namespace LB
 			}
 		}
 	}
+	/*!***********************************************************************
+	 \brief
+	 Returns the current left joystick position (between -1 and 1)
+	*************************************************************************/
 	Vec2<float> const& InputSystem::GetLeftJoystickPos()
 	{
 		return leftJoystickPos;
 	}
+	/*!***********************************************************************
+	 \brief
+	 Returns the current right joystick position (between -1 and 1)
+	*************************************************************************/
 	Vec2<float> const& InputSystem::GetRightJoystickPos()
 	{
 		return rightJoytickPos;
 	}
+	/*!***********************************************************************
+	 \brief
+	 Retuns true if a gamepad is connected
+	*************************************************************************/
 	bool InputSystem::IsGamepadConnected()
 	{
 		return m_gamepadConnected;
