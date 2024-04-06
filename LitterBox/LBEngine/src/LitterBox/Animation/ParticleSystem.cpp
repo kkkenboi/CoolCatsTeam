@@ -216,7 +216,7 @@ namespace LB
 					particle.mIsActive = true;
 					// Position is away from the center, distance is given using the variable mInvRadialDistance
 					// and using a random angle
-					float angle = RandomRange(0.f, 2.0f * PI);
+					float angle = RandomRange(0.f, 2.0f * static_cast<float>(PI));
 					float distance = RandomRange(emitter->mInvRadDistanceMin, emitter->mInvRadDistanceMax);
 					particle.mPosition.x = emitter->mEmitterPos.x + distance * cos(angle);
 					particle.mPosition.y = emitter->mEmitterPos.y + distance * sin(angle);
@@ -295,7 +295,7 @@ namespace LB
 				particle.mIsActive = true;
 				// Position is away from the center, distance is given using the variable mInvRadialDistance
 				// and using a random angle
-				float angle = RandomRange(0.f, 2.0f * PI);
+				float angle = RandomRange(0.f, 2.0f * static_cast<float>(PI));
 				float distance = RandomRange(emitter->mInvRadDistanceMin, emitter->mInvRadDistanceMax);
 				particle.mPosition.x = emitter->mEmitterPos.x + distance * cos(angle);
 				particle.mPosition.y = emitter->mEmitterPos.y + distance * sin(angle);

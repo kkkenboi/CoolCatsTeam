@@ -245,7 +245,7 @@ LB::CPRender::CPRender(
 	renderer_id{ rend_type }, position{ pos }, scal{ scale }, w{ width }, h{ height },
 	col{ color }, activated{ active }, quad_id{ UINT_MAX }, texture{ texture },
 	uv{ uv }, frame{ 0 }, time_elapsed{ 0.f }, rotation{ 0.f }, transform{ nullptr },
-	indices{}, z_val{ 1.f }
+	indices{}, z_val{ 1.f }, parent{}
 {
 	if (!Renderer::GRAPHICS) {
 		DebuggerLogError("GRAPHICS SYSTEM NOT INITIALIZED");
@@ -1236,7 +1236,7 @@ void Renderer::RenderSystem::Update()
 
 	if (editor_mode)
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClearColor(0.16f, 0.48f, 0.195f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
 	//Render the game scene window

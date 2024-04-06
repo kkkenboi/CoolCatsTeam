@@ -81,6 +81,7 @@ namespace LB
 				case MOREHEALTH:
 					// Should move functions from PlayerHUD to the GameManager in the future
 					GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(3);
+					GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->anim->PlayAndReset("Felix_Walk");
 					break;
 				case MOVESPEED:
 					GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed *= 1.5f;
