@@ -298,7 +298,7 @@ namespace LB {
 	*************************************************************************/
 	void CPPSPlayerHUD::DecreaseBalls()
 	{
-		if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls <= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls)
+		if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls > 0)
 		{
 			--m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls;
 		}

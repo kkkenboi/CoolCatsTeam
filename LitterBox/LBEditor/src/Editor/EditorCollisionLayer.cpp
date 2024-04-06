@@ -65,12 +65,12 @@ namespace LB
 		{
 			if (ImGui::Button("Save"))
 			{
-				JSONSerializer::SerializeToFile("CollisionMatrix.json", COLLIDERS->GetLayerSystem());
+				JSONSerializer::SerializeToFile("CollisionMatrix", COLLIDERS->GetLayerSystem());
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Load"))
 			{
-				JSONSerializer::DeserializeFromFile("CollisionMatrix.json", COLLIDERS->GetLayerSystem());
+				JSONSerializer::DeserializeFromFile("CollisionMatrix", COLLIDERS->GetLayerSystem());
 			}
 			ImGui::SameLine();
 			ImGui::Text("%-19s", "Layer");
