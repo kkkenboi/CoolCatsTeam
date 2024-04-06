@@ -151,8 +151,8 @@ namespace LB
 				leftJoystickPos.x = (fabsf(axes[0]) > JOYSTICK_DEADZONE) ? axes[0] : 0.0f;
 				leftJoystickPos.y = (fabsf(axes[1]) > JOYSTICK_DEADZONE) ? -axes[1] : 0.0f;
 
-				rightJoytickPos.x = (fabsf(axes[2]) > JOYSTICK_DEADZONE) ? axes[2] : 0.0f;
-				rightJoytickPos.y = (fabsf(axes[3]) > JOYSTICK_DEADZONE) ? -axes[3] : 0.0f;
+				rightJoytickPos.x = (fabsf(axes[2]) > JOYSTICK_DEADZONE / 5.0f) ? axes[2] : 0.0f;
+				rightJoytickPos.y = (fabsf(axes[3]) > JOYSTICK_DEADZONE / 5.0f) ? -axes[3] : 0.0f;
 			}
 
 			int buttonCount;
