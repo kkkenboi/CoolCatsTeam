@@ -163,6 +163,7 @@ namespace LB
 
 		void DeleteOldMap();
 		void StartNewMap();
+		int lastMapIndex{ -1 };
 
 		//Need an array of game objects which will be the enemies to spawn
 		//Assign values to each enemy

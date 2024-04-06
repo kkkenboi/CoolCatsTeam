@@ -220,6 +220,10 @@ namespace LB
 		m_repeating = true;
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Adds the animation to a queue to play after the current animation.
+	**************************************************************************/
 	void CPAnimator::PlayNext(std::string const& name)
 	{
 		if (!m_playing)
@@ -232,6 +236,10 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Plays the animation after the delay once.
+	**************************************************************************/
 	void CPAnimator::PlayDelay(std::string const& name, float delay)
 	{
 		m_awakeDelay = delay;
@@ -239,6 +247,10 @@ namespace LB
 		m_delayName = name;
 	}
 
+	/*!************************************************************************
+	 \brief
+	 Plays the animation after the delay and repeats.
+	**************************************************************************/
 	void CPAnimator::PlayRepeatDelay(std::string const& name, float delay)
 	{
 		m_repeating = true;

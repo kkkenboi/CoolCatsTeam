@@ -357,7 +357,13 @@ namespace LB
 		GameObject* newMap = FACTORY->SpawnGameObject();
 		m_mapHolder->AddChild(newMap->GetComponent<CPTransform>());
 
-		m_currentMap = m_mapList[rand() % m_mapList.size()];
+		int randomIndex = rand() % m_mapList.size();
+		if (randomIndex == m_lastMapIndex)
+		{
+			randomIndex = (randomIndex + 1) % m_mapList.size();
+		}
+		m_lastMapIndex = randomIndex;
+		m_currentMap = m_mapList[randomIndex];
 		JSONSerializer::DeserializeFromFile(m_currentMap.m_name, *newMap);
 
 		// Setup spawnpoints
