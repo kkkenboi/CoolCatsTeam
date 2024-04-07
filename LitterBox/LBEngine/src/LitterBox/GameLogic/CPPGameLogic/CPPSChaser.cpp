@@ -137,7 +137,7 @@ namespace LB
 		CPPSBaseEnemy::OnCollisionEnter(colData);
 		if (colData.colliderOther->m_gameobj->GetName() == "ball") {
 			//The knock back value has been edited from 300 -> 800 -> 600
-			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 600.f)
+			if (PHY_MATH::Length(colData.colliderOther->GetRigidBody()->mVelocity) > 500.f)
 			{
 				/*Vec2<float> hitPos = colData.colliderOther->transform->GetPosition();
 				GOMANAGER->FindGameObjectWithName("VFXManager")->GetComponent<CPPSVFXManager>()->SpawnHitAnim(hitPos);*/

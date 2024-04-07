@@ -272,9 +272,11 @@ namespace LB
 			if (!hasSplit)	//then we see if the ball has been split before
 			{	//if it hasn't been split then we want to split it
 				hasSplit = true;
+				
 				//Spawn Game Object at a position
 				GameObject* ballClone1 = FACTORY->SpawnGameObject();
 				JSONSerializer::DeserializeFromFile("ball", *ballClone1);
+				if (mPlayer->GetComponent<CPPSPlayer>()->isSlippery) ballClone1->GetComponent<CPRigidBody>()->mFriction = 0.99f;
 				Vec2<float> playerPos = GetHero()->GetComponent<CPTransform>()->GetPosition();
 				playerPos.x += GetHero()->GetComponent<CPPSPlayer>()->m_isFacingLeft ? -51.0f : 51.0f;
 				ballClone1->GetComponent<CPTransform>()->SetPosition(playerPos);

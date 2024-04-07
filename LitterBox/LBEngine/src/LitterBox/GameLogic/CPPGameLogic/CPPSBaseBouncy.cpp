@@ -115,7 +115,10 @@ namespace LB
 		return mCollider;
 	}
 
-	// Helper function
+	/*!***********************************************************************
+	\brief
+	Helper function, lerps a vector 2
+	*************************************************************************/
 	Vec2<float> VecLerp(const Vec2<float>& a, const Vec2<float>& b, float t)
 	{
 		return Vec2<float>{a.x + t * (b.x - a.x), a.y + t * (b.y - a.y)};

@@ -257,6 +257,10 @@ namespace LB
 		//------------------Pushes balls away from the player in a circle------------------
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_2) || INPUT->IsKeyTriggered(KeyCode::KEY_GAMEPAD_RIGHT_BUMPER))
 		{
+			if (m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentHealth > 1 && !anim->IsPlaying())
+			{
+				anim->PlayAndReset("Felix_Attack");
+			}
 			hasPlayedHitSound = false;
 			// Play hit sound
 			//AUDIOMANAGER->PlayRandomisedSound(AUDIOMANAGER->PlayerSlashSounds,0.3f);
@@ -321,6 +325,7 @@ namespace LB
 		//------------------Spawn a golf ball----------------------
 		if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1) || INPUT->IsKeyTriggered(KeyCode::KEY_GAMEPAD_LEFT_BUMPER))
 		{
+
 			//GOMANAGER->FindGameObjectWithName("MouseCursor")->GetComponent<CPPSMou
 			if (!m_GameManager->GetComponent<CPPSGameManager>()->isInfiniteAmmo && m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentBalls >= m_GameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxBalls) return;
 			if(!m_GameManager->GetComponent<CPPSGameManager>()->isInfiniteAmmo)
@@ -334,7 +339,8 @@ namespace LB
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);*/
 			Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
 			playerPos.x += m_isFacingLeft ? -50.0f : 50.0f;
-
+			if(isSlippery)
+				ballObject->GetComponent<CPRigidBody>()->mFriction = 0.99f;
 			ballObject->GetComponent<CPTransform>()->SetPosition(playerPos);
 			//ballObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{0.8f, 0.8f});
 			ballObject->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetBallUpgrades());

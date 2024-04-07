@@ -66,19 +66,19 @@ namespace LB
 			if (colData.colliderOther->gameObj->GetName() != "Projectile" && colData.colliderOther->gameObj->GetName() != "Mage")
 			{
 				if (colData.colliderOther->gameObj->GetName() == "ball") {
-					colData.colliderOther->rigidbody->mVelocity.x *= 0.9f;
-					colData.colliderOther->rigidbody->mVelocity.y *= 0.9f;
+					colData.colliderOther->rigidbody->mVelocity.x *= 0.925f;
+					colData.colliderOther->rigidbody->mVelocity.y *= 0.925f;
 				}
 				else if (colData.colliderOther->gameObj->GetName() == "MainChar") 
 				{
-					colData.colliderOther->rigidbody->mVelocity.x *= 0.8f;
-					colData.colliderOther->rigidbody->mVelocity.y *= 0.8f;
+					colData.colliderOther->rigidbody->mVelocity.x *= 0.9f;
+					colData.colliderOther->rigidbody->mVelocity.y *= 0.9f;
 					colData.colliderOther->gameObj->GetComponent<CPPSPlayer>()->isOnSand = true;
 				}
 				else
 				{
-					colData.colliderOther->rigidbody->mVelocity.x *= 0.925f;
-					colData.colliderOther->rigidbody->mVelocity.y *= 0.925f;
+					colData.colliderOther->rigidbody->mVelocity.x *= 0.95f;
+					colData.colliderOther->rigidbody->mVelocity.y *= 0.95f;
 				}
 			}
 		}
