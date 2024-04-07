@@ -153,7 +153,7 @@ namespace LB
 		SCENEMANAGER->LoadScene("SceneCutscene");
 		scene_to_transition = next_scene;
 		load_video_file(video_file_name);
-		int channel = AUDIOMANAGER->PlaySound(video_file_name);
+		int channel = AUDIOMANAGER->PlaySound(video_file_name,BGM);
 		AUDIOMANAGER->SetChannelVolume(channel, 0.3f);
 		playCutscene = true;
 		last_frame_read = false;
