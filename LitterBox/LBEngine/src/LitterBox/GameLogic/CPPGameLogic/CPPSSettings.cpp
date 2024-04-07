@@ -216,7 +216,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuMV->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MVSliverPos = SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetMasterVolume(Clamp((mousepos - collider_left) / width, 0.f, 1.f));
+					AUDIOMANAGER->SetMasterVolume(Clamp((mousepos - (collider_left + 5.f)) / (width - 5.f), 0.f, 1.f));
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -227,7 +227,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					SFXSliderPos = SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mousepos - collider_left) / width, 0.f, 1.f), SFX);
+					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mousepos - (collider_left + 5.f)) / (width - 5.f), 0.f, 1.f), SFX);
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -238,9 +238,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MusicSliderPos = SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mousepos - collider_left) / width, 0.f, 1.f), BGM);
-
-					DebuggerLogFormat("Volume: %f\nMouseposition: %f\ncollider_left: %f\nwidth: %f", Clamp((mousepos - collider_left) / width, 0.f, 1.f), mousepos, collider_left, width);
+					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mousepos - (collider_left + 5.f)) / (width - 5.f), 0.f, 1.f), BGM);
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
