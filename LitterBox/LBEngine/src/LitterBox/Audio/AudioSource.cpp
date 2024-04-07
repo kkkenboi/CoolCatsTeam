@@ -201,6 +201,11 @@ namespace LB
 		return false;
 	}
 
+	/*!************************************************************************
+	* \brief Function that calls the appropriate functions when the audio component setActive is toggled
+	* 
+	* \param func_isActive if the audio component is active or not
+	**************************************************************************/
 	void CPAudioSource::ToggleActive(bool func_isActive)
 	{
 		if (!func_isActive)
@@ -314,6 +319,11 @@ namespace LB
 		AUDIOMANAGER->SetChannelVolume(channelID, volume);
 	}
 
+	/*!************************************************************************
+	 * \brief Fades out the audio source to the given time
+	 * 
+	 * \param time time to fade out to
+	**************************************************************************/
 	void CPAudioSource::FadeOut(float time)
 	{
 		fadeTime = time;
@@ -322,6 +332,12 @@ namespace LB
 		fadeIn = false;
 	}
 
+	/*!************************************************************************
+	 * \brief Fade in the audio source to the given time and volume
+	 * (Volume range is [0f-1f])
+	 * \param time time to fade in to
+	 * \param volumeToSet volume to fade in to
+	**************************************************************************/
 	void CPAudioSource::FadeIn(float time, float volumeToSet)
 	{
 		fadeTime = time;	
