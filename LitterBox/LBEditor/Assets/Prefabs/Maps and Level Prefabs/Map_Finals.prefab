@@ -9367,7 +9367,7 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": -277.86676,
+                                    "x": -286.759033,
                                     "y": 111.842468
                                 },
                                 "Scale": {
@@ -9383,7 +9383,7 @@
                                     "Layer ID": 0
                                 },
                                 "Shape": 1,
-                                "Width": 449.0,
+                                "Width": 414.0,
                                 "Height": 450.0,
                                 "Radius": 50.0
                             },
@@ -9430,7 +9430,7 @@
                                 "Active": true,
                                 "Position": {
                                     "x": -592.613647,
-                                    "y": -81.208923
+                                    "y": -62.464233
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -9446,7 +9446,7 @@
                                 },
                                 "Shape": 1,
                                 "Width": 192.0,
-                                "Height": 442.0,
+                                "Height": 409.0,
                                 "Radius": 50.0
                             },
                             "CPPScript": {
@@ -9461,7 +9461,7 @@
                                 "Active": true,
                                 "Position": {
                                     "x": -402.17987,
-                                    "y": -206.222045
+                                    "y": -171.075592
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -9491,8 +9491,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": -200.544555,
-                                    "y": -147.542327
+                                    "x": -216.645996,
+                                    "y": -131.440795
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -9507,8 +9507,8 @@
                                     "Layer ID": 0
                                 },
                                 "Shape": 1,
-                                "Width": 279.0,
-                                "Height": 161.0,
+                                "Width": 236.0,
+                                "Height": 157.0,
                                 "Radius": 50.0
                             },
                             "CPPScript": {
@@ -9522,7 +9522,7 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": -751.681701,
+                                    "x": -727.228271,
                                     "y": -173.055267
                                 },
                                 "Scale": {
@@ -9553,8 +9553,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": -713.595092,
-                                    "y": -81.208862
+                                    "x": -696.562194,
+                                    "y": -98.241851
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -9569,8 +9569,8 @@
                                     "Layer ID": 0
                                 },
                                 "Shape": 1,
-                                "Width": 210.0,
-                                "Height": 100.0,
+                                "Width": 174.0,
+                                "Height": 108.0,
                                 "Radius": 4.0
                             },
                             "CPPScript": {
@@ -9584,8 +9584,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": -753.922119,
-                                    "y": -229.183532
+                                    "x": -737.129333,
+                                    "y": -212.390655
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -9600,7 +9600,7 @@
                                     "Layer ID": 0
                                 },
                                 "Shape": 1,
-                                "Width": 100.0,
+                                "Width": 69.0,
                                 "Height": 100.0,
                                 "Radius": 50.0
                             },
@@ -9615,8 +9615,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 1070.087158,
-                                    "y": -212.829132
+                                    "x": 1058.973876,
+                                    "y": -210.486022
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -9631,8 +9631,8 @@
                                     "Layer ID": 0
                                 },
                                 "Shape": 1,
-                                "Width": 312.0,
-                                "Height": 320.0,
+                                "Width": 294.0,
+                                "Height": 291.0,
                                 "Radius": 50.0
                             },
                             "CPPScript": {
@@ -9646,8 +9646,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 881.89392,
-                                    "y": -220.419067
+                                    "x": 897.335327,
+                                    "y": -220.539184
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -9662,7 +9662,7 @@
                                     "Layer ID": 0
                                 },
                                 "Shape": 1,
-                                "Width": 281.0,
+                                "Width": 240.0,
                                 "Height": 200.0,
                                 "Radius": 50.0
                             },
@@ -9677,7 +9677,7 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 810.200927,
+                                    "x": 832.431396,
                                     "y": -393.970825
                                 },
                                 "Scale": {
@@ -9708,8 +9708,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 1088.010253,
-                                    "y": -414.381103
+                                    "x": 1065.867553,
+                                    "y": -392.238464
                                 },
                                 "Scale": {
                                     "x": 1.0,
