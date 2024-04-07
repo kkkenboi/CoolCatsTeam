@@ -36,16 +36,22 @@ namespace LB
 	{
 		if (colData.colliderOther->rigidbody != nullptr)
 		{
-			if (colData.colliderOther->gameObj->GetName() != "ball" || colData.colliderOther->gameObj->GetName() != "Projectile")
+			std::string name = colData.colliderOther->gameObj->GetName();
+
+			if (name == "Projectile") {
+				colData.colliderOther->rigidbody->mVelocity.x *= 1.0f;
+				colData.colliderOther->rigidbody->mVelocity.y *= 1.0f;
+			}
+			else if (name == "ball")
+			{
+				colData.colliderOther->rigidbody->mVelocity.x *= 1.1f;
+				colData.colliderOther->rigidbody->mVelocity.y *= 1.1f;
+			}
+			else if (name != "ball")
 			{
 				//Modify this value to change the velocity of the bounce
 				colData.colliderOther->rigidbody->mVelocity.x *= bounceForce;
 				colData.colliderOther->rigidbody->mVelocity.y *= bounceForce;
-			}
-			if (colData.colliderOther->gameObj->GetName() == "ball")
-			{
-				colData.colliderOther->rigidbody->mVelocity.x *= 1.1f;
-				colData.colliderOther->rigidbody->mVelocity.y *= 1.1f;
 			}
 
 			if (colData.colliderOther->gameObj == mPlayer) {
