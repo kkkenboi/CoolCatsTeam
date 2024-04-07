@@ -46,7 +46,7 @@ namespace LB
 		bool& GetOnPauseMenu();
 
 	private:
-		bool OnPauseMenu;
+		bool OnPauseMenu{false};
 		bool BackButtonHovered{ false };
 
 		// Pause Menu
