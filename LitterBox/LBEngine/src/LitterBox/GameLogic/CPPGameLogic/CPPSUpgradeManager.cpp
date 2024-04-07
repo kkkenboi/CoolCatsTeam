@@ -204,6 +204,7 @@ namespace LB
 
 		GOMANAGER->FindGameObjectWithName("Portal")->SetActive(true);
 		GOMANAGER->FindGameObjectWithName("DirectionHelper")->GetComponent<CPPSDirectionHelper>()->mUpgradeTaken = true;
+		GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->DestroyAllBalls();
 		auto gameManager = GOMANAGER->FindGameObjectWithName("GameManager");
 		if (gameManager->GetComponent<CPPSGameManager>()->m_PlayerCurrentUpgrades < gameManager->GetComponent<CPPSGameManager>()->m_PlayerMaxUpgrades)
 		{
