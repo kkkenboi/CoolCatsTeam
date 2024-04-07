@@ -1236,7 +1236,7 @@ void Renderer::RenderSystem::Update()
 
 	if (editor_mode)
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-	glClearColor(0.16f, 0.48f, 0.195f, 1.0f);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT); // we're not using the stencil buffer now nor the depth either just in case you were wondering
 
 	//Render the game scene window
