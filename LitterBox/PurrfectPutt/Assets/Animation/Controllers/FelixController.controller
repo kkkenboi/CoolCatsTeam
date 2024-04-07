@@ -5,6 +5,7 @@
         "Felix_Walk",
         "Felix_SwingLeft",
         "Felix_SwingRight",
-        "Felix_Low"
+        "Felix_Low",
+        "Felix_Attack"
     ]
 }
