@@ -71,33 +71,15 @@ namespace LB
 		**************************************************************************/
 		int PlaySound(std::string soundName, SoundType type = SFX);
 
+		/*!************************************************************************
+		 * \brief Function to play sound 3D using the Sound File name
+		 * Returns the channel ID that the sound is playing in
+		 * \param soundName name of the sound e.g "Explosion" without file extension
+		 * \param pos position to play the sound at
+		 * \param type type of sound (for the channel group)
+		**************************************************************************/
 		int Play3DSound(std::string soundName, Vec2<float> pos, SoundType type = SFX);
 
-		/*!***********************************************************************
-		 * \brief Function to play sound using the vector of Sound File name
-		 * Returns a void
-		 * \param the vector of soundName, Name of the sound e.g "Explosion" without file extension
-		**************************************************************************/
-		//void PlayGroupSounds(std::vector<std::string> groupSoundNames);
-
-		/*!***********************************************************************
-		* \brief Function to play sound using a vector of sound file names that randomise
-		* the the different sounds
-		* Returns a void
-		* \param vector that contains soundName e.g "Explosion, Pop, etc." without file extension,
-		*		 Volume of the sound, default to 1
-		*		 Pitch of the sound, default to 1
-		**************************************************************************/
-		//void PlayRandomisedSound(std::vector<std::string> groupSoundNames, float volume = 1.0f, float pitch = 1.0f);
-
-		/*!***********************************************************************
-		* \brief Function to play a sound in a vector by calculating the chances that if it will play or not
-		* Returns a void
-		* \param vector that contains soundName e.g "Explosion, Pop, etc." without file extension,
-		*		 Volume of the sound, default to 1
-		*		 Pitch of the sound, default to 1
-		**************************************************************************/
-		//void ChanceToPlayGroupSound(std::vector<std::string> groupSoundNames, float volume = 1.0f, float pitch = 1.0f);
 
 		/*!***********************************************************************
 		 * \brief Function to play sound. Stops currently playing sound if there's one
@@ -176,7 +158,19 @@ namespace LB
 		**************************************************************************/
 		void SetChannelVolume(int ChannelID, float _vol);
 
+		/*!************************************************************************
+		 * \brief Set the Channel Group Volume object
+		 * volume range is [0f,1f]
+		 * \param _vol volume to set
+		 * \param type type of sound (for the channel group)
+		**************************************************************************/
 		void SetChannelGroupVolume(float _vol,SoundType type);
+
+		/*!************************************************************************
+		 * \brief Set the Master Volume object
+		 * volume range is [0f,1f]
+		 * \param _vol volume to set
+		**************************************************************************/
 		void SetMasterVolume(float _vol);
 
 		/*!************************************************************************
@@ -193,9 +187,13 @@ namespace LB
 		**************************************************************************/
 		void FadeinChannels(float duration);
 
+		/*!************************************************************************
+		 * \brief Set the Loop Channel object
+		 * 
+		 * \param ChannelID channel ID to set the loop for
+		 * \param loop boolean to set the loop (true means yes loop, false means no loop)
+		**************************************************************************/
 		void SetLoopChannel(int ChannelID, bool loop);
-		//bool IsPlaying(std::string soundName);
-		//void StopAllSounds();
 
 		/*!***********************************************************************
 		 * \brief Stores the result of any FMOD related function
@@ -212,11 +210,6 @@ namespace LB
 		float BGMVolume = 1.0f;
 		float SFXVolume = 1.0f;
 		float MasterVolume = 1.0f;
-
-		
-
-		//std::vector<std::string> PurrfectPuttSounds = { "SplashScreen",
-		//										"SplashScreen_Group"};
 
 
 	private:

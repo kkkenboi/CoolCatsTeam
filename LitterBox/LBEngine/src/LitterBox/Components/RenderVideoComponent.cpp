@@ -96,7 +96,7 @@ namespace LB
 			timer += TIME->GetDeltaTime();
 		}
 
-		if (INPUT->IsKeyPressed(KeyCode::KEY_ESCAPE))
+		if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE))
 		{
 			while (!frame_queue.empty())
 				frame_queue.pop();
@@ -151,7 +151,6 @@ namespace LB
 	void VideoPlayerSystem::PlayCutscene(const char* video_file_name, const char* next_scene)
 	{
 		SCENEMANAGER->LoadScene("SceneCutscene");
-
 		scene_to_transition = next_scene;
 		load_video_file(video_file_name);
 		int channel = AUDIOMANAGER->PlaySound(video_file_name);

@@ -30,7 +30,6 @@ namespace LB
 		// Based on the FPS prefab, create the object, position is already set in the prefab
 		m_FPSObject = FACTORY->SpawnGameObject();
 		JSONSerializer::DeserializeFromFile("FPS", *m_FPSObject);
-		m_CameraFollow = GOMANAGER->FindGameObjectWithName("CameraFollow");
 
 		// Set it to 0.f when not active ( wanted to do ToggleActive but didn't work )
 		m_FPSObject->GetComponent<CPText>()->get_msg().scale = 0.0f;

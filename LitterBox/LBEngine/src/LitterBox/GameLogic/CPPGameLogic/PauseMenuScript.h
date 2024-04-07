@@ -46,7 +46,7 @@ namespace LB
 		bool& GetOnPauseMenu();
 
 	private:
-		bool OnPauseMenu;
+		bool OnPauseMenu{false};
 		bool BackButtonHovered{ false };
 
 		// Pause Menu
@@ -60,6 +60,9 @@ namespace LB
 
 		// Title 
 		GameObject* Title{ nullptr };
+
+		// Mouse
+		GameObject* MouseCursor{ nullptr };
 
 		// How to play
 		GameObject* HowToPlayTexture{ nullptr };

@@ -41,9 +41,11 @@ namespace LB
 		}
 		//After that we shuffle it up
 		//(using default_random_engine will make it "seeded", change in the future!)
-		// Current order is : morehealth, split, movespeed,bomb,moreball,bigball
+		// using 3 as seed : 84516372
+		// no value as seed : morehealth, split, movespeed,bomb,moreball,bigball
 		//514263, but because we're doing pop back, it goes from the back
-		auto rngesus = std::default_random_engine{};
+		std::random_device rd{  };
+		auto rngesus = std::default_random_engine{ rd()};
 		std::shuffle(UpgradesList.begin(), UpgradesList.end(), rngesus);
 		//Debug info
 		/*for (UpgradeType upgrade : UpgradesList)

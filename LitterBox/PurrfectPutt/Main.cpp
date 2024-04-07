@@ -50,4 +50,9 @@ int WINAPI WinMain(_In_ HINSTANCE instanceH, _In_opt_ HINSTANCE prevInstanceH, _
 	}
 	delete app;
 
+	UNREFERENCED_PARAMETER(show);
+	UNREFERENCED_PARAMETER(command_line);
+	UNREFERENCED_PARAMETER(prevInstanceH);
+	UNREFERENCED_PARAMETER(instanceH);
+
 }

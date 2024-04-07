@@ -102,7 +102,9 @@
                             "Animator": {
                                 "Default State": "None",
                                 "Play On Awake": false,
+                                "Awake Delay": 0.0,
                                 "Repeating": false,
+                                "Should Cull": false,
                                 "Controller": "MageController"
                             }
                         }
@@ -111,7 +113,9 @@
                 "Animator": {
                     "Default State": "Action_Bob",
                     "Play On Awake": true,
+                    "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Should Cull": false,
                     "Controller": "ActionController"
                 }
             },
@@ -172,6 +176,7 @@
         "Loop": false,
         "is3D": false,
         "Volume": 0.3,
-        "Pitch": 1.0
+        "Pitch": 1.0,
+        "SoundType": 0
     }
 }

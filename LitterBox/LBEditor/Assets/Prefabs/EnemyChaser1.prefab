@@ -99,6 +99,7 @@
                                                         "Play On Awake": false,
                                                         "Awake Delay": 0.0,
                                                         "Repeating": false,
+                                                        "Should Cull": false,
                                                         "Controller": "MeleeController"
                                                     }
                                                 }
@@ -122,6 +123,7 @@
                                 "Play On Awake": false,
                                 "Awake Delay": 0.0,
                                 "Repeating": false,
+                                "Should Cull": false,
                                 "Controller": "MeleeController"
                             }
                         }
@@ -132,6 +134,7 @@
                     "Play On Awake": false,
                     "Awake Delay": 0.0,
                     "Repeating": false,
+                    "Should Cull": false,
                     "Controller": "ActionController"
                 }
             },
@@ -238,6 +241,7 @@
         "Loop": false,
         "is3D": false,
         "Volume": 0.3,
-        "Pitch": 1.0
+        "Pitch": 1.0,
+        "SoundType": 0
     }
 }

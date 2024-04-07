@@ -25,7 +25,7 @@ namespace LB
 	**************************************************************************/
 	void CPPSplashScreen::Start()
 	{
-		VideoPlayerSystem::Instance()->PlayCutscene("SplashScreen", "SceneMainMenu");
+		VideoPlayerSystem::Instance()->PlayCutscene("SplashScreen", "SceneOpening");
 	}
 
 	/*!************************************************************************

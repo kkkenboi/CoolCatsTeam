@@ -81,7 +81,19 @@ namespace LB
 		**************************************************************************/
 		void SetVolume(float _vol);
 
+		/*!************************************************************************
+		 * \brief Fades out the audio source to the given time
+		 * (Time is defaulted to 1.f for 1 second)
+		 * \param time Time to fade out to
+		**************************************************************************/
 		void FadeOut(float time = 1.f);
+
+		/*!************************************************************************
+		 * \brief Fade in the audio source to the given time
+		 * 
+		 * \param time time to fade in to
+		 * \param volume volume to fade in to
+		**************************************************************************/
 		void FadeIn(float time = 1.f, float volume = 1.f);
 
 		/*!***********************************************************************
@@ -142,6 +154,11 @@ namespace LB
 		**************************************************************************/
 		bool Deserialize(const Value& data) override;
 
+		/*!************************************************************************
+		 * \brief Calls the appropriate functions when the audio component setActive is toggled
+		 * 
+		 * \param isActive bool to determine if the audio component is active or not
+		**************************************************************************/
 		void ToggleActive(bool isActive) override;
 
 		/*!************************************************************************
@@ -156,7 +173,7 @@ namespace LB
 	private:
 		float timer{ 0 };
 		bool playDelayed{ false };
-		int channelID{ 0 };
+		int channelID{ -1 };
 		bool hasPlayed{ false };
 	};
 

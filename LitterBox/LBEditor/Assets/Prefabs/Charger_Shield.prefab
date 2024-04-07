@@ -58,6 +58,7 @@
                                 "Play On Awake": false,
                                 "Awake Delay": 0.0,
                                 "Repeating": false,
+                                "Should Cull": false,
                                 "Controller": "ChargerController"
                             }
                         }
@@ -68,6 +69,7 @@
                     "Play On Awake": false,
                     "Awake Delay": 0.0,
                     "Repeating": false,
+                    "Should Cull": false,
                     "Controller": "ActionController"
                 }
             },
@@ -97,7 +99,7 @@
                     "Active": true,
                     "Width": 120.0,
                     "Height": 120.0,
-                    "ZLayer": 1.0,
+                    "ZLayer": 2,
                     "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
@@ -149,6 +151,7 @@
                     "Play On Awake": false,
                     "Awake Delay": 0.0,
                     "Repeating": false,
+                    "Should Cull": false,
                     "Controller": "ChargerController"
                 }
             },
@@ -182,6 +185,7 @@
                     "Play On Awake": false,
                     "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Should Cull": false,
                     "Controller": "ChargerController"
                 }
             },
@@ -289,13 +293,15 @@
                     "Loop": false,
                     "is3D": false,
                     "Volume": 0.3,
-                    "Pitch": 1.0
+                    "Pitch": 1.0,
+                    "SoundType": 0
                 },
                 "Animator": {
                     "Default State": "None",
                     "Play On Awake": false,
                     "Awake Delay": 0.0,
                     "Repeating": false,
+                    "Should Cull": false,
                     "Controller": "ChargerController"
                 }
             }
@@ -328,6 +334,7 @@
         "Play On Awake": false,
         "Awake Delay": 0.0,
         "Repeating": false,
+        "Should Cull": false,
         "Controller": "No controller"
     }
 }

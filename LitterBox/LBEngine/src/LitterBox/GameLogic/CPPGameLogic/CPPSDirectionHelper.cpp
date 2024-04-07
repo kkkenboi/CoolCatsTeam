@@ -81,6 +81,10 @@ namespace LB
 				{
 					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("FelixSheet", 56);
 				}
+				else if (EnemyName == "Dummy")
+				{
+					mIconObject->GetComponent<CPRender>()->SetSpriteTexture("FelixSheet", 59);
+				}
 
 				// Render both direction helper and iconObject
 				GameObj->GetComponent<CPRender>()->ToggleActive(true);

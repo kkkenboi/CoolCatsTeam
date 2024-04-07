@@ -83,6 +83,10 @@ namespace LB
 
 	};
 
+	/*!***********************************************************************
+	\brief
+	Helper function, lerps a vector 2
+	*************************************************************************/
 	Vec2<float> VecLerp(const Vec2<float>& a, const Vec2<float>& b, float t);
 	REGISTER_SCRIPT(CPPSBaseBouncy)
 }

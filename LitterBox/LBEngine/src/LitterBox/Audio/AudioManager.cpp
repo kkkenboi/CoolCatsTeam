@@ -455,20 +455,20 @@ namespace LB
 	**************************************************************************/
 	void AudioManager::PauseAllChannels()
 	{
-		for (const auto& src : AudioSources)
+		/*for (const auto& src : AudioSources)
 		{
 			src->Pause();
+		}*/
+		for (auto iter = Channels.begin(); iter != Channels.end(); ++iter)
+		{
+			//Fmod always does this weird address thing...
+			bool isPlaying = false;
+			iter->second->isPlaying(&isPlaying);
+			if (isPlaying)
+			{
+				iter->second->setPaused(true);
+			}
 		}
-		//for (auto iter = Channels.begin(); iter != Channels.end(); ++iter)
-		//{
-		//	//Fmod always does this weird address thing...
-		//	bool isPlaying = false;
-		//	iter->second->isPlaying(&isPlaying);
-		//	if (isPlaying)
-		//	{
-		//		iter->second->setPaused(true);
-		//	}
-		//}
 	}
 
 	/*!************************************************************************
@@ -477,20 +477,20 @@ namespace LB
 	**************************************************************************/
 	void AudioManager::UnPauseAllChannels()
 	{
-		for (const auto& src : AudioSources)
+	/*	for (const auto& src : AudioSources)
 		{
 			src->UnPause();
+		}*/
+		for (auto iter = Channels.begin(); iter != Channels.end(); ++iter)
+		{
+			//Fmod always does this weird address thing...
+			bool isPaused{ false };
+			iter->second->getPaused(&isPaused);
+			if (isPaused)
+			{
+				iter->second->setPaused(false);
+			}
 		}
-		//for (auto iter = Channels.begin(); iter != Channels.end(); ++iter)
-		//{
-		//	//Fmod always does this weird address thing...
-		//	bool isPaused{ false };
-		//	iter->second->getPaused(&isPaused);
-		//	if (isPaused)
-		//	{
-		//		iter->second->setPaused(false);
-		//	}
-		//}
 	}
 	/*!***********************************************************************
 	 * \brief Function to stop all channels from playing

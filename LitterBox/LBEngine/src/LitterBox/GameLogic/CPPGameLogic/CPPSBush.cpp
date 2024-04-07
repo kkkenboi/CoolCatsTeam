@@ -26,7 +26,7 @@ namespace LB
 		CPPSBaseBouncy::Start();
 		mTransform = GameObj->GetComponent<CPTransform>()->GetChild();
 		mRender = mTransform->GetComponent<CPRender>();
-		mCollider = GameObj->GetComponent<CPCollider>();
+		if (GameObj->HasComponent<CPCollider>()) { mCollider = GameObj->GetComponent<CPCollider>(); }
 		mPlayer = GOMANAGER->FindGameObjectWithName("MainChar");
 
 		mToMaxTimer = { 0.15f };

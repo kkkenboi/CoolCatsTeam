@@ -62,12 +62,11 @@ namespace LB
 		currentPos.x = Clamp(currentPos.x, maxBoundsX.x, maxBoundsX.y);
 		currentPos.y = Clamp(currentPos.y, maxBoundsY.x, maxBoundsY.y);
 
+
 		//Now we set this thing's position
 		GetComponent<CPTransform>()->SetPosition(currentPos);
 		//why won't you move!!! ;__;
 		//DebuggerLog("Renderer:\n");
-
-
 
 		//DebuggerLogFormat("ExtraDist X: %f, ExtraDist Y: %f", extraDist.x, extraDist.y);
 		/*Renderer::GRAPHICS->get_cam()->get_cam_x() = currentPos.x = 960.f;
@@ -89,14 +88,14 @@ namespace LB
 	{
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Returns true if the object is visible to the camera
+	*************************************************************************/
 	bool CPPSCameraFollow::IsVisible(CPTransform const* obj) const
 	{
 		Vec2<float> objPos = obj->GetPosition();
-		//if (objPos.x < cameraPos.x - 1035.f || objPos.x > cameraPos.x + 1035.f
-		// || objPos.y < cameraPos.y - 615.f || objPos.y > cameraPos.y + 615.f)
-		//{
-		//	return false;
-		//}
+
 		if (objPos.x < cameraPos.x - 75.f || objPos.x > cameraPos.x + 1995.f
 			|| objPos.y < cameraPos.y - 75.f || objPos.y > cameraPos.y + 1155.f)
 		{
@@ -105,6 +104,10 @@ namespace LB
 		return true;
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Event to update the camera bounds based on map
+	*************************************************************************/
 	void UpdateCamMaxBounds()
 	{
 		MapDetails currentMap = GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_currentMap;
@@ -117,10 +120,10 @@ namespace LB
 		// If not in a main map
 		if (GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->GetCurrentWave() == 0)
 		{
-			camFollow->maxBoundsX.x = -2000.f;
-			camFollow->maxBoundsX.y = 2000.f;
-			camFollow->maxBoundsY.x = -2000.f;
-			camFollow->maxBoundsY.y = 2000.f;
+			camFollow->maxBoundsX.x = -630.f + 960.f;
+			camFollow->maxBoundsX.y = 2560.f - 960.f;
+			camFollow->maxBoundsY.x = -465.f + 540.f;
+			camFollow->maxBoundsY.y = 1560.f - 540.f;
 		}
 	}
 }	

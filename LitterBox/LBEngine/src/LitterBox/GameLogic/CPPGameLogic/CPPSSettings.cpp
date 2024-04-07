@@ -14,6 +14,7 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 #include "Platform/Windows/Windows.h"
+#include "LitterBox/Core/Core.h"
 #include "CPPSSettings.h"
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Physics/ColliderManager.h"
@@ -22,6 +23,7 @@
 float LB::CPPSSettings::MVSliverPos{ 1110.f };
 float LB::CPPSSettings::SFXSliderPos{ 1110.f };
 float LB::CPPSSettings::MusicSliderPos{ 1110.f };
+constexpr float sscoords{ 1920.f };
 
 /*!***********************************************************************
 \brief
@@ -63,7 +65,7 @@ void LB::CPPSSettings::Start()
 			SettingsMenuMVCollider = GO;
 			width = coll->m_width;
 			half_width = width * 0.45f;
-			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f;
+			collider_left = sscoords * 0.5f - width * 0.5f;
 		}
 
 		if (GO->GetName() == "SettingsMenuSFX")
@@ -75,7 +77,7 @@ void LB::CPPSSettings::Start()
 			SettingsMenuSFXCollider = GO;
 			width = coll->m_width;
 			half_width = width * 0.45f;
-			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f; //we use get width because every volume slider is horizontally centered.
+			collider_left = sscoords * 0.5f - width * 0.5f; //we use get width because every volume slider is horizontally centered.
 		}
 
 		if (GO->GetName() == "SettingsMenuMusic")
@@ -87,7 +89,7 @@ void LB::CPPSSettings::Start()
 			SettingsMenuMusicCollider = GO;
 			width = coll->m_width;
 			half_width = width * 0.45f;
-			collider_left = (float)WINDOWSSYSTEM->GetWidth() * 0.5f - width * 0.5f;
+			collider_left = sscoords * 0.5f - width * 0.5f;
 		}
 	}
 
@@ -162,7 +164,6 @@ void LB::CPPSSettings::Update()
 				if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 				{
 					WINDOWSSYSTEM->toggleFullScreen();
-
 					SettingsMenuFullscreen->GetComponent<CPRender>()->ToggleActive(WINDOWSSYSTEM->IsFullScreen());
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
@@ -190,6 +191,9 @@ void LB::CPPSSettings::Update()
 			if (coll != collider) {
 				continue;
 			}
+
+			float mousepos{ mouse.x };// CORE->IsEditorMode() ? mouse.x : INPUT->GetMousePos().x};
+
 			//check which slider player is interacting with and map the location of the mouse,
 			//relative to the collider size, to 0.f and 1.f for volum control
 			if (GameObj->GetName() == "SettingsMenuMVCollider") {
@@ -199,7 +203,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuMV->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MVSliverPos = SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetMasterVolume(Clamp((mouse.x - collider_left) / width, 0.f, 1.f));
+					AUDIOMANAGER->SetMasterVolume(Clamp((mousepos - collider_left) / width, 0.f, 1.f));
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -210,7 +214,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					SFXSliderPos = SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mouse.x - collider_left) / width, 0.f, 1.f), SFX);
+					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mousepos - collider_left) / width, 0.f, 1.f), SFX);
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -221,7 +225,9 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MusicSliderPos = SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mouse.x - collider_left) / width, 0.f, 1.f), BGM);
+					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mousepos - collider_left) / width, 0.f, 1.f), BGM);
+
+					DebuggerLogFormat("Volume: %f\nMouseposition: %f\ncollider_left: %f\nwidth: %f", Clamp((mousepos - collider_left) / width, 0.f, 1.f), mousepos, collider_left, width);
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}

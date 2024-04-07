@@ -170,6 +170,7 @@ namespace LB
 			}
 		}
 		time = 0.f;
+		tutorial = false;
 	}
 
 	float bezier(float x)
@@ -220,8 +221,9 @@ namespace LB
 			}
 			else
 			{
+				animFlag = false;
 				menuFlag = true;
-				SCENEMANAGER->LoadScene("SceneMain");
+				SCENEMANAGER->LoadScene((tutorial ? "SceneTutOverride" : "SceneMain"));
 			}
 			return;
 		}
@@ -259,8 +261,8 @@ namespace LB
 					//------------------------------------------Move over the quit confirmation game objects----------------------------
 				}
 				else if (GameObj->GetName() == "StartGame") {
-					animFlag = true;
 					menuFlag = false;
+					animFlag = true;
 					curtain->GetComponent<CPRender>()->ToggleActive(true);
 					//SCENEMANAGER->LoadScene("SceneMain");
 				}
@@ -286,7 +288,12 @@ namespace LB
 					//------------------------------------------Move over the quit confirmation game objects----------------------------
 				}
 				else if (GameObj->GetName() == "Controls") {
-					SCENEMANAGER->LoadScene("SceneTutOverride");
+
+					menuFlag = false;
+					animFlag = true;
+					tutorial = true; //additional flag to indicate that we want to go to tutorial
+					curtain->GetComponent<CPRender>()->ToggleActive(true);
+					//SCENEMANAGER->LoadScene("SceneTutOverride");
 				}
 				else if (GameObj->GetName() == "Credits")
 					VideoPlayerSystem::Instance()->PlayCutscene("Credits", "SceneMainMenu");
@@ -320,7 +327,8 @@ namespace LB
 
 		if (!menuFlag &&
 			SettingsMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f &&
-			ConfirmMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f && !animFlag)
+			ConfirmMenuTexture->GetComponent<CPTransform>()->GetPosition().x == 10000.f && 
+			!curtain->GetComponent<CPRender>()->activated)
 			menuFlag = true;
 
 	}

@@ -4,8 +4,8 @@
     "Transform": {
         "Active": true,
         "Position": {
-            "x": 88.020019,
-            "y": -183.310607
+            "x": 87.629997,
+            "y": -72.910003
         },
         "Scale": {
             "x": 1.0,
@@ -88,6 +88,7 @@
                                                         "Play On Awake": false,
                                                         "Awake Delay": 0.0,
                                                         "Repeating": false,
+                                                        "Should Cull": false,
                                                         "Controller": "FelixController"
                                                     }
                                                 }
@@ -111,6 +112,7 @@
                                 "Play On Awake": false,
                                 "Awake Delay": 0.0,
                                 "Repeating": false,
+                                "Should Cull": false,
                                 "Controller": "FelixController"
                             }
                         }
@@ -121,6 +123,7 @@
                     "Play On Awake": true,
                     "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Should Cull": false,
                     "Controller": "ActionController"
                 }
             },
@@ -131,7 +134,7 @@
                     "Active": true,
                     "Position": {
                         "x": 0.0,
-                        "y": -10.0
+                        "y": -39.544052
                     },
                     "Scale": {
                         "x": 1.0,
@@ -226,6 +229,7 @@
                     "Play On Awake": true,
                     "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Should Cull": false,
                     "Controller": "VFXController"
                 }
             }

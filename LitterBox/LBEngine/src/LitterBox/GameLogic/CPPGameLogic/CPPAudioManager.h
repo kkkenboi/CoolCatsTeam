@@ -4,7 +4,7 @@
  * \par DP email(s):  	amadeusjinhan.chia@digipen.edu
  * \par Course:       	CSD2451A
  * \date				27/03/2024
- * \brief 				
+ * \brief 				CPPAudioManager handles in-game audio.
  *  Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
  *  disclosure of this file or its contents without the prior written consent
  *  of DigiPen Institute of Technology is prohibited.
@@ -160,24 +160,69 @@ namespace LB
 												"Passing Through Shrug_SFX_4" };
 
 
-		//Plays 2D sound
+		/*!************************************************************************
+		 * \brief Play 2D sound
+		 * 
+		 * \param soundName Sound name to play	
+		 * \param loop boolean for if the sound should loop
+		 * \param vol volume for the sound [0f - 1f] defaulted to 1
+		 * \param pitch pitch for the sound [0f - 1f] defaulted to 1
+		 * \param type type of the sound being played [SFX, BGM] defaulted to SFX
+		**************************************************************************/
 		void Play2DSound(const std::string& soundName, bool loop = false, float vol = 1.0f, float pitch = 1.0f, SoundType type = SFX);
 		//Overloaded function to play multiple 2D sounds
+
+		/*!************************************************************************
+		 * \brief Plays a group of 2D sounds, randomly selecting one from the list
+		 * (Overloads the Play2DSound function)
+		 * \param soundNames Group of sound names to play (from CPPAudioManager.h)
+		 * \param loop boolean for if the sound should loop
+		 * \param vol volume for the sound [0f - 1f] defaulted to 1
+		 * \param pitch pitch for the sound [0f - 1f] defaulted to 1
+		 * \param type type of the sound being played [SFX, BGM] defaulted to SFX
+		**************************************************************************/
 		void Play2DSound(const std::vector<std::string>& soundNames, bool loop = false, float vol = 1.0f, float pitch = 1.0f, SoundType type = SFX);
 		//Plays 3D sound
+
+		/*!************************************************************************
+		 * \brief Play 3D sound
+		 * 
+		 * \param soundName Sound name to play
+		 * \param position Position of the sound to be played at
+		 * \param loop boolean for if the sound should loop
+		 * \param vol volume for the sound [0f - 1f] defaulted to 1
+		 * \param pitch pitch for the sound [0f - 1f] defaulted to 1
+		 * \param type type of the sound being played [SFX, BGM] defaulted to SFX
+		**************************************************************************/
 		void Play3DSound(const std::string& soundName, const Vec2<float>& position, bool loop = false, float vol = 1.0f, float pitch = 1.0f, SoundType type = SFX);
 		//Overloaded function to play multiple 3D sounds
+		/*!************************************************************************
+		 * \brief Plays a group of 3D sounds, randomly selecting one from the list
+		 * (Overloads the Play3DSound function)
+		 * \param soundNames Group of sound names to play (from CPPAudioManager.h)
+		 * \param position Position of the sound to be played at
+		 * \param loop boolean for if the sound should loop
+		 * \param vol volume for the sound [0f - 1f] defaulted to 1
+		 * \param pitch pitch for the sound [0f - 1f] defaulted to 1
+		 * \param type type of the sound being played [SFX, BGM] defaulted to SFX
+		**************************************************************************/
 		void Play3DSound(const std::vector<std::string>& soundNames, const Vec2<float>& position, bool loop = false, float vol = 1.0f, float pitch = 1.0f, SoundType type = SFX);
 		//Function to cross fade from one BGM to another
+		/*!************************************************************************
+		 * \brief Function to cross fade from one BGM to another
+		 * 
+		 * \param targetSong target song to crossfade to
+		 * \param fadeDuration duration of the fade in seconds (defaulted to 1.0f)
+		**************************************************************************/
 		void CrossFadeBGM(const std::string& targetSong, float fadeDuration = 1.0f);
 	private:
 		//By right the audiomanager should be DDOL, and this BGM Source should persist throughout scenes...
-		CPAudioSource* BGM_Source;	    //THERE CAN ONLY BE ONE BGM SOURCE
-		std::vector<GameObject*> audioSources;	//Pool of audio sources
+		CPAudioSource* BGM_Source{ nullptr };	    //THERE CAN ONLY BE ONE BGM SOURCE
+		std::vector<GameObject*> audioSources{};	//Pool of audio sources
 		void RemoveUnusedAudioSources();
 
 		bool isFading{ false };
-		std::string targetBGM;
+		std::string targetBGM{};
 		float cachedFadeDuration{ 0.0f };
 	};
 	REGISTER_SCRIPT(CPPSAudioManager)

@@ -136,7 +136,7 @@ namespace LB
 		Vec2<float> leftFace; //returns vector x y of where its facing, left
 		Vec2<float> rightFace; //returns vector x y of where its facing, right
 
-		bool facingLeft; //bool check if its facing left
+		bool facingLeft{true}; //bool check if its facing left
 
 		Vec2<float> DirToPlayer;
 		Vec2<float> TransformRight{ 1,0 };

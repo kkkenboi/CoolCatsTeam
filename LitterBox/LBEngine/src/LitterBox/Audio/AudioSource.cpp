@@ -35,6 +35,7 @@ namespace LB
 		//Commented out this because it's kinda annoying to see in console
 		//DebuggerLogWarning("Audio Component Initialised!");
 		AUDIOMANAGER->AudioSources.push_back(this); 
+		
 	}
 
 	/*!************************************************************************
@@ -102,8 +103,8 @@ namespace LB
 	void CPAudioSource::UpdateAudio(std::string clipName)
 	{
 		//If we update the audio clip while it's playing, it should stop 
+		if(isPlaying()) Stop();
 		hasPlayed = false;
-		Stop();
 		AudioClipName = clipName;
 	}
 
@@ -200,9 +201,14 @@ namespace LB
 		return false;
 	}
 
-	void CPAudioSource::ToggleActive(bool isActive)
+	/*!************************************************************************
+	* \brief Function that calls the appropriate functions when the audio component setActive is toggled
+	* 
+	* \param func_isActive if the audio component is active or not
+	**************************************************************************/
+	void CPAudioSource::ToggleActive(bool func_isActive)
 	{
-		if (!isActive) 
+		if (!func_isActive)
 		{ 
 			Stop(); 
 			hasPlayed = false;
@@ -231,6 +237,7 @@ namespace LB
 			SetPitch(pitch);
 			SetVolume(volume);
 		}
+
 		AUDIOMANAGER->SetLoopChannel(channelID, loop);
 		//else DebuggerLogWarningFormat("Unable to find %s !", AudioClipName);
 		hasPlayed = true;
@@ -312,6 +319,11 @@ namespace LB
 		AUDIOMANAGER->SetChannelVolume(channelID, volume);
 	}
 
+	/*!************************************************************************
+	 * \brief Fades out the audio source to the given time
+	 * 
+	 * \param time time to fade out to
+	**************************************************************************/
 	void CPAudioSource::FadeOut(float time)
 	{
 		fadeTime = time;
@@ -320,6 +332,12 @@ namespace LB
 		fadeIn = false;
 	}
 
+	/*!************************************************************************
+	 * \brief Fade in the audio source to the given time and volume
+	 * (Volume range is [0f-1f])
+	 * \param time time to fade in to
+	 * \param volumeToSet volume to fade in to
+	**************************************************************************/
 	void CPAudioSource::FadeIn(float time, float volumeToSet)
 	{
 		fadeTime = time;	

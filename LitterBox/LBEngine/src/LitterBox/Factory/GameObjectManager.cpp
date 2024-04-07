@@ -504,6 +504,13 @@ namespace LB
 		DebuggerLogWarningFormat("[GO Manager] Unable to find GO named %s", name.c_str());
 		return nullptr;
 	}
+
+	/*!************************************************************************
+	 * \brief Finds all gameobhects with the same name
+	 * 
+	 * \param name name of the gameobject to find
+	 * \return std::vector<GameObject*> vector containing all gameobjects with the same name
+	**************************************************************************/
 	std::vector<GameObject*> GameObjectManager::FindGameObjectsWithName(std::string name)
 	{
 		std::vector<GameObject*> temp;

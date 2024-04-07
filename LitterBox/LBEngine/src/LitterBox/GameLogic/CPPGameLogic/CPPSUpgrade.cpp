@@ -81,6 +81,7 @@ namespace LB
 				case MOREHEALTH:
 					// Should move functions from PlayerHUD to the GameManager in the future
 					GOMANAGER->FindGameObjectWithName("PlayerHUD")->GetComponent<CPPSPlayerHUD>()->IncreaseMaxHealth(3);
+					GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->anim->PlayAndReset("Felix_Walk");
 					break;
 				case MOVESPEED:
 					GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_PlayerWalkSpeed *= 1.5f;
@@ -95,8 +96,10 @@ namespace LB
 					GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->SetSpriteTexture(GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->spriteSheetName, 4);
 					GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->w = 125;
 					GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->h = 125;
-
 					break;
+				case POTION:
+					GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->isSlippery = true;
+
 				default:
 					//do nothing
 					break;

@@ -117,6 +117,10 @@ namespace LB
 		m_animators.clear();
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Removes the camera follow that is used for culling.
+	*************************************************************************/
 	void AnimationManager::ClearCameraFollow(std::string const& name)
 	{
 		m_cam = nullptr;
@@ -139,6 +143,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Global event function that check if culling should be done in this scene.
+	*************************************************************************/
 	void NewSceneAnimators(Scene* newScene)
 	{
 		AnimationManager::Instance()->ClearCameraFollow(newScene->GetName());
