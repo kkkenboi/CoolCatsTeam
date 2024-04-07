@@ -71,6 +71,10 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	\brief
+	Finds all audience members in the scene
+	*************************************************************************/
 	void CPPSAudienceManager::CreateAudience()
 	{
 		m_audience.clear();
@@ -94,7 +98,10 @@ namespace LB
 	{
 		GOMANAGER->FindGameObjectWithName("AudienceManager")->GetComponent<CPPSAudienceManager>()->RefreshAudience();
 	}
-
+	/*!***********************************************************************
+	\brief
+	For event subscribing, finds all audience members in the scene
+	*************************************************************************/
 	void CreateAudience()
 	{
 		GOMANAGER->FindGameObjectWithName("AudienceManager")->GetComponent<CPPSAudienceManager>()->CreateAudience();

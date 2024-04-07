@@ -51,6 +51,10 @@ namespace LB
 
 	};
 
+	/*!***********************************************************************
+	\brief
+	 Event to update the camera bounds based on map
+	*************************************************************************/
 	void UpdateCamMaxBounds();
 
 	REGISTER_SCRIPT(CPPSCameraFollow)

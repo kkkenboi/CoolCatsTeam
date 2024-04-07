@@ -148,11 +148,29 @@ namespace LB
 			// Check if joystick is moved beyond the deadzone
 			if (axisCount >= 4)
 			{
-				leftJoystickPos.x = (fabsf(axes[0]) > JOYSTICK_DEADZONE) ? axes[0] : 0.0f;
-				leftJoystickPos.y = (fabsf(axes[1]) > JOYSTICK_DEADZONE) ? -axes[1] : 0.0f;
+				if ((fabsf(axes[0]) > JOYSTICK_DEADZONE) || (fabsf(axes[1]) > JOYSTICK_DEADZONE)) 
+				{
+					leftJoystickPos.x = axes[0];
+					leftJoystickPos.y = -axes[1];
+					leftJoystickPos.Normalise();
+				}
+				else
+				{
+					leftJoystickPos.x = 0.0f;
+					leftJoystickPos.y = 0.0f;
+				}
 
-				rightJoytickPos.x = (fabsf(axes[2]) > JOYSTICK_DEADZONE / 5.0f) ? axes[2] : 0.0f;
-				rightJoytickPos.y = (fabsf(axes[3]) > JOYSTICK_DEADZONE / 5.0f) ? -axes[3] : 0.0f;
+				if ((fabsf(axes[2]) > JOYSTICK_DEADZONE) || (fabsf(axes[3]) > JOYSTICK_DEADZONE))
+				{
+					rightJoytickPos.x = axes[2];
+					rightJoytickPos.y = -axes[3];
+					rightJoytickPos.Normalise();
+				}
+				else
+				{
+					rightJoytickPos.x = 0.0f;
+					rightJoytickPos.y = 0.0f;
+				}
 			}
 
 			int buttonCount;
@@ -174,14 +192,26 @@ namespace LB
 			}
 		}
 	}
+	/*!***********************************************************************
+	 \brief
+	 Returns the current left joystick position (between -1 and 1)
+	*************************************************************************/
 	Vec2<float> const& InputSystem::GetLeftJoystickPos()
 	{
 		return leftJoystickPos;
 	}
+	/*!***********************************************************************
+	 \brief
+	 Returns the current right joystick position (between -1 and 1)
+	*************************************************************************/
 	Vec2<float> const& InputSystem::GetRightJoystickPos()
 	{
 		return rightJoytickPos;
 	}
+	/*!***********************************************************************
+	 \brief
+	 Retuns true if a gamepad is connected
+	*************************************************************************/
 	bool InputSystem::IsGamepadConnected()
 	{
 		return m_gamepadConnected;

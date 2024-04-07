@@ -44,6 +44,12 @@ namespace LB
 		 Called every frame when the game is running
 		*************************************************************************/
 		virtual void Update() = 0;
+
+		/*!***********************************************************************
+		\brief
+		 By default, called 50 times per second. Can be changed in the settings.
+		 Useful for physics calculations.
+		*************************************************************************/
 		virtual void FixedUpdate() {};
 
 		/*!***********************************************************************

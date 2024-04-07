@@ -146,6 +146,11 @@ namespace LB
 		}
 	}
 
+	/*!***********************************************************************
+	 \brief
+	 Updates the script components for all GameObjects at a constant rate,
+	 useful for physics calculations
+	*************************************************************************/
 	void CPPGameLogic::FixedUpdate()
 	{
 		if (!CORE->IsPlaying()) return;

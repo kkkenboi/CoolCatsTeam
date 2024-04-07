@@ -65,6 +65,11 @@ namespace LB
 				m_instance->Update();
 		}
 
+		/*!***********************************************************************
+		\brief
+		 Calls the script's FixedUpdate function at a constant rate, good for
+		 physics!
+		*************************************************************************/
 		void FixedUpdate()
 		{
 			if (m_instance)

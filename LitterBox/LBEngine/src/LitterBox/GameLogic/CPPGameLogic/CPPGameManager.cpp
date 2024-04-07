@@ -30,6 +30,11 @@ namespace LB
 {
 	GameObject* CPPSGameManager::gameOverTexture{ nullptr };
 
+	/*!************************************************************************
+	* \brief
+	* Start function for the Game Manager, initialises the player values and
+	* waves and maps
+	**************************************************************************/
 	void CPPSGameManager::Start()
 	{
 		// Initialising player values
@@ -106,6 +111,10 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	* \brief
+	* Update function for the Game Manager, checks for input and updates the game
+	**************************************************************************/
 	void CPPSGameManager::Update()
 	{
 		//Mouse input stuff
@@ -342,6 +351,9 @@ namespace LB
 		//Should be empty
 	}
 
+	/*!************************************************************************
+	 * \brief Clears the gameobject containing the old map
+	**************************************************************************/
 	void CPPSGameManager::DeleteOldMap()
 	{
 		// Clear the old map
@@ -352,13 +364,22 @@ namespace LB
 		}
 	}
 
+	/*!************************************************************************
+	 * \brief Creates a gameobject containing the new map
+	**************************************************************************/
 	void CPPSGameManager::StartNewMap()
 	{
 		// Load the new map
 		GameObject* newMap = FACTORY->SpawnGameObject();
 		m_mapHolder->AddChild(newMap->GetComponent<CPTransform>());
 
-		m_currentMap = m_mapList[rand() % m_mapList.size()];
+		int randomIndex = rand() % m_mapList.size();
+		if (randomIndex == m_lastMapIndex)
+		{
+			randomIndex = (randomIndex + 1) % m_mapList.size();
+		}
+		m_lastMapIndex = randomIndex;
+		m_currentMap = m_mapList[randomIndex];
 		JSONSerializer::DeserializeFromFile(m_currentMap.m_name, *newMap);
 
 		// Setup spawnpoints

@@ -88,14 +88,14 @@ namespace LB
 	{
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Returns true if the object is visible to the camera
+	*************************************************************************/
 	bool CPPSCameraFollow::IsVisible(CPTransform const* obj) const
 	{
 		Vec2<float> objPos = obj->GetPosition();
-		//if (objPos.x < cameraPos.x - 1035.f || objPos.x > cameraPos.x + 1035.f
-		// || objPos.y < cameraPos.y - 615.f || objPos.y > cameraPos.y + 615.f)
-		//{
-		//	return false;
-		//}
+
 		if (objPos.x < cameraPos.x - 75.f || objPos.x > cameraPos.x + 1995.f
 			|| objPos.y < cameraPos.y - 75.f || objPos.y > cameraPos.y + 1155.f)
 		{
@@ -104,6 +104,10 @@ namespace LB
 		return true;
 	}
 
+	/*!***********************************************************************
+	\brief
+	 Event to update the camera bounds based on map
+	*************************************************************************/
 	void UpdateCamMaxBounds()
 	{
 		MapDetails currentMap = GOMANAGER->FindGameObjectWithName("GameManager")->GetComponent<CPPSGameManager>()->m_currentMap;
