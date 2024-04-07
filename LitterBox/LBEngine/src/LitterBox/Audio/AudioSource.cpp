@@ -35,6 +35,7 @@ namespace LB
 		//Commented out this because it's kinda annoying to see in console
 		//DebuggerLogWarning("Audio Component Initialised!");
 		AUDIOMANAGER->AudioSources.push_back(this); 
+		
 	}
 
 	/*!************************************************************************
@@ -102,8 +103,8 @@ namespace LB
 	void CPAudioSource::UpdateAudio(std::string clipName)
 	{
 		//If we update the audio clip while it's playing, it should stop 
+		if(isPlaying()) Stop();
 		hasPlayed = false;
-		Stop();
 		AudioClipName = clipName;
 	}
 
@@ -231,6 +232,7 @@ namespace LB
 			SetPitch(pitch);
 			SetVolume(volume);
 		}
+
 		AUDIOMANAGER->SetLoopChannel(channelID, loop);
 		//else DebuggerLogWarningFormat("Unable to find %s !", AudioClipName);
 		hasPlayed = true;

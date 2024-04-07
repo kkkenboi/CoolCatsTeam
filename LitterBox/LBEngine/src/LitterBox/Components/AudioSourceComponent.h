@@ -156,7 +156,7 @@ namespace LB
 	private:
 		float timer{ 0 };
 		bool playDelayed{ false };
-		int channelID{ 0 };
+		int channelID{ -1 };
 		bool hasPlayed{ false };
 	};
 

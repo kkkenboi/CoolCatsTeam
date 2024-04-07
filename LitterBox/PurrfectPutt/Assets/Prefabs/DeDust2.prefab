@@ -17,8 +17,8 @@
         "Active": false,
         "Width": 100.0,
         "Height": 100.0,
-        "ZLayer": 3.0,
-        "Layer": 0,
+        "ZLayer": 7.4,
+        "Layer": 1,
         "Texture": "VFXCompile_SpriteSheet",
         "SpriteName": "VFXSheet",
         "SpriteIndex": 0

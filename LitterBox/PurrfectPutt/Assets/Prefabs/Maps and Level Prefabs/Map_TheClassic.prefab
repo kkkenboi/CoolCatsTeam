@@ -10755,108 +10755,6 @@
                             }
                         },
                         {
-                            "Name": "Bramble",
-                            "Active": true,
-                            "Transform": {
-                                "Active": true,
-                                "Position": {
-                                    "x": 1360.57666,
-                                    "y": 165.152191
-                                },
-                                "Scale": {
-                                    "x": 1.0,
-                                    "y": 1.0
-                                },
-                                "Rotation": 0.0,
-                                "Children": [
-                                    {
-                                        "Name": "Body",
-                                        "Active": true,
-                                        "Transform": {
-                                            "Active": true,
-                                            "Position": {
-                                                "x": 0.0,
-                                                "y": 0.0
-                                            },
-                                            "Scale": {
-                                                "x": 1.0,
-                                                "y": 1.0
-                                            },
-                                            "Rotation": 0.0,
-                                            "Children": [
-                                                {
-                                                    "Name": "Shadow",
-                                                    "Active": true,
-                                                    "Transform": {
-                                                        "Active": true,
-                                                        "Position": {
-                                                            "x": 1.0,
-                                                            "y": -25.0
-                                                        },
-                                                        "Scale": {
-                                                            "x": 1.0,
-                                                            "y": 1.0
-                                                        },
-                                                        "Rotation": 0.0
-                                                    },
-                                                    "Render": {
-                                                        "Active": true,
-                                                        "Width": 145.0,
-                                                        "Height": 35.0,
-                                                        "ZLayer": 4.0,
-                                                        "Layer": 0,
-                                                        "Texture": "Multi_Spritesheet",
-                                                        "SpriteName": "MultiSheet",
-                                                        "SpriteIndex": 55
-                                                    }
-                                                }
-                                            ]
-                                        },
-                                        "Render": {
-                                            "Active": true,
-                                            "Width": 275.0,
-                                            "Height": 300.0,
-                                            "ZLayer": 1.0,
-                                            "Layer": 0,
-                                            "Texture": "Multi_Spritesheet",
-                                            "SpriteName": "MultiSheet",
-                                            "SpriteIndex": 42
-                                        }
-                                    }
-                                ]
-                            },
-                            "RigidBody": {
-                                "Active": true,
-                                "Width": 100.0,
-                                "Height": 100.0,
-                                "Density": 10.0,
-                                "IsStatic": true
-                            },
-                            "Collider": {
-                                "Active": true,
-                                "ColliderLayer": {
-                                    "Layer Name": "Default",
-                                    "Layer ID": 0
-                                },
-                                "Shape": 0,
-                                "Width": 100.0,
-                                "Height": 100.0,
-                                "Radius": 45.0
-                            },
-                            "CPPScript": {
-                                "Active": true,
-                                "Script": "class LB::CPPSBramble"
-                            },
-                            "Animator": {
-                                "Default State": "Action_Squish",
-                                "Play On Awake": true,
-                                "Awake Delay": 0.0,
-                                "Repeating": true,
-                                "Should Cull": false,
-                                "Controller": "ActionController"
-                            }
-                        },
-                        {
                             "Name": "Bush",
                             "Active": true,
                             "Transform": {
@@ -10957,7 +10855,7 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 1351.310913,
+                                    "x": 1493.603149,
                                     "y": 416.895568
                                 },
                                 "Scale": {
@@ -11535,7 +11433,7 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 2169.467041,
+                                    "x": 2152.11914,
                                     "y": 825.685119
                                 },
                                 "Scale": {
@@ -11671,8 +11569,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 731.679992,
-                                    "y": -27.969999
+                                    "x": 720.712036,
+                                    "y": -10.500526
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -11695,7 +11593,7 @@
                                 },
                                 "Shape": 1,
                                 "Width": 196.0,
-                                "Height": 894.0,
+                                "Height": 902.0,
                                 "Radius": 50.0
                             }
                         },
@@ -11705,8 +11603,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 722.400024,
-                                    "y": 409.799987
+                                    "x": 714.524047,
+                                    "y": 417.67572
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -11739,7 +11637,7 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 1189.050048,
+                                    "x": 1199.466552,
                                     "y": -21.67
                                 },
                                 "Scale": {
@@ -11763,7 +11661,7 @@
                                 },
                                 "Shape": 1,
                                 "Width": 174.0,
-                                "Height": 879.0,
+                                "Height": 908.0,
                                 "Radius": 50.0
                             }
                         },
@@ -11773,8 +11671,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 953.450012,
-                                    "y": 422.100006
+                                    "x": 949.977966,
+                                    "y": 428.004913
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -11796,7 +11694,7 @@
                                     "Layer ID": 0
                                 },
                                 "Shape": 1,
-                                "Width": 503.0,
+                                "Width": 518.0,
                                 "Height": 165.0,
                                 "Radius": 50.0
                             }
@@ -11807,8 +11705,8 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 1183.22998,
-                                    "y": 408.799987
+                                    "x": 1192.033691,
+                                    "y": 417.603912
                                 },
                                 "Scale": {
                                     "x": 1.0,
@@ -19572,7 +19470,7 @@
                             "Transform": {
                                 "Active": true,
                                 "Position": {
-                                    "x": 512.0,
+                                    "x": 513.736206,
                                     "y": 420.0
                                 },
                                 "Scale": {

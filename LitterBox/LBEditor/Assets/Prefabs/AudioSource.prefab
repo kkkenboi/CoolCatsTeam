@@ -16,7 +16,7 @@
     "AudioSource": {
         "Active": true,
         "AudioClipName": "",
-        "Play On Awake": true,
+        "Play On Awake": false,
         "Loop": false,
         "Volume": 1.0,
         "Pitch": 1.0

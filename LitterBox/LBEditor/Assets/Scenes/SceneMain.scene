@@ -13381,108 +13381,6 @@
                                                     }
                                                 },
                                                 {
-                                                    "Name": "Bramble",
-                                                    "Active": true,
-                                                    "Transform": {
-                                                        "Active": true,
-                                                        "Position": {
-                                                            "x": 1360.57666,
-                                                            "y": 165.152191
-                                                        },
-                                                        "Scale": {
-                                                            "x": 1.0,
-                                                            "y": 1.0
-                                                        },
-                                                        "Rotation": 0.0,
-                                                        "Children": [
-                                                            {
-                                                                "Name": "Body",
-                                                                "Active": true,
-                                                                "Transform": {
-                                                                    "Active": true,
-                                                                    "Position": {
-                                                                        "x": 0.0,
-                                                                        "y": 0.0
-                                                                    },
-                                                                    "Scale": {
-                                                                        "x": 1.0,
-                                                                        "y": 1.0
-                                                                    },
-                                                                    "Rotation": 0.0,
-                                                                    "Children": [
-                                                                        {
-                                                                            "Name": "Shadow",
-                                                                            "Active": true,
-                                                                            "Transform": {
-                                                                                "Active": true,
-                                                                                "Position": {
-                                                                                    "x": 1.0,
-                                                                                    "y": -25.0
-                                                                                },
-                                                                                "Scale": {
-                                                                                    "x": 1.0,
-                                                                                    "y": 1.0
-                                                                                },
-                                                                                "Rotation": 0.0
-                                                                            },
-                                                                            "Render": {
-                                                                                "Active": true,
-                                                                                "Width": 145.0,
-                                                                                "Height": 35.0,
-                                                                                "ZLayer": 4.0,
-                                                                                "Layer": 0,
-                                                                                "Texture": "Multi_Spritesheet",
-                                                                                "SpriteName": "MultiSheet",
-                                                                                "SpriteIndex": 55
-                                                                            }
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                "Render": {
-                                                                    "Active": true,
-                                                                    "Width": 275.0,
-                                                                    "Height": 300.0,
-                                                                    "ZLayer": 1.0,
-                                                                    "Layer": 0,
-                                                                    "Texture": "Multi_Spritesheet",
-                                                                    "SpriteName": "MultiSheet",
-                                                                    "SpriteIndex": 42
-                                                                }
-                                                            }
-                                                        ]
-                                                    },
-                                                    "RigidBody": {
-                                                        "Active": true,
-                                                        "Width": 100.0,
-                                                        "Height": 100.0,
-                                                        "Density": 10.0,
-                                                        "IsStatic": true
-                                                    },
-                                                    "Collider": {
-                                                        "Active": true,
-                                                        "ColliderLayer": {
-                                                            "Layer Name": "Default",
-                                                            "Layer ID": 0
-                                                        },
-                                                        "Shape": 0,
-                                                        "Width": 100.0,
-                                                        "Height": 100.0,
-                                                        "Radius": 45.0
-                                                    },
-                                                    "CPPScript": {
-                                                        "Active": true,
-                                                        "Script": "class LB::CPPSBramble"
-                                                    },
-                                                    "Animator": {
-                                                        "Default State": "Action_Squish",
-                                                        "Play On Awake": true,
-                                                        "Awake Delay": 0.0,
-                                                        "Repeating": true,
-                                                        "Should Cull": false,
-                                                        "Controller": "ActionController"
-                                                    }
-                                                },
-                                                {
                                                     "Name": "Bush",
                                                     "Active": true,
                                                     "Transform": {
@@ -13583,7 +13481,7 @@
                                                     "Transform": {
                                                         "Active": true,
                                                         "Position": {
-                                                            "x": 1351.310913,
+                                                            "x": 1493.603149,
                                                             "y": 416.895568
                                                         },
                                                         "Scale": {

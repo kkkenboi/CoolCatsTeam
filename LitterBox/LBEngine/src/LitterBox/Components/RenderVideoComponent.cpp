@@ -151,7 +151,6 @@ namespace LB
 	void VideoPlayerSystem::PlayCutscene(const char* video_file_name, const char* next_scene)
 	{
 		SCENEMANAGER->LoadScene("SceneCutscene");
-
 		scene_to_transition = next_scene;
 		load_video_file(video_file_name);
 		int channel = AUDIOMANAGER->PlaySound(video_file_name);
