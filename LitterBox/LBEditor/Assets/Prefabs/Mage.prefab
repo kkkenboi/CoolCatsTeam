@@ -138,8 +138,8 @@
                     "Active": true,
                     "Width": 90.0,
                     "Height": 20.0,
-                    "ZLayer": 5.0,
-                    "Layer": 0,
+                    "ZLayer": 7.0,
+                    "Layer": 1,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
                     "SpriteIndex": 55
