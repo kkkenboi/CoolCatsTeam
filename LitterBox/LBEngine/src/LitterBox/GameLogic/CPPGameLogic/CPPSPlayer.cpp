@@ -334,7 +334,8 @@ namespace LB
 			AUDIOMANAGER->SetChannelVolume(Channel, 0.7f);*/
 			Vec2<float> playerPos = GameObj->GetComponent<CPTransform>()->GetPosition();
 			playerPos.x += m_isFacingLeft ? -50.0f : 50.0f;
-
+			if(isSlippery)
+				ballObject->GetComponent<CPRigidBody>()->mFriction = 0.99f;
 			ballObject->GetComponent<CPTransform>()->SetPosition(playerPos);
 			//ballObject->GetComponent<CPTransform>()->SetScale(Vec2<float>{0.8f, 0.8f});
 			ballObject->GetComponent<CPPSPlayerGolfBall>()->SetBallUpgrade(GOMANAGER->FindGameObjectWithName("Upgrade Manager")->GetComponent<CPPSUpgradeManager>()->GetBallUpgrades());

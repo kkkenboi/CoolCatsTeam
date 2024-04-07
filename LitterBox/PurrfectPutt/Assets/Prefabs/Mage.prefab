@@ -80,8 +80,8 @@
                                             "Active": true,
                                             "Width": 115.0,
                                             "Height": 115.0,
-                                            "ZLayer": 7.099999,
-                                            "Layer": 1,
+                                            "ZLayer": 1.0,
+                                            "Layer": 0,
                                             "Texture": "Multi_Spritesheet",
                                             "SpriteName": "MultiSheet",
                                             "SpriteIndex": 2
@@ -93,8 +93,8 @@
                                 "Active": true,
                                 "Width": 170.0,
                                 "Height": 170.0,
-                                "ZLayer": 7.199999,
-                                "Layer": 1,
+                                "ZLayer": 2.0,
+                                "Layer": 0,
                                 "Texture": "Multi_Spritesheet",
                                 "SpriteName": "MultiSheet",
                                 "SpriteIndex": 0
@@ -138,8 +138,8 @@
                     "Active": true,
                     "Width": 90.0,
                     "Height": 20.0,
-                    "ZLayer": 7.3,
-                    "Layer": 1,
+                    "ZLayer": 5.0,
+                    "Layer": 0,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
                     "SpriteIndex": 55

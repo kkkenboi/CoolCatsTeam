@@ -96,8 +96,10 @@ namespace LB
 					GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->SetSpriteTexture(GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->spriteSheetName, 4);
 					GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->w = 125;
 					GOMANAGER->FindGameObjectWithName("Club")->GetComponent<CPRender>()->h = 125;
-
 					break;
+				case POTION:
+					GOMANAGER->FindGameObjectWithName("MainChar")->GetComponent<CPPSPlayer>()->isSlippery = true;
+
 				default:
 					//do nothing
 					break;
