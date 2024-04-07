@@ -92,9 +92,18 @@ namespace LB
 			//DebuggerLog("Upgrades are spawned, playing VFX...");
 			if (timerSpawn > 1.0 && switchAnim)
 			{
-				GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
-				GOMANAGER->FindGameObjectWithName("middleUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
-				GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
+				if (GOMANAGER->FindGameObjectWithName("leftUpgrade"))
+				{
+					GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
+				}
+				if (GOMANAGER->FindGameObjectWithName("middleUpgrade"))
+				{
+					GOMANAGER->FindGameObjectWithName("leftUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
+				}
+				if (GOMANAGER->FindGameObjectWithName("rightUpgrade"))
+				{
+					GOMANAGER->FindGameObjectWithName("rightUpgrade")->GetComponent<CPTransform>()->GetChild(2)->GetComponent<CPAnimator>()->PlayRepeat("Flag_Swaying");
+				}
 				switchAnim = false;
 			}
 		}
