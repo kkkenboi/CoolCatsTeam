@@ -60,7 +60,7 @@ namespace LB
 		mFSM.SetCurrentState("Idle");
 
 		//set stats on charger
-		GetHealth() = 8;
+		GetHealth() = 4;
 		GetSpeedMag() = 50000.f; //speed of movement
 
 		isChargerDead = false;
