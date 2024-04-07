@@ -47,8 +47,8 @@
                                 "Active": true,
                                 "Width": 135.0,
                                 "Height": 135.0,
-                                "ZLayer": 2.0,
-                                "Layer": 0,
+                                "ZLayer": 7.199999,
+                                "Layer": 1,
                                 "Texture": "Multi_Spritesheet",
                                 "SpriteName": "MultiSheet",
                                 "SpriteIndex": 26
@@ -58,6 +58,7 @@
                                 "Play On Awake": false,
                                 "Awake Delay": 0.0,
                                 "Repeating": false,
+                                "Should Cull": false,
                                 "Controller": "ChargerController"
                             }
                         }
@@ -68,6 +69,7 @@
                     "Play On Awake": false,
                     "Awake Delay": 0.0,
                     "Repeating": false,
+                    "Should Cull": false,
                     "Controller": "ActionController"
                 }
             },
@@ -97,8 +99,8 @@
                     "Active": true,
                     "Width": 120.0,
                     "Height": 120.0,
-                    "ZLayer": 1.0,
-                    "Layer": 0,
+                    "ZLayer": 7.099999,
+                    "Layer": 1,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
                     "SpriteIndex": 31
@@ -149,6 +151,7 @@
                     "Play On Awake": false,
                     "Awake Delay": 0.0,
                     "Repeating": false,
+                    "Should Cull": false,
                     "Controller": "ChargerController"
                 }
             },
@@ -182,6 +185,7 @@
                     "Play On Awake": false,
                     "Awake Delay": 0.0,
                     "Repeating": true,
+                    "Should Cull": false,
                     "Controller": "ChargerController"
                 }
             },
@@ -204,8 +208,8 @@
                     "Active": false,
                     "Width": 100.0,
                     "Height": 100.0,
-                    "ZLayer": 1.0,
-                    "Layer": 0,
+                    "ZLayer": 7.4,
+                    "Layer": 1,
                     "Texture": "VFXCompile_SpriteSheet",
                     "SpriteName": "VFXSheet",
                     "SpriteIndex": 0
@@ -250,8 +254,8 @@
                     "Active": true,
                     "Width": 120.0,
                     "Height": 30.0,
-                    "ZLayer": 3.0,
-                    "Layer": 0,
+                    "ZLayer": 7.3,
+                    "Layer": 1,
                     "Texture": "Multi_Spritesheet",
                     "SpriteName": "MultiSheet",
                     "SpriteIndex": 55
@@ -289,13 +293,15 @@
                     "Loop": false,
                     "is3D": false,
                     "Volume": 0.3,
-                    "Pitch": 1.0
+                    "Pitch": 1.0,
+                    "SoundType": 0
                 },
                 "Animator": {
                     "Default State": "None",
                     "Play On Awake": false,
                     "Awake Delay": 0.0,
                     "Repeating": false,
+                    "Should Cull": false,
                     "Controller": "ChargerController"
                 }
             }
@@ -328,6 +334,7 @@
         "Play On Awake": false,
         "Awake Delay": 0.0,
         "Repeating": false,
+        "Should Cull": false,
         "Controller": "No controller"
     }
 }
