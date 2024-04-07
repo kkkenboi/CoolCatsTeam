@@ -63,7 +63,7 @@ namespace LB
 		float mAttackRange{};
 		int mNumOfProjectile{3}, mNumOfProjectileCurrent{0}; //the number of projectile the player will shoot
 		float mProjCooldown{0.35f}, mProjCooldownCurrent{0.0f};
-		float mProjSpeed{800.0f};
+		float mProjSpeed{750.0f};
 
 		float mGotAttacked{0.5f}, mGotAttackedCooldown{};
 

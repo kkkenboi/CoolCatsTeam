@@ -65,6 +65,9 @@ namespace LB
 		//pointer to the pause menu
 		GameObject* PauseMenu{ nullptr };
 
+		// Mouse
+		GameObject* MouseCursor{ nullptr };
+
 		//for collision checking
 		CPCollider* coll{ nullptr };
 

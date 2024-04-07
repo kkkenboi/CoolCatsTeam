@@ -19,6 +19,7 @@
 #include "LitterBox/Engine/Input.h"
 #include "LitterBox/Physics/ColliderManager.h"
 #include "PauseMenuScript.h"
+#include "CPPSMouse.h"
 
 float LB::CPPSSettings::MVSliverPos{ 1110.f };
 float LB::CPPSSettings::SFXSliderPos{ 1110.f };
@@ -91,6 +92,11 @@ void LB::CPPSSettings::Start()
 			half_width = width * 0.45f;
 			collider_left = sscoords * 0.5f - width * 0.5f;
 		}
+		//for mouse collision
+		if (GO->GetName() == "MouseCursor")
+		{
+			MouseCursor = GO;
+		}
 	}
 
 	// Set pause menu pointer
@@ -112,11 +118,17 @@ void LB::CPPSSettings::Update()
 		//DebuggerLogWarning("Mouse 1 is pressed!");
 		//get the click position
 		LB::Vec2<float> mouse{ INPUT->GetMousePos() };
-		//map the mouse position to world position (Necessary because ImGUI position is different)
-		mouse.y = mouse.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
+		if (MouseCursor)
+		{
+			mouse = MouseCursor->GetComponent<CPPSMouse>()->GetMouseUI()->GetComponent<CPTransform>()->GetPosition();
+		}
+		else
+		{
+			mouse.y = mouse.y * -1.f + (float)WINDOWSSYSTEM->GetHeight();
 
-		mouse.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
-		mouse.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+			mouse.y *= 1080.f / (float)WINDOWSSYSTEM->GetHeight();
+			mouse.x *= 1920.f / (float)WINDOWSSYSTEM->GetWidth();
+		}
 		//get set of colliders that collides with mouse
 		auto test = COLLIDERS->OverlapCircle(mouse, 1.f);
 
@@ -128,6 +140,8 @@ void LB::CPPSSettings::Update()
 			if (coll != collider) {
 				continue;
 			}
+
+			DebuggerLogFormat("Collider Name: %s", collider->gameObj->GetName().c_str());
 			
 			//if player clicks on back button move the settings menu off screen
 			if (GameObj->GetName() == "SettingsMenuBack") {
@@ -152,7 +166,6 @@ void LB::CPPSSettings::Update()
 
 					// Set back to pause menuz
 					PauseMenu->GetComponent<PauseMenuScript>()->GetOnPauseMenu() = true;
-
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -203,7 +216,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuMV->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MVSliverPos = SettingsMenuMV->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetMasterVolume(Clamp((mousepos - collider_left) / width, 0.f, 1.f));
+					AUDIOMANAGER->SetMasterVolume(Clamp((mousepos - (collider_left + 5.f)) / (width - 5.f), 0.f, 1.f));
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -214,7 +227,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					SFXSliderPos = SettingsMenuSFX->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mousepos - collider_left) / width, 0.f, 1.f), SFX);
+					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mousepos - (collider_left + 5.f)) / (width - 5.f), 0.f, 1.f), SFX);
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
@@ -225,9 +238,7 @@ void LB::CPPSSettings::Update()
 					float y{ SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().y };
 					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>(mouse.x, y));
 					MusicSliderPos = SettingsMenuMusic->GetComponent<CPTransform>()->GetPosition().x;
-					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mousepos - collider_left) / width, 0.f, 1.f), BGM);
-
-					DebuggerLogFormat("Volume: %f\nMouseposition: %f\ncollider_left: %f\nwidth: %f", Clamp((mousepos - collider_left) / width, 0.f, 1.f), mousepos, collider_left, width);
+					AUDIOMANAGER->SetChannelGroupVolume(Clamp((mousepos - (collider_left + 5.f)) / (width - 5.f), 0.f, 1.f), BGM);
 				}
 				//------------------------------------------Move over the quit confirmation game objects----------------------------
 			}
