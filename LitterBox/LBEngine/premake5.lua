@@ -80,6 +80,13 @@ project "LBEngine"
         symbols "On"
         architecture "x86_64"
 
+    filter "configurations:Sandbox"
+        kind "StaticLib"
+        runtime "Debug" -- uses the debug Runtime Library
+        defines { "_MEMORY" }
+        symbols "On"
+        architecture "x86_64"
+
     filter "configurations:Engine"
         kind "StaticLib" -- Engine Library
         runtime "Release" -- uses the release Runtime Library

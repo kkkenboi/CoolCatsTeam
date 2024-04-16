@@ -9,6 +9,7 @@ workspace "LitterBox"
     {
         "Release",
         "Editor",
+        "Sandbox",
         "Engine",
         "Mono",
     }
@@ -82,6 +83,13 @@ group "Dependencies"
             defines { "_DEBUG" }
             symbols "On"
             architecture "x86_64"
+
+        filter "configurations:Sandbox"
+            kind "StaticLib"
+            runtime "Debug" -- uses the debug Runtime Library
+            defines { "_MEMORY" }
+            symbols "On"
+            architecture "x86_64"
     
         filter "configurations:Engine"
             kind "StaticLib" 
@@ -131,6 +139,13 @@ group "Dependencies"
             kind "StaticLib"
             runtime "Debug" -- uses the debug Runtime Library
             defines { "_DEBUG" }
+            symbols "On"
+            architecture "x86_64"
+
+        filter "configurations:Sandbox"
+            kind "StaticLib"
+            runtime "Debug" -- uses the debug Runtime Library
+            defines { "_MEMORY" }
             symbols "On"
             architecture "x86_64"
     
@@ -226,7 +241,14 @@ group "Dependencies"
             defines { "_DEBUG" }
             symbols "On"
             architecture "x86_64"
-    
+
+        filter "configurations:Sandbox"
+            kind "StaticLib"
+            runtime "Debug" -- uses the debug Runtime Library
+            defines { "_MEMORY" }
+            symbols "On"
+            architecture "x86_64"
+        
         filter "configurations:Engine"
             kind "None" 
             runtime "Release" -- uses the release Runtime Library
@@ -254,7 +276,20 @@ group "Editor"
     include "LBEditor"
 group ""
 
+group "Sandbox"
+    include "LBSandbox"
+group ""
+
 group "Game"
     include "PurrfectPutt"
 group ""
 
+
+--[[
+Premake Troubleshooting
+1. Check for missing links between projects
+2. Check for missing dependencies between projects
+3. Check if all affected files are edited properly
+4. Check if the file exists within the directory
+5. Delete .vs and bins and run again
+]]

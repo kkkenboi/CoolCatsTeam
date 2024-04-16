@@ -51,6 +51,11 @@ project "LBMono"
         symbols "On"
         architecture "x86_64"
 
+    filter "configurations:Sandbox"
+        runtime "Debug" -- uses the debug Runtime Library
+        symbols "On"
+        architecture "x86_64"
+
     filter "configurations:Engine"
         runtime "Release" -- uses the release Runtime Library
         optimize "On"

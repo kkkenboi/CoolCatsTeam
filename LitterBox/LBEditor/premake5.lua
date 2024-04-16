@@ -72,6 +72,13 @@ project "LBEditor"
         symbols "On"
         architecture "x86_64"
 
+    filter "configurations:Sandbox"
+        kind "ConsoleApp" -- Outputs a console
+        runtime "Debug" -- uses the debug Runtime Library
+        defines { "_MEMORY" }
+        symbols "On"
+        architecture "x86_64"
+
     filter "configurations:Engine"
         kind "None" 
         runtime "Release" -- uses the release Runtime Library

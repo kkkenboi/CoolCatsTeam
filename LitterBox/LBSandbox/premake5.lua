@@ -1,4 +1,4 @@
-project "PurrfectPutt"
+project "LBSandbox"
     staticruntime "On"
 
     language "C++"
@@ -11,19 +11,22 @@ project "PurrfectPutt"
 
     files
     {
+        "./**.cs",
         "./**.json",
-        "**.cpp"
+        "src/**.h",
+        "src/**.cpp",
     }
 
     -- Includes for any additional dependencies for this project
     includedirs
     {
         "%{wks.location}/LBEngine/src",
-        "%{wks.location}/PurrfectPutt",
+        "%{wks.location}/LBEditor/src",
+        "%{wks.location}/LBSandbox/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
-        -- "%{IncludeDir.ImGui}",
+        "%{IncludeDir.ImGui}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.FreeType}",
@@ -35,38 +38,39 @@ project "PurrfectPutt"
 
     postbuildcommands
     {
+        "xcopy \"%{wks.location}LBEditor\\Assets\" \"$(TargetDir)Assets\" /Y /I /E",
+        "xcopy \"%{wks.location}LBEditor\\Editor\" \"$(TargetDir)Editor\" /Y /I /E",
+        "xcopy \"%{wks.location}LBEditor\\imgui.ini\" \"$(TargetDir)\" /Y /I /E",
+        "xcopy \"%{wks.location}LBEditor\\CSharpAssembly.dll\" \"$(TargetDir)\" /Y /I /E",
 
-        "xcopy \"%{wks.location}LBEditor\\Assets\" \"%{wks.location}PurrfectPutt\\Assets\" /Y /I /E",
-        "xcopy \"%{wks.location}LBEditor\\Editor\" \"%{wks.location}PurrfectPutt\\Library\" /Y /I /E",
-        "xcopy \"%{wks.location}PurrfectPutt\\Assets\" \"$(TargetDir)Assets\" /Y /I /E",
-        "xcopy \"%{wks.location}PurrfectPutt\\Library\" \"$(TargetDir)Library\" /Y /I /E",
-        "xcopy \"%{wks.location}PurrfectPutt\\CSharpAssembly.dll\" \"$(TargetDir)\" /Y /I /E",
-
-        "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/PurrfectPutt\"",
-        "{COPYFILE} \"%{wks.location}dependencies/FreeType/objs/freetype.dll\" \"%{wks.location}bin/" .. outputDir .. "/PurrfectPutt\"",
-        "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\PurrfectPutt\" /y",
-        "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\PurrfectPutt\\Library\\mono\\4.5\" /y /i /s",
-        "xcopy /s /y /i \"%{wks.location}dependencies\\FFmpeg\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\PurrfectPutt\"",
+        "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBSandbox\"",
+        "{COPYFILE} \"%{wks.location}dependencies/FreeType/objs/freetype.dll\" \"%{wks.location}bin/" .. outputDir .. "/LBSandbox\"",
+        "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\LBSandbox\" /y",
+        "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\LBSandbox\\Library\\mono\\4.5\" /y /i /s",
+        "xcopy /s /y /i \"%{wks.location}dependencies\\FFmpeg\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\LBSandbox\"",
     }
 
-    -- Link to our engine library
+    -- Under references, this checks the project dependencies
     links
     {
         "LBEngine",
+        "LBEditor",
+        "LBMono",
     }
 
     filter "system:windows"
         systemversion "latest"
 
     filter "configurations:Release"
-        kind "WindowedApp" 
+        kind "None" 
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"
 
     filter "configurations:Editor"
-        kind "None"
+        kind "ConsoleApp" -- Outputs a console
         runtime "Debug" -- uses the debug Runtime Library
+        defines { "_MEMORY" }
         symbols "On"
         architecture "x86_64"
 
@@ -78,13 +82,14 @@ project "PurrfectPutt"
         architecture "x86_64"
 
     filter "configurations:Engine"
-        kind "None"
+        kind "None" 
         runtime "Release" -- uses the release Runtime Library
+        defines { "_MEMORY" }
         optimize "On"
         architecture "x86_64"
 
     filter "configurations:Mono"
-        kind "None"
+        kind "None" 
         runtime "Release" -- uses the release Runtime Library
         optimize "On"
         architecture "x86_64"
