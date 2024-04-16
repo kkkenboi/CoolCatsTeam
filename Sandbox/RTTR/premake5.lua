@@ -33,7 +33,8 @@ project "RTTR"
         "%{IncludeDir.FMOD}",
         "%{IncludeDir.RapidJSON}",
         "%{IncludeDir.Mono}",
-        "%{IncludeDir.FFmpeg}"
+        "%{IncludeDir.FFmpeg}",
+        "%{IncludeDir.RTTR}"
     }
 
     postbuildcommands
