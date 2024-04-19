@@ -1,4 +1,4 @@
-#include <rttr/registration>
+#include <registration>
 #include <iostream>
 using namespace rttr;
 
@@ -17,10 +17,15 @@ int main()
 
     type t = type::get<MyStruct>();
     for (auto& prop : t.get_properties())
-        std::cout << "name: " << prop.get_name();
+        std::cout << "name: " << prop.get_name() << std::endl;
 
     for (auto& meth : t.get_methods())
-        std::cout << "name: " << meth.get_name();
+        std::cout << "name: " << meth.get_name() << std::endl;
+
+    while (1)
+    {
+
+    }
 
     return 0;
 }

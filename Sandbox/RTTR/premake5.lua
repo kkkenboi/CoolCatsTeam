@@ -1,6 +1,4 @@
 project "RTTR"
-    staticruntime "On"
-
     language "C++"
     cppdialect "C++20"
     warnings "Extra" -- Set warnings level to 4 for this project
@@ -20,9 +18,7 @@ project "RTTR"
     -- Includes for any additional dependencies for this project
     includedirs
     {
-        "%{wks.location}/LBEngine/src",
-        "%{wks.location}/LBEditor/src",
-        "%{wks.location}/LBSandbox/src",
+        "%{wks.location}/RTTR/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
@@ -34,7 +30,7 @@ project "RTTR"
         "%{IncludeDir.RapidJSON}",
         "%{IncludeDir.Mono}",
         "%{IncludeDir.FFmpeg}",
-        "%{IncludeDir.RTTR}"
+        "%{IncludeDir.RTTRLib}"
     }
 
     postbuildcommands
@@ -51,9 +47,17 @@ project "RTTR"
         "xcopy /s /y /i \"%{wks.location}dependencies\\FFmpeg\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\RTTR\"",
     }
 
+    
+    libdirs
+    {
+        "%{wks.location}/dependencies/RTTR/lib/",
+    }
+
     -- Under references, this checks the project dependencies
+    -- It also links libraries
     links
     {
+        "librttr_core_d.lib"
     }
 
     filter "system:windows"
@@ -61,6 +65,7 @@ project "RTTR"
 
     filter "configurations:RTTR"
         kind "ConsoleApp" -- Outputs a console
+        staticruntime "off" -- Multi-Threaded
         runtime "Debug" -- uses the debug Runtime Library
         defines { "_MEMORY" }
         symbols "On"
@@ -68,7 +73,8 @@ project "RTTR"
 
     filter "configurations:Mono"
         kind "ConsoleApp" -- Outputs a console
+        staticruntime "off"
         runtime "Debug" -- uses the debug Runtime Library
+        optimize "On"
         defines { "_MEMORY" }
-        symbols "On"
         architecture "x86_64"

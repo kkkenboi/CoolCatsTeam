@@ -37,7 +37,7 @@ IncludeDir["FMOD"]          = "%{wks.location}/dependencies/FMOD/include"
 IncludeDir["RapidJSON"]     = "%{wks.location}/dependencies/RapidJSON/include"
 IncludeDir["Mono"]          = "%{wks.location}/dependencies/Mono/include/mono-2.0"
 IncludeDir["FFmpeg"]        = "%{wks.location}/dependencies/FFmpeg/include"
-IncludeDir["RTTR"]          = "%{wks.location}/dependencies/RTTR/**"
+IncludeDir["RTTRLib"]       = "%{wks.location}/dependencies/RTTR/**"
 
 -- Projects 
 group "Dependencies"
@@ -108,7 +108,7 @@ group "Dependencies"
         filter "system:windows"
             systemversion "latest"
     
-            filter "configurations:RTTR"
+        filter "configurations:RTTR"
             kind "StaticLib"
             runtime "Debug" -- uses the debug Runtime Library
             defines { "_DEBUG" }
@@ -189,7 +189,7 @@ group "Dependencies"
         filter "system:windows"
             systemversion "latest"
 
-            filter "configurations:RTTR"
+        filter "configurations:RTTR"
             kind "StaticLib"
             runtime "Debug" -- uses the debug Runtime Library
             defines { "_DEBUG" }
