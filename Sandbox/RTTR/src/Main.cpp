@@ -1,4 +1,4 @@
-#include <registration>
+#include <rttr/registration>
 #include <iostream>
 using namespace rttr;
 

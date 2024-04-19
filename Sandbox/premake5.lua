@@ -37,7 +37,7 @@ IncludeDir["FMOD"]          = "%{wks.location}/dependencies/FMOD/include"
 IncludeDir["RapidJSON"]     = "%{wks.location}/dependencies/RapidJSON/include"
 IncludeDir["Mono"]          = "%{wks.location}/dependencies/Mono/include/mono-2.0"
 IncludeDir["FFmpeg"]        = "%{wks.location}/dependencies/FFmpeg/include"
-IncludeDir["RTTRLib"]       = "%{wks.location}/dependencies/RTTR/**"
+IncludeDir["RTTRLib"]       = "%{wks.location}/dependencies/RTTR/include"
 
 -- Projects 
 group "Dependencies"

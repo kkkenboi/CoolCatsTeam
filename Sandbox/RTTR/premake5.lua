@@ -45,19 +45,20 @@ project "RTTR"
         "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\RTTR\" /y",
         "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\RTTR\\Library\\mono\\4.5\" /y /i /s",
         "xcopy /s /y /i \"%{wks.location}dependencies\\FFmpeg\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\RTTR\"",
+        "xcopy /s /y /i \"%{wks.location}dependencies\\RTTR\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\RTTR\"",
     }
 
     
     libdirs
     {
-        "%{wks.location}/dependencies/RTTR/lib/",
+        "%{wks.location}/dependencies/RTTR/lib",
     }
 
     -- Under references, this checks the project dependencies
     -- It also links libraries
     links
     {
-        "librttr_core_d.lib"
+        "rttr_core.lib",
     }
 
     filter "system:windows"
@@ -65,16 +66,16 @@ project "RTTR"
 
     filter "configurations:RTTR"
         kind "ConsoleApp" -- Outputs a console
-        staticruntime "off" -- Multi-Threaded
-        runtime "Debug" -- uses the debug Runtime Library
+        staticruntime "on" -- Multi-Threaded
+        runtime "Release" -- uses the release Runtime Library
         defines { "_MEMORY" }
         symbols "On"
         architecture "x86_64"
 
     filter "configurations:Mono"
         kind "ConsoleApp" -- Outputs a console
-        staticruntime "off"
-        runtime "Debug" -- uses the debug Runtime Library
+        staticruntime "on"
+        runtime "Release" -- uses the release Runtime Library
         optimize "On"
         defines { "_MEMORY" }
         architecture "x86_64"
