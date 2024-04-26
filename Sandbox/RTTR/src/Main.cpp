@@ -1,31 +1,62 @@
-#include <rttr/registration>
-#include <iostream>
-using namespace rttr;
 
-struct MyStruct { MyStruct() {}; void func(double) {}; int data; };
+#include "App/Core/Application.h"
+#if EDITOR_MODE
+#include "Editor/Core/Editor.h"
+#endif
 
-RTTR_REGISTRATION
+void LaunchApp()
 {
-    registration::class_<MyStruct>("MyStruct")
-         .constructor<>()
-         .property("data", &MyStruct::data)
-         .method("func", &MyStruct::func);
+    auto app = std::make_unique<LB::Application>();
+
+    app->CreateContext();
+
+    app->InitializeEngine();
+
+    while (app->IsRunning())
+    {
+        app->NewFrame();
+
+        app->UpdateEngine();
+
+        app->EndFrame();
+    }
+
+    app->DestroyContext();
 }
+
+#if EDITOR_MODE
+void LaunchEditor()
+{
+    auto editor = std::make_unique<LB::Editor>();
+    auto app = std::make_unique<LB::Application>();
+
+    app->CreateContext();
+    editor->CreateContext();
+
+    app->InitializeEngine();
+    editor->InitializeEditor();
+
+    while (app->IsRunning())
+    {
+        app->NewFrame();
+
+        app->UpdateEngine();
+        editor->UpdateEditor();
+
+        app->EndFrame();
+    }
+
+    app->DestroyContext();
+    editor->DestroyContext();
+}
+#endif
 
 int main()
 {
-
-    type t = type::get<MyStruct>();
-    for (auto& prop : t.get_properties())
-        std::cout << "name: " << prop.get_name() << std::endl;
-
-    for (auto& meth : t.get_methods())
-        std::cout << "name: " << meth.get_name() << std::endl;
-
-    while (1)
-    {
-
-    }
-
+#if EDITOR_MODE
+    LaunchEditor();
+#else
+    LaunchApp();
+#endif
     return 0;
 }

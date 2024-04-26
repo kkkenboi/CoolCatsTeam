@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <string>
+#include "rttr/registration.h"
 
 namespace LB
 {
@@ -11,8 +11,6 @@ namespace LB
 		virtual void Initialize() = 0;
 
 		virtual void Shutdown() = 0;
-
-		std::string m_Name{ "Unnamed System" };
 	};
 
 	class IFixedUpdateSystem : public ISystem

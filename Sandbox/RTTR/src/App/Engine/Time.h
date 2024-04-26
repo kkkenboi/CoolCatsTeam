@@ -1,8 +1,7 @@
 
 #pragma once
 
-#include "rttr/registration.h"
-#include "Core/ISystem.h"
+#include "App/Core/ISystem.h"
 
 namespace LB
 {
