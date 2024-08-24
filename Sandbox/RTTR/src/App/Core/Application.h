@@ -1,3 +1,17 @@
+/*!************************************************************************
+ \file				Application.h
+ \author(s)
+ \par DP email(s):
+ \par Course:
+ \date
+ \brief
+
+ This file contains
+
+ Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
 
 #pragma once
 
@@ -16,13 +30,13 @@ namespace LB
 
 		void EndFrame();
 
-		void InitializeEngine() { m_engine->Initialize(); }
+		inline void InitializeEngine() { m_engine->Initialize(); }
 
-		void UpdateEngine() { m_engine->Update(); }
+		inline void UpdateEngine() { m_engine->Update(); }
 
-		bool IsRunning() const { return m_running; }
+		inline bool IsRunning() const { return m_running; }
 
-		void Quit() { m_running = false; }
+		inline void Quit() { m_running = false; }
 
 	private:
 		bool m_running;

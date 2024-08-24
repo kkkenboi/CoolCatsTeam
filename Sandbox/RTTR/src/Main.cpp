@@ -1,34 +1,28 @@
+/*!************************************************************************
+ \file				Main.cpp
+ \author(s)
+ \par DP email(s):
+ \par Course:
+ \date
+ \brief
 
-#include "App/Core/Application.h"
+ This file contains
+
+ Copyright (C) 2024 DigiPen Institute of Technology. Reproduction or
+ disclosure of this file or its contents without the prior written consent
+ of DigiPen Institute of Technology is prohibited.
+**************************************************************************/
+
 #if EDITOR_MODE
 #include "Editor/Core/Editor.h"
 #endif
-
-void LaunchApp()
-{
-    auto app = std::make_unique<LB::Application>();
-
-    app->CreateContext();
-
-    app->InitializeEngine();
-
-    while (app->IsRunning())
-    {
-        app->NewFrame();
-
-        app->UpdateEngine();
-
-        app->EndFrame();
-    }
-
-    app->DestroyContext();
-}
+#include "App/Core/Application.h"
 
 #if EDITOR_MODE
 void LaunchEditor()
 {
-    auto editor = std::make_unique<LB::Editor>();
-    auto app = std::make_unique<LB::Application>();
+    auto editor{ std::make_unique<LB::Editor>() };
+    auto app{ std::make_unique<LB::Application>() };
 
     app->CreateContext();
     editor->CreateContext();
@@ -48,6 +42,26 @@ void LaunchEditor()
 
     app->DestroyContext();
     editor->DestroyContext();
+}
+#else
+void LaunchApp()
+{
+    auto app{ std::make_unique<LB::Application>() };
+
+    app->CreateContext();
+
+    app->InitializeEngine();
+
+    while (app->IsRunning())
+    {
+        app->NewFrame();
+
+        app->UpdateEngine();
+
+        app->EndFrame();
+    }
+
+    app->DestroyContext();
 }
 #endif
 
