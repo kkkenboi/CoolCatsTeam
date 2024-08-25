@@ -1,5 +1,5 @@
 /*!************************************************************************
- \file				Time.h
+ \file				ISystem.cpp
  \author(s)
  \par DP email(s):
  \par Course:
@@ -13,19 +13,20 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-#pragma once
-
-#include "App/Core/ISystem.h"
+#include "ISystem.h"
 
 namespace LB
 {
-	class Time : public ISystem
+	RTTR_REGISTRATION
 	{
-	public:
-		void Initialize() override;
+		rttr::registration::class_<ISystem>("ISystem")
+			.method("Initialize", &ISystem::Initialize)
+			.method("Shutdown", &ISystem::Shutdown);
 
-		void Shutdown() override;
+		rttr::registration::class_<IFixedUpdateSystem>("IFixedUpdateSystem")
+			.method("FixedUpdate", &IFixedUpdateSystem::FixedUpdate);
 
-		RTTR_ENABLE(ISystem)
-	};
+		rttr::registration::class_<IUpdateSystem>("IUpdateSystem")
+			.method("Update", &IUpdateSystem::Update);
+	}
 }

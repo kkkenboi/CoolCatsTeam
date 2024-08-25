@@ -1,5 +1,5 @@
 /*!************************************************************************
- \file				Time.h
+ \file				Application.cpp
  \author(s)
  \par DP email(s):
  \par Course:
@@ -13,19 +13,30 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-#pragma once
+#include "Application.h"
 
-#include "App/Core/ISystem.h"
-
-namespace LB
+namespace LB 
 {
-	class Time : public ISystem
+	void LB::Application::CreateContext() 
 	{
-	public:
-		void Initialize() override;
+		m_running = true;
 
-		void Shutdown() override;
+		m_engine = std::make_shared<LBEngine>();
+		m_engine->Create();
+	}
 
-		RTTR_ENABLE(ISystem)
-	};
+	void LB::Application::DestroyContext() 
+	{
+
+	}
+
+	void LB::Application::NewFrame() 
+	{
+
+	}
+
+	void LB::Application::EndFrame() 
+	{
+
+	}
 }

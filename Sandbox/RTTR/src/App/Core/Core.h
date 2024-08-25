@@ -34,6 +34,6 @@ namespace LB
 		void Destroy();
 
 	private:
-		std::vector<std::shared_ptr<ISystem>> m_systems, m_updateSystems, m_fixedUpdateSystems;
+		std::vector<std::shared_ptr<ISystem>> m_systems{}, m_updateSystems{}, m_fixedUpdateSystems{};
 	};
 }

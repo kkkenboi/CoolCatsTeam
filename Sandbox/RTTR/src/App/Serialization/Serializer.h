@@ -25,12 +25,7 @@ namespace LB
 		void Initialize() override;
 
 		void Shutdown() override;
-	};
 
-	RTTR_REGISTRATION
-	{
-		rttr::registration::class_<Serializer>("Serializer")
-			.method("Initialize", &Serializer::Initialize)
-			.method("Shutdown", &Serializer::Shutdown);
-	}
+		RTTR_ENABLE(ISystem)
+	};
 }

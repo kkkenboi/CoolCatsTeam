@@ -16,6 +16,7 @@
 #pragma once
 
 #include "rttr/registration.h"
+#include "rttr/type"
 
 namespace LB
 {
@@ -27,15 +28,23 @@ namespace LB
 		virtual void Shutdown() = 0;
 
 		virtual ~ISystem() = default;
+
+		RTTR_ENABLE()
 	};
 
 	class IFixedUpdateSystem : public ISystem
 	{
+	public:
 		virtual void FixedUpdate() = 0;
+
+		RTTR_ENABLE(ISystem)
 	};
 
 	class IUpdateSystem : public ISystem
 	{
+	public:
 		virtual void Update() = 0;
+
+		RTTR_ENABLE(ISystem)
 	};
 }

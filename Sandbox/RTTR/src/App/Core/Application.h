@@ -39,7 +39,7 @@ namespace LB
 		inline void Quit() { m_running = false; }
 
 	private:
-		bool m_running;
+		bool m_running{ false };
 
 		std::shared_ptr<LBEngine> m_engine;
 	};

@@ -59,6 +59,9 @@ void LaunchApp()
         app->UpdateEngine();
 
         app->EndFrame();
+
+        // DEBUG : TO REMOVE
+        app->Quit();
     }
 
     app->DestroyContext();

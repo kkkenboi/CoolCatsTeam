@@ -1,5 +1,5 @@
 /*!************************************************************************
- \file				Time.h
+ \file				Editor.cpp
  \author(s)
  \par DP email(s):
  \par Course:
@@ -13,19 +13,27 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-#pragma once
-
-#include "App/Core/ISystem.h"
+#include "Editor.h"
 
 namespace LB
 {
-	class Time : public ISystem
+	void Editor::CreateContext()
 	{
-	public:
-		void Initialize() override;
+		
+	}
 
-		void Shutdown() override;
+	void Editor::DestroyContext()
+	{
 
-		RTTR_ENABLE(ISystem)
-	};
+	}
+
+	void Editor::InitializeEditor()
+	{
+
+	}
+
+	void Editor::UpdateEditor()
+	{
+
+	}
 }

@@ -1,5 +1,5 @@
 /*!************************************************************************
- \file				Time.h
+ \file				Serializer.cpp
  \author(s)
  \par DP email(s):
  \par Course:
@@ -13,19 +13,24 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-#pragma once
-
-#include "App/Core/ISystem.h"
+#include "Serializer.h"
 
 namespace LB
 {
-	class Time : public ISystem
+	RTTR_REGISTRATION
 	{
-	public:
-		void Initialize() override;
+		rttr::registration::class_<Serializer>("LB::Serializer")
+			.method("Initialize", &Serializer::Initialize)
+			.method("Shutdown", &Serializer::Shutdown);
+	}
 
-		void Shutdown() override;
+	void Serializer::Initialize()
+	{
 
-		RTTR_ENABLE(ISystem)
-	};
+	}
+
+	void Serializer::Shutdown()
+	{
+
+	}
 }
