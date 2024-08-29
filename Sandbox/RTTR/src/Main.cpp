@@ -24,9 +24,6 @@ void LaunchEditor()
     auto editor{ std::make_unique<LB::Editor>() };
     auto app{ std::make_unique<LB::Application>() };
 
-    app->CreateContext();
-    editor->CreateContext();
-
     app->InitializeEngine();
     editor->InitializeEditor();
 
@@ -40,15 +37,13 @@ void LaunchEditor()
         app->EndFrame();
     }
 
-    app->DestroyContext();
-    editor->DestroyContext();
+    editor->ShutdownEditor();
+    app->ShutdownEngine();
 }
 #else
 void LaunchApp()
 {
     auto app{ std::make_unique<LB::Application>() };
-
-    app->CreateContext();
 
     app->InitializeEngine();
 
@@ -64,7 +59,7 @@ void LaunchApp()
         app->Quit();
     }
 
-    app->DestroyContext();
+    app->ShutdownEngine();
 }
 #endif
 

@@ -25,13 +25,11 @@ namespace LB
 	class Editor
 	{
 	public:
-		void CreateContext();
-
-		void DestroyContext();
-
 		void InitializeEditor();
 
 		void UpdateEditor();
+
+		void ShutdownEditor();
 
 	private:
 		std::vector<std::shared_ptr<IWindow>> m_windows;

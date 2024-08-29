@@ -25,13 +25,13 @@ namespace LB
 	class LBEngine
 	{
 	public:
-		void Create();
+		LBEngine();
 
 		void Initialize();
 
 		void Update();
 
-		void Destroy();
+		void Shutdown();
 
 	private:
 		std::vector<std::shared_ptr<ISystem>> m_systems{}, m_updateSystems{}, m_fixedUpdateSystems{};

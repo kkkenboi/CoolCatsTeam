@@ -17,22 +17,17 @@
 
 namespace LB
 {
-	void Editor::CreateContext()
-	{
-		
-	}
-
-	void Editor::DestroyContext()
-	{
-
-	}
-
 	void Editor::InitializeEditor()
 	{
 
 	}
 
 	void Editor::UpdateEditor()
+	{
+
+	}
+
+	void Editor::ShutdownEditor()
 	{
 
 	}

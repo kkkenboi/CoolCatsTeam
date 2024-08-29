@@ -20,7 +20,7 @@
 
 namespace LB
 {
-    void LBEngine::Create()
+    LBEngine::LBEngine()
     {
         // Initialize all systems
         for (auto& type : rttr::type::get_types()) 
@@ -57,7 +57,7 @@ namespace LB
 
     }
 
-    void LBEngine::Destroy()
+    void LBEngine::Shutdown()
     {
 
     }

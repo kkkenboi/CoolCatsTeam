@@ -22,17 +22,17 @@ namespace LB
 	class Application
 	{
 	public:
-		void CreateContext();
-
-		void DestroyContext();
-
-		void NewFrame();
-
-		void EndFrame();
+		Application();
 
 		inline void InitializeEngine() { m_engine->Initialize(); }
 
 		inline void UpdateEngine() { m_engine->Update(); }
+
+		inline void ShutdownEngine() { m_engine->Shutdown(); }
+
+		void NewFrame();
+
+		void EndFrame();
 
 		inline bool IsRunning() const { return m_running; }
 

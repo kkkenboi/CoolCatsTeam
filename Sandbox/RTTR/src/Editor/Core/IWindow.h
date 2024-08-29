@@ -16,6 +16,7 @@
 #pragma once
 
 #include "rttr/registration.h"
+#include "rttr/type"
 
 namespace LB
 {
@@ -27,5 +28,7 @@ namespace LB
 		virtual void Update() = 0;
 
 		virtual void Shutdown() = 0;
+
+		RTTR_ENABLE()
 	};
 }

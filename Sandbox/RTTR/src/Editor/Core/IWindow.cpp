@@ -1,5 +1,5 @@
 /*!************************************************************************
- \file				Application.cpp
+ \file				IWindow.cpp
  \author(s)
  \par DP email(s):
  \par Course:
@@ -13,25 +13,15 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
-#include "Application.h"
+#include "IWindow.h"
 
-namespace LB 
+namespace LB
 {
-	LB::Application::Application()
+	RTTR_REGISTRATION
 	{
-		m_running = true;
-
-		m_engine = std::make_shared<LBEngine>();
-		m_engine->Create();
-	}
-
-	void LB::Application::NewFrame() 
-	{
-
-	}
-
-	void LB::Application::EndFrame() 
-	{
-
+		rttr::registration::class_<IWindow>("IWindow")
+			.method("Initialize", &IWindow::Initialize)
+			.method("Update", &IWindow::Update)
+			.method("Shutdown", &IWindow::Shutdown);
 	}
 }
