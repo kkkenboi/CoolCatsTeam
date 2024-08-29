@@ -22,7 +22,6 @@ namespace LB
 		m_running = true;
 
 		m_engine = std::make_shared<LBEngine>();
-		m_engine->Create();
 	}
 
 	void LB::Application::NewFrame() 

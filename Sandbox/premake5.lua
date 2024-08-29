@@ -2,13 +2,14 @@
 workspace "Sandbox"
     
     architecture "x86_64"
-    startproject "RTTR"        -- Set startup project
+    startproject "Editor"        -- Set startup project
     toolset "v143"               -- Toolset v143 = Visual Studio 2022
 
     configurations
     {
-        "RTTR",
-        "Mono",
+        "Editor-Release",
+        "Editor-Debug",
+        "Game-Release"
     }
 
     platforms
@@ -38,18 +39,37 @@ IncludeDir["RapidJSON"]     = "%{wks.location}/dependencies/RapidJSON/include"
 IncludeDir["Mono"]          = "%{wks.location}/dependencies/Mono/include/mono-2.0"
 IncludeDir["FFmpeg"]        = "%{wks.location}/dependencies/FFmpeg/include"
 IncludeDir["RTTRLib"]       = "%{wks.location}/dependencies/RTTR/include"
+IncludeDir["RTTRLibD"]      = "%{wks.location}/dependencies/RTTR/includeDebug"
+
+-- Add own defines as needed after the function
+-- Common ReleaseLib Config Settings
+function CommonReleaseLibConfigSettings()
+    kind "StaticLib" 
+    staticruntime "on"
+    language "C++"
+
+    runtime "Release" -- uses the release Runtime Library
+    optimize "On"
+    architecture "x86_64"
+end
+
+-- Common DebugLib Config Settings
+function CommonDebugLibConfigSettings()
+    kind "StaticLib" 
+    staticruntime "on"
+    language "C++"
+
+    runtime "Debug" -- uses the debug Runtime Library
+    symbols "On"
+    architecture "x86_64"
+end
+
 
 -- Projects 
 group "Dependencies"
 -- Dependencies that are not here are header-only files
     project "GLFW"
         location "dependencies/GLFW"
-        staticruntime "on"
-
-        kind "StaticLib"
-
-        language "C"
-
         targetdir ("%{wks.location}/bin/" .. outputDir .. "/%{prj.name}")
         objdir ("%{wks.location}/bin-int/" .. outputDir .. "/%{prj.name}")
 
@@ -67,29 +87,17 @@ group "Dependencies"
             {
                 "_GLFW_WIN32",
                 "_CRT_SECURE_NO_WARNINGS"
-            }
+            } 
 
-        filter "configurations:RTTR"
-            kind "StaticLib"
-            runtime "Debug" -- uses the debug Runtime Library
-            defines { "_DEBUG" }
-            symbols "On"
-            architecture "x86_64"
-    
-        filter "configurations:Mono"
-            kind "StaticLib"
-            runtime "Debug" -- uses the debug Runtime Library
-            defines { "_DEBUG" }
-            symbols "On"
-            architecture "x86_64"
+
+        filter "configurations:Editor-Release or configurations:Game-Release"
+            CommonReleaseLibConfigSettings()
+        
+        filter "configurations:Editor-Debug"
+            CommonDebugLibConfigSettings()
 
     project "Glad"
         location "dependencies/Glad"
-        kind "StaticLib"
-        staticruntime "on"
-    
-        language "C"
-    
         targetdir ("bin/" .. outputDir .. "/%{prj.name}")
         objdir ("bin-int/" .. outputDir .. "/%{prj.name}")
     
@@ -108,19 +116,11 @@ group "Dependencies"
         filter "system:windows"
             systemversion "latest"
     
-        filter "configurations:RTTR"
-            kind "StaticLib"
-            runtime "Debug" -- uses the debug Runtime Library
-            defines { "_DEBUG" }
-            symbols "On"
-            architecture "x86_64"
-    
-        filter "configurations:Mono"
-            kind "StaticLib"
-            runtime "Debug" -- uses the debug Runtime Library
-            defines { "_DEBUG" }
-            symbols "On"
-            architecture "x86_64"
+        filter "configurations:Editor-Release or configurations:Game-Release"
+            CommonReleaseLibConfigSettings()
+        
+        filter "configurations:Editor-Debug"
+            CommonDebugLibConfigSettings()
         
     project "ImGui"
         location "dependencies/ImGui"
@@ -188,30 +188,26 @@ group "Dependencies"
 
         filter "system:windows"
             systemversion "latest"
+            
+        filter "configurations:Editor-Release or configurations:Game-Release"
+            CommonReleaseLibConfigSettings()
+        
+        filter "configurations:Editor-Debug"
+            CommonDebugLibConfigSettings()
 
-        filter "configurations:RTTR"
-            kind "StaticLib"
-            runtime "Debug" -- uses the debug Runtime Library
-            defines { "_DEBUG" }
-            symbols "On"
-            architecture "x86_64"
-    
-        filter "configurations:Mono"
-            kind "StaticLib"
-            runtime "Debug" -- uses the debug Runtime Library
-            defines { "_DEBUG" }
-            symbols "On"
-            architecture "x86_64"
-    
 group ""
 
-group "RTTR"
-    include "RTTR"
+group "EngineProject"
+    include "Engine"
 group ""
 
-group "Mono"
-    include "Mono"
-group ""
+-- group "EditorProject"
+--     include "Editor"
+-- group ""
+
+-- group "GameProject"
+--     include "Game"
+-- group ""
 
 --[[
 Premake Troubleshooting

@@ -13,6 +13,8 @@
  of DigiPen Institute of Technology is prohibited.
 **************************************************************************/
 
+#include <iostream>
+
 #if EDITOR_MODE
 #include "Editor/Core/Editor.h"
 #endif
@@ -65,10 +67,14 @@ void LaunchApp()
 
 int main()
 {
-#if EDITOR_MODE
-    LaunchEditor();
-#else
-    LaunchApp();
+#if _EDITOR_RELEASE
+    #if EDITOR_MODE
+        LaunchEditor();
+    #else
+        LaunchApp();
+    #endif
+#elif _EDITOR_DEBUG
+    std::cout << "Testing defines\n";
 #endif
     return 0;
 }
