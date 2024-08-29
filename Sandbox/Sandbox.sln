@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Executable", "Executable", "{2EFA00BB-1AF3-1F0D-4325-05922F7DFF18}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Executable", "Executable\Executable.vcxproj", "{07FDEFFA-F3B4-3148-5CBC-0AA44893CC38}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{53E47842-3FC8-3998-A828-34EB942B241A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW", "dependencies\GLFW\GLFW.vcxproj", "{154B857C-0182-860D-AA6E-6C109684020F}"
@@ -9,7 +13,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Glad", "dependencies\Glad\G
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "dependencies\ImGui\ImGui.vcxproj", "{C0FF640D-2C14-8DBE-F595-301E616989EF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EngineProject", "EngineProject", "{39D2539F-A533-31AD-2EA1-775F9A01686C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{8249BEE1-6EAC-4D86-1732-863C03741909}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}"
 EndProject
@@ -20,6 +24,12 @@ Global
 		Game-Release|x64 = Game-Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07FDEFFA-F3B4-3148-5CBC-0AA44893CC38}.Editor-Debug|x64.ActiveCfg = Editor-Debug|x64
+		{07FDEFFA-F3B4-3148-5CBC-0AA44893CC38}.Editor-Debug|x64.Build.0 = Editor-Debug|x64
+		{07FDEFFA-F3B4-3148-5CBC-0AA44893CC38}.Editor-Release|x64.ActiveCfg = Editor-Release|x64
+		{07FDEFFA-F3B4-3148-5CBC-0AA44893CC38}.Editor-Release|x64.Build.0 = Editor-Release|x64
+		{07FDEFFA-F3B4-3148-5CBC-0AA44893CC38}.Game-Release|x64.ActiveCfg = Game-Release|x64
+		{07FDEFFA-F3B4-3148-5CBC-0AA44893CC38}.Game-Release|x64.Build.0 = Game-Release|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Editor-Debug|x64.ActiveCfg = Editor-Debug|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Editor-Debug|x64.Build.0 = Editor-Debug|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Editor-Release|x64.ActiveCfg = Editor-Release|x64
@@ -49,9 +59,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{07FDEFFA-F3B4-3148-5CBC-0AA44893CC38} = {2EFA00BB-1AF3-1F0D-4325-05922F7DFF18}
 		{154B857C-0182-860D-AA6E-6C109684020F} = {53E47842-3FC8-3998-A828-34EB942B241A}
 		{BDD6857C-A90D-870D-52FA-6C103E10030F} = {53E47842-3FC8-3998-A828-34EB942B241A}
 		{C0FF640D-2C14-8DBE-F595-301E616989EF} = {53E47842-3FC8-3998-A828-34EB942B241A}
-		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7} = {39D2539F-A533-31AD-2EA1-775F9A01686C}
+		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7} = {8249BEE1-6EAC-4D86-1732-863C03741909}
 	EndGlobalSection
 EndGlobal

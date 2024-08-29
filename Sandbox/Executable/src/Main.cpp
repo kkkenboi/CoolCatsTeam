@@ -14,11 +14,11 @@
 **************************************************************************/
 
 #include <iostream>
+#include "Engine.h"
 
 #if EDITOR_MODE
 #include "Editor/Core/Editor.h"
 #endif
-#include "App/Core/Application.h"
 
 #if EDITOR_MODE
 void LaunchEditor()

@@ -2,7 +2,7 @@
 workspace "Sandbox"
     
     architecture "x86_64"
-    startproject "Editor"        -- Set startup project
+    startproject "Executable"        -- Set startup project
     toolset "v143"               -- Toolset v143 = Visual Studio 2022
 
     configurations
@@ -197,13 +197,13 @@ group "Dependencies"
 
 group ""
 
-group "EngineProject"
+group "Engine"
     include "Engine"
 group ""
 
--- group "EditorProject"
---     include "Editor"
--- group ""
+group "Executable"
+    include "Executable"
+group ""
 
 -- group "GameProject"
 --     include "Game"
