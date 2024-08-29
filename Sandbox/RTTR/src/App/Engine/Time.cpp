@@ -23,6 +23,7 @@ namespace LB
 	RTTR_REGISTRATION
 	{
 		rttr::registration::class_<Time>("LB::Time")
+			.constructor<>()
 			.method("Initialize", &Time::Initialize)
 			.method("Shutdown", &Time::Shutdown);
 

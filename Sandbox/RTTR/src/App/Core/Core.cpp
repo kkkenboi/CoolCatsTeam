@@ -25,12 +25,11 @@ namespace LB
         // Initialize all systems
         for (auto& type : rttr::type::get_types()) 
         {
+            if (!type.is_class()) continue;
+
             if (type.is_derived_from<ISystem>() && (type.get_name() != "ISystem" && type.get_name() != "IFixedUpdateSystem" && type.get_name() != "IUpdateSystem"))
             {
-                rttr::variant test{ type.create() };
-                std::cout << "Coming " << test.get_type().get_name() << " done" << std::endl;
-
-                /*std::shared_ptr<ISystem> newSystem{ std::shared_ptr<ISystem>(test.get_value<ISystem*>()) };
+                std::shared_ptr<ISystem> newSystem{ type.create().get_value<std::shared_ptr<ISystem>>() };
 
                 m_systems.push_back(newSystem);
                 if (type.is_derived_from<IUpdateSystem>()) 
@@ -40,11 +39,12 @@ namespace LB
                 if (type.is_derived_from<IFixedUpdateSystem>()) 
                 {
 					m_fixedUpdateSystems.push_back(newSystem);
-				}*/
+				}
             }
         }
 
         // Order the systems
+
 	}
 
     void LBEngine::Initialize()
@@ -54,12 +54,7 @@ namespace LB
 
     void LBEngine::Update()
     {
-        // DEBUG print names
-        std::cout << m_systems.size() << std::endl;
-  //      for (auto& system : m_systems)
-		//{
-  //          std::cout << "Type: " << typeid(system).name() << std::endl;
-		//}
+
     }
 
     void LBEngine::Destroy()

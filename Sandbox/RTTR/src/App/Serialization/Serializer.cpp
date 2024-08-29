@@ -20,6 +20,7 @@ namespace LB
 	RTTR_REGISTRATION
 	{
 		rttr::registration::class_<Serializer>("LB::Serializer")
+			.constructor<>()
 			.method("Initialize", &Serializer::Initialize)
 			.method("Shutdown", &Serializer::Shutdown);
 	}
