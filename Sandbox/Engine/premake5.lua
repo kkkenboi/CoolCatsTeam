@@ -73,7 +73,7 @@ project "Engine"
         optimize "On"
         architecture "x86_64"
 
-        defines { "_EDITOR_RELEASE" }
+        defines { "EDITOR_MODE" }
 
         links
         {
@@ -91,7 +91,7 @@ project "Engine"
         symbols "On"
         architecture "x86_64"
 
-        defines { "_EDITOR_DEBUG" }
+        defines { "EDITOR_MODE" }
 
         links
         {
@@ -109,7 +109,7 @@ project "Engine"
         optimize "On"
         architecture "x86_64"
 
-        defines { "_GAME_RELEASE" }
+        defines { "GAME_RELEASE" }
 
         links
         {

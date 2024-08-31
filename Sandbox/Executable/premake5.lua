@@ -75,7 +75,7 @@ project "Executable"
         optimize "On"
         architecture "x86_64"
 
-        defines { "_EDITOR_RELEASE" }
+        defines { "EDITOR_MODE" }
 
     filter "configurations:Editor-Debug"
         kind "ConsoleApp" 
@@ -87,7 +87,7 @@ project "Executable"
         symbols "On"
         architecture "x86_64"
 
-        defines { "_EDITOR_DEBUG" }
+        defines { "EDITOR_MODE" }
 
     filter "configurations:Game-Release"
         kind "ConsoleApp" 
@@ -99,4 +99,4 @@ project "Executable"
         optimize "On"
         architecture "x86_64"
 
-        defines { "_GAME_RELEASE" }
+        defines { "GAME_RELEASE" }
