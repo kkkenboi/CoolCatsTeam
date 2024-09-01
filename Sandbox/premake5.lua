@@ -198,7 +198,7 @@ group "Dependencies"
 group ""
 
 group "Engine"
-    include "Engine"
+    include "EngineDLL"
 group ""
 
 group "Executable"

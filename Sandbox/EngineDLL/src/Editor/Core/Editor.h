@@ -22,7 +22,7 @@
 
 namespace LB
 {
-	class Editor
+	class __declspec(dllexport) Editor
 	{
 	public:
 		void InitializeEditor();

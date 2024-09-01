@@ -37,7 +37,7 @@ project "Executable"
 
     links
     {
-        "Engine"
+        "EngineDLL"
     }
 
     postbuildcommands
@@ -53,12 +53,14 @@ project "Executable"
         "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\\Library\\mono\\4.5\" /y /i /s",
         "xcopy /s /y /i \"%{wks.location}dependencies\\FFmpeg\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
         "xcopy /s /y /i \"%{wks.location}dependencies\\RTTR\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
+        "xcopy /s /y /i \"%{wks.location}bin\\" .. outputDir .. "\\EngineDLL\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
     }
 
     
     libdirs
     {
-        "%{wks.location}/dependencies/RTTR/lib"
+        "%{wks.location}/dependencies/RTTR/lib",
+        "%{wks.location}/bin/EngineDLL"
     }
 
 

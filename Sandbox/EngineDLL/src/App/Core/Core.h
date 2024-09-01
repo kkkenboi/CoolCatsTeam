@@ -22,7 +22,7 @@
 
 namespace LB
 {
-	class LBEngine
+	class __declspec(dllexport) LBEngine
 	{
 	public:
 		LBEngine();

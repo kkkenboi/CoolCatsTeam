@@ -19,7 +19,7 @@
 
 namespace LB
 {
-	class Application
+	class __declspec(dllexport) Application
 	{
 	public:
 		Application();

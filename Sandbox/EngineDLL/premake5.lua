@@ -1,4 +1,4 @@
-project "Engine"
+project "EngineDLL"
     language "C++"
     cppdialect "C++20"
     warnings "Extra" -- Set warnings level to 4 for this project
@@ -33,7 +33,7 @@ project "Engine"
     -- Includes for any additional dependencies for this project
     includedirs
     {
-        "%{wks.location}/Engine/src",
+        "%{wks.location}/EngineDLL/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
@@ -64,7 +64,7 @@ project "Engine"
         systemversion "latest"
 
     filter "configurations:Editor-Release"
-        kind "StaticLib" 
+        kind "SharedLib" 
 
         -- Multi-Threaded (/MT)
         staticruntime "on"
@@ -82,7 +82,7 @@ project "Engine"
 
 
     filter "configurations:Editor-Debug"
-        kind "StaticLib" 
+        kind "SharedLib" 
 
         -- Multi-Threaded Debug DLL (/MDd)
         staticruntime "off"
@@ -100,7 +100,7 @@ project "Engine"
 
 
     filter "configurations:Game-Release"
-        kind "StaticLib" 
+        kind "SharedLib" 
 
         -- Multi-Threaded (/MT)
         staticruntime "on"
