@@ -15,19 +15,18 @@
 
 #include "Time.h"
 
-// DEBUG : TO REMOVE
 #include <iostream>
 
 namespace LB
 {
 	RTTR_REGISTRATION
 	{
+		std::cout << "IT WORKS\n";
+
 		rttr::registration::class_<Time>("LB::Time")
 			.constructor<>()
 			.method("Initialize", &Time::Initialize)
 			.method("Shutdown", &Time::Shutdown);
-
-		std::cout << "Time Registered" << std::endl;
 	}
 
 	void Time::Initialize()

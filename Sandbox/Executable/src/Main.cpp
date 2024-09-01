@@ -32,6 +32,9 @@ void LaunchEditor()
         editor->UpdateEditor();
 
         app->EndFrame();
+
+        // DEBUG : TO REMOVE
+        app->Quit();
     }
 
     editor->ShutdownEditor();

@@ -44,7 +44,7 @@ namespace LB
         }
 
         // Order the systems
-
+        std::cout << "System size: " << m_systems.size() << std::endl;
 	}
 
     void LBEngine::Initialize()
