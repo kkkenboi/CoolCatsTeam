@@ -18,7 +18,7 @@ project "Executable"
     -- Includes for any additional dependencies for this project
     includedirs
     {
-        "%{wks.location}/Engine/src",
+        "%{wks.location}/EngineDLL/src",
         "%{wks.location}/Executable/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
