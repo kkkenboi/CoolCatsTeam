@@ -40,6 +40,7 @@ IncludeDir["Mono"]          = "%{wks.location}/dependencies/Mono/include/mono-2.
 IncludeDir["FFmpeg"]        = "%{wks.location}/dependencies/FFmpeg/include"
 IncludeDir["RTTRLib"]       = "%{wks.location}/dependencies/RTTR/include"
 IncludeDir["RTTRLibD"]      = "%{wks.location}/dependencies/RTTR/includeDebug"
+IncludeDir["EnTT"]          = "%{wks.location}/dependencies/EnTT/src/entt"
 
 -- Add own defines as needed after the function
 -- Common ReleaseLib Config Settings

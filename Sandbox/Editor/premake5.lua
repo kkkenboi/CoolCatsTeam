@@ -32,7 +32,8 @@ project "Editor"
         "%{IncludeDir.Mono}",
         "%{IncludeDir.FFmpeg}",
         "%{IncludeDir.RTTRLib}",
-        "%{IncludeDir.RTTRLibD}"
+        "%{IncludeDir.RTTRLibD}",
+        "%{IncludeDir.EnTT}"
     }
 
     links

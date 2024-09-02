@@ -46,7 +46,8 @@ project "Engine"
         "%{IncludeDir.Mono}",
         "%{IncludeDir.FFmpeg}",
         "%{IncludeDir.RTTRLib}",
-        "%{IncludeDir.RTTRLibD}"
+        "%{IncludeDir.RTTRLibD}",
+        "%{IncludeDir.EnTT}"
     }
     
     libdirs

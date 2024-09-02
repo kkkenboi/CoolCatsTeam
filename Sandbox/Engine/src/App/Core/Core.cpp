@@ -14,6 +14,7 @@
 **************************************************************************/
 
 #include "Core.h"
+#include "entt.hpp"
 
 // DEBUG : TO REMOVE
 #include <iostream>
@@ -42,6 +43,7 @@ namespace LB
 				}
             }
         }
+        entt::registry registry;
 
         // Order the systems
         std::cout << "System size: " << m_systems.size() << std::endl;
