@@ -14,7 +14,6 @@
 **************************************************************************/
 
 #include "Editor.h"
-
 namespace LB
 {
 	void Editor::InitializeEditor()

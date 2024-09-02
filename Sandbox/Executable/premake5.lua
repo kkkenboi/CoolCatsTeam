@@ -18,7 +18,8 @@ project "Executable"
     -- Includes for any additional dependencies for this project
     includedirs
     {
-        "%{wks.location}/EngineDLL/src",
+        "%{wks.location}/Engine/src",
+        "%{wks.location}/Editor/src",
         "%{wks.location}/Executable/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
@@ -34,33 +35,12 @@ project "Executable"
         "%{IncludeDir.RTTRLib}",
         "%{IncludeDir.RTTRLibD}"
     }
-
-    links
-    {
-        "EngineDLL"
-    }
-
-    postbuildcommands
-    {
-        -- "xcopy \"%{wks.location}LBEditor\\Assets\" \"$(TargetDir)Assets\" /Y /I /E",
-        -- "xcopy \"%{wks.location}LBEditor\\Editor\" \"$(TargetDir)Editor\" /Y /I /E",
-        -- "xcopy \"%{wks.location}LBEditor\\imgui.ini\" \"$(TargetDir)\" /Y /I /E",
-        -- "xcopy \"%{wks.location}LBEditor\\CSharpAssembly.dll\" \"$(TargetDir)\" /Y /I /E",
-
-        "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/%{prj.name}\"",
-        "{COPYFILE} \"%{wks.location}dependencies/FreeType/objs/freetype.dll\" \"%{wks.location}bin/" .. outputDir .. "/%{prj.name}\"",
-        "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\" /y",
-        "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\\Library\\mono\\4.5\" /y /i /s",
-        "xcopy /s /y /i \"%{wks.location}dependencies\\FFmpeg\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
-        "xcopy /s /y /i \"%{wks.location}dependencies\\RTTR\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
-        "xcopy /s /y /i \"%{wks.location}bin\\" .. outputDir .. "\\EngineDLL\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
-    }
-
     
     libdirs
     {
         "%{wks.location}/dependencies/RTTR/lib",
-        "%{wks.location}/bin/EngineDLL"
+        "%{wks.location}/bin/Engine",
+        "%{wks.location}/bin/Editor"
     }
 
 
@@ -78,6 +58,12 @@ project "Executable"
         architecture "x86_64"
 
         defines { "EDITOR_MODE" }
+        
+        links
+        {
+            "Editor",
+            "Engine"
+        }    
 
     filter "configurations:Editor-Debug"
         kind "ConsoleApp" 
@@ -90,6 +76,27 @@ project "Executable"
         architecture "x86_64"
 
         defines { "EDITOR_MODE" }
+        
+        links
+        {
+            "Editor",
+            "Engine"
+        }    
+    
+    filter "configurations:Editor-Release or configurations:Editor-Debug"
+        -- This post build should have both Engine and Editor DLL
+        postbuildcommands
+        {    
+            "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/%{prj.name}\"",
+            "{COPYFILE} \"%{wks.location}dependencies/FreeType/objs/freetype.dll\" \"%{wks.location}bin/" .. outputDir .. "/%{prj.name}\"",
+            "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\" /y",
+            "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\\Library\\mono\\4.5\" /y /i /s",
+            "xcopy /s /y /i \"%{wks.location}dependencies\\FFmpeg\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
+            "xcopy /s /y /i \"%{wks.location}dependencies\\RTTR\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
+            "xcopy /s /y /i \"%{wks.location}bin\\" .. outputDir .. "\\Engine\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
+            "xcopy /s /y /i \"%{wks.location}bin\\" .. outputDir .. "\\Editor\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
+        }
+
 
     filter "configurations:Game-Release"
         kind "ConsoleApp" 
@@ -102,3 +109,22 @@ project "Executable"
         architecture "x86_64"
 
         defines { "GAME_RELEASE" }
+
+        links
+        {
+            "Engine"
+        }    
+
+        -- This post build should have only the Engine DLL
+        postbuildcommands
+        {    
+            "{COPYFILE} \"%{wks.location}dependencies/FMOD/core/lib/x64/fmod.dll\" \"%{wks.location}bin/" .. outputDir .. "/%{prj.name}\"",
+            "{COPYFILE} \"%{wks.location}dependencies/FreeType/objs/freetype.dll\" \"%{wks.location}bin/" .. outputDir .. "/%{prj.name}\"",
+            "xcopy \"%{wks.location}dependencies\\Mono\\bin\\mono-2.0-sgen.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\" /y",
+            "xcopy \"%{wks.location}dependencies\\Mono\\lib\\mono\\4.5\\*\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\\Library\\mono\\4.5\" /y /i /s",
+            "xcopy /s /y /i \"%{wks.location}dependencies\\FFmpeg\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
+            "xcopy /s /y /i \"%{wks.location}dependencies\\RTTR\\bin\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
+            "xcopy /s /y /i \"%{wks.location}bin\\" .. outputDir .. "\\Engine\\*.dll\" \"%{wks.location}bin\\" .. outputDir .. "\\%{prj.name}\"",
+        }
+    
+

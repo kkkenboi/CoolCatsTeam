@@ -1,4 +1,4 @@
-project "EngineDLL"
+project "Editor"
     language "C++"
     cppdialect "C++20"
     warnings "Extra" -- Set warnings level to 4 for this project
@@ -11,29 +11,15 @@ project "EngineDLL"
     {
         "./**.cs",
         "./**.json",
-        "src/**.h",
-        "src/**.cpp",
-    }
-
-    links
-    {
-        "GLFW",
-        "Glad",
-        "ImGui",
-        "opengl32.lib",
-        "fmod_vc",
-        "mono-2.0-sgen",
-        "freetype",
-        "avutil.lib",
-        "avcodec.lib",
-        "avformat.lib",
-        "swscale.lib"
+        "./**.h",
+        "./**.cpp",
     }
 
     -- Includes for any additional dependencies for this project
     includedirs
     {
-        "%{wks.location}/EngineDLL/src",
+        "%{wks.location}/Engine/src",
+        "%{wks.location}/Editor/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.glm}",
@@ -48,15 +34,16 @@ project "EngineDLL"
         "%{IncludeDir.RTTRLib}",
         "%{IncludeDir.RTTRLibD}"
     }
+
+    links
+    {
+        "Engine"
+    }
     
     libdirs
     {
-        "%{wks.location}/dependencies/FMOD/core/lib/x64",
-        "%{wks.location}/dependencies/FreeType/lib",
-        "%{wks.location}/dependencies/Mono/lib",
-        "%{wks.location}/dependencies/Mono/lib/mono/4.5/*", 
-        "%{wks.location}/dependencies/FFmpeg/lib", 
-        "%{wks.location}/dependencies/RTTR/lib"
+        "%{wks.location}/dependencies/RTTR/lib",
+        "%{wks.location}/bin/Engine"
     }
 
 
@@ -100,7 +87,7 @@ project "EngineDLL"
 
 
     filter "configurations:Game-Release"
-        kind "SharedLib" 
+        kind "None" 
 
         -- Multi-Threaded (/MT)
         staticruntime "on"

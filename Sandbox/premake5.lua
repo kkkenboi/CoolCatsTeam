@@ -198,16 +198,17 @@ group "Dependencies"
 group ""
 
 group "Engine"
-    include "EngineDLL"
+    include "Engine"
+group ""
+
+group "Editor"
+    include "Editor"
 group ""
 
 group "Executable"
     include "Executable"
 group ""
 
--- group "GameProject"
---     include "Game"
--- group ""
 
 --[[
 Premake Troubleshooting
