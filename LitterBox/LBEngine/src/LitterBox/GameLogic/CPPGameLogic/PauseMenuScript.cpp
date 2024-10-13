@@ -57,6 +57,10 @@ namespace LB
 			{
 				QuitButton = GO;
 			}
+			if (GO->GetName() == "PauseMenuQuitConfirmTextureMainMenu")
+			{
+				BackToMainMenuTexture = GO;
+			}
 			if (GO->GetName() == "PauseMenuSettingsObject")
 			{
 				Settings = GO;
@@ -384,8 +388,27 @@ namespace LB
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{941.43f, 395.f - 20.f});
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
-						TIME->Pause(false);
-						SCENEMANAGER->LoadScene("SceneMainMenu");
+						//TIME->Pause(false);
+						BackToMainMenu = true;
+						//SCENEMANAGER->LoadScene("SceneMainMenu");
+						//Test
+						Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+
+						MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						Settings->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						MainMenu->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+
+						BackToMainMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f});
+						BackToMainMenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.20f, 11.10f});
+						QuitYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{715.f, 420.f});
+						QuitYesButton->GetComponent<CPCollider>()->SetWidthHeightRadius(252.f, 98.f, 50.f);
+						QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{1195.44f, 420.f});
+						QuitNoButton->GetComponent<CPCollider>()->SetWidthHeightRadius(256.f, 91.f, 50.f);
 					}
 				}
 			}
@@ -400,6 +423,7 @@ namespace LB
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
 						OnPauseMenu = false;
+						BackToMainMenu = false;
 						Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
 
@@ -459,8 +483,16 @@ namespace LB
 					DebuggerLog("Quitting!!!!");
 					if (INPUT->IsKeyTriggered(KeyCode::KEY_MOUSE_1))
 					{
-						MessageQuit q;
-						CORE->BroadcastMessage(&q);
+						if (BackToMainMenu)
+						{
+							TIME->Pause(false);
+							SCENEMANAGER->LoadScene("SceneMainMenu");
+						}
+						else
+						{
+							MessageQuit q;
+							CORE->BroadcastMessage(&q);
+						}
 					}
 				}
 			}
@@ -489,7 +521,7 @@ namespace LB
 						if (MainMenu)
 							MainMenu->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 395.f});
 
-
+						BackToMainMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						QuitTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						QuitYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
