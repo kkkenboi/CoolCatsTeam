@@ -177,6 +177,7 @@ namespace LB
 	void PauseMenuScript::Update()
 	{
 		//DEBUG->DrawCircle(INPUT->GetMousePos(), 1.f, Vec4<float>(0.f, 0.f, 1.0f, 1.0f));
+
 		if (!TIME->IsPaused())
 		{
 			if (MenuTexture) {
@@ -251,6 +252,23 @@ namespace LB
 
 					Underline->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
+					BackToMainMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					QuitYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+					SettingsMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					SettingsMenuBack->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					SettingsMenuFullscreen->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+					SettingsMenuMV->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::MVSliverPos, 10000.f});
+					SettingsMenuMVCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+					SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::SFXSliderPos, 10000.f});
+					SettingsMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::MusicSliderPos, 10000.f});
+					SettingsMenuMusicCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
 				}
 			}
 		}
@@ -307,6 +325,19 @@ namespace LB
 
 						MainMenu->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						MainMenu->GetComponent<CPCollider>()->SetWidthHeightRadius(1.f, 1.f, 1.f);
+
+						SettingsMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						SettingsMenuBack->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						SettingsMenuFullscreen->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+						SettingsMenuMV->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::MVSliverPos, 10000.f});
+						SettingsMenuMVCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+						SettingsMenuSFX->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::SFXSliderPos, 10000.f});
+						SettingsMenuSFXCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+						SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::MusicSliderPos, 10000.f});
+						SettingsMenuMusicCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 					}
 				}
 			}
@@ -338,6 +369,8 @@ namespace LB
 						HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{161.75f, 72.12f});
 						HowToPlayBackButton->GetComponent<CPCollider>()->SetWidthHeightRadius(265.f, 222.f, 50.f);
 
+
+						HowToPlayOrSettingMode = true;
 					}
 				}
 			}
@@ -375,6 +408,8 @@ namespace LB
 
 						SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::MusicSliderPos, 390.f});
 						SettingsMenuMusicCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 390.f});
+
+						HowToPlayOrSettingMode = true;
 					}
 				}
 			}
@@ -409,6 +444,8 @@ namespace LB
 						QuitYesButton->GetComponent<CPCollider>()->SetWidthHeightRadius(252.f, 98.f, 50.f);
 						QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{1195.44f, 420.f});
 						QuitNoButton->GetComponent<CPCollider>()->SetWidthHeightRadius(256.f, 91.f, 50.f);
+					
+						HowToPlayOrSettingMode = true;
 					}
 				}
 			}
@@ -584,6 +621,51 @@ namespace LB
 					HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{161.75f, 72.12f});
 					BackButtonHovered = false;
 				}
+			}
+		}
+		if (HowToPlayOrSettingMode)
+		{
+			if (INPUT->IsKeyTriggered(KeyCode::KEY_ESCAPE) || INPUT->IsKeyTriggered(KeyCode::KEY_GAMEPAD_START))
+			{
+				if (CPPSGameManager::getGameOverTexture() && CPPSGameManager::getGameOverTexture()->IsActive())
+					return;
+
+
+				TIME->Pause(true);
+				OnPauseMenu = true;
+				//HowToPlayTexture = false;
+				// Move all the GOs to the Front of the Screen
+
+				// To change the mouse cursor
+				TIME->onPauseEvent.Invoke("Paused");
+
+				MenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.f, 529.f});
+				MenuTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.67f, 11.50f});
+
+				ResumeButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.66f, 650.f});
+				ResumeButton->GetComponent<CPCollider>()->SetWidthHeightRadius(334.f, 78.f, 50.f);
+
+				HowToPlayButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 565.f});
+				HowToPlayButton->GetComponent<CPCollider>()->SetWidthHeightRadius(332.f, 74.f, 50.f);
+
+				Settings->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 480.f});
+				Settings->GetComponent<CPCollider>()->SetWidthHeightRadius(332.f, 74.f, 50.f);
+
+				MainMenu->GetComponent<CPTransform>()->SetPosition(Vec2<float>{950.94f, 395.f});
+				MainMenu->GetComponent<CPCollider>()->SetWidthHeightRadius(332.f, 74.f, 50.f);
+
+				QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{952.22f, 250.f});
+				QuitButton->GetComponent<CPCollider>()->SetWidthHeightRadius(317.f, 77.f, 50.f);
+
+				// Move all the How To Play Objects into scene
+				HowToPlayTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+				HowToPlayBackButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+				BackToMainMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+				QuitYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+				QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+				HowToPlayOrSettingMode = false;
 			}
 		}
 	}
