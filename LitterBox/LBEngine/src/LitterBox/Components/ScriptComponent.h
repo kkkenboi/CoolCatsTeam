@@ -19,7 +19,6 @@
 #pragma once
 
 #include "Component.h"
-#include "mono/metadata/object-forward.h"
 
 namespace LB 
 {
@@ -59,6 +58,5 @@ namespace LB
 		}
 
 	private:
-		MonoObject *m_instance; // Pointer to the Mono script object
 	};
 }

@@ -16,8 +16,6 @@
 #include "pch.h"
 #include "GameLogic.h"
 
-#include "mono/metadata/image.h"
-#include "mono/jit/jit.h"
 #include "LitterBox/Debugging/Memory.h"
 
 #include <filesystem>
@@ -41,24 +39,6 @@ namespace LB
 		SetSystemName("Game Logic System");
 
 		// Find the mscorlib.dll in the ./Editor/mono/4.5 sub folder
-		if (std::filesystem::exists("Library")) 
-		{
-			mono_set_assemblies_path("Library"); 
-		}
-		else if (std::filesystem::exists("Editor"))
-		{
-			mono_set_assemblies_path("Editor");
-		}
-		else
-		{
-			DebuggerLogError("[Mono] Mono assemblies could not be found!");
-		}
-
-		m_domain = mono_jit_init("LitterBoxEngine");
-		DebuggerAssert(m_domain, "[Mono] LitterBoxEngine domain could not be created!");
-
-		m_scriptAssembly = mono_domain_assembly_open(m_domain, "CSharpAssembly.dll");
-		DebuggerAssert(m_scriptAssembly, "[Mono] CSharpAssembly.dll not found! Please compile the dll first.");
 	}
 
 	/*!***********************************************************************
@@ -106,25 +86,7 @@ namespace LB
 	void GameLogic::Destroy()
 	{
 		Unload();
-		mono_jit_cleanup(m_domain);
 	}
 
-	/*!***********************************************************************
-	 \brief
-	 Returns the Mono domain which contains the assembly for the CS classes
-	*************************************************************************/
-	MonoDomain* GameLogic::GetDomain()
-	{
-		return m_domain;
-	}
-
-	/*!***********************************************************************
-	 \brief
-	 Returns the Assembly which contains all the CS classes
-	*************************************************************************/
-	MonoAssembly* GameLogic::GetScriptAssembly()
-	{
-		return m_scriptAssembly;
-	}
 
 }
