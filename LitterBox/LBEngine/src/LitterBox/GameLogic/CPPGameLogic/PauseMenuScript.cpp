@@ -269,6 +269,11 @@ namespace LB
 					SettingsMenuMusic->GetComponent<CPTransform>()->SetPosition(Vec2<float>{CPPSSettings::MusicSliderPos, 10000.f});
 					SettingsMenuMusicCollider->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
+					QuitTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					QuitYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+					QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+
 				}
 			}
 		}
@@ -362,6 +367,11 @@ namespace LB
 						Settings->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						MainMenu->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
+						QuitTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						QuitYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+
 						// Move all the How To Play Objects into scene
 						HowToPlayTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{948.88f, 545.65f});
 						HowToPlayTexture->GetComponent<CPTransform>()->SetScale(Vec2<float>{19.80f, 10.90f});
@@ -395,6 +405,10 @@ namespace LB
 						QuitButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						Settings->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 						MainMenu->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+
+						QuitTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						QuitYesButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
+						QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{10000.f, 10000.f});
 
 						SettingsMenuTexture->GetComponent<CPTransform>()->SetPosition(Vec2<float>{960.f, 540.f});
 						SettingsMenuBack->GetComponent<CPTransform>()->SetPosition(Vec2<float>{955.f, 160.f});
@@ -478,6 +492,8 @@ namespace LB
 						QuitYesButton->GetComponent<CPCollider>()->SetWidthHeightRadius(252.f, 98.f, 50.f);
 						QuitNoButton->GetComponent<CPTransform>()->SetPosition(Vec2<float>{1195.44f, 420.f});
 						QuitNoButton->GetComponent<CPCollider>()->SetWidthHeightRadius(256.f, 91.f, 50.f);
+
+						HowToPlayOrSettingMode = true;
 					}
 				}
 			}
