@@ -48,6 +48,7 @@ namespace LB
 	private:
 		bool OnPauseMenu{false};
 		bool BackButtonHovered{ false };
+		bool BackToMainMenu{ false };
 
 		// Pause Menu
 		GameObject* MenuTexture{ nullptr };
@@ -57,7 +58,7 @@ namespace LB
 
 		GameObject* Settings{ nullptr };
 		GameObject* MainMenu{ nullptr };
-
+		GameObject* BackToMainMenuTexture { nullptr };
 		// Title 
 		GameObject* Title{ nullptr };
 

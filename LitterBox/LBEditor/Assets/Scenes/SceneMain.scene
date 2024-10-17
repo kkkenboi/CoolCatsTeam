@@ -747,6 +747,32 @@
                                         }
                                     },
                                     {
+                                        "Name": "PauseMenuQuitConfirmTextureMainMenu",
+                                        "Active": true,
+                                        "Transform": {
+                                            "Active": true,
+                                            "Position": {
+                                                "x": 10000.0,
+                                                "y": 10000.0
+                                            },
+                                            "Scale": {
+                                                "x": 16.2,
+                                                "y": 9.1
+                                            },
+                                            "Rotation": 0.0
+                                        },
+                                        "Render": {
+                                            "Active": true,
+                                            "Width": 100.0,
+                                            "Height": 100.0,
+                                            "ZLayer": 1.0,
+                                            "Layer": 4,
+                                            "Texture": "BackToMainMenu",
+                                            "SpriteName": "None",
+                                            "SpriteIndex": -1
+                                        }
+                                    },
+                                    {
                                         "Name": "PauseMenuQuitConfirmTexture",
                                         "Active": true,
                                         "Transform": {

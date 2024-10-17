@@ -1036,7 +1036,7 @@ struct textbutt {
 	*************************************************************************/
 	textbutt() {
 		text.Initialise();
-		text.update_msg_font("KernlGrotesk");
+		text.update_msg_font("ZillaSlab-Regular");
 		update_text();
 	}
 };

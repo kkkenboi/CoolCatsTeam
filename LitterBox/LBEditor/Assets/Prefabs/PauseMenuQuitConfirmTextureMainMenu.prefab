@@ -1,0 +1,19 @@
+{
+    "Name": "PauseMenuQuitConfirmTextureMainMenu",
+    "Transform": {
+        "Position": {
+            "x": 10000.0,
+            "y": 10000.0
+        },
+        "Scale": {
+            "x": 16.2,
+            "y": 9.1
+        },
+        "Rotation": 0.0
+    },
+    "Render": {
+        "Width": 100.0,
+        "Height": 100.0,
+        "Texture": "BackToMainMenu"
+    }
+}
