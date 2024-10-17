@@ -49,6 +49,7 @@ namespace LB
 		bool OnPauseMenu{false};
 		bool BackButtonHovered{ false };
 		bool BackToMainMenu{ false };
+		bool HowToPlayOrSettingMode{ false };
 
 		// Pause Menu
 		GameObject* MenuTexture{ nullptr };
